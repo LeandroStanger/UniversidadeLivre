@@ -39,7 +39,7 @@
     "icon": "fa-code",
     "description": "Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino."
   },
-    {
+  {
     "id": "ciencia_de_dados",
     "name": "Ciência de Dados",
     "courseLevel": "pos-graduacao",
@@ -63,7 +63,7 @@
     "icon": "fa-server",
     "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
   },
-    {
+  {
     "id": "computer-science",
     "name": "Computer Science",
     "courseLevel": "graduacao",
@@ -72,13 +72,11 @@
     "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
   },
   {
-  "id": "math",
-  "name": "Math",
-  "discipline_count": 28,
-  "category": "Mathematics",
-  "icon": "fa-square-root-alt",
-  "level": "graduacao",
-  "type": "bacharelado",
-  "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
-}
+    "id": "math",
+    "name": "Math",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+  }
 ]

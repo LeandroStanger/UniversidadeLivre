@@ -211,6 +211,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
             
+            // Re-renderizar os cards da home screen se ela estiver visível
+            const homeScreen = document.getElementById('homeScreen');
+            if (homeScreen && homeScreen.style.display !== 'none') {
+                await renderCourseCards();
+            }
+            
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
             setTimeout(() => {
                 if (typeof applyTranslations === 'function') applyTranslations();
@@ -1421,12 +1427,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.className = 'course-card';
                 card.dataset.course = course.id;
                 const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
-                const levelText = course.courseLevel === 'graduacao' ? 'Graduação' : (course.courseLevel === 'pos-graduacao' ? 'Pós-Graduação' : '');
-                const typeText = course.courseType === 'bacharelado' ? 'Bacharelado' : (course.courseType === 'licenciatura' ? 'Licenciatura' : (course.courseType === 'tecnologo' ? 'Tecnólogo' : ''));
+                
+                // Badges originais (sem degree-info extra)
+                let levelText = '';
+                let typeText = '';
+                if (course.courseLevel === 'graduacao') levelText = 'Graduação';
+                else if (course.courseLevel === 'pos-graduacao') levelText = 'Pós-Graduação';
+                if (course.courseType === 'bacharelado') typeText = 'Bacharelado';
+                else if (course.courseType === 'licenciatura') typeText = 'Licenciatura';
+                else if (course.courseType === 'tecnologo') typeText = 'Tecnólogo';
+                
                 const levelBadge = levelText ? `<span class="badge badge-course-level">${levelText}</span>` : '';
                 const typeBadge = typeText ? `<span class="badge badge-course-type">${typeText}</span>` : '';
+                
                 const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
                 const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
+                
                 let progressPercent = 0;
                 const key = `ulivre_course_${course.id}`;
                 const saved = localStorage.getItem(key);
@@ -1440,7 +1456,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     } catch (e) {}
                 }
                 const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
-                card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2><div class="course-badges">${levelBadge}${typeBadge}</div>${roomHtml}${descHtml}<div class="course-progress-bar"><div class="course-progress-fill" style="width: ${progressPercent}%;"></div></div><p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p><button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
+                
+                card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
+                                 <div class="course-badges">${levelBadge}${typeBadge}</div>
+                                 ${roomHtml}${descHtml}
+                                 <div class="course-progress-bar">
+                                    <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+                                 </div>
+                                 <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
+                                 <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
+                
                 card.addEventListener('click', (e) => {
                     if (!e.target.classList.contains('continue-btn')) openCourse(course.id);
                 });
