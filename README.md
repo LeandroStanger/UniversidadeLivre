@@ -93,21 +93,6 @@ Caso deseje baixar o código-fonte e executar em seu próprio ambiente, siga os 
 - O formulário de contato, como implementado apenas com HTML/CSS/JS, **não envia e-mails reais** em ambiente local. Para funcionar em produção, é necessário integrar com um serviço como Formspree, EmailJS ou criar um back-end simples.
 - Recomenda-se testar a responsividade usando as ferramentas de desenvolvedor do navegador (F12) com diferentes tamanhos de tela.
 
-## Possíveis Problemas Conhecidos
-
-- Ao abrir o `index.html` diretamente (sem servidor local), requisições `fetch` para arquivos JSON podem ser bloqueadas por políticas de CORS. Utilize um servidor local para evitar essa limitação.
-- O menu responsivo pode apresentar pequenas variações de comportamento em navegadores muito antigos (Internet Explorer 11 ou inferior). Recomenda-se o uso de navegadores atualizados.
-
-## Melhorias Futuras (Sugestões)
-
-1. Implementar back-end com Node.js + Express para gerenciamento dinâmico de notícias e eventos.
-2. Adicionar sistema de busca de cursos, professores e disciplinas.
-3. Criar área restrita para alunos com materiais de apoio (apostilas, videoaulas).
-4. Integrar com APIs de mapas (Google Maps ou OpenStreetMap) para localização do campus.
-5. Internacionalização (versão em inglês ou espanhol).
-6. Desenvolver painel administrativo para atualização de conteúdo sem editar código.
-7. Adicionar testes automatizados (ex.: Jest para JavaScript).
-
 ## Autor
 
 **Leandro Stanger**  
