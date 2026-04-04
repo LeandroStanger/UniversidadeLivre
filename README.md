@@ -1,7 +1,7 @@
 # Universidade Livre
 
-[![GitHub Pages](https://img.shields.io/badge/Site_Online-Universidade_Livre-blue?style=for-the-badge&logo=githubpages)](https://leandrostanger.github.io/UniversidadeLivre/)
-[![GitHub](https://img.shields.io/badge/Repositório-GitHub-black?style=for-the-badge&logo=github)](https://github.com/LeandroStanger/UniversidadeLivre)
+[![GitHub Pages](https://img.shields.io/badge/Universidade_Livre-30a539?style=for-the-badge&Color=30a539&logo=googlescholar&labelColor=000000)](https://leandrostanger.github.io/UniversidadeLivre/)
+[![GitHub](https://img.shields.io/badge/Repositório_GitHub-181717?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/LeandroStanger/UniversidadeLivre)
 
 Plataforma institucional da Universidade Livre, oferecendo informações sobre cursos de graduação (com ênfase em Matemática), programas de pós-graduação, corpo docente, pesquisa e extensão. Desenvolvido com design responsivo para desktop e dispositivos móveis.
 
