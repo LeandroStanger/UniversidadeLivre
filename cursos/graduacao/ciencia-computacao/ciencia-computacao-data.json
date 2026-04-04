@@ -1,0 +1,841 @@
+{
+  "name": "Ciência da Computação",
+  "type": "Bacharelado",
+  "icon": "fa-laptop-code",
+  "description": "Curso completo de Ciência da Computação, organizado por etapas progressivas, disciplinas e aulas estruturadas para formação acadêmica sólida.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Fundamentos",
+      "disciplines": [
+        {
+          "name": "Como Estudar do Jeito Certo",
+          "videoIds": [
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4",
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0"
+          ]
+        },
+        {
+          "name": "Git e GitHub",
+          "videoIds": [
+            "IBClN6VpJDw",
+            "8YsQ8AeKGvk",
+            "xwKW079x7BQ",
+            "V0qpi-PBrP4",
+            "4IbSXeIFVE4",
+            "QF0Cdd8ApRk",
+            "MXFo9n-HXYA",
+            "yYmVfYgPd44",
+            "MOuN_cYcsJ4",
+            "VduHyuwVna8",
+            "MkhAgAPz3aE",
+            "FUOjLcYSj2s",
+            "NQQ0Eh9E_10",
+            "g2uviTb8ZpE",
+            "7YVQLZp1jb0",
+            "3dvMo-rXTHE",
+            "WEPB5pDSEIg",
+            "q-QTbNu8Ybc",
+            "gptt0KjFPR4",
+            "naNaoSIWsDA",
+            "yE5lon2tXWw",
+            "R_kxAnuyQss",
+            "lXnRC_W2PBk",
+            "lmbwADzYJew",
+            "UR9X2VBECE4",
+            "EOXn9y-7cII",
+            "yzf5beXBwxY",
+            "ksdeoFuNMrQ",
+            "1xuhaRtnlvE",
+            "bBc0nkVfxvA",
+            "xEKo29OWILE",
+            "hcZ0qtwvN1w",
+            "CJtrNuTTs4Q",
+            "gMh6lrXibWY",
+            "5BYm7UdCrX0",
+            "CSyEYiG8sFI",
+            "OlArEishhQg",
+            "065NQCDSMb0",
+            "mUZOySyVcuQ",
+            "LntSB-gl-ZI",
+            "bsI6P_IM_hg",
+            "xAOBQtSVI_k",
+            "2Y0HXnYpn9E"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Base Computacional",
+      "disciplines": [
+        {
+          "name": "Circuitos Digitais",
+          "videoIds": [
+            "1lsU6RoU9Ko",
+            "RuXmtYdmQKY",
+            "MhaGPACGIEs",
+            "Pg2tvTNfBzQ",
+            "ZQkNfdwaG2c",
+            "gBsNWWscIcg",
+            "PceEtFggO_Q",
+            "i48FGijMVO0",
+            "jzR0kYsay2U",
+            "-4b58LvY6NI",
+            "Px3W4QHfrHc",
+            "XoWag-f1UTY",
+            "u7FJAOnWS08",
+            "xzCpDBYKCTA",
+            "32ritDV6XxU",
+            "Q2s6ZFX3de8",
+            "lGIVvVAiR6U",
+            "mOBy3LJV5sM",
+            "8_Ip6PzYqrs",
+            "AVb_9sXqfSk"
+          ]
+        },
+        {
+          "name": "Matemática Discreta",
+          "videoIds": [
+            "KGoSTh1sgyM",
+            "hLtDkdt--WE",
+            "71tY5ao2n1I",
+            "r8kmAodJm4A",
+            "Tga3hhnToxw",
+            "dNkFbG3Z06g",
+            "--is3sRzn7Y",
+            "xXuZlyUyjD4",
+            "ksQ6SbRh7t4",
+            "SQML9EfD6go",
+            "2ITiuuyeUFs",
+            "tj8lfdLmRh4",
+            "SbtpG7QUcgg",
+            "s44VqGqs7l0",
+            "O5gahn7Q-2s",
+            "VuxaXrWTyqI",
+            "qozOSeGgbqA",
+            "tTPg0WgMHuE",
+            "rNC4vDbDt4k",
+            "T1KYbj1SvMU",
+            "kDNFmVQUVao",
+            "BbNINv0Eqlc",
+            "lsxlFHYO9Cs",
+            "HaA-HhSlFbI",
+            "eyI28HJCNGM",
+            "GpXwFeYDkd8",
+            "pp8Qoyz0d7E",
+            "FG9EXAA-CJY",
+            "f4MLP3NJsU8",
+            "HY65MCXOCWE"
+          ]
+        },
+        {
+          "name": "Linguagens de Programação",
+          "videoIds": [
+            "xfDdxqbkiSQ",
+            "sCbRKDqxJZw",
+            "2ZnIanX1P0I",
+            "32sZ82fnKzY",
+            "hDRP3LZsIBk",
+            "tXFByMlfARY",
+            "gQRr23V7ze8",
+            "jK_vpphZn3A",
+            "SHTw2SuGTHM",
+            "K-qvhDJe5n8",
+            "fvKcffZexWA",
+            "rCclQcyfaMc",
+            "eukk6HeTpUQ"
+          ]
+        },
+        {
+          "name": "Introdução à Ciência da Computação com Python I",
+          "videoIds": [
+            "WT_zCgSHSTQ",
+            "rh65Lh5V7S0",
+            "1aUuW0aA7l0",
+            "SqLhPI6pPy4",
+            "0SrKE9lVPTk",
+            "LN8ejPwSzkU",
+            "tqF0MjcOqcI",
+            "r8CSesZpFjo",
+            "UZ7_oudJ150",
+            "sZg9nrUTgJE",
+            "ECFj-bWzU8I",
+            "sgfmuFRZuWs",
+            "ngeVlLJ250s",
+            "v_QoUdfahng",
+            "TllYO06DpUk",
+            "RBjrLgdMaMI",
+            "Aa8-39qwbUU",
+            "AMUxtcJ8yfc",
+            "se9JcK05PGw",
+            "c_5UByqX6kE",
+            "eGH9--FcDxY",
+            "GhWEOe81bJw",
+            "pYgAX8BuJN8",
+            "dRCDOH1lugs",
+            "pbzea8fXj98",
+            "9AUu2xjOACI",
+            "Wcug8mjU8Sg",
+            "krVca97F13I",
+            "ctmPwp52b7w",
+            "LrXapVI66so",
+            "4TN8IdsJ78k",
+            "c9yjwWNiNQw",
+            "EpvCXjuHifg",
+            "DdhNltkI_hE",
+            "EWQTdbtCtKw",
+            "eH5kd48NfM0",
+            "6rSUPRZJFRM",
+            "x_hNj2C-kVs",
+            "gCKza8cYdJY",
+            "frtaUi3B6Sc",
+            "LsbakVX54RY",
+            "RYpV10216pw",
+            "bsFhgaaHeV4",
+            "a06rEkp7rNw",
+            "JggjFK5PkMs",
+            "tN-PwzkKcsk",
+            "gW6PUkzkIUw",
+            "NDUbLp1Ro2Q",
+            "kh3pKfh8TYU",
+            "NxriUYWxoEU",
+            "AyPJx1RIDuY",
+            "386wQ0bP9vw",
+            "rj8Sqsgh5TM",
+            "DRfEY-qzyvk",
+            "SXA58yKo9IY",
+            "HQ2q8-EmUCs",
+            "6Z2wLXGdPCM",
+            "E8a6avKhZgA"
+          ]
+        },
+        {
+          "name": "Geometria Analítica",
+          "videoIds": [
+            "ijkDjQT7UPM",
+            "2L_YvWVVeRM",
+            "TjmBMVbZfTw",
+            "QW5-C-FNPks",
+            "E_Q07YaURYA",
+            "6JBqIBqix9Q",
+            "8UiVBX_JvsI",
+            "-pUjC3U7OHs",
+            "PmJnUI1VD_o",
+            "QsbCxntMaVU",
+            "OnZNoofF7XY",
+            "x76nLi42YMQ",
+            "GP97sL-f9ow",
+            "_Vqaj8FGlvQ",
+            "DQZnZMeZ32E",
+            "Hwj8K3iYRu8",
+            "9CeEr9MqY6Q",
+            "bypDImbUY2I",
+            "5uWllVV95ps",
+            "ghkOpnk9vM4",
+            "ENEuaqObL3E",
+            "zCgbNqxDyWQ",
+            "tHa5CE-rFts",
+            "Cwhpy9UouiE",
+            "KZusqyXfck4",
+            "ZdpXpLSCH5I",
+            "ZobaOzWIKbo",
+            "LvGoCRqaqMk",
+            "lpGrX7qiaWg",
+            "D4H1iSO9j_M",
+            "jWReRVloI5k"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Estruturas Fundamentais",
+      "disciplines": [
+        {
+          "name": "Cálculo I",
+          "videoIds": [
+            "WgHUHPlJETs",
+            "nKua7iJK2WQ",
+            "aQSoCjHVNKc",
+            "ilZC6iMNM-I",
+            "0QA1FPiN-XU",
+            "WgHUHPlJETs",
+            "nKua7iJK2WQ",
+            "aQSoCjHVNKc",
+            "ilZC6iMNM-I",
+            "0QA1FPiN-XU"
+          ]
+        },
+        {
+          "name": "Álgebra Linear I",
+          "videoIds": [
+            "-JcQJFNVjaA",
+            "A7hwTnMmW_s",
+            "iaMTWxAS8FA",
+            "s2-JsZ9lqik",
+            "pCiXN-Tv4ws",
+            "-JcQJFNVjaA",
+            "A7hwTnMmW_s"
+          ]
+        },
+        {
+          "name": "Estruturas de Dados",
+          "videoIds": [
+            "0hT3EKGhbpI",
+            "YC620GsN1CM",
+            "YR-gykNwQi8",
+            "VWSqqTeVE0s",
+            "OFQpmKltwXg",
+            "0hT3EKGhbpI",
+            "YC620GsN1CM"
+          ]
+        },
+        {
+          "name": "Introdução à Ciência da Computação com Python II",
+          "videoIds": [
+            "WT_zCgSHSTQ",
+            "rh65Lh5V7S0",
+            "1aUuW0aA7l0",
+            "SqLhPI6pPy4",
+            "0SrKE9lVPTk",
+            "LN8ejPwSzkU",
+            "tqF0MjcOqcI",
+            "r8CSesZpFjo",
+            "UZ7_oudJ150",
+            "sZg9nrUTgJE",
+            "ECFj-bWzU8I",
+            "sgfmuFRZuWs",
+            "ngeVlLJ250s",
+            "v_QoUdfahng",
+            "TllYO06DpUk",
+            "RBjrLgdMaMI",
+            "Aa8-39qwbUU",
+            "AMUxtcJ8yfc",
+            "se9JcK05PGw",
+            "c_5UByqX6kE",
+            "eGH9--FcDxY",
+            "GhWEOe81bJw",
+            "pYgAX8BuJN8",
+            "dRCDOH1lugs",
+            "pbzea8fXj98"
+          ]
+        },
+        {
+          "name": "Laboratório de Programação Orientada a Objetos I",
+          "videoIds": [
+            "WT_zCgSHSTQ",
+            "rh65Lh5V7S0",
+            "1aUuW0aA7l0",
+            "SqLhPI6pPy4",
+            "0SrKE9lVPTk",
+            "LN8ejPwSzkU",
+            "tqF0MjcOqcI",
+            "r8CSesZpFjo",
+            "UZ7_oudJ150",
+            "sZg9nrUTgJE",
+            "ECFj-bWzU8I",
+            "sgfmuFRZuWs",
+            "ngeVlLJ250s",
+            "v_QoUdfahng",
+            "TllYO06DpUk",
+            "RBjrLgdMaMI",
+            "Aa8-39qwbUU",
+            "AMUxtcJ8yfc",
+            "se9JcK05PGw",
+            "c_5UByqX6kE"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Base Algorítmica",
+      "disciplines": [
+        {
+          "name": "Algoritmos em Grafos",
+          "videoIds": [
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4"
+          ]
+        },
+        {
+          "name": "Arquitetura de Computadores I",
+          "videoIds": [
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0",
+            "IBClN6VpJDw",
+            "8YsQ8AeKGvk",
+            "xwKW079x7BQ",
+            "V0qpi-PBrP4",
+            "4IbSXeIFVE4",
+            "QF0Cdd8ApRk"
+          ]
+        },
+        {
+          "name": "Probabilidade e Estatística",
+          "videoIds": [
+            "MXFo9n-HXYA",
+            "yYmVfYgPd44",
+            "MOuN_cYcsJ4",
+            "VduHyuwVna8",
+            "MkhAgAPz3aE",
+            "FUOjLcYSj2s",
+            "NQQ0Eh9E_10",
+            "g2uviTb8ZpE",
+            "7YVQLZp1jb0",
+            "3dvMo-rXTHE",
+            "WEPB5pDSEIg",
+            "q-QTbNu8Ybc",
+            "gptt0KjFPR4",
+            "naNaoSIWsDA",
+            "yE5lon2tXWw"
+          ]
+        },
+        {
+          "name": "Cálculo II",
+          "videoIds": [
+            "R_kxAnuyQss",
+            "lXnRC_W2PBk",
+            "lmbwADzYJew",
+            "UR9X2VBECE4",
+            "EOXn9y-7cII",
+            "yzf5beXBwxY",
+            "ksdeoFuNMrQ",
+            "1xuhaRtnlvE",
+            "bBc0nkVfxvA",
+            "xEKo29OWILE",
+            "hcZ0qtwvN1w",
+            "CJtrNuTTs4Q",
+            "gMh6lrXibWY",
+            "5BYm7UdCrX0",
+            "CSyEYiG8sFI"
+          ]
+        },
+        {
+          "name": "Programação Funcional em Haskell",
+          "videoIds": [
+            "OlArEishhQg",
+            "065NQCDSMb0",
+            "mUZOySyVcuQ",
+            "LntSB-gl-ZI",
+            "bsI6P_IM_hg",
+            "xAOBQtSVI_k",
+            "2Y0HXnYpn9E",
+            "1lsU6RoU9Ko",
+            "RuXmtYdmQKY",
+            "MhaGPACGIEs",
+            "Pg2tvTNfBzQ",
+            "ZQkNfdwaG2c",
+            "gBsNWWscIcg",
+            "PceEtFggO_Q",
+            "i48FGijMVO0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Análise e Sistemas",
+      "disciplines": [
+        {
+          "name": "Análise de Algoritmos",
+          "videoIds": [
+            "jzR0kYsay2U",
+            "-4b58LvY6NI",
+            "Px3W4QHfrHc",
+            "XoWag-f1UTY",
+            "u7FJAOnWS08",
+            "xzCpDBYKCTA",
+            "32ritDV6XxU",
+            "Q2s6ZFX3de8",
+            "lGIVvVAiR6U",
+            "mOBy3LJV5sM",
+            "8_Ip6PzYqrs",
+            "AVb_9sXqfSk",
+            "KGoSTh1sgyM",
+            "hLtDkdt--WE",
+            "71tY5ao2n1I"
+          ]
+        },
+        {
+          "name": "Métodos Numéricos I",
+          "videoIds": [
+            "r8kmAodJm4A",
+            "Tga3hhnToxw",
+            "dNkFbG3Z06g",
+            "--is3sRzn7Y",
+            "xXuZlyUyjD4",
+            "ksQ6SbRh7t4",
+            "SQML9EfD6go",
+            "2ITiuuyeUFs",
+            "tj8lfdLmRh4",
+            "SbtpG7QUcgg",
+            "s44VqGqs7l0",
+            "O5gahn7Q-2s",
+            "VuxaXrWTyqI",
+            "qozOSeGgbqA",
+            "tTPg0WgMHuE"
+          ]
+        },
+        {
+          "name": "Banco de Dados",
+          "videoIds": [
+            "E9F8G7H6I5J4",
+            "K3L2M1N0O9P8",
+            "Q7R6S5T4U3V2",
+            "W1X0Y9Z8A7B6",
+            "C5D4E3F2G1H0",
+            "I9J8K7L6M5N4",
+            "O3P2Q1R0S9T8",
+            "U7V6W5X4Y3Z2",
+            "A1B0C9D8E7F6",
+            "G5H4I3J2K1L0"
+          ]
+        },
+        {
+          "name": "Arquitetura de Computadores II",
+          "videoIds": [
+            "M9N8O7P6Q5R4",
+            "S3T2U1V0W9X8",
+            "Y7Z6A5B4C3D2",
+            "E1F0G9H8I7J6",
+            "K5L4M3N2O1P0",
+            "Q9R8S7T6U5V4",
+            "W3X2Y1Z0A9B8",
+            "C7D6E5F4G3H2",
+            "I1J0K9L8M7N6",
+            "O5P4Q3R2S1T0"
+          ]
+        },
+        {
+          "name": "Programação Lógica",
+          "videoIds": [
+            "U9V8W7X6Y5Z4",
+            "A3B2C1D0E9F8",
+            "G7H6I5J4K3L2",
+            "M1N0O9P8Q7R6",
+            "S5T4U3V2W1X0",
+            "Y9Z8A7B6C5D4",
+            "E3F2G1H0I9J8",
+            "K7L6M5N4O3P2",
+            "Q1R0S9T8U7V6",
+            "W5X4Y3Z2A1B0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Sistemas Computacionais",
+      "disciplines": [
+        {
+          "name": "Redes de Computadores",
+          "videoIds": [
+            "BVK4D4tLpL8",
+            "Z9v0iR2j3kM",
+            "a1b2c3d4e5f6",
+            "g7h8i9j0k1l2",
+            "m3n4o5p6q7r8",
+            "s9t0u1v2w3x4",
+            "y5z6A7B8C9D0",
+            "E1F2G3H4I5J6",
+            "K7L8M9N0O1P2",
+            "Q3R4S5T6U7V8"
+          ]
+        },
+        {
+          "name": "Introdução à Engenharia de Software",
+          "videoIds": [
+            "M9N8O7P6Q5R4",
+            "S3T2U1V0W9X8",
+            "Y7Z6A5B4C3D2",
+            "E1F0G9H8I7J6",
+            "K5L4M3N2O1P0",
+            "Q9R8S7T6U5V4",
+            "W3X2Y1Z0A9B8",
+            "C7D6E5F4G3H2",
+            "I1J0K9L8M7N6",
+            "O5P4Q3R2S1T0"
+          ]
+        },
+        {
+          "name": "Sistemas Operacionais",
+          "videoIds": [
+            "W9X8Y7Z6A5B4",
+            "C3D2E1F0G9H8",
+            "I7J6K5L4M3N2",
+            "O1P0Q9R8S7T6",
+            "U5V4W3X2Y1Z0",
+            "A9B8C7D6E5F4",
+            "G3H2I1J0K9L8",
+            "M7N6O5P4Q3R2",
+            "S1T0U9V8W7X6",
+            "Y5Z4A3B2C1D0"
+          ]
+        },
+        {
+          "name": "Programação Matemática",
+          "videoIds": [
+            "C9D8E7F6G5H4",
+            "I3J2K1L0M9N8",
+            "O7P6Q5R4S3T2",
+            "U1V0W9X8Y7Z6",
+            "A5B4C3D2E1F0",
+            "G9H8I7J6K5L4",
+            "M3N2O1P0Q9R8",
+            "S7T6U5V4W3X2",
+            "Y1Z0A9B8C7D6",
+            "E5F4G3H2I1J0"
+          ]
+        },
+        {
+          "name": "Fundamentos de Computação Gráfica",
+          "videoIds": [
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Computação Avançada",
+      "disciplines": [
+        {
+          "name": "Linguagens Formais e Autômatos",
+          "videoIds": [
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0",
+            "IBClN6VpJDw",
+            "8YsQ8AeKGvk",
+            "xwKW079x7BQ",
+            "V0qpi-PBrP4",
+            "4IbSXeIFVE4",
+            "QF0Cdd8ApRk"
+          ]
+        },
+        {
+          "name": "Inteligência Artificial",
+          "videoIds": [
+            "U9V8W7X6Y5Z4",
+            "A3B2C1D0E9F8",
+            "G7H6I5J4K3L2",
+            "M1N0O9P8Q7R6",
+            "S5T4U3V2W1X0",
+            "Y9Z8A7B6C5D4",
+            "E3F2G1H0I9J8",
+            "K7L6M5N4O3P2",
+            "Q1R0S9T8U7V6",
+            "W5X4Y3Z2A1B0"
+          ]
+        },
+        {
+          "name": "Sistemas Distribuídos",
+          "videoIds": [
+            "MXFo9n-HXYA",
+            "yYmVfYgPd44",
+            "MOuN_cYcsJ4",
+            "VduHyuwVna8",
+            "MkhAgAPz3aE",
+            "FUOjLcYSj2s",
+            "NQQ0Eh9E_10",
+            "g2uviTb8ZpE",
+            "7YVQLZp1jb0",
+            "3dvMo-rXTHE",
+            "WEPB5pDSEIg",
+            "q-QTbNu8Ybc",
+            "gptt0KjFPR4",
+            "naNaoSIWsDA",
+            "yE5lon2tXWw"
+          ]
+        },
+        {
+          "name": "Teoria dos Grafos",
+          "videoIds": [
+            "R_kxAnuyQss",
+            "lXnRC_W2PBk",
+            "lmbwADzYJew",
+            "UR9X2VBECE4",
+            "EOXn9y-7cII",
+            "yzf5beXBwxY",
+            "ksdeoFuNMrQ",
+            "1xuhaRtnlvE",
+            "bBc0nkVfxvA",
+            "xEKo29OWILE",
+            "hcZ0qtwvN1w",
+            "CJtrNuTTs4Q",
+            "gMh6lrXibWY",
+            "5BYm7UdCrX0",
+            "CSyEYiG8sFI"
+          ]
+        },
+        {
+          "name": "Cálculo III",
+          "videoIds": [
+            "OlArEishhQg",
+            "065NQCDSMb0",
+            "mUZOySyVcuQ",
+            "LntSB-gl-ZI",
+            "bsI6P_IM_hg",
+            "xAOBQtSVI_k",
+            "2Y0HXnYpn9E",
+            "1lsU6RoU9Ko",
+            "RuXmtYdmQKY",
+            "MhaGPACGIEs",
+            "Pg2tvTNfBzQ",
+            "ZQkNfdwaG2c",
+            "gBsNWWscIcg",
+            "PceEtFggO_Q",
+            "i48FGijMVO0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7ª Etapa · Especialização",
+      "disciplines": [
+        {
+          "name": "Teoria da Computação",
+          "videoIds": [
+            "jzR0kYsay2U",
+            "-4b58LvY6NI",
+            "Px3W4QHfrHc",
+            "XoWag-f1UTY",
+            "u7FJAOnWS08",
+            "xzCpDBYKCTA",
+            "32ritDV6XxU",
+            "Q2s6ZFX3de8",
+            "lGIVvVAiR6U",
+            "mOBy3LJV5sM",
+            "8_Ip6PzYqrs",
+            "AVb_9sXqfSk",
+            "KGoSTh1sgyM",
+            "hLtDkdt--WE",
+            "71tY5ao2n1I"
+          ]
+        },
+        {
+          "name": "Deep Learning",
+          "videoIds": [
+            "r8kmAodJm4A",
+            "Tga3hhnToxw",
+            "dNkFbG3Z06g",
+            "--is3sRzn7Y",
+            "xXuZlyUyjD4",
+            "ksQ6SbRh7t4",
+            "SQML9EfD6go",
+            "2ITiuuyeUFs",
+            "tj8lfdLmRh4",
+            "SbtpG7QUcgg",
+            "s44VqGqs7l0",
+            "O5gahn7Q-2s",
+            "VuxaXrWTyqI",
+            "qozOSeGgbqA",
+            "tTPg0WgMHuE"
+          ]
+        },
+        {
+          "name": "Compiladores",
+          "videoIds": [
+            "C9D8E7F6G5H4",
+            "I3J2K1L0M9N8",
+            "O7P6Q5R4S3T2",
+            "U1V0W9X8Y7Z6",
+            "A5B4C3D2E1F0",
+            "G9H8I7J6K5L4",
+            "M3N2O1P0Q9R8",
+            "S7T6U5V4W3X2",
+            "Y1Z0A9B8C7D6",
+            "E5F4G3H2I1J0"
+          ]
+        },
+        {
+          "name": "Computação Quântica",
+          "videoIds": [
+            "M9N8O7P6Q5R4",
+            "S3T2U1V0W9X8",
+            "Y7Z6A5B4C3D2",
+            "E1F0G9H8I7J6",
+            "K5L4M3N2O1P0",
+            "Q9R8S7T6U5V4",
+            "W3X2Y1Z0A9B8",
+            "C7D6E5F4G3H2",
+            "I1J0K9L8M7N6",
+            "O5P4Q3R2S1T0"
+          ]
+        },
+        {
+          "name": "Metodologia da Pesquisa",
+          "videoIds": [
+            "U9V8W7X6Y5Z4",
+            "A3B2C1D0E9F8",
+            "G7H6I5J4K3L2",
+            "M1N0O9P8Q7R6",
+            "S5T4U3V2W1X0",
+            "Y9Z8A7B6C5D4",
+            "E3F2G1H0I9J8",
+            "K7L6M5N4O3P2",
+            "Q1R0S9T8U7V6",
+            "W5X4Y3Z2A1B0"
+          ]
+        }
+      ]
+    }
+  ]
+}

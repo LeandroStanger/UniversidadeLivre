@@ -1,0 +1,52 @@
+{
+  "computacao": {
+    "text": "Parabéns por concluir o curso de Ciência da Computação!\nVocê adquiriu uma base sólida nos fundamentos da computação, desde algoritmos até sistemas complexos.\nAgora você está pronto para enfrentar desafios inovadores e contribuir com soluções tecnológicas de impacto.\nContinue explorando novas áreas e aprofundando seu conhecimento para se tornar um profissional ainda mais completo.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "matematica": {
+    "text": "Excelente! Você completou o Bacharelado em Matemática.\nDomine conceitos fundamentais que vão do cálculo à álgebra abstrata, desenvolvendo raciocínio lógico e analítico.\nEssa formação abre portas para carreiras em pesquisa, educação, tecnologia e finanças.\nAplique seu conhecimento para resolver problemas complexos e inspire outros com sua jornada.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "computacao_grafica": {
+    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica!\nVocê explorou técnicas avançadas de renderização, modelagem 3D e pipeline gráfico.\nAgora está preparado para criar experiências visuais imersivas e contribuir com projetos de jogos, simulações e realidade virtual.\nContinue praticando e inovando nesse campo fascinante.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "embarcados": {
+    "text": "Conclusão da Pós‑graduação em Embarcados!\nVocê dominou conceitos de microcontroladores, sistemas de tempo real e IoT, integrando hardware e software.\nEssa expertise é essencial para criar dispositivos inteligentes e soluções inovadoras em automação.\nAplique seus conhecimentos em projetos reais e continue explorando novas fronteiras da eletrônica embarcada.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "desenvolvimento_web": {
+    "text": "Pós‑graduação em Desenvolvimento Web concluída!\nVocê está apto a criar aplicações web completas e modernas, desde o front-end até o back-end.\nCom domínio de frameworks, APIs e boas práticas, você pode construir soluções escaláveis e de alta performance.\nContinue acompanhando as tendências e contribuindo para a evolução da web.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "cybersecurity": {
+    "text": "Segurança cibernética concluída!\nVocê aprendeu a proteger sistemas, analisar vulnerabilidades e implementar estratégias de defesa.\nCom esse conhecimento, você pode atuar na linha de frente contra ameaças digitais e garantir a integridade de dados.\nMantenha-se atualizado e pratique a ética para um mundo digital mais seguro.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "devops": {
+    "text": "Pós‑graduação em DevOps concluída!\nVocê agora domina automação, integração contínua, entrega contínua e infraestrutura como código.\nEssas habilidades permitem acelerar entregas com qualidade e eficiência operacional.\nAplique os princípios de colaboração e melhoria contínua em seus projetos e equipes.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "ciencia_de_dados": {
+    "text": "Pós‑graduação em Ciência de Dados concluída!\nVocê aprendeu a analisar, interpretar e extrair valor dos dados, utilizando estatística e machine learning.\nCom essa base, você pode transformar dados em insights estratégicos para organizações.\nContinue praticando com projetos reais e contribua para a tomada de decisão baseada em evidências.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "computer-science": {
+    "text": "Congratulations on completing the Computer Science degree!\nYou have built a solid foundation in computing fundamentals, from algorithms to complex systems.\nNow you are ready to tackle innovative challenges and contribute with impactful technological solutions.\nKeep exploring new areas and deepening your knowledge to become an even more complete professional.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "math": {
+    "text": "Excellent! You have completed the Bachelor's Degree in Mathematics.\nYou have mastered fundamental concepts ranging from calculus to abstract algebra, developing logical and analytical reasoning.\nThis degree opens doors to careers in research, education, technology, and finance.\nApply your knowledge to solve complex problems and inspire others with your journey.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  }
+}

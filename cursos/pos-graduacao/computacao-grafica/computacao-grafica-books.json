@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Computer Graphics: Principles and Practice",
+    "author": "John F. Hughes, Andries van Dam, Morgan McGuire, David F. Sklar, James D. Foley, Steven K. Feiner, Kurt Akeley",
+    "discipline": "Conceitos Básicos de Computação Gráfica",
+    "edition": "3ª edição",
+    "isbn": "9780321399526",
+    "description": "O clássico da computação gráfica, abordando fundamentos, algoritmos e técnicas modernas.",
+    "cover": "https://m.media-amazon.com/images/I/71cS8Nl-P-L._SL1500_.jpg",
+    "year": "2013",
+    "publisher": "Addison-Wesley",
+    "link": "https://www.amazon.com/Computer-Graphics-Principles-Practice-3rd/dp/0321399528",
+    "language": "en",
+    "category": "Computação Gráfica"
+  }
+]

@@ -1,0 +1,195 @@
+/* biblioteca.css – estilo moderno para biblioteca */
+.library-header {
+    margin-bottom: 1rem;
+}
+.back-to-course {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.back-to-course i {
+    margin-right: 0.5rem;
+}
+.back-to-course:hover {
+    text-decoration: underline;
+}
+.search-bar {
+    margin-bottom: 1.5rem;
+}
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+.book-mini-card {
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+}
+.book-mini-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    border-color: var(--accent-blue);
+}
+.mini-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background: var(--bg-primary);
+}
+.mini-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0 0.25rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.mini-author,
+.mini-year {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0.2rem 0;
+}
+
+/* Modal */
+.book-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 1.5rem;
+}
+.close-modal {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+.close-modal:hover {
+    color: var(--text-primary);
+}
+#modalBody, #bookDetailContent {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.modal-cover {
+    width: 140px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.modal-details {
+    flex: 1;
+    min-width: 200px;
+}
+.modal-details h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.modal-details p {
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+    color: var(--text-secondary);
+}
+.modal-details .modal-description {
+    margin: 0.8rem 0;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+.modal-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+.download-btn,
+.repo-btn {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: opacity 0.2s;
+}
+.repo-btn {
+    background: #2ea043;
+}
+.download-btn:hover,
+.repo-btn:hover {
+    opacity: 0.9;
+}
+
+/* Destaque temporário para livro vindo da bibliografia */
+.book-mini-card.highlight {
+    transition: background 0.3s;
+    background-color: var(--accent-blue);
+}
+
+@media (max-width: 600px) {
+    .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    .modal-content {
+        padding: 1rem;
+    }
+    #modalBody, #bookDetailContent {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .modal-cover {
+        width: 110px;
+        height: 160px;
+    }
+}

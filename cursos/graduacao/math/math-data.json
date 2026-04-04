@@ -1,0 +1,335 @@
+{
+  "name": "Math",
+  "type": "Bachelor's Degree",
+  "icon": "fa-square-root-alt",
+  "description": "Math is the study of patterns, structures, quantities, and logical reasoning. This program covers calculus, algebra, probability, statistics, topology, geometry, and advanced mathematical theory.",
+  "stages": [
+    {
+      "name": "Stage 0 · Pre-College Math",
+      "disciplines": [
+        {
+          "name": "Arithmetic",
+          "videoIds": [
+            "UJMcCgl1VTo", "W-dHYjJ0oYg", "sXiXyoT06ys", "CV6omNpa_u8", "lFXjJpANHy4",
+            "i219Ow_BZTI", "a5kg0vVvS2M", "4d8ZCZbd8lI", "naIbth2MZB4", "R_lwZ4nEW08",
+            "m3UFpwUE9Q0", "WBVrAKuIPfU", "gXtz04IQw7A", "KKjYF2d5t1Y", "Syq_xOeNIXQ",
+            "lGNllt5IRnU", "j27oQ1sP4iw", "hCgnWllovBs", "8npxlUFqJLw", "jHCzQlA96J8",
+            "NfXARpHljJ4", "xUpy5iftvYk", "3IAwxkgeEqo", "zfgAnP-w51A", "77LZDG0HYKg",
+            "3GKDU134_xY", "qN7Z1aRYfwA", "kh74Das6sK8", "KMy1T2Jml14", "UTbltsxa3E0",
+            "BL5xUnhu-qY", "aVXktEXNJgw", "nCD5c1akP4s", "_ZnnZY0I43Q", "QgQMhW-WNz0",
+            "-LmY8frEChM", "UWb1zqy6uLI", "nl1UfJIBaTs", "Af-MqCJGZww", "cHhostg0k5c"
+          ]
+        },
+        {
+          "name": "Pre-Algebra",
+          "videoIds": [
+            "1Sx5iW00fFQ", "r9oPujGI4y4", "1xqIB3YbDeU", "ayUdzblGktw", "b5W-uP6d-SQ",
+            "PGSkIjHGf2s", "1eeQcjl65uU", "Pz_SQ6hFLSY", "Le8g_XZAPbM", "plAO9QzzXVs",
+            "bWtsDQKmu04", "IS2hzHduam0", "WRj6inCgiDo", "OPPZneB9PfM", "z-g2OB-bWVU",
+            "Eof7BVsWYbg", "NJG2Bnwl7ks", "s1j9GDGECZQ", "tNgG4Fc99Qk", "D3u1wwwHMW4",
+            "TBHIApqA3AU", "xQX1XbRjBUs", "wJgEYbAg7zY", "NwjTU1-fe8k", "dWowqVm7IAs",
+            "9EdCG5z4tfk", "tz0VX_QfFxI", "G_b4CIRwKpM"
+          ]
+        },
+        {
+          "name": "Algebra 1",
+          "videoIds": [
+            "mM3ZQJhjQrQ", "e4FfG2RwsRE", "T9MA2t3dP_w", "YOT7LMiyFDs", "Fx5JD3UW25s",
+            "XlYakfpdf7I", "GlD13ZDNPac", "pYuIjSti8C0", "Tvz35RXFlCg", "-jyfxEpWMqk",
+            "Rzobk4e1Nl8", "PGVVkJAxYSU", "stQN8TOlERk", "qpUpDeGISjo", "Q2vwxMjn6PE",
+            "cz-evrZGvC4", "nx5Fv1u4A3M", "9aQFOHE2xdQ", "IVkzF72EMfE", "a39ihwt509o",
+            "IBIyenitsE4", "pT0Zi3uqrRQ", "eBiiCy_0hPk", "2zAGtQt067E", "RKYql0IYGtQ",
+            "whqMPZRjBN8", "clrtG4-5Ero", "BWrxZPZDU1U", "92XsZIjUIQI", "MkQ8KRO5eBI",
+            "yPrXoG191Oc", "pj5XZrMCEJ8", "TPn_gXColyA", "OUOt9g__A5U", "-RA5vtfH-qY",
+            "gdj8JIEAYZk", "lx0sDd0efSo", "L9kF7wriLMY"
+          ]
+        },
+        {
+          "name": "Geometry",
+          "videoIds": [
+            "HgboXTwnimI", "YmMV8jfJqDs", "7etcnprb6kI", "RIoQ7_vqyXI", "TjBOetrByzY",
+            "L4wuW0E6nW8", "-VMtc--P2BU", "6ecGoq4yt04", "kp67TEsg6q4", "Hqo333G6FI4",
+            "N1VO04fn3-A", "Z9VldAcW08c", "aUujg8Y0_Yk", "jIDe2-zYGy4", "uBECUPe1tPU",
+            "_uoy5LG-OIM", "zyLxwxEEmMg", "opOZ9XOo3Po", "sWw2T1SoGXk", "1Bk9UUti_3Q",
+            "rye6rj5Pasw", "Hiw-vxVYHOw", "bT_x240MKqc", "ufyaNv9j6hk", "Zs2lZmgnVFY",
+            "mXhjVI40434", "MjcKq2Ttf-w", "P1nrH8uMqos", "TXeUyeUBiXk", "_xwnOYY6ma8",
+            "-nlGS42W9Go", "JgOjJDIVWB8", "lz-SijCfYCU", "xCdyzgBGxEg", "1QOMUNatXG4",
+            "NfZq0iiO8KA", "gF3LJbxQ9oM", "GJFl1dNkDyQ", "gHV-F0ngytU", "epAe48rRAOw",
+            "Q_Qx6TrglmI", "4tXMkn7j1Ts", "bFTDYb--Vnc", "ExYUNsiyS6o", "BY5q4LnlBN0",
+            "WeCj8cUlnpU", "84e6AVgYYNk", "NvcFHR836YM", "3Aaahyp1Lh8", "wcqhaLl9rZE"
+          ]
+        },
+        {
+          "name": "Algebra 2",
+          "videoIds": [
+            "G9BpXki19O0", "RwWw79MWOFg", "nqZ4nmY_Ncg", "NV5m2m91xB4", "7RUdpXoSVSw",
+            "6X65Jon0Qmg", "ENCX03nnYAo", "t8uos164ZK4", "nQtaxPXTEWY", "4pZsfOoTy1Q",
+            "LEwLmj1Zp4w", "CZV3Na-E8yw", "kCftPU4KAT4", "G24aPwbQitg", "cCYs3BGG6v0",
+            "k5Dc7kb7gFA", "IRvDB_r5LRY", "T9ShaqgwKYM", "DaSZzn7wj1Y", "YEKFRTGOS-8",
+            "VgC0jso4pBQ", "-QSw_-45hn0", "0_CwqqetNhQ", "7QSt8vPe8LE", "Vbau9LZJxFk",
+            "m3440yMeOkM", "Iqt9UMDwqr4", "GEtn1uOUIu0", "6ndCzRMxGl8", "bA83PV_90PI",
+            "9ffXrtdqURE", "YXq9mhVEjfk", "NqTjDYlg-yA", "_fRMEvp4qTM", "1Ajed1FYmnY",
+            "39Ee8BsOB5c", "hLOG0F1uXN4", "PI2KNnBHmgw", "B354ol9Ek-o", "fLfGuYJrj0k",
+            "QyYx5wRePHA", "2wtt94NxnyU", "aI_pORRhb1M", "0x74kS0FXWM", "akzDtLuyKew",
+            "Tqraqiaf9Zo", "Gj5uygzz9tU", "HFXf9KHYztc", "eIu4wScZxtI", "EZHWnSmG2lw",
+            "MlN8x1H0szU", "YVzRk9sWycI", "B08RnTmC9Cg", "R0SABZb_ADw", "IQYKm-0KaOE",
+            "bn7AI-Mh-ms"
+          ]
+        },
+        {
+          "name": "Trigonometry",
+          "videoIds": [
+            "ErjKYCbs_F8", "TkIQr7PFPJk", "VuZL9juvflI", "ACUxC36HCZY", "-dc45jYNfvw",
+            "PS1qHFuVGEE", "U2d4y3vWfyg", "NtLJg9s-mIo", "5j1V6z5B4qk", "WrkHgFps5xU",
+            "t6BIs40q0uw", "d0m84QkiX70", "5-CXihtqz0g", "Vs0pdlFLQZc", "vXY24dYDrA4",
+            "JFgpmzkO2rw", "ufR02UZXWQU", "kQjQX5gFgP4", "F6OmmDUt31c", "Puw84c95oH0",
+            "ez_D3VPUuZ0", "C5j4GvU1bKc", "wMdNDd8N2cE", "r1j-gUESjIE", "TBeRHhoeJIY",
+            "sWbomWmYJwM", "GPQpC9qC1kQ", "fwNDW46-B3A", "AJ6HCg7G38E", "Qgp-0MQ6G4w",
+            "4apcRTc1qks", "pnsDeGH6GXY", "M_UC0RxcfwA", "bcoMxLFBojk", "2vNzGXrgbdQ",
+            "4NKyuzskggg"
+          ]
+        },
+        {
+          "name": "Precalculus",
+          "videoIds": [
+            "7Ds8vs5bCG0", "i0ZwmeIXIEg", "WDjs3tCrau0", "4Dzm5uviUDw", "f_cXsfZ5W_Y",
+            "Uvw987yiarw", "oVsX_-eDze4", "qTnegToNHC4", "Os_XNXHPWis", "lRLLCm7n1c0",
+            "4xY2ml0FZ8k", "gY1gE_A3iPM", "d8fOKLSzEUQ", "6KzWjxdP9io", "-Y5oEouqLBM",
+            "9cIKVcMbRyY", "odrk6z9slvA", "ZKkJuzY5r08", "3GRh-bNCMV8", "IkgykQ3ecWs",
+            "CsKdjMwSkno", "1eAeMdjAnYE", "SWSgHOAVyt8", "fO-JL5XHCvQ", "EK8lki3qYSo",
+            "jX5zj6jCCxA", "Cxh-kovcGrc", "19lJmQS_Qvs", "ChqnrOvzqEU", "5h-1RqFZ5xY",
+            "jCMrTRExyhg", "w-i6m29n3m0", "p9DXWnosHGY", "RUFh6_OtvwA", "xOYMM7AFviw",
+            "D-xeBpQd004", "MgCsFOUq3YE", "iTZM1jUzlrI", "zbcnftj9BLQ", "hUd0Q_0lhlM",
+            "l5v40gWkPL4", "GD1SGrtAkUY", "2PqjPANdaFU", "EuaJKcAbH9g", "OY63IBm5RpI",
+            "H4Ymx8BGDkw", "aY7qINRAOvU", "EOFr3YdqIcA"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage 1 · Core Mathematics",
+      "disciplines": [
+        {
+          "name": "Introduction to Mathematical Thinking",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.coursera.org/learn/mathematical-thinking",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "LaTeX",
+          "type": "external",
+          "time": "60 min",
+          "externalUrl": "https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes",
+          "platformName": "Overleaf",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 2 · Calculus",
+      "disciplines": [
+        {
+          "name": "Calculus 1A: Differentiation",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.1x+2T2019/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Calculus 1B: Integration",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.2x+3T2019/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Calculus 1C: Coordinate Systems & Infinite Series",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.3x+1T2020/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Multivariable Calculus",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-02sc-multivariable-calculus-fall-2010/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 3 · Introduction to Differential Equations",
+      "disciplines": [
+        {
+          "name": "Differential Equations",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 4 · Discrete Mathematics",
+      "disciplines": [
+        {
+          "name": "Mathematics for Computer Science",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 5 · Linear Algebra",
+      "disciplines": [
+        {
+          "name": "Essence of Linear Algebra",
+          "videoIds": [
+            "fNk_zzaMoSs", "k7RM-ot2NWY", "kYB8IZa5AuE", "XkY2DOUCWMU", "rHLEWRxRGiM",
+            "Ip3X9LOh2dk", "uQhTuRlWMxw", "v8VSDg_WQlA", "LyGKycYT2v0", "eu6i7WJeinw",
+            "BaM7OCEm3G0", "jBsC34PxzoM", "P2LTAUO1TdA", "PFDu9oVAE-g", "e50Bj7jn9IQ",
+            "TgKwz5Ikpc8"
+          ]
+        },
+        {
+          "name": "Linear Algebra",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 6 · Probability & Statistics",
+      "disciplines": [
+        {
+          "name": "Probability",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Statistics for Applications",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-650-statistics-for-applications-fall-2016/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 7 · Introduction to Analysis",
+      "disciplines": [
+        {
+          "name": "Introduction to Analysis",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Analysis Supplemental Lectures",
+          "videoIds": [
+            "EaKLXK4hFFQ", "SpDQvVJZhYA", "Crxv5TA5a6Y", "OahhJbfGsCM", "I0uVnoVZUsM",
+            "S2WshaJLie0", "7IBUHzBuPWE", "EePRxGMETp8", "wrnZJxSeYqI", "-k01yBlN-N8",
+            "OKDByJY0Rxk", "yV5XH-5i_8g", "cSWeUR0-zcA", "cMHxIQnRrwc", "4KFqhzPLox8",
+            "TFwiU3W_HoI", "pzcrXM1gQik", "i6RusPq8gXQ", "Wruag43NIoQ", "9Pk-Jmq5bDY",
+            "Blly7vVR8D8", "TZWkAWO3FlI", "BD64Ey8grhs", "R83-NcmXIt8", "8QZB7FDy2FA",
+            "9B4pq5HgwHk", "9f-5QlbSo30", "Zp3D7tm_zpw", "7U1O_EXDyno", "e3Gpx-J9r14",
+            "Z0Qb0v6Jwgg", "OkElx-tE2M8", "KTAjHe0gKP0", "n0EG9shDtDA", "0SOGTpNzzSE",
+            "prbJsCj5LpA", "V4HNPC29uSQ", "a4Nshj_FBOM", "YbpxkziFM74", "n9HIc6WnmCU",
+            "loFy5hCfrBk", "JHT3MPVwivQ", "mKYDo5s2XNw"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage 8 · Introduction to Abstract Algebra",
+      "disciplines": [
+        {
+          "name": "Introduction to Abstract Group Theory",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://nptel.ac.in/courses/111106113",
+          "platformName": "NPTEL",
+          "videoIds": []
+        },
+        {
+          "name": "Introduction to Rings and Fields",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://nptel.ac.in/courses/111106131",
+          "platformName": "NPTEL",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 9 · Mathematical Logic",
+      "disciplines": [
+        {
+          "name": "Introduction to Formal Logic",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://forallx.openlogicproject.org/",
+          "platformName": "Open Logic Project",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 10 · Geometry and Topology",
+      "disciplines": [
+        {
+          "name": "Topology Without Tears",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.topologywithouttears.net/",
+          "platformName": "Online Textbook",
+          "videoIds": []
+        },
+        {
+          "name": "Euclidean Plane and Its Relatives",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://arxiv.org/pdf/1302.1630v19.pdf",
+          "platformName": "arXiv",
+          "videoIds": []
+        },
+        {
+          "name": "Geometry with an Introduction to Cosmic Topology",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://mphitchman.com/",
+          "platformName": "Online Textbook",
+          "videoIds": []
+        },
+        {
+          "name": "Differential Geometry",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-950-differential-geometry-fall-2008/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}

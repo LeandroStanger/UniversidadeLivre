@@ -1,0 +1,474 @@
+{
+  "ciencia_computacao": {
+    "title": "Ajuda do Curso Ciência da Computação",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Ciência da Computação da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos da computação, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Haverão mais cursos além de Ciência da Computação?",
+            "content": "Sim, a ideia é que existam mais cursos além de Ciência da Computação. Futuramente, estamos pensando em experimentar expandir também para outras áreas além de TI. Mas estamos estudando as possibilidades com calma."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais que tem como objetivo auxiliar para que você aprenda os assuntos que normalmente são estudados em um curso universitário. Algumas pessoas envolvidas com a UBL podem estar trabalhando em outras empresas que podem oferecer algum tipo de certificação, mas a Universidade Livre Brasileira não está envolvida com qualquer emissão de certificado ou certificação."
+          },
+          {
+            "heading": "O Camilo comanda a UBL?",
+            "content": "Não. A UBL tem 5 pessoas na Administração com igual poder de decisão; não é uma ditadura."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/ciencia-da-computacao" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais da computação. As aulas são organizadas em vídeos do YouTube e materiais complementares."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Recomendamos que você assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "matematica": {
+    "title": "Ajuda do Curso Matemática",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Matemática da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos da Matemática, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/1045135924390023209" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/11" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Haverão mais cursos além de Matemática?",
+            "content": "Sim, a ideia é que existam mais cursos além de Matemática. Futuramente, estamos pensando em experimentar expandir também para outras áreas além de Matemática. Mas estamos estudando as possibilidades com calma."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "O Camilo comanda a UBL?",
+            "content": "Não. A UBL tem 5 pessoas na Administração com igual poder de decisão; não é uma ditadura."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/matematica" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais da Matemática. As aulas são organizadas em vídeos do YouTube e materiais complementares."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Recomendamos que você assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "computacao_grafica": {
+    "title": "Ajuda do Curso Computação Gráfica",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Computação Gráfica da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos e técnicas avançadas da área, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Este curso é de Pós-graduação?",
+            "content": "Sim, este curso é uma pós-graduação focada em Computação Gráfica, abrangendo desde fundamentos até técnicas avançadas de renderização, modelagem e programação de GPUs."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais que tem como objetivo auxiliar para que você aprenda os assuntos que normalmente são estudados em um curso universitário. Algumas pessoas envolvidas com a UBL podem estar trabalhando em outras empresas que podem oferecer algum tipo de certificação, mas a Universidade Livre Brasileira não está envolvida com qualquer emissão de certificado ou certificação."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/computacao-grafica" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais da computação gráfica. Inclui aulas em vídeo, projetos práticos e integração com plataformas externas como Khan Academy."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Recomendamos que você assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "embarcados": {
+    "title": "Ajuda do Curso Embarcados",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em Embarcados da Universidade Livre. Este curso oferece uma formação sólida em microeletrônica, programação de microcontroladores, sistemas operacionais de tempo real, FPGA e IoT, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de hardware específico para acompanhar?",
+            "content": "Embora alguns conteúdos externos (Univesp) não exijam hardware, as disciplinas práticas sugerem o uso de plataformas como Arduino (AVR), kits FPGA e sensores IoT. A ULivre não fornece hardware, mas recomenda materiais de baixo custo."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/embarcados" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais de sistemas embarcados. Inclui aulas em vídeo, cursos externos (Univesp) e projetos práticos."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "desenvolvimento_web": {
+    "title": "Ajuda do Curso Desenvolvimento Web",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em Desenvolvimento Web da Universidade Livre. Este curso oferece uma formação sólida em HTML, CSS, JavaScript, frameworks modernos e back-end, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de lógica de programação, mas o curso começa com fundamentos web."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/desenvolvimento-web" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas que abordam tópicos essenciais do desenvolvimento web."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "cybersecurity": {
+    "title": "Ajuda do Curso CyberSecurity",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em CyberSecurity da Universidade Livre. Este curso oferece uma formação sólida em segurança cibernética, incluindo análise de vulnerabilidades, testes de invasão, engenharia reversa, criptografia e conformidade com normas como a LGPD."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de redes e sistemas operacionais, mas o curso começa com fundamentos de segurança."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/cybersecurity" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais da segurança cibernética."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "devops": {
+    "title": "Ajuda do Curso DevOps",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em DevOps da Universidade Livre. Este curso oferece uma formação sólida em automação, infraestrutura como código, containers, orquestração e pipelines de CI/CD."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de Linux e programação, mas o curso começa com fundamentos de Linux e DevOps."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/devops" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais de DevOps."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "ciencia_de_dados": {
+    "title": "Ajuda do Curso Ciência de Dados",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em Ciência de Dados da Universidade Livre. Este curso oferece uma formação sólida em análise de dados, estatística, limpeza de dados e reprodutibilidade científica."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/866378348368625704/866387782170574888" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre/13" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de programação e estatística, mas o curso começa com fundamentos de ciência de dados."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Links Úteis",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" },
+          { "text": "Repositório GitHub", "url": "https://github.com/Universidade-Livre/ciencia-de-dados" }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais da ciência de dados."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "computer-science": {
+    "title": "Computer Science Course Help",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Computer Science course from the Open Source Society University. This course was created to provide a solid foundation in computing fundamentals, using free and high-quality resources."
+      },
+      {
+        "heading": "Get help and ask questions in the Discord group.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/744385009028431943/744682430853808178" }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Will there be more courses beyond Computer Science?",
+            "content": "Yes, the idea is to have more courses beyond Computer Science. In the future, we are thinking about expanding to other areas beyond IT as well. But we are studying the possibilities carefully."
+          },
+          {
+            "heading": "Does the Open Source Society University offer any diploma?",
+            "content": "No. The Open Source Society University is a guide to educational resources aimed at helping you learn the subjects typically studied in a university course. Some people involved with the Open Source Society University may be working for other companies that may offer some type of certification, but the Open Source Society University is not involved in any certificate or diploma issuance."
+          },
+          {
+            "heading": "Does Camilo run the Open Source Society University?",
+            "content": "No. The Open Source Society University has 3 people in Administration with equal decision-making power; it is not a dictatorship."
+          }
+        ]
+      },
+      {
+        "heading": "Useful Links",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/744385009028431943/744682430853808178" },
+          { "text": "GitHub Repository", "url": "https://github.com/ossu/computer-science" }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into stages, each containing disciplines that cover essential computing topics. Lessons are organized into YouTube videos and supplementary materials."
+      },
+      {
+        "heading": "Methodology",
+        "content": "We recommend that you watch the lessons in the proposed order, practice the suggested exercises, and participate in the community to ask questions and share knowledge."
+      }
+    ]
+  },
+  "math": {
+    "title": "Math Course Help",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Math course from the Open Source Society University. This course was created to provide a solid foundation in Mathematics fundamentals, using free and high-quality resources."
+      },
+      {
+        "heading": "Get help and ask questions in the Discord group.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/744385009028431943/870780483347292221" }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Will there be more courses beyond Mathematics?",
+            "content": "Yes, the idea is to have more courses beyond Math. In the future, we are thinking about expanding to other areas beyond Mathematics as well. But we are studying the possibilities carefully."
+          },
+          {
+            "heading": "Does the Open Source Society University offer any diploma?",
+            "content": "No. The Open Source Society University is a guide to educational resources. We do not issue certificates or diplomas."
+          },
+          {
+            "heading": "Does Camilo run the Open Source Society University?",
+            "content": "No. The Open Source Society University has 5 people in Administration with equal decision-making power; it is not a dictatorship."
+          }
+        ]
+      },
+      {
+        "heading": "Useful Links",
+        "links": [
+          { "text": "Discord", "url": "https://discord.com/channels/744385009028431943/870780483347292221" },
+          { "text": "GitHub Repository", "url": "https://github.com/ossu/math" }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into stages, each containing disciplines that cover essential Math topics. Lessons are organized into YouTube videos and supplementary materials."
+      },
+      {
+        "heading": "Methodology",
+        "content": "We recommend that you watch the lessons in the proposed order, practice the suggested exercises, and participate in the community to ask questions and share knowledge."
+      }
+    ]
+  }
+}

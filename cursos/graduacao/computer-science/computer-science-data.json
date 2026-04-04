@@ -1,0 +1,763 @@
+{
+  "name": "Computer Science",
+  "type": "Bacharelado",
+  "icon": "fa-laptop-code",
+  "description": "Computer Science is the study of computation, algorithms, software systems, and the theoretical foundations of information. This program covers programming, mathematics, operating systems, networking, cybersecurity, data science, and modern computing technologies.",
+  "stages": [
+    {
+      "name": "Stage 0 · Pre-College Math",
+      "disciplines": [
+        {
+          "name": "Arithmetic",
+          "videoIds": [
+            "UJMcCgl1VTo", "W-dHYjJ0oYg", "sXiXyoT06ys", "CV6omNpa_u8", "lFXjJpANHy4",
+            "i219Ow_BZTI", "a5kg0vVvS2M", "4d8ZCZbd8lI", "naIbth2MZB4", "R_lwZ4nEW08",
+            "m3UFpwUE9Q0", "WBVrAKuIPfU", "gXtz04IQw7A", "KKjYF2d5t1Y", "Syq_xOeNIXQ",
+            "lGNllt5IRnU", "j27oQ1sP4iw", "hCgnWllovBs", "8npxlUFqJLw", "jHCzQlA96J8",
+            "NfXARpHljJ4", "xUpy5iftvYk", "3IAwxkgeEqo", "zfgAnP-w51A", "77LZDG0HYKg",
+            "3GKDU134_xY", "qN7Z1aRYfwA", "kh74Das6sK8", "KMy1T2Jml14", "UTbltsxa3E0",
+            "BL5xUnhu-qY", "aVXktEXNJgw", "nCD5c1akP4s", "_ZnnZY0I43Q", "QgQMhW-WNz0",
+            "-LmY8frEChM", "UWb1zqy6uLI", "nl1UfJIBaTs", "Af-MqCJGZww", "cHhostg0k5c"
+          ]
+        },
+        {
+          "name": "Pre-Algebra",
+          "videoIds": [
+            "1Sx5iW00fFQ", "r9oPujGI4y4", "1xqIB3YbDeU", "ayUdzblGktw", "b5W-uP6d-SQ",
+            "PGSkIjHGf2s", "1eeQcjl65uU", "Pz_SQ6hFLSY", "Le8g_XZAPbM", "plAO9QzzXVs",
+            "bWtsDQKmu04", "IS2hzHduam0", "WRj6inCgiDo", "OPPZneB9PfM", "z-g2OB-bWVU",
+            "Eof7BVsWYbg", "NJG2Bnwl7ks", "s1j9GDGECZQ", "tNgG4Fc99Qk", "D3u1wwwHMW4",
+            "TBHIApqA3AU", "xQX1XbRjBUs", "wJgEYbAg7zY", "NwjTU1-fe8k", "dWowqVm7IAs",
+            "9EdCG5z4tfk", "tz0VX_QfFxI", "G_b4CIRwKpM"
+          ]
+        },
+        {
+          "name": "Algebra 1",
+          "videoIds": [
+            "mM3ZQJhjQrQ", "e4FfG2RwsRE", "T9MA2t3dP_w", "YOT7LMiyFDs", "Fx5JD3UW25s",
+            "XlYakfpdf7I", "GlD13ZDNPac", "pYuIjSti8C0", "Tvz35RXFlCg", "-jyfxEpWMqk",
+            "Rzobk4e1Nl8", "PGVVkJAxYSU", "stQN8TOlERk", "qpUpDeGISjo", "Q2vwxMjn6PE",
+            "cz-evrZGvC4", "nx5Fv1u4A3M", "9aQFOHE2xdQ", "IVkzF72EMfE", "a39ihwt509o",
+            "IBIyenitsE4", "pT0Zi3uqrRQ", "eBiiCy_0hPk", "2zAGtQt067E", "RKYql0IYGtQ",
+            "whqMPZRjBN8", "clrtG4-5Ero", "BWrxZPZDU1U", "92XsZIjUIQI", "MkQ8KRO5eBI",
+            "yPrXoG191Oc", "pj5XZrMCEJ8", "TPn_gXColyA", "OUOt9g__A5U", "-RA5vtfH-qY",
+            "gdj8JIEAYZk", "lx0sDd0efSo", "L9kF7wriLMY"
+          ]
+        },
+        {
+          "name": "Geometry",
+          "videoIds": [
+            "HgboXTwnimI", "YmMV8jfJqDs", "7etcnprb6kI", "RIoQ7_vqyXI", "TjBOetrByzY",
+            "L4wuW0E6nW8", "-VMtc--P2BU", "6ecGoq4yt04", "kp67TEsg6q4", "Hqo333G6FI4",
+            "N1VO04fn3-A", "Z9VldAcW08c", "aUujg8Y0_Yk", "jIDe2-zYGy4", "uBECUPe1tPU",
+            "_uoy5LG-OIM", "zyLxwxEEmMg", "opOZ9XOo3Po", "sWw2T1SoGXk", "1Bk9UUti_3Q",
+            "rye6rj5Pasw", "Hiw-vxVYHOw", "bT_x240MKqc", "ufyaNv9j6hk", "Zs2lZmgnVFY",
+            "mXhjVI40434", "MjcKq2Ttf-w", "P1nrH8uMqos", "TXeUyeUBiXk", "_xwnOYY6ma8",
+            "-nlGS42W9Go", "JgOjJDIVWB8", "lz-SijCfYCU", "xCdyzgBGxEg", "1QOMUNatXG4",
+            "NfZq0iiO8KA", "gF3LJbxQ9oM", "GJFl1dNkDyQ", "gHV-F0ngytU", "epAe48rRAOw",
+            "Q_Qx6TrglmI", "4tXMkn7j1Ts", "bFTDYb--Vnc", "ExYUNsiyS6o", "BY5q4LnlBN0",
+            "WeCj8cUlnpU", "84e6AVgYYNk", "NvcFHR836YM", "3Aaahyp1Lh8", "wcqhaLl9rZE"
+          ]
+        },
+        {
+          "name": "Algebra 2",
+          "videoIds": [
+            "G9BpXki19O0", "RwWw79MWOFg", "nqZ4nmY_Ncg", "NV5m2m91xB4", "7RUdpXoSVSw",
+            "6X65Jon0Qmg", "ENCX03nnYAo", "t8uos164ZK4", "nQtaxPXTEWY", "4pZsfOoTy1Q",
+            "LEwLmj1Zp4w", "CZV3Na-E8yw", "kCftPU4KAT4", "G24aPwbQitg", "cCYs3BGG6v0",
+            "k5Dc7kb7gFA", "IRvDB_r5LRY", "T9ShaqgwKYM", "DaSZzn7wj1Y", "YEKFRTGOS-8",
+            "VgC0jso4pBQ", "-QSw_-45hn0", "0_CwqqetNhQ", "7QSt8vPe8LE", "Vbau9LZJxFk",
+            "m3440yMeOkM", "Iqt9UMDwqr4", "GEtn1uOUIu0", "6ndCzRMxGl8", "bA83PV_90PI",
+            "9ffXrtdqURE", "YXq9mhVEjfk", "NqTjDYlg-yA", "_fRMEvp4qTM", "1Ajed1FYmnY",
+            "39Ee8BsOB5c", "hLOG0F1uXN4", "PI2KNnBHmgw", "B354ol9Ek-o", "fLfGuYJrj0k",
+            "QyYx5wRePHA", "2wtt94NxnyU", "aI_pORRhb1M", "0x74kS0FXWM", "akzDtLuyKew",
+            "Tqraqiaf9Zo", "Gj5uygzz9tU", "HFXf9KHYztc", "eIu4wScZxtI", "EZHWnSmG2lw",
+            "MlN8x1H0szU", "YVzRk9sWycI", "B08RnTmC9Cg", "R0SABZb_ADw", "IQYKm-0KaOE",
+            "bn7AI-Mh-ms"
+          ]
+        },
+        {
+          "name": "Trigonometry",
+          "videoIds": [
+            "ErjKYCbs_F8", "TkIQr7PFPJk", "VuZL9juvflI", "ACUxC36HCZY", "-dc45jYNfvw",
+            "PS1qHFuVGEE", "U2d4y3vWfyg", "NtLJg9s-mIo", "5j1V6z5B4qk", "WrkHgFps5xU",
+            "t6BIs40q0uw", "d0m84QkiX70", "5-CXihtqz0g", "Vs0pdlFLQZc", "vXY24dYDrA4",
+            "JFgpmzkO2rw", "ufR02UZXWQU", "kQjQX5gFgP4", "F6OmmDUt31c", "Puw84c95oH0",
+            "ez_D3VPUuZ0", "C5j4GvU1bKc", "wMdNDd8N2cE", "r1j-gUESjIE", "TBeRHhoeJIY",
+            "sWbomWmYJwM", "GPQpC9qC1kQ", "fwNDW46-B3A", "AJ6HCg7G38E", "Qgp-0MQ6G4w",
+            "4apcRTc1qks", "pnsDeGH6GXY", "M_UC0RxcfwA", "bcoMxLFBojk", "2vNzGXrgbdQ",
+            "4NKyuzskggg"
+          ]
+        },
+        {
+          "name": "Precalculus",
+          "videoIds": [
+            "7Ds8vs5bCG0", "i0ZwmeIXIEg", "WDjs3tCrau0", "4Dzm5uviUDw", "f_cXsfZ5W_Y",
+            "Uvw987yiarw", "oVsX_-eDze4", "qTnegToNHC4", "Os_XNXHPWis", "lRLLCm7n1c0",
+            "4xY2ml0FZ8k", "gY1gE_A3iPM", "d8fOKLSzEUQ", "6KzWjxdP9io", "-Y5oEouqLBM",
+            "9cIKVcMbRyY", "odrk6z9slvA", "ZKkJuzY5r08", "3GRh-bNCMV8", "IkgykQ3ecWs",
+            "CsKdjMwSkno", "1eAeMdjAnYE", "SWSgHOAVyt8", "fO-JL5XHCvQ", "EK8lki3qYSo",
+            "jX5zj6jCCxA", "Cxh-kovcGrc", "19lJmQS_Qvs", "ChqnrOvzqEU", "5h-1RqFZ5xY",
+            "jCMrTRExyhg", "w-i6m29n3m0", "p9DXWnosHGY", "RUFh6_OtvwA", "xOYMM7AFviw",
+            "D-xeBpQd004", "MgCsFOUq3YE", "iTZM1jUzlrI", "zbcnftj9BLQ", "hUd0Q_0lhlM",
+            "l5v40gWkPL4", "GD1SGrtAkUY", "2PqjPANdaFU", "EuaJKcAbH9g", "OY63IBm5RpI",
+            "H4Ymx8BGDkw", "aY7qINRAOvU", "EOFr3YdqIcA"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage 1 · Intro CS",
+      "disciplines": [
+        {
+          "name": "Introduction to Computer Science and Programming using Python",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Systematic Program Design",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://learning.edx.org/course/course-v1:UBCx+SPD1x+2T2015",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Class-Based Program Design",
+          "videoIds": [
+            "4d6-O8OU2U8", "Yi6XTKZgVnA", "3L0knjACokY", "6WZo7sFFFlQ", "DsYlGgrNKMg"
+          ]
+        },
+        {
+          "name": "Programming Languages",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://courses.cs.washington.edu/courses/cse341/19sp/#lectures",
+          "platformName": "University of Washington",
+          "videoIds": []
+        },
+        {
+          "name": "Object-Oriented Design",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://course.ccs.neu.edu/cs3500f19/",
+          "platformName": "Northeastern University",
+          "videoIds": []
+        },
+        {
+          "name": "Software Architecture",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/software-architecture",
+          "platformName": "Coursera",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 2 · Core math",
+      "disciplines": [
+        {
+          "name": "Calculus 1A: Differentiation",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.1x+2T2019/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Calculus 1B: Integration",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.2x+3T2019/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Calculus 1C: Coordinate Systems & Infinite Series",
+          "type": "external",
+          "time": "80 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.01.3x+1T2020/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        },
+        {
+          "name": "Mathematics for Computer Science",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://openlearninglibrary.mit.edu/courses/course-v1:OCW+6.042J+2T2019/about",
+          "platformName": "MIT Open Learning Library",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 3 · CS Tools",
+      "disciplines": [
+        {
+          "name": "The Missing Semester of Your CS Education",
+          "type": "external",
+          "time": "60 min",
+          "externalUrl": "https://missing.csail.mit.edu/",
+          "platformName": "MIT",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 4 · Core systems",
+      "disciplines": [
+        {
+          "name": "Build a Modern Computer from First Principles: From Nand to Tetris",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://www.coursera.org/learn/build-a-computer",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Build a Modern Computer from First Principles: Nand to Tetris Part II",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://www.coursera.org/learn/nand2tetris2",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Operating Systems: Three Easy Pieces",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://github.com/ossu/computer-science/blob/master/coursepages/ostep/README.md",
+          "platformName": "OSSU",
+          "videoIds": []
+        },
+        {
+          "name": "Computer Networking: a Top-Down Approach",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "http://gaia.cs.umass.edu/kurose_ross/online_lectures.htm",
+          "platformName": "U Mass Amherst",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 5 · Core theory",
+      "disciplines": [
+        {
+          "name": "Algorithms: Design and Analysis, Part 1",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.edx.org/learn/algorithms/stanford-university-algorithms-design-and-analysis-part-1",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Algorithms: Design and Analysis, Part 2",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.edx.org/learn/algorithms/stanford-university-algorithms-design-and-analysis-part-2",
+          "platformName": "edX",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 6 · Core security",
+      "disciplines": [
+        {
+          "name": "Cybersecurity Fundamentals",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/cybersecurity/rochester-institute-of-technology-cybersecurity-fundamentals",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Principles of Secure Coding",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/secure-coding-principles",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Identifying Security Vulnerabilities",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/identifying-security-vulnerabilities",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Identifying Security Vulnerabilities in C/C++ Programming",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/identifying-security-vulnerabilities-c-programming",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Exploiting and Securing Vulnerabilities in Java Applications",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/exploiting-securing-vulnerabilities-java-applications",
+          "platformName": "Coursera",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 7 · Core applications",
+      "disciplines": [
+        {
+          "name": "Databases: Modeling and Theory",
+          "type": "external",
+          "time": "100 min",
+          "externalUrl": "https://www.edx.org/learn/databases/stanford-university-databases-modeling-and-theory",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Databases: Relational Databases and SQL",
+          "type": "external",
+          "time": "100 min",
+          "externalUrl": "https://www.edx.org/learn/relational-databases/stanford-university-databases-relational-databases-and-sql",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Databases: Semistructured Data",
+          "type": "external",
+          "time": "100 min",
+          "externalUrl": "https://www.edx.org/learn/relational-databases/stanford-university-databases-semistructured-data",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Machine Learning",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.deeplearning.ai/courses/machine-learning-specialization/",
+          "platformName": "DeepLearning.AI",
+          "videoIds": []
+        },
+        {
+          "name": "Computer Graphics",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.edx.org/learn/computer-graphics/the-university-of-california-san-diego-computer-graphics",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Software Engineering: Introduction",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/software-engineering/university-of-british-columbia-software-engineering-introduction",
+          "platformName": "edX",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 8 · Core ethics",
+      "disciplines": [
+        {
+          "name": "Ethics, Technology and Engineering",
+          "type": "external",
+          "time": "60 min",
+          "externalUrl": "https://www.coursera.org/learn/ethics-technology-engineering",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Introduction to Intellectual Property",
+          "type": "external",
+          "time": "60 min",
+          "externalUrl": "https://www.coursera.org/learn/introduction-intellectual-property",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Data Privacy Fundamentals",
+          "type": "external",
+          "time": "60 min",
+          "externalUrl": "https://www.coursera.org/learn/northeastern-data-privacy",
+          "platformName": "Coursera",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 9 · Advanced CS",
+      "disciplines": [
+        {
+          "name": "Parallel Programming",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.coursera.org/learn/scala-parallel-programming",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Compilers",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://www.edx.org/learn/computer-science/stanford-university-compilers",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Introduction to Haskell",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.seas.upenn.edu/~cis194/fall16/",
+          "platformName": "University of Pennsylvania",
+          "videoIds": []
+        },
+        {
+          "name": "Learn Prolog Now!",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.let.rug.nl/bos/lpn//lpnpage.php?pageid=online",
+          "platformName": "University of Groningen",
+          "videoIds": []
+        },
+        {
+          "name": "Software Debugging",
+          "videoIds": [
+            "FQ2xLRguzE0", "lWngTdLVdyA", "2r075vKuYKU", "lQEBiB_aHKo", "tjYVYrnY0Es",
+            "BfW_RnCSh44", "rhuTsF4rIB8", "mPKT3ATZIws", "Cs_28mh4Rvs", "two4Vupw4d4",
+            "2tu9LTDujbw", "otn_0HtUErA", "qX6r3XUGkMU", "6-a9aaOn8Qg", "2u2blp1psT8",
+            "eRUfV_9s4go", "9Fa2QVJC8jk", "eJzonbMbu0E", "Yn1hbEybPUo", "T7n816c622E",
+            "oLeFKTp4O2Y", "pqSB3MrUtD4", "Qjwg-9jHGPo", "GgIkpV5lHEY", "KSXGfb1l30I",
+            "dU6hwNkrjBE", "Vf-PNXvy16Q", "WqgAVG55m7E", "HowIswleiMY", "Hr1SQryVSmU",
+            "hV47W0KTwww", "VNkqncL5WQw", "KW4zq-De7aM", "Qwi7sKGN1x8", "pA-1P8PAHAA",
+            "HoalKIZ407A", "-Q1IawA-9rs", "vn6Z80y87X0", "liBTkJLenbs", "HPkNPcYed9M",
+            "34u_DmenO_s", "ZJPmu2Hu8A0", "ZNDRT0qu99w", "T-7MHXBVsh4", "h_NFPQo-CxM",
+            "cIsE1WNuxQM", "1vWQ8vHBD4A", "JJ4Vt8IYSGQ", "VnQu83nbBVc", "x5FFdASSZX8",
+            "lgSX_-6oI0s", "qEHIsK9rn10", "DVWXVWcQgew", "E6ZeHXYMK2s", "p0UKh0IOqJ0",
+            "L-Du_vzKhvo", "2Gm7M1s2CsE", "4O_L1oQ2d-g", "P8sy2GLuYLw", "zA6VLJDFTfs",
+            "BdIZ_i6ZjeY", "NZyP_y56qYU", "DRVoh5XiAZo", "EdD-Vq7XpWg", "zN98ih8YyBM",
+            "2cXn7do01Og", "7jXLr10xuDQ", "YGBiQxQP51k", "qrDkJb0DWVM", "LKi-DAgTMw4",
+            "q8lYCw8PUmk", "_zA4Qm6220k", "WxvXVfINTTA", "mQ_zD86ToFE", "pocvhfoZ8wI",
+            "ZuFXmAVc9Js", "1yDpG2P8qcw", "7ndx3Cg7C2I", "hWsfW0ipkhs", "Qcds6iewSYA",
+            "ykl_aKDtZew", "_7NagYAYCeA", "jbeeljrU0po", "1pPJnErog4U", "xa5C2-qFV3g",
+            "Kn9txs1zkJ4", "X2wq-zIH-v0", "QFFLNnrhCJU", "a3yV3UI5v9Q", "bPJ8g6ZYSxA",
+            "U-KYbKqlsa0", "-FyV-62YZpU", "5eG9YHjhWpE", "vpv-r0ekJdY", "SBL3-FuxtGY",
+            "okzPPZL7Rgo", "y8LVn1SPEVU", "zD4BebCZXbA", "FjMEA41Oas8", "XelPRGX8kXU",
+            "cjoFaEeOik0", "q9D5Eb8LDE8", "5G67quhdDO4", "grQfebm_Ztw", "srsVGWGzB8g",
+            "JLIwDeX9RQ8", "5b-Yx7O2AvY", "yOgeMZF-R50", "6WQCC7xI_Os", "ao4WeXdGQxQ",
+            "p6Tf7OiuzyU", "mEneqAq3lus", "4HKPtb0xKl4", "xbatLcTXWM8", "HTp_5kT-Ink",
+            "jdKog6AQUT4", "RMm-hbbaOYU", "cxbeO0sE0Pk", "0vhbiX9QkMA", "VWHtXai_brQ",
+            "SUmqoeP_IZs", "RZLuyfMCNyc", "RkNSlWMUsOw", "H0RAUEHs6-I", "A1eUiVrRUUk",
+            "phUTOEY0piE", "w6lipU6t2aI", "1ZHjvNXa7XY", "nxLslAUXoNw", "tgPmD_NYtH8",
+            "XO9IipRW0w0", "lQ6jiJB8hv4", "N0yaMhEyoc4", "bDug009PQnc", "WwKOxLsvwnU",
+            "JsH4mSOd3Es", "JdpYEaribKM", "0us1PF6ffOc", "VnH4ToJTXCU", "v9BEvpIYMmA",
+            "nbzfnm-ZLnI", "kaVe-R-AwY8", "83OnjsE_fAo", "3K8Em4LILu4", "EZ_6Sfpg8eU",
+            "QkkNwDLVG5I", "436y6xpkLO8", "kKqaRBlzoN4", "H5G-h2nVdUw", "vmcEO2uEeoY",
+            "oB-_A8969EA", "NqOUUV3OiJY", "AWQvpsHkM2Y", "L6IJ6RVLO5Y", "9m0U3ii_tCU",
+            "8xII-I_PqLA", "fprf58aaCk8", "CgZsXHJjr5g", "JHF_v-9UeWI", "cb2r8icYIFs",
+            "YCG5P2VY1eY", "uPAI1JC0Whs", "uOYY7V1_iiM", "zu8VzPxbpmk", "eehrAK_OHXA",
+            "FVZLRkk7CMw", "DbWXdjL4vco", "sxFKyRF7q8Q", "X1lVn-u5A60", "70oXMBb6qlU",
+            "56QF4bvkiBI", "xp_aXKB6Vsk", "8IabveVsnwg", "ucv1ReeagiY", "72daM_dmxN4",
+            "Om4A_xYB1LA", "A3lumqUXra4", "TvwJmGK4shA", "-guxh4-pC0o", "5q9f6bENEC0",
+            "14Fh9AbNyD8", "l3M9zzwOJ1Q", "RLnH6tWH0EI", "Ecm7dc6Ne8E", "_Qv-yYCmZzE",
+            "S0HvSe3FUFA", "nYLVOQEsk3Q", "32NTwFYdP-c", "oTyj7sTSeWM", "vF3VuTj0EjI",
+            "QNET3qNbs00", "pD_4PvH-kQY", "LMBNTvC01ug", "4uCbD4XmiPY", "Y7yGy0Hzhes",
+            "0-ORAwZYsTM", "m0LiFpm5bvw", "i67QoAoByII", "0IHEfBoyGsE", "sZ1dOehp_NI",
+            "wa7IzlYWry0", "cvRWbDy4Z5I", "A6DDLR0tkCY", "ZGQNgsIGAUA", "ykmvBNEOljA",
+            "BNAve8SdYOc", "6Cdf1kwOLLc", "MxI4G-2mQ0E", "ww-CX-A-HQg", "uhjGRHQWpIw",
+            "dwr0SXbSlqk", "wY_vhurGJsA", "Qp_JcXlEtoQ", "svNrwEKv1H4", "hJbE2QJ5gGY",
+            "mRQGeEKz6pA", "-n0f6eyUm1s", "MFh49LGv8IA", "7Z1eheohSAA", "1aaiwR30fxA",
+            "n9qBOMC6w9E", "1EtOrYFny4Y", "HYsnkDl97pE", "cKQ1qdo79As", "rj7Xm_kjdUc",
+            "znnfCD5rIyc", "r0R5IYzpFF8", "1EfiRusF2jg", "cFCugxcd3sE", "B5mU49n1z48",
+            "fNHIqe7HVG8", "AnogYUjKvyU", "2Upa4o4RKf0", "qjz5gXI86-Q", "hYGvQNpUmWM",
+            "wCPA9u3IQ6Q", "DUcN_-srVZ4", "4fLh5MK-QdA", "i8cu7CntGEU", "9puOiKg_uvM",
+            "aCi0NdvQFVM", "DHwdbyXVrHw", "Q1Ii95rmOOc", "lWcGk5C6kb4", "O28EaXT6ZGg",
+            "OeV2k9FaZGg", "rJ2uNUkWsbo", "5c8m2WGCcYg", "f3VaUoFx7mQ", "xc5I7bFpISU",
+            "VNNSNrwTCFw", "hLtVVrHxeE8", "sbgi3bt7bSI", "FwqfQSrdBok", "VnJ5ilU8ma4",
+            "LGVtBQPf_WY", "kIrsoptItjE", "hZG3qGTf1z0", "cXuA_ReOTNE", "Yne76ogI_GY",
+            "XjHnUekfArk", "SxnEL3Gf3d8", "Kmx_NL4_2Fk", "UskyOJ8RjmY", "SpCbvQV0Ygk"
+          ]
+        },
+        {
+          "name": "Software Testing",
+          "videoIds": [
+            "nzJapzxH_rE", "asTIVibAjEk", "OWbRNOBDwEk", "UoFDzd8ZHX0", "pcjs91xQPUg",
+            "m4BhRDDG2oQ", "Y_CNCIPbOm0", "A7RFDwsOOnM", "MAarcvFY7nc", "AIu43XooSbA",
+            "UVicoxLl6T4", "3BtCcGOXEV4", "dIBcJ0wRe6M", "kp6jJBXzgLU", "Jbd4eAbdLsM",
+            "dL08kDGylks", "iA4jxGviCMk", "SELor0K0-Dk", "r4nO2jXToMU", "v5xXNt__FNg",
+            "Q9ZIdhKT7Js", "HrTPfg32_eo", "hwlZXLtQT7s", "viENlYLByPQ", "xrfbZNq-s3g",
+            "oFiH3PPlYRM", "Wlb-V9_BiDU", "sQt66AcAEGE", "VYkk9-FZVhw", "fh5ig43hFiE",
+            "c91XBjfODks", "6k-0TIYxirM", "Zg6H4y33uxI", "oAQ-v7hJKos", "98Mv4PMijNE",
+            "A-rNLizBiEo", "izGSOsAGIVQ", "gELarSP2KJI", "buqfQwYpTpM", "mutfAsp_8aA",
+            "xo-vrwFOxyc", "FVyTJZQlnf4", "cbXGbgJ2v1k", "QMS3p4oju00", "EfoqaZGI0yk",
+            "0m243Q6RPjo", "XfQPmmOJ8Lo", "hgIctNi2QA4", "KWGG-Qzxr-Y", "S4xwVhL5Ob8",
+            "WP8zO1szgIU", "3SoAyqEaE-s", "44jNVvWhA-Q", "DEDKTRFHAkc", "CZ6MimcESV0",
+            "xY0DuaCjCVg", "6LhslWDXg10", "HR3xNDEP7f8", "HpY4SToNFQI", "NmIB2tfshyY",
+            "soybIVw_f_E", "MknhGWpvnLw", "LvngYR1Nkkk", "xHtYnvGTcKw", "5C0wlv6eI9Q",
+            "aClu7p7yLCs", "cwdny_ethzk", "iQjr7qrKDUc", "qme8S9hpYOg", "YCB519ahPsY",
+            "nSQMujU5V1w", "5f1JZqSpMls", "RuK_rykHfaI", "nJtFo1YFy2A", "0nI82kiNOeY",
+            "6MuGv6enyZ0", "S3kOfGdzNng", "k_eIkxvTiYw", "3tn1hejq9LE", "xPeKDuoU3wM",
+            "MLeEcHt1fwc", "sy0pKhTbOAk", "aA2yafudh7A", "3m3lpXoKIjw", "x_HmYVg0f0A",
+            "WslnuNZ3T5w", "6ZStKN20vBo", "pAoKv684W8o", "x6u8sELEHUk", "XXfywM0jfwM",
+            "cwhC19Fa_84", "5j33V-HV7_w", "yEBew6WGPfw", "Y3thqJDzErw", "7G-ydcOKu_0",
+            "TzyIdLQpbBo", "iXLGIa0Z4w8", "8Po6oxa6yu8", "mnLNnmsRAIg", "TRr218bTW8Y",
+            "HEtARntenF8", "biFXw8zIyHs", "YmTMvpf53es", "ju4smUmciqo", "wVhxkH70nj4",
+            "vWQbipgwl1w", "9EHtICFenHM", "PrJZ6144eeM", "RqrHT93KdgE", "uOMJJ2dxwx4",
+            "tRD9lyiSXvg", "gw56ms3VbMQ", "NDUyvz5Lf_M", "iHZWyR4qyTo", "b-yL5r6xNYg",
+            "lBdJqY1q6MU", "EYB4lJvxITI", "RsxP62K3gUA", "9Zv9ZQrsEjw", "BuLzVtfcLA8",
+            "VSQtlgeZaB4", "cquyBmIh0e4", "Fq_j7Exr5BM", "dTP7239tK3w", "ySczqSlpruk",
+            "FJnH9SOVV3E", "MkRyVhXHG_8", "kDe8Tk2LM0g", "huxKIDWM0UY", "Fe52q8QX46s",
+            "vjOfJM14-Pg", "btlfWwyzSXQ", "iw6BtJxPT8A", "QrLtkSdMDgw", "WW6XD2jO0Rg",
+            "jAJhuw3noes", "A7pAdWt5KBI", "hxzOVUVA1x4", "qBBr9OXqy5I", "LznM8LESP70",
+            "gPQ-g8xkIAQ", "Ae3t_GJyvbk", "oH433BupOI0", "cVpmYru9Lkc", "FcAI-tKvMho",
+            "yUDMgf0u8IM", "Abod3_w7wfU", "aEd3pLV9O08", "GQNwz6baM6A", "Lhw2ZHkoxFE",
+            "uFJGaw8kfOc", "ZWua993wahU", "5V0UcNN3N6k", "4vaHENk5awo", "y9EDpR4XVHE",
+            "zucOAG-b_xw", "IV-81jFxa20", "uA1arREEV20", "M0J1vIoCZH4", "dwQCVHeYDHo",
+            "4-p4tH4lnjI", "XV1cWBQLOIQ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage 10 · Advanced systems",
+      "disciplines": [
+        {
+          "name": "Computation Structures 1: Digital Circuits",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://learning.edx.org/course/course-v1:MITx+6.004.1x_3+3T2016",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Computation Structures 2: Computer Architecture",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://learning.edx.org/course/course-v1:MITx+6.004.2x+3T2015",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Computation Structures 3: Computer Organization",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://learning.edx.org/course/course-v1:MITx+6.004.3x_2+1T2017",
+          "platformName": "edX",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 11 · Advanced theory",
+      "disciplines": [
+        {
+          "name": "Theory of Computation",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Computational Geometry",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://www.edx.org/learn/geometry/tsinghua-university-ji-suan-ji-he-computational-geometry",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Game Theory",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/game-theory-1",
+          "platformName": "Coursera",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 12 · Advanced Information Security",
+      "disciplines": [
+        {
+          "name": "Web Security Fundamentals",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/computer-security/ku-leuven-web-security-fundamentals",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Security Governance & Compliance",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/security-governance-compliance",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Digital Forensics Concepts",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.coursera.org/learn/digital-forensics-concepts",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Secure Software Development: Requirements, Design, and Reuse",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/software-development/the-linux-foundation-secure-software-development-requirements-design-and-reuse",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Secure Software Development: Implementation",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/software-development/the-linux-foundation-secure-software-development-implementation",
+          "platformName": "edX",
+          "videoIds": []
+        },
+        {
+          "name": "Secure Software Development: Verification and More Specialized Topics",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://www.edx.org/learn/software-engineering/the-linux-foundation-secure-software-development-verification-and-more-specialized-topics",
+          "platformName": "edX",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 13 · Advanced math",
+      "disciplines": [
+        {
+          "name": "Essence of Linear Algebra",
+          "videoIds": [
+            "fNk_zzaMoSs", "k7RM-ot2NWY", "kYB8IZa5AuE", "XkY2DOUCWMU", "rHLEWRxRGiM",
+            "Ip3X9LOh2dk", "uQhTuRlWMxw", "v8VSDg_WQlA", "LyGKycYT2v0", "eu6i7WJeinw",
+            "BaM7OCEm3G0", "jBsC34PxzoM", "P2LTAUO1TdA", "PFDu9oVAE-g", "e50Bj7jn9IQ",
+            "TgKwz5Ikpc8"
+          ]
+        },
+        {
+          "name": "Linear Algebra",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Introduction to Numerical Methods",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://ocw.mit.edu/courses/mathematics/18-335j-introduction-to-numerical-methods-spring-2019/index.htm",
+          "platformName": "MIT OCW",
+          "videoIds": []
+        },
+        {
+          "name": "Introduction to Formal Logic",
+          "type": "external",
+          "time": "90 min",
+          "externalUrl": "https://forallx.openlogicproject.org/",
+          "platformName": "Open Logic Project",
+          "videoIds": []
+        },
+        {
+          "name": "Probability",
+          "type": "external",
+          "time": "150 min",
+          "externalUrl": "https://stat110.hsites.harvard.edu/",
+          "platformName": "Harvard University",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 14 · Final project",
+      "disciplines": [
+        {
+          "name": "Fullstack Open",
+          "type": "external",
+          "time": "200 min",
+          "externalUrl": "https://fullstackopen.com/en/",
+          "platformName": "University of Helsinki",
+          "videoIds": []
+        },
+        {
+          "name": "Modern Robotics",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://modernrobotics.northwestern.edu/",
+          "platformName": "Northwestern University",
+          "videoIds": []
+        },
+        {
+          "name": "Data Mining (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/data-mining",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Big Data (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/big-data",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Internet of Things (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/internet-of-things",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Cloud Computing (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/cloud-computing",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Data Science (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/jhu-data-science",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Functional Programming in Scala (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/scala",
+          "platformName": "Coursera",
+          "videoIds": []
+        },
+        {
+          "name": "Game Design and Development with Unity 2020 (Specialization)",
+          "type": "external",
+          "time": "180 min",
+          "externalUrl": "https://www.coursera.org/specializations/game-design-and-development",
+          "platformName": "Coursera",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}

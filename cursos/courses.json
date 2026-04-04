@@ -1,0 +1,84 @@
+[
+  {
+    "id": "computacao",
+    "name": "Ciência da Computação",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software."
+  },
+  {
+    "id": "matematica",
+    "name": "Matemática",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
+  },
+  {
+    "id": "computacao_grafica",
+    "name": "Computação Gráfica",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-cubes",
+    "description": "Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional."
+  },
+  {
+    "id": "embarcados",
+    "name": "Embarcados",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-microchip",
+    "description": "Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos."
+  },
+  {
+    "id": "desenvolvimento_web",
+    "name": "Desenvolvimento Web",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-code",
+    "description": "Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino."
+  },
+    {
+    "id": "ciencia_de_dados",
+    "name": "Ciência de Dados",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-database",
+    "description": "Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
+  },
+  {
+    "id": "cybersecurity",
+    "name": "CyberSecurity",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-shield-alt",
+    "description": "Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança."
+  },
+  {
+    "id": "devops",
+    "name": "DevOps",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-server",
+    "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
+  },
+    {
+    "id": "computer-science",
+    "name": "Computer Science",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
+  },
+  {
+  "id": "math",
+  "name": "Math",
+  "discipline_count": 28,
+  "category": "Mathematics",
+  "icon": "fa-square-root-alt",
+  "level": "graduacao",
+  "type": "bacharelado",
+  "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+}
+]

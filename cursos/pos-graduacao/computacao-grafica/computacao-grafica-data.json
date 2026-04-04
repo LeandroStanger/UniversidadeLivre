@@ -1,0 +1,133 @@
+{
+  "name": "Computação Gráfica",
+  "type": "Pós-graduação",
+  "icon": "fa-cubes",
+  "description": "Pós-graduação em Computação Gráfica: fundamentos e técnicas avançadas de renderização, modelagem, visualização, pipeline gráfico, GPU, OpenGL, shaders e ray tracing. Curso prático com integração a plataformas externas.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Técnicas de estudo, organização e aprendizagem",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Fundamentos",
+      "disciplines": [
+        {
+          "name": "Pixar in a Box",
+          "type": "external",
+          "time": "39 min",
+          "externalUrl": "https://pt.khanacademy.org/partner-content/pixar-latam",
+          "platformName": "Khan Academy",
+          "videoIds": []
+        },
+        {
+          "name": "Essence of Linear Algebra",
+          "videoIds": [
+            "fNk_zzaMoSs", "k7RM-ot2NWY", "kYB8IZa5AuE", "XkY2DOUCWMU", "rHLEWRxRGiM",
+            "Ip3X9LOh2dk", "uQhTuRlWMxw", "v8VSDg_WQlA", "LyGKycYT2v0", "eu6i7WJeinw",
+            "BaM7OCEm3G0", "jBsC34PxzoM", "P2LTAUO1TdA", "PFDu9oVAE-g", "e50Bj7jn9IQ",
+            "TgKwz5Ikpc8"
+          ]
+        },
+        {
+          "name": "Programação em Julia",
+          "videoIds": [
+            "Tj0CUAyxjck", "x2vSipeVjBw", "is4Rfubv0-o", "DnUDdonY724", "xlSa2Ry6TvQ",
+            "EtT6yrxnUYU", "qOH3NiznnxA", "wbQxUdKx31E", "JhSd_MeZhPM", "r0_vOeP_Yew",
+            "QO1-3rdoh2g", "Fjpc_z5XC_o", "07ZqqCaA9Y0", "iFn4fgHcQJo", "M0yhpFtj_XA",
+            "I_DZ3kyutWE", "NdpmmxDagpM", "Sh9HBL14df8", "TXoopIWFHUU", "DBCHoKd2bn0",
+            "FOVK3Aqslpg", "c_1ldsKm92o", "H2NTHeq3E3Q", "kuq6lKtS60c", "FL-m5TLyR2k",
+            "1CMT4aStXiE", "kyEdzHvswyQ", "mFJCNkCbKWs", "AueVtmvSRuY", "cQoMbgukPOg",
+            "E-vz6eHNFJM", "LlNaI6upK94"
+          ]
+        },
+        {
+          "name": "Tópicos de Computação Gráfica",
+          "videoIds": [
+            "LlNaI6upK94", "KxOEEDFZPIs", "y9beDEOk3bM", "MtPx1d2E05E", "E8PJDhwy_RI",
+            "dupUXsBKH74", "v_FKh3oFaZE", "Kqgo4oehrp0"
+          ]
+        },
+        {
+          "name": "Conceitos Básicos de Computação Gráfica",
+          "videoIds": [
+            "u40Opm9TZxU", "py6JntVZKFI", "-un0VLEUfwA", "nxCSbU2vF6g", "QYaeloxRXeU",
+            "iSILNAS2pJE", "G-OTs6PWTGU", "jYVDRGT9v_8", "KEoGIb5PD_4", "BjJU887R7oc",
+            "JBDZgZkRqaI", "6EZLePdkzp4", "sWHAT2hKRw0", "CkgUwuMOb1w", "7hwhLeAnhJ8",
+            "we6EW2-DAho", "Ra9I2VwJV8E", "LQEej8SS0U4", "3nbP8Etwt-U", "TBjddUA1_Qo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Aprofundamento",
+      "disciplines": [
+        {
+          "name": "Processamento de Imagens",
+          "videoIds": [
+            "Bd0PCypQ44s", "QEH10puhBXY", "zbo57u_VH-s", "FsRkyGOoxv8", "W_anAt95N2k",
+            "R2H4lYELnQk", "aZE5vRcoRMo", "AZBuvsczQXg", "93DYtp7-jUg", "mzxh-tnIaG0",
+            "m5MUp1VzW-A", "cD3WiOaQPLk", "u9GHTmiy5kA", "fca_89K7eUA", "eDvn29QBbzs",
+            "0qRwYjxodCw", "A_icsKwwqvY", "NHQqqG9MCH4", "FHSg3d6vqOU", "GSY6AaqcPGw",
+            "e7-VIfcv-Rg", "nJMikyjuTXE", "s-ZanVzO33o", "P9Fq-WrD1zg", "XLIh_ABXMWE",
+            "t28SQhuoJcM", "jVOiCFDtxp4", "gDFgFQC6Ko8", "0dwwRfC36N0", "aMoXSVDgd_g"
+          ]
+        },
+        {
+          "name": "Processamento de Imagens em Python",
+          "videoIds": [
+            "T9V_axU6jU8", "kb8S06dpZiM", "_3VcRHwZpPU", "0twXh_AMJKQ", "YQB9hXRfnSk",
+            "IgQfpMPblR0", "uHT4qDzq1bY", "6PMHKXXhRXc", "l204_L-IiI4", "TsdPlaxx9B0",
+            "E8PJDhwy_RI", "x78FpxMF-eY", "tj9YO90bFbE"
+          ]
+        },
+        {
+          "name": "Programação em C++",
+          "videoIds": [
+            "jes0Z6i-3DA", "OobsgkdgrTM", "SXiumPyfz00", "BwCkoUu2bI8", "otO94WJjH_M",
+            "fLhrfY02m-Y", "INsnnq0kYk8", "_h5m5oYpvjA", "DjCNT4ZL4z8", "-n_3jSptu5w",
+            "mboaJDbhJw8", "JDS3n5xcVVM", "fjl1isxAcrA", "UCl5xNxpJ2w", "-AHF7VqA7X8",
+            "pOg_dGmkabw", "yoTYbrPnZPg", "dSALezHTECU", "dNNnEqwPq7E", "N4cfP-Nr38U",
+            "XzLSMOHMpI8", "LTH3w2T9jio", "Jeox5IVz8bY", "SNRRQt1hCw8", "Iz4MjtwTrdA",
+            "VljGE8-OlYk", "htoDDVBE7Ps", "4o60YzB55Xk", "I3KqrSLun1o", "cgoZlWpfTe4",
+            "yWUbg0mWrns", "4p7t_XnXl0A", "RaFzzuCTG7o", "RNHGEGOFqwY", "aWL512jc73g",
+            "iL6AU8qbtlQ", "pXwoHgr___8", "b8sdBvOvm2s", "9hUvnamr2KI", "CwM1NouryCg",
+            "wt-x99es1NA", "U-Wbai7BK54", "rN0ZLlHEiEY", "rvmds9ljX0c", "baiOfG_2Cg8",
+            "uomIzHG3Zas", "qFTgLml4VCc", "-hd1EDtdErk", "AWOYZuSbP9w", "luwNkW-5UnQ",
+            "89CUAo08HBM", "5ZXz7EKaEUM", "LvC97f2JM70", "hpNRS9FKfh4", "MiwxxXg4bf0",
+            "NP-EuOxN3UU", "MFr8nsC3FI8", "mE7yFloGDCg", "E26VEFxGQls", "bB5KcEU8ghQ",
+            "gJjVJ2B_z6I", "Cqh8KqnviaU", "eojzHqtp6WU", "IoXVT9JF6kg", "sMnpB-7IMkc",
+            "PHNHTfLY9fI", "P4mpFKLIZ14", "onxesaVwICk", "WdFOpdqaHz0", "fzWb8Zn2HfA",
+            "j6MPgplkBKI", "xoYT82HH5Q0", "kTWE2G4oQ4g", "1YEmiGOn4Rg", "4juBdTcRkho",
+            "210TA3t8i0E", "Yezix_LI1kU", "gGpqRaQEiJE", "852x7ohoOUc", "U8Tk1miSq_4",
+            "yOC2XMP_3Mo", "a9bdUm7qgPU", "SeOO96GOuns", "pRbJGKlXJ4w", "0ci8CxrUMfI",
+            "_IebWYIJs_g", "iSA-jXStUQk", "IWibJB8L2Kw", "zXh2koAfc1w", "-4EVybsh6cE",
+            "nX1rnHTJCD8", "riy34lZt_uc", "FfJkM__US-k", "a9Z9-oP16NQ", "o8faaLyOUt0",
+            "Tnw9vcC80FI", "FDFIqQcGdaM"
+          ]
+        },
+        {
+          "name": "OpenGL C++ - Gráficos 3D",
+          "videoIds": [
+            "IejsKqJG9dM", "f3cVb1kD9YY", "FwOw70_2UAc", "VXtROZCAOXU", "VXx2Lhn7eMU",
+            "XjjTuqtFjiQ", "f_e9_gcyHx0", "JH6_dKjfW5Q", "9qzqvR5rJKc", "SMITfw1x_Hw",
+            "cMVmvlb08lM", "mW_LO1wMS3c", "NN_drGR8A04", "CTpnk2qdLdo", "6atBuWFnoUg",
+            "AKz52bZb-9I", "mCkFZDm-AZs", "7jpYmJMmRio", "3RMQWKpkyAs", "I81zVfhgZ0o",
+            "xEy7FdECoyg", "CG0eXhZAcrM", "_mQCDif2ksI", "Xsu5tDsY65I", "wid2E30vifQ",
+            "axr3t6aixjw", "IFv4zPlYuQg", "V9ryjR44Y8Q", "Za4ghaBaCec", "d_zGZdRjZyg"
+          ]
+        }
+      ]
+    }
+  ]
+}

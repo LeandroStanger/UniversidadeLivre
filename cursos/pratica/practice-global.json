@@ -1,0 +1,236 @@
+{
+  "intro": {
+    "pt-br": "As ferramentas abaixo ajudam a acelerar seu aprendizado com exercícios e trilhas, mas o que mais fortalece seu portfólio e empregabilidade é criar projetos próprios que resolvam problemas reais.",
+    "en": "The tools below help accelerate your learning with exercises and tracks, but what truly strengthens your portfolio and employability is creating your own projects that solve real problems."
+  },
+  "platforms": [
+    {
+      "titulo": {
+        "pt-br": "freeCodeCamp",
+        "en": "freeCodeCamp"
+      },
+      "descricao": {
+        "pt-br": "Trilhas com projetos práticos de Web, JS, APIs e dados para montar portfólio.",
+        "en": "Tracks with hands‑on projects in Web, JS, APIs, and data to build your portfolio."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=freeCodeCamp",
+      "link": "https://www.freecodecamp.org/learn"
+    },
+    {
+      "titulo": {
+        "pt-br": "Exercism",
+        "en": "Exercism"
+      },
+      "descricao": {
+        "pt-br": "Exercícios em dezenas de linguagens com mentoria e CLI para feedback estruturado.",
+        "en": "Exercises in dozens of languages with mentorship and CLI for structured feedback."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Exercism",
+      "link": "https://exercism.org/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Kaggle",
+        "en": "Kaggle"
+      },
+      "descricao": {
+        "pt-br": "Projetos práticos de Data Science e IA. Oferece cursos, competições e notebooks interativos com Python e SQL.",
+        "en": "Hands‑on Data Science and AI projects. Offers courses, competitions, and interactive notebooks with Python and SQL."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Kaggle",
+      "link": "https://www.kaggle.com/learn"
+    },
+    {
+      "titulo": {
+        "pt-br": "HackerRank",
+        "en": "HackerRank"
+      },
+      "descricao": {
+        "pt-br": "Preparação para entrevistas técnicas. Focado em desafios de algoritmos, estruturas de dados e diversas linguagens como Java e SQL.",
+        "en": "Preparation for technical interviews. Focused on algorithm challenges, data structures, and multiple languages including Java and SQL."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=HackerRank",
+      "link": "https://www.hackerrank.com/"
+    },
+    {
+      "titulo": {
+        "pt-br": "LeetCode",
+        "en": "LeetCode"
+      },
+      "descricao": {
+        "pt-br": "Treinamento intensivo para entrevistas de emprego em big techs. Oferece um vasto banco de problemas, planos de estudo e discussões em fóruns.",
+        "en": "Intensive training for job interviews at big tech companies. Offers a vast problem bank, study plans, and forum discussions."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=LeetCode",
+      "link": "https://leetcode.com/"
+    },
+    {
+      "titulo": {
+        "pt-br": "SadServers",
+        "en": "SadServers"
+      },
+      "descricao": {
+        "pt-br": "Solução de problemas em servidores Linux. Simula cenários reais de erros para praticar administração de sistemas, infraestrutura e análise de logs.",
+        "en": "Troubleshooting Linux servers. Simulates real‑world error scenarios to practice system administration, infrastructure, and log analysis."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=SadServers",
+      "link": "https://sadservers.com/"
+    },
+    {
+      "titulo": {
+        "pt-br": "SQLZoo",
+        "en": "SQLZoo"
+      },
+      "descricao": {
+        "pt-br": "Exercícios progressivos de SQL direto no navegador, ideais para fixar consultas e joins.",
+        "en": "Progressive SQL exercises directly in the browser, ideal for mastering queries and joins."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=SQLZoo",
+      "link": "https://sqlzoo.net/"
+    },
+    {
+      "titulo": {
+        "pt-br": "GeoGebra",
+        "en": "GeoGebra"
+      },
+      "descricao": {
+        "pt-br": "Ferramenta matemática interativa para geometria, álgebra, cálculo e estatística. Ideal para visualizar conceitos e criar construções dinâmicas.",
+        "en": "Interactive mathematics tool for geometry, algebra, calculus, and statistics. Ideal for visualizing concepts and creating dynamic constructions."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=GeoGebra",
+      "link": "https://www.geogebra.org/classic"
+    },
+    {
+      "titulo": {
+        "pt-br": "PhET: Física",
+        "en": "PhET: Physics"
+      },
+      "descricao": {
+        "pt-br": "Simulações interativas gratuitas de física, desenvolvidas pela Universidade do Colorado. Explore fenômenos como movimento, energia, eletricidade e muito mais.",
+        "en": "Free interactive physics simulations developed by the University of Colorado. Explore phenomena like motion, energy, electricity, and more."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+F%C3%ADsica",
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=physics&type=html"
+    },
+    {
+      "titulo": {
+        "pt-br": "PhET: Matemática & Estatística",
+        "en": "PhET: Math & Statistics"
+      },
+      "descricao": {
+        "pt-br": "Simulações para visualizar conceitos matemáticos e estatísticos, desde frações até probabilidade e distribuições.",
+        "en": "Simulations to visualize mathematical and statistical concepts, from fractions to probability and distributions."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Matem%C3%A1tica",
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
+    },
+    {
+      "titulo": {
+        "pt-br": "PhET: Química",
+        "en": "PhET: Chemistry"
+      },
+      "descricao": {
+        "pt-br": "Simulações de química para entender reações, equilíbrio químico, estados da matéria e muito mais.",
+        "en": "Chemistry simulations to understand reactions, chemical equilibrium, states of matter, and more."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Qu%C3%ADmica",
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=chemistry&type=html"
+    },
+    {
+      "titulo": {
+        "pt-br": "PhET: Terra & Espaço",
+        "en": "PhET: Earth & Space"
+      },
+      "descricao": {
+        "pt-br": "Simulações sobre astronomia, clima, estações do ano e fenômenos terrestres.",
+        "en": "Simulations about astronomy, climate, seasons, and terrestrial phenomena."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Terra",
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
+    },
+    {
+      "titulo": {
+        "pt-br": "PhET: Biologia",
+        "en": "PhET: Biology"
+      },
+      "descricao": {
+        "pt-br": "Simulações de biologia para explorar genética, ecologia, evolução e processos biológicos.",
+        "en": "Biology simulations to explore genetics, ecology, evolution, and biological processes."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Biologia",
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=biology&type=html"
+    },
+    {
+      "titulo": {
+        "pt-br": "Calculadora Financeira HP 12C",
+        "en": "HP 12C Financial Calculator"
+      },
+      "descricao": {
+        "pt-br": "Calculadora financeira online para simular juros, amortizações, fluxo de caixa e matemática financeira.",
+        "en": "Online financial calculator to simulate interest, amortization, cash flow, and financial mathematics."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=HP+12C",
+      "link": "https://www.accountcontabilidade.com.br/hp12c/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Tinkercad Circuits",
+        "en": "Tinkercad Circuits"
+      },
+      "descricao": {
+        "pt-br": "Simulador online de circuitos eletrônicos e Arduino. Ideal para praticar eletrônica, programação de microcontroladores e prototipagem virtual.",
+        "en": "Online simulator for electronic circuits and Arduino. Ideal for practicing electronics, microcontroller programming, and virtual prototyping."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Tinkercad+Circuits",
+      "link": "https://www.tinkercad.com/circuits"
+    },
+    {
+      "titulo": {
+        "pt-br": "Michaelis - Dicionário Online",
+        "en": "Michaelis - Online Dictionary"
+      },
+      "descricao": {
+        "pt-br": "Dicionário de língua portuguesa com definições, sinônimos, exemplos e conjugação verbal. Ferramenta essencial para aprimorar a escrita e a interpretação.",
+        "en": "Portuguese language dictionary with definitions, synonyms, examples, and verb conjugation. Essential tool for improving writing and interpretation."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Michaelis",
+      "link": "https://michaelis.uol.com.br/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Infopédia - Dicionário Online",
+        "en": "Infopédia - Online Dictionary"
+      },
+      "descricao": {
+        "pt-br": "Dicionário de português da Porto Editora, com definições, etimologia, separação silábica e sinônimos. Ótimo para consultas rápidas e aprofundamento lexical.",
+        "en": "Portuguese dictionary by Porto Editora, with definitions, etymology, syllabic division, and synonyms. Great for quick reference and lexical deepening."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Infop%C3%A9dia",
+      "link": "https://www.infopedia.pt/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Paper Template Generator",
+        "en": "Paper Template Generator"
+      },
+      "descricao": {
+        "pt-br": "Ferramenta online para gerar templates de artigos acadêmicos nos formatos ABNT, IEEE ou ACM. Útil para estudantes e pesquisadores que precisam formatar trabalhos científicos.",
+        "en": "Online tool to generate academic paper templates in ABNT, IEEE, or ACM formats. Useful for students and researchers who need to format scientific papers."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Paper+Template",
+      "link": "https://nordnord.github.io/paper_template_generator/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Fullstack Open",
+        "en": "Fullstack Open"
+      },
+      "descricao": {
+        "pt-br": "Curso gratuito e aprofundado sobre desenvolvimento web moderno com React, Node.js, GraphQL, TypeScript e MongoDB. Oferece exercícios práticos e certificação.",
+        "en": "Free and in‑depth course on modern web development with React, Node.js, GraphQL, TypeScript, and MongoDB. Offers practical exercises and certification."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Fullstack+Open",
+      "link": "https://fullstackopen.com/ptbr/"
+    }
+  ]
+}

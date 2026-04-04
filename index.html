@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-i18n="app_title">Universidade Livre · Cursos de Graduação e Pós-graduação</title>
+    <meta name="description" content="Cursos de graduação em Ciência da Computação e Matemática, e pós-graduação em Computação Gráfica com estrutura progressiva, aulas organizadas e materiais de apoio.">
+    <meta name="theme-color" content="#0D1117">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
+    <link rel="stylesheet" href="cursos/course-intro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade">
+            <p>Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item"><i class="fas fa-clock"></i> <span id="totalTimeDisplay">0h 0m</span></div>
+            <div class="stat-item"><i class="fas fa-fire"></i> <span id="streakDisplay">0</span> <span data-i18n="streak_days">dias</span></div>
+            <div class="stat-item language-switch">
+                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
+                <span class="lang-sep">|</span>
+                <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <a href="biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span></a>
+        </div>
+    </div>
+
+    <div id="homeScreen" class="home-screen"></div>
+
+    <div id="courseView" class="course-view">
+        <button class="back-btn" id="backToHomeBtn" data-i18n="back_to_courses"><i class="fas fa-arrow-left"></i> Voltar para cursos</button>
+        <div class="main-layout">
+            <div class="video-column">
+                <div class="player-section">
+                    <div class="video-wrapper">
+                        <div id="youtube-player"></div>
+                        <div id="externalLessonContainer" style="display: none;" class="external-lesson-container"></div>
+                    </div>
+                    <div class="player-controls">
+                        <div class="ctrl-buttons">
+                            <button class="ctrl-btn" id="prevVideoBtn"><i class="fas fa-backward-step"></i></button>
+                            <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                            <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-title" id="currentVideoTitle"></span>
+                            <button class="mark-watched-btn" id="markWatchedBtn" data-i18n="mark_watched"><i class="fas fa-check"></i> Concluir Vídeo</button>
+                        </div>
+                    </div>
+                    <div class="video-progress-container">
+                        <div class="video-progress-bar" id="videoProgressBar"><div class="video-progress-fill" id="videoProgressFill"></div></div>
+                        <div class="video-time"><span id="videoCurrentTime">00:00</span><span id="videoDuration">00:00</span></div>
+                    </div>
+                </div>
+
+                <div class="lesson-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="bibliografia" data-i18n="tab_bibliography">Bibliografia</button>
+                        <button class="tab-btn" data-tab="pratica" id="practiceTabBtn" data-i18n="tab_practice">Prática</button>
+                        <button class="tab-btn" data-tab="team" data-i18n="tab_team">Time</button>
+                        <button class="tab-btn" data-tab="contributors" data-i18n="tab_contributors">Contribuidores</button>
+                        <button class="tab-btn" data-tab="license" data-i18n="tab_license">Licença do Curso</button>
+                    </div>
+                    <div class="tabs-content">
+                        <div id="bibliografia-tab" class="tab-content active">
+                            <div id="booksList" class="books-container"></div>
+                        </div>
+                        <div id="pratica-tab" class="tab-content">
+                            <div id="practiceContent" class="practice-container"></div>
+                        </div>
+                        <div id="team-tab" class="tab-content">
+                            <div id="team-grid" class="team-grid"></div>
+                        </div>
+                        <div id="contributors-tab" class="tab-content">
+                            <div id="contributors-grid" class="team-grid"></div>
+                        </div>
+                        <div id="license-tab" class="tab-content">
+                            <div id="license-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-sidebar">
+                <!-- CARD DE PROGRESSO AGORA FICA ACIMA DA AULA ATUAL -->
+                <div id="progressChartContainer" class="chart-container"></div>
+                
+                <div class="current-lesson-panel" id="currentLessonPanel">
+                    <button class="help-button" id="helpButton" style="display: none;" data-i18n="help_button" aria-label="Ajuda">Ajuda</button>
+                    <div class="panel-title" data-i18n="current_lesson"><i class="fas fa-play-circle"></i> Aula Atual</div>
+                    <div id="currentLessonPanelContent">Carregando...</div>
+                </div>
+                <div class="unified-content" id="unifiedCourseContent">
+                    <h3 data-i18n="course_content"><i class="fas fa-book-open"></i> Conteúdo do Curso</h3>
+                    <div id="unifiedContentList">Carregando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Ajuda -->
+<div id="helpModal" class="help-modal" role="dialog" aria-hidden="true" aria-label="Ajuda do curso">
+    <div class="help-modal-content">
+        <div class="help-modal-header">
+            <h2 id="helpModalTitle" data-i18n="help_modal_title">Ajuda - Ciência da Computação</h2>
+            <button class="close-help" aria-label="Fechar modal">&times;</button>
+        </div>
+        <div class="help-modal-body" id="helpContent"><p data-i18n="loading">Carregando...</p></div>
+    </div>
+</div>
+
+<!-- Modal de introdução do curso -->
+<div id="courseIntroModal" class="course-intro-modal" role="dialog" aria-hidden="true">
+    <div class="intro-modal-content">
+        <img class="intro-logo-large" src="" alt="Universidade Livre - Um caminho para a educação autodidata">
+        <div id="introContent"></div>
+        <div class="social-icons"></div>
+        <div class="intro-footer">
+            <label class="dont-show-again"><input type="checkbox" id="dontShowAgain"> <span data-i18n="intro_dont_show">Não mostrar novamente</span></label>
+            <button class="start-lesson-btn" id="startLessonBtn" data-i18n="intro_start">Começar aula agora</button>
+        </div>
+        <button class="close-intro" aria-label="Fechar">&times;</button>
+    </div>
+</div>
+
+<!-- Modal de conclusão final -->
+<div id="finalCompletionModal" class="final-completion-modal" role="dialog" aria-hidden="true">
+    <div class="final-modal-content">
+        <div class="final-modal-header">
+            <i class="fas fa-trophy"></i>
+            <h2 data-i18n="completion_congrats">Parabéns!</h2>
+            <button class="close-final-modal" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="final-modal-body">
+            <div class="final-completion-top-svg">
+                <svg width="260" height="100" viewBox="0 0 260 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="260" height="100" rx="20" fill="url(#grad)" />
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="32" font-weight="bold" font-family="Inter, sans-serif">PARABÉNS!</text>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="260" y2="100" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#2563EB"/>
+                            <stop offset="1" stop-color="#60A5FA"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div id="finalCompletionText" class="final-completion-text"></div>
+            <img id="finalCompletionImage" class="final-completion-image" 
+                 src="visual/completion-image.png" alt="Curso concluído" 
+                 onerror="this.src='https://placehold.co/400x200/1F2933/9CA3AF?text=Curso+Concluído'">
+        </div>
+        <div class="final-modal-footer">
+            <button id="btnFinalGoHome" class="final-go-home-btn" data-i18n="completion_go_graduation">Ir para Graduação</button>
+        </div>
+    </div>
+</div>
+
+<!-- Container para notificações temporárias -->
+<div id="notificationContainer" style="position: fixed; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; min-width: 320px; max-width: 420px;"></div>
+
+<!-- Modal para detalhes do livro -->
+<div id="bookDetailModal" class="book-modal" role="dialog" aria-hidden="true">
+    <div class="modal-content"><div id="bookDetailContent"></div></div>
+</div>
+
+<!-- Scripts -->
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="cursos/cursor-timeset.js"></script>
+<script src="script.js"></script>
+<script src="cursos/ajuda/help-modal.js"></script>
+<script src="cursos/course-intro.js"></script>
+<script src="cursos/final-completion.js"></script>
+</body>
+</html>

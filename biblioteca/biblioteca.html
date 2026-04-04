@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-i18n="library_title">Biblioteca · Universidade Livre</title>
+    <meta name="description" content="Biblioteca digital com livros gratuitos para desenvolvimento de software, computação e carreira.">
+    <meta name="theme-color" content="#0D1117">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="biblioteca.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade">
+            <p data-i18n="library_subtitle">Biblioteca Digital</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item"><i class="fas fa-book"></i> <span id="bookCount">0</span> <span data-i18n="library_book_count">livros</span></div>
+            <div class="stat-item language-switch">
+                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
+                <span class="lang-sep">|</span>
+                <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <a href="../index.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-left"></i> <span data-i18n="back_to_courses">Voltar para cursos</span></a>
+        </div>
+    </div>
+
+    <div class="library-header">
+        <a href="../index.html" class="back-to-course" target="_blank" rel="noopener noreferrer"><i class="fas fa-arrow-left"></i> <span data-i18n="back_to_courses">Voltar para cursos</span></a>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" data-i18n="search_library_placeholder" placeholder="Buscar por título, autor, idioma ou assunto...">
+    </div>
+    <div id="booksGrid" class="book-grid"></div>
+</div>
+
+<div id="bookModal" class="book-modal">
+    <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script src="biblioteca.js"></script>
+</body>
+</html>
