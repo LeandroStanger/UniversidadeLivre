@@ -109,7 +109,7 @@
         "pt-br": "Simulações interativas gratuitas de física, desenvolvidas pela Universidade do Colorado. Explore fenômenos como movimento, energia, eletricidade e muito mais.",
         "en": "Free interactive physics simulations developed by the University of Colorado. Explore phenomena like motion, energy, electricity, and more."
       },
-      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+F%C3%ADsica",
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+F%C3%ADsica",
       "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=physics&type=html"
     },
     {
@@ -121,7 +121,7 @@
         "pt-br": "Simulações para visualizar conceitos matemáticos e estatísticos, desde frações até probabilidade e distribuições.",
         "en": "Simulations to visualize mathematical and statistical concepts, from fractions to probability and distributions."
       },
-      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Matem%C3%A1tica",
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Matem%C3%A1tica",
       "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
     },
     {
@@ -133,7 +133,7 @@
         "pt-br": "Simulações de química para entender reações, equilíbrio químico, estados da matéria e muito mais.",
         "en": "Chemistry simulations to understand reactions, chemical equilibrium, states of matter, and more."
       },
-      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Qu%C3%ADmica",
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Qu%C3%ADmica",
       "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=chemistry&type=html"
     },
     {
@@ -145,7 +145,7 @@
         "pt-br": "Simulações sobre astronomia, clima, estações do ano e fenômenos terrestres.",
         "en": "Simulations about astronomy, climate, seasons, and terrestrial phenomena."
       },
-      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Terra",
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Terra",
       "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
     },
     {
@@ -157,7 +157,7 @@
         "pt-br": "Simulações de biologia para explorar genética, ecologia, evolução e processos biológicos.",
         "en": "Biology simulations to explore genetics, ecology, evolution, and biological processes."
       },
-      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET+Biologia",
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Biologia",
       "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=biology&type=html"
     },
     {
