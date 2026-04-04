@@ -90,5 +90,13 @@
   "lang_spanish": "Spanish",
   "filter_subject": "Subject",
   "filter_language": "Language",
-  "progress_percent": "{{percent}}% completed"
+  "progress_percent": "{{percent}}% completed",
+  "graduacao": "Undergraduate",
+  "bacharelado": "Bachelor's Degree",
+  "pos_graduacao": "Postgraduate",
+  "licenciatura": "Licentiate",
+  "tecnologo": "Technologist",
+  "mestrado": "Master's Degree",
+  "doutorado": "Doctorate",
+  "especializacao": "Specialization"
 }

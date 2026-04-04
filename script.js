@@ -1,4 +1,4 @@
-// script.js – versão final com card de progresso acima da aula atual e aba Prática sempre visível
+// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset e i18n nas badges
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('[Main] CursorTimeset inicializado com sucesso');
     } else {
         console.error('[Main] CursorTimeset não disponível – verifique se cursos/cursor-timeset.js foi carregado');
+    }
+
+    // ========== TIMESET (TIMESTAMP) ==========
+    function generateTimeSet() {
+        return new Date().toISOString(); // Formato ISO 8601
     }
 
     // ========== SISTEMA DE IDIOMA (i18n) ==========
@@ -62,7 +67,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "access_online": "Acessar Online",
                 "lang_english": "Inglês",
                 "lang_portuguese": "Português",
-                "lang_spanish": "Espanhol"
+                "lang_spanish": "Espanhol",
+                "graduacao": "Graduação",
+                "bacharelado": "Bacharelado",
+                "pos_graduacao": "Pós-Graduação",
+                "licenciatura": "Licenciatura",
+                "tecnologo": "Tecnólogo",
+                "mestrado": "Mestrado",
+                "doutorado": "Doutorado",
+                "especializacao": "Especialização"
             };
             console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
             return false;
@@ -667,7 +680,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     function saveAllProgress() {
         if (!currentCourse) return;
         const watchedMap = allVideosFlat.map(v => v.watched);
-        localStorage.setItem(`ulivre_course_${currentCourse}`, JSON.stringify({ watchedMap, currentLessonId, currentVideoInLesson }));
+        let savedData = localStorage.getItem(`ulivre_course_${currentCourse}`);
+        let existing = savedData ? JSON.parse(savedData) : {};
+        
+        const now = generateTimeSet();
+        const timeCreated = existing.time_created || now;
+        const timeUpdated = now;
+        
+        const newData = {
+            watchedMap,
+            currentLessonId,
+            currentVideoInLesson,
+            time_created: timeCreated,
+            time_updated: timeUpdated
+        };
+        
+        localStorage.setItem(`ulivre_course_${currentCourse}`, JSON.stringify(newData));
         updateGlobalStats();
         updatePracticeTabVisibility();
         if (typeof renderProgressChart === 'function') renderProgressChart();
@@ -1428,17 +1456,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.dataset.course = course.id;
                 const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
                 
-                // Badges originais (sem degree-info extra)
+                // Badges com tradução dinâmica
                 let levelText = '';
                 let typeText = '';
-                if (course.courseLevel === 'graduacao') levelText = 'Graduação';
-                else if (course.courseLevel === 'pos-graduacao') levelText = 'Pós-Graduação';
-                if (course.courseType === 'bacharelado') typeText = 'Bacharelado';
-                else if (course.courseType === 'licenciatura') typeText = 'Licenciatura';
-                else if (course.courseType === 'tecnologo') typeText = 'Tecnólogo';
+                if (course.courseLevel === 'graduacao') levelText = t('graduacao');
+                else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
+
+                if (course.courseType === 'bacharelado') typeText = t('bacharelado');
+                else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
+                else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
                 
-                const levelBadge = levelText ? `<span class="badge badge-course-level">${levelText}</span>` : '';
-                const typeBadge = typeText ? `<span class="badge badge-course-type">${typeText}</span>` : '';
+                const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
+                const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
                 
                 const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
                 const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
