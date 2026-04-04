@@ -1,4 +1,4 @@
-// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset e i18n nas badges
+// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset, i18n nas badges e detecção automática de idioma
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -20,6 +20,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========== SISTEMA DE IDIOMA (i18n) ==========
     let currentLang = 'pt-br';
     let translations = {};
+
+    // ========== DETECÇÃO AUTOMÁTICA DE IDIOMA DO SISTEMA/NAVEGADOR ==========
+    function detectSystemLanguage() {
+        // Obtém o idioma do navegador (primeiro da lista ou o principal)
+        const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
+        console.log('[Language Detection] Idioma detectado no navegador:', browserLang);
+        
+        // Verifica se começa com "pt" (Português)
+        if (browserLang.startsWith('pt')) {
+            console.log('[Language Detection] Mapeado para: pt-br');
+            return 'pt-br';
+        }
+        // Verifica se começa com "en" (Inglês)
+        if (browserLang.startsWith('en')) {
+            console.log('[Language Detection] Mapeado para: en');
+            return 'en';
+        }
+        // Qualquer outro idioma: padrão Inglês
+        console.log('[Language Detection] Idioma não suportado, usando padrão: en');
+        return 'en';
+    }
 
     async function loadTranslations(lang) {
         console.log(`[i18n] Carregando traduções para: ${lang}`);
@@ -75,7 +96,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "tecnologo": "Tecnólogo",
                 "mestrado": "Mestrado",
                 "doutorado": "Doutorado",
-                "especializacao": "Especialização"
+                "especializacao": "Especialização",
+                "donate_button": "Doar",
+                "donate_text": "Doar",
+                "main_program_description": "Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação"
             };
             console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
             return false;
@@ -664,14 +688,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const practiceTab = document.getElementById('practiceTabBtn');
         if (!practiceTab) return;
         
-        // Garante que o botão esteja sempre visível
         if (practiceTab.style.display !== 'inline-flex') {
             console.log('[Prática] Garantindo que a aba Prática esteja visível');
             practiceTab.style.display = 'inline-flex';
         }
         
-        // Opcional: ainda podemos usar o progresso para carregar conteúdo antecipadamente,
-        // mas não ocultamos mais a aba.
         if (currentCourse && !currentPracticeData && activeTab === 'pratica') {
             loadPracticeContent(currentCourse);
         }
@@ -1130,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         applyTranslations();
     }
 
-    // ========== ABA PRÁTICA (com suporte a i18n e fallback) ==========
+    // ========== ABA PRÁTICA ==========
     async function loadPracticeContent(courseId) {
         if (activeTab !== 'pratica') return;
         const container = document.getElementById('practiceContent');
@@ -1355,7 +1376,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         else window._startLessonScheduled = true;
     }
 
-    // ========== GRÁFICO DE PROGRESSO (container separado) ==========
+    // ========== GRÁFICO DE PROGRESSO ==========
     function renderProgressChart() {
         const chartContainer = document.getElementById('progressChartContainer');
         if (!chartContainer) return;
@@ -1393,7 +1414,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.CursorTimeset) {
             window.CursorTimeset.registerGraduationEntry(courseId);
         }
-        // Garantir que a aba Prática esteja visível desde o início
         if (practiceTabButton) practiceTabButton.style.display = 'inline-flex';
         if (practiceTabContent) practiceTabContent.style.display = 'block';
         const currentLesson = lessons[currentLessonId];
@@ -1456,7 +1476,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.dataset.course = course.id;
                 const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
                 
-                // Badges com tradução dinâmica
                 let levelText = '';
                 let typeText = '';
                 if (course.courseLevel === 'graduacao') levelText = t('graduacao');
@@ -1509,14 +1528,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // ========== INICIALIZAÇÃO ==========
-    const savedLang = localStorage.getItem('selectedLanguage') || 'pt-br';
-    console.log('[Main] Idioma inicial:', savedLang);
-    await setLanguage(savedLang);
+    // ========== INICIALIZAÇÃO COM DETECÇÃO AUTOMÁTICA DE IDIOMA ==========
+    // 1. Verifica se existe idioma salvo no localStorage
+    const savedLang = localStorage.getItem('selectedLanguage');
+    let initialLang;
+    
+    if (savedLang) {
+        // Usa o idioma salvo (preferência do usuário)
+        initialLang = savedLang;
+        console.log('[Main] Idioma carregado do localStorage:', initialLang);
+    } else {
+        // Detecta idioma do sistema/navegador
+        initialLang = detectSystemLanguage();
+        console.log('[Main] Idioma detectado automaticamente:', initialLang);
+        // Salva a detecção para futuras sessões (opcional, mas desejável)
+        localStorage.setItem('selectedLanguage', initialLang);
+    }
+    
+    // Garante que o código do idioma esteja no formato esperado pelo sistema (pt-br ou en)
+    if (initialLang !== 'pt-br' && initialLang !== 'en') {
+        initialLang = 'en';
+        console.log('[Main] Idioma inválido, usando padrão: en');
+    }
+    
+    console.log('[Main] Idioma final para inicialização:', initialLang);
+    await setLanguage(initialLang);
+    
     if (Object.keys(translations).length === 0) {
         console.warn('[i18n] Traduções não carregadas, tentando novamente...');
-        await setLanguage(savedLang);
+        await setLanguage(initialLang);
     }
+    
     renderCourseCards();
     applyTranslations();
 
