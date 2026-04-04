@@ -98,5 +98,7 @@
   "tecnologo": "Technologist",
   "mestrado": "Master's Degree",
   "doutorado": "Doctorate",
-  "especializacao": "Specialization"
+  "especializacao": "Specialization",
+  "donate_button": "Donate",
+  "donate_text": "Donate"
 }

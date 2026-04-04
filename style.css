@@ -1251,6 +1251,86 @@ body {
     font-size: 0.75rem;
 }
 
+/* ========== DEGREE INFO NOS CARDS ========== */
+.degree-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0.25rem 0 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+}
+.degree-type {
+    font-weight: 600;
+    color: var(--accent-green);
+}
+.degree-level {
+    font-weight: 500;
+}
+.degree-sep {
+    color: var(--text-secondary);
+    margin: 0 0.2rem;
+}
+
+/* ========== BOTÃO DE DOAÇÃO ========== */
+.donate-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f97316;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.donate-button i {
+    font-size: 0.9rem;
+}
+
+.donate-button:hover {
+    background: #ea580c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.donate-button:active {
+    transform: scale(0.98);
+}
+
+/* Ajuste responsivo para telas pequenas */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        gap: 6px;
+    }
+    .donate-button i {
+        font-size: 0.8rem;
+    }
+}
+
+/* Garantir que o botão não quebre no header em telas muito pequenas */
+@media (max-width: 600px) {
+    .stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    .donate-button {
+        order: 3;
+    }
+    .btn-biblioteca {
+        order: 4;
+    }
+}
+
 /* ========== MEDIA QUERIES ========== */
 @media (max-width: 768px) {
     .book-card {
