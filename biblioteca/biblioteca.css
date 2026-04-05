@@ -76,6 +76,32 @@
     color: var(--text-secondary);
     margin: 0.2rem 0;
 }
+.mini-provider {
+    font-size: 0.7rem;
+    color: var(--accent-green);
+    margin-top: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+.mini-type {
+    font-size: 0.65rem;
+    background: var(--accent-blue);
+    color: white;
+    padding: 0.1rem 0.4rem;
+    border-radius: 20px;
+    margin-left: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+.loading-skeleton {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
 
 /* Modal */
 .book-modal {
@@ -149,6 +175,7 @@
     display: flex;
     gap: 0.8rem;
     margin-top: 1rem;
+    flex-wrap: wrap;
 }
 .download-btn,
 .repo-btn {
@@ -191,5 +218,8 @@
     .modal-cover {
         width: 110px;
         height: 160px;
+    }
+    .mini-provider {
+        font-size: 0.65rem;
     }
 }
