@@ -1,7 +1,9 @@
-/* biblioteca.css – estilo moderno para biblioteca */
+/* biblioteca.css – versão moderna com loading spinner, skeleton, estados visuais claros e responsividade */
+
 .library-header {
     margin-bottom: 1rem;
 }
+
 .back-to-course {
     display: inline-block;
     margin-bottom: 0.5rem;
@@ -9,15 +11,19 @@
     text-decoration: none;
     font-size: 0.9rem;
 }
+
 .back-to-course i {
     margin-right: 0.5rem;
 }
+
 .back-to-course:hover {
     text-decoration: underline;
 }
+
 .search-bar {
     margin-bottom: 1.5rem;
 }
+
 .search-bar input {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -26,32 +32,39 @@
     border-radius: 2rem;
     color: var(--text-primary);
     font-size: 0.9rem;
+    transition: all 0.2s;
 }
+
 .search-bar input:focus {
     outline: none;
     border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
+/* Grid de resultados */
 .book-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
 }
+
+/* Cards de livros/itens */
 .book-mini-card {
     background: var(--bg-tertiary);
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
-    text-align: center;
     padding: 0.75rem;
     border: 1px solid var(--border);
 }
+
 .book-mini-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     border-color: var(--accent-blue);
 }
+
 .mini-cover {
     width: 100%;
     aspect-ratio: 3 / 4;
@@ -60,6 +73,7 @@
     margin-bottom: 0.5rem;
     background: var(--bg-primary);
 }
+
 .mini-title {
     font-size: 0.9rem;
     font-weight: 600;
@@ -70,40 +84,66 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
 .mini-author,
 .mini-year {
     font-size: 0.75rem;
     color: var(--text-secondary);
     margin: 0.2rem 0;
 }
-.mini-provider {
+
+.mini-type-tag {
     font-size: 0.7rem;
-    color: var(--accent-green);
-    margin-top: 0.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-}
-.mini-type {
-    font-size: 0.65rem;
-    background: var(--accent-blue);
-    color: white;
-    padding: 0.1rem 0.4rem;
+    background: var(--bg-secondary);
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
     border-radius: 20px;
-    margin-left: 0.4rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
+    margin-top: 0.3rem;
+    color: var(--accent-blue);
 }
+
+/* Loading spinner e skeleton */
 .loading-skeleton {
     text-align: center;
     padding: 2rem;
     color: var(--text-secondary);
 }
 
-/* Modal */
+.spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 1rem;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Estados vazio e erro */
+.empty-state,
+.error-state {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+}
+
+.error-state {
+    color: #f87171;
+}
+
+/* Modal de detalhes */
 .book-modal {
     position: fixed;
     top: 0;
@@ -117,6 +157,7 @@
     z-index: 1000;
     padding: 1rem;
 }
+
 .modal-content {
     background: var(--bg-secondary);
     border-radius: 20px;
@@ -127,6 +168,7 @@
     position: relative;
     padding: 1.5rem;
 }
+
 .close-modal {
     position: absolute;
     top: 0.8rem;
@@ -138,47 +180,49 @@
     color: var(--text-secondary);
     transition: color 0.2s;
 }
+
 .close-modal:hover {
     color: var(--text-primary);
 }
-#modalBody, #bookDetailContent {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
+
 .modal-cover {
     width: 140px;
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
+
 .modal-details {
     flex: 1;
     min-width: 200px;
 }
+
 .modal-details h2 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
+
 .modal-details p {
     font-size: 0.9rem;
     margin: 0.3rem 0;
     color: var(--text-secondary);
 }
-.modal-details .modal-description {
+
+.modal-description {
     margin: 0.8rem 0;
     line-height: 1.5;
     color: var(--text-primary);
 }
+
 .modal-actions {
     display: flex;
     gap: 0.8rem;
     margin-top: 1rem;
     flex-wrap: wrap;
 }
-.download-btn,
-.repo-btn {
+
+.download-btn {
     display: inline-block;
     background: var(--accent-blue);
     color: white;
@@ -188,38 +232,69 @@
     font-size: 0.8rem;
     transition: opacity 0.2s;
 }
-.repo-btn {
-    background: #2ea043;
-}
-.download-btn:hover,
-.repo-btn:hover {
+
+.download-btn:hover {
     opacity: 0.9;
 }
 
-/* Destaque temporário para livro vindo da bibliografia */
-.book-mini-card.highlight {
-    transition: background 0.3s;
-    background-color: var(--accent-blue);
-}
-
-@media (max-width: 600px) {
+/* Responsividade para tablets e celulares */
+@media (max-width: 768px) {
     .book-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 1rem;
     }
+
     .modal-content {
         padding: 1rem;
     }
-    #modalBody, #bookDetailContent {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+
     .modal-cover {
         width: 110px;
         height: 160px;
     }
-    .mini-provider {
+
+    .modal-details h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+    }
+
+    .book-mini-card {
+        padding: 0.5rem;
+    }
+
+    .mini-title {
+        font-size: 0.8rem;
+    }
+
+    .mini-author,
+    .mini-year {
+        font-size: 0.7rem;
+    }
+
+    .mini-type-tag {
         font-size: 0.65rem;
+    }
+
+    #modalBody > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .modal-cover {
+        width: 100px;
+        height: 140px;
+    }
+
+    .empty-state,
+    .error-state {
+        padding: 2rem;
+        font-size: 1rem;
     }
 }
