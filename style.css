@@ -1,4 +1,4 @@
-/* style.css – versão completa com melhorias nos cards, modal refinado, botão dinâmico de repositório e responsividade */
+/* style.css – versão completa com suporte a carga horária nos cards e responsividade */
 
 * {
     margin: 0;
@@ -199,6 +199,33 @@ body {
     font-size: 1rem;
 }
 
+/* ========== CARGA HORÁRIA (WORKLOAD) ========== */
+.course-duration {
+    display: inline-block;
+    background: var(--bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-green);
+    margin: 0.5rem 0;
+    width: fit-content;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.course-duration i {
+    margin-right: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--accent-blue);
+}
+
+.course-card:hover .course-duration {
+    border-color: var(--accent-blue);
+    background: var(--bg-tertiary);
+}
+
+/* Progresso do curso */
 .course-progress-bar {
     height: 6px;
     background: var(--bg-secondary);
@@ -1536,57 +1563,20 @@ body {
     margin: 0.2rem 0;
 }
 
-/* ========== NOVO BOTÃO DE REPOSITÓRIO (dinâmico) ========== */
-.repo-button {
-    background: linear-gradient(135deg, #24292e, #1a1e22);
-    border: none;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
+.mini-publisher {
+    font-size: 0.7rem;
+    color: var(--accent-green);
+    margin: 0.2rem 0;
 }
 
-.repo-button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #1a1e22, #0d1117);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
-}
-
-.repo-button:active {
-    transform: scale(0.98);
-}
-
-/* ========== CORREÇÃO DE ALINHAMENTO DOS BOTÕES NO MODAL ========== */
-.modal-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.2rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.download-btn, .access-btn {
-    background: var(--accent-blue);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 40px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: opacity 0.2s;
-}
-
-.download-btn:hover, .access-btn:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
+.mini-type-tag {
+    font-size: 0.7rem;
+    background: var(--bg-secondary);
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    margin-top: 0.3rem;
+    color: var(--accent-blue);
 }
 
 /* ========== RESPONSIVIDADE ========== */
@@ -1667,6 +1657,10 @@ body {
     }
     .donate-button i {
         font-size: 0.8rem;
+    }
+    .course-duration {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
     }
 }
 

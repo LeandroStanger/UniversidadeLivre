@@ -231,6 +231,78 @@
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Fullstack+Open",
       "link": "https://fullstackopen.com/ptbr/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Microsoft Word Online",
+        "en": "Microsoft Word Online"
+      },
+      "descricao": {
+        "pt-br": "Editor de documentos gratuito da Microsoft, acessível diretamente do navegador. Ideal para criar relatórios, trabalhos acadêmicos e anotações.",
+        "en": "Free document editor from Microsoft, accessible directly from the browser. Ideal for creating reports, academic papers, and notes."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+Word",
+      "link": "https://word.cloud.microsoft.com/pt-br/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Microsoft Excel Online",
+        "en": "Microsoft Excel Online"
+      },
+      "descricao": {
+        "pt-br": "Planilhas online da Microsoft. Perfeito para cálculos, gráficos, análise de dados e controle financeiro.",
+        "en": "Online spreadsheets from Microsoft. Perfect for calculations, charts, data analysis, and financial control."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+Excel",
+      "link": "https://excel.cloud.microsoft.com/pt-br/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Microsoft PowerPoint Online",
+        "en": "Microsoft PowerPoint Online"
+      },
+      "descricao": {
+        "pt-br": "Crie apresentações de slides diretamente no navegador com as ferramentas da Microsoft.",
+        "en": "Create slide presentations directly in the browser with Microsoft tools."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+PowerPoint",
+      "link": "https://powerpoint.cloud.microsoft.com/pt-br/"
+    },
+    {
+      "titulo": {
+        "pt-br": "Google Docs",
+        "en": "Google Docs"
+      },
+      "descricao": {
+        "pt-br": "Editor de documentos colaborativo do Google. Permite criar e editar textos em tempo real com outras pessoas.",
+        "en": "Collaborative document editor from Google. Allows creating and editing texts in real time with others."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Docs",
+      "link": "https://docs.google.com/document"
+    },
+    {
+      "titulo": {
+        "pt-br": "Google Planilhas",
+        "en": "Google Sheets"
+      },
+      "descricao": {
+        "pt-br": "Planilhas online com suporte a colaboração em tempo real, fórmulas e integração com outros serviços Google.",
+        "en": "Online spreadsheets with real-time collaboration, formulas, and integration with other Google services."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Sheets",
+      "link": "https://docs.google.com/spreadsheets"
+    },
+    {
+      "titulo": {
+        "pt-br": "Google Apresentações",
+        "en": "Google Slides"
+      },
+      "descricao": {
+        "pt-br": "Ferramenta gratuita para criar apresentações de slides colaborativas, com templates e animações.",
+        "en": "Free tool to create collaborative slide presentations, with templates and animations."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Slides",
+      "link": "https://docs.google.com/presentation"
     }
   ]
 }

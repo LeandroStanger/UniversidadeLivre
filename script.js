@@ -1,4 +1,4 @@
-// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset, i18n nas badges e detecção automática de idioma
+// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset, i18n nas badges, detecção automática de idioma E CARGA HORÁRIA NOS CARDS
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -23,21 +23,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== DETECÇÃO AUTOMÁTICA DE IDIOMA DO SISTEMA/NAVEGADOR ==========
     function detectSystemLanguage() {
-        // Obtém o idioma do navegador (primeiro da lista ou o principal)
         const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
         console.log('[Language Detection] Idioma detectado no navegador:', browserLang);
-        
-        // Verifica se começa com "pt" (Português)
         if (browserLang.startsWith('pt')) {
             console.log('[Language Detection] Mapeado para: pt-br');
             return 'pt-br';
         }
-        // Verifica se começa com "en" (Inglês)
         if (browserLang.startsWith('en')) {
             console.log('[Language Detection] Mapeado para: en');
             return 'en';
         }
-        // Qualquer outro idioma: padrão Inglês
         console.log('[Language Detection] Idioma não suportado, usando padrão: en');
         return 'en';
     }
@@ -58,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('[i18n] Tentando carregar pt-br como fallback');
                 return loadTranslations('pt-br');
             }
-            // Fallback interno para evitar que o sistema quebre
             translations = {
                 "app_title": "Universidade Livre",
                 "tab_bibliography": "Bibliografia",
@@ -99,7 +93,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "especializacao": "Especialização",
                 "donate_button": "Doar",
                 "donate_text": "Doar",
-                "main_program_description": "Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação"
+                "main_program_description": "Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação",
+                "course_hours": "Carga horária"
             };
             console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
             return false;
@@ -112,7 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const hardcoded = {
                 'course_progress': 'Progresso:',
                 'continue_studies': 'Continuar Estudos',
-                'clause.progression': 'Progresso do Curso'
+                'clause.progression': 'Progresso do Curso',
+                'course_hours': 'Carga horária'
             };
             if (hardcoded[key]) text = hardcoded[key];
             else console.warn(`[i18n] Chave não encontrada: ${key}`);
@@ -146,7 +142,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         console.log('[i18n] Aplicando traduções aos elementos estáticos e dinâmicos');
-        
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (key && translations[key]) {
@@ -167,7 +162,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         });
-        
         document.querySelectorAll('[data-i18n-title]').forEach(el => {
             const key = el.getAttribute('data-i18n-title');
             if (key && translations[key]) el.setAttribute('title', translations[key]);
@@ -176,7 +170,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const key = el.getAttribute('data-i18n-placeholder');
             if (key && translations[key]) el.setAttribute('placeholder', translations[key]);
         });
-        
         document.querySelectorAll('.tab-btn').forEach(btn => {
             const tabId = btn.getAttribute('data-tab');
             if (tabId === 'bibliografia') btn.innerText = t('tab_bibliography');
@@ -185,7 +178,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             else if (tabId === 'contributors') btn.innerText = t('tab_contributors');
             else if (tabId === 'license') btn.innerText = t('tab_license');
         });
-        
         const backBtn = document.getElementById('backToHomeBtn');
         if (backBtn && !backBtn.hasAttribute('data-i18n')) {
             backBtn.innerHTML = `<i class="fas fa-arrow-left"></i> ${t('back_to_courses')}`;
@@ -226,12 +218,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem('selectedLanguage', lang);
             applyTranslations();
             updateLanguageSelector(lang);
-            
             if (typeof currentCourse !== 'undefined' && currentCourse) {
                 console.log('[i18n] Recarregando conteúdos dinâmicos do curso');
                 if (typeof renderCurrentLessonPanel === 'function') renderCurrentLessonPanel();
                 if (typeof renderUnifiedCourseContent === 'function') renderUnifiedCourseContent();
-                
                 if (activeTab === 'bibliografia' && typeof renderBooksFilteredByDiscipline === 'function') {
                     await renderBooksFilteredByDiscipline(currentDiscipline);
                 } else if (activeTab === 'contributors' && typeof renderContributorsTab === 'function') {
@@ -247,13 +237,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     renderPracticeGrid(currentPracticeData);
                 }
             }
-            
-            // Re-renderizar os cards da home screen se ela estiver visível
             const homeScreen = document.getElementById('homeScreen');
             if (homeScreen && homeScreen.style.display !== 'none') {
                 await renderCourseCards();
             }
-            
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
             setTimeout(() => {
                 if (typeof applyTranslations === 'function') applyTranslations();
@@ -308,6 +295,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         return null;
     }
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
+
+    // ========== CARGA HORÁRIA DOS CURSOS (CÁLCULO TOTAL) ==========
+    const courseDurationCache = new Map(); // courseId -> totalMinutes
+
+    async function computeCourseTotalMinutes(courseId) {
+        if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
+        const courseMap = {
+            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+            matematica: 'cursos/graduacao/matematica/matematica-data.json',
+            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-data.json',
+            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-data.json',
+            devops: 'cursos/pos-graduacao/devops/devops-data.json',
+            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+            'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
+            'math': 'cursos/graduacao/math/math-data.json'
+        };
+        const fileName = courseMap[courseId];
+        if (!fileName) return 0;
+        try {
+            const response = await fetch(fileName);
+            if (!response.ok) throw new Error('Erro ao carregar dados do curso');
+            const data = await response.json();
+            let totalMinutes = 0;
+            for (const stage of data.stages || []) {
+                for (const discipline of stage.disciplines || []) {
+                    if (discipline.type === 'external' && discipline.time) {
+                        const mins = parseTime(discipline.time);
+                        totalMinutes += mins || 0;
+                    } else if (discipline.type === 'exercise') {
+                        totalMinutes += getDurationFromDiscipline(discipline) || 30;
+                    } else if (discipline.videoIds && Array.isArray(discipline.videoIds)) {
+                        // mesmo cálculo usado em buildVideosFromIds
+                        for (let idx = 0; idx < discipline.videoIds.length; idx++) {
+                            const duration = 10 + (idx % 25) + 5; // entre 15 e 40 min
+                            totalMinutes += duration;
+                        }
+                    }
+                }
+            }
+            courseDurationCache.set(courseId, totalMinutes);
+            return totalMinutes;
+        } catch (error) {
+            console.error(`Erro ao calcular carga horária para ${courseId}:`, error);
+            return 0;
+        }
+    }
+
+    function formatDuration(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        if (hours === 0) return `${mins}min`;
+        if (mins === 0) return `${hours}h`;
+        return `${hours}h ${mins}min`;
+    }
 
     // ========== NOTIFICAÇÕES ==========
     function showNotification(message, type = 'info') {
@@ -1505,9 +1548,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
                 
+                // ========== CARGA HORÁRIA ==========
+                const totalMinutes = await computeCourseTotalMinutes(course.id);
+                const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
+                
                 card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
                                  <div class="course-badges">${levelBadge}${typeBadge}</div>
                                  ${roomHtml}${descHtml}
+                                 ${durationText}
                                  <div class="course-progress-bar">
                                     <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
                                  </div>
@@ -1529,23 +1577,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========== INICIALIZAÇÃO COM DETECÇÃO AUTOMÁTICA DE IDIOMA ==========
-    // 1. Verifica se existe idioma salvo no localStorage
     const savedLang = localStorage.getItem('selectedLanguage');
     let initialLang;
     
     if (savedLang) {
-        // Usa o idioma salvo (preferência do usuário)
         initialLang = savedLang;
         console.log('[Main] Idioma carregado do localStorage:', initialLang);
     } else {
-        // Detecta idioma do sistema/navegador
         initialLang = detectSystemLanguage();
         console.log('[Main] Idioma detectado automaticamente:', initialLang);
-        // Salva a detecção para futuras sessões (opcional, mas desejável)
         localStorage.setItem('selectedLanguage', initialLang);
     }
     
-    // Garante que o código do idioma esteja no formato esperado pelo sistema (pt-br ou en)
     if (initialLang !== 'pt-br' && initialLang !== 'en') {
         initialLang = 'en';
         console.log('[Main] Idioma inválido, usando padrão: en');
