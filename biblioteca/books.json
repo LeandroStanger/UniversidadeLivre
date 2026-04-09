@@ -348,7 +348,7 @@
     "isbn": "9788580579521",
     "description": "Clássico sobre manipulação de dados estatísticos. O livro mostra como estatísticas podem ser enganosas e como identificar más práticas em pesquisas e relatórios. Embora antigo, continua atual e é uma leitura divertida para entender a importância da integridade na análise de dados.",
     "cover": "https://m.media-amazon.com/images/I/61CaO+WCQ8L._SL1000_.jpg",
-    "download": "",
+    "download": "https://raw.githubusercontent.com/KAYOKG/BibliotecaDev/main/LivrosDev/Como%20mentir%20com%20estatística%20-%20Auto%20(Darrell-Heff).pdf",
     "shelf": "Carreira e Habilidades",
     "status": "green",
     "language": "pt",
@@ -2836,5 +2836,37 @@
     "repositoryName": "TransformadasIntegrais",
     "repositoryLink": "https://github.com/reamat/TransformadasIntegrais",
     "download_label": "Baixar Livro"
+  },
+  {
+    "id": "linguagem-de-programacao-rust",
+    "title": "Rust",
+    "author": "rust-br",
+    "publisher": "rust-br",
+    "year": "2026",
+    "description": "Rust é uma linguagem de programação que ajuda a escrever software mais rápido e confiável. A ergonomia de alto nível e o controle de baixo nível estão frequentemente em desacordo no design da linguagem de programação; Rust desafia isso. Ao equilibrar uma poderosa capacidade técnica e uma ótima experiência de desenvolvedor, Rust oferece a opção de controlar detalhes de baixo nível (como o uso de memória) sem todo o incômodo tradicionalmente associado a esse controle.",
+    "cover": "https://avatars.githubusercontent.com/u/30448826?s=200&v=4",
+    "download": "https://rust-br.github.io/rust-book-pt-br/",
+    "shelf": "Back‑end / Rust",
+    "status": "green",
+    "language": "pt",
+    "repositoryName": "rust-br",
+    "repositoryLink": "https://github.com/rust-br",
+    "download_label": "Acessar Online"
+  },
+  {
+    "id": "ocaml-programming",
+    "title": "OCaml Programming",
+    "author": "cs3110",
+    "publisher": "cs3110",
+    "year": "2026",
+    "description": "A textbook on functional programming and data structures in OCaml, with an emphasis on semantics and software engineering. This book is the textbook for CS 3110 Data Structures and Functional Programming at Cornell University. A past title of this book was “Functional Programming in OCaml”.",
+    "cover": "https://cs3110.github.io/textbook/_static/op_title.png",
+    "download": "https://cs3110.github.io/textbook/cover.html",
+    "shelf": "Back‑end / OCaml",
+    "status": "green",
+    "language": "en",
+    "repositoryName": "cs3110",
+    "repositoryLink": "https://github.com/cs3110",
+    "download_label": "Acessar Online"
   }
 ]

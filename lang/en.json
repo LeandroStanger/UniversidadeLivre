@@ -87,6 +87,7 @@
   "initial_suggestions": "Initial suggestions",
   "no_description": "No description available.",
   "unknown_author": "Unknown author",
+  "unknown_publisher": "Unknown publisher",
   "year_not_informed": "Year not informed",
   "close": "Close",
   "technology": "Technology",
@@ -156,5 +157,6 @@
   "exercise_lesson_desc": "This activity must be completed outside the platform. After finishing, click the button below to mark as completed.",
   "exercise_type_practice": "Practice",
   "exercise_type_challenge": "Challenge",
-  "exercise_type_assessment": "Assessment"
+  "exercise_type_assessment": "Assessment",
+  "repository_prefix": "Repository:"
 }

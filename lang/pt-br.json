@@ -87,6 +87,7 @@
   "initial_suggestions": "Sugestões iniciais",
   "no_description": "Sem descrição disponível.",
   "unknown_author": "Autor desconhecido",
+  "unknown_publisher": "Editora desconhecida",
   "year_not_informed": "Ano não informado",
   "close": "Fechar",
   "technology": "Tecnologia",
@@ -156,5 +157,6 @@
   "exercise_lesson_desc": "Esta atividade deve ser realizada fora da plataforma. Após concluir, clique no botão abaixo para marcar como concluída.",
   "exercise_type_practice": "Prática",
   "exercise_type_challenge": "Desafio",
-  "exercise_type_assessment": "Avaliação"
+  "exercise_type_assessment": "Avaliação",
+  "repository_prefix": "Repositório:"
 }
