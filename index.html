@@ -10,13 +10,15 @@
     <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
     <link rel="stylesheet" href="cursos/course-intro.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 <div class="container">
     <div class="header">
         <div class="logo">
-            <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade">
+            <a href="index.html" style="text-decoration: none; display: block;">
+                <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
             <p data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
         </div>
         <div class="stats">
@@ -27,15 +29,12 @@
                 <span class="lang-sep">|</span>
                 <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
             </div>
-            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" 
-               class="donate-button" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               data-i18n="donate_button">
-                <i class="fas fa-heart"></i>
-                <span data-i18n="donate_text">Doar</span>
+            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
+                <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
             </a>
             <a href="biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span></a>
+            <a href="auditorio/auditorio.html" class="btn-biblioteca" style="background: var(--accent-blue);"><i class="fas fa-video"></i> Auditório</a>
+            <a href="notas/notas.html" class="btn-biblioteca" target="_blank" style="background: var(--accent-green);"><i class="fas fa-pencil-alt"></i> Notas</a>
         </div>
     </div>
 
@@ -55,6 +54,13 @@
                             <button class="ctrl-btn" id="prevVideoBtn"><i class="fas fa-backward-step"></i></button>
                             <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
                             <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
+                        </div>
+                        <!-- Controle de Volume -->
+                        <div class="volume-control" id="volumeControl">
+                            <button class="ctrl-btn" id="muteUnmuteBtn" title="Mutar/Desmutar">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" title="Volume">
                         </div>
                         <div class="video-info">
                             <span class="video-title" id="currentVideoTitle"></span>
@@ -155,9 +161,7 @@
                 </svg>
             </div>
             <div id="finalCompletionText" class="final-completion-text"></div>
-            <img id="finalCompletionImage" class="final-completion-image" 
-                 src="visual/completion-image.png" alt="Curso concluído" 
-                 onerror="this.src='https://placehold.co/400x200/1F2933/9CA3AF?text=Curso+Concluído'">
+            <img id="finalCompletionImage" class="final-completion-image" src="visual/completion-image.png" alt="Curso concluído" onerror="this.src='https://placehold.co/400x200/1F2933/9CA3AF?text=Curso+Concluído'">
         </div>
         <div class="final-modal-footer">
             <button id="btnFinalGoHome" class="final-go-home-btn" data-i18n="completion_go_graduation">Ir para Graduação</button>

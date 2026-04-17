@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Auditório · Universidade Livre</title>
+    <meta name="description" content="Assista a vídeos selecionados pela comunidade. Compartilhe conhecimento através de vídeos educativos.">
+    <meta name="theme-color" content="#0D1117">
+    <link rel="stylesheet" href="auditorio.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <p data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item language-switch">
+                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
+                <span class="lang-sep">|</span>
+                <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
+                <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
+            </a>
+            <a href="../biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span></a>
+            <a href="../notas/notas.html" class="btn-biblioteca" target="_blank" style="background: var(--accent-green);"><i class="fas fa-pencil-alt"></i> Notas</a>
+            <a href="../index.html" class="btn-biblioteca" style="background: var(--accent-blue);"><i class="fas fa-arrow-left"></i> <span data-i18n="back_to_courses">Voltar</span></a>
+        </div>
+    </div>
+
+    <div class="auditorio-header">
+        <h1><i class="fas fa-video"></i> Auditório</h1>
+        <p data-i18n="auditorio_description">Vídeos educativos selecionados pela comunidade.</p>
+    </div>
+
+    <!-- Barra de pesquisa e botão aleatório -->
+    <div class="search-bar-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar vídeos por título ou descrição..." data-i18n-placeholder="search_videos_placeholder">
+        </div>
+        <button id="randomVideoBtn" class="random-btn"><i class="fas fa-random"></i> <span data-i18n="random_video">Vídeo aleatório</span></button>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filter-group type-filter">
+        <span data-i18n="filter_by_type">Filtrar por tipo:</span>
+        <div id="typeChips" class="chips-container"></div>
+    </div>
+    <div class="filter-group subject-filter">
+        <span data-i18n="filter_by_subject">Filtrar por assunto:</span>
+        <div id="subjectChips" class="chips-container"></div>
+    </div>
+    <div class="filter-group language-filter">
+        <span data-i18n="filter_by_language">Filtrar por idioma:</span>
+        <div id="languageChips" class="chips-container"></div>
+    </div>
+
+    <!-- Grade de vídeos -->
+    <section class="videos-section">
+        <h2 class="section-title"></h2>
+        <div id="videosContainer"></div>
+    </section>
+
+    <!-- Player -->
+    <div id="playerContainer" class="player-container" style="display: none;">
+        <div class="player-wrapper">
+            <div id="youtubePlayer"></div>
+            <button id="closePlayerBtn" class="close-player"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="custom-player-controls">
+            <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
+            <div class="volume-control">
+                <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+            </div>
+            <div class="progress-container">
+                <span id="currentTimeDisplay">00:00</span>
+                <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
+                <span id="durationDisplay">00:00</span>
+            </div>
+            <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i></button>
+        </div>
+        <div class="player-info">
+            <h3 id="playerTitle"></h3>
+            <p id="playerDescription"></p>
+        </div>
+    </div>
+</div>
+
+<script src="auditorio.js"></script>
+</body>
+</html>

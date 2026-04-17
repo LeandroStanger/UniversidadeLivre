@@ -1,0 +1,152 @@
+[
+  {
+    "id": "gutenberg",
+    "title": {
+      "pt-br": "Projeto Gutenberg",
+      "en": "Project Gutenberg"
+    },
+    "description": {
+      "pt-br": "Milhares de eBooks gratuitos.",
+      "en": "Thousands of free eBooks."
+    },
+    "url": "https://www.gutenberg.org/",
+    "image": "https://www.gutenberg.org/gutenberg/pg-logo-129x80.png",
+    "type": "digital",
+    "price": "free"
+  },
+  {
+    "id": "biblion",
+    "title": {
+      "pt-br": "Biblion",
+      "en": "Biblion"
+    },
+    "description": {
+      "pt-br": "Acervo digital de obras raras.",
+      "en": "Digital collection of rare works."
+    },
+    "url": "https://biblion.org.br/",
+    "image": "https://biblion.org.br/wp-content/uploads/2025/03/download.webp",
+    "type": "digital",
+    "price": "free"
+  },
+  {
+    "id": "mec_livros",
+    "title": {
+      "pt-br": "MEC Livros",
+      "en": "MEC Books"
+    },
+    "description": {
+      "pt-br": "Portal de livros didáticos do MEC.",
+      "en": "MEC's textbook portal."
+    },
+    "url": "https://meclivros.mec.gov.br/",
+    "image": "https://meclivros.mec.gov.br/images/logo-desktop.png",
+    "type": "digital",
+    "price": "free"
+  },
+  {
+    "id": "minha_biblioteca",
+    "title": {
+      "pt-br": "Minha Biblioteca",
+      "en": "Minha Biblioteca"
+    },
+    "description": {
+      "pt-br": "Livros acadêmicos (assinatura).",
+      "en": "Academic books (subscription)."
+    },
+    "url": "https://minhabiblioteca.com.br/",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbibliotecas.uff.br%2Fwp-content%2Fuploads%2Fsites%2F164%2F2022%2F10%2Flogo_minha-bibliotecapng.png&f=1&nofb=1&ipt=7369ee82d161deb6e9bf8cf58d1d62550700c93b3caa02b2a63328c429e1d8d8",
+    "type": "digital",
+    "price": "paid"
+  },
+  {
+    "id": "biblioteca_virtual",
+    "title": {
+      "pt-br": "Biblioteca Virtual",
+      "en": "Virtual Library"
+    },
+    "description": {
+      "pt-br": "Livros técnicos e universitários (pago).",
+      "en": "Technical and university books (paid)."
+    },
+    "url": "https://www.bvirtual.com.br/",
+    "image": "https://www.bvirtual.com.br/images/logoPadrao.svg",
+    "type": "digital",
+    "price": "paid"
+  },
+  {
+    "id": "amazon_kindle",
+    "title": {
+      "pt-br": "Amazon Kindle",
+      "en": "Amazon Kindle"
+    },
+    "description": {
+      "pt-br": "Loja de eBooks Kindle.",
+      "en": "Kindle eBook store."
+    },
+    "url": "https://read.amazon.com/landing",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-world.net%2Fwp-content%2Fuploads%2F2020%2F03%2FAmazon-Kindle-Emblem-1.png&f=1&nofb=1&ipt=208b4f7f579b1dc46eb69b2de140bdd55150fc3192ee1b83adbdfc0e35c39c09",
+    "type": "digital",
+    "price": "paid"
+  },
+  {
+    "id": "audible",
+    "title": {
+      "pt-br": "Audible",
+      "en": "Audible"
+    },
+    "description": {
+      "pt-br": "Audiolivros (assinatura).",
+      "en": "Audiobooks (subscription)."
+    },
+    "url": "https://www.audible.com.br/",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogos-world.net%2Fwp-content%2Fuploads%2F2023%2F09%2FAudible-Symbol.png&f=1&nofb=1&ipt=d27484a1fea5ce37a01217339ec004de318a362da1303a6e0e3e14ca84e9daf1",
+    "type": "digital",
+    "price": "paid"
+  },
+  {
+    "id": "amazon_br",
+    "title": {
+      "pt-br": "Amazon BR (Livros)",
+      "en": "Amazon BR (Books)"
+    },
+    "description": {
+      "pt-br": "Livros físicos e digitais.",
+      "en": "Physical and digital books."
+    },
+    "url": "https://www.amazon.com.br/amz-books/store?node=6740748011",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FG%2F32%2Fbr-books%2Ffixo%2Fevergreen%2Fseo%2Ffacebookads1200x628_compre.png&f=1&nofb=1&ipt=44be87c06f91aae7a32daf54fbc01c5a2cfdaa35b76967d50feaefc40c051802",
+    "type": "both",
+    "price": "paid"
+  },
+  {
+    "id": "amazon_com",
+    "title": {
+      "pt-br": "Amazon (Livros)",
+      "en": "Amazon (Books)"
+    },
+    "description": {
+      "pt-br": "Livros nos EUA.",
+      "en": "Books in the USA."
+    },
+    "url": "https://www.amazon.com/amz-books/store",
+    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fassets.aboutamazon.com%2Fcb%2F3b%2Fcd5a2b1b47b0958509fc9f767d15%2Fbook-hero-1.jpg&f=1&nofb=1&ipt=c6e413e5837027634d620049538c066771a7affd80c359a9c68124b98a08bdbe",
+    "type": "both",
+    "price": "paid"
+  },
+  {
+    "id": "open_library",
+    "title": {
+      "pt-br": "Open Library",
+      "en": "Open Library"
+    },
+    "description": {
+      "pt-br": "Catálogo aberto com milhões de livros para empréstimo digital.",
+      "en": "Open catalog with millions of books for digital lending."
+    },
+    "url": "https://openlibrary.org/",
+    "image": "https://openlibrary.org/static/images/ol-logo.png",
+    "type": "digital",
+    "price": "free"
+  }
+]

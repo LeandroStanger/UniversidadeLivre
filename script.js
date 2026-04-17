@@ -1,4 +1,4 @@
-// script.js – versão final com card de progresso acima da aula atual, aba Prática sempre visível, timeset, i18n nas badges, detecção automática de idioma E CARGA HORÁRIA NOS CARDS
+// script.js – versão final com i18n completo, fallback robusto, controle de volume e correções de tradução
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('[i18n] Tentando carregar pt-br como fallback');
                 return loadTranslations('pt-br');
             }
+            // Fallback completo com todas as chaves necessárias (incluindo as novas)
             translations = {
                 "app_title": "Universidade Livre",
                 "tab_bibliography": "Bibliografia",
@@ -94,7 +95,65 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "donate_button": "Doar",
                 "donate_text": "Doar",
                 "main_program_description": "Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação",
-                "course_hours": "Carga horária"
+                "course_hours": "Carga horária",
+                // Novas chaves para assuntos
+                "subject_tecnologia": "Tecnologia",
+                "subject_ciencia": "Ciência",
+                "subject_matematica": "Matemática",
+                "subject_historia": "História",
+                "subject_literatura": "Literatura",
+                "subject_filosofia": "Filosofia",
+                "subject_psicologia": "Psicologia",
+                "subject_economia": "Economia",
+                "subject_politica": "Política",
+                "subject_saude": "Saúde",
+                "subject_educacao": "Educação",
+                "subject_arte": "Arte",
+                "subject_esportes": "Esportes",
+                "subject_negocios": "Negócios",
+                "subject_viagem": "Viagem",
+                "subject_religiao": "Religião",
+                "subject_autoajuda": "Autoajuda",
+                "subject_culinaria": "Culinária",
+                "subject_shorts": "Shorts",
+                "subject_outros": "Outros",
+                // Idiomas
+                "lang_pt": "Português",
+                "lang_en": "Inglês",
+                "lang_es": "Espanhol",
+                "lang_fr": "Francês",
+                "lang_de": "Alemão",
+                "lang_it": "Italiano",
+                "lang_ja": "Japonês",
+                "lang_zh": "Chinês",
+                "lang_ko": "Coreano",
+                "lang_ru": "Russo",
+                "lang_ar": "Árabe",
+                "lang_hi": "Hindi",
+                "lang_nl": "Holandês",
+                "lang_sv": "Sueco",
+                "lang_pl": "Polonês",
+                "lang_tr": "Turco",
+                "lang_undefined": "Indefinido",
+                // Outros
+                "unavailable": "Indisponível",
+                "price_free": "Grátis",
+                "price_paid": "Pago",
+                "badge_live": "AO VIVO",
+                "badge_podcast": "PODCAST",
+                "badge_shorts": "SHORTS",
+                "search_practice_placeholder": "Buscar práticas por título ou descrição...",
+                "no_practice": "Nenhuma prática disponível no momento.",
+                "practice_unavailable": "Conteúdo de prática não disponível no momento.",
+                "exercise_type_practice": "Prática",
+                "exercise_type_challenge": "Desafio",
+                "exercise_type_assessment": "Avaliação",
+                "external_lesson_desc": "Este conteúdo está disponível em uma plataforma de terceiros.",
+                "external_platform_default": "Plataforma externa",
+                "external_instruction": "As aulas e atividades serão realizadas na plataforma acima. Após concluir as aulas na plataforma externa, retorne aqui e marque a aula como concluída.",
+                "go_to_platform": "Ir para a plataforma",
+                "external_footer_note": "Após terminar as aulas no site externo, clique em \"Marcar como concluída\".",
+                "exercise_lesson_desc": "Esta atividade deve ser realizada fora da plataforma. Após concluir, clique no botão abaixo para marcar como concluída."
             };
             console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
             return false;
@@ -104,11 +163,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     function t(key, replacements = {}) {
         let text = translations[key] || key;
         if (text === key) {
+            // Fallback adicional caso a chave não exista no fallback também
             const hardcoded = {
                 'course_progress': 'Progresso:',
                 'continue_studies': 'Continuar Estudos',
                 'clause.progression': 'Progresso do Curso',
-                'course_hours': 'Carga horária'
+                'course_hours': 'Carga horária',
+                'subject_tecnologia': 'Tecnologia',
+                'subject_ciencia': 'Ciência',
+                // ... adicionar outros se necessário, mas o fallback já cobre
             };
             if (hardcoded[key]) text = hardcoded[key];
             else console.warn(`[i18n] Chave não encontrada: ${key}`);
@@ -281,6 +344,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     let practiceTabContent = document.getElementById('pratica-tab');
     let currentPracticeData = null;
     let practiceSearchInput = null;
+
+    // ========== CONTROLE DE VOLUME ==========
+    let playerVolume = 80; // volume padrão
+    const VOLUME_STORAGE_KEY = 'youtube_player_volume';
+
+    function loadSavedVolume() {
+        const saved = localStorage.getItem(VOLUME_STORAGE_KEY);
+        if (saved !== null) {
+            playerVolume = parseInt(saved, 10);
+            const volSlider = document.getElementById('volumeSlider');
+            if (volSlider) volSlider.value = playerVolume;
+        }
+    }
 
     // ========== FUNÇÕES AUXILIARES ==========
     function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
@@ -872,9 +948,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showExternalLesson(video) {
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
+        const volumeControlDiv = document.getElementById('volumeControl');
         if (!container) return;
         stopAllMedia();
         if (youtubeWrapper) youtubeWrapper.style.display = 'none';
+        if (volumeControlDiv) volumeControlDiv.style.display = 'none';
         container.style.display = 'flex';
         container.innerHTML = `<div class="external-lesson-card">
             <div class="external-lesson-icon"><i class="fas fa-external-link-alt"></i></div>
@@ -898,9 +976,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showExerciseLesson(video) {
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
+        const volumeControlDiv = document.getElementById('volumeControl');
         if (!container) return;
         stopAllMedia();
         if (youtubeWrapper) youtubeWrapper.style.display = 'none';
+        if (volumeControlDiv) volumeControlDiv.style.display = 'none';
         container.style.display = 'flex';
         let exerciseTypeText = '';
         if (video.exerciseType === 'practice') exerciseTypeText = t('exercise_type_practice');
@@ -923,8 +1003,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     function hideExternalLesson() {
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
+        const volumeControlDiv = document.getElementById('volumeControl');
         if (container) { container.style.display = 'none'; container.innerHTML = ''; }
         if (youtubeWrapper) youtubeWrapper.style.display = 'block';
+        if (volumeControlDiv) volumeControlDiv.style.display = 'flex';
     }
 
     function loadCurrentLesson() {
@@ -977,7 +1059,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         let videoId = videoObj.url.split("/embed/")[1]?.split("?")[0] || "j6hcALm0mLM";
         if (player && isPlayerReady) {
             player.loadVideoById(videoId);
-            if (videoObj.time > 5) setTimeout(() => { if (player && isPlayerReady) player.seekTo(videoObj.time, true); }, 500);
+            setTimeout(() => {
+                if (player && isPlayerReady) {
+                    player.setVolume(playerVolume);
+                    const muteBtn = document.getElementById('muteUnmuteBtn');
+                    if (muteBtn && playerVolume === 0) {
+                        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    }
+                    if (videoObj.time > 5) player.seekTo(videoObj.time, true);
+                }
+            }, 500);
         }
         const titleEl = document.getElementById("currentVideoTitle");
         if (titleEl) titleEl.innerText = videoObj.title;
@@ -1368,7 +1459,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             height: '100%', width: '100%',
             playerVars: { autoplay: 0, controls: 1, modestbranding: 1, rel: 0 },
             events: {
-                onReady: () => { isPlayerReady = true; if (window._startLessonScheduled) { window._startLessonScheduled = false; startLesson(); } },
+                onReady: () => {
+                    isPlayerReady = true;
+                    player.setVolume(playerVolume);
+                    if (window._startLessonScheduled) { window._startLessonScheduled = false; startLesson(); }
+                },
                 onStateChange: onPlayerStateChange,
                 onError: () => console.error("Erro no player do YouTube")
             }
@@ -1626,6 +1721,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         const seek = percent * currentVideoDuration;
         player.seekTo(seek, true);
     });
+
+    // Controle de Volume
+    const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeControlDiv = document.getElementById('volumeControl');
+
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+            const vol = parseInt(e.target.value, 10);
+            playerVolume = vol;
+            if (player && isPlayerReady) {
+                player.setVolume(vol);
+                if (vol === 0) {
+                    muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else {
+                    muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+            }
+            localStorage.setItem(VOLUME_STORAGE_KEY, vol);
+        });
+    }
+
+    if (muteUnmuteBtn) {
+        muteUnmuteBtn.addEventListener('click', () => {
+            if (!player || !isPlayerReady) return;
+            if (player.isMuted()) {
+                player.unMute();
+                const currentVol = player.getVolume();
+                volumeSlider.value = currentVol;
+                playerVolume = currentVol;
+                muteUnmuteBtn.innerHTML = currentVol === 0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+                localStorage.setItem(VOLUME_STORAGE_KEY, currentVol);
+            } else {
+                player.mute();
+                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
+    }
+
+    loadSavedVolume();
 
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     if (typeof YT !== 'undefined' && YT.loaded) onYouTubeIframeAPIReady();

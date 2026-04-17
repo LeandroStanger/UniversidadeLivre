@@ -1,0 +1,971 @@
+/* ===== NOTAS.CSS – ESTILOS MODULARES PARA O CADERNO DE ESTUDOS ===== */
+/* v2.0.0 - Adicionado suporte a tags, favoritos e filtro por tags */
+
+:root {
+    --bg-primary: #0D1117;
+    --bg-secondary: #161B22;
+    --bg-tertiary: #1F2933;
+    --text-primary: #E6EDF3;
+    --text-secondary: #9CA3AF;
+    --accent-blue: #2563EB;
+    --accent-blue-hover: #1D4ED8;
+    --accent-green: #22C55E;
+    --accent-orange: #f97316;
+    --border: #2D3748;
+    --card-radius: 1rem;
+    --transition: all 0.2s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ========== CABEÇALHO ========== */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-link {
+    text-decoration: none;
+    display: block;
+}
+
+.logo-universidade {
+    height: 100px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.logo-fallback {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 60px;
+    color: var(--accent-blue);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo-fallback i {
+    font-size: 2rem;
+}
+
+.logo-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.app-actions {
+    display: flex;
+    gap: 1.2rem;
+    background: var(--bg-secondary);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Seletor de Idioma */
+.language-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--bg-tertiary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 1rem;
+    transition: var(--transition);
+    font-size: 0.75rem;
+}
+
+.lang-btn.active {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.lang-btn:hover:not(.active) {
+    color: var(--accent-blue);
+}
+
+.lang-sep {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* Botão Doar */
+.donate-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-orange);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.donate-button:hover {
+    background: #ea580c;
+    transform: scale(1.05);
+}
+
+/* Botão Voltar */
+.btn-back {
+    background: #2ea043;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    font-size: 0.85rem;
+}
+
+.btn-back:hover {
+    background: #238636;
+    transform: scale(1.05);
+}
+
+/* Cabeçalho da Página */
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.page-title i {
+    font-size: 1.8rem;
+}
+
+.page-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* ========== SEÇÃO DO EDITOR ========== */
+.note-editor-section {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 1.8rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.editor-title {
+    font-size: 1.4rem;
+    color: var(--accent-green);
+    margin: 0;
+}
+
+.icon-btn {
+    background: var(--bg-tertiary);
+    border: none;
+    color: var(--text-secondary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.icon-btn:hover {
+    background: var(--accent-blue);
+    color: white;
+    transform: scale(1.05);
+}
+
+.note-title-input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    transition: var(--transition);
+}
+
+.note-title-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Seletor de Tags no Editor */
+.note-tags-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.note-tags-selector span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.available-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.selectable-tag {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.selectable-tag:hover {
+    opacity: 0.8;
+}
+
+.selectable-tag.selected {
+    border-width: 2px;
+    font-weight: 600;
+    box-shadow: 0 0 0 1px currentColor;
+}
+
+/* Container do Quill */
+.quill-editor-container {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+}
+
+/* ========== ESTILOS QUILL (TEMA ESCURO) ========== */
+.ql-toolbar.ql-snow {
+    background: var(--bg-secondary) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 8px 12px !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.ql-snow .ql-toolbar button,
+.ql-toolbar.ql-snow button {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: var(--transition);
+    margin: 0 2px;
+    padding: 4px;
+}
+
+.ql-snow .ql-toolbar button:hover,
+.ql-toolbar.ql-snow button:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+.ql-snow .ql-toolbar button.ql-active,
+.ql-toolbar.ql-snow button.ql-active {
+    background: var(--accent-blue) !important;
+    color: white !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+    stroke: var(--text-secondary) !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-stroke {
+    stroke: var(--accent-blue) !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+    stroke: white !important;
+}
+
+.ql-toolbar.ql-snow .ql-fill {
+    fill: var(--text-secondary) !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill {
+    fill: var(--accent-blue) !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-fill {
+    fill: white !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker {
+    color: var(--text-secondary) !important;
+    height: 32px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label {
+    background: transparent !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover {
+    border-color: var(--accent-blue) !important;
+    color: var(--accent-blue) !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    border-radius: 8px;
+    padding: 4px 0;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item {
+    color: var(--text-primary) !important;
+    padding: 6px 12px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item:hover {
+    background: var(--bg-tertiary) !important;
+    color: var(--accent-blue) !important;
+}
+
+.ql-toolbar.ql-snow .ql-formats {
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.ql-toolbar.ql-snow .ql-formats:not(:last-child)::after {
+    content: '';
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+    margin-left: 8px;
+}
+
+.ql-container.ql-snow {
+    border: none !important;
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    min-height: 200px;
+}
+
+.ql-editor {
+    min-height: 200px;
+    padding: 1.2rem;
+    color: var(--text-primary) !important;
+    line-height: 1.6;
+}
+
+.ql-editor.ql-blank::before {
+    color: var(--text-secondary) !important;
+    font-style: normal;
+    opacity: 0.7;
+}
+
+.ql-editor a {
+    color: var(--accent-blue) !important;
+}
+
+/* ========== AÇÕES DO EDITOR ========== */
+.editor-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 0.8rem;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.8rem 2rem;
+    border-radius: 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+/* ========== LISTA DE NOTAS ========== */
+.notes-list-section {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 1.8rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.8rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.list-title {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+}
+
+.count-badge {
+    background: var(--accent-blue);
+    color: white;
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.list-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-input {
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    min-width: 260px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Filtro de Tags */
+.tag-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background: var(--bg-tertiary);
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+}
+
+.filter-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chip:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.chip.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+}
+
+.tag-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Grid de notas */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Card de nota */
+.note-card {
+    background: var(--bg-tertiary);
+    border-radius: 18px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.note-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.note-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.note-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word;
+    padding-right: 0.5rem;
+    line-height: 1.3;
+}
+
+.note-card-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.note-card-actions button {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.3rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.note-card-actions button:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+    transform: scale(1.05);
+}
+
+.note-card-actions .delete-btn:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+}
+
+.favorite-btn {
+    color: #fbbf24 !important; /* amarelo ouro */
+}
+
+.favorite-btn .fa-star-o {
+    opacity: 0.6;
+}
+
+.favorite-btn:hover .fa-star-o {
+    opacity: 1;
+}
+
+.note-card-content {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.5rem 0 0.8rem;
+}
+
+.note-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    display: inline-block;
+    background: var(--bg-secondary);
+}
+
+.note-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+}
+
+.note-date {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Estado vazio */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 18px;
+    border: 1px dashed var(--border);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* ========== MODAL DE GERENCIAMENTO DE TAGS ========== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--accent-blue);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 1.2rem;
+}
+
+.tag-create-section {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tag-create-section input[type="text"] {
+    flex: 2;
+    min-width: 150px;
+    padding: 0.6rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.color-picker-container label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.color-picker-container input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.existing-tags-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.tag-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.tag-actions button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-left: 0.3rem;
+    font-size: 0.9rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.tag-actions button:hover {
+    background: var(--bg-secondary);
+    color: var(--accent-blue);
+}
+
+.tag-actions .delete-tag-btn:hover {
+    color: #ef4444;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .app-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .app-actions {
+        justify-content: center;
+    }
+
+    .note-editor-section {
+        padding: 1.2rem;
+    }
+
+    .ql-toolbar.ql-snow {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .editor-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .list-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .list-actions {
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tag-create-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tag-create-section input[type="text"] {
+        width: 100%;
+    }
+}

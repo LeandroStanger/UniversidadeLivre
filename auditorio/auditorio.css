@@ -1,0 +1,1261 @@
+/* ===== AUDITORIO.CSS – ESTILOS COMPLETOS (VÍDEOS + PODCASTS + PLAYLIST) ===== */
+/* Compatível com o tema da Universidade Livre */
+
+:root {
+    --bg-primary: #0D1117;
+    --bg-secondary: #161B22;
+    --bg-tertiary: #1F2933;
+    --text-primary: #E6EDF3;
+    --text-secondary: #9CA3AF;
+    --accent-blue: #2563EB;
+    --accent-blue-hover: #1D4ED8;
+    --accent-green: #22C55E;
+    --accent-orange: #f97316;
+    --border: #2D3748;
+    --card-radius: 1rem;
+    --transition: all 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ========== CABEÇALHO ========== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-universidade {
+    height: 100px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.logo p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.stats {
+    display: flex;
+    gap: 1.2rem;
+    background: var(--bg-secondary);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.stat-item i {
+    color: var(--accent-blue);
+}
+
+.btn-biblioteca {
+    background: #2ea043;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s;
+    font-size: 0.85rem;
+}
+
+.btn-biblioteca:hover {
+    background: #238636;
+    transform: scale(1.05);
+}
+
+.language-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--bg-tertiary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.lang-btn.active {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.lang-btn:hover:not(.active) {
+    color: var(--accent-blue);
+}
+
+.lang-sep {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.donate-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f97316;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.donate-button:hover {
+    background: #ea580c;
+    transform: scale(1.05);
+}
+
+/* ========== TÍTULO E DESCRIÇÃO ========== */
+.auditorio-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auditorio-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-blue);
+}
+
+.auditorio-header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ========== BARRA DE PESQUISA E BOTÃO ALEATÓRIO ========== */
+.search-bar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.search-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.random-btn {
+    background: var(--accent-blue);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.random-btn:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
+}
+
+/* ========== FILTROS ========== */
+.filter-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.filter-group span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.chip i {
+    font-size: 0.8rem;
+}
+
+.chip:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.chip.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+}
+
+.chip .fa-podcast {
+    color: var(--accent-green);
+}
+
+.chip.active .fa-podcast {
+    color: white;
+}
+
+/* ========== SEÇÃO DE CONTEÚDO ========== */
+.videos-section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-green);
+    border-left: 4px solid var(--accent-blue);
+    padding-left: 1rem;
+}
+
+/* ========== BLOCO DE CATEGORIA ========== */
+.category-block {
+    margin-bottom: 2rem;
+}
+
+.category-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-green);
+    border-left: 3px solid var(--accent-blue);
+    padding-left: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.category-title i {
+    font-size: 1.1rem;
+    color: var(--accent-blue);
+}
+
+.category-count {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Grade unificada para vídeos e podcasts */
+.unified-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+}
+
+/* ========== CARD DE VÍDEO ========== */
+.video-card {
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.video-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+}
+
+.video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover .video-thumb img {
+    transform: scale(1.05);
+}
+
+.video-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
+.video-badge.video {
+    background: #22c55e;
+    color: #000;
+}
+
+.video-badge.story {
+    background: #f97316;
+    color: #000;
+}
+
+.video-badge.live {
+    background: #ef4444;
+    color: #fff;
+}
+
+.video-info {
+    padding: 0.8rem;
+    flex: 1;
+}
+
+.video-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.video-description {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.video-meta {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.language-badge {
+    background: var(--bg-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+/* ========== CARD DE PODCAST ========== */
+.podcast-card {
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.podcast-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.podcast-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: var(--bg-primary);
+}
+
+.podcast-info {
+    padding: 0.8rem;
+    flex: 1;
+}
+
+.podcast-info h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.podcast-info p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+}
+
+.podcast-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+}
+
+.podcast-episodes {
+    color: var(--accent-green);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+/* ========== PLAYER DE MÍDIA ========== */
+.player-container {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.player-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+#youtubePlayer {
+    width: 100%;
+    height: 100%;
+}
+
+.close-player {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.close-player:hover {
+    background: var(--accent-blue);
+}
+
+.player-info {
+    padding: 1rem;
+}
+
+.player-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.player-info p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ========== CONTROLES PERSONALIZADOS ========== */
+.custom-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.ctrl-btn {
+    background: var(--bg-tertiary);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctrl-btn:hover {
+    background: var(--accent-blue);
+}
+
+.ctrl-btn.audio-active {
+    background: var(--accent-green);
+    color: #000;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 2;
+    min-width: 200px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#currentTimeDisplay,
+#durationDisplay {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    min-width: 45px;
+    text-align: center;
+}
+
+/* ========== MODO ÁUDIO ========== */
+.player-container.audio-mode .player-wrapper {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: unset;
+    padding: 0 !important;
+    background: transparent;
+}
+
+.player-container.audio-mode .player-wrapper #youtubePlayer {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    left: -9999px;
+}
+
+.player-container.audio-mode .player-info {
+    display: none;
+}
+
+.player-container.audio-mode::before {
+    content: "🎧 Modo Áudio Ativo";
+    display: block;
+    padding: 0.4rem 1rem;
+    background: var(--accent-green);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ========== MODAL DE EPISÓDIOS ========== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.close-modal:hover {
+    color: var(--text-primary);
+}
+
+.modal h3 {
+    margin-bottom: 1rem;
+    padding-right: 2rem;
+    color: var(--accent-blue);
+}
+
+/* ========== BUSCA DENTRO DO MODAL ========== */
+.episode-search-wrapper {
+    position: relative;
+    margin: 0 0 1rem 0;
+}
+
+.episode-search-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.episode-search-input {
+    width: 100%;
+    padding: 10px 12px 10px 36px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.episode-search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+/* ========== LISTA DE EPISÓDIOS ========== */
+.episode-items-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.episode-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.episode-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.episode-info {
+    flex: 1;
+}
+
+.episode-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.episode-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.episode-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.episode-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.play-episode-btn,
+.add-to-playlist-btn {
+    background: var(--accent-blue);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.add-to-playlist-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.play-episode-btn:hover,
+.add-to-playlist-btn:hover {
+    background: var(--accent-blue-hover);
+    transform: scale(1.05);
+}
+
+.add-to-playlist-btn:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+/* ========== PAINEL DE PLAYLIST ========== */
+.playlist-panel {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 360px;
+    max-width: 95vw;
+    background: var(--bg-secondary);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border);
+    border-bottom: none;
+}
+
+.playlist-panel.collapsed {
+    transform: translateY(calc(100% - 60px));
+}
+
+.playlist-header {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.playlist-header h4 {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.playlist-header button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.now-playing-section {
+    padding: 12px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.now-playing-section img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.now-playing-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.now-playing-title {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.now-playing-author {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.no-playing {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding: 8px 0;
+}
+
+.playlist-controls {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.playlist-controls .ctrl-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-controls .ctrl-btn:hover {
+    background: var(--bg-tertiary);
+}
+
+.playlist-controls .ctrl-btn.active {
+    color: var(--accent-blue);
+}
+
+.playlist-progress {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.playlist-progress input {
+    flex: 1;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.playlist-progress input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.playlist-progress span {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    min-width: 40px;
+    text-align: center;
+}
+
+.playlist-items {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.playlist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.playlist-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.playlist-item.active {
+    background: var(--accent-blue);
+}
+
+.playlist-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.playlist-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.playlist-item-title {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlist-item-author {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.playlist-item-remove {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 1.2rem;
+}
+
+.playlist-item-remove:hover {
+    color: #ef4444;
+}
+
+.playlist-empty {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+/* Botão toggle flutuante */
+.toggle-playlist-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 1600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: 0.2s;
+}
+
+.toggle-playlist-btn:hover {
+    background: var(--accent-blue-hover);
+    transform: scale(1.05);
+}
+
+/* ========== ESTADOS VAZIOS E CARREGAMENTO ========== */
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+}
+
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.loading-skeleton {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 1rem;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.player-error {
+    color: #f87171;
+    padding: 1rem;
+    text-align: center;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+}
+
+.fallback-message {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .unified-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+    }
+
+    .search-bar-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .random-btn {
+        justify-content: center;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .logo-universidade {
+        height: 32px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .custom-player-controls {
+        gap: 0.5rem;
+    }
+
+    .volume-slider {
+        width: 60px;
+    }
+
+    .progress-container {
+        min-width: 150px;
+    }
+
+    .modal-content {
+        padding: 1rem;
+    }
+
+    .playlist-panel {
+        width: 100%;
+        right: 0;
+        border-radius: 20px 20px 0 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .unified-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chip {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+    }
+
+    .player-info h3 {
+        font-size: 1rem;
+    }
+
+    .player-info p {
+        font-size: 0.75rem;
+    }
+
+    .episode-item {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .episode-title {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .episode-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

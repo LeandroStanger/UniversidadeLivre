@@ -2868,5 +2868,21 @@
     "repositoryName": "cs3110",
     "repositoryLink": "https://github.com/cs3110",
     "download_label": "Acessar Online"
+  },
+  {
+    "id": "linguagem-c",
+    "title": "Linguagem C",
+    "author": "Xumaquer",
+    "publisher": "Xumaquer",
+    "year": "2026",
+    "description": "Em qualquer linguagem de programação, comentários são trechos de texto marcados de forma que sejam ignorados pelo compilador ou interpretador.”.",
+    "cover": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.w9AIOO6Cfup6aToV1E-dEQHaIr%3Fpid%3DApi&f=1&ipt=0fe818b2eeb6e27937275474f2da5223e338536cc5a927e4c289f49db7ae3e7f",
+    "download": "https://xumaquer.github.io/mdbook-linguagem-c/",
+    "shelf": "Back‑end / C",
+    "status": "green",
+    "language": "pt",
+    "repositoryName": "mdbook-linguagem-c",
+    "repositoryLink": "https://github.com/Xumaquer/mdbook-linguagem-c",
+    "download_label": "Acessar Online"
   }
 ]

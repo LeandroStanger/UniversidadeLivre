@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-i18n="notas_title">Notas de Estudo · Universidade Livre</title>
+    <meta name="description" content="Gerencie suas anotações de estudo com formatação rica, imagens e organização.">
+    <meta name="theme-color" content="#0D1117">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="notas.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="app-header">
+        <div class="logo">
+            <a href="../index.html" class="logo-link" style="text-decoration: none; display: block;">
+                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <p class="logo-subtitle" data-i18n="notas_subtitle">Caderno de Estudos</p>
+        </div>
+        <div class="app-actions">
+            <div class="language-switch">
+                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br" aria-label="Português">PT</button>
+                <span class="lang-sep" aria-hidden="true">|</span>
+                <button id="langEnBtn" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+            </div>
+            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button" aria-label="Doar">
+                <i class="fas fa-heart" aria-hidden="true"></i><span data-i18n="donate_text">Doar</span>
+            </a>
+            <a href="../biblioteca/biblioteca.html" class="btn-back" style="background: #2ea043; margin-right: 0.5rem;" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> Biblioteca</a>
+            <a href="../auditorio/auditorio.html" class="btn-back" style="background: var(--accent-blue); margin-right: 0.5rem;"><i class="fas fa-video"></i> Auditório</a>
+            <a href="../index.html" class="btn-back" data-i18n="back_to_courses" aria-label="Voltar para cursos">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i><span>Voltar para cursos</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i> 
+            <span data-i18n="notas_heading">Minhas Notas</span>
+        </h1>
+        <p class="page-description" data-i18n="notas_description">
+            Crie e organize suas anotações com formatação rica, imagens e muito mais.
+        </p>
+    </div>
+
+    <section class="note-editor-section">
+        <div class="editor-header">
+            <h2 class="editor-title" data-i18n="notas_editor_title">Nova Nota</h2>
+            <button id="clearEditorBtn" class="icon-btn" data-i18n-title="notas_clear_editor" title="Limpar editor" aria-label="Limpar editor">
+                <i class="fas fa-eraser" aria-hidden="true"></i>
+            </button>
+        </div>
+        <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." aria-label="Título da nota">
+        
+        <!-- Seletor de tags para a nota atual (simplificado) -->
+        <div class="note-tags-selector" id="noteTagsSelector" style="display: none;">
+            <span data-i18n="notas_tags">Tags:</span>
+            <div id="availableTagsContainer" class="available-tags-container"></div>
+            <button id="addTagToNoteBtn" class="icon-btn" title="Adicionar tag" data-i18n-title="notas_add_tag_to_note"><i class="fas fa-plus-circle"></i></button>
+        </div>
+
+        <div id="quillEditor" class="quill-editor-container" aria-label="Editor de texto rico"></div>
+        <div class="editor-actions">
+            <button id="saveNotaBtn" class="btn-primary" aria-label="Salvar nota">
+                <i class="fas fa-save" aria-hidden="true"></i><span data-i18n="notas_save">Salvar</span>
+            </button>
+            <button id="cancelEditBtn" class="btn-secondary" style="display: none;" aria-label="Cancelar edição">
+                <i class="fas fa-times" aria-hidden="true"></i><span data-i18n="notas_cancel">Cancelar</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="notes-list-section">
+        <div class="list-header">
+            <h2 class="list-title">
+                <i class="fas fa-list-ul" aria-hidden="true"></i>
+                <span data-i18n="notas_saved">Notas Salvas</span>
+                <span id="notasCount" class="count-badge" aria-live="polite">0</span>
+            </h2>
+            <div class="list-actions">
+                <input type="text" id="searchNotasInput" class="search-input" data-i18n-placeholder="notas_search_placeholder" placeholder="Buscar notas..." aria-label="Buscar notas">
+                <button id="manageTagsBtn" class="icon-btn" data-i18n-title="notas_manage_tags" title="Gerenciar tags" aria-label="Gerenciar tags">
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtro de Tags (chips) -->
+        <div id="tagFilterContainer" class="tag-filter-container" style="display: none;">
+            <span class="filter-label"><i class="fas fa-filter"></i> <span data-i18n="notas_filter_by_tag">Filtrar por tag:</span></span>
+            <div id="tagChips" class="chips-container"></div>
+        </div>
+
+        <div id="notasList" class="notes-grid" role="feed" aria-label="Lista de notas">
+            <div class="empty-state">
+                <i class="fas fa-book-open" aria-hidden="true"></i>
+                <p data-i18n="notas_empty">Nenhuma nota criada ainda.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Modal para Gerenciamento de Tags -->
+<div id="tagManagerModal" class="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 data-i18n="notas_manage_tags_title">Gerenciar Tags</h3>
+            <button class="close-modal" id="closeTagManagerModal" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="tag-create-section">
+                <input type="text" id="newTagNameInput" placeholder="Nome da tag" data-i18n-placeholder="notas_tag_name_placeholder">
+                <div class="color-picker-container">
+                    <label data-i18n="notas_tag_color">Cor:</label>
+                    <input type="color" id="newTagColorInput" value="#2563EB">
+                </div>
+                <button id="addTagBtn" class="btn-primary" data-i18n="notas_add_tag">Adicionar Tag</button>
+            </div>
+            <div id="existingTagsList" class="existing-tags-list">
+                <!-- Lista de tags existentes será renderizada aqui -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="notas.js"></script>
+</body>
+</html>
