@@ -1,5 +1,7 @@
 // biblioteca.js – Busca de livros com loading estável, enriquecimento de metadados e APIs externas
 // Versão com i18n completo e suporte a bibliotecas.json multilíngue
+// CORREÇÃO: Aguarda carregamento dos livros locais antes da primeira busca
+
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== CONFIGURAÇÕES GLOBAIS ==========
     let translations = {};
@@ -829,7 +831,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function generateEnhancedColorCover(title) {
         if (!title) title = 'Sem título';
-        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
+        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
         const colorIndex = Math.abs(title.length * 7) % colors.length;
         const bgColor = colors[colorIndex];
         const canvas = document.createElement('canvas'); canvas.width = 300; canvas.height = 450;
@@ -1026,6 +1028,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data) && data.length > 0) {
+                        console.log(`[Biblioteca] ${data.length} livros carregados de ${path}`);
                         return data.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
                     }
                 }
@@ -1210,14 +1213,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupTabs();
         await loadExternalLibraries();
 
-        if (searchInput) searchInput.addEventListener('input', (e) => {
-            currentSearchTerm = e.target.value;
-            debouncedPerformSearch(currentSearchTerm);
-        });
+        // ========== CORREÇÃO: CARREGAR LIVROS ANTES DE QUALQUER BUSCA ==========
+        localBooksCache = await loadLocalBooks();  // <-- AGUARDA O CARREGAMENTO COMPLETO
 
-        localBooksCache = await loadLocalBooks();
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                debouncedPerformSearch(currentSearchTerm);
+            });
+        }
+
         await initAudiobookTab();
-        await performSearchWithFilters(''); // Carregar sugestões iniciais
+
+        // Agora que os livros estão carregados, executa a busca inicial
+        if (activeMainTab === 'library') {
+            await performSearchWithFilters('');
+        }
     }
 
     init();
