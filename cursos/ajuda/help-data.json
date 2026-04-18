@@ -470,5 +470,38 @@
         "content": "We recommend that you watch the lessons in the proposed order, practice the suggested exercises, and participate in the community to ask questions and share knowledge."
       }
     ]
+  },
+  "enem": {
+    "title": "Ajuda do Curso ENEM",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso preparatório para o ENEM da Universidade Livre. Este curso foi criado para oferecer uma revisão completa dos conteúdos cobrados no exame, utilizando videoaulas gratuitas do YouTube e simulados online."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "subsections": [
+          {
+            "heading": "Este curso substitui um cursinho presencial?",
+            "content": "Não. A Universidade Livre oferece um guia de estudos gratuito com curadoria de videoaulas. É uma excelente ferramenta de apoio, mas não substitui o acompanhamento individualizado de um cursinho."
+          },
+          {
+            "heading": "A Universidade Livre oferece certificado?",
+            "content": "Não emitimos certificados. Nosso objetivo é fornecer recursos educacionais de qualidade de forma aberta."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas que correspondem às áreas de conhecimento do ENEM: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática. Ao final, um simulado externo permite testar seus conhecimentos."
+      }
+    ]
   }
 }

@@ -267,7 +267,6 @@
   "volume": "Volume",
   "download_fallback_confirm": "Could not download file directly. Would you like to access the book repository?",
   "no_link_available": "No link available for this item.",
-
   "_notas_section": "=== NOTES ===",
   "notas_title": "Study Notes · Open University",
   "notas_subtitle": "Study Notebook",
@@ -298,5 +297,10 @@
   "notas_edit_tag": "Edit tag",
   "notas_delete_tag": "Delete tag",
   "notas_tags": "Tags:",
-  "notas_add_tag_to_note": "Add tag to note"
+  "notas_add_tag_to_note": "Add tag to note",
+  "ensino_medio": "High School",
+  "search_courses_placeholder": "Search courses by name or description...",
+  "filter_by_level": "Filter by level:",
+  "filter_all": "All",
+  "no_courses_found": "No courses found."
 }

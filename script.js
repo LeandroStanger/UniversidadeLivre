@@ -1,4 +1,4 @@
-// script.js – versão final com i18n completo, fallback robusto, controle de volume e correções de tradução
+// script.js – versão final com i18n completo, fallback robusto, controle de volume e suporte ao ENEM
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('[i18n] Tentando carregar pt-br como fallback');
                 return loadTranslations('pt-br');
             }
-            // Fallback completo com todas as chaves necessárias (incluindo as novas)
+            // Fallback completo com todas as chaves necessárias (incluindo ensino_medio)
             translations = {
                 "app_title": "Universidade Livre",
                 "tab_bibliography": "Bibliografia",
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "graduacao": "Graduação",
                 "bacharelado": "Bacharelado",
                 "pos_graduacao": "Pós-Graduação",
+                "ensino_medio": "Ensino Médio",   // <-- NOVO
                 "licenciatura": "Licenciatura",
                 "tecnologo": "Tecnólogo",
                 "mestrado": "Mestrado",
@@ -169,9 +170,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'continue_studies': 'Continuar Estudos',
                 'clause.progression': 'Progresso do Curso',
                 'course_hours': 'Carga horária',
+                'ensino_medio': 'Ensino Médio',
                 'subject_tecnologia': 'Tecnologia',
                 'subject_ciencia': 'Ciência',
-                // ... adicionar outros se necessário, mas o fallback já cobre
             };
             if (hardcoded[key]) text = hardcoded[key];
             else console.warn(`[i18n] Chave não encontrada: ${key}`);
@@ -387,7 +388,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             devops: 'cursos/pos-graduacao/devops/devops-data.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
-            'math': 'cursos/graduacao/math/math-data.json'
+            'math': 'cursos/graduacao/math/math-data.json',
+            'enem': 'cursos/ensino-medio/enem/enem-data.json'   // <-- NOVO
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -404,7 +406,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     } else if (discipline.type === 'exercise') {
                         totalMinutes += getDurationFromDiscipline(discipline) || 30;
                     } else if (discipline.videoIds && Array.isArray(discipline.videoIds)) {
-                        // mesmo cálculo usado em buildVideosFromIds
                         for (let idx = 0; idx < discipline.videoIds.length; idx++) {
                             const duration = 10 + (idx % 25) + 5; // entre 15 e 40 min
                             totalMinutes += duration;
@@ -482,7 +483,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             devops: 'cursos/pos-graduacao/devops/devops-data.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
-            'math': 'cursos/graduacao/math/math-data.json'
+            'math': 'cursos/graduacao/math/math-data.json',
+            'enem': 'cursos/ensino-medio/enem/enem-data.json'   // <-- NOVO
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -524,7 +526,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             devops: 'cursos/pos-graduacao/devops/team-devops.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
             'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
-            'math': 'cursos/graduacao/math/team-math.json'
+            'math': 'cursos/graduacao/math/team-math.json',
+            'enem': 'cursos/ensino-medio/enem/team-enem.json'   // <-- NOVO
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -567,7 +570,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-books.json',
             devops: 'cursos/pos-graduacao/devops/devops-books.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
-            'computer-science': 'cursos/graduacao/computer-science/computer-science-books.json'
+            'computer-science': 'cursos/graduacao/computer-science/computer-science-books.json',
+            'enem': 'cursos/ensino-medio/enem/enem-books.json'   // <-- NOVO
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -1252,7 +1256,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             devops: 'cursos/pos-graduacao/devops/team-devops.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
             'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
-            'math': 'cursos/graduacao/math/team-math.json'
+            'math': 'cursos/graduacao/math/team-math.json',
+            'enem': 'cursos/ensino-medio/enem/team-enem.json'   // <-- NOVO
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -1293,7 +1298,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '';
         let practiceData = null;
         try {
-            const specificUrl = `cursos/pratica/pratica-${courseId}.json`;
+            const specificUrl = `cursos/ensino-medio/enem/pratica-enem.json`;   // <-- NOVO caminho para ENEM
             const specificResponse = await fetch(specificUrl);
             if (specificResponse.ok) {
                 practiceData = await specificResponse.json();
@@ -1539,7 +1544,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const courseData = await loadCourseData(courseId);
         if (!courseData) return;
         const courseInfo = allCourses.find(c => c.id === courseId);
-        currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : 'pos-graduacao' };
+        currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
         currentCourse = courseId;
         initCourse(courseData);
         const homeScreen = document.getElementById("homeScreen");
@@ -1598,76 +1603,129 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (updateInterval) clearInterval(updateInterval);
     }
 
+    // ========== FILTROS DA PÁGINA INICIAL ==========
+    let currentLevelFilter = 'all';
+    let currentSearchTerm = '';
+
     async function renderCourseCards() {
         const homeScreen = document.getElementById('homeScreen');
         if (!homeScreen) return;
-        homeScreen.innerHTML = `<div class="loading">${t('loading')}</div>`;
-        try {
-            const response = await fetch('cursos/courses.json');
-            if (!response.ok) throw new Error('Erro ao carregar lista de cursos');
-            const courses = await response.json();
-            allCourses = courses;
-            homeScreen.innerHTML = '';
-            for (const course of courses) {
-                const card = document.createElement('div');
-                card.className = 'course-card';
-                card.dataset.course = course.id;
-                const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
-                
-                let levelText = '';
-                let typeText = '';
-                if (course.courseLevel === 'graduacao') levelText = t('graduacao');
-                else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
-
-                if (course.courseType === 'bacharelado') typeText = t('bacharelado');
-                else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
-                else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
-                
-                const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
-                const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
-                
-                const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
-                const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
-                
-                let progressPercent = 0;
-                const key = `ulivre_course_${course.id}`;
-                const saved = localStorage.getItem(key);
-                if (saved) {
-                    try {
-                        const data = JSON.parse(saved);
-                        const watchedMap = data.watchedMap || [];
-                        const total = watchedMap.length;
-                        const watched = watchedMap.filter(v => v === true).length;
-                        progressPercent = total ? Math.floor((watched / total) * 100) : 0;
-                    } catch (e) {}
-                }
-                const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
-                
-                // ========== CARGA HORÁRIA ==========
-                const totalMinutes = await computeCourseTotalMinutes(course.id);
-                const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
-                
-                card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
-                                 <div class="course-badges">${levelBadge}${typeBadge}</div>
-                                 ${roomHtml}${descHtml}
-                                 ${durationText}
-                                 <div class="course-progress-bar">
-                                    <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
-                                 </div>
-                                 <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
-                                 <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
-                
-                card.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('continue-btn')) openCourse(course.id);
-                });
-                const btn = card.querySelector('.continue-btn');
-                if (btn) btn.addEventListener('click', () => openCourse(course.id));
-                homeScreen.appendChild(card);
+        
+        if (allCourses.length === 0) {
+            try {
+                const response = await fetch('cursos/courses.json');
+                if (!response.ok) throw new Error('Erro ao carregar lista de cursos');
+                allCourses = await response.json();
+            } catch (error) {
+                console.error('Erro ao carregar cursos:', error);
+                homeScreen.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
+                return;
             }
+        }
+        
+        const searchTerm = currentSearchTerm.trim().toLowerCase();
+        const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        
+        const filteredCourses = allCourses.filter(course => {
+            if (currentLevelFilter !== 'all' && course.courseLevel !== currentLevelFilter) return false;
+            if (searchTerm) {
+                const name = (course.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                const desc = (course.description || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                if (!name.includes(normalizedSearch) && !desc.includes(normalizedSearch)) return false;
+            }
+            return true;
+        });
+        
+        if (filteredCourses.length === 0) {
+            homeScreen.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
             applyTranslations();
-        } catch (error) {
-            console.error('Erro ao carregar cursos:', error);
-            homeScreen.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
+            return;
+        }
+        
+        homeScreen.innerHTML = '';
+        for (const course of filteredCourses) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.dataset.course = course.id;
+            
+            const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
+            
+            let levelText = '';
+            let typeText = '';
+            if (course.courseLevel === 'graduacao') levelText = t('graduacao');
+            else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
+            else if (course.courseLevel === 'ensino-medio') levelText = t('ensino_medio');
+            
+            if (course.courseType === 'bacharelado') typeText = t('bacharelado');
+            else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
+            else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
+            
+            const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
+            const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
+            
+            const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
+            const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
+            
+            let progressPercent = 0;
+            const key = `ulivre_course_${course.id}`;
+            const saved = localStorage.getItem(key);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    const watchedMap = data.watchedMap || [];
+                    const total = watchedMap.length;
+                    const watched = watchedMap.filter(v => v === true).length;
+                    progressPercent = total ? Math.floor((watched / total) * 100) : 0;
+                } catch (e) {}
+            }
+            const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
+            
+            const totalMinutes = await computeCourseTotalMinutes(course.id);
+            const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
+            
+            card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
+                             <div class="course-badges">${levelBadge}${typeBadge}</div>
+                             ${roomHtml}${descHtml}
+                             ${durationText}
+                             <div class="course-progress-bar">
+                                <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+                             </div>
+                             <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
+                             <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
+            
+            card.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('continue-btn')) openCourse(course.id);
+            });
+            const btn = card.querySelector('.continue-btn');
+            if (btn) btn.addEventListener('click', () => openCourse(course.id));
+            homeScreen.appendChild(card);
+        }
+        applyTranslations();
+    }
+
+    function initHomeFilters() {
+        const searchInput = document.getElementById('courseSearchInput');
+        const levelChips = document.querySelectorAll('#levelChips .chip');
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(() => {
+                currentSearchTerm = searchInput.value;
+                renderCourseCards();
+            }, 300));
+        }
+        
+        if (levelChips.length) {
+            levelChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const level = chip.dataset.level;
+                    currentLevelFilter = level;
+                    
+                    levelChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    
+                    renderCourseCards();
+                });
+            });
         }
     }
 
@@ -1697,7 +1755,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         await setLanguage(initialLang);
     }
     
-    renderCourseCards();
+    await renderCourseCards();
+    initHomeFilters();
     applyTranslations();
 
     const backToHomeBtn = document.getElementById("backToHomeBtn");
@@ -1796,11 +1855,13 @@ window.showFinalCompletionModal = async function(courseId, courseName, folderPat
     if (!level) {
         if (folderPath && folderPath.includes('graduacao')) level = 'graduacao';
         else if (folderPath && folderPath.includes('pos-graduacao')) level = 'pos-graduacao';
+        else if (folderPath && folderPath.includes('ensino-medio')) level = 'ensino-medio';
         else level = 'graduacao';
     }
     let buttonText = 'Ir para Graduação';
     if (level === 'graduacao') buttonText = 'Ir para Pós-Graduação';
     else if (level === 'pos-graduacao') buttonText = 'Ir para Outra Pós-Graduação';
+    else if (level === 'ensino-medio') buttonText = 'Ir para Graduação';
     if (goHomeBtn) {
         goHomeBtn.innerText = buttonText;
         goHomeBtn.onclick = () => { window.location.href = 'index.html'; };

@@ -38,6 +38,23 @@
         </div>
     </div>
 
+    <!-- Filtros da página inicial -->
+    <div id="homeFilters" class="home-filters">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="courseSearchInput" class="search-input" data-i18n-placeholder="search_courses_placeholder" placeholder="Buscar cursos por nome ou descrição...">
+        </div>
+        <div class="filter-group">
+            <span data-i18n="filter_by_level">Filtrar por nível:</span>
+            <div id="levelChips" class="chips-container">
+                <div class="chip active" data-level="all" data-i18n="filter_all">Todos</div>
+                <div class="chip" data-level="graduacao" data-i18n="graduacao">Graduação</div>
+                <div class="chip" data-level="pos-graduacao" data-i18n="pos_graduacao">Pós‑graduação</div>
+                <div class="chip" data-level="ensino-medio" data-i18n="ensino_medio">Ensino Médio</div>
+            </div>
+        </div>
+    </div>
+
     <div id="homeScreen" class="home-screen"></div>
 
     <div id="courseView" class="course-view">
@@ -55,7 +72,6 @@
                             <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
                             <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
                         </div>
-                        <!-- Controle de Volume -->
                         <div class="volume-control" id="volumeControl">
                             <button class="ctrl-btn" id="muteUnmuteBtn" title="Mutar/Desmutar">
                                 <i class="fas fa-volume-up"></i>

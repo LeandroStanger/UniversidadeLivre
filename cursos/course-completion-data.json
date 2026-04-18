@@ -48,5 +48,10 @@
     "text": "Excellent! You have completed the Bachelor's Degree in Mathematics.\nYou have mastered fundamental concepts ranging from calculus to abstract algebra, developing logical and analytical reasoning.\nThis degree opens doors to careers in research, education, technology, and finance.\nApply your knowledge to solve complex problems and inspire others with your journey.",
     "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
+  },
+  "enem": {
+    "text": "Parabéns por concluir o curso preparatório para o ENEM!\nVocê revisou os principais conteúdos das quatro áreas de conhecimento e treinou sua redação.\nAgora é hora de fazer o simulado e confiar no seu potencial.\nBoa sorte no exame!",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "ensino-medio"
   }
 }

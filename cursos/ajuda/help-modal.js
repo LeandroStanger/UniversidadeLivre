@@ -1,4 +1,4 @@
-// help-modal.js – versão com i18n
+// help-modal.js – versão com i18n e suporte a ENEM
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('helpModal');
     if (!modal) {
@@ -33,16 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
             'devops': 'devops',
             'ciencia_de_dados': 'ciencia_de_dados',
             'computer-science': 'computer-science',
-            'math': 'math'
+            'math': 'math',
+            'enem': 'enem'                     // <-- NOVO: mapeamento para ENEM
         };
         currentCourse = courseMap[courseId] || courseId;
         const helpButton = document.getElementById('helpButton');
         if (helpButton) {
-            helpButton.style.display = (courseId === 'computacao' || courseId === 'matematica' ||
-                courseId === 'computacao_grafica' || courseId === 'embarcados' ||
-                courseId === 'desenvolvimento_web' || courseId === 'cybersecurity' ||
-                courseId === 'devops' || courseId === 'ciencia_de_dados' ||
-                courseId === 'computer-science' || courseId === 'math') ? 'inline-flex' : 'none';
+            // Lista de cursos que possuem ajuda (todos os mapeados acima)
+            const supportedCourses = [
+                'computacao', 'matematica', 'computacao_grafica', 'embarcados',
+                'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
+                'computer-science', 'math', 'enem'
+            ];
+            helpButton.style.display = supportedCourses.includes(courseId) ? 'inline-flex' : 'none';
         }
         console.log(`[Ajuda] Curso definido: ${currentCourse} (original: ${courseId})`);
         // Atualizar título do modal com o nome do curso usando i18n
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (courseId === 'matematica') courseName = 'Matemática';
             else if (courseId === 'computer-science') courseName = 'Computer Science';
             else if (courseId === 'math') courseName = 'Math';
+            else if (courseId === 'enem') courseName = 'ENEM';
             else courseName = courseId;
             modalTitle.innerText = t('help_modal_title', { course: courseName });
         }

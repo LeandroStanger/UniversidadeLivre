@@ -1,4 +1,4 @@
-// course-intro.js – versão com i18n e suporte a tradução
+// course-intro.js – versão com i18n e suporte a tradução (incluindo ENEM)
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('courseIntroModal');
     const closeBtn = modal?.querySelector('.close-intro');
@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'devops': 'devops',
         'ciencia_de_dados': 'ciencia_de_dados',
         'computer-science': 'computer-science',
-        'math': 'math'
+        'math': 'math',
+        'enem': 'enem'   // <-- NOVO
     };
 
     async function loadIntroData() {

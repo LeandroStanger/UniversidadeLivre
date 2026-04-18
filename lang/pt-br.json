@@ -267,7 +267,6 @@
   "volume": "Volume",
   "download_fallback_confirm": "Não foi possível baixar o arquivo diretamente. Deseja acessar o repositório do livro?",
   "no_link_available": "Nenhum link disponível para este item.",
-
   "_notas_section": "=== CADERNO DE NOTAS ===",
   "notas_title": "Notas de Estudo · Universidade Livre",
   "notas_subtitle": "Caderno de Estudos",
@@ -298,5 +297,10 @@
   "notas_edit_tag": "Editar tag",
   "notas_delete_tag": "Excluir tag",
   "notas_tags": "Tags:",
-  "notas_add_tag_to_note": "Adicionar tag à nota"
+  "notas_add_tag_to_note": "Adicionar tag à nota",
+  "ensino_medio": "Ensino Médio",
+  "search_courses_placeholder": "Buscar cursos por nome ou descrição...",
+  "filter_by_level": "Filtrar por nível:",
+  "filter_all": "Todos",
+  "no_courses_found": "Nenhum curso encontrado."
 }

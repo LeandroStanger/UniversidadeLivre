@@ -1,0 +1,492 @@
+{
+  "name": "ENEM",
+  "type": "Ensino Médio",
+  "icon": "fa-graduation-cap",
+  "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Linguagens, Códigos e suas Tecnologias",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Linguagens, Códigos e suas Tecnologias",
+      "disciplines": [
+        {
+          "name": "Gramática aplicada ao texto",
+          "videoIds": [
+            "y2z12R8EgDk", "8iXiBgCnGv4", "4g2wLzz0EMM", "YpKnBNrP01c", "6Of8AZ-bPIo",
+            "XOWvpnAFs_E", "2d6PW3xp2pA", "ic_OhTHWNwQ", "vZi1Lb9iPq4", "m3il51tNeEU",
+            "feuAXqK3Phc", "M6iDaj_5s-Q", "Z5dkJmO3nuc", "D2r0n5U52Bs", "PQRdgiIutrE",
+            "pzJQQUoo08A", "yiIlZ8yN130", "hfGyxmu6HOo", "8BP294xRmqo", "eoZ0aEJQACg",
+            "q-ajaXqfvKM", "t9nHc_a_lUQ", "q6RyRGluTWc", "Ilt5523lBqg", "4eE_31WFdJ0",
+            "lrH6CyzZQDA", "5WOV2m20h6g", "XwNFqYkx-YY", "37yXmmIDgx8", "pw-o1-VW6K4",
+            "4TI79PSinws", "lkxc-hStcuE", "dX5SL2YbjWw", "KHnQPc99FNA", "Hv9J3HqejDM",
+            "589N9KHjVGI", "AGoRgpivCwM", "dVrQGIEa89M", "x-7bLLi_vkE", "fCVBUAt71TA"
+          ]
+        },
+        {
+          "name": "Literatura",
+          "videoIds": [
+            "9T7-gOm0nGk", "SUIr4ZQtYGk", "WGZFBePibF0", "N8aCwmWgVyA", "ea65K0B9TLk",
+            "TaiiIil8-Ow", "WULOzFYZ30g", "zGVONzNXGSo", "1FN2jCxgnt0", "Yadx1nAvgyo",
+            "-ko2O_3gijM", "PyUy_9mKGCk", "MUvd5BJiGI4", "HoaCn9VnY2w", "Ri43JArccdY",
+            "M7okFxuX8fM", "yUx7vExUi4k", "Yny-_awoqyg", "iCXp_ic4p_E", "FAzWo39rMYY",
+            "0ca0bBqnxE4", "iqP66FxK0h4", "JKmrUc1PhuE", "0rRAGvlVEhg", "rVjVUTXHocQ",
+            "UBxq1C4jVLE", "3xUjHZO0yXw", "8RApaDphdTc", "WmOICqpg4Rg", "YlqUollEjyo",
+            "PyojY1qM9pU", "fUqkhFQvYNE", "bQiS0HlnuX4", "dWmGwQCl32s", "zmdtkSG8vDE",
+            "SCaLPh22X8U", "Jh_P19RsGqg", "NSfQGDi6pd4"
+          ]
+        },
+        {
+          "name": "Gêneros textuais",
+          "videoIds": [
+            "OanSFguzZJs", "vmtxhIgXrUU", "F3nR3g5Ol4g", "yMZI9jTBhoE", "_GfbMXqx50I",
+            "i5NSReCImb4", "jN1PzHGxom0", "tNEORwjvIwI", "sjflNG4gS_8", "zUFccId5eGU",
+            "joseq83vyXI"
+          ]
+        },
+        {
+          "name": "Língua Estrangeira - Inglês",
+          "videoIds": [
+            "0oNeqpLPJjU", "APTxSP28bW0", "np6frAhowLY", "VWxtsks6mgg", "2FFv7LWk0E8",
+            "SllAI0o1lYk", "dV876LJd9Hs", "hm8Yf6cLINI", "gWwZWI0Zu2M", "zQdCLa_SJvM",
+            "c2SwHbCERCs", "mjo8olLGQKw", "JscsTKUC6hY", "w0IXyTUDfVQ", "-iUJDQnfhE4",
+            "wdpBFcTzTD0", "rfPw-_wRxyY", "w2qnQAeZzR4", "MQKwnl7WLDA", "TyzphDLRQmI",
+            "3vJ4ZhHgvv4", "UjovUrwfPF0", "Qv7K2YneVfY", "Nq8-vzfajXU", "bZllYpm7S5k",
+            "OGLEURRbpjs", "VCdkk7tkOpg", "jNy4Sy5GVMs", "8ts9u6sxwrU", "0Rxrvt34Rm8",
+            "YvmH7tTcDY4", "aJRV1_lD-uQ", "FVd1h2abUbo", "TdfAQGKf6J0", "N2wwU3FMKng",
+            "Gm_61dZymS4", "iNLKT2VGOrE", "SK88dcFOyw4", "54XtV0RF4po", "wh8sbFEK4SA",
+            "2mXyS6VFJh4", "NRY_36qZRGs", "QxWwyAW5BgY", "ffKnGGE-uIE", "DMTKKNN3XLo",
+            "ccVcsSvhTFg", "oiEXkSamO7E", "HOCStuGIxNE", "9De0TgEAmYE", "SShu5dcPRmY",
+            "aFdyI6ccbPI", "L9A7eYlAxiI", "Q5f4U3cO_fg", "n3myOfPrkKA", "x_6NpQ6NJyE",
+            "9EsZyoQORI4", "czfm2y4wJ4M", "oTV4QDyZq5s", "NccKLI10AWo", "b-LO9fF2BUA",
+            "i3VoVzZLACs", "TAB_S4Zv1vI", "6R8QDXm95hw", "8JpsFqSiDdM", "F5zPGq5ikv8",
+            "Wsu2-JLUx6M", "ywzQJiFkJ9Q", "HRHG9rDUvS4"
+          ]
+        },
+        {
+          "name": "Língua Estrangeira - Espanhol",
+          "videoIds": [
+            "mRHjGmvrarI", "-MOuNhxWX5M", "isT87dmBp1c", "EMo7sgYEmpI", "oaWIRiT1OKs",
+            "kRnvogubv7U", "gX6j7AZCluw", "1LJrkA-447Q", "ce_LYvx4D6Y", "EWjBYi9Yc4A",
+            "LLy7QL3HC98", "yu3AF6djSWw", "2tDXJX8ZMao", "13TCEoFNLvc", "DqBeIW5hZyQ",
+            "Z0QkL8eeE-g", "Zrqz52ApOQc", "jFXA-Oi29i8", "3SdiPguNzvk", "VT4rBYomJmU",
+            "PqjBOCvbHB8", "Zh_8Dn2FGQY", "PvQSY_bLIBI", "LsykEq_XEsg", "KM7p3o4GD48",
+            "qT-naHoslf0", "mMM4ZeHwEiA", "3fkGbcjBLbA", "FOe-PmFxdUg", "1ps7SCk2QfM",
+            "MXbdciQCF4c", "kk6P8CXloWA", "YO0gYfZa_Nc", "32PnWDP7bO0", "Y3AYk2K3I2w",
+            "JsFnp5k0OnU", "mlQ3VLolqLU", "sxzZphiJkug", "Gmd-LVFA4V0", "PWWXqO5gs2M",
+            "uvZvp8dI9JM", "RPCtZ_U7YIY", "fogNbQBa6DU", "jlHmuch4280", "xf_FIwGXcss",
+            "4j0Ejsk2bks", "YfMaWrLDE_o", "7OfAcDbgV0M", "Djuv1gF0qp0", "2LGHZQs96w0",
+            "vAsU8zom3mE", "XArK-_61y18", "h7VuTc1YrSk", "leqdEk9U1ms"
+          ]
+        },
+        {
+          "name": "Artes",
+          "videoIds": [
+            "mzRA0ClbarQ", "63_SimT8LO8", "1jR9OFmQzL0", "0G5FVlvzHCg", "8jRs5CZwbQM",
+            "v59jLWzyuuY", "fmE10_5TqRo", "dlYB6drP3rk"
+          ]
+        },
+        {
+          "name": "Educação Física",
+          "videoIds": [
+            "MZ9vaoQfrZ0", "9MhYxGc-Ybo", "sdABBXl0x5Y", "tialxlIhkRA", "N8n6I63imUM",
+            "ac__CKeO0_A", "-ULf1Isyy9M", "K-BSqxmrwgU", "ENOf3zkdDI4", "yYPnPbUbVbc",
+            "Be4taBYyrFA", "UEWNxk0IylU", "MfnRzn1vg2Q", "cHX5KGnICkY", "hKmKTDX5-vY",
+            "1NKofYM-GmU"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Ciências Humanas e suas Tecnologias",
+      "disciplines": [
+        {
+          "name": "História",
+          "videoIds": [
+            "EDZVqcvffgQ", "Me36pQKhS3E", "TZyNLIAwCZ0", "QnjkthNjWu0", "n-gxIqg5xwI",
+            "eqFYbb8yFFE", "Bet_3rJxwwY", "Ndak1dMOQHY", "jTuT8iiSF3g", "eDDGqU9OgAc",
+            "QoSWUeL3fW0", "bb6d54mQkL0", "vOQf4k5-T98", "PFWWgZIOPVk", "e-D8PaF8JFM",
+            "ta2npneckTE", "BrFY5z-HaMM", "T5tfs8QI3zU", "2F1bkjrJils", "Ink0VvHBqmQ",
+            "kCKuP2OqfEs", "F8c422R-C1w", "T-sajvY_F4Y", "hOiKSiek0xw", "OJTeR5vjq4Q",
+            "FDLn8-4MO4w", "pvGnHp9mFrU", "osT4DLhHynI", "Dx6quavMty0", "7zs6-atp_ik",
+            "4hEDjSdszSU", "8PAMZzDvN1A", "x6T_AsE8Rts", "v1YnYdXsI0Q", "1oEhFYj5y0I",
+            "RJX-wTMONWM", "G9ub4tL2HOM", "4ceFMDndn_0", "ksyBneLcPe8", "J3ZjXhZH_6c",
+            "1xucZxSz7Gw", "BMuxaz4-HlM", "HIxM0bjCsfQ", "LQT-PdXNeuk", "2zmZr8SS48Q",
+            "lg6b1B36Wqo", "4j7WKEXL0tQ", "_UvP3-qtRBo", "-vBYuIUKU0s", "GiptK0MhFFI",
+            "cwrvIaehFTs", "SfoAgpJwF5g", "gEO0XsM-0X8", "Lp3B2Al4IrY", "KG3R0n-hCvs",
+            "aw0tWEtxE_M", "gt7vj3fl4wg", "tZih40kpMdI", "giS-_mQpN10", "4V9a5emlI7k",
+            "uz0b0vyBLLU", "KEiFEeSft_4", "kO2AY3-DVog", "4D41opXirIQ", "FpvCOFwrEgA",
+            "PKGYWle7kN4", "s1KWvnZQ76U", "jaYXB0ZAEa8", "4YogdtC09xk", "yIAPTjy9yyI",
+            "eD4R4iOrkAI", "vSVASZL2dck", "5Khp_i66eP8", "ZZ6lGZuXu7k", "dCgwD4fYjw8",
+            "sS4DAoINCb8", "7qyGnyMS6q4", "Jky4Xr32eA8", "TnFFTZUXv_8", "BXP8ETr9hPM",
+            "Wi64aVz3qSk", "6zwHSgi00Aw", "z6SqhhdoCbc", "rypYRbpdY3Y", "IEQ7nQ76trk",
+            "7aEqO-WA5H4", "DoIBS1slge4", "pwTS7mhIiWI", "-EGDMVZoLcI", "1Iir1CmnhpA",
+            "TM3eAoSJ0h0", "60qG46MCfVk", "U_yQw7e6d_g", "JBFfdENcHoE", "grBDvWg7mCg",
+            "9L014M6guEo", "rl8TFgS4sOk", "qZCzjMp3Ih8", "lqrHwY5LBPQ", "LSPrI7GtPQI",
+            "4MSPKevGV5g", "Zrk-4WOeqgU", "JME_d9qHKic", "z1NDd1yAW6s", "Uq_YA1gEwAc",
+            "CmFPeGjWA10"
+          ]
+        },
+        {
+          "name": "Geografia",
+          "videoIds": [
+            "5-WmJB8UXvU", "W9qKrflReuk", "QqlvQEJtchY", "vdBAUBN9xMk", "zT2_UNHLMyQ",
+            "LQxPhl-p7wQ", "0EoODa1468Q", "mNqPa6wMzsg", "S9qHhk0OALA", "lWlAl7VNhzQ",
+            "LAtBXhJl15w", "0_FZU9XyIok", "EylUdUEUFPE", "aovvDvhy9qI", "LVTfBMccfg4",
+            "ZWXTO_QPPts", "e93uDRo4OZ4", "bOunatirtnU", "kzLGv1f5rzg", "FGblBqfoVVw",
+            "ELk9odCRrBw", "isgyH6c-Rpw", "1nf8Oz82l7E", "peWrG8QHtH4", "w_vIXOXb7ls",
+            "lWjrWOgnayc", "B6dUVJIW58Y", "8BOBYZ92XvY", "fe9f3BxjXFg", "sVJp5pVCFP0",
+            "aY6-RfNSLZ8", "9JGQ4dvNU1s", "2ot7T0arAkE", "azON5B8DNts", "iZya81yOft4",
+            "N7Tc2ZRJgk4", "w7aVAW9enrM", "ULFUbxkJ8zw", "r-_lUTEu1NU", "OO5jlhpxgns",
+            "Wb3U5W_L9Jc", "LFjJPYm1nuw", "Qxxlq5VL1HA", "GzZUCcm6_qY", "nrzFMOq1k-w",
+            "mHzkfgDlJsc", "J1DGcLKr-eM", "i0kLFcQdol0", "l0GxnBXQfiI", "03SotQXWZ3s",
+            "FJdFpOka8uE", "gHW_MzEwUQU", "z6i4fD-6TNo", "jzJ5Ga5zK_c", "Tf6A7TiSr9Y",
+            "R2rvSd3ITiQ", "4xAA0iOxcjM", "jG1T3_I0hIM", "n_NPbaYiYcQ", "5IwzAlz9sH4",
+            "8BwaEZ1pO-4", "rYJ28ToidxI", "0Fy53nsYW1A", "9a4rRqkDZTk", "jd_Pq49Zrm4",
+            "rhYtEp6qInk", "JhckdzGmfR8", "hmXcEhWOp0k", "EOQnhxLk7p8", "eHjBsa_Ap7w",
+            "loX9rL3PXOA", "3ZZVz0XjdFA", "woE9w8_crAQ", "2i-Bbiq81yw", "uRveeTqwr0M",
+            "4a8t43HlqRw", "bDsfeDwHWo0", "NMCARu9B2oM", "ctnd0g3jVdU", "HU12Q4iEZ0s",
+            "aaLDUNT3yXk", "nMSDR_5Qwl0", "m-UWHPAdA1g", "Y2aF-4t-WtM", "wb6KDkVX2ic",
+            "xehr3K63Wk0", "tXdHB1MM1no", "imZOQ54vvQs", "kej3_SuE08k", "kEiUlcxzXr8",
+            "DY8dGl_WinM", "_SYmvJUc6wc", "eFnBaCth0V0", "Icut5mqUaR4", "Z_Sj_YMMsHw",
+            "cBVHkeilFwg", "fPYYFhx-Fl8", "q9foNhKvGsU", "da6BYRdXsyA", "HYczFwWOVaU",
+            "gbK1IoRimOc", "_mSs7gVRWZ8", "QHx6Nsj2fxQ", "Zt5PnNdeHy0", "wBRgqW-QdUw",
+            "1fh1DEretP0", "EnUe9oZmQYw", "qkXCWUOLv4M", "a5zmz7_t2lE", "gE-1FaDVJo4",
+            "a2brzvYiuP0", "9-4aBCxgeZE", "4OQ1PKqoD0E", "-RJvVR4_R8s", "444BBLs7brw",
+            "6QFGet96Mik", "qu3kKadqPmo", "Ul32wrOdubg", "sLnTd49-NTk", "J20M9KbO3-E",
+            "Bz1JUo325Ts", "pnBUBNPxMLI", "CEhbaUHbcCU", "FPjrOP9vRk8", "Jo6evh1CB-I",
+            "2VlLYCgCVRU", "5-LX6y7fODY", "mLdFlPq0YfE", "Yb2AzJvTZto", "u49aQ3Ej8UE"
+          ]
+        },
+        {
+          "name": "Filosofia",
+          "videoIds": [
+            "vafkgQYoGeA", "TzevK3BpA3A", "oWrzvAXNPxo", "f5sljjuTkzg", "DnnvgOwlyiY",
+            "YMQidwhkpDM", "kav7jvchGUw", "FEdaFkxgdOc", "SJDc0ArX3_A", "-eJfzMWlT3M",
+            "pEf1YX6CiIE", "IwBQ5HLctS4", "pTSPDuY8Wj4", "rBHf-A6-VgY", "zILgN1teXSc",
+            "dE7e9JtzJK4", "4BA7Bf2B5_w", "N2k5Us80jKI", "U2GlVAflGt8", "9IB9nsTEbaA",
+            "GoNOo27lq30", "JF-UywwpQVA", "oozAFxMBIeE", "vzA-8hd_Szs", "ZthjjZBnyzE",
+            "eXrEWEGDfIs", "wU2tNO5OutY", "8AAKzFn5fdg", "y159caRaxNI", "XoneECQ6YuM",
+            "0jRGpkeVTz8", "RywAYBFKgs0", "l-OMMdx053A", "1AhRIIv_d7A", "k_YFpM9k5LM",
+            "Hd56BjrAr_Q", "d53jUS0K7h4", "7Uwrx-h8l0A", "-C6Hjz3g0tw", "Fra-kwn1HKU",
+            "zYPcRcp5kbE", "OmfCYDg8kDY", "MH_e90UwGbQ", "7zmhon_eQzo", "JoiukHt8AhQ",
+            "ngxqqPqy4Sk", "hK7xpJ1R3Ws", "1eWHst7ITFI", "Ng5Q4hJoFf4", "No2XPaEvi-c",
+            "GAMoKIm5PKY", "TodXrV3voxU", "IZlCNm-9l0w", "xj9ydRltEXM", "VSEh7Us6EwY",
+            "doFcC7NpMy4", "GgYKG8AviPo", "Xv46hLwTYzg", "Si3Tc9VhXwk", "riYgkmvJoww",
+            "i4U3yRUmnCY", "yBlUhA_W67o", "o_Y3qCNJP5k", "mzuupnFyzx4", "FcCK2-vSrFc",
+            "Mu68urnXvSA", "f6dVXXKhSlQ", "EdGrGoszYGw", "CHD_q7bJJOo", "nbG-TQIOmm8",
+            "DDlVKhP5udY", "g1V9-F7CC_k", "Mb3WVAJovys", "DNw7vJAxFfs", "FmmXVrlBk3U",
+            "h_LhiwUTtKk", "M460Ic5eUzI", "IuKNjm6mIbA", "VPb7EcxU-Eg", "hX49_FNuOZ0",
+            "MA2WG7Ryja4", "wh3tgGqAS_Q", "c2b9_qs4Dxg", "MDbOnD8sB1I", "_iWImB2X4uw",
+            "Z9b017GY17c", "yjYbN3u3HRI", "2rZ4ApAG3Ng", "9E4eWVnryuM", "fRbPBhhdLQM",
+            "LKD5LzTWvkc", "cQh_VHauwtY", "iy9WF8rjoRA", "rUSxcTk2csk", "joZMeUXa3Wg",
+            "beG5JDGQVSI", "FGzAsS2XSSg", "nyjcJR7flLY", "ZkDTciumkPA", "oOxN72TAmIk",
+            "NKCxYat_A60", "3eZ3XiuNGxw", "wf1DbfmWsDk", "In_uz6STTgs", "yHxZSLpr-a0",
+            "VOtv0ozwUV0", "xh_oK1LObDQ", "2RTFPr9b7gs", "UhJkuw05_GU", "gTUL4-rkJfs",
+            "mWYes5Pms-o", "Y2uzjv9-Euk", "l4YvjOWLo7g", "b2tauVP3MjE", "INMQg3ImzgM",
+            "Aim2Kz8Qv5g", "5rhNiwgrSbk", "oXFJ8NgUPOg", "warUuLYyVoE", "OYe8M7g50EQ",
+            "YHI0EICov-I", "XsPEnXfF4c8", "bh08J89QxLE", "JC8iCBFvoMw", "dVtahJ8NmFM",
+            "U-Won4bUdtQ", "7aRwPSXb__E", "FrbcSTWk22s", "AAac2n0rnLk", "rvl6dbXO91Y",
+            "-kSboMgkJP8", "2N9_rbWutfk", "bL7Um3Xx1FY", "vDljhQFyZoA", "4TgJInRgKag",
+            "weWgj1Mckd0", "0F4IX3uw62g", "gRVJ8cX7a34", "vH4IVBRfyLw", "FUIxzDzvKJ8"
+          ]
+        },
+        {
+          "name": "Sociologia",
+          "videoIds": [
+            "9QJWAGguIDY", "2RMcM4lHSK4", "FLs-op8rHwE", "YRybjZ-3wOQ", "7LiZHDEP9gI",
+            "a-w_SN9QLd0", "mywaXVJqQa4", "vzbUsDreszg", "28BvtLxuZ34", "iywd5_xX3J4",
+            "snf3bH8_7RY", "0i7bTerz_Og", "CqrQE0VNmm8", "N2-3ov67bpw", "SgvSCRtjhRs",
+            "AcgXuX6vObc", "0tULMQq3DfY", "Shj8Dh_NLxw", "pu2p0J6K2_U", "o1Cm-TRrTco",
+            "n0niTrrNeQQ", "kZJovH4q7rA", "hJ22ftvpXjI", "AbudT0dKF-c", "sJ3bZtq2-t8",
+            "OxLjQYarIkY", "N0XO9nVXP-E", "qy7ur5KL-8w", "vU6vG7pqgZg", "u8dUzolP-pU",
+            "TflraO4lNSc", "avYc1HK8LnE", "zKioPvvvuHo", "jff70CcnhVc", "kBI18OgFNB8",
+            "e4zq5lFK1Dg", "PKsut6kgCdI", "bZ9FB8BYXLA", "B98stH2rjvU", "bUT8HapTsho",
+            "d8AbF5hF37Y", "bTN4OwT1PQg", "smdTgAmoAb0", "RncoXczuXmw", "4TiXKCKgoCI",
+            "sACrGdxfJdQ", "nx_dyPFKXaA", "s1rOtVYf0eg", "w1kpM2QH5Q8", "YnbOfu3kOrs",
+            "x1kCPiCGfXs", "XRGha5UxEwg", "9kEojlgg7S4", "Hoz3Vgaf_Ns", "85V6shQPPL8",
+            "V0eC__Al4x4", "0pRCTzBpVEI", "8ZsLxQoeOLE", "XWZSmWvgwFg", "X9km9hdnMbc",
+            "tu2oyjG18Y0", "7eXURxPO1Ls", "neU-WO4IYrc", "WLEmeBk10SI", "qy3fs4ffZlg",
+            "ggOCeJ_yPFY", "87d-EKHl2rk", "JJ0NmQwWahs", "ip6kfc80-wo", "_Cb2TlmOnCc",
+            "_ao95kIeMpU", "_P957jZiyGQ", "YlRqepDfOq4", "nqz13oB5HJo", "DkFC0atm0FU",
+            "guFIILCxsVg", "bFq2aDME57s", "iqRsJ5KXaK0", "X-vLIpcF9Pw", "FtpbRB6xZ_s",
+            "PWvwlVlSZgM", "S3zBMBJ756M", "8as2nE6wcBA", "hUgr9d_bMdE", "WGqjtcBrHck",
+            "UI67v44GQ6A", "NEeCehNhd4M", "L9qbDKQUgFk", "KGFjygp3cp0", "dFn5sO_zP5I",
+            "qLiCqXxi22c", "lwn-anNd4BM", "mGquQ5xR4ls", "oU2yaLGKpkg", "6qpCqqw_21o",
+            "PCk2SwOwqmg", "N6FSOCflYMc", "FVz29PNuahk", "K6dwLSWL8sA", "UG6PTnPpYrM",
+            "GLC282sDZ6E", "VzfX8X31bj8", "5DymX1Bioh8"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Redação",
+      "disciplines": [
+        {
+          "name": "Redação",
+          "videoIds": [
+            "xtLR4_bsyEk", "m01EJtAnW3Q", "d2ieXXGy8sA", "nEImAvz96EI", "OanSFguzZJs",
+            "vmtxhIgXrUU", "F3nR3g5Ol4g", "yMZI9jTBhoE", "_GfbMXqx50I", "i5NSReCImb4",
+            "jN1PzHGxom0", "tNEORwjvIwI", "sjflNG4gS_8", "zUFccId5eGU", "zRLvRDhfqr0",
+            "MeKHJVPNV30", "TuBKsV3lSQc", "IGmZHrihXN8", "7euZtf6ijas", "CjUCTZstyK8",
+            "tHTDI6ZduWQ", "2ukOzhZhKrQ", "rWej_E8poIk", "KJMfpGq2a1k", "YlpbIE9qlwg",
+            "RkuUojgu3SE", "OwySxbnaq8U", "DyrX8hz6czk", "IEKDj7eoqp4", "UcWul9zMlr4",
+            "MoGtlGNJKS4", "29l3rTMunHQ", "mVcCPSYRQjE", "ZFJyaIyjqbQ", "WfP2bl5xb5E",
+            "tDwcYr_-j0g", "LcTBcoKjk7U", "LRTGZveu79I"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Ciências da Natureza e suas Tecnologias",
+      "disciplines": [
+        {
+          "name": "Biologia",
+          "videoIds": [
+            "-IK-hgC8oSo", "j-cBrHjk9A4", "n6mpmCWrcss", "IAWNA8pXC24", "s3dKZx3UXqI",
+            "1iCzsFrqKo4", "v2bMzrBdslU", "5Bd0EeHEI9U", "kBEdr3jMmYg", "qzkD_jltxAs",
+            "lMhVvC0ncI0", "LqtlNyKXT70", "vIjzv-_vUVA", "90kyrhvgoHo", "RjYPWLaSncU",
+            "oFHH-Ss7FnA", "_hZW-SVrrtA", "zyVgUQLzOLE", "GA-G2nAIhtI", "x1qiuN7qGRo",
+            "BnMtrLlPZ_s", "iZDinscoSJg", "9cK_1NG7ZAg", "aw9sZZBBeIE", "GSQLJRBvstI",
+            "sNIvGq41HZs", "QgtBCjxPTOw", "bV89jp82Bt8", "x9s2ghBSo2k", "k_gjosOuwjk",
+            "9ufZWn8MKik", "F5C0AjqRcfI", "c5pnidBI6fU", "1Tajinv85Fo", "RfyDscy6KbM",
+            "Fdd8raa2LsA", "C8-ZgppoDqU", "bz4Gw69tmoo", "l9G44l1gf8k", "-s2LVdlJ0pU",
+            "irip5APBJj0", "61thLTV6U9Y", "nla4aJjSZ78", "EYqyVO7V4mQ", "I2u3_Vsdiu0",
+            "7ILNCvi8a5I", "JmlI6bkigl8", "JB8AxD1CkYs", "MhiSo8cGvoM", "UG1G8krf4ZI",
+            "Gh7hsluxaxs", "431lQxOFUNQ", "yUoa_qV2ge8", "k1hTepClCcQ", "Fv1vzu6pmNs",
+            "_Wo1KZRlSNQ"
+          ]
+        },
+        {
+          "name": "Química",
+          "videoIds": [
+            "-hy5uSI859I", "lNqTLJo38aA", "LesuJW7b9XY", "xGWmzB9r-70", "1D9cgcjuIq8",
+            "ZL2RBgljDPA", "rO9Ae9hHwwU", "LpLcKrUT4Fg", "HSf21L0uffs", "I2HTeIHO7IM",
+            "iA0qKLWzWeI", "KbxZzEvUhfk", "D0iuXqO6JJo", "B3sN3l47c0o", "H8Z3PuPbiB8",
+            "ZcLOmgB87Ik", "sk9TNJ80J0k", "jhCPZ3f_qVI", "j_M6ABHqfiw", "2y_VOBCMDxg",
+            "Zw23ccmYxpQ", "J_Ek9GCphpk", "jZkP3iIbwFo", "6goGYEbv7KI", "RGRaaV56JkM",
+            "k5HmFB3SO4Q", "78eBCh--5-8", "xb07lIWFnuE", "-u7tp--65yA", "AiI6kQqKYsQ",
+            "71ScOltyGQI", "mn3vLYeC3Z4", "ir2lXpESass", "S4LoDIIrkLA", "a68vEciPxPQ",
+            "K7UATYVt788", "LupGtVPTFVU", "o5I5Epf4ouQ", "EmsR0B1FFGI", "V4Dk1N3zhV8",
+            "-FeVhVsCTdo", "mizHo7VbTiQ", "h_hnDryvL4s", "H2cLVvB0QyA", "tdUkG5U2_zY",
+            "1iTjyUxtYQM", "aEHpTRA_Rl0", "nZ5W5I4rDwQ", "FkhBheJ54L4", "It8t2DgW6UE",
+            "a-D3ozi0HwU", "7nrOU1o7QZw", "vN8V-1sA4x0", "ALrScm2hZfs", "D517gXtmk5E",
+            "RUazoqc_h9Y", "byt3AMWOAUQ", "k1PqupXEO6g", "55vd1IA2BJA", "0TfLbraLKME",
+            "3m1p-lMeiQQ", "6Sl_tKLhVzw", "ZQOvx2rWfHM", "e5zsn6Ckjm4", "KTEg2KjfXnM",
+            "ItZIhQgZc_g", "LwDFDvQYqwI", "lI9GvWnPm_g", "W_Q-m7ezQ-8", "FH6fonYIaso",
+            "__VQSidCnUU", "-0BXwVCG9DM", "dFjBF-E6sZU", "OY8JWMKrWdw", "Y5A9EZaOTf0",
+            "lO9a8C-Acuk", "w9pgS2Fdhpk", "Y7YkxHBQOxQ", "ndTFeXngByQ", "WbNfVG16GyQ",
+            "f0nu2i1Ru8A", "3--wbh_jhYE", "vv9HWnJ7TCk", "ZAFbOHdtxz4", "nDI6lU1rz84",
+            "JipFTk9qKT0", "zrAV3CJCv2A", "q-W5X2qHIT0", "9_YgKAp-v80", "TMxWk3Yqf9M",
+            "Vc7Wab-nV-c", "9lL213GLQiE", "_HeI1_-VZio", "NVdNmNV5Fx4", "s3dqmhSjk0g",
+            "Sz-aP0bWtP4", "ahzLUFVTugg", "kXzV8u8Btpg", "Qg0kJUUkE24", "01BXIOWP1x0",
+            "iXc7reMcaYc", "qHNk0495tVU", "OIaFeKvRglA", "qK2ybV804qQ", "n9aPLtRZejo",
+            "o_lccbLsBXI", "oOB6TGuiZBQ", "-SvS3dBUumg", "g6sXgDjEeEg", "ITQgGgKgjhc",
+            "g7gA987Wjn8", "fKzFEsuDvsA", "jeLjfFlMVA4", "M9KLEbQUbCo", "bo9kTd1H_aQ",
+            "CN5VRbKgPfM", "JEmZG5IpE54", "suxK4Bq4hnc", "SMSgTeArTVU", "Nj9Ksk9vph0",
+            "Y-vczo-5B0M", "k-BItW6sn-g", "KNLkPzPY4eA", "MSHjvLxPOlA", "aCVLBXorT30",
+            "usEcXIctPZM", "HivbTOyUp8E", "Bd7LxNWm_Mo", "N_Z7L595g7c", "jz_hIuaQm80",
+            "SnPZvVTQM48", "0_mHFPFDirE", "KpgUW0jLa10", "H_W_xeQTAyQ", "e7dgs9tJE_Y",
+            "aSoGABQCGQA", "Kku5k6tEPGw", "C4lmt8wNU7I", "XVgBUv7TC6E", "2f3Xafyoltk",
+            "MD2icq8TpVg", "QDuoJDb4WbA", "Bb_3bKzQ4CM", "Ijec-SVwtk0", "ozreqqmWiWU",
+            "ybStcH7HjiI", "Wv7ckDuLxO4", "V56EtnTeZp4", "HXcnn8ayy3o", "3IGHIawbhvY",
+            "Obu7454S4Fc", "SRzxAZJeJbs", "GRpEuYIlrSc", "IaEgQgbKDe8", "rDuqvCARNcE",
+            "q7iJL7sPWZQ", "k9UgRHUyyh8", "mMZt1tSqJE0", "azKKdFS5B0w"
+          ]
+        },
+        {
+          "name": "Física",
+          "videoIds": [
+            "FtLtDqE-VX0", "1szfg-VovbM", "VnqhH9S9vIc", "oVb3WV1CLSE", "m21X-MhCyrE",
+            "6r-foeydR2c", "HvmshToybB4", "bzpL3YQPD5A", "JfCmVT7hs5Q", "IWQf_uEgK7s",
+            "-Msic_RsoM4", "nSboeF4z-wg", "WuBpkegX8jE", "X0nxKNKskMo", "u0BmDB5dGBk",
+            "4ZGJgTKyLs4", "7KeFLT8k_w8", "36Dys52sdoU", "ztuzBYx9IIQ", "gZcebRl0AR8",
+            "Jwjv1uu9nUo", "uLC9o68eE8g", "PJo8QsmUmw4", "XelW8xg7nNc", "UB0blLOPPJs",
+            "DLCbchTMMNA", "PXO-Xdwo9rU", "xVsVK2seM-Y", "RJ6viyxIxaE", "w1ydSueVN1I",
+            "8Odjs6gmMRA", "EF-SLtRmBb8", "7GWni7Z4yKk", "0DPG181WAUw", "xDsm1ESKwKk",
+            "asKxvJkLiC4", "Ype8XNUP84s", "e-NOaJtqqV8", "poC27r1xs9M", "k0j-chbp32k",
+            "-kzcaiQ4CYs", "p-PkmUdjfUo", "jggD82vw_7s", "fboSjfGB1So", "lN-gVnNJAFI",
+            "2o297quncOM", "NsuwZ7YTHSQ", "NWRAAqRnUHs", "i5n0m6ui83U", "HX_TtKmt7Tk",
+            "jVPvppPkJIg", "0sI9UBM4knQ", "pLDA6ZguYbc", "cyRn0Hla-TM", "rft9bR66m4s",
+            "rHBh9FdeNQ8", "_iZm9QwTluc", "JP-nDiQgCbw", "mWG1L98Tugw", "oZWrk3aNSGs",
+            "BZfR8Vj-7mE", "5RSxF1di8ts", "IUFV0qzsKNA", "aiRkSbgwByU", "WXTqryya8CA",
+            "WQ9yOWCh8nU", "3gH4BNBKyHk", "Q4qgQDgesPw", "-8140NsksEg", "55Q2nDhxMtY",
+            "jw7sYCGGd6Q", "GrlDlgAjyqs", "-InAjGkcFlg", "5EQIJgXmsVU", "976QadOKOEo",
+            "-h_K_IbBb1o", "iVtZOAwzZwc", "46CYw-ZYI40", "YP8vYNpLnAk", "4yRvzTd513g",
+            "fFW6OLfWMyk", "ztlhTx3PzDY", "EUEuBwxAFWE", "Bfn2Bed6nxk", "MgFKKbmkb3E",
+            "n5_qJ2cIr9s", "QMjYfmwinrU", "QUvmXOY2WvI", "6H5OOCTdPeo", "YI_khGcCPTM",
+            "lGv8KXlx1Hs", "ePwrxyCcqDg", "V9khwIT1d0A", "jkYPF_xPpoU", "oGjcVkwjWao",
+            "5ZVRNmXV8M8", "To-x9-ZZrSQ", "MOlgEed22Ok", "XQ1EJDTNKpI", "MBDr003b-Wo",
+            "GhM_FYSz9W4", "saWDdrkwzf0", "kNzjPoNwU20", "TKQlTakmAao", "WlxqaxFB_NQ",
+            "3n8CRANljck", "LbXTXWxRaZg", "QKPj0f3mN5c", "G_-E_E9i6Ms", "WDDJsiN-_aY",
+            "0-TbKgjAGig", "q3bgLFmW4Rs", "csItKb-LdGw", "dzOy3ypU6K0", "gvUfJXHybIY",
+            "Bc6pHmIx6Wo", "B12P2tfqcBY", "LXCnyNrQOAQ", "Jceo2whzLUc", "sJTrdArAeKY",
+            "8i_GgkLJ2IQ", "_O7mg70DWHU", "ECS3GxdlMBQ", "CJ08cirBZkI", "QJYxZk0JeC0",
+            "0WeaGRPun94", "nl7lKCY5Ed4", "L8f3-O5P81s", "Xnt66bf9ktQ", "3xz3HyKV0NE",
+            "YOP1E9kL6sI", "30T0C11fCKw", "ijUp4RQXvhQ", "Nlxs8r4xvpk", "TMDHjcSNpcU",
+            "P4xgTLgd3JU", "8I7dKNPKKPQ", "U6pEarIMtIk", "nGG9L58X_eA", "rEEfq9HTm0I",
+            "lXQtFB32egI", "r89TQ2_xdAg", "DSICbTC9dMs", "7LV4paG6Rso", "sb4Req3wkoQ",
+            "1vDpyQkPo84", "mqKCeczWW_k", "eDFHx00OK5I", "6RCztSzqzug", "_TIjaafWpyk",
+            "gW4ScXwmzPA", "QZRXElcE4sA", "coVfbENnzlM", "AiAOFnVq0Yo", "DJOzcd0CaDg",
+            "6zBAY-Bcekk", "N10rG0J1VYk", "ltPBp6BYvX0", "szo5XKlIGzc", "lUN2JG6KqOY",
+            "uyK5km-n00w", "zGmfA822bz4", "y8twOGd3NUQ", "E1ibtmJjtzQ", "meT-3cgs3nI",
+            "irg3miC7i5Q", "eoeX466etmM", "KVoCM81MzWw", "5L6h6jMAasw", "tL4ZpHvPEDw",
+            "6o3zDgWmBKw", "bglmaanxQ_U", "ESIPbxYOqgg", "ktatkm5Wzmg", "wr1mlhcugV8",
+            "87ZiWF52OjY", "FJZD5OvRsk4", "7T2EouqZUHM", "bgN6AtasL68", "huacsOuPI-Q",
+            "NH3Qkp3rZqM", "46nINK2nsX8", "o3rHWIBeNUc", "lHxwOQykNR0", "XLpTTcKCJh0",
+            "sfcRdXncCqM", "B_VQwbU2ckM", "y3BEWkHRNt8", "igikE8euUmk", "7DwvrdegXP4",
+            "HN35JN31ges", "-s7ebfDIL3s", "ci_RBRQL98I", "T9QzVZepxVQ", "GTACjSndmy8",
+            "JiLybWxuVpk", "Nk3L556OTHY", "Ylp3C4SQB_M", "tlPNRa4_0js", "5q0ss9G8Xlc",
+            "wG0sQz91MKc", "314hWpdLT8o", "Vr2OKT1V-u4", "wn6PphBOHig", "1VIwzq-qV60",
+            "AFACIE-UH6A", "3TdvFzrBTJ8", "N0Hhmj4s5-k", "qWi11HXP9ow", "n0Vm4pUCFQA",
+            "aG8Hv6nXEBo", "JnvcANPacBg", "EXgpvnJjUaI", "wP1iuKAKLBA", "PlD0OTDrc8c",
+            "VKayc7OGKhU", "dv3Ili8mBvs", "SDybObWNRfg", "WoMSBM8JHZc", "iui3-BkYKHo",
+            "FD8PatjOJi0", "bYqYB6ESDA8", "a0SnNEapKW4", "Nh2RponIYY8", "DfOMiv8Fobw",
+            "2EqhCpXals8", "-xNG40etR9Y", "l5_pcJqa2GY", "t-nSunH8_LE", "M5X5AHVaShA",
+            "-aYopTJAfvc", "YyrRBpzoWFg", "6tTOPGych80", "fF-qRK5TWzs", "NwMa37GFN1o",
+            "dEUtTnO7Jkg", "ZBPlQQG502g", "yRw0UW45bAA", "g8I-A0KZC9I"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Matemática e suas Tecnologias",
+      "disciplines": [
+        {
+          "name": "Matemática Básica",
+          "videoIds": [
+            "e78_5WIssSU", "0UGJRHq2PS4", "BhDm2qGy780", "YJyY6A_MOQc", "SgJpB78R7x0",
+            "4Vfw1XiHTpM", "QmIjZgKhAEo", "04nnroZrmgg", "_3YQvVKbqn0", "3amBZupsIdc",
+            "Jf0sA3wBqXE", "GPTxrh_mhow", "epFmO0M8gDk", "Tu08PYjt-2Q", "oT4k6bhB4Dk",
+            "toAaUBwitFE", "qYQllsg8ka8", "YEaQDJeADTg", "6YnChMLDcos", "MrHhUUnOtPc",
+            "kjg8a41wwjQ", "QCMUMufcK5M", "NWtwEm8M2qw", "uIulBEk8gcM", "6Dsta1eZ1BA",
+            "alLifth7gxE", "buYey1YGJhA", "qrix-SCMvjA", "CERiIwParX4", "N27xZJj1m-4",
+            "790S9GR5bWU", "gJFfBSlzl8U"
+          ]
+        },
+        {
+          "name": "Conjuntos",
+          "videoIds": [
+            "0aUEDxYjZg8", "Wxm3ugnq9Sw", "c5a99sX-Sq8", "eZfFpnvudR0", "wVZYyOuz9GI",
+            "id8fXOFnoio", "6ZZfEs-ccAY"
+          ]
+        },
+        {
+          "name": "Funções",
+          "videoIds": [
+            "_9etcLiJvwk", "XC8Rp2e7imI", "UrRAitqI18k", "d_be5Iaz0V0", "uNBT1vg-NcQ",
+            "LOKEmAIKvko", "OUjugj129fs", "WkO28V4OmhA", "Y2yPx-UW_xA", "MZVUOC-p1GU",
+            "24ahx3DbbRs", "yUMvB1VXSiA", "zFLqNcSBCCE", "yLr2wewogGM", "Hy8n_f1X0U8",
+            "myktR5FHm6Q", "_mRg-s8v6UU", "6SWXCxSkPPI", "FMF3rqwdwNw", "sJjdB1fSKPc",
+            "160l9RxvpC0", "YHFUOfFgkLU", "tmYznaC1BaI", "7Ei4ehsshvo", "6XELpn5eeoU",
+            "muWH0U4S4NU", "V5NwVHG8UnE", "Tlkf-3hkEEc", "Lsg4F7H4oJU", "hHiuybMHqI0",
+            "i7vkUImaSJc", "4p7w3wG_a6k", "f_njCYm5lbA", "Sxd0YQki06Q", "cbMyG09PJ6o",
+            "9G42cw0gACU", "p7PysXyVgYQ", "Hqqovqnjwq8", "siFMCBf19RU", "ZlyFbAXqiAo",
+            "Z2bQWNHJfNM", "hBzzCsf-Mgk", "5j-0AXQkzdg", "5V0Hf7OYvAw", "zqzUMP8R0AU",
+            "lwVrgTH892o", "w6halsEl1pc", "UEHRFG2saTk", "BEuyjLmhl5E", "B8GQRfc5LM0",
+            "6bPG_6Hj1F8", "8DFd-GZ_mco", "8If9unRhbAU", "RuMDK6rKyvE", "mdfuYBOhBfU",
+            "-F17QFjQLVk", "9cEG2DT2P9g", "7qbWKRiRTGE", "WQDEE_TMR08", "4WxdnLAo8os",
+            "Ia86yXx7ZQo", "mYDOWUpKm1Q", "pV748eNL980", "tJ6NSATkLvM", "peNtsanv3Zg",
+            "VxGX75FFl1M", "ibZVoxYJjRY", "NQ_dgWBKvn4"
+          ]
+        },
+        {
+          "name": "Geometria Plana",
+          "videoIds": [
+            "0CnUdzmpO8E", "pyb-5syEWdI", "cooNCC78aBI", "ycFWL3j4qK0", "TyyTOvjo3D0",
+            "3x920GHyF4g", "dAZ-mUZbA-A", "XlJEpO0K4b0", "LxFlnxS6iMg", "f4JBVvr72MQ",
+            "FpUGVLcIKEo", "OO8NKf_NKJo", "MQw2524ZZcU", "KrFNq-8aP_4", "ddfkogMMVEc",
+            "BWWaSz-X6nM", "p6xYxnH6yPs", "2IPnbQmO88Y", "Y5Yq_QJcTEw", "gojZfbyitrM",
+            "kIqcsGBKRq0", "qKyE7Q8rr1I", "NKEPE99XOkQ", "JphuTOv_kE8", "Et9z68v5UQ4",
+            "oaN_ui6K2w4", "MNxLUQQDr18", "gZsfA88Yar0"
+          ]
+        },
+        {
+          "name": "Geometria Espacial",
+          "videoIds": [
+            "eR-3DaPW0ow", "cl1ziAzqtmk", "d4cSb_-wIEg", "uJgbLhhWrZo", "kySaqx567cA",
+            "JRDBMV6YM4E", "oYwkiT9FOV4", "3Z6DK2_vf2Y", "-gAXhy_Q80I", "rQmhJ6MiWO8",
+            "9hY-oga_HBk", "k8gxjzTQHlw", "L4qYyPohd8A", "N0upsv0ULUA", "ELdgkPEAIpg",
+            "BZxTyYwOSPg", "lqORAy15W54", "4nfmg_vcYjw", "YNuEqGXqKHw", "a1Wyi-lPBTo",
+            "qFFuAINE7Xk", "JYHeIaT43Vk", "Q86MrQEO50g", "auplPZah9UQ", "Z7QxXrTzFKo",
+            "NEAch1E35gE", "JiNIF_XfhqM", "xjsHPoREPcQ", "5vAHihtdybk", "47Kf7-xYuoI",
+            "MmmaS-_ARvE", "hwB5FyTKSP0", "lG8-QOk0w_Y", "erIvNH_CppU", "wZg9BVfO6Zw",
+            "e7r-CpfcJfI", "q9It9eygapY", "20LH8C_MNu8", "5zCIg7wxCsU", "G71HZIQsw18",
+            "7MggQ9CPah4", "hAsjS24UxmY", "btMON5IQjbM", "sKdoM5xx3dc", "GAID4OIcQGc",
+            "h1IuatVwZjU", "fLowDcurNSA", "7hITl8Gfpbc", "rNcgL4FwzhI", "Gs1ABiFY6hA",
+            "wYKqAQmaKYQ", "bBEu-bcolbk", "Awpl_LESvmw", "mByt4gOejeo", "InacZjjE6_c"
+          ]
+        },
+        {
+          "name": "Estatística e Probabilidade",
+          "videoIds": [
+            "snXf8YT7L3U", "u8Ltc5645Nk", "YsZJzP1rs5U", "8yuHqWVrQXk", "LNIwcYjI2sc",
+            "f6rTZHc98aU", "4lZDBkeZqis", "nons0GcdVqM", "8z932KFK9dU", "QbQq3I4DVpM",
+            "FZcBwjXBKWk", "dWdyxWQrxAY", "0rPnzm7iklQ", "It1-TRv2Rzw", "L_c0EBLBEDE",
+            "DCfV3LV8NkE", "bD8q4xbVCwI", "WQOvHXIE-P8", "5EyJARJ6bo4", "y2g-fzpmQkE",
+            "QrOaBB8bi3Q", "AB4wWER_wAI", "fDSsMtzu7Io", "TV-8D20Ul78", "vpL_E5nR4Dk",
+            "3-Qc8ZTrFXI", "eIwy6lyxS7Q", "vOMMwcRLtXw", "NpEd2p2kb-s", "y5Q0nH0PXnM",
+            "LWMJvwY-JCc", "A10LYLm-NgQ", "IxPbPxyUUFA", "hORgEga59EE", "3NrjXOWkKLs",
+            "YV_Q-cKfbyE", "bZp5th6rb-w", "jbMlDSz8RGg", "c7EnpLmbpoc", "PXQfMpuGxJg"
+          ]
+        },
+        {
+          "name": "Análise Combinatória",
+          "videoIds": [
+            "ZuukDbf4IY0", "wYvJxZqS2SM", "MHnSgOHuRiA", "Lfn5CzoSXkE", "guusp612x2o",
+            "m_1RxAZutR4", "G2IC0_e7ihg", "pkcmvxPlMOI", "JmCGSczmlEw", "nK0YMbFArQA",
+            "duYnf9MiAmM", "HcS2tNZgIek", "064FUC0q3uU", "WvAjQXkTXwU", "_SFVk5y7l3c",
+            "xhyiJBdKjNs", "HI0Z-ynAG7k", "NkeYnaopEXA", "ziLBD_rzeL8", "G2u2haFb4tw",
+            "jzwUs_S-D7I", "nPE1TsrhuLs", "zml-SI5KhdI", "1uAoRuop6qQ", "hcCm1sjqbXE",
+            "nb4nw8e7uMQ", "IOq181Mgh4M", "jul_zWe3-7I", "DSx5f0O1lF4", "WobYvYCkDhs",
+            "gtVGPYJb7S8", "On1EdEt0fGM", "qCfrvjNPdMs", "1AdV9ESofOE", "hQ_VWRBwBbg",
+            "oLQIiCy4Z2M", "o8yNMg7X8k0", "mvpsamqRg_E", "p1PCJytRsn4", "NX1E3mB8Xkw"
+          ]
+        },
+        {
+          "name": "Matemática Financeira",
+          "videoIds": [
+            "dfs7VJotfks", "0Jm5EgsWtw4", "BeQDlEqx-wQ", "Nror3Upwkr4", "DmN6SezL_4Y",
+            "k_03rWhMykA", "ztU2vm3UcLQ", "USDFO1jd8Gc", "4fALI0T2JNA", "YzpHdODJwqY",
+            "2RzdqI2EXBs", "9w9lONtWqJw", "Lg_HRi0ciTY", "V0rs92om9HQ", "v9oaOMDI6C8",
+            "TeXWf8JKQrI", "wuxllPuuB7Y", "cv_N4JU-xDg", "kUXmmUtKAHo", "CXkSa9gos5c",
+            "M8FjTDx44Qw", "c7f3D48fqMw", "n6XxACZT4bw", "fBO677In2LQ", "NhMEPrPPhLU",
+            "RV5T_QB6wjQ", "qWczokrlEEs", "0WOrR48-7xk", "3Qy7gZd02mo", "CqDoXkiMq5U",
+            "4fGDYbaG3d4", "bVG5jg4gclA", "H3JhaykXPq4", "NZGVf6kZKhc", "VuvwpJu2Fgk",
+            "VcLQ5_egY14", "DgWeb5XOSs8", "DqvCL8ib-yo", "y0J5Nk9tNtU", "5O4JusdorVM",
+            "YXXzoFUhb4c", "ACwTKgLbaNg", "HaRPX0L47mk", "4AnOQXF7FDQ", "y9lqu_XzIbk",
+            "jpFTK78qc7Q", "QDob2t3_P6U", "0zzieEbXVsM", "ZmQVcELmjzc", "ORYZkhk4_mM",
+            "PmO4Wc-XZs0", "U18xJCnEFWM", "U8vMwKyPIFI", "YGpK2JxaBSw", "ZvtE31LnYs8",
+            "6xPdWc0ogjU", "tI3UXysOLt0", "Fsyc3GfecA8", "aGBr6sl0UwQ", "oMGoAj1BZLc",
+            "si9OfKel_go"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Simulado ENEM",
+      "disciplines": [
+        {
+          "name": "Simulado ENEM",
+          "type": "external",
+          "time": "120 min",
+          "externalUrl": "https://quizenem.com/simulado-aleatorio/",
+          "platformName": "Quiz ENEM",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}

@@ -1624,6 +1624,90 @@ body {
     color: var(--accent-blue);
 }
 
+/* ========== FILTROS DA PÁGINA INICIAL ========== */
+.home-filters {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.home-filters .search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.home-filters .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.home-filters .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.home-filters .search-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.home-filters .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;  /* espaço entre a barra de pesquisa e os chips de filtro */
+}
+
+.home-filters .filter-group span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.home-filters .chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.home-filters .chip {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+}
+
+.home-filters .chip:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.home-filters .chip.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+}
+
 /* ========== RESPONSIVIDADE ========== */
 @media (max-width: 768px) {
     .book-card {
@@ -1749,6 +1833,13 @@ body {
     }
     .btn-biblioteca {
         order: 4;
+    }
+    .home-filters {
+        padding: 1rem;
+    }
+    .home-filters .chip {
+        padding: 0.3rem 1rem;
+        font-size: 0.8rem;
     }
 }
 
