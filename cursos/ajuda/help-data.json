@@ -479,11 +479,9 @@
         "content": "Bem-vindo ao curso preparatório para o ENEM da Universidade Livre. Este curso foi criado para oferecer uma revisão completa dos conteúdos cobrados no exame, utilizando videoaulas gratuitas do YouTube e simulados online."
       },
       {
-        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "heading": "Consiga ajudar a tirar suas dúvidas no Reddit.",
         "links": [
-          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
-          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" }
-        ]
+          { "text": "Reddit/Enem", "url": "https://www.reddit.com/r/enem/hot/" }        ]
       },
       {
         "heading": "Perguntas Frequentes",
