@@ -1,4 +1,4 @@
-// help-modal.js – versão com i18n e suporte a ENEM
+// help-modal.js – versão com i18n e suporte a ENEM e EsPCEx
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('helpModal');
     if (!modal) {
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para obter tradução
     function t(key, replacements = {}) {
         if (window.getTranslation) return window.getTranslation(key, replacements);
-        // fallback básico
         let text = key;
         for (const [k, v] of Object.entries(replacements)) {
             text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
@@ -34,21 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
             'ciencia_de_dados': 'ciencia_de_dados',
             'computer-science': 'computer-science',
             'math': 'math',
-            'enem': 'enem'                     // <-- NOVO: mapeamento para ENEM
+            'enem': 'enem',
+            'espcex': 'espcex'                     // ← ADICIONADO
         };
         currentCourse = courseMap[courseId] || courseId;
         const helpButton = document.getElementById('helpButton');
         if (helpButton) {
-            // Lista de cursos que possuem ajuda (todos os mapeados acima)
             const supportedCourses = [
                 'computacao', 'matematica', 'computacao_grafica', 'embarcados',
                 'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
-                'computer-science', 'math', 'enem'
+                'computer-science', 'math', 'enem', 'espcex'   // ← ADICIONADO
             ];
             helpButton.style.display = supportedCourses.includes(courseId) ? 'inline-flex' : 'none';
         }
         console.log(`[Ajuda] Curso definido: ${currentCourse} (original: ${courseId})`);
-        // Atualizar título do modal com o nome do curso usando i18n
         if (modalTitle) {
             let courseName = '';
             if (courseId === 'computacao') courseName = 'Ciência da Computação';
@@ -56,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (courseId === 'computer-science') courseName = 'Computer Science';
             else if (courseId === 'math') courseName = 'Math';
             else if (courseId === 'enem') courseName = 'ENEM';
+            else if (courseId === 'espcex') courseName = 'EsPCEx';
             else courseName = courseId;
             modalTitle.innerText = t('help_modal_title', { course: courseName });
         }

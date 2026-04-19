@@ -479,9 +479,11 @@
         "content": "Bem-vindo ao curso preparatório para o ENEM da Universidade Livre. Este curso foi criado para oferecer uma revisão completa dos conteúdos cobrados no exame, utilizando videoaulas gratuitas do YouTube e simulados online."
       },
       {
-        "heading": "Consiga ajudar a tirar suas dúvidas no Reddit.",
+        "heading": "Consiga ajudar a tirar suas dúvidas no grupo do Discord ou Telegram.",
         "links": [
-          { "text": "Reddit/Enem", "url": "https://www.reddit.com/r/enem/hot/" }        ]
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" }
+        ]
       },
       {
         "heading": "Perguntas Frequentes",
@@ -499,6 +501,47 @@
       {
         "heading": "Estrutura do Curso",
         "content": "O curso é dividido em etapas que correspondem às áreas de conhecimento do ENEM: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática. Ao final, um simulado externo permite testar seus conhecimentos."
+      }
+    ]
+  },
+  "espcex": {
+    "title": "Ajuda do Curso EsPCEx",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso preparatório para a EsPCEx (Escola Preparatória de Cadetes do Exército) da Universidade Livre. Este curso foi elaborado para oferecer uma preparação completa e gratuita, com videoaulas organizadas por disciplina, cobrindo todo o conteúdo programático do concurso."
+      },
+      {
+        "heading": "Consiga ajuda para tirar suas dúvidas no grupo do Discord ou Telegram.",
+        "links": [
+          { "text": "Discord", "url": "https://discord.gg/wymGhmf7BT" },
+          { "text": "Telegram", "url": "https://t.me/universidadebrasileiralivre" }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "subsections": [
+          {
+            "heading": "Este curso cobre todo o edital da EsPCEx?",
+            "content": "Sim. As videoaulas foram selecionadas para abordar os principais tópicos de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, de acordo com o que é exigido no exame."
+          },
+          {
+            "heading": "A Universidade Livre fornece material didático ou apostilas?",
+            "content": "A Universidade Livre é um guia de estudos que organiza videoaulas gratuitas disponíveis no YouTube. Recomendamos que você complemente os estudos com livros e apostilas específicas para a EsPCEx."
+          },
+          {
+            "heading": "Como devo utilizar este guia?",
+            "content": "Assista às aulas na ordem das etapas ou priorize as disciplinas em que você tem mais dificuldade. Ao final, acesse a etapa de provas anteriores para praticar com simulados e questões reais."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso está dividido em 9 etapas: após uma introdução sobre técnicas de estudo, você encontrará as disciplinas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação. A última etapa contém um link externo com provas anteriores da EsPCEx para você testar seus conhecimentos."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Recomendamos que você crie uma rotina de estudos, assista às videoaulas com atenção, faça anotações e resolva muitos exercícios. A prática constante com provas anteriores é essencial para se familiarizar com o estilo da banca e o tempo de prova."
       }
     ]
   }

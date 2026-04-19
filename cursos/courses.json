@@ -86,5 +86,13 @@
     "courseType": "bacharelado",
     "icon": "fa-square-root-alt",
     "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+  },
+  {
+    "id": "espcex",
+    "name": "EsPCEx",
+    "courseLevel": "ensino-medio",
+    "courseType": null,
+    "icon": "fa-shield-halved",
+    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
   }
 ]

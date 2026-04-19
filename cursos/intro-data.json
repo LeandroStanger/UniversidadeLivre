@@ -299,5 +299,16 @@
       }
     ],
     "readmeContent": "<h1>ENEM</h1><h3>Universidade Livre</h3><p>Preparação completa para o Exame Nacional do Ensino Médio.</p><p>Este curso reúne videoaulas organizadas por área de conhecimento, seguindo a matriz de referência do ENEM. Todo o conteúdo é gratuito e foi selecionado para cobrir os tópicos mais recorrentes nas provas.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida ou foque nas áreas que você tem mais dificuldade.</li><li>Utilize os materiais complementares e livros recomendados na bibliografia de cada disciplina.</li><li>Ao final, realize o simulado disponível na última etapa para avaliar seu desempenho.</li></ul><p>Bons estudos e sucesso no ENEM!</p>"
+  },
+  "espcex": {
+    "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.concursosbrasil.org%2Fwp-content%2Fuploads%2F2023%2F03%2Fconcurso-exercito-espcex.png&f=1&nofb=1&ipt=cc8896a4174444057e1b533c1d6beeee0bcad056e9074dc8baaced3ec8067675",
+    "socialLinks": [
+      {
+        "name": "LeandroStanger/UniversidadeLivre",
+        "url": "https://github.com/LeandroStanger/UniversidadeLivre",
+        "icon": "fa-brands fa-github"
+      }
+    ],
+    "readmeContent": "<h1>EsPCEx</h1><h3>Universidade Livre</h3><p>Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx).</p><p>Este curso foi estruturado para cobrir todo o conteúdo programático do exame, com videoaulas gratuitas organizadas por disciplina. Você encontrará aulas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, além de uma etapa dedicada a provas anteriores.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Siga a ordem das etapas ou priorize as disciplinas em que tem mais dificuldade.</li><li>Complemente os estudos com livros e apostilas específicos da EsPCEx.</li><li>Acesse a última etapa para praticar com provas anteriores e familiarize-se com o estilo da banca.</li></ul><p>Bons estudos e sucesso na EsPCEx!</p>"
   }
 }

@@ -53,5 +53,10 @@
     "text": "Parabéns por concluir o curso preparatório para o ENEM!\nVocê revisou os principais conteúdos das quatro áreas de conhecimento e treinou sua redação.\nAgora é hora de fazer o simulado e confiar no seu potencial.\nBoa sorte no exame!",
     "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "ensino-medio"
+  },
+  "espcex": {
+    "text": "Parabéns por concluir o curso preparatório para a EsPCEx!\nVocê revisou todo o conteúdo programático do concurso, desde Matemática até Redação.\nAgora é hora de intensificar a resolução de provas anteriores e confiar na sua preparação.\nBoa sorte no exame e siga firme rumo à carreira militar!",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "ensino-medio"
   }
 }
