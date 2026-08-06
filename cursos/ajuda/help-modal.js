@@ -1,4 +1,4 @@
-// help-modal.js – versão com i18n e suporte a ENEM e EsPCEx
+// help-modal.js – versão com i18n e suporte a ENEM, EsPCEx, INGLÊS e ESPANHOL
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('helpModal');
     if (!modal) {
@@ -34,7 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'computer-science': 'computer-science',
             'math': 'math',
             'enem': 'enem',
-            'espcex': 'espcex'                     // ← ADICIONADO
+            'espcex': 'espcex',
+            'ingles': 'ingles',      // <-- ADICIONADO
+            'espanhol': 'espanhol'   // <-- ADICIONADO
         };
         currentCourse = courseMap[courseId] || courseId;
         const helpButton = document.getElementById('helpButton');
@@ -42,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const supportedCourses = [
                 'computacao', 'matematica', 'computacao_grafica', 'embarcados',
                 'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
-                'computer-science', 'math', 'enem', 'espcex'   // ← ADICIONADO
+                'computer-science', 'math', 'enem', 'espcex',
+                'ingles',           // <-- ADICIONADO
+                'espanhol'          // <-- ADICIONADO
             ];
             helpButton.style.display = supportedCourses.includes(courseId) ? 'inline-flex' : 'none';
         }
@@ -55,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (courseId === 'math') courseName = 'Math';
             else if (courseId === 'enem') courseName = 'ENEM';
             else if (courseId === 'espcex') courseName = 'EsPCEx';
+            else if (courseId === 'ingles') courseName = 'Inglês';
+            else if (courseId === 'espanhol') courseName = 'Espanhol';
             else courseName = courseId;
             modalTitle.innerText = t('help_modal_title', { course: courseName });
         }

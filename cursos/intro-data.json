@@ -310,5 +310,37 @@
       }
     ],
     "readmeContent": "<h1>EsPCEx</h1><h3>Universidade Livre</h3><p>Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx).</p><p>Este curso foi estruturado para cobrir todo o conteúdo programático do exame, com videoaulas gratuitas organizadas por disciplina. Você encontrará aulas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, além de uma etapa dedicada a provas anteriores.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Siga a ordem das etapas ou priorize as disciplinas em que tem mais dificuldade.</li><li>Complemente os estudos com livros e apostilas específicos da EsPCEx.</li><li>Acesse a última etapa para praticar com provas anteriores e familiarize-se com o estilo da banca.</li></ul><p>Bons estudos e sucesso na EsPCEx!</p>"
+  },
+  "ingles": {
+    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "socialLinks": [
+      {
+        "name": "awesome",
+        "url": "https://github.com/sindresorhus/awesome",
+        "icon": "fa-solid fa-glasses"
+      },
+      {
+        "name": "LeandroStanger/UniversidadeLivre",
+        "url": "https://github.com/LeandroStanger/UniversidadeLivre",
+        "icon": "fa-brands fa-github"
+      }
+    ],
+    "readmeContent": "<h1>Inglês</h1><h3>Universidade Livre</h3><p>Curso completo de Inglês do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do inglês!</p>"
+  },
+  "espanhol": {
+    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "socialLinks": [
+      {
+        "name": "awesome",
+        "url": "https://github.com/sindresorhus/awesome",
+        "icon": "fa-solid fa-glasses"
+      },
+      {
+        "name": "LeandroStanger/UniversidadeLivre",
+        "url": "https://github.com/LeandroStanger/UniversidadeLivre",
+        "icon": "fa-brands fa-github"
+      }
+    ],
+    "readmeContent": "<h1>Espanhol</h1><h3>Universidade Livre</h3><p>Curso completo de Espanhol do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1/A2.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do espanhol!</p>"
   }
 }

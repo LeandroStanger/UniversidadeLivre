@@ -686,5 +686,97 @@
         "content": "Recomendamos que você crie uma rotina de estudos, assista às videoaulas com atenção, faça anotações e resolva muitos exercícios. A prática constante com provas anteriores é essencial para se familiarizar com o estilo da banca e o tempo de prova."
       }
     ]
+  },
+  "ingles": {
+    "title": "Ajuda do Curso Inglês",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Inglês da Universidade Livre. Este curso foi criado para oferecer uma formação completa no idioma, do nível A1 ao C2, utilizando recursos gratuitos e de alta qualidade, com videoaulas do YouTube e o portal MEC Idiomas."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas nos canais dos contribuidores.",
+        "links": [
+          {
+            "text": "Boteco dos Devs/English Buteco Class",
+            "url": "https://discord.gg/VpThhCbDH?event=1457710006081290315"
+          },
+          {
+            "text": "The English Hub",
+            "url": "https://discord.gg/enghub"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio para começar?",
+            "content": "Não. O curso começa do nível A1 (iniciante absoluto) e avança progressivamente até o C2 (nativo). Basta ter disposição para estudar e praticar."
+          },
+          {
+            "heading": "O curso cobre todos os aspectos do idioma?",
+            "content": "Sim. As videoaulas abordam gramática, vocabulário, pronúncia, compreensão auditiva, leitura e produção textual, seguindo os níveis do Quadro Europeu Comum de Referência para Línguas (CEFR)."
+          },
+          {
+            "heading": "A Universidade Livre oferece certificado de proficiência?",
+            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas. Recomendamos que, ao final do curso, você faça exames de proficiência reconhecidos internacionalmente, como TOEFL, IELTS ou Cambridge."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em 7 etapas: a Etapa 0 ensina técnicas de estudo eficientes, e as etapas 1 a 6 correspondem aos níveis A1, A2, B1, B2, C1 e C2. Cada etapa inclui dezenas de videoaulas e uma disciplina externa com o portal MEC Idiomas para prática complementar."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem sugerida, pratique diariamente com os exercícios e recursos complementares, e participe dos canais dos contribuidores para tirar dúvidas. A prática constante e a imersão no idioma são fundamentais para a fluência."
+      }
+    ]
+  },
+  "espanhol": {
+    "title": "Ajuda do Curso Espanhol",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Espanhol da Universidade Livre. Este curso foi criado para oferecer uma formação completa no idioma, do nível A1 ao C2, utilizando recursos gratuitos e de alta qualidade, com videoaulas do YouTube e o portal MEC Idiomas."
+      },
+      {
+        "heading": "Consiga ajudar a tirar suas dúvidas nos canais dos contribuidores.",
+        "links": [
+          {
+            "text": "Spanish-English Learning Server",
+            "url": "https://discord.gg/spanish-english"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio para começar?",
+            "content": "Não. O curso começa do nível A1/A2 (iniciante) e avança progressivamente até o C2 (nativo). Basta ter disposição para estudar e praticar."
+          },
+          {
+            "heading": "O curso cobre todos os aspectos do idioma?",
+            "content": "Sim. As videoaulas abordam gramática, vocabulário, pronúncia, compreensão auditiva, leitura e produção textual, seguindo os níveis do Quadro Europeu Comum de Referência para Línguas (CEFR)."
+          },
+          {
+            "heading": "A Universidade Livre oferece certificado de proficiência?",
+            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas. Recomendamos que, ao final do curso, você faça exames de proficiência reconhecidos internacionalmente, como DELE ou SIELE."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em 4 etapas: a Etapa 0 ensina técnicas de estudo eficientes, e as etapas 1 a 3 correspondem aos níveis A1/A2, B1/B2 e C1/C2. Cada etapa inclui dezenas de videoaulas e uma disciplina externa com o portal MEC Idiomas para prática complementar."
+      },
+      {
+        "heading": "Metodologia",
+        "content": "Assista às aulas na ordem sugerida, pratique diariamente com os exercícios e recursos complementares, e participe dos canais dos contribuidores para tirar dúvidas. A prática constante e a imersão no idioma são fundamentais para a fluência."
+      }
+    ]
   }
 }

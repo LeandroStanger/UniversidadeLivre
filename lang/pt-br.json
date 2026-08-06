@@ -32,6 +32,8 @@
   "mestrado": "Mestrado",
   "doutorado": "Doutorado",
   "especializacao": "Especialização",
+  "ensino_medio": "Ensino Médio",
+  "idiomas": "Idiomas",
   "filter_subject": "Assunto",
   "filter_language": "Idioma",
   "filter_all_languages": "Todos",
@@ -298,9 +300,8 @@
   "notas_delete_tag": "Excluir tag",
   "notas_tags": "Tags:",
   "notas_add_tag_to_note": "Adicionar tag à nota",
-  "ensino_medio": "Ensino Médio",
-  "search_courses_placeholder": "Buscar cursos por nome ou descrição...",
   "filter_by_level": "Filtrar por nível:",
   "filter_all": "Todos",
-  "no_courses_found": "Nenhum curso encontrado."
+  "no_courses_found": "Nenhum curso encontrado.",
+  "search_courses_placeholder": "Buscar cursos por nome ou descrição..."
 }

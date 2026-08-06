@@ -32,6 +32,8 @@
   "mestrado": "Master's Degree",
   "doutorado": "Doctorate",
   "especializacao": "Specialization",
+  "ensino_medio": "High School",
+  "idiomas": "Languages",
   "filter_subject": "Subject",
   "filter_language": "Language",
   "filter_all_languages": "All",
@@ -298,9 +300,8 @@
   "notas_delete_tag": "Delete tag",
   "notas_tags": "Tags:",
   "notas_add_tag_to_note": "Add tag to note",
-  "ensino_medio": "High School",
-  "search_courses_placeholder": "Search courses by name or description...",
   "filter_by_level": "Filter by level:",
   "filter_all": "All",
-  "no_courses_found": "No courses found."
+  "no_courses_found": "No courses found.",
+  "search_courses_placeholder": "Search courses by name or description..."
 }

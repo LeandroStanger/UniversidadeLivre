@@ -58,5 +58,15 @@
     "text": "Parabéns por concluir o curso preparatório para a EsPCEx!\nVocê revisou todo o conteúdo programático do concurso, desde Matemática até Redação.\nAgora é hora de intensificar a resolução de provas anteriores e confiar na sua preparação.\nBoa sorte no exame e siga firme rumo à carreira militar!",
     "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "ensino-medio"
+  },
+  "ingles": {
+    "text": "Parabéns por concluir o curso de Inglês!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
+  "espanhol": {
+    "text": "Parabéns por concluir o curso de Espanhol!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
   }
 }

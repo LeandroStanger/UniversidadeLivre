@@ -8,6 +8,14 @@
     "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática."
   },
   {
+    "id": "espcex",
+    "name": "EsPCEx",
+    "courseLevel": "ensino-medio",
+    "courseType": null,
+    "icon": "fa-solid fa-person-military-rifle",
+    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+  },
+  {
     "id": "computacao",
     "name": "Ciência da Computação",
     "courseLevel": "graduacao",
@@ -22,6 +30,22 @@
     "courseType": "bacharelado",
     "icon": "fa-square-root-alt",
     "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
+  },
+  {
+    "id": "computer-science",
+    "name": "Computer Science",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
+  },
+  {
+    "id": "math",
+    "name": "Math",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
   },
   {
     "id": "computacao_grafica",
@@ -72,27 +96,19 @@
     "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
   },
   {
-    "id": "computer-science",
-    "name": "Computer Science",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-laptop-code",
-    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
-  },
-  {
-    "id": "math",
-    "name": "Math",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-square-root-alt",
-    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
-  },
-  {
-    "id": "espcex",
-    "name": "EsPCEx",
-    "courseLevel": "ensino-medio",
+    "id": "ingles",
+    "name": "Inglês",
+    "courseLevel": "idiomas",
     "courseType": null,
-    "icon": "fa-solid fa-person-military-rifle",
-    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+    "icon": "fa-language",
+    "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência."
+  },
+  {
+    "id": "espanhol",
+    "name": "Espanhol",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência."
   }
 ]

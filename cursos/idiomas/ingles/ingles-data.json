@@ -1,0 +1,205 @@
+{
+  "name": "Inglês",
+  "type": "Idiomas",
+  "icon": "fa-language",
+  "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Como estudar do jeito certo",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · INGLÊS PARA INICIANTES - NÍVEL A1",
+      "disciplines": [
+        {
+          "name": "Inglês A1",
+          "videoIds": [
+            "n-4CKWtddYY", "ep4jpBxSK1s", "fup_cotvkn0", "WsdBReg8sOE", "-A2iNPB65Sg",
+            "jKRq7IJacxo", "nGtya4zMLTw", "LuSutDVBnoQ", "HiYLfc1UFe8", "NU4z7DmDEqY",
+            "p0sstQQw9Qk", "y6WeGStfVtI", "hE0-ehE3bXs", "xP6HMaLbTn4", "xSUImv0jhvY",
+            "sRB9xH38F00", "tTMw_-hZNKQ", "B_eTcKrGUm4", "-aDATHQ7K4E", "vJOpAoe8co8",
+            "ljyA3uZ6N0s", "8poenTJOogc", "z4MHRs6zASA", "GOMGXhSldkc", "06SBrn8jXS4",
+            "IPuTSQUIE8M", "0Ja6dKfCt_0", "ZkU0cwjRwec", "LyzOWHND7iw", "2FFf7r7mRfM",
+            "BRxRLk_19XA", "Z8BTxk5IM1E", "S3KkZCzNbFA", "-FXNNS1zSTQ", "4oew8Bo9xr8",
+            "mEO98D7w55s", "icFjqWwEBes", "Y9PWcA-TgUU", "3BIgTHuy-AE", "B9-wPXT8OhA",
+            "49uNi4_f2kc", "zwqMMYftXes", "eoRzGIbbhGg", "BGfdCQglV0U", "fDJckh6lRLk",
+            "9I_m5UeEePM", "43Di408LvZg", "qJHQar6eux0", "Ddz3fRPyaE0", "9dgj0LQzdPk",
+            "pReWcXb1rFk", "5-WPJt1UJuI", "Hc9LAIQ1aew", "xFZWqI2e5Dg", "oEzO9iouqCk",
+            "VvQvFGd6anE", "jd2Ze2FMIfc", "ZH5zQw6cr9A", "NrPJq5MUPtg", "KX8duOPQ8TQ",
+            "ejZLMvojjq8", "Vf9N4iVVfZ8", "QFUJVLnN5Y0"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · INGLÊS BÁSICO - NÍVEL A2",
+      "disciplines": [
+        {
+          "name": "Inglês A2",
+          "videoIds": [
+            "n-4CKWtddYY", "KB_IkK8m73s", "SkrMQvkH1O8", "UplsIZqLme0", "EciT0GeiyU4",
+            "lAiCQ5CzcyM", "MC3klf51frA", "7YvDi-EQwL4", "JMYAYRIarl8", "khjdUgj-bWU",
+            "el2wQat-NNE", "nnxzXqPQLzs", "llRibHljp3g", "utRwHJECrj8", "1SX5rygwaZI",
+            "QdtB8hCG3nk", "hjz9Bk8W4mU", "bbENRfTjEqM", "P5L17uwl4DQ", "OMmwHzgUwN8",
+            "rXmWDaMs-Ec", "7UOo4MReYI8", "EgjVaUCWoE8", "X31M3Rltm_k", "lmcbtX2U6tw",
+            "E68MBTxi2DA", "uqwpyGpkTjw", "unzxgRiC_vE", "IkLChWSTTLc", "GJvgkDTF8v4",
+            "TnNB0aQVmuQ", "C-ZsRVZA4WM", "GOZt5-tgkgQ", "vYrV9tC0l84", "aB7XoBVYL3w",
+            "tLD1T8-6OE4", "3L74uIzU-o8", "yJ7JYkDv0Ko", "lsKgzv0BYMM", "Yf8EtWYOGDw",
+            "m-Xp5YiSLGw", "NLf4zGALK68", "mrZt28UmC8Y", "86k8xJ_KR_E", "BFylGEjMyN8",
+            "f-o0MtoHGKc", "pGfQ8oQekQk", "s67HPtBdkJU", "nVi6nEtAOEU", "DWLQi3R2Luc",
+            "wib170zyAwc", "anTHEY06wh0"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · INGLÊS INTERMEDIÁRIO - NÍVEL B1",
+      "disciplines": [
+        {
+          "name": "Inglês B1",
+          "videoIds": [
+            "n-4CKWtddYY", "CVUsNdtR0iA", "cQYHLxrrItQ", "xadyLP3t860", "6SwE2sBR42A",
+            "9yLPzuYJ2og", "kkcC6JvZc0A", "v-t7y5UMKXM", "nS6XZKIeTzE", "geDKj0qGGdQ",
+            "-XNViJn-YVc", "7sgvEGXF4lA", "nsCu_5Wuvq0", "yE-oKaPThI4", "DT-SrQlDCB0",
+            "iIx8VvheDA4", "LMZrUXeRXJ8", "iIPjCJ2dh9g", "1IqTNd-5K2U", "Y6eXZunNXVI",
+            "sBKz6KZqLJE", "SZP6qmywxRE", "pwLQVBpGSnU", "QivaEaNpNQQ", "luusfn4I2Ss",
+            "5FBS-ZW7AuM", "LHxfarOlR9Q", "RsRirjeZA7c", "Zv9HRCJyo7c", "PHx54lYVWe8",
+            "LFkAW-3zqNw", "5UTz6intNFA", "m6TbO38Ls0g", "UvQCgN0YGq8", "7Mf7RJCnAJk",
+            "oFAgYlU7YX4", "MQiFyNr41ec", "k8Mo6c1l6N8", "GCO4nq1wLL0", "4t5p-bEW-ZE",
+            "MfFETjIG5Sw", "7zIDcBk37o0", "7ticv-JRMu4", "FKVfBv4vQvI", "vyve-_j3LnM",
+            "1UmMJJ0WdnI", "5FKrtJmL2dI", "ZA5yhKcGvpM", "b7KsHWAhf28", "-e3ivprIekk",
+            "JJOWyTRjtII", "idJSKpXfoRA", "m8MtcGY32tI", "EnU5O9ZYxzM", "Xp7GDKrnjvs",
+            "_xDgTMY8-7s", "YY92e0Mc29M", "3-rbYcw5tu4", "GgVs9bx0ZEs", "xn4P269hmf4",
+            "mJcVNshnllo"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · INGLÊS INTERMEDIÁRIO AVANÇADO - NÍVEL B2",
+      "disciplines": [
+        {
+          "name": "Inglês B2",
+          "videoIds": [
+            "nueVikIswpE", "Ob09M4OJmCA", "bXMzf4Tun5I", "1tj8CkQtVJM", "5ND_Uf6wGFQ",
+            "nrLBrzyxaec", "6jIMKx9g2UE", "9agsPOI0wbo", "Y2YyCZlSkFs", "3M99VzBXjjY",
+            "6Wn5vg3NX4o", "7fHern8srUw", "A9L59vD6wTA", "CA5AikXqXWM", "CWvnLTJC_3Y",
+            "FLPg5KGlnuY", "FyjVPr_w754", "FzlLbXWtcYc", "GXvcJkIpNjc", "OKJocLqDjyg",
+            "O_nuwPhEib0", "U7Heu_wLeew", "Z9fuzqy8CSA", "aGOoF6T-cSE", "fk4I4YIrhhU",
+            "kFa6e4foXb8", "lS5E-DhktxE", "nznnX8-r-T8", "pU-rlzP2IVQ", "qGbI71D5ihc",
+            "qsfhUxpDdps", "rJ-GtiItl2g", "s6G4yyNvalY", "sGBB5pHd9ds", "uKDuR7gzlx8",
+            "ukWxXDrRV4g", "tTBsksLM_kY", "LI9eVmAbqVU", "ThYaBixUIAQ", "J_Xz8giy7JY",
+            "-6qYcZCV8eE", "i_61aK161EQ", "mfNQozdQuh4", "XjgQjEf5F_Y", "y4VcMc5w2ZY",
+            "A_TJqaJGVRE", "ssJMOb4TmX8", "anMPbuAzhZE"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · INGLÊS AVANÇADO - NÍVEL C1",
+      "disciplines": [
+        {
+          "name": "Inglês C1",
+          "videoIds": [
+            "KVPiWHqtCg4", "A3gj4gQ3ZRo", "9lPF0oIFC_8", "Etxmrc9iM_g", "EuXbj7AlH1E",
+            "MXASMHVFbrU", "GDhGUpUY4AQ", "YqgNtYGxkNg", "lo_cyqldcBg", "ycWkFDqVuAI",
+            "BuLvT7z54Tk", "Dw4VXtJkssc", "ni6_UUsmPDc", "T2nIFBie8Ro", "PXz7b8yUfsE",
+            "NjVF_dg605s", "yWSoXDRjaek", "VzZk8_aPsGo", "569r81zNWWs", "f48SlXMN-mQ",
+            "xoJcF4AH4oY", "x1lo1yn57nw", "FLyFnjsrJGg", "6OGX6qbc3CY", "03rhi1eYnTo",
+            "Z5YnT4DcDWM", "lSppy9Hshs0", "iUNHulB2vdU", "bkc7HB8nWQc", "2AQGLuE8ccw",
+            "cQ3ltbJFKHk", "F2ZcecpYh7g", "7l864lWaMY8", "GlAfaRqgBfY", "cMFu6cWPNvM",
+            "gGjHR-pe048", "1Ny6mGRWrO0", "5NUqI2A5ZaY", "MSNB90qnjBs", "1UA01k0MwrY",
+            "vgRWxp36T9I", "nfEMcSZ9EY8", "ek_akunjUV8", "AnpbhcxGEKY", "vtWYB8K0n4w",
+            "GIBsN7_Yzds", "fr9VHRtdLP0", "ySehdPd7WYE", "FigddxbhT5g", "5bpoAgkljHk",
+            "NOPHJGykbDc", "s7Rv9Alx2fY", "TryMykQcuKY", "kq8j5dHaUjo", "r-pN-h9p1UM",
+            "sxrpuFP2dX0", "gFzKnHc_nA4", "2srnKLANAQ4", "nvNzs_MkLA0", "iSoQT8Lopds",
+            "7Y_kcTiCvBI", "jeCnXgrShwk", "C8pXnxuHHuM", "5zCI9LDDKE0", "08eEupZxUJ0",
+            "OkHYDjkcllE", "rwmIuPZG-fU", "AZ5fuHn4I50", "vGsumPO3nNo", "yGMrtTdLQLM",
+            "dSW0MQ6QnzQ", "0TI3aISY51g", "6kzFGRBVsvQ", "sj1-Pz-L2Ys", "W-41QgzgEGA",
+            "Rv1sBU2brrQ", "Od4jzC11W0w", "NMUOGf0wOuQ", "DKCd2H17RS4", "aEDR8_yd9Mw",
+            "RQzrBQn76TI", "5w_EaX1I4pg", "Fv8UwrZWFLI", "ALp0R1XX0I4", "6NN0VEVoPnY",
+            "oBtF7fuf-pE", "ptsfhQaupn4", "pkaU_QqE9X4", "OolXFyRnFL4", "EC55sHq5Lo8",
+            "Wr4QvZYkt8M", "9K_WOgmtkQM", "Ke3W911Onyg", "NaZ5cS84yNk", "-nObtiM_K3k",
+            "VGpvHC7vQdo", "-FRvSfMoNJw", "S82jXSsSPnU", "qwYThFHxTQg", "wmrS25O3pBk",
+            "4qJM6fPN9c4"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · INGLÊS NATIVO - NÍVEL C2",
+      "disciplines": [
+        {
+          "name": "Inglês C2",
+          "videoIds": [
+            "1975n6qIuTE", "F69QBkw8r5o", "6XS6lJgvEYk", "5dP-C5qrIkk", "AGqzUqmIwr0",
+            "FjeVX6nLkeU", "Ru34uWbIlB8", "Pk_cxCLI6Tw", "1oSw1pZOeHs", "8cAixSKzxco",
+            "SKThGzL3rRI", "rDPkP7rNZF8", "OHulB7yedeU", "HoY2wPk9tiA", "2_4ExTeg79w",
+            "0qJhBrSMspM", "0gD2wSlKHOk", "QyHD98pkdcU", "fgJJghB2JJI", "S337PXrVQJE",
+            "VnmKYXZ2_8Q", "t-htzyejmg4", "cc7PEf7GNUQ", "2GTEuFC0oLs", "HaYUofSfQi4",
+            "eti8n432LF4", "x43nRZ5MVvc", "DOdGgkVpUzo"
+          ]
+        },
+        {
+          "name": "MEC Idiomas",
+          "type": "external",
+          "time": "30 min",
+          "externalUrl": "https://mecidiomas.mec.gov.br/",
+          "platformName": "MEC Idiomas",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}
