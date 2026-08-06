@@ -1,19 +1,44 @@
-/* ===== AUDITORIO.CSS – ESTILOS COMPLETOS (VÍDEOS + PODCASTS + PLAYLIST) ===== */
+/* ===== AUDITORIO.CSS – ESTILOS COMPLETOS (PALETA MODERNIZADA) ===== */
 /* Compatível com o tema da Universidade Livre */
+/* Inclui vídeos, podcasts, player, playlist, filtros e responsividade */
 
 :root {
-    --bg-primary: #0D1117;
-    --bg-secondary: #161B22;
-    --bg-tertiary: #1F2933;
-    --text-primary: #E6EDF3;
-    --text-secondary: #9CA3AF;
-    --accent-blue: #2563EB;
-    --accent-blue-hover: #1D4ED8;
-    --accent-green: #22C55E;
-    --accent-orange: #f97316;
-    --border: #2D3748;
+    /* ===== FUNDOS ===== */
+    --bg-primary: #0A0E17;
+    --bg-secondary: #121826;
+    --bg-tertiary: #1A2236;
+    --bg-card: #1E2A3E;
+
+    /* ===== TEXTOS ===== */
+    --text-primary: #F0F4FA;
+    --text-secondary: #9AAEC2;
+    --text-tertiary: #6B7F99;
+
+    /* ===== ACENTOS ===== */
+    --accent-blue: #5B7BFA;
+    --accent-blue-hover: #4A6AE0;
+    --accent-green: #34D399;
+    --accent-orange: #F59E0B;
+    --accent-purple: #8B5CF6;
+    --accent-teal: #38BDF8;
+
+    /* ===== BORDAS E SOMBRAS ===== */
+    --border: #2A3550;
+    --border-light: #3A4A66;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    --card-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.75);
+    --modal-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+
+    /* ===== GRADIENTES ===== */
+    --gradient-primary: linear-gradient(135deg, #5B7BFA, #8B5CF6);
+    --gradient-donate: linear-gradient(135deg, #F59E0B, #EF4444);
+    --gradient-new-badge: linear-gradient(135deg, #34D399, #38BDF8);
+
+    /* ===== DEMAIS ===== */
     --card-radius: 1rem;
-    --transition: all 0.2s ease;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --success: #34D399;
+    --danger: #EF4444;
 }
 
 * {
@@ -75,6 +100,7 @@ body {
     border-radius: 2rem;
     align-items: center;
     flex-wrap: wrap;
+    border: 1px solid var(--border);
 }
 
 .stat-item {
@@ -89,20 +115,29 @@ body {
 }
 
 .btn-biblioteca {
-    background: #2ea043;
-    color: white;
+    background: var(--accent-green);
+    color: #0A0E17;
     padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     display: inline-block;
-    transition: 0.2s;
+    transition: var(--transition);
     font-size: 0.85rem;
 }
 
 .btn-biblioteca:hover {
-    background: #238636;
+    background: var(--accent-green-hover);
     transform: scale(1.05);
+}
+
+.btn-biblioteca[style*="accent-blue"] {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.btn-biblioteca[style*="accent-blue"]:hover {
+    background: var(--accent-blue-hover);
 }
 
 .language-switch {
@@ -122,7 +157,7 @@ body {
     cursor: pointer;
     padding: 0.2rem 0.4rem;
     border-radius: 1rem;
-    transition: all 0.2s ease;
+    transition: var(--transition);
     font-size: 0.75rem;
 }
 
@@ -132,11 +167,11 @@ body {
 }
 
 .lang-btn:hover:not(.active) {
-    color: var(--accent-blue);
+    color: var(--accent-teal);
 }
 
 .lang-sep {
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     font-size: 0.75rem;
 }
 
@@ -144,19 +179,19 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #f97316;
+    background: var(--gradient-donate);
     color: white;
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.85rem;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: var(--transition);
 }
 
 .donate-button:hover {
-    background: #ea580c;
     transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 /* ========== TÍTULO E DESCRIÇÃO ========== */
@@ -168,6 +203,10 @@ body {
 .auditorio-header h1 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
+    color: var(--accent-teal);
+}
+
+.auditorio-header h1 i {
     color: var(--accent-blue);
 }
 
@@ -196,7 +235,7 @@ body {
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     font-size: 0.9rem;
     pointer-events: none;
 }
@@ -209,24 +248,28 @@ body {
     border-radius: 2rem;
     color: var(--text-primary);
     font-size: 0.9rem;
-    transition: all 0.2s ease;
+    transition: var(--transition);
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 0 0 2px rgba(91, 123, 250, 0.15);
+}
+
+.search-input::placeholder {
+    color: var(--text-tertiary);
 }
 
 .random-btn {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     border: none;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 2rem;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    transition: var(--transition);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -234,8 +277,12 @@ body {
 }
 
 .random-btn:hover {
-    background: var(--accent-blue-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
+}
+
+.random-btn i {
+    font-size: 0.9rem;
 }
 
 /* ========== FILTROS ========== */
@@ -266,7 +313,7 @@ body {
     border-radius: 2rem;
     font-size: 0.8rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: var(--transition);
     color: var(--text-secondary);
     display: inline-flex;
     align-items: center;
@@ -283,8 +330,8 @@ body {
 }
 
 .chip.active {
-    background: var(--accent-blue);
-    border-color: var(--accent-blue);
+    background: var(--gradient-primary);
+    border-color: transparent;
     color: white;
 }
 
@@ -293,6 +340,14 @@ body {
 }
 
 .chip.active .fa-podcast {
+    color: white;
+}
+
+.chip .fa-circle {
+    color: var(--danger);
+}
+
+.chip.active .fa-circle {
     color: white;
 }
 
@@ -339,12 +394,12 @@ body {
 
 .category-title i {
     font-size: 1.1rem;
-    color: var(--accent-blue);
+    color: var(--accent-teal);
 }
 
 .category-count {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
 }
 
 /* Grade unificada para vídeos e podcasts */
@@ -356,7 +411,7 @@ body {
 
 /* ========== CARD DE VÍDEO ========== */
 .video-card {
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
@@ -369,7 +424,7 @@ body {
 .video-card:hover {
     transform: translateY(-4px);
     border-color: var(--accent-blue);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--card-shadow);
 }
 
 .video-thumb {
@@ -395,7 +450,7 @@ body {
     position: absolute;
     bottom: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.7rem;
@@ -405,21 +460,31 @@ body {
     gap: 4px;
     backdrop-filter: blur(4px);
     z-index: 2;
-}
-
-.video-badge.video {
-    background: #22c55e;
-    color: #000;
-}
-
-.video-badge.story {
-    background: #f97316;
-    color: #000;
+    border: 1px solid var(--border);
 }
 
 .video-badge.live {
-    background: #ef4444;
-    color: #fff;
+    background: var(--danger);
+    color: white;
+}
+
+.video-badge.podcast {
+    background: var(--accent-green);
+    color: #0A0E17;
+}
+
+.video-badge.shorts {
+    background: var(--accent-purple);
+    color: white;
+}
+
+.video-badge.video {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.video-badge .fa-circle {
+    font-size: 0.5rem;
 }
 
 .video-info {
@@ -435,6 +500,7 @@ body {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--text-primary);
 }
 
 .video-description {
@@ -464,11 +530,22 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
+    border: 1px solid var(--border);
+}
+
+.duration-badge {
+    background: var(--bg-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    border: 1px solid var(--border);
 }
 
 /* ========== CARD DE PODCAST ========== */
 .podcast-card {
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
@@ -481,7 +558,7 @@ body {
 .podcast-card:hover {
     transform: translateY(-4px);
     border-color: var(--accent-blue);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--card-shadow);
 }
 
 .podcast-card img {
@@ -504,6 +581,7 @@ body {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--text-primary);
 }
 
 .podcast-info p {
@@ -529,11 +607,12 @@ body {
 
 /* ========== PLAYER DE MÍDIA ========== */
 .player-container {
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     border-radius: 16px;
     margin-bottom: 2rem;
     overflow: hidden;
     border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
 }
 
 .player-wrapper {
@@ -563,12 +642,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
+    transition: var(--transition);
     z-index: 10;
+    backdrop-filter: blur(4px);
 }
 
 .close-player:hover {
     background: var(--accent-blue);
+    transform: scale(1.05);
 }
 
 .player-info {
@@ -578,6 +659,7 @@ body {
 .player-info h3 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    color: var(--text-primary);
 }
 
 .player-info p {
@@ -600,7 +682,7 @@ body {
 .ctrl-btn {
     background: var(--bg-tertiary);
     border: none;
-    color: white;
+    color: var(--text-primary);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -613,11 +695,13 @@ body {
 
 .ctrl-btn:hover {
     background: var(--accent-blue);
+    color: white;
+    transform: scale(1.05);
 }
 
 .ctrl-btn.audio-active {
     background: var(--accent-green);
-    color: #000;
+    color: #0A0E17;
 }
 
 .volume-control {
@@ -704,8 +788,8 @@ body {
     content: "🎧 Modo Áudio Ativo";
     display: block;
     padding: 0.4rem 1rem;
-    background: var(--accent-green);
-    color: #000;
+    background: var(--gradient-new-badge);
+    color: #0A0E17;
     font-size: 0.75rem;
     font-weight: 600;
     text-align: center;
@@ -719,7 +803,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 2000;
     justify-content: center;
     align-items: center;
@@ -735,6 +819,8 @@ body {
     overflow-y: auto;
     padding: 1.5rem;
     position: relative;
+    border: 1px solid var(--border);
+    box-shadow: var(--modal-shadow);
 }
 
 .close-modal {
@@ -746,16 +832,18 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-secondary);
+    transition: var(--transition);
 }
 
 .close-modal:hover {
     color: var(--text-primary);
+    transform: rotate(90deg) scale(1.1);
 }
 
 .modal h3 {
     margin-bottom: 1rem;
     padding-right: 2rem;
-    color: var(--accent-blue);
+    color: var(--accent-teal);
 }
 
 /* ========== BUSCA DENTRO DO MODAL ========== */
@@ -769,7 +857,7 @@ body {
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
 }
 
 .episode-search-input {
@@ -780,17 +868,35 @@ body {
     border-radius: 24px;
     color: var(--text-primary);
     font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .episode-search-input:focus {
     outline: none;
     border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(91, 123, 250, 0.15);
 }
 
 /* ========== LISTA DE EPISÓDIOS ========== */
 .episode-items-container {
     max-height: 400px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--bg-tertiary);
+}
+
+.episode-items-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.episode-items-container::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.episode-items-container::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 4px;
 }
 
 .episode-item {
@@ -799,7 +905,7 @@ body {
     padding: 12px;
     border-bottom: 1px solid var(--border);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: var(--transition);
 }
 
 .episode-item:hover {
@@ -813,6 +919,7 @@ body {
 .episode-title {
     font-weight: 500;
     margin-bottom: 4px;
+    color: var(--text-primary);
 }
 
 .episode-meta {
@@ -836,7 +943,7 @@ body {
 
 .play-episode-btn,
 .add-to-playlist-btn {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     border: none;
     color: white;
     width: 36px;
@@ -846,7 +953,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
+    transition: var(--transition);
 }
 
 .add-to-playlist-btn {
@@ -857,8 +964,11 @@ body {
 
 .play-episode-btn:hover,
 .add-to-playlist-btn:hover {
-    background: var(--accent-blue-hover);
     transform: scale(1.05);
+}
+
+.play-episode-btn:hover {
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
 }
 
 .add-to-playlist-btn:hover {
@@ -882,7 +992,7 @@ body {
     max-width: 95vw;
     background: var(--bg-secondary);
     border-radius: 20px 20px 0 0;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--modal-shadow);
     z-index: 1500;
     transition: transform 0.3s ease;
     border: 1px solid var(--border);
@@ -907,6 +1017,11 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--text-primary);
+}
+
+.playlist-header h4 i {
+    color: var(--accent-teal);
 }
 
 .playlist-header button {
@@ -915,6 +1030,12 @@ body {
     color: var(--text-secondary);
     cursor: pointer;
     padding: 4px;
+    transition: var(--transition);
+}
+
+.playlist-header button:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
 }
 
 .now-playing-section {
@@ -930,6 +1051,7 @@ body {
     height: 48px;
     border-radius: 8px;
     object-fit: cover;
+    border: 1px solid var(--border);
 }
 
 .now-playing-details {
@@ -942,6 +1064,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text-primary);
 }
 
 .now-playing-author {
@@ -971,7 +1094,7 @@ body {
     height: 36px;
     border-radius: 50%;
     cursor: pointer;
-    transition: 0.2s;
+    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -979,10 +1102,15 @@ body {
 
 .playlist-controls .ctrl-btn:hover {
     background: var(--bg-tertiary);
+    color: var(--accent-blue);
 }
 
 .playlist-controls .ctrl-btn.active {
     color: var(--accent-blue);
+}
+
+.playlist-controls .ctrl-btn.active:hover {
+    background: var(--bg-tertiary);
 }
 
 .playlist-progress {
@@ -1021,6 +1149,21 @@ body {
     max-height: 300px;
     overflow-y: auto;
     padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--bg-tertiary);
+}
+
+.playlist-items::-webkit-scrollbar {
+    width: 4px;
+}
+
+.playlist-items::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+.playlist-items::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 2px;
 }
 
 .playlist-item {
@@ -1030,7 +1173,7 @@ body {
     padding: 8px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: var(--transition);
 }
 
 .playlist-item:hover {
@@ -1058,6 +1201,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text-primary);
 }
 
 .playlist-item-author {
@@ -1072,10 +1216,12 @@ body {
     cursor: pointer;
     padding: 4px;
     font-size: 1.2rem;
+    transition: var(--transition);
 }
 
 .playlist-item-remove:hover {
-    color: #ef4444;
+    color: var(--danger);
+    transform: scale(1.2);
 }
 
 .playlist-empty {
@@ -1092,45 +1238,52 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 25px;
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     cursor: pointer;
     z-index: 1600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--card-shadow);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    transition: 0.2s;
+    transition: var(--transition);
 }
 
 .toggle-playlist-btn:hover {
-    background: var(--accent-blue-hover);
     transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(91, 123, 250, 0.4);
 }
 
 /* ========== ESTADOS VAZIOS E CARREGAMENTO ========== */
 .empty-state {
     text-align: center;
-    padding: 2rem;
+    padding: 2.5rem;
     color: var(--text-secondary);
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 16px;
+    border: 1px dashed var(--border);
 }
 
 .empty-state i {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.6;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin: 0;
 }
 
 .loading-skeleton {
     text-align: center;
     padding: 3rem 2rem;
     color: var(--text-secondary);
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 16px;
+    border: 1px solid var(--border);
 }
 
 .spinner {
@@ -1144,9 +1297,7 @@ body {
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .player-error {
@@ -1217,12 +1368,30 @@ body {
 
     .modal-content {
         padding: 1rem;
+        max-width: 95%;
     }
 
     .playlist-panel {
         width: 100%;
         right: 0;
         border-radius: 20px 20px 0 0;
+    }
+
+    .playlist-panel.collapsed {
+        transform: translateY(calc(100% - 55px));
+    }
+
+    .toggle-playlist-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+        bottom: 12px;
+        right: 12px;
+    }
+
+    .player-container.audio-mode::before {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
     }
 }
 
@@ -1257,5 +1426,95 @@ body {
     .episode-actions {
         width: 100%;
         justify-content: flex-end;
+    }
+
+    .episode-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .playlist-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .playlist-progress {
+        min-width: 100%;
+        order: 10;
+    }
+
+    .now-playing-section {
+        flex-wrap: wrap;
+    }
+
+    .now-playing-section img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .playlist-item {
+        padding: 6px;
+    }
+
+    .playlist-item img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 400px) {
+    .unified-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .video-card {
+        border-radius: 12px;
+    }
+
+    .video-info {
+        padding: 0.6rem;
+    }
+
+    .video-title {
+        font-size: 0.85rem;
+    }
+
+    .header {
+        padding: 0.8rem 0;
+    }
+
+    .stats {
+        padding: 0.4rem 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .btn-biblioteca {
+        padding: 6px 12px;
+        font-size: 0.7rem;
+    }
+
+    .auditorio-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .custom-player-controls {
+        padding: 0.5rem 0.6rem;
+        gap: 0.3rem;
+    }
+
+    .ctrl-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .volume-slider {
+        width: 50px;
+    }
+
+    #currentTimeDisplay,
+    #durationDisplay {
+        font-size: 0.7rem;
+        min-width: 35px;
     }
 }

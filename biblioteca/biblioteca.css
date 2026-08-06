@@ -1,20 +1,31 @@
-/* ===== BIBLIOTECA.CSS – ESTILOS COMPLETOS (MODAL DE CAPA CORRIGIDO) ===== */
+/* ===== BIBLIOTECA.CSS – ESTILOS COMPLETOS (PALETA MODERNIZADA) ===== */
 /* Compatível com o tema da Universidade Livre */
 /* Inclui grid responsivo, loading fluido, player de áudio, modais, badges e capa sem corte */
 
 :root {
-    --bg-primary: #0D1117;
-    --bg-secondary: #161B22;
-    --bg-tertiary: #1F2933;
-    --text-primary: #E6EDF3;
-    --text-secondary: #9CA3AF;
-    --accent-blue: #2563EB;
-    --accent-blue-hover: #1D4ED8;
-    --accent-green: #22C55E;
-    --accent-orange: #f97316;
-    --border: #2D3748;
+    --bg-primary: #0A0E17;
+    --bg-secondary: #121826;
+    --bg-tertiary: #1A2236;
+    --bg-card: #1E2A3E;
+    --text-primary: #F0F4FA;
+    --text-secondary: #9AAEC2;
+    --text-tertiary: #6B7F99;
+    --accent-blue: #5B7BFA;
+    --accent-blue-hover: #4A6AE0;
+    --accent-green: #34D399;
+    --accent-orange: #F59E0B;
+    --accent-purple: #8B5CF6;
+    --accent-teal: #38BDF8;
+    --border: #2A3550;
+    --border-light: #3A4A66;
     --card-radius: 1rem;
-    --transition: all 0.2s ease;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    --card-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.75);
+    --modal-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    --gradient-primary: linear-gradient(135deg, #5B7BFA, #8B5CF6);
+    --gradient-donate: linear-gradient(135deg, #F59E0B, #EF4444);
+    --gradient-new-badge: linear-gradient(135deg, #34D399, #38BDF8);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ========== GRID DE LIVROS ========== */
@@ -26,15 +37,15 @@
 }
 
 .book-mini-card {
-    background: var(--bg-tertiary);
-    border-radius: 12px;
+    background: var(--bg-card);
+    border-radius: 16px;
     overflow: hidden;
     transition: var(--transition);
     cursor: pointer;
     text-align: center;
-    padding: 0.6rem;
+    padding: 0.75rem;
     border: 1px solid var(--border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -43,8 +54,8 @@
 }
 
 .book-mini-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
     border-color: var(--accent-blue);
 }
 
@@ -52,14 +63,14 @@
     width: 100%;
     aspect-ratio: 1 / 1.4;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 12px;
     margin-bottom: 0.5rem;
     background: var(--bg-primary);
     border: 1px solid var(--border);
 }
 
 .mini-title {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     margin: 0.3rem 0 0.15rem;
     line-height: 1.3;
@@ -72,25 +83,26 @@
 
 .mini-author,
 .mini-year {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
     margin: 0.1rem 0;
 }
 
 .mini-publisher {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     color: var(--accent-green);
     margin: 0.1rem 0;
 }
 
 .mini-type-tag {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     background: var(--bg-secondary);
     display: inline-block;
-    padding: 0.15rem 0.4rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 12px;
     margin-top: 0.3rem;
-    color: var(--accent-blue);
+    color: var(--accent-teal);
+    border: 1px solid var(--border);
 }
 
 /* ========== ABAS PRINCIPAIS ========== */
@@ -127,7 +139,7 @@
 }
 
 .main-tab-btn.active {
-    color: var(--accent-blue);
+    color: var(--accent-teal);
     border-bottom: 3px solid var(--accent-blue);
 }
 
@@ -146,18 +158,23 @@
 
 .search-bar input {
     width: 100%;
-    padding: 0.6rem 1rem;
+    padding: 0.75rem 1.2rem;
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
-    border-radius: 2rem;
+    border-radius: 2.5rem;
     color: var(--text-primary);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    transition: var(--transition);
 }
 
 .search-bar input:focus {
     outline: none;
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 0 0 3px rgba(91, 123, 250, 0.15);
+}
+
+.search-bar input::placeholder {
+    color: var(--text-tertiary);
 }
 
 /* ========== ABAS DE FILTRO ========== */
@@ -172,7 +189,7 @@
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
     color: var(--text-secondary);
-    padding: 0.4rem 0.9rem;
+    padding: 0.4rem 1rem;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
@@ -193,8 +210,8 @@
 }
 
 .tab-btn.active {
-    background: var(--accent-blue);
-    border-color: var(--accent-blue);
+    background: var(--gradient-primary);
+    border-color: transparent;
     color: white;
 }
 
@@ -207,10 +224,10 @@
 }
 
 .library-card {
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     border-radius: 20px;
     overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: var(--transition);
     cursor: pointer;
     border: 1px solid var(--border);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -220,7 +237,7 @@
 
 .library-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--card-shadow-hover);
     border-color: var(--accent-blue);
 }
 
@@ -231,11 +248,11 @@
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
     transition: transform 0.3s ease;
-    padding: 0.25rem;
+    padding: 0.5rem;
 }
 
 .library-card:hover .library-cover {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .library-info {
@@ -273,9 +290,10 @@
     border-radius: 20px;
     display: inline-block;
     width: fit-content;
-    color: var(--accent-blue);
+    color: var(--accent-teal);
     font-weight: 500;
     letter-spacing: 0.3px;
+    border: 1px solid var(--border);
 }
 
 .library-price-tag {
@@ -284,24 +302,24 @@
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
     background: var(--accent-green);
-    color: #000;
+    color: #0A0E17;
 }
 
 .library-price-tag.paid {
     background: var(--accent-orange);
-    color: #fff;
+    color: white;
 }
 
 .library-link {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 40px;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     text-align: center;
-    transition: all 0.2s ease;
+    transition: var(--transition);
     display: inline-block;
     margin-top: 0.4rem;
     border: none;
@@ -309,9 +327,8 @@
 }
 
 .library-link:hover {
-    background: var(--accent-blue-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
 }
 
 /* ========== FILTROS DE IDIOMA ========== */
@@ -324,8 +341,9 @@
 }
 
 .filter-bar span {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .chips-container {
@@ -337,15 +355,19 @@
 .chip {
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
-    padding: 0.3rem 0.8rem;
+    padding: 0.3rem 1rem;
     border-radius: 2rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     cursor: pointer;
     transition: var(--transition);
     color: var(--text-secondary);
     display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.3rem;
+}
+
+.chip i {
+    font-size: 0.7rem;
 }
 
 .chip:hover {
@@ -354,21 +376,21 @@
 }
 
 .chip.active {
-    background: var(--accent-blue);
-    border-color: var(--accent-blue);
+    background: var(--gradient-primary);
+    border-color: transparent;
     color: white;
 }
 
 /* ========== AUDIOBOOKS ========== */
 .audiobooks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1rem;
 }
 
 .audiobook-card {
-    background: var(--bg-tertiary);
-    border-radius: 12px;
+    background: var(--bg-card);
+    border-radius: 16px;
     overflow: hidden;
     transition: var(--transition);
     cursor: pointer;
@@ -384,7 +406,7 @@
 
 .audiobook-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--card-shadow);
     border-color: var(--accent-blue);
 }
 
@@ -392,9 +414,10 @@
     width: 70px;
     height: 70px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 10px;
     background: var(--bg-primary);
     flex-shrink: 0;
+    border: 1px solid var(--border);
 }
 
 .audiobook-info {
@@ -403,7 +426,7 @@
 }
 
 .audiobook-title {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     margin-bottom: 0.15rem;
     line-height: 1.3;
@@ -417,7 +440,7 @@
 .preview-badge {
     background: var(--accent-orange);
     color: white;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     padding: 0.1rem 0.4rem;
     border-radius: 12px;
     display: inline-block;
@@ -426,21 +449,21 @@
 }
 
 .audiobook-author {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     margin-bottom: 0.1rem;
 }
 
 .audiobook-publisher {
-    font-size: 0.6rem;
-    color: var(--accent-blue);
+    font-size: 0.65rem;
+    color: var(--accent-teal);
     margin-bottom: 0.15rem;
 }
 
 .audiobook-meta {
     display: flex;
     gap: 0.6rem;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     margin-bottom: 0.2rem;
     flex-wrap: wrap;
 }
@@ -451,9 +474,10 @@
 
 .audiobook-language {
     background: var(--bg-secondary);
-    padding: 0.1rem 0.3rem;
+    padding: 0.1rem 0.4rem;
     border-radius: 10px;
     color: var(--text-secondary);
+    border: 1px solid var(--border);
 }
 
 .audiobook-year {
@@ -461,32 +485,33 @@
 }
 
 .audiobook-description {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
     margin: 0.4rem 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.3;
+    line-height: 1.4;
 }
 
 .listen-btn {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     color: white;
     border: none;
-    padding: 0.3rem 0.8rem;
+    padding: 0.3rem 0.9rem;
     border-radius: 2rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    transition: 0.2s;
+    transition: var(--transition);
     display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.3rem;
 }
 
 .listen-btn:hover {
-    background: var(--accent-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
 }
 
 .subtitles-indicator {
@@ -502,28 +527,40 @@
     background: none;
     border: 1px solid var(--border);
     color: var(--text-secondary);
-    font-size: 0.6rem;
-    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 1rem;
     cursor: pointer;
+    transition: var(--transition);
+}
+
+.extras-toggle:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
 }
 
 .extras-list {
     list-style: none;
     margin: 0.3rem 0 0 0;
-    padding: 0.2rem;
+    padding: 0.2rem 0.5rem;
     background: var(--bg-secondary);
     border-radius: 8px;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
+    border: 1px solid var(--border);
 }
 
 .extras-list li {
-    padding: 0.2rem 0.3rem;
+    padding: 0.2rem 0;
 }
 
 .extras-list a {
-    color: var(--accent-blue);
+    color: var(--accent-teal);
     text-decoration: none;
+    transition: var(--transition);
+}
+
+.extras-list a:hover {
+    color: var(--accent-blue);
 }
 
 /* ========== SEÇÃO CONTINUAR OUVINDO ========== */
@@ -532,12 +569,13 @@
 }
 
 .section-subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin-bottom: 0.8rem;
     color: var(--accent-green);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-weight: 600;
 }
 
 .continue-listening-container {
@@ -547,7 +585,7 @@
 }
 
 .continue-listening-card {
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 14px;
     padding: 12px 16px;
     border: 1px solid var(--accent-green);
@@ -564,8 +602,8 @@
 
 .continue-listening-card:hover {
     border-color: var(--accent-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow);
 }
 
 .continue-cover {
@@ -610,7 +648,7 @@
 }
 
 .continue-play-btn {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     padding: 8px 14px;
@@ -625,11 +663,11 @@
 }
 
 .continue-play-btn:hover {
-    background: var(--accent-blue-hover);
-    transform: scale(1.02);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
 }
 
-/* ========== PLAYER DE ÁUDIO (ÚNICO) ========== */
+/* ========== PLAYER DE ÁUDIO ========== */
 .multi-audio-player-container {
     position: fixed;
     bottom: 20px;
@@ -645,14 +683,14 @@
     background: var(--bg-secondary);
     border-radius: 40px;
     padding: 10px 18px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--modal-shadow);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     gap: 14px;
     pointer-events: auto;
     width: 100%;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
     flex-wrap: wrap;
 }
 
@@ -663,21 +701,23 @@
     font-size: 1.1rem;
     cursor: pointer;
     padding: 4px;
-    transition: color 0.2s;
+    transition: var(--transition);
     order: -1;
 }
 
 .audio-player-card .audio-close-btn:hover {
     color: var(--text-primary);
+    transform: scale(1.1);
 }
 
 .audio-player-card .audio-cover {
     width: 50px;
     height: 50px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     background: var(--bg-primary);
     flex-shrink: 0;
+    border: 1px solid var(--border);
 }
 
 .audio-player-card .audio-info {
@@ -699,7 +739,7 @@
 }
 
 .audio-player-card .audio-title .preview-badge {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     padding: 0.1rem 0.3rem;
 }
 
@@ -722,7 +762,7 @@
 .audio-player-card .audio-ctrl-btn {
     background: var(--bg-tertiary);
     border: none;
-    color: white;
+    color: var(--text-primary);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -743,11 +783,11 @@
     width: 48px;
     height: 48px;
     font-size: 1.3rem;
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
 }
 
 .audio-player-card .audio-ctrl-btn.play-pause:hover {
-    background: var(--accent-blue-hover);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
 }
 
 .audio-player-card .audio-progress-container {
@@ -814,14 +854,14 @@
     margin-right: 0.3rem;
 }
 
-/* ========== MODAL DE DETALHES DO ITEM (CAPA CORRIGIDA - SEM CORTE) ========== */
+/* ========== MODAL DE DETALHES DO ITEM ========== */
 .book-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     display: none;
     align-items: center;
     justify-content: center;
@@ -831,13 +871,15 @@
 
 .modal-content {
     background: var(--bg-secondary);
-    border-radius: 20px;
+    border-radius: 24px;
     max-width: 700px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
     padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--modal-shadow);
 }
 
 .close-modal {
@@ -849,17 +891,24 @@
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg) scale(1.1);
 }
 
 .modal-cover {
-    width: 160px;                  /* largura confortável */
+    width: 160px;
     max-width: 100%;
     height: auto;
-    object-fit: contain;           /* mostra a imagem inteira sem cortes */
+    object-fit: contain;
     border-radius: 12px;
     background: var(--bg-primary);
     border: 1px solid var(--border);
     margin-right: 1.5rem;
+    flex-shrink: 0;
 }
 
 .modal-details {
@@ -873,16 +922,20 @@
 }
 
 .modal-details p {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     margin: 0.2rem 0;
     color: var(--text-secondary);
 }
 
+.modal-details p strong {
+    color: var(--text-primary);
+}
+
 .modal-description {
     margin: 0.6rem 0;
-    line-height: 1.4;
-    font-size: 0.85rem;
-    color: var(--text-primary);
+    line-height: 1.5;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
 }
 
 .modal-actions {
@@ -893,29 +946,48 @@
 }
 
 .action-btn {
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     color: white;
-    padding: 0.3rem 0.8rem;
+    padding: 0.4rem 1rem;
     border-radius: 2rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     text-decoration: none;
-    transition: 0.2s;
+    transition: var(--transition);
     border: none;
     cursor: pointer;
 }
 
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
+}
+
 .action-btn.download-btn {
-    background: #2ea043;
+    background: var(--accent-green);
+    color: #0A0E17;
+}
+
+.action-btn.download-btn:hover {
+    background: var(--accent-green-hover);
 }
 
 .action-btn.repo-btn {
-    background: #24292e;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.action-btn.repo-btn:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
 }
 
 .disabled-btn {
     opacity: 0.5;
     cursor: not-allowed;
-    background: #6c757d;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
 }
 
 /* ========== LOADING COM BARRA DE PROGRESSO ========== */
@@ -923,10 +995,11 @@
     text-align: center;
     padding: 3rem 1.5rem;
     color: var(--text-secondary);
-    background: var(--bg-tertiary);
+    background: var(--bg-card);
     border-radius: 16px;
     box-sizing: border-box;
     overflow-x: hidden;
+    border: 1px solid var(--border);
 }
 
 .spinner {
@@ -957,7 +1030,7 @@
 .loading-progress-bar {
     width: 0%;
     height: 100%;
-    background: var(--accent-blue);
+    background: var(--gradient-primary);
     border-radius: 6px;
     transition: width 0.3s ease;
     animation: loadingPulse 1.5s ease-in-out infinite;
@@ -976,15 +1049,27 @@
 /* ========== ESTADOS VAZIOS/ERRO ========== */
 .empty-state, .error-state {
     text-align: center;
-    padding: 2rem;
-    font-size: 0.9rem;
+    padding: 2.5rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
-    background: var(--bg-tertiary);
-    border-radius: 12px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px dashed var(--border);
 }
 
 .empty-state i, .error-state i {
-    margin-right: 0.5rem;
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.6;
+}
+
+.error-state {
+    border-color: #ef4444;
+    color: #f87171;
+}
+
+.error-state i {
+    color: #ef4444;
 }
 
 /* ========== RESPONSIVIDADE ========== */
@@ -994,10 +1079,10 @@
         gap: 0.6rem;
     }
     .book-mini-card {
-        padding: 0.4rem;
+        padding: 0.5rem;
     }
     .mini-title {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
     .external-libraries-grid {
         grid-template-columns: 1fr;
@@ -1020,7 +1105,7 @@
         font-size: 0.85rem;
     }
     .tab-btn {
-        padding: 0.3rem 0.6rem;
+        padding: 0.3rem 0.7rem;
         font-size: 0.7rem;
     }
     .continue-listening-container {
@@ -1031,7 +1116,7 @@
         max-width: 100%;
     }
     .multi-audio-player-container {
-        max-width: 95%;
+        max-width: 98%;
     }
     .audio-player-card {
         padding: 8px 12px;
@@ -1057,5 +1142,33 @@
     }
     .modal-content {
         padding: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .book-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.4rem;
+    }
+    .book-mini-card {
+        padding: 0.3rem;
+    }
+    .mini-title {
+        font-size: 0.7rem;
+    }
+    .mini-author, .mini-year {
+        font-size: 0.6rem;
+    }
+    .library-card {
+        border-radius: 16px;
+    }
+    .library-cover {
+        height: 120px;
+    }
+    .library-info {
+        padding: 0.8rem;
+    }
+    .library-title {
+        font-size: 0.9rem;
     }
 }
