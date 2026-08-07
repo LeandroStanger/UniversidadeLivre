@@ -1,5 +1,5 @@
 // ============================================================
-// script.js – Versão 3.0
+// script.js – Versão 3.1
 // Universidade Livre · Todos os módulos
 // Inclui: cursos, player, progresso, bibliografia, prática,
 // time, licença, i18n, animações modernas e interações
@@ -441,7 +441,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         notification.className = `notification ${type}`;
         notification.innerHTML = `<div class="notification-content"><i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${escapeHtml(message)}</span></div>`;
         notification.style.cssText = `
-            background: var(--bg-secondary);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-left: 4px solid ${type === 'success' ? '#4ADE80' : '#6C8CFF'};
             border-radius: 16px;
             padding: 16px 24px;
@@ -455,6 +457,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             opacity: 0;
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
                         opacity 0.3s ease;
+            border: 1px solid var(--border);
         `;
         container.appendChild(notification);
         void notification.offsetHeight;
@@ -1501,16 +1504,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         tabBtns.forEach(btn => btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab'))));
     }
 
-    // ========== YOUTUBE PLAYER ==========
+    // ========== YOUTUBE PLAYER (COM CORREÇÃO) ==========
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('youtube-player', {
-            height: '100%', width: '100%',
-            playerVars: { autoplay: 0, controls: 1, modestbranding: 1, rel: 0 },
+            height: '100%',
+            width: '100%',
+            playerVars: {
+                autoplay: 0,
+                controls: 1,
+                modestbranding: 1,
+                rel: 0,
+                origin: window.location.origin,
+                host: 'https://www.youtube.com'   // ← Correção para evitar erro de postMessage
+            },
             events: {
                 onReady: () => {
                     isPlayerReady = true;
                     player.setVolume(playerVolume);
-                    if (window._startLessonScheduled) { window._startLessonScheduled = false; startLesson(); }
+                    if (window._startLessonScheduled) {
+                        window._startLessonScheduled = false;
+                        startLesson();
+                    }
                 },
                 onStateChange: onPlayerStateChange,
                 onError: () => console.error("Erro no player do YouTube")
@@ -1949,8 +1963,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     loadSavedVolume();
 
+    // ========== INICIALIZAÇÃO DO PLAYER ==========
+    // A função onYouTubeIframeAPIReady é chamada globalmente quando a API carrega
+    // Ela está definida acima com a correção do host
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-    if (typeof YT !== 'undefined' && YT.loaded) onYouTubeIframeAPIReady();
+
+    // Se a API já estiver carregada, chama diretamente
+    if (typeof YT !== 'undefined' && YT.loaded) {
+        onYouTubeIframeAPIReady();
+    }
+
     initTabs();
     bindNotificationPositionUpdates();
 
