@@ -778,5 +778,49 @@
         "content": "Assista às aulas na ordem sugerida, pratique diariamente com os exercícios e recursos complementares, e participe dos canais dos contribuidores para tirar dúvidas. A prática constante e a imersão no idioma são fundamentais para a fluência."
       }
     ]
+  },
+  "espanhol-ingles": {
+    "title": "Spanish Course Help (for English Speakers)",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Spanish course from Universidade Livre. This course was created to offer a complete formation in the Spanish language, from A1 to C2 level, using free and high-quality resources, with YouTube video lessons and external platforms like Duolingo and Babbel."
+      },
+      {
+        "heading": "Get help and ask questions on the contributors' channels.",
+        "links": [
+          {
+            "text": "Spanish-English Learning Server",
+            "url": "https://discord.gg/spanish-english"
+          }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Do I need prior knowledge to start?",
+            "content": "No. The course starts from A1 level (absolute beginner) and progresses to C2 (native). You just need to be willing to study and practice."
+          },
+          {
+            "heading": "Does the course cover all aspects of the language?",
+            "content": "Yes. The video lessons cover grammar, vocabulary, pronunciation, listening comprehension, reading, and writing, following the Common European Framework of Reference for Languages (CEFR)."
+          },
+          {
+            "heading": "Does Universidade Livre offer a proficiency certificate?",
+            "content": "No. Universidade Livre is a guide to educational resources. We do not issue certificates or diplomas. We recommend that after completing the course, you take internationally recognized proficiency exams such as DELE or SIELE."
+          }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into 6 stages: Stage 0 covers study techniques, and Stages 1 to 5 correspond to levels A1, A2, B1, B2, C1 and C2. Each stage includes dozens of video lessons and external practice with Duolingo and Babbel."
+      },
+      {
+        "heading": "Methodology",
+        "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for fluency."
+      }
+    ]
   }
 }

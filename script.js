@@ -393,7 +393,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'enem': 'cursos/ensino-medio/enem/enem-data.json',
             'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
             'ingles': 'cursos/idiomas/ingles/ingles-data.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json'
+            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -520,7 +521,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'enem': 'cursos/ensino-medio/enem/enem-data.json',
             'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
             'ingles': 'cursos/idiomas/ingles/ingles-data.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json'
+            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -566,7 +568,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'enem': 'cursos/ensino-medio/enem/team-enem.json',
             'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
             'ingles': 'cursos/idiomas/ingles/team-ingles.json',
-            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json'
+            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -613,7 +616,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'enem': 'cursos/ensino-medio/enem/enem-books.json',
             'espcex': 'cursos/ensino-medio/espcex/espcex-books.json',
             'ingles': 'cursos/idiomas/ingles/ingles-books.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-books.json'
+            'espanhol': 'cursos/idiomas/espanhol/espanhol-books.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-books.json'
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -1300,7 +1304,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'enem': 'cursos/ensino-medio/enem/team-enem.json',
             'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
             'ingles': 'cursos/idiomas/ingles/team-ingles.json',
-            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json'
+            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;

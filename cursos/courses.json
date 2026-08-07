@@ -101,7 +101,7 @@
     "courseLevel": "idiomas",
     "courseType": null,
     "icon": "fa-language",
-    "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência."
+    "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
   },
   {
     "id": "espanhol",
@@ -109,6 +109,14 @@
     "courseLevel": "idiomas",
     "courseType": null,
     "icon": "fa-language",
-    "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência."
+    "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
+  },
+  {
+    "id": "espanhol-ingles",
+    "name": "Spanish (for English Speakers)",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
   }
 ]
