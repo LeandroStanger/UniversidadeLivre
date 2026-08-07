@@ -1,4 +1,10 @@
-// script.js – versão final com i18n completo, fallback robusto, controle de volume, suporte a ENEM/EsPCEx, Idiomas (Inglês e Espanhol) e ocultação dos filtros ao entrar no curso
+// ============================================================
+// script.js – Versão 3.0
+// Universidade Livre · Todos os módulos
+// Inclui: cursos, player, progresso, bibliografia, prática,
+// time, licença, i18n, animações modernas e interações
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -14,14 +20,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== TIMESET (TIMESTAMP) ==========
     function generateTimeSet() {
-        return new Date().toISOString(); // Formato ISO 8601
+        return new Date().toISOString();
     }
 
     // ========== SISTEMA DE IDIOMA (i18n) ==========
     let currentLang = 'pt-br';
     let translations = {};
 
-    // ========== DETECÇÃO AUTOMÁTICA DE IDIOMA DO SISTEMA/NAVEGADOR ==========
     function detectSystemLanguage() {
         const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
         console.log('[Language Detection] Idioma detectado no navegador:', browserLang);
@@ -43,8 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(`lang/${lang}.json`);
             if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
             translations = await response.json();
-            console.log("[i18n] Traduções carregadas:", translations);
-            console.log(`[i18n] Total de traduções carregadas: ${Object.keys(translations).length}`);
             console.log(`[i18n] Traduções carregadas com sucesso para ${lang}`);
             return true;
         } catch (error) {
@@ -53,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('[i18n] Tentando carregar pt-br como fallback');
                 return loadTranslations('pt-br');
             }
-            // Fallback completo com todas as chaves necessárias (incluindo ensino_medio e idiomas)
+            // Fallback completo com todas as chaves necessárias
             translations = {
                 "app_title": "Universidade Livre",
                 "tab_bibliography": "Bibliografia",
@@ -98,7 +101,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "donate_text": "Doar",
                 "main_program_description": "Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação",
                 "course_hours": "Carga horária",
-                // Novas chaves para assuntos
                 "subject_tecnologia": "Tecnologia",
                 "subject_ciencia": "Ciência",
                 "subject_matematica": "Matemática",
@@ -119,7 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "subject_culinaria": "Culinária",
                 "subject_shorts": "Shorts",
                 "subject_outros": "Outros",
-                // Idiomas
                 "lang_pt": "Português",
                 "lang_en": "Inglês",
                 "lang_es": "Espanhol",
@@ -137,7 +138,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "lang_pl": "Polonês",
                 "lang_tr": "Turco",
                 "lang_undefined": "Indefinido",
-                // Outros
                 "unavailable": "Indisponível",
                 "price_free": "Grátis",
                 "price_paid": "Pago",
@@ -165,7 +165,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function t(key, replacements = {}) {
         let text = translations[key] || key;
         if (text === key) {
-            // Fallback adicional caso a chave não exista no fallback também
             const hardcoded = {
                 'course_progress': 'Progresso:',
                 'continue_studies': 'Continuar Estudos',
@@ -349,7 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let practiceSearchInput = null;
 
     // ========== CONTROLE DE VOLUME ==========
-    let playerVolume = 80; // volume padrão
+    let playerVolume = 80;
     const VOLUME_STORAGE_KEY = 'youtube_player_volume';
 
     function loadSavedVolume() {
@@ -376,7 +375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
 
     // ========== CARGA HORÁRIA DOS CURSOS (CÁLCULO TOTAL) ==========
-    const courseDurationCache = new Map(); // courseId -> totalMinutes
+    const courseDurationCache = new Map();
 
     async function computeCourseTotalMinutes(courseId) {
         if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
@@ -412,7 +411,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         totalMinutes += getDurationFromDiscipline(discipline) || 30;
                     } else if (discipline.videoIds && Array.isArray(discipline.videoIds)) {
                         for (let idx = 0; idx < discipline.videoIds.length; idx++) {
-                            const duration = 10 + (idx % 25) + 5; // entre 15 e 40 min
+                            const duration = 10 + (idx % 25) + 5;
                             totalMinutes += duration;
                         }
                     }
@@ -434,21 +433,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${hours}h ${mins}min`;
     }
 
-    // ========== NOTIFICAÇÕES ==========
+    // ========== NOTIFICAÇÕES ANIMADAS ==========
     function showNotification(message, type = 'info') {
         const container = document.getElementById('notificationContainer');
         if (!container) return;
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.innerHTML = `<div class="notification-content"><i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${escapeHtml(message)}</span></div>`;
-        notification.style.cssText = `background: var(--bg-secondary); border-left: 4px solid ${type === 'success' ? '#22C55E' : '#2563EB'}; border-radius: 16px; padding: 20px 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.25); color: var(--text-primary); font-size: 1.1rem; font-weight: 500; min-width: 320px; max-width: 420px; width: auto; animation: slideIn 0.3s ease; transition: opacity 0.3s;`;
+        notification.style.cssText = `
+            background: var(--bg-secondary);
+            border-left: 4px solid ${type === 'success' ? '#4ADE80' : '#6C8CFF'};
+            border-radius: 16px;
+            padding: 16px 24px;
+            box-shadow: var(--card-shadow), var(--shadow-glow);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            min-width: 320px;
+            max-width: 420px;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.3s ease;
+        `;
         container.appendChild(notification);
-        setTimeout(() => { notification.style.opacity = '0'; setTimeout(() => notification.remove(), 300); }, 4000);
+        void notification.offsetHeight;
+        notification.style.transform = 'translateX(0)';
+        notification.style.opacity = '1';
+        setTimeout(() => {
+            notification.style.transform = 'translateX(120%)';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 400);
+        }, 4000);
     }
+
     function queueNotification(message, type = 'info') {
         notificationQueue.push({ message, type });
         if (!notificationActive) processNotificationQueue();
     }
+
     function processNotificationQueue() {
         if (notificationQueue.length === 0) { notificationActive = false; return; }
         notificationActive = true;
@@ -456,6 +479,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         showNotification(message, type);
         setTimeout(processNotificationQueue, 4200);
     }
+
     function updateNotificationPosition() {
         const notificationContainer = document.getElementById('notificationContainer');
         const currentLessonPanel = document.querySelector('.current-lesson-panel');
@@ -466,6 +490,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         desiredTop = Math.max(10, Math.min(desiredTop, window.innerHeight - 100));
         notificationContainer.style.top = `${desiredTop}px`;
     }
+
     function bindNotificationPositionUpdates() {
         updateNotificationPosition();
         window.addEventListener('resize', () => updateNotificationPosition());
@@ -610,7 +635,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let html = '';
         contributors.forEach(contributor => {
             const isNew = contributor.isNew === true;
-            html += `<div class="member-card ${isNew ? 'new-contributor' : ''}">
+            html += `<div class="member-card ${isNew ? 'new-contributor' : ''} animate-in">
                         <img class="member-photo" src="${escapeHtml(contributor.image || 'https://placehold.co/60x60/1F2933/9CA3AF?text=?')}" alt="${escapeHtml(contributor.name)}" onerror="this.src='https://placehold.co/60x60/1F2933/9CA3AF?text=?'">
                         <div class="member-name"><a href="${escapeHtml(contributor.github)}" target="_blank" rel="noopener noreferrer">${escapeHtml(contributor.name)}</a>${isNew ? `<span class="new-badge">${t('new_badge')}</span>` : ''}</div>
                         <div class="member-role">${escapeHtml(contributor.role)}</div>
@@ -620,6 +645,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         container.innerHTML = html;
         applyTranslations();
+        observeAnimateElements();
     }
 
     async function renderLicenseTab() {
@@ -629,24 +655,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!data) { container.innerHTML = `<p>${t('license_load_error')}</p>`; applyTranslations(); return; }
         let html = '';
         if (data.license) {
-            html += `<div class="license-card">
+            html += `<div class="license-card animate-in">
                         <div class="license-icon"><i class="fas fa-certificate"></i></div>
                         <div class="license-title">${t('course_license')}</div>
                         <div class="license-text">${escapeHtml(data.license.text)}</div>
                         <a href="${escapeHtml(data.license.url)}" target="_blank" rel="noopener noreferrer" class="license-btn"><i class="fas fa-external-link-alt"></i> ${t('learn_more')}</a>
                     </div>`;
         }
-        if (data.bio) html += `<div class="bio-section"><h3><i class="fas fa-users"></i> ${t('bio_title')}</h3><p>${escapeHtml(data.bio)}</p></div>`;
-        if (data.distributor) html += `<div class="distributor-section"><h3><i class="fas fa-truck"></i> ${t('distributor_title')}</h3><p>${escapeHtml(data.distributor)}</p></div>`;
+        if (data.bio) html += `<div class="bio-section animate-in"><h3><i class="fas fa-users"></i> ${t('bio_title')}</h3><p>${escapeHtml(data.bio)}</p></div>`;
+        if (data.distributor) html += `<div class="distributor-section animate-in"><h3><i class="fas fa-truck"></i> ${t('distributor_title')}</h3><p>${escapeHtml(data.distributor)}</p></div>`;
         if (data.tutoria && data.tutoria.links && data.tutoria.links.length) {
             let linksHtml = '<ul class="tutoria-info">';
             data.tutoria.links.forEach(link => linksHtml += `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-comment"></i> ${escapeHtml(link.name)}</a></li>`);
             linksHtml += '</ul>';
-            html += `<div class="tutoria-section"><h3><i class="fas fa-chalkboard-teacher"></i> ${t('tutoria_title')}</h3>${linksHtml}</div>`;
+            html += `<div class="tutoria-section animate-in"><h3><i class="fas fa-chalkboard-teacher"></i> ${t('tutoria_title')}</h3>${linksHtml}</div>`;
         }
         if (!html) html = `<p>${t('license_no_info')}</p>`;
         container.innerHTML = html;
         applyTranslations();
+        observeAnimateElements();
     }
 
     async function renderBooksFilteredByDiscipline(discipline) {
@@ -675,7 +702,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             applyTranslations();
             return;
         }
-        let html = `<div class="bibliografia-heading">${escapeHtml(headingText)}</div><div class="books-container">`;
+        let html = `<div class="bibliografia-heading animate-in">${escapeHtml(headingText)}</div><div class="books-container">`;
         filteredBooks.forEach(book => {
             let detailsHtml = '';
             if (book.edition) detailsHtml += `<span>${escapeHtml(book.edition)}</span>`;
@@ -685,7 +712,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (book.isbn) detailsHtml += `<span>ISBN: ${escapeHtml(book.isbn)}</span>`;
             if (book.category) detailsHtml += `<span>${escapeHtml(book.category)}</span>`;
             const existsInLibrary = !!findBookInLibrary(book);
-            html += `<div class="book-card">
+            html += `<div class="book-card animate-in">
                         <div class="book-left"><img class="book-cover" src="${escapeHtml(book.cover || '')}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/140x180/1F2933/9CA3AF?text=Sem+Imagem'"></div>
                         <div class="book-right">
                             <div class="book-title">${escapeHtml(book.title)}</div>
@@ -704,6 +731,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.book-details-btn').forEach(btn => btn.addEventListener('click', () => { const link = btn.getAttribute('data-link'); if (link && isValidUrl(link)) window.open(link, '_blank'); else alert(t('book_link_unavailable')); }));
         document.querySelectorAll('.go-to-library-btn').forEach(btn => btn.addEventListener('click', () => goToLibrary(btn.getAttribute('data-title'))));
         applyTranslations();
+        observeAnimateElements();
     }
 
     function ensureCurrentDiscipline() {
@@ -820,16 +848,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         notifiedDisciplines.clear();
     }
 
-    // ========== CONTROLE DE VISIBILIDADE DA ABA PRÁTICA (agora sempre visível) ==========
     function updatePracticeTabVisibility() {
         const practiceTab = document.getElementById('practiceTabBtn');
         if (!practiceTab) return;
-        
         if (practiceTab.style.display !== 'inline-flex') {
             console.log('[Prática] Garantindo que a aba Prática esteja visível');
             practiceTab.style.display = 'inline-flex';
         }
-        
         if (currentCourse && !currentPracticeData && activeTab === 'pratica') {
             loadPracticeContent(currentCourse);
         }
@@ -840,11 +865,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const watchedMap = allVideosFlat.map(v => v.watched);
         let savedData = localStorage.getItem(`ulivre_course_${currentCourse}`);
         let existing = savedData ? JSON.parse(savedData) : {};
-        
         const now = generateTimeSet();
         const timeCreated = existing.time_created || now;
         const timeUpdated = now;
-        
         const newData = {
             watchedMap,
             currentLessonId,
@@ -852,7 +875,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             time_created: timeCreated,
             time_updated: timeUpdated
         };
-        
         localStorage.setItem(`ulivre_course_${currentCourse}`, JSON.stringify(newData));
         updateGlobalStats();
         updatePracticeTabVisibility();
@@ -1210,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             stage.disciplines.forEach(disc => disc.videos.forEach(v => { totalVids++; if (v.watched) watchedVids++; }));
             let stagePercent = totalVids ? Math.floor((watchedVids / totalVids) * 100) : 0;
             let stageDiv = document.createElement("div");
-            stageDiv.className = "stage-group-unified";
+            stageDiv.className = "stage-group-unified animate-in";
             stageDiv.innerHTML = `<div class="stage-header"><span>${stage.name}</span><span class="stage-progress">${stagePercent}%</span></div><div class="disciplines-list"></div>`;
             let discList = stageDiv.querySelector('.disciplines-list');
             stage.disciplines.forEach(discipline => {
@@ -1257,6 +1279,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             container.appendChild(stageDiv);
         });
         applyTranslations();
+        observeAnimateElements();
     }
 
     async function loadTeamAndContributors(courseId) {
@@ -1296,7 +1319,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!container) return;
         if (!team || team.length === 0) { container.innerHTML = `<p>${t('no_team')}</p>`; applyTranslations(); return; }
         container.innerHTML = team.map(member => `
-            <div class="member-card">
+            <div class="member-card animate-in">
                 <img class="member-photo" src="${member.image || 'img/team/default-avatar.png'}" alt="${escapeHtml(member.name)}" onerror="this.src='img/team/default-avatar.png'">
                 <div class="member-name"><a href="${member.github}" target="_blank" rel="noopener noreferrer">${escapeHtml(member.name)}</a></div>
                 <div class="member-role">${escapeHtml(member.role)}</div>
@@ -1305,6 +1328,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `).join('');
         applyTranslations();
+        observeAnimateElements();
     }
 
     // ========== ABA PRÁTICA ==========
@@ -1352,7 +1376,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else {
                 introText = currentPracticeData.intro;
             }
-            introHtml = `<div class="practice-intro">${escapeHtml(introText)}</div>`;
+            introHtml = `<div class="practice-intro animate-in">${escapeHtml(introText)}</div>`;
         }
         const gridContainerHtml = '<div id="practiceGridContainer" class="practice-grid"></div>';
         container.innerHTML = searchHtml + introHtml + gridContainerHtml;
@@ -1362,6 +1386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             practiceSearchInput.addEventListener('input', debounce(() => filterPracticeGrid(), 300));
         }
         applyTranslations();
+        observeAnimateElements();
     }
 
     function renderPracticeGrid(practiceData) {
@@ -1390,7 +1415,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             const imagem = platform.imagem || 'https://placehold.co/400x200/1F2933/9CA3AF?text=Prática';
             const link = platform.link || '#';
-            html += `<div class="practice-platform-card">
+            html += `<div class="practice-platform-card animate-in">
                         <div class="practice-platform-image"><img src="${escapeHtml(imagem)}" alt="${escapeHtml(titulo)}" loading="lazy" onerror="this.src='https://placehold.co/400x200/1F2933/9CA3AF?text=${encodeURIComponent(titulo)}'"></div>
                         <div class="practice-platform-content">
                             <h3>${escapeHtml(titulo)}</h3>
@@ -1401,6 +1426,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         gridContainer.innerHTML = html;
         applyTranslations();
+        observeAnimateElements();
     }
 
     function filterPracticeGrid() {
@@ -1544,19 +1570,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const watched = allVideosFlat.filter(v => v.watched).length;
         const percent = total ? (watched / total) * 100 : 0;
         chartContainer.innerHTML = `
-            <div class="progress-chart" style="margin: 1rem 0; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 12px;">
+            <div class="progress-chart animate-in" style="margin: 1rem 0; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 12px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                     <span>${t('course_progress')}</span>
                     <span>${Math.round(percent)}%</span>
                 </div>
                 <div style="background: var(--bg-secondary); border-radius: 10px; overflow: hidden;">
-                    <div style="width: ${percent}%; background: var(--accent-blue); height: 20px; border-radius: 10px;"></div>
+                    <div style="width: ${percent}%; background: var(--gradient-primary); height: 20px; border-radius: 10px;"></div>
                 </div>
             </div>
         `;
+        observeAnimateElements();
     }
 
-    // ========== NAVEGAÇÃO ==========
+    // ========== NAVEGAÇÃO COM ANIMAÇÃO ==========
     async function openCourse(courseId) {
         const courseData = await loadCourseData(courseId);
         if (!courseData) return;
@@ -1565,12 +1592,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentCourse = courseId;
         initCourse(courseData);
         const homeScreen = document.getElementById("homeScreen");
-        if (homeScreen) homeScreen.style.display = "none";
         const courseView = document.getElementById("courseView");
-        if (courseView) courseView.classList.add("active");
-        // Ocultar os filtros da home
         const homeFilters = document.getElementById('homeFilters');
-        if (homeFilters) homeFilters.style.display = 'none';
+
+        // Animar saída da home
+        homeScreen.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        homeScreen.style.opacity = '0';
+        homeScreen.style.transform = 'scale(0.96)';
+
+        setTimeout(() => {
+            homeScreen.style.display = 'none';
+            if (homeFilters) homeFilters.style.display = 'none';
+
+            // Animar entrada do curso
+            courseView.style.display = 'block';
+            courseView.style.opacity = '0';
+            courseView.style.transform = 'translateY(24px)';
+            courseView.classList.add('active');
+
+            void courseView.offsetHeight;
+
+            courseView.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            courseView.style.opacity = '1';
+            courseView.style.transform = 'translateY(0)';
+        }, 400);
+
         loadTeamAndContributors(courseId);
         if (window.setCurrentCourseForHelp) window.setCurrentCourseForHelp(courseId);
         await loadLibraryBooks();
@@ -1616,22 +1662,76 @@ document.addEventListener('DOMContentLoaded', async () => {
     function backToHome() {
         stopAllMedia();
         if (window.CursorTimeset) window.CursorTimeset.registerExit();
-        
+
         const homeScreen = document.getElementById("homeScreen");
         const courseView = document.getElementById("courseView");
         const homeFilters = document.getElementById('homeFilters');
-        
-        if (homeScreen) homeScreen.style.display = "flex";
-        if (courseView) courseView.classList.remove("active");
-        
-        // Restaura os filtros com o display flex original
-        if (homeFilters) {
-            homeFilters.style.display = 'flex';
-            homeFilters.style.flexDirection = 'column';
-            homeFilters.style.gap = '1rem';
-        }
-        
+
+        // Animar saída do curso
+        courseView.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        courseView.style.opacity = '0';
+        courseView.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            courseView.classList.remove('active');
+            courseView.style.display = 'none';
+            courseView.style.opacity = '1';
+            courseView.style.transform = 'translateY(0)';
+
+            if (homeScreen) {
+                homeScreen.style.display = 'flex';
+                homeScreen.style.opacity = '0';
+                homeScreen.style.transform = 'scale(0.96)';
+                void homeScreen.offsetHeight;
+                homeScreen.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                homeScreen.style.opacity = '1';
+                homeScreen.style.transform = 'scale(1)';
+            }
+            if (homeFilters) {
+                homeFilters.style.display = 'flex';
+                homeFilters.style.flexDirection = 'column';
+                homeFilters.style.gap = '1rem';
+            }
+        }, 400);
+
         if (updateInterval) clearInterval(updateInterval);
+    }
+
+    // ========== ANIMAÇÕES MODERNAS ==========
+    function observeAnimateElements() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.animate-in:not(.visible)').forEach(el => {
+            observer.observe(el);
+        });
+        return observer;
+    }
+
+    let parallaxObserver = null;
+
+    function initParallaxCards() {
+        const cards = document.querySelectorAll('.course-card, .book-mini-card, .book-card, .video-card, .practice-platform-card, .library-card, .audiobook-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.setProperty('--mouse-x', (x + 0.5) * 100 + '%');
+                card.style.setProperty('--mouse-y', (y + 0.5) * 100 + '%');
+                const rotateX = y * 4;
+                const rotateY = x * 4;
+                card.style.transform = `perspective(600px) rotateY(${rotateY}deg) rotateX(${-rotateX}deg) scale(1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)';
+            });
+        });
     }
 
     // ========== FILTROS DA PÁGINA INICIAL ==========
@@ -1641,7 +1741,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function renderCourseCards() {
         const homeScreen = document.getElementById('homeScreen');
         if (!homeScreen) return;
-        
+
         if (allCourses.length === 0) {
             try {
                 const response = await fetch('cursos/courses.json');
@@ -1653,10 +1753,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
         }
-        
+
         const searchTerm = currentSearchTerm.trim().toLowerCase();
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        
+
         const filteredCourses = allCourses.filter(course => {
             if (currentLevelFilter !== 'all' && course.courseLevel !== currentLevelFilter) return false;
             if (searchTerm) {
@@ -1666,38 +1766,39 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             return true;
         });
-        
+
         if (filteredCourses.length === 0) {
-            homeScreen.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
+            homeScreen.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
             applyTranslations();
+            observeAnimateElements();
             return;
         }
-        
+
         homeScreen.innerHTML = '';
         for (const course of filteredCourses) {
             const card = document.createElement('div');
-            card.className = 'course-card';
+            card.className = 'course-card animate-in';
             card.dataset.course = course.id;
-            
+
             const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
-            
+
             let levelText = '';
             let typeText = '';
             if (course.courseLevel === 'graduacao') levelText = t('graduacao');
             else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
             else if (course.courseLevel === 'ensino-medio') levelText = t('ensino_medio');
             else if (course.courseLevel === 'idiomas') levelText = t('idiomas');
-            
+
             if (course.courseType === 'bacharelado') typeText = t('bacharelado');
             else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
             else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
-            
+
             const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
             const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
-            
+
             const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
             const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
-            
+
             let progressPercent = 0;
             const key = `ulivre_course_${course.id}`;
             const saved = localStorage.getItem(key);
@@ -1711,10 +1812,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } catch (e) {}
             }
             const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
-            
+
             const totalMinutes = await computeCourseTotalMinutes(course.id);
             const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
-            
+
             card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
                              <div class="course-badges">${levelBadge}${typeBadge}</div>
                              ${roomHtml}${descHtml}
@@ -1724,7 +1825,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                              </div>
                              <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
                              <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
-            
+
             card.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('continue-btn')) openCourse(course.id);
             });
@@ -1733,60 +1834,55 @@ document.addEventListener('DOMContentLoaded', async () => {
             homeScreen.appendChild(card);
         }
         applyTranslations();
+        observeAnimateElements();
+        initParallaxCards();
     }
 
     function initHomeFilters() {
         const searchInput = document.getElementById('courseSearchInput');
         const levelChips = document.querySelectorAll('#levelChips .chip');
-        
+
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
                 currentSearchTerm = searchInput.value;
                 renderCourseCards();
             }, 300));
         }
-        
+
         if (levelChips.length) {
             levelChips.forEach(chip => {
                 chip.addEventListener('click', () => {
                     const level = chip.dataset.level;
                     currentLevelFilter = level;
-                    
                     levelChips.forEach(c => c.classList.remove('active'));
                     chip.classList.add('active');
-                    
                     renderCourseCards();
                 });
             });
         }
     }
 
-    // ========== INICIALIZAÇÃO COM DETECÇÃO AUTOMÁTICA DE IDIOMA ==========
+    // ========== INICIALIZAÇÃO ==========
     const savedLang = localStorage.getItem('selectedLanguage');
     let initialLang;
-    
     if (savedLang) {
         initialLang = savedLang;
         console.log('[Main] Idioma carregado do localStorage:', initialLang);
     } else {
         initialLang = detectSystemLanguage();
-        console.log('[Main] Idioma detectado automaticamente:', initialLang);
         localStorage.setItem('selectedLanguage', initialLang);
     }
-    
     if (initialLang !== 'pt-br' && initialLang !== 'en') {
         initialLang = 'en';
-        console.log('[Main] Idioma inválido, usando padrão: en');
     }
-    
     console.log('[Main] Idioma final para inicialização:', initialLang);
     await setLanguage(initialLang);
-    
+
     if (Object.keys(translations).length === 0) {
         console.warn('[i18n] Traduções não carregadas, tentando novamente...');
         await setLanguage(initialLang);
     }
-    
+
     await renderCourseCards();
     initHomeFilters();
     applyTranslations();
@@ -1857,6 +1953,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (typeof YT !== 'undefined' && YT.loaded) onYouTubeIframeAPIReady();
     initTabs();
     bindNotificationPositionUpdates();
+
+    // ========== OBSERVAR ELEMENTOS DINÂMICOS ==========
+    observeAnimateElements();
+    initParallaxCards();
+
+    // Reobservar quando a página for alterada
+    const observer = new MutationObserver(() => {
+        observeAnimateElements();
+        initParallaxCards();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[Main] Inicialização concluída com animações modernas');
 });
 
 // ========== MODAL DE CONCLUSÃO ==========
