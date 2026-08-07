@@ -342,5 +342,31 @@
       }
     ],
     "readmeContent": "<h1>Espanhol</h1><h3>Universidade Livre</h3><p>Curso completo de Espanhol do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1/A2.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do espanhol!</p>"
+  },
+  "espanhol-ingles": {
+    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "socialLinks": [
+      {
+        "name": "EasySpanish",
+        "url": "https://www.youtube.com/@EasySpanish",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Labyrinth to Success",
+        "url": "https://www.youtube.com/@LabyrinthtoSuccess",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Duolingo",
+        "url": "https://en.duolingo.com/",
+        "icon": "fa-solid fa-graduation-cap"
+      },
+      {
+        "name": "Babbel",
+        "url": "https://www.babbel.com/?locale=en",
+        "icon": "fa-solid fa-book"
+      }
+    ],
+    "readmeContent": "<h1>Spanish (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Spanish course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo and Babbel.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 2 hours per stage</li><li><a href=\"https://www.babbel.com/?locale=en\" target=\"_blank\">Babbel</a> - 2 hours per stage</li></ul><p>Good luck and enjoy your journey learning Spanish!</p><p>¡Buena suerte y disfruta tu viaje aprendiendo español!</p>"
   }
 }

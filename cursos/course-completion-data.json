@@ -68,5 +68,10 @@
     "text": "Parabéns por concluir o curso de Espanhol!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
     "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "idiomas"
+  },
+  "espanhol-ingles": {
+    "text": "Congratulations on completing the Spanish course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\n¡Felicidades y sigue adelante!",
+    "image": "https://github.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
   }
 }
