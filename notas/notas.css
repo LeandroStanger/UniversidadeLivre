@@ -1,7 +1,8 @@
 /* ============================================================
-   notas.css – Versão 3.1
+   notas.css – Versão 3.1 – CORES ATUALIZADAS
    Estilos completos para o Caderno de Notas (Notes)
    Tema escuro premium com glassmorphism e animações modernas
+   Substituição do vermelho (#EF4444) por #10b981 (verde esmeralda)
    Universidade Livre · Todos os módulos
    ============================================================ */
 
@@ -30,8 +31,8 @@
     /* ===== ACENTOS ===== */
     --accent-blue: #6C8CFF;
     --accent-blue-hover: #5A7AEE;
-    --accent-green: #4ADE80;
-    --accent-green-hover: #34D399;
+    --accent-green: #10b981;
+    --accent-green-hover: #0ea575;
     --accent-orange: #FBBF24;
     --accent-purple: #A78BFA;
     --accent-teal: #38BDF8;
@@ -42,12 +43,12 @@
     --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.7);
     --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-    --shadow-glow: 0 0 40px rgba(108, 140, 255, 0.08);
+    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.08);
 
     /* ===== GRADIENTES ===== */
     --gradient-primary: linear-gradient(135deg, #6C8CFF, #A78BFA);
-    --gradient-donate: linear-gradient(135deg, #FBBF24, #EF4444);
-    --gradient-new-badge: linear-gradient(135deg, #4ADE80, #38BDF8);
+    --gradient-donate: linear-gradient(135deg, #FBBF24, #10b981);
+    --gradient-new-badge: linear-gradient(135deg, #10b981, #38BDF8);
     --gradient-shimmer: linear-gradient(90deg,
         var(--bg-tertiary) 25%,
         var(--bg-card) 50%,
@@ -63,8 +64,8 @@
 
     /* ===== OUTROS ===== */
     --card-radius: 1rem;
-    --success: #4ADE80;
-    --danger: #EF4444;
+    --success: #10b981;
+    --danger: #10b981;
     --warning: #FBBF24;
 }
 
@@ -151,12 +152,12 @@ a:hover {
     display: block;
     object-fit: contain;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 4px 12px rgba(108, 140, 255, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.15));
     transition: filter var(--transition-fast);
 }
 
 .logo-universidade:hover {
-    filter: drop-shadow(0 4px 20px rgba(108, 140, 255, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.3));
 }
 
 .logo-subtitle {
@@ -237,7 +238,7 @@ a:hover {
 
 .donate-button:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.35);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
 }
 
 .donate-button:active {
@@ -264,7 +265,7 @@ a:hover {
 .btn-back:hover {
     background: var(--accent-green-hover);
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.25);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
 }
 
 .btn-back[style*="accent-blue"] {
@@ -345,10 +346,10 @@ a:hover {
 
 @keyframes pulse-glow {
     0%, 100% {
-        filter: drop-shadow(0 0 8px rgba(108, 140, 255, 0.2));
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.2));
     }
     50% {
-        filter: drop-shadow(0 0 24px rgba(108, 140, 255, 0.5));
+        filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.5));
     }
 }
 
@@ -382,7 +383,7 @@ a:hover {
 }
 
 .note-editor-section:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
 }
 
@@ -776,7 +777,7 @@ a:hover {
 }
 
 .notes-list-section:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
 }
 
@@ -854,7 +855,7 @@ a:hover {
 }
 
 .tag-filter-container:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
 }
 
 .filter-label {
@@ -938,7 +939,7 @@ a:hover {
     inset: 0;
     border-radius: 18px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(108, 140, 255, 0.04) 0%, transparent 70%);
+                rgba(16, 185, 129, 0.04) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -950,7 +951,7 @@ a:hover {
     inset: -1px;
     border-radius: 18px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -969,9 +970,9 @@ a:hover {
 
 .note-card:hover {
     transform: translateY(-8px) scale(1.01);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35),
-                0 0 40px rgba(108, 140, 255, 0.04);
+                0 0 40px rgba(16, 185, 129, 0.04);
 }
 
 .note-card:active {
@@ -1039,8 +1040,8 @@ a:hover {
 }
 
 .note-card-actions .delete-btn:hover {
-    background: var(--danger);
-    border-color: var(--danger);
+    background: var(--accent-green);
+    border-color: var(--accent-green);
     color: white;
 }
 
@@ -1271,7 +1272,7 @@ a:hover {
 }
 
 .tag-item:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
 }
 
 .tag-info {
@@ -1299,7 +1300,7 @@ a:hover {
 }
 
 .tag-actions .delete-tag-btn:hover {
-    color: var(--danger);
+    color: var(--accent-green);
 }
 
 /* ========== RESPONSIVIDADE ========== */

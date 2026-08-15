@@ -1,8 +1,9 @@
-// cursos/notas/notas.js – Gerenciador de notas modular com Quill 2.0.3
-// v2.0.0 - Adicionado favoritos, tags e filtro por tags
-// Correção: fallback de traduções completo e aplicação dinâmica
+// notas.js – Gerenciador de notas modular com Quill 2.0.3
+// v2.6.0 - CORREÇÃO: Preservação de ícones nas traduções
+// v2.6.0 - CORREÇÃO: Logs para depuração de chaves não encontradas
+// v2.6.0 - CORREÇÃO: Fallback inline completo para pt-br e en
 
-const NoteApp = (function() {
+(function() {
     'use strict';
 
     // ========== CONFIGURAÇÕES ==========
@@ -25,60 +26,113 @@ const NoteApp = (function() {
     // Quill editor
     let quill = null;
 
+    // ========== FALLBACKS INLINE ==========
+    const FALLBACK_PT = {
+        "notas_title": "Notas de Estudo · Universidade Livre",
+        "notas_subtitle": "Caderno de Estudos",
+        "notas_heading": "Minhas Notas",
+        "notas_description": "Crie e organize suas anotações com formatação rica, imagens e muito mais.",
+        "notas_editor_title": "Nova Nota",
+        "notas_clear_editor": "Limpar editor",
+        "notas_title_placeholder": "Título da nota...",
+        "notas_content_placeholder": "Escreva sua anotação aqui...",
+        "notas_save": "Salvar",
+        "notas_cancel": "Cancelar",
+        "notas_saved": "Notas Salvas",
+        "notas_search_placeholder": "Buscar notas...",
+        "notas_empty": "Nenhuma nota criada ainda.",
+        "notas_edit": "Editar",
+        "notas_delete": "Excluir",
+        "notas_confirm_delete": "Tem certeza que deseja excluir esta nota?",
+        "notas_updated": "Atualizado",
+        "notas_created": "Criado",
+        "donate_button": "Doar",
+        "donate_text": "Doar",
+        "back_to_courses": "Voltar para cursos",
+        "notas_manage_tags": "Gerenciar tags",
+        "notas_filter_by_tag": "Filtrar por tag:",
+        "notas_all_tags": "Todas",
+        "notas_favorite": "Favoritar",
+        "notas_tag_name_placeholder": "Nome da tag",
+        "notas_tag_color": "Cor:",
+        "notas_add_tag": "Adicionar Tag",
+        "notas_manage_tags_title": "Gerenciar Tags",
+        "notas_edit_tag": "Editar tag",
+        "notas_delete_tag": "Excluir tag",
+        "notas_tags": "Tags:",
+        "notas_add_tag_to_note": "Adicionar tag à nota",
+        "profile": "Perfil",
+        "auditorio_title": "Auditório",
+        "library_button": "Biblioteca"
+    };
+
+    const FALLBACK_EN = {
+        "notas_title": "Study Notes · Open University",
+        "notas_subtitle": "Study Notebook",
+        "notas_heading": "My Notes",
+        "notas_description": "Create and organize your notes with rich formatting, images, and more.",
+        "notas_editor_title": "New Note",
+        "notas_clear_editor": "Clear editor",
+        "notas_title_placeholder": "Note title...",
+        "notas_content_placeholder": "Write your note here...",
+        "notas_save": "Save",
+        "notas_cancel": "Cancel",
+        "notas_saved": "Saved Notes",
+        "notas_search_placeholder": "Search notes...",
+        "notas_empty": "No notes created yet.",
+        "notas_edit": "Edit",
+        "notas_delete": "Delete",
+        "notas_confirm_delete": "Are you sure you want to delete this note?",
+        "notas_updated": "Updated",
+        "notas_created": "Created",
+        "donate_button": "Donate",
+        "donate_text": "Donate",
+        "back_to_courses": "Back to Courses",
+        "notas_manage_tags": "Manage tags",
+        "notas_filter_by_tag": "Filter by tag:",
+        "notas_all_tags": "All",
+        "notas_favorite": "Favorite",
+        "notas_tag_name_placeholder": "Tag name",
+        "notas_tag_color": "Color:",
+        "notas_add_tag": "Add Tag",
+        "notas_manage_tags_title": "Manage Tags",
+        "notas_edit_tag": "Edit tag",
+        "notas_delete_tag": "Delete tag",
+        "notas_tags": "Tags:",
+        "notas_add_tag_to_note": "Add tag to note",
+        "profile": "Profile",
+        "auditorio_title": "Auditorium",
+        "library_button": "Library"
+    };
+
     // ========== MÓDULO I18N ==========
     const I18n = {
         async loadTranslations(lang) {
-            try {
-                const response = await fetch(`../lang/${lang}.json`);
-                if (!response.ok) throw new Error();
-                state.translations = await response.json();
-                console.log(`[i18n] Traduções carregadas de ../lang/${lang}.json`);
-                return true;
-            } catch (error) {
-                console.warn(`[i18n] Falha ao carregar ${lang}, usando fallback.`);
-                if (lang !== 'pt-br') return this.loadTranslations('pt-br');
-                state.translations = this.getFallbackTranslations();
-                return false;
+            // Prioriza caminho relativo (sobe um nível) que funciona com a estrutura do projeto
+            const paths = [
+                `../lang/${lang}.json`,   // sobe um nível (raiz do projeto) - MAIS PROVÁVEL
+                `./lang/${lang}.json`,    // dentro da pasta notas (caso tenha cópia)
+                `lang/${lang}.json`       // relativo sem ./
+            ];
+            for (const path of paths) {
+                try {
+                    console.log(`[Notas] Tentando carregar traduções de: ${path}`);
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        state.translations = await response.json();
+                        console.log(`[Notas] Traduções carregadas com sucesso de ${path}`);
+                        return true;
+                    } else {
+                        console.warn(`[Notas] Falha ao carregar ${path}: HTTP ${response.status}`);
+                    }
+                } catch (e) {
+                    console.warn(`[Notas] Erro ao tentar ${path}:`, e.message);
+                }
             }
-        },
-
-        getFallbackTranslations() {
-            return {
-                "notas_title": "Notas de Estudo · Universidade Livre",
-                "notas_subtitle": "Caderno de Estudos",
-                "notas_heading": "Minhas Notas",
-                "notas_description": "Crie e organize suas anotações com formatação rica, imagens e muito mais.",
-                "notas_editor_title": "Nova Nota",
-                "notas_clear_editor": "Limpar editor",
-                "notas_title_placeholder": "Título da nota...",
-                "notas_content_placeholder": "Escreva sua anotação aqui...",
-                "notas_save": "Salvar",
-                "notas_cancel": "Cancelar",
-                "notas_saved": "Notas Salvas",
-                "notas_search_placeholder": "Buscar notas...",
-                "notas_empty": "Nenhuma nota criada ainda.",
-                "notas_edit": "Editar",
-                "notas_delete": "Excluir",
-                "notas_confirm_delete": "Tem certeza que deseja excluir esta nota?",
-                "notas_updated": "Atualizado",
-                "notas_created": "Criado",
-                "donate_button": "Doar",
-                "donate_text": "Doar",
-                "back_to_courses": "Voltar para cursos",
-                // Novas chaves para tags e favoritos
-                "notas_manage_tags": "Gerenciar tags",
-                "notas_filter_by_tag": "Filtrar por tag:",
-                "notas_all_tags": "Todas",
-                "notas_favorite": "Favoritar",
-                "notas_tag_name_placeholder": "Nome da tag",
-                "notas_tag_color": "Cor:",
-                "notas_add_tag": "Adicionar Tag",
-                "notas_manage_tags_title": "Gerenciar Tags",
-                "notas_edit_tag": "Editar tag",
-                "notas_delete_tag": "Excluir tag",
-                "notas_tags": "Tags:",
-                "notas_add_tag_to_note": "Adicionar tag à nota"
-            };
+            // Fallback inline
+            console.warn('[Notas] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
+            state.translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
+            return false;
         },
 
         t(key, fallback = '') {
@@ -86,26 +140,61 @@ const NoteApp = (function() {
         },
 
         applyTranslations() {
+            if (!state.translations || Object.keys(state.translations).length === 0) {
+                console.warn('[Notas] applyTranslations ignorado: traduções vazias.');
+                return;
+            }
+            // Elementos com data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (state.translations[key]) {
-                    if (el.tagName === 'INPUT') {
+                    // Verifica se o elemento tem ícone para preservá-lo
+                    const icon = el.querySelector('i');
+                    if (icon) {
+                        // Preserva o ícone e atualiza o texto
+                        const iconClone = icon.cloneNode(true);
+                        el.innerHTML = '';
+                        el.appendChild(iconClone);
+                        el.appendChild(document.createTextNode(' ' + state.translations[key]));
+                    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                         el.placeholder = state.translations[key];
                     } else {
                         el.innerText = state.translations[key];
                     }
+                } else {
+                    console.warn(`[Notas] Chave não encontrada: ${key}`);
                 }
             });
+            // Placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (state.translations[key]) el.placeholder = state.translations[key];
             });
+            // Títulos (tooltips)
             document.querySelectorAll('[data-i18n-title]').forEach(el => {
                 const key = el.getAttribute('data-i18n-title');
                 if (state.translations[key]) el.title = state.translations[key];
             });
+            // Título da página
             document.title = this.t('notas_title');
+            // Placeholder do Quill
             this.updateQuillPlaceholder();
+            // Botão de perfil (se não tiver imagem ou iniciais personalizadas)
+            const profileBtn = document.getElementById('profileBtn');
+            if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+                const icon = profileBtn.querySelector('i');
+                if (icon) {
+                    const iconClone = icon.cloneNode(true);
+                    profileBtn.innerHTML = '';
+                    profileBtn.appendChild(iconClone);
+                    profileBtn.appendChild(document.createTextNode(' ' + this.t('profile')));
+                } else {
+                    profileBtn.innerText = this.t('profile');
+                }
+            }
+            // Atualiza também o botão "Biblioteca" e "Auditório" (caso não estejam com data-i18n)
+            // Mas eles já têm data-i18n, então já foram tratados acima
+            console.log('[Notas] Traduções aplicadas.');
         },
 
         updateQuillPlaceholder() {
@@ -116,19 +205,29 @@ const NoteApp = (function() {
         },
 
         async setLanguage(lang) {
+            if (lang === state.currentLang && Object.keys(state.translations).length > 0) {
+                // Já está no idioma, apenas reaplica para garantir
+                this.applyTranslations();
+                UIRenderer.renderNotasList();
+                UIRenderer.updateEditorTitle();
+                return;
+            }
             state.currentLang = lang;
             await this.loadTranslations(lang);
             this.applyTranslations();
             UIRenderer.renderNotasList();
             UIRenderer.updateEditorTitle();
-            localStorage.setItem('selectedLanguage', lang);
-            
+            UIRenderer.renderTagFilterChips();
+            // Atualiza o seletor de idioma
             const langPtBtn = document.getElementById('langPtBtn');
             const langEnBtn = document.getElementById('langEnBtn');
             if (langPtBtn && langEnBtn) {
                 langPtBtn.classList.toggle('active', lang === 'pt-br');
                 langEnBtn.classList.toggle('active', lang === 'en');
             }
+            localStorage.setItem('selectedLanguage', lang);
+            // Dispara evento global para sincronizar outros módulos
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
         }
     };
 
@@ -146,6 +245,13 @@ const NoteApp = (function() {
 
         saveNotas() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notas));
+            try {
+                const event = new StorageEvent('storage', {
+                    key: STORAGE_KEY,
+                    newValue: JSON.stringify(state.notas)
+                });
+                window.dispatchEvent(event);
+            } catch (e) {}
         },
 
         addNota(titulo, conteudoHtml, tags = []) {
@@ -221,7 +327,6 @@ const NoteApp = (function() {
         },
 
         deleteTag(id) {
-            // Remove a tag de todas as notas
             state.notas.forEach(nota => {
                 nota.tags = (nota.tags || []).filter(tagId => tagId !== id);
             });
@@ -234,7 +339,6 @@ const NoteApp = (function() {
             return state.tags.find(t => t.id === id);
         },
 
-        // Renderiza a lista de tags existentes no modal de gerenciamento
         renderExistingTags() {
             const container = document.getElementById('existingTagsList');
             if (!container) return;
@@ -260,9 +364,8 @@ const NoteApp = (function() {
                 `;
             });
             container.innerHTML = html;
-            I18n.applyTranslations(); // Garantir textos nos botões
+            I18n.applyTranslations();
 
-            // Adicionar listeners para editar/excluir tags
             container.querySelectorAll('.edit-tag-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -328,7 +431,6 @@ const NoteApp = (function() {
             }
         },
 
-        // Renderiza os chips de filtro por tag
         renderTagFilterChips() {
             const container = document.getElementById('tagChips');
             const filterContainer = document.getElementById('tagFilterContainer');
@@ -347,6 +449,7 @@ const NoteApp = (function() {
                 </div>`;
             });
             container.innerHTML = html;
+            I18n.applyTranslations();
 
             container.querySelectorAll('.chip').forEach(chip => {
                 chip.addEventListener('click', () => {
@@ -358,7 +461,6 @@ const NoteApp = (function() {
             });
         },
 
-        // Renderiza as tags disponíveis no seletor da nota
         renderNoteTagsSelector(selectedTagIds = []) {
             const container = document.getElementById('availableTagsContainer');
             const selectorDiv = document.getElementById('noteTagsSelector');
@@ -378,8 +480,8 @@ const NoteApp = (function() {
                 </span>`;
             });
             container.innerHTML = html;
+            I18n.applyTranslations();
 
-            // Toggle de seleção
             container.querySelectorAll('.selectable-tag').forEach(el => {
                 el.addEventListener('click', () => {
                     const tagId = el.dataset.tagId;
@@ -416,7 +518,6 @@ const NoteApp = (function() {
                 );
             }
 
-            // Filtro por tag
             if (state.tagFilter) {
                 filteredNotas = filteredNotas.filter(nota => (nota.tags || []).includes(state.tagFilter));
             }
@@ -430,6 +531,7 @@ const NoteApp = (function() {
                         <p>${I18n.t('notas_empty')}</p>
                     </div>
                 `;
+                I18n.applyTranslations();
                 this.renderTagFilterChips();
                 return;
             }
@@ -445,7 +547,6 @@ const NoteApp = (function() {
                     ? I18n.t('notas_created') 
                     : I18n.t('notas_updated');
                 
-                // Construir badges de tags
                 let tagsHtml = '';
                 if (nota.tags && nota.tags.length) {
                     tagsHtml = '<div class="note-tags">';
@@ -493,7 +594,7 @@ const NoteApp = (function() {
 
             this.attachCardEventListeners();
             this.renderTagFilterChips();
-            I18n.applyTranslations(); // Garantir textos dinâmicos (placeholders, etc.)
+            I18n.applyTranslations();
         },
 
         attachCardEventListeners() {
@@ -551,7 +652,6 @@ const NoteApp = (function() {
             elements.cancelBtn.style.display = 'inline-flex';
             this.updateEditorTitle();
 
-            // Exibir seletor de tags e marcar as tags da nota
             this.renderNoteTagsSelector(nota.tags || []);
 
             document.querySelector('.note-editor-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -561,6 +661,7 @@ const NoteApp = (function() {
             elements.tituloInput.value = '';
             if (quill) {
                 quill.root.innerHTML = '';
+                quill.setContents([]);
             }
             state.editingId = null;
             elements.cancelBtn.style.display = 'none';
@@ -578,7 +679,7 @@ const NoteApp = (function() {
             const conteudoHtml = quill ? quill.root.innerHTML : '';
 
             if (!titulo) {
-                alert('O título da nota é obrigatório.');
+                alert(I18n.t('notas_title_placeholder') || 'O título da nota é obrigatório.');
                 return;
             }
 
@@ -620,6 +721,8 @@ const NoteApp = (function() {
                 clipboard: { matchVisual: false }
             }
         });
+
+        I18n.updateQuillPlaceholder();
     }
 
     // ========== GERENCIAMENTO DO MODAL DE TAGS ==========
@@ -633,8 +736,7 @@ const NoteApp = (function() {
         document.getElementById('manageTagsBtn').addEventListener('click', () => {
             TagManager.renderExistingTags();
             modal.style.display = 'flex';
-            I18n.applyTranslations(); // Traduzir textos do modal
-            // Reset form
+            I18n.applyTranslations();
             nameInput.value = '';
             colorInput.value = '#2563EB';
             addBtn.removeAttribute('data-editing-id');
@@ -674,6 +776,33 @@ const NoteApp = (function() {
         });
     }
 
+    // ========== PERFIL E EXPORTAÇÃO ==========
+    function initProfile() {
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', () => {
+                if (window.openProfileModal) {
+                    window.openProfileModal();
+                } else {
+                    const modal = document.getElementById('profileModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        if (window.updateProfileModal) window.updateProfileModal();
+                    }
+                }
+            });
+        }
+    }
+
+    // ========== REAGIR A MUDANÇAS DE IDIOMA GLOBAIS ==========
+    function initGlobalLanguageListener() {
+        window.addEventListener('languageChanged', function(e) {
+            const lang = e.detail.lang || 'pt-br';
+            console.log('[Notas] Idioma global alterado para:', lang);
+            I18n.setLanguage(lang);
+        });
+    }
+
     // ========== INICIALIZAÇÃO ==========
     async function init() {
         // Capturar elementos do DOM
@@ -689,15 +818,20 @@ const NoteApp = (function() {
 
         initQuill();
 
+        // Carregar idioma salvo ou do navegador
         const savedLang = localStorage.getItem('selectedLanguage') || 
             (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
-        await I18n.setLanguage(savedLang);
+        state.currentLang = savedLang;
+        await I18n.loadTranslations(savedLang);
+        I18n.applyTranslations();
 
         TagManager.loadTags();
         Storage.loadNotas();
         UIRenderer.renderNotasList();
 
         initTagManagerModal();
+        initProfile();
+        initGlobalLanguageListener();
 
         // Event listeners
         elements.saveBtn.addEventListener('click', () => UIRenderer.handleSaveNota());
@@ -715,14 +849,37 @@ const NoteApp = (function() {
             }
         });
 
-        document.getElementById('langPtBtn')?.addEventListener('click', () => I18n.setLanguage('pt-br'));
-        document.getElementById('langEnBtn')?.addEventListener('click', () => I18n.setLanguage('en'));
+        // Botões de idioma locais
+        const langPtBtn = document.getElementById('langPtBtn');
+        const langEnBtn = document.getElementById('langEnBtn');
+        if (langPtBtn) {
+            langPtBtn.addEventListener('click', () => I18n.setLanguage('pt-br'));
+        }
+        if (langEnBtn) {
+            langEnBtn.addEventListener('click', () => I18n.setLanguage('en'));
+        }
+
+        // Sincronizar com outras abas
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY) {
+                Storage.loadNotas();
+                UIRenderer.renderNotasList();
+                UIRenderer.renderTagFilterChips();
+            }
+            if (e.key === TAGS_STORAGE_KEY) {
+                TagManager.loadTags();
+                UIRenderer.renderNotasList();
+                UIRenderer.renderTagFilterChips();
+            }
+        });
 
         UIRenderer.updateEditorTitle();
+
+        console.log('[Notas] Aplicação inicializada com sucesso');
     }
 
-    // API pública para extensibilidade futura
-    return {
+    // ========== EXPOSIÇÃO GLOBAL ==========
+    window.NoteApp = {
         init,
         I18n,
         Storage,
@@ -730,9 +887,12 @@ const NoteApp = (function() {
         Utils,
         UIRenderer
     };
-})();
 
-// Inicializar quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-    NoteApp.init();
-});
+    // Inicializar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => NoteApp.init());
+    } else {
+        NoteApp.init();
+    }
+
+})();

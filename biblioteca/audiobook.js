@@ -1,778 +1,1253 @@
-// audiobook.js – Módulo de Audiobooks (alerta removido, fallback silencioso, i18n completo)
-const AudiobookModule = (function() {
-    'use strict';
+// auditorio/auditorio.js – Versão 7.0 – CORREÇÃO DE TRADUÇÃO EM TEMPO REAL
+// Player YouTube + YouTube Data API v3
+// Com Shorts, categorias temáticas, prioridade de idioma, lives e podcasts
+// Filtro por canais via canais.json (fallback se não encontrado)
+// Tratamento de cota excedida e cache de 24h
+// Tradução completa via i18n com escuta do evento languageChanged
+// CORREÇÃO: Ordem dos caminhos para carregar traduções (prioriza ../lang/)
+// CORREÇÃO: Logs para depuração do carregamento
+// CORREÇÃO: Fallback inline completo para pt-br e en
+// CORREÇÃO: Função applyFullTranslation que recria todos os chips em tempo real
+// CORREÇÃO: Garantia de que os chips são recriados após cada mudança de idioma
 
-    // ========== CONFIGURAÇÕES ==========
-    const MAX_AUDIO_PLAYERS = 1;
-    const AUDIO_EXTENSIONS = [
-        '.mp3', '.m4a', '.m4b', '.ogg', '.oga', '.wav', '.wave',
-        '.flac', '.aac', '.opus', '.webm', '.weba', '.caf', '.aiff', '.aif',
-        '.wma', '.mid', '.midi', '.mpa', '.mp2', '.mka', '.ac3', '.dts'
+// ========== VARIÁVEIS GLOBAIS ==========
+let allVideos = [];
+let allItems = [];
+let currentTypeFilter = 'all';
+let currentSubjectFilter = 'all';
+let currentLanguageFilter = 'all';
+let currentSearchTerm = '';
+let currentLang = 'pt-br';
+let translations = {};
+
+let player = null;
+let playerReady = false;
+let currentVideoId = null;
+let updateTimer = null;
+let videoProgress = {};
+let audioMode = false;
+
+let pendingVideo = null;
+let apiLoadAttempts = 0;
+const MAX_API_ATTEMPTS = 8;
+const API_RETRY_DELAY = 250;
+const metadataCache = new Map();
+const languageCache = new Map();
+
+// ========== CONTROLE DE COTA ==========
+let apiQuotaExceeded = false;
+
+// ========== CONTADOR DE HORAS ASSISTIDAS ==========
+const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+let totalWatchTime = 0;
+let watchInterval = null;
+let isWatching = false;
+
+function loadWatchTime() {
+    const saved = localStorage.getItem(AUDITORIO_TIME_KEY);
+    if (saved) {
+        totalWatchTime = parseInt(saved, 10) || 0;
+    }
+    return totalWatchTime;
+}
+
+function saveWatchTime() {
+    localStorage.setItem(AUDITORIO_TIME_KEY, totalWatchTime.toString());
+    try {
+        const event = new CustomEvent('auditorioTimeUpdated', {
+            detail: { seconds: totalWatchTime }
+        });
+        window.dispatchEvent(event);
+    } catch (e) {}
+    try {
+        const storageEvent = new StorageEvent('storage', {
+            key: AUDITORIO_TIME_KEY,
+            newValue: totalWatchTime.toString()
+        });
+        window.dispatchEvent(storageEvent);
+    } catch (e) {}
+}
+
+function startWatchTimer() {
+    if (watchInterval) return;
+    isWatching = true;
+    watchInterval = setInterval(() => {
+        if (isWatching && player && playerReady && player.getPlayerState) {
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                totalWatchTime += 1;
+                if (totalWatchTime % 10 === 0) saveWatchTime();
+            }
+        }
+    }, 1000);
+}
+
+function stopWatchTimer() {
+    isWatching = false;
+    if (watchInterval) {
+        clearInterval(watchInterval);
+        watchInterval = null;
+    }
+    saveWatchTime();
+}
+
+// ========== CONFIGURAÇÕES DE APIs ==========
+const YOUTUBE_CONFIG = {
+    apiKey: 'YOUR_YOUTUBE_API_KEY'
+};
+
+const cache = new Map();
+const CACHE_TTL = 24 * 60 * 60 * 1000;
+
+let channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+
+// ========== SUPRESSÃO DE LOGS ESPECÍFICOS DO YOUTUBE ==========
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
+console.error = function(...args) {
+    const msg = args[0]?.toString() || '';
+    if (msg.includes('postMessage') || msg.includes('web-share') || msg.includes('Unrecognized feature')) {
+        return;
+    }
+    originalConsoleError.apply(console, args);
+};
+
+console.warn = function(...args) {
+    const msg = args[0]?.toString() || '';
+    if (msg.includes('postMessage') || msg.includes('web-share') || msg.includes('Unrecognized feature')) {
+        return;
+    }
+    originalConsoleWarn.apply(console, args);
+};
+
+// ========== UTILITÁRIOS ==========
+function normalizeText(text) { return (text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+function escapeHtml(s){return s?String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])):'';}
+function getCachedOrFetch(cacheKey, fetchFn, ttl = CACHE_TTL) {
+    if (cache.has(cacheKey)) {
+        const cached = cache.get(cacheKey);
+        if (Date.now() - cached.timestamp < ttl) return Promise.resolve(cached.data);
+    }
+    return fetchFn().then(data => { cache.set(cacheKey, { data, timestamp: Date.now() }); return data; });
+}
+
+// ========== I18N COM FALLBACK INLINE ==========
+// Definição dos fallbacks completos para pt-br e en
+const FALLBACK_PT = {
+    "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
+    "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
+    "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
+    "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
+    "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
+    "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
+    "subject_shorts": "Shorts", "subject_outros": "Outros",
+    "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
+    "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
+    "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
+    "lang_undefined": "Indefinido",
+    "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
+    "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
+    "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
+    "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
+    "filter_by_language": "Filtrar por idioma:", 
+    "auditorio_page_title": "Auditório · Universidade Livre",
+    "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
+    "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
+    "type_live": "Lives", "type_shorts": "Shorts", "items": "itens",
+    "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
+    "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado.",
+    "profile": "Perfil", "notas_heading": "Notas"
+};
+
+const FALLBACK_EN = {
+    "subject_tecnologia": "Technology", "subject_ciencia": "Science", "subject_matematica": "Mathematics",
+    "subject_historia": "History", "subject_literatura": "Literature", "subject_filosofia": "Philosophy",
+    "subject_psicologia": "Psychology", "subject_economia": "Economics", "subject_politica": "Politics",
+    "subject_saude": "Health", "subject_educacao": "Education", "subject_arte": "Art",
+    "subject_esportes": "Sports", "subject_negocios": "Business", "subject_viagem": "Travel",
+    "subject_religiao": "Religion", "subject_autoajuda": "Self-help", "subject_culinaria": "Cooking",
+    "subject_shorts": "Shorts", "subject_outros": "Others",
+    "lang_pt": "Portuguese", "lang_en": "English", "lang_es": "Spanish", "lang_fr": "French",
+    "lang_de": "German", "lang_it": "Italian", "lang_ja": "Japanese", "lang_zh": "Chinese",
+    "lang_ko": "Korean", "lang_ru": "Russian", "lang_ar": "Arabic", "lang_hi": "Hindi",
+    "lang_undefined": "Undefined",
+    "badge_live": "LIVE", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
+    "auditorio_description": "Educational videos selected by the community.",
+    "no_videos": "No items found.", "search_videos_placeholder": "Search videos or podcasts...",
+    "random_btn": "Random", "filter_by_type": "Filter by type:", "filter_by_subject": "Filter by subject:",
+    "filter_by_language": "Filter by language:",
+    "auditorio_page_title": "Auditorium · Open University",
+    "player_fallback_active": "⚠️ Simplified player active.", "retry_player": "Try full player",
+    "loading": "Loading...", "all": "All", "type_video": "Videos", "type_podcast": "Podcasts",
+    "type_live": "Lives", "type_shorts": "Shorts", "items": "items",
+    "player_error_generic": "Player error.", "player_error_removed": "Video removed.",
+    "player_error_issue": "Player issue.", "player_error_not_found": "Video not found.",
+    "profile": "Profile", "notas_heading": "Notes"
+};
+
+async function loadTranslations(lang) {
+    // Prioriza caminho relativo (sobe um nível) que funciona com a estrutura do projeto
+    const paths = [
+        `../lang/${lang}.json`,   // sobe um nível (raiz do projeto) - MAIS PROVÁVEL
+        `./lang/${lang}.json`,    // dentro da pasta auditorio (caso tenha cópia)
+        `lang/${lang}.json`       // relativo sem ./
+        // Removido o caminho absoluto para evitar 404 desnecessário
     ];
-    const STREAMING_FORMATS = ['.m3u8', '.m3u', '.pls', '.xspf'];
-    const CORS_PROXIES = [
-        'https://corsproxy.io/?',
-        'https://api.allorigins.win/raw?url=',
-        'https://proxy.cors.sh/'
-    ];
-    const API_CACHE_TTL = 10 * 60 * 1000;
-    const MIN_SEARCH_LENGTH = 2;
-    const MAX_EXTERNAL_RESULTS = 20;
-    const DEBOUNCE_DELAY = 400;
-
-    // Configurações do LibreTranslate (opcional)
-    const LIBRETRANSLATE_API_KEY = '';
-    const LIBRETRANSLATE_URL = 'https://libretranslate.com';
-
-    // Chave do Google Books (opcional)
-    const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
-
-    let apiCache = new Map();
-    let metadataCache = new Map();
-    let currentLanguageFilter = 'all';
-    let currentResults = [];
-    let searchTimeout = null;
-    let progressUpdateCallback = null;
-
-    // Função de tradução (será definida via setTranslator)
-    let _t = function(key, fallback = '') { return fallback || key; };
-
-    // ========== FUNÇÕES AUXILIARES ==========
-    function normalizeText(text) {
-        if (!text || typeof text !== 'string') return '';
-        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-    }
-    function escapeHtml(str) { return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : ''; }
-    
-    function formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) return '00:00';
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = Math.floor(seconds % 60);
-        if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    }
-    
-    function formatDuration(seconds) {
-        if (!seconds || seconds <= 0) return '';
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        if (h > 0) return `${h}h ${m}min`;
-        return `${m} min`;
-    }
-    
-    function formatAuthor(authorString) {
-        if (!authorString) return _t('unknown_author');
-        let authorStr = Array.isArray(authorString) ? authorString.join(', ') : String(authorString);
-        let authors = authorStr.split(/[,&eE]+\s*/).filter(a => a.trim());
-        if (authors.length === 0) return authorStr;
-        return authors.length <= 3 ? authorStr : authors.slice(0, 3).join(', ') + '...';
-    }
-
-    function getLanguageName(langCode) {
-        const key = `lang_${langCode}`;
-        return _t(key, langCode?.toUpperCase() || 'Desconhecido');
-    }
-
-    // ========== MAPEAMENTO DE CÓDIGOS DE IDIOMA ==========
-    function normalizeLanguageCode(code) {
-        if (!code) return null;
-        const lower = String(code).toLowerCase().trim();
-        const map = {
-            'por': 'pt', 'pt': 'pt', 'pt-br': 'pt', 'pt_br': 'pt', 'portuguese': 'pt',
-            'eng': 'en', 'en': 'en', 'english': 'en',
-            'spa': 'es', 'es': 'es', 'spanish': 'es',
-            'fra': 'fr', 'fre': 'fr', 'fr': 'fr', 'french': 'fr',
-            'deu': 'de', 'ger': 'de', 'de': 'de', 'german': 'de',
-            'ita': 'it', 'it': 'it', 'italian': 'it',
-            'jpn': 'ja', 'ja': 'ja', 'japanese': 'ja',
-            'zho': 'zh', 'chi': 'zh', 'zh': 'zh', 'chinese': 'zh',
-            'kor': 'ko', 'ko': 'ko', 'korean': 'ko',
-            'rus': 'ru', 'ru': 'ru', 'russian': 'ru',
-            'ara': 'ar', 'ar': 'ar', 'arabic': 'ar',
-            'hin': 'hi', 'hi': 'hi', 'hindi': 'hi',
-            'nld': 'nl', 'dut': 'nl', 'nl': 'nl', 'dutch': 'nl',
-            'swe': 'sv', 'sv': 'sv', 'swedish': 'sv',
-            'pol': 'pl', 'pl': 'pl', 'polish': 'pl',
-            'tur': 'tr', 'tr': 'tr', 'turkish': 'tr'
-        };
-        if (map[lower]) return map[lower];
-        const prefix = lower.substring(0,2);
-        if (map[prefix]) return map[prefix];
-        for (const [key, val] of Object.entries(map)) {
-            if (key.includes(lower) || lower.includes(key)) return val;
-        }
-        return null;
-    }
-
-    // ========== CACHE DE CAPAS ==========
-    function cacheAudiobookCover(url, imageUrl) {
-        if (!url || !imageUrl) return;
-        try { localStorage.setItem(`audiobook_cover_${normalizeText(url)}`, imageUrl); } catch (e) {}
-    }
-    function getCachedAudiobookCover(url) {
-        try { return localStorage.getItem(`audiobook_cover_${normalizeText(url)}`); } catch (e) { return null; }
-    }
-
-    // ========== NOTIFICAÇÃO DE PROGRESSO ==========
-    function setProgressUpdateCallback(cb) {
-        progressUpdateCallback = cb;
-    }
-    function notifyProgressUpdate() {
-        if (typeof progressUpdateCallback === 'function') progressUpdateCallback();
-    }
-
-    // ========== UTILITÁRIOS DE REDE ==========
-    async function fetchWithRetry(url, options = {}, maxRetries = 3, baseDelay = 1000) {
-        for (let i = 0; i <= maxRetries; i++) {
-            try {
-                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 15000);
-                const response = await fetch(url, { ...options, signal: controller.signal }); clearTimeout(timeoutId);
-                if (response.status === 429) { const delay = baseDelay * Math.pow(2, i); await new Promise(r => setTimeout(r, delay)); continue; }
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return response;
-            } catch (error) { if (i === maxRetries) throw error; const delay = baseDelay * Math.pow(2, i); await new Promise(r => setTimeout(r, delay)); }
-        }
-        throw new Error(`Falha após ${maxRetries} tentativas`);
-    }
-
-    async function fetchWithProxy(url, timeout = 15000, retries = 2) {
-        try { const response = await fetchWithRetry(url, {}, retries, 1000); if (response.ok) return response; } catch (e) {}
-        for (let i = 0; i < retries; i++) {
-            for (const proxy of CORS_PROXIES) {
-                try { const proxyUrl = proxy + encodeURIComponent(url); const response = await fetchWithRetry(proxyUrl, {}, 1, 1000); if (response.ok) return response; } catch (e) {}
-            }
-            await new Promise(r => setTimeout(r, 1000 * (i + 1)));
-        }
-        throw new Error(`Falha ao acessar ${url}`);
-    }
-
-    // ========== DETECÇÃO DE IDIOMA VIA LIBRETRANSLATE ==========
-    async function detectLanguageViaLibreTranslate(text) {
-        if (!text || text.length < 10) return null;
-        const cacheKey = `libre_${normalizeText(text)}`;
-        if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < 7*24*60*60*1000) {
-            return metadataCache.get(cacheKey).data;
-        }
+    for (const path of paths) {
         try {
-            const url = `${LIBRETRANSLATE_URL}/detect`;
-            const body = new URLSearchParams({ q: text.substring(0, 500), api_key: LIBRETRANSLATE_API_KEY });
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: body.toString()
-            });
-            if (!response.ok) return null;
-            const data = await response.json();
-            let detected = null;
-            if (Array.isArray(data) && data.length > 0) detected = data[0].language;
-            else if (data.language) detected = data.language;
-            if (detected) {
-                const normalized = normalizeLanguageCode(detected);
-                if (normalized) {
-                    metadataCache.set(cacheKey, { data: normalized, timestamp: Date.now() });
-                    return normalized;
-                }
+            console.log(`[Auditório] Tentando carregar traduções de: ${path}`);
+            const response = await fetch(path);
+            if (response.ok) {
+                translations = await response.json();
+                console.log(`[Auditório] Traduções carregadas com sucesso de ${path}`);
+                return true;
+            } else {
+                console.warn(`[Auditório] Falha ao carregar ${path}: HTTP ${response.status}`);
             }
-            return null;
-        } catch (e) { return null; }
-    }
-
-    // ========== DETECÇÃO DE IDIOMA LOCAL ==========
-    const languageStopwords = {
-        pt: ['de', 'que', 'e', 'para', 'com', 'uma', 'por', 'mais', 'como', 'sua', 'este', 'esta', 'você', 'também', 'sobre', 'pode', 'anos', 'entre', 'ser', 'muito', 'casa', 'trabalho', 'vida', 'tempo', 'pessoas', 'país', 'mundo', 'brasil', 'português', 'porque', 'está', 'estão', 'são', 'foram', 'era', 'tinha', 'eles', 'nós', 'ter', 'fazer', 'dizer', 'dar', 'ir', 'ver', 'estar', 'haver', 'poder', 'dever', 'querer', 'não', 'então', 'bem', 'mal', 'hoje', 'amanhã', 'ontem'],
-        en: ['the', 'and', 'for', 'with', 'you', 'this', 'are', 'have', 'from', 'they', 'know', 'your', 'can', 'more', 'about', 'just', 'like', 'people', 'time', 'year', 'good', 'work', 'life', 'world', 'english', 'will', 'was', 'were', 'been', 'has', 'had', 'their', 'them', 'would', 'could', 'should', 'make', 'get', 'see', 'use'],
-        es: ['el', 'la', 'de', 'y', 'que', 'en', 'por', 'con', 'para', 'como', 'su', 'sobre', 'este', 'esta', 'usted', 'años', 'vida', 'trabajo', 'personas', 'español', 'los', 'las', 'se', 'ha', 'han', 'está', 'están', 'era', 'eran', 'muy', 'bien', 'gracias', 'hola', 'ser', 'tener', 'hacer', 'decir', 'ir', 'ver', 'dar'],
-        fr: ['le', 'la', 'de', 'et', 'que', 'en', 'pour', 'par', 'avec', 'comme', 'sur', 'ce', 'cette', 'vous', 'plus', 'années', 'vie', 'travail', 'personnes', 'français', 'sont', 'était', 'étaient', 'avoir', 'être', 'ils', 'elles', 'faire', 'dire', 'aller', 'voir', 'prendre'],
-        de: ['der', 'die', 'und', 'für', 'mit', 'von', 'sich', 'auf', 'nach', 'als', 'über', 'diese', 'dieser', 'sie', 'mehr', 'jahre', 'leben', 'arbeit', 'menschen', 'deutsch', 'ist', 'sind', 'war', 'waren', 'wurde', 'wurden', 'sein', 'haben', 'werden', 'können', 'müssen', 'sollen'],
-        it: ['il', 'la', 'di', 'e', 'che', 'per', 'con', 'come', 'su', 'questo', 'questa', 'lei', 'più', 'anni', 'vita', 'lavoro', 'persone', 'italiano', 'sono', 'era', 'erano', 'stato', 'stata', 'essere', 'avere', 'fare', 'dire', 'andare', 'vedere', 'dare'],
-        ja: ['です', 'ます', 'た', 'ない', 'れる', 'よう', 'から', 'まで', 'て', 'が', 'を', 'に', 'の', 'は', '日本語', 'これ', 'それ', 'あれ'],
-        zh: ['的', '了', '是', '我', '不', '在', '人', '有', '他', '这', '中', '大', '来', '上', '国', '为', '子', '你', '说', '中文', '也', '个', '们', '到', '去', '看', '好'],
-        ko: ['은', '는', '이', '가', '을', '를', '에', '에서', '으로', '로', '한국어', '그', '저', '이것', '저것', '사람', '년', '일', '하다', '있다', '않다', '없다', '그리고', '또한'],
-        ru: ['и', 'в', 'не', 'на', 'я', 'что', 'с', 'по', 'а', 'он', 'как', 'его', 'но', 'из', 'они', 'за', 'русский', 'год', 'жизнь', 'это', 'было', 'были', 'быть', 'сказать', 'мочь', 'хотеть', 'знать', 'думать'],
-        ar: ['في', 'من', 'أن', 'على', 'هذا', 'هذه', 'الذي', 'التي', 'عن', 'مع', 'بعد', 'قبل', 'عند', 'خلال', 'العربية', 'كان', 'كانت', 'يكون', 'لي', 'لك', 'له', 'لها'],
-        hi: ['है', 'हैं', 'और', 'के', 'में', 'से', 'पर', 'यह', 'वह', 'इस', 'उस', 'हिंदी', 'कर', 'करना', 'होना', 'जाना', 'देना', 'लेना'],
-        nl: ['de', 'het', 'een', 'van', 'in', 'op', 'voor', 'met', 'dat', 'dit', 'deze', 'nederlands', 'zijn', 'hebben', 'worden', 'kunnen', 'moeten', 'zullen'],
-        sv: ['och', 'att', 'det', 'som', 'en', 'på', 'för', 'med', 'av', 'den', 'detta', 'svenska', 'vara', 'ha', 'kunna', 'skola', 'vilja'],
-        pl: ['i', 'w', 'na', 'z', 'do', 'po', 'przez', 'dla', 'ten', 'ta', 'to', 'polski', 'być', 'mieć', 'móc', 'chcieć'],
-        tr: ['ve', 'bir', 'bu', 'şu', 'o', 'için', 'ile', 'gibi', 'kadar', 'sonra', 'türkçe', 'olmak', 'etmek', 'yapmak', 'gelmek', 'gitmek']
-    };
-
-    function detectLanguageLocal(title, description = '') {
-        const fullText = normalizeText(title + ' ' + description);
-        if (/[\u4E00-\u9FFF]/.test(fullText)) return 'zh';
-        if (/[\u3040-\u309F\u30A0-\u30FF]/.test(fullText)) return 'ja';
-        if (/[\uAC00-\uD7AF]/.test(fullText)) return 'ko';
-        if (/[\u0600-\u06FF]/.test(fullText)) return 'ar';
-        if (/[\u0900-\u097F]/.test(fullText)) return 'hi';
-        if (/[\u0400-\u04FF]/.test(fullText)) return 'ru';
-        if (/[çãõáéíóúâêôà]/.test(fullText)) return 'pt';
-        let scores = {};
-        for (let lang in languageStopwords) scores[lang] = 0;
-        for (const [lang, words] of Object.entries(languageStopwords)) {
-            for (const w of words) {
-                if (new RegExp(`\\b${w}\\b`, 'i').test(fullText)) scores[lang] += 1;
-            }
-        }
-        if (/\b(ção|ções|mente|dade)\b/i.test(fullText)) scores.pt = (scores.pt||0) + 5;
-        if (/\b(ción|dad|mente)\b/i.test(fullText)) scores.es = (scores.es||0) + 4;
-        if (/\b(ment|tion|sion)\b/i.test(fullText)) scores.en = (scores.en||0) + 2;
-        if (/\b(eur|euse|ment|able)\b/i.test(fullText)) scores.fr = (scores.fr||0) + 3;
-        if (/\b(keit|heit|ung|schaft)\b/i.test(fullText)) scores.de = (scores.de||0) + 3;
-        if (/\b(zione|mento|ità)\b/i.test(fullText)) scores.it = (scores.it||0) + 3;
-        let best = 'en', max = 0;
-        for (const [l, s] of Object.entries(scores)) if (s > max) { max = s; best = l; }
-        return max < 2 ? 'en' : best;
-    }
-
-    async function determineLanguage(apiLanguage, title, description) {
-        if (apiLanguage) {
-            const normalized = normalizeLanguageCode(apiLanguage);
-            if (normalized) return normalized;
-        }
-        const localGuess = detectLanguageLocal(title, description);
-        if (LIBRETRANSLATE_URL && (title || description)) {
-            try {
-                const text = (title + ' ' + description).trim();
-                const libreGuess = await detectLanguageViaLibreTranslate(text);
-                if (libreGuess) return libreGuess;
-            } catch (e) {}
-        }
-        return localGuess;
-    }
-
-    // ========== ENRIQUECIMENTO DE METADADOS (CAPAS) ==========
-    async function fetchOpenLibraryMetadata(title, author) {
-        if (!title) return null;
-        const cacheKey = `ol_meta_${normalizeText(title)}_${normalizeText(author || '')}`;
-        if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < 24*60*60*1000) return metadataCache.get(cacheKey).data;
-        try {
-            let query = `title:${encodeURIComponent(title)}`;
-            if (author) query += `&author:${encodeURIComponent(author)}`;
-            const url = `https://openlibrary.org/search.json?q=${query}&limit=1`;
-            const response = await fetchWithProxy(url, 10000);
-            if (!response.ok) return null;
-            const data = await response.json();
-            if (!data.docs || data.docs.length === 0) return null;
-            const doc = data.docs[0];
-            const coverId = doc.cover_i;
-            const coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` : null;
-            const result = { cover: coverUrl, description: doc.first_sentence?.[0] || doc.subtitle || '', year: doc.first_publish_year || doc.publish_year?.[0] || null, publisher: doc.publisher?.[0] || null };
-            metadataCache.set(cacheKey, { data: result, timestamp: Date.now() });
-            return result;
-        } catch (error) { return null; }
-    }
-
-    async function fetchGoogleBooksMetadata(title, author) {
-        if (!title) return null;
-        const cacheKey = `gb_meta_${normalizeText(title)}_${normalizeText(author || '')}`;
-        if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < 24*60*60*1000) return metadataCache.get(cacheKey).data;
-        try {
-            let query = `intitle:${encodeURIComponent(title)}`;
-            if (author) query += `+inauthor:${encodeURIComponent(author)}`;
-            let url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
-            const response = await fetch(url);
-            if (!response.ok) return null;
-            const data = await response.json();
-            if (!data.items || data.items.length === 0) return null;
-            const volume = data.items[0].volumeInfo;
-            const imageLinks = volume.imageLinks || {};
-            const cover = imageLinks.thumbnail || imageLinks.smallThumbnail || null;
-            const result = { cover, description: volume.description || '', year: volume.publishedDate ? volume.publishedDate.substring(0,4) : null, publisher: volume.publisher || null };
-            metadataCache.set(cacheKey, { data: result, timestamp: Date.now() });
-            return result;
-        } catch (error) { return null; }
-    }
-
-    async function enrichAudiobookMetadata(book) {
-        let enriched = { ...book };
-        if (!book.cover || !book.description || !book.year || !book.publisher) {
-            let meta = await fetchOpenLibraryMetadata(book.title, book.rawAuthor || book.author);
-            if (!meta || !meta.cover) {
-                const gbMeta = await fetchGoogleBooksMetadata(book.title, book.rawAuthor || book.author);
-                if (gbMeta) meta = { ...meta, ...gbMeta };
-            }
-            if (meta) {
-                if (!enriched.cover && meta.cover) enriched.cover = meta.cover;
-                if (!enriched.description && meta.description) enriched.description = meta.description;
-                if (!enriched.year && meta.year) enriched.year = meta.year;
-                if (!enriched.publisher && meta.publisher) enriched.publisher = meta.publisher;
-            }
-        }
-        return enriched;
-    }
-
-    // ========== ENRIQUECIMENTO DE FORMATOS DE ÁUDIO (INTERNET ARCHIVE) ==========
-    async function enrichInternetArchiveFormats(item) {
-        if (item.source !== 'Internet Archive' || !item.id) return item;
-        const identifier = item.id.replace('ia_', '');
-        const cacheKey = `ia_formats_${identifier}`;
-        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) {
-            const cached = apiCache.get(cacheKey).data;
-            return { ...item, audioUrl: cached.primary, alternateAudioUrls: cached.alternates };
-        }
-        try {
-            const url = `https://archive.org/metadata/${identifier}`;
-            const response = await fetchWithProxy(url, 10000);
-            const data = await response.json();
-            const files = data.files || [];
-            const audioFiles = files.filter(f => f.format === 'VBR MP3' || f.format === 'Ogg Vorbis' || f.format === 'MPEG4' || f.name.match(/\.(mp3|ogg|m4a)$/i));
-            if (audioFiles.length === 0) return item;
-            const mp3 = audioFiles.find(f => f.name.endsWith('.mp3'));
-            const ogg = audioFiles.find(f => f.name.endsWith('.ogg'));
-            const m4a = audioFiles.find(f => f.name.endsWith('.m4a'));
-            const primary = mp3 || ogg || m4a || audioFiles[0];
-            const alternates = audioFiles.filter(f => f.name !== primary.name).map(f => `https://archive.org/download/${identifier}/${f.name}`);
-            const primaryUrl = `https://archive.org/download/${identifier}/${primary.name}`;
-            const result = { primary: primaryUrl, alternates };
-            apiCache.set(cacheKey, { data: result, timestamp: Date.now() });
-            return { ...item, audioUrl: primaryUrl, alternateAudioUrls: alternates };
         } catch (e) {
-            return item;
+            console.warn(`[Auditório] Erro ao tentar ${path}:`, e.message);
         }
     }
+    // Fallback inline caso o JSON não seja encontrado
+    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
+    translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
+    return false;
+}
 
-    // ========== FILTRO DE PRÉVIAS ==========
-    function filterPreviewOnly(books) { return books.filter(book => !book.isPreview); }
+function t(key, fallback = '') {
+    return translations[key] || fallback || key;
+}
 
-    // ========== APIS DE AUDIOBOOKS ==========
-    async function searchLibrivox(query) {
-        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
-        const cacheKey = `librivox_${normalizeText(query)}`;
-        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
-        try {
-            const url = `https://librivox.org/api/feed/audiobooks?search=${encodeURIComponent(query)}&format=json&extended=1`;
-            const response = await fetchWithProxy(url, 15000);
-            const data = await response.json();
-            const results = await Promise.all((data.books || []).slice(0, MAX_EXTERNAL_RESULTS).map(async book => {
-                const authors = book.authors?.map(a => a.first_name + ' ' + a.last_name).join(', ') || _t('unknown_author');
-                const apiLang = book.language || null;
-                const language = await determineLanguage(apiLang, book.title, book.description || '');
-                const extras = [];
-                if (book.url_text_source) extras.push({ title: _t('full_text'), url: book.url_text_source, type: 'text' });
-                let audioUrl = book.url_rss || book.url_zip_file;
-                return { id: `librivox_${book.id}`, title: book.title, author: formatAuthor(authors), rawAuthor: authors, description: book.description || '', cover: book.url_image || null, audioUrl, duration: book.totaltimesecs || null, language, publisher: 'LibriVox', source: 'LibriVox', type: 'audiobook', extras, isPreview: false, year: null };
-            }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[LibriVox] ${results.length} resultados`);
-            return results;
-        } catch (error) { console.warn('[LibriVox] Erro:', error); return []; }
+function getSubjectName(subject) { return t(`subject_${subject}`, subject); }
+function getLanguageName(langCode) { return t(`lang_${langCode}`, langCode?.toUpperCase() || 'Indefinido'); }
+
+function updateLanguageSelector(lang) {
+    const ptBtn = document.getElementById('langPtBtn');
+    const enBtn = document.getElementById('langEnBtn');
+    if (ptBtn && enBtn) {
+        ptBtn.classList.toggle('active', lang === 'pt-br');
+        enBtn.classList.toggle('active', lang === 'en');
     }
+}
 
-    async function searchInternetArchiveAudio(query) {
-        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
-        const cacheKey = `ia_audio_${normalizeText(query)}`;
-        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
-        try {
-            const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}+AND+mediatype:audio&fl[]=title&fl[]=creator&fl[]=year&fl[]=description&fl[]=identifier&fl[]=language&fl[]=publisher&rows=${MAX_EXTERNAL_RESULTS}&output=json`;
-            const response = await fetchWithProxy(url);
-            const data = await response.json();
-            const docs = data.response?.docs || [];
-            const results = await Promise.all(docs.map(async doc => {
-                let creator = doc.creator;
-                if (Array.isArray(creator)) creator = creator.join(', ');
-                else if (creator && typeof creator === 'object') creator = JSON.stringify(creator);
-                else creator = creator || _t('unknown_author');
-                let apiLang = null;
-                if (doc.language && doc.language.length > 0) apiLang = doc.language[0];
-                const language = await determineLanguage(apiLang, doc.title, doc.description || '');
-                const extras = [];
-                if (doc.identifier) extras.push({ title: _t('page_on_archive'), url: `https://archive.org/details/${doc.identifier}`, type: 'page' });
-                const baseItem = { id: `ia_${doc.identifier}`, title: doc.title || _t('untitled'), author: formatAuthor(creator), rawAuthor: creator, description: doc.description || '', cover: `https://archive.org/services/img/${doc.identifier}`, audioUrl: `https://archive.org/download/${doc.identifier}/${doc.identifier}.mp3`, duration: null, language, publisher: doc.publisher?.[0] || 'Internet Archive', source: 'Internet Archive', type: 'audiobook', extras, isPreview: false, year: doc.year ? parseInt(doc.year) : null };
-                return await enrichInternetArchiveFormats(baseItem);
-            }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Internet Archive] ${results.length} resultados`);
-            return results;
-        } catch (error) { console.warn('[Internet Archive] Erro:', error); return []; }
-    }
-
-    async function searchSpotifyAudiobooks(query) { return []; }
-    async function searchTokybook(query) { return []; }
-    async function searchAudible(query) { return []; }
-
-    async function searchAudiobooks(query) {
-        const promises = [searchLibrivox(query), searchInternetArchiveAudio(query), searchSpotifyAudiobooks(query), searchTokybook(query), searchAudible(query)];
-        const results = await Promise.allSettled(promises);
-        let all = [];
-        for (const res of results) if (res.status === 'fulfilled' && Array.isArray(res.value)) all.push(...res.value);
-        all = filterPreviewOnly(all);
-        const normalizedQuery = normalizeText(query);
-        const scored = all.map(book => {
-            let score = 0;
-            const title = normalizeText(book.title);
-            if (title === normalizedQuery) score += 100;
-            else if (title.includes(normalizedQuery)) score += 50;
-            if (normalizeText(book.author).includes(normalizedQuery)) score += 30;
-            return { book, score };
-        });
-        scored.sort((a, b) => b.score - a.score);
-        let sorted = scored.map(item => item.book);
-        const enriched = await Promise.all(sorted.map(async book => await enrichAudiobookMetadata(book)));
-        const seen = new Set();
-        const unique = enriched.filter(book => { const key = `${normalizeText(book.title)}|${normalizeText(book.author)}`; if (seen.has(key)) return false; seen.add(key); return true; });
-        console.log(`[Audiobook] Total de ${unique.length} resultados (apenas completos)`);
-        return unique.sort((a, b) => {
-            const langOrder = { 'pt':1, 'en':2, 'es':3, 'fr':4, 'de':5, 'it':6, 'ja':7, 'zh':8, 'ko':9, 'ru':10, 'ar':11, 'hi':12, 'nl':13, 'sv':14, 'pl':15, 'tr':16 };
-            return (langOrder[a.language]||99) - (langOrder[b.language]||99);
-        });
-    }
-
-    async function loadRandomAudiobooks() {
-        const popularTerms = ['classic', 'history', 'science', 'fiction', 'adventure', 'mystery', 'romance', 'philosophy', 'biography', 'fantasy'];
-        const randomTerm = popularTerms[Math.floor(Math.random() * popularTerms.length)];
-        const allResults = await searchAudiobooks(randomTerm);
-        const shuffled = allResults.sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, 30);
-    }
-
-    // ========== PLAYER COM SUPORTE MÁXIMO E FALLBACK (SEM ALERTA) ==========
-    class AudioPlayerManager {
-        constructor() {
-            this.currentPlayer = null;
-            this.container = document.getElementById('multiAudioPlayerContainer');
-            this.isClosing = false;
-        }
-
-        isPlayableUrl(url) {
-            if (!url) return false;
-            const lower = url.toLowerCase();
-            if (AUDIO_EXTENSIONS.some(ext => lower.endsWith(ext))) return true;
-            if (STREAMING_FORMATS.some(ext => lower.endsWith(ext))) return true;
-            if (lower.includes('archive.org/download/')) return true;
-            if (lower.includes('librivox.org/')) return true;
-            return true;
-        }
-
-        play(url, metadata) {
-            if (this.currentPlayer) this.closeCurrentPlayer();
-            if (!this.isPlayableUrl(url)) {
-                this.openExternalPage(metadata);
-                return;
-            }
-            this.playWithUrl(url, metadata, 0);
-        }
-
-        playWithUrl(url, metadata, attemptIndex) {
-            const urls = [url, ...(metadata.alternateAudioUrls || [])];
-            if (attemptIndex >= urls.length) {
-                this.showErrorMessage(null, _t('audio_unplayable'), metadata);
-                return;
-            }
-            const currentUrl = urls[attemptIndex];
-            const card = this.currentPlayer ? this.currentPlayer.element : this.createPlayerCard(currentUrl, metadata);
-            if (!this.currentPlayer) {
-                this.container.innerHTML = '';
-                this.container.appendChild(card);
-                this.container.style.display = 'flex';
-            }
-
-            const audio = new Audio();
-            audio.volume = 0.8;
-            const player = { audio, element: card, metadata, updateTimer: null, currentUrl, errorDisplayed: false, attemptIndex };
-            this.currentPlayer = player;
-
-            const savedProgress = this.loadProgress(currentUrl);
-            if (savedProgress) audio.currentTime = savedProgress;
-
-            audio.addEventListener('play', () => this.updateUI(player));
-            audio.addEventListener('pause', () => this.updateUI(player));
-            audio.addEventListener('ended', () => { this.updateUI(player); this.saveProgress(currentUrl); });
-            audio.addEventListener('timeupdate', () => { if (Math.floor(audio.currentTime) % 5 === 0) this.saveProgress(currentUrl); });
-            audio.addEventListener('error', (e) => {
-                if (!this.isClosing && !player.errorDisplayed) {
-                    player.errorDisplayed = true;
-                    const error = audio.error;
-                    if (error && (error.code === 4 || error.code === 3)) {
-                        this.playWithUrl(url, metadata, attemptIndex + 1);
-                    } else {
-                        let message = _t('audio_error_generic');
-                        if (error && error.code === 2) message = _t('audio_error_network');
-                        this.showErrorMessage(player, message, metadata);
-                    }
-                }
-            });
-
-            this.setupPlayerControls(card, player);
-            this.startProgressUpdate(player);
-            audio.src = currentUrl;
-            audio.load();
-            audio.play().catch(e => {
-                if (!this.isClosing && !player.errorDisplayed) {
-                    this.playWithUrl(url, metadata, attemptIndex + 1);
-                }
-            });
-        }
-
-        openExternalPage(metadata) {
-            const pageUrl = metadata.extras?.find(e => e.type === 'page')?.url ||
-                           (metadata.source === 'LibriVox' ? `https://librivox.org/search?title=${encodeURIComponent(metadata.title)}` : null) ||
-                           (metadata.source === 'Internet Archive' ? `https://archive.org/details/${metadata.id.replace('ia_', '')}` : null);
-            if (pageUrl) {
-                window.open(pageUrl, '_blank');
+function applyTranslationsToUI() {
+    // Atualiza elementos com data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) {
+            if (el.tagName === 'INPUT') {
+                el.placeholder = translations[key];
+            } else {
+                el.innerText = translations[key];
             }
         }
-
-        createPlayerCard(url, metadata) {
-            const card = document.createElement('div');
-            card.className = 'audio-player-card';
-            card.dataset.url = url;
-            const cover = metadata.cover || 'https://placehold.co/50x50/1F2933/9CA3AF?text=Audio';
-            const titleFull = metadata.title || _t('untitled');
-            const authorFull = metadata.author || _t('unknown_author');
-            const titleShort = titleFull.length > 40 ? titleFull.substring(0, 37) + '...' : titleFull;
-            const authorShort = authorFull.length > 30 ? authorFull.substring(0, 27) + '...' : authorFull;
-            card.innerHTML = `
-                <button class="audio-close-btn" title="${_t('close_player')}"><i class="fas fa-times"></i></button>
-                <img class="audio-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(titleFull)}">
-                <div class="audio-info">
-                    <div class="audio-title" title="${escapeHtml(titleFull)}">${escapeHtml(titleShort)}</div>
-                    <div class="audio-author" title="${escapeHtml(authorFull)}">${escapeHtml(authorShort)}</div>
-                </div>
-                <div class="audio-controls">
-                    <button class="audio-ctrl-btn play-pause" title="${_t('play_pause')}"><i class="fas fa-play"></i></button>
-                    <div class="audio-progress-container">
-                        <span class="current-time">00:00</span>
-                        <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                        <span class="duration">00:00</span>
-                    </div>
-                    <button class="audio-ctrl-btn mute-unmute" title="${_t('mute_unmute')}"><i class="fas fa-volume-up"></i></button>
-                    <input type="range" class="audio-volume-slider" min="0" max="100" value="80" title="${_t('volume')}">
-                </div>
-                <div class="audio-error-message" style="display:none;"></div>
-            `;
-            return card;
-        }
-
-        showErrorMessage(player, message, metadata) {
-            const card = player ? player.element : (this.currentPlayer ? this.currentPlayer.element : null);
-            if (!card) return;
-            const errorDiv = card.querySelector('.audio-error-message');
-            if (errorDiv) {
-                errorDiv.style.display = 'block';
-                errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message} `;
-                const pageUrl = metadata.extras?.find(e => e.type === 'page')?.url || 
-                               (metadata.source === 'LibriVox' ? `https://librivox.org/search?title=${encodeURIComponent(metadata.title)}` : null) ||
-                               (metadata.source === 'Internet Archive' ? `https://archive.org/details/${metadata.id.replace('ia_', '')}` : null);
-                if (pageUrl) {
-                    const btn = document.createElement('button');
-                    btn.className = 'audio-download-link';
-                    btn.textContent = _t('open_page');
-                    btn.style.marginLeft = '8px';
-                    btn.addEventListener('click', (e) => { e.stopPropagation(); window.open(pageUrl, '_blank'); });
-                    errorDiv.appendChild(btn);
-                }
-            }
-            const playPauseBtn = card.querySelector('.play-pause');
-            if (playPauseBtn) { playPauseBtn.disabled = true; playPauseBtn.style.opacity = '0.5'; playPauseBtn.style.cursor = 'not-allowed'; }
-            if (player) player.audio.pause();
-        }
-
-        setupPlayerControls(card, player) {
-            const audio = player.audio;
-            const url = player.currentUrl;
-            const playPauseBtn = card.querySelector('.play-pause');
-            const progressBar = card.querySelector('.audio-progress-bar');
-            const volumeSlider = card.querySelector('.audio-volume-slider');
-            const muteBtn = card.querySelector('.mute-unmute');
-            const closeBtn = card.querySelector('.audio-close-btn');
-            const currentTimeSpan = card.querySelector('.current-time');
-            const durationSpan = card.querySelector('.duration');
-
-            playPauseBtn.addEventListener('click', () => { if (audio.paused) audio.play().catch(e=>{}); else audio.pause(); });
-            progressBar.addEventListener('input', (e) => audio.currentTime = (e.target.value / 100) * audio.duration);
-            volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value / 100; muteBtn.innerHTML = audio.volume === 0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
-            muteBtn.addEventListener('click', () => { audio.muted = !audio.muted; muteBtn.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
-            closeBtn.addEventListener('click', () => { this.isClosing = true; this.close(url); });
-            audio.addEventListener('loadedmetadata', () => { durationSpan.textContent = formatTime(audio.duration); progressBar.max = audio.duration; });
-            const updateProgress = () => { const ct = audio.currentTime; const dur = audio.duration || 0; currentTimeSpan.textContent = formatTime(ct); progressBar.value = ct; if (!isNaN(dur) && dur > 0) progressBar.max = dur; };
-            audio.addEventListener('timeupdate', updateProgress);
-            player.updateTimer = setInterval(updateProgress, 500);
-        }
-
-        updateUI(player) {
-            const audio = player.audio;
-            const card = player.element;
-            const playPauseBtn = card.querySelector('.play-pause');
-            if (playPauseBtn && !playPauseBtn.disabled) playPauseBtn.innerHTML = audio.paused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
-        }
-
-        startProgressUpdate(player) {
-            if (player.updateTimer) clearInterval(player.updateTimer);
-            player.updateTimer = setInterval(() => {
-                if (!player.audio.paused && !player.errorDisplayed) {
-                    const ct = player.audio.currentTime;
-                    const card = player.element;
-                    const currentSpan = card.querySelector('.current-time');
-                    const progress = card.querySelector('.audio-progress-bar');
-                    if (currentSpan) currentSpan.textContent = formatTime(ct);
-                    if (progress) progress.value = ct;
-                }
-            }, 500);
-        }
-
-        saveProgress(url) {
-            if (this.currentPlayer && this.currentPlayer.currentUrl === url && !this.currentPlayer.errorDisplayed) {
-                const player = this.currentPlayer;
-                const progress = { url, title: player.metadata.title, author: player.metadata.author, cover: player.metadata.cover, currentTime: player.audio.currentTime, duration: player.audio.duration, lastUpdated: Date.now() };
-                localStorage.setItem(`audiobook_progress_${url}`, JSON.stringify(progress));
-                notifyProgressUpdate();
-            }
-        }
-
-        loadProgress(url) {
-            try { const saved = localStorage.getItem(`audiobook_progress_${url}`); if (saved) { const data = JSON.parse(saved); return data.currentTime || 0; } } catch (e) {}
-            return 0;
-        }
-
-        closeCurrentPlayer() {
-            if (!this.currentPlayer) return;
-            const player = this.currentPlayer;
-            const url = player.currentUrl;
-            this.isClosing = true;
-            player.audio.pause();
-            player.audio.src = '';
-            if (player.updateTimer) clearInterval(player.updateTimer);
-            player.element.remove();
-            this.saveProgress(url);
-            this.currentPlayer = null;
-            this.container.style.display = 'none';
-            notifyProgressUpdate();
-            this.isClosing = false;
-        }
-
-        close(url) { if (this.currentPlayer && this.currentPlayer.currentUrl === url) this.closeCurrentPlayer(); }
-
-        getAllProgress() {
-            const progressList = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith('audiobook_progress_')) {
-                    try { const data = JSON.parse(localStorage.getItem(key)); if (data && data.url) progressList.push(data); } catch (e) {}
-                }
-            }
-            return progressList.sort((a, b) => (b.lastUpdated || 0) - (a.lastUpdated || 0)).slice(0, 5);
+    });
+    // Título da página
+    document.title = t('auditorio_page_title');
+    // Barra de pesquisa
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.placeholder = t('search_videos_placeholder');
+    // Botão aleatório
+    const randomBtn = document.querySelector('#randomVideoBtn span');
+    if (randomBtn) randomBtn.innerText = t('random_btn');
+    // Rótulos dos filtros
+    const typeFilterSpan = document.querySelector('.type-filter span');
+    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type');
+    const subjectFilterSpan = document.querySelector('.subject-filter span');
+    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject');
+    const languageFilterSpan = document.querySelector('.language-filter span');
+    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language');
+    // Perfil
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+    }
+    // Notas
+    const notasLink = document.querySelector('a[href="../notas/notas.html"]');
+    if (notasLink) {
+        const span = notasLink.querySelector('span');
+        if (span) span.innerText = t('notas_heading');
+        else {
+            const icon = notasLink.querySelector('i');
+            notasLink.innerHTML = '';
+            if (icon) notasLink.appendChild(icon);
+            const newSpan = document.createElement('span');
+            newSpan.setAttribute('data-i18n', 'notas_heading');
+            newSpan.innerText = t('notas_heading');
+            notasLink.appendChild(newSpan);
         }
     }
+    console.log('[Auditório] Traduções aplicadas.');
+}
 
-    const audioManager = new AudioPlayerManager();
+// ========== SISTEMA DE DECISÃO AUTOMÁTICA PARA SHORTS ==========
+function isShortVideo(item) {
+    if (item.type === 'shorts') return true;
+    if (item.url && item.url.includes('/shorts/')) return true;
+    if (item.categoryId && (item.categoryId === '42' || item.categoryId === '43')) return true;
 
-    // ========== UI DE CARREGAMENTO ==========
-    function showLoading(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><div class="loading-progress-container"><div class="loading-progress-bar"></div></div><p class="loading-text">${_t('audiobook_loading')}</p></div>`;
-        const progressBar = container.querySelector('.loading-progress-bar');
-        if (progressBar) { let width = 0; const interval = setInterval(() => { if (width >= 90) clearInterval(interval); else width += 10; progressBar.style.width = width + '%'; }, 200); container._loadingInterval = interval; }
+    let score = 0;
+    if (item.duration !== undefined && item.duration <= 60) score += 40;
+
+    const title = (item.title || '').toLowerCase();
+    const desc = (item.description || '').toLowerCase();
+
+    if (title.includes('#shorts') || title.includes('#short')) score += 35;
+    if (desc.includes('#shorts') || desc.includes('#short')) score += 15;
+    if (title.includes('shorts') || title.includes('short')) score += 25;
+    if (desc.includes('shorts') || desc.includes('short')) score += 10;
+
+    const shortKeywords = ['curto', 'curta', 'rápido', 'rapido', 'shorts', 'short'];
+    if (shortKeywords.some(kw => title.includes(kw))) score += 10;
+    if (shortKeywords.some(kw => desc.includes(kw))) score += 5;
+
+    if (/#shorts/i.test(title)) score += 20;
+    if (/short/i.test(title) && !/long|extended|full/i.test(title)) score += 10;
+
+    if (item.duration !== undefined && item.duration <= 30 && !title.includes('podcast') && !title.includes('live')) {
+        score += 30;
     }
 
-    function hideLoading(containerId) {
-        const container = document.getElementById(containerId);
-        if (container && container._loadingInterval) { clearInterval(container._loadingInterval); delete container._loadingInterval; }
-    }
+    return score >= 40;
+}
 
-    // ========== RENDERIZAÇÃO ==========
-    function buildLanguageChips(languages, containerId, filterContainerId, onFilterChange, tFunc) {
-        const container = document.getElementById(containerId);
-        const filterContainer = document.getElementById(filterContainerId);
-        if (!container || !filterContainer) return;
-        if (!languages || languages.length <= 1) { filterContainer.style.display = 'none'; return; }
-        filterContainer.style.display = 'flex';
-        const uniqueLangs = ['all', ...new Set(languages.map(l => l || 'en'))];
-        container.innerHTML = uniqueLangs.map(lang => { const langName = lang === 'all' ? (tFunc ? tFunc('filter_all_languages') : 'Todos') : getLanguageName(lang); return `<div class="chip ${currentLanguageFilter === lang ? 'active' : ''}" data-lang="${lang}"><i class="fas fa-language"></i> ${langName}</div>`; }).join('');
-        container.querySelectorAll('.chip').forEach(chip => { chip.addEventListener('click', () => { currentLanguageFilter = chip.dataset.lang; buildLanguageChips(languages, containerId, filterContainerId, onFilterChange, tFunc); onFilterChange(); }); });
-    }
+// ========== MAPEAMENTO DE CATEGORIAS ==========
+const categoryToSubject = {
+    '1': 'arte', '2': 'automotive', '10': 'arte', '15': 'ciencia', '17': 'esportes',
+    '18': 'shorts', '19': 'viagem', '20': 'games', '21': 'cinema', '22': 'tecnologia',
+    '23': 'humor', '24': 'entretenimento', '25': 'noticias', '26': 'autoajuda',
+    '27': 'educacao', '28': 'ciencia', '29': 'tecnologia', '30': 'cinema',
+    '31': 'games', '32': 'cinema', '33': 'cinema', '34': 'humor', '35': 'cinema',
+    '36': 'cinema', '37': 'cinema', '38': 'cinema', '39': 'cinema', '40': 'cinema',
+    '41': 'cinema', '42': 'shorts', '43': 'shorts', '44': 'cinema'
+};
 
-    function renderGrid(books, containerId, tFunc) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        hideLoading(containerId);
-        if (!books || books.length === 0) { container.innerHTML = `<div class="empty-state"><i class="fas fa-headphones"></i> ${tFunc('no_results')}</div>`; return; }
-        let html = '';
-        books.forEach(book => {
-            const cachedCover = getCachedAudiobookCover(book.audioUrl);
-            const coverUrl = cachedCover || book.cover || 'https://placehold.co/80x80/1F2933/9CA3AF?text=Audio';
-            if (book.cover && !cachedCover) cacheAudiobookCover(book.audioUrl, book.cover);
-            const durationFormatted = book.duration ? formatDuration(book.duration) : '';
-            const langName = getLanguageName(book.language);
-            const description = book.description ? escapeHtml(book.description.substring(0, 200) + '…') : tFunc('no_description');
-            const publisher = book.publisher ? escapeHtml(book.publisher) : '';
-            const year = book.year ? `<span class="audiobook-year"><i class="fas fa-calendar-alt"></i> ${book.year}</span>` : '';
-            let extrasHtml = '';
-            if (book.extras && book.extras.length) extrasHtml = `<div class="extras-container"><button class="extras-toggle"><i class="fas fa-paperclip"></i> ${tFunc('extras')} (${book.extras.length})</button><ul class="extras-list" style="display:none;">${book.extras.map(ex => `<li><a href="${escapeHtml(ex.url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> ${escapeHtml(ex.title)}</a></li>`).join('')}</ul></div>`;
-            html += `
-                <div class="audiobook-card">
-                    <img class="audiobook-cover" src="${coverUrl}" alt="${escapeHtml(book.title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=Audio'">
-                    <div class="audiobook-info">
-                        <div class="audiobook-title">${escapeHtml(book.title)}</div>
-                        <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
-                        ${publisher ? `<div class="audiobook-publisher"><i class="fas fa-building"></i> ${publisher}</div>` : ''}
-                        <div class="audiobook-meta">
-                            ${durationFormatted ? `<span class="audiobook-duration"><i class="fas fa-clock"></i> ${durationFormatted}</span>` : ''}
-                            ${year}
-                            <span class="audiobook-language"><i class="fas fa-language"></i> ${langName}</span>
-                        </div>
-                        <div class="audiobook-description">${description}</div>
-                        ${extrasHtml}
-                        <button class="listen-btn" data-audio-url="${escapeHtml(book.audioUrl)}" data-title="${escapeHtml(book.title)}" data-author="${escapeHtml(book.author)}" data-cover="${escapeHtml(coverUrl)}"><i class="fas fa-play"></i> ${tFunc('listen_button')}</button>
-                    </div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-        container.querySelectorAll('.listen-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); audioManager.play(btn.dataset.audioUrl, { title: btn.dataset.title, author: btn.dataset.author, cover: btn.dataset.cover }); }); });
-        container.querySelectorAll('.extras-toggle').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const list = btn.nextElementSibling; if (list) list.style.display = list.style.display === 'none' ? 'block' : 'none'; }); });
-    }
+const categoryNameMap = {
+    'education': 'educacao', 'science & technology': 'ciencia', 'science': 'ciencia',
+    'technology': 'tecnologia', 'music': 'arte', 'film & animation': 'arte',
+    'sports': 'esportes', 'gaming': 'games', 'people & blogs': 'outros',
+    'entertainment': 'entretenimento', 'news & politics': 'noticias',
+    'howto & style': 'autoajuda', 'travel & events': 'viagem', 'comedy': 'humor',
+    'autos & vehicles': 'automotive', 'pets & animals': 'ciencia',
+    'nonprofits & activism': 'tecnologia', 'movies': 'cinema', 'shorts': 'shorts'
+};
 
-    function renderContinueListening(containerId, tFunc) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        const progressList = audioManager.getAllProgress();
-        if (progressList.length === 0) { const section = container.closest('.continue-listening-section'); if (section) section.style.display = 'none'; return; }
-        const section = container.closest('.continue-listening-section'); if (section) section.style.display = 'block';
-        container.innerHTML = progressList.map(p => `
-            <div class="continue-listening-card" data-url="${escapeHtml(p.url)}">
-                <img src="${escapeHtml(p.cover || 'https://placehold.co/50x50/1F2933/9CA3AF?text=Audio')}" class="continue-cover" alt="">
-                <div class="continue-info">
-                    <div class="continue-title" title="${escapeHtml(p.title)}">${escapeHtml(p.title)}</div>
-                    <div class="continue-author" title="${escapeHtml(p.author)}">${escapeHtml(p.author)}</div>
-                    <div class="continue-progress"><i class="fas fa-clock"></i> ${formatTime(p.currentTime)} / ${formatTime(p.duration)}</div>
-                </div>
-                <button class="listen-btn continue-play-btn"><i class="fas fa-play"></i> ${tFunc('continue_listening_btn')}</button>
-            </div>
-        `).join('');
-        container.querySelectorAll('.continue-listening-card').forEach(card => {
-            const url = card.dataset.url;
-            const progress = progressList.find(p => p.url === url);
-            const playBtn = card.querySelector('.continue-play-btn');
-            if (playBtn) playBtn.addEventListener('click', (e) => { e.stopPropagation(); if (progress) audioManager.play(url, { title: progress.title, author: progress.author, cover: progress.cover }); });
-            card.addEventListener('click', (e) => { if (e.target.closest('.continue-play-btn')) return; if (progress) audioManager.play(url, { title: progress.title, author: progress.author, cover: progress.cover }); });
-        });
+function mapCategoryToSubject(categoryId, categoryTitle) {
+    if (categoryId && categoryToSubject[categoryId]) return categoryToSubject[categoryId];
+    if (categoryTitle) {
+        const lower = categoryTitle.toLowerCase();
+        for (const [key, subject] of Object.entries(categoryNameMap)) {
+            if (lower.includes(key)) return subject;
+        }
     }
+    return 'outros';
+}
 
-    // ========== API PÚBLICA ==========
-    const publicAPI = {
-        // Configuração da função de tradução
-        setTranslator: (tFunc) => { _t = tFunc; },
-        
-        play: (url, metadata) => audioManager.play(url, metadata),
-        closePlayer: (url) => audioManager.close(url),
-        getProgress: () => audioManager.getAllProgress(),
-        setProgressUpdateCallback,
-        refreshContinueListening: (containerId, tFunc) => renderContinueListening(containerId, tFunc),
-        search: async (query, containerId, tFunc) => {
-            if (searchTimeout) clearTimeout(searchTimeout);
-            showLoading(containerId);
-            return new Promise((resolve) => { searchTimeout = setTimeout(async () => { try { const results = await searchAudiobooks(query); resolve(results); } catch (e) { console.error('[Audiobook] Erro na busca:', e); resolve([]); } finally { searchTimeout = null; } }, DEBOUNCE_DELAY); });
-        },
-        loadRandom: loadRandomAudiobooks,
-        showLoading, hideLoading, renderGrid, renderContinueListening, buildLanguageChips,
-        getCurrentLanguageFilter: () => currentLanguageFilter,
-        setCurrentLanguageFilter: (filter) => { currentLanguageFilter = filter; },
-        getLanguageName, formatDuration, formatTime
+function detectSubjectLocal(title, description) {
+    const categoryKeywords = {
+        tecnologia: ['programação','software','hardware','código','algoritmo','inteligência artificial','machine learning','dados','cloud','computação','python','javascript','java','c++','react','node','api','devops','segurança','hacker','cyber','blockchain','web','mobile','aplicativo','framework','backend','frontend','banco de dados','sql','nosql','docker','kubernetes','linux','windows','mac','android','ios','tecnologia','inovação','digital','internet','rede','servidor'],
+        ciencia: ['ciência','pesquisa','laboratório','experimento','física','química','biologia','astronomia','cosmologia','genética','evolução','ecologia','neurociência','robótica','nanotecnologia','biotecnologia','sustentabilidade','meio ambiente','clima','planeta','universo','galáxia','buraco negro','partícula','átomo','molécula','science','research','experiment','physics','chemistry','biology','astronomy'],
+        matematica: ['matemática','álgebra','geometria','cálculo','trigonometria','estatística','probabilidade','equação','função','gráfico','número','frações','aritmética','teorema','math','algebra','calculus','geometry','statistics'],
+        filosofia: ['filosofia','pensamento','ética','moral','existencialismo','metafísica','epistemologia','lógica','aristóteles','platão','sócrates','nietzsche','kant','hegel','philosophy'],
+        literatura: ['literatura','livro','escritor','poesia','romance','conto','crônica','ensaio','biblioteca','ler','autor','clássico','ficção','fantasia','aventura','drama','literary','book','writer','poem','novel','fiction'],
+        psicologia: ['psicologia','comportamento','mente','cognitivo','emoções','freud','jung','psicanálise','terapia','transtorno','ansiedade','depressão','psychology'],
+        economia: ['economia','mercado','finanças','investimento','capitalismo','socialismo','inflação','juros','pib','desemprego','economy','finance'],
+        politica: ['política','governo','democracia','ditadura','eleições','partido','congresso','senado','presidente','diplomacia','politics'],
+        saude: ['saúde','medicina','doença','tratamento','cura','vacina','hospital','clínica','nutrição','exercício','bem-estar','health','medicine'],
+        educacao: ['educação','ensino','aprendizagem','escola','universidade','professor','aluno','pedagogia','didática','education','learning'],
+        arte: ['arte','pintura','escultura','música','dança','teatro','cinema','fotografia','arquitetura','design','art','music'],
+        esportes: ['esporte','futebol','basquete','vôlei','tênis','corrida','natação','olimpíadas','esportes','sports'],
+        negocios: ['negócios','empreendedorismo','startup','empresa','gestão','liderança','marketing','vendas','business','entrepreneurship'],
+        viagem: ['viagem','turismo','destino','aventura','exploração','travel','tourism'],
+        religiao: ['religião','deus','bíblia','cristianismo','islamismo','budismo','hinduísmo','espiritualidade','fé','religion'],
+        autoajuda: ['autoajuda','desenvolvimento pessoal','motivação','produtividade','sucesso','hábitos','self-help'],
+        culinaria: ['culinária','receita','gastronomia','cozinha','chef','comida','bebida','cooking','food']
     };
+    const fullText = normalizeText(title + ' ' + description);
+    const scores = {};
+    for (const cat in categoryKeywords) scores[cat] = 0;
+    for (const [cat, keywords] of Object.entries(categoryKeywords)) {
+        for (const kw of keywords) if (fullText.includes(normalizeText(kw))) scores[cat] += 1;
+    }
+    let best = 'outros', max = 0;
+    for (const [cat, score] of Object.entries(scores)) if (score > max) { max = score; best = cat; }
+    return best;
+}
 
-    window.AudiobookModule = publicAPI;
-    return publicAPI;
-})();
+// ========== YOUTUBE API ==========
+async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
+    const { apiKey } = YOUTUBE_CONFIG;
+    if (!apiKey) return [];
+    
+    let searchTerm = query;
+    if (podcastMode) searchTerm = `${query} podcast`;
+    else if (liveMode) searchTerm = query;
+    else if (shortsMode) searchTerm = `${query} shorts`;
+    
+    const cacheKey = `yt_${normalizeText(searchTerm)}_${type}_${podcastMode}_${liveMode}_${shortsMode}_${maxResults}_${channelId || 'none'}`;
+    
+    return getCachedOrFetch(cacheKey, async () => {
+        try {
+            const url = new URL('https://www.googleapis.com/youtube/v3/search');
+            url.searchParams.append('part', 'snippet');
+            url.searchParams.append('q', searchTerm);
+            url.searchParams.append('type', type);
+            url.searchParams.append('maxResults', maxResults);
+            url.searchParams.append('key', apiKey);
+            url.searchParams.append('videoEmbeddable', 'true');
+            if (channelId) {
+                url.searchParams.append('channelId', channelId);
+            }
+            if (liveMode) {
+                url.searchParams.append('eventType', 'live');
+                url.searchParams.append('type', 'video');
+            }
+            if (podcastMode) {
+                url.searchParams.append('videoDuration', 'long');
+            }
+            if (shortsMode) {
+                url.searchParams.append('videoDuration', 'short');
+            }
+            if (currentLanguageFilter !== 'all') {
+                url.searchParams.append('relevanceLanguage', currentLanguageFilter);
+            }
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            const response = await fetch(url.toString(), { signal: controller.signal });
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (errorData.error?.message?.includes('quota')) {
+                    apiQuotaExceeded = true;
+                }
+                return [];
+            }
+            const data = await response.json();
+            const videoIds = data.items.map(item => item.id.videoId).filter(Boolean);
+            const details = await fetchVideoDetails(videoIds);
+            
+            return data.items.map(item => {
+                const snippet = item.snippet;
+                const videoId = item.id.videoId;
+                const detail = details[videoId] || {};
+                let itemType = 'video';
+                if (liveMode) itemType = 'live';
+                else if (podcastMode) itemType = 'podcast';
+                else if (shortsMode) itemType = 'shorts';
+                
+                const tempItem = { title: snippet.title, description: snippet.description, url: `https://www.youtube.com/watch?v=${videoId}` };
+                if (isShortVideo(tempItem)) {
+                    itemType = 'shorts';
+                }
+                const language = detail.language || detectLanguageLocal(snippet.title, snippet.description);
+                const subject = detail.categoryId ? mapCategoryToSubject(detail.categoryId, detail.categoryTitle) : detectSubjectLocal(snippet.title, snippet.description);
+                return {
+                    id: `yt_${videoId}`,
+                    videoId,
+                    title: snippet.title,
+                    description: snippet.description,
+                    thumbnail: snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url,
+                    type: itemType,
+                    subject,
+                    language,
+                    url: `https://www.youtube.com/watch?v=${videoId}`,
+                    source: 'YouTube',
+                    publishedAt: snippet.publishedAt,
+                    channelTitle: snippet.channelTitle,
+                    duration: detail.duration,
+                    categoryId: detail.categoryId,
+                    isLive: liveMode || snippet.liveBroadcastContent === 'live',
+                    isPlaylist: false
+                };
+            });
+        } catch (e) {
+            return [];
+        }
+    }, CACHE_TTL);
+}
+
+async function searchYouTube(query, maxResults = 30, options = {}) {
+    if (apiQuotaExceeded) return [];
+    const { apiKey } = YOUTUBE_CONFIG;
+    if (!apiKey) return [];
+    const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
+    
+    if (channelIds.length === 0) {
+        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: null });
+    }
+    
+    if (channelIds.length === 1) {
+        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: channelIds[0] });
+    }
+    
+    const resultsPerChannel = Math.ceil(maxResults / channelIds.length);
+    const allPromises = channelIds.map(channelId => 
+        performYouTubeSearch(query, resultsPerChannel, { type, podcastMode, liveMode, shortsMode, channelId })
+    );
+    
+    const allResponses = await Promise.allSettled(allPromises);
+    let combined = [];
+    for (const res of allResponses) {
+        if (res.status === 'fulfilled' && Array.isArray(res.value)) {
+            combined = combined.concat(res.value);
+        }
+    }
+    const seen = new Set();
+    const unique = combined.filter(item => {
+        if (seen.has(item.videoId)) return false;
+        seen.add(item.videoId);
+        return true;
+    });
+    return unique.slice(0, maxResults);
+}
+
+async function fetchVideoDetails(videoIds) {
+    if (!videoIds.length || apiQuotaExceeded) return {};
+    const { apiKey } = YOUTUBE_CONFIG;
+    const cacheKey = `details_${videoIds.sort().join(',')}`;
+    return getCachedOrFetch(cacheKey, async () => {
+        try {
+            const url = new URL('https://www.googleapis.com/youtube/v3/videos');
+            url.searchParams.append('part', 'snippet,contentDetails');
+            url.searchParams.append('id', videoIds.join(','));
+            url.searchParams.append('key', apiKey);
+            const response = await fetch(url.toString());
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (errorData.error?.message?.includes('quota')) apiQuotaExceeded = true;
+                return {};
+            }
+            const data = await response.json();
+            const details = {};
+            data.items.forEach(item => {
+                const videoId = item.id;
+                const snippet = item.snippet;
+                const contentDetails = item.contentDetails;
+                let language = snippet.defaultAudioLanguage || snippet.defaultLanguage;
+                if (!language) language = detectLanguageLocal(snippet.title, snippet.description);
+                languageCache.set(videoId, language);
+                let durationSec = 0;
+                const durationStr = contentDetails?.duration || '';
+                const match = durationStr.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+                if (match) {
+                    const hours = parseInt(match[1] || '0');
+                    const minutes = parseInt(match[2] || '0');
+                    const seconds = parseInt(match[3] || '0');
+                    durationSec = hours * 3600 + minutes * 60 + seconds;
+                }
+                details[videoId] = { language, duration: durationSec, categoryId: snippet.categoryId, categoryTitle: snippet.categoryTitle || '' };
+            });
+            return details;
+        } catch (e) { return {}; }
+    }, CACHE_TTL * 2);
+}
+
+// ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA ==========
+const LANG_STOPWORDS = {
+    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer dar ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
+    en: 'the and for with you this are have from they know your can more about just like people time year good work life world english will was were been has had their them would could should make get see use tion sion ment ness'.split(' '),
+    es: 'el la de y que en por con para como su sobre este esta usted años vida trabajo personas español los las se ha han está están era eran muy bien gracias hola ser tener hacer decir ir ver dar ción dad mente'.split(' '),
+    fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont étaient étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
+    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurde wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
+    it: 'il la di e che per con come su questo questa lei più anni vita lavoro persone italiano sono era erano stato stata essere avere fare dire andare vedere dare zione mento ità'.split(' '),
+    ru: 'и в не на я что с по а он как его но из они за русский год жизнь это было были быть сказать мочь хотеть знать думать ность ение овать'.split(' '),
+    zh: '的 了 是 我 不 在 人 有 他 这 中 大 来 上 国 为 子 你 说 中文 也 个 们 到 去 看 好 什么 没有 可以 自己 因为 所以'.split(' '),
+    ja: 'です ます た ない れる よう から まで て が を に の は 日本語 これ それ あれ 私 あなた する いる ある なる こと もの'.split(' '),
+    ko: '은 는 이 가 을 를 에 에서 으로 로 한국어 그 저 이것 저것 사람 년 일 하다 있다 않다 없다 그리고 또한 습니다'.split(' '),
+    ar: 'في من أن على هذا هذه الذي التي عن مع بعد قبل عند خلال العربية كان كانت يكون لي لك له لها ما لا إلى حتى قد'.split(' '),
+    hi: 'है हैं और के में से पर यह वह इस उस हिंदी कर करना होना जाना देना लेना का की को ने तक बाद पहले'.split(' '),
+    nl: 'de het een van in op voor met dat dit deze nederlands zijn hebben worden kunnen moeten niet wel maar ook nog al veel mensen'.split(' '),
+    sv: 'och att det som en på för med av den detta svenska vara ha kunna skola vilja inte men eller om när där här han hon'.split(' '),
+    pl: 'i w na z do po przez dla ten ta to polski być mieć móc chcieć nie tak jak co który jego jej ich się już'.split(' '),
+    tr: 've bir bu şu o için ile gibi kadar sonra türkçe olmak etmek yapmak gelmek gitmek değil mi da de ya ki çok daha en'.split(' '),
+    cs: 'a být je v na s z do od pro za po pri jako i ale které který že se si svůj tento tato toto český'.split(' '),
+    el: 'και η το ο να δεν είναι σε για από με που τα της του τους τις ένα μια αυτό αυτή αυτές ελληνικ'.split(' '),
+    fi: 'ja on se ei että oli ovat kuin kun kanssa mutta myös kuin hän me hän te he tämä tässä suomi suomen'.split(' '),
+    he: 'את של על לא זה עם גם אם כי או היא הוא אבל אשר עד בין כמו כל עוד כך אחת אחד ישראל עברית'.split(' '),
+    hu: 'és hogy a az egy ez azt is nem van de ha már mint még csak el meg mit ki be le fel magyar'.split(' '),
+    id: 'dan yang di untuk dengan pada adalah itu dalam ini saya kamu dia kita mereka apa bisa ada tidak akan juga indonesia'.split(' '),
+    no: 'og det å er jeg ikke du en den vi de at som skal har til med for av norsk'.split(' '),
+    ro: 'și de la cu în pe care din ce ca sau dar pentru acest această română este sunt ați au fost'.split(' '),
+    sk: 'a byť je v na s z do od pre po pri ako i ale ktorý ktorá ktoré že sa si svoj tento slovensk'.split(' '),
+    th: 'ที่ เป็น ไม่ ได้ และ ใน มี ว่า ไป มา ต้อง จะ ของ โดย กับ สำหรับ เรา คุณ เขา มัน นี้ ภาษาไทย'.split(' '),
+    vi: 'và của một là không có trong cho với những được khi từ bởi nếu nhưng mà tôi anh chúng ta nó họ tiếng việt'.split(' '),
+    bg: 'и на за да не се от в със по като или че след до при а но български това тази тези'.split(' '),
+    ca: 'i de que el la en per amb un una aquest aquesta nosaltres vosaltres ells elles català'.split(' '),
+    da: 'og at det er jeg du den en de vi at som skal har til med for af dansk'.split(' '),
+    et: 'ja see on et ei kui siis ka ning aga või ette eest eesti'.split(' '),
+    hr: 'i je u na za od s do iz po pri jer ali ili da ne bi će hrvatski'.split(' '),
+    lt: 'ir yra su į iš per nuo po prie bet arba kad kaip šis ši šitas šita lietuvių'.split(' '),
+    lv: 'un ir uz no ar pa pēc pie bet vai ka kā šis šī latviešu'.split(' '),
+    ms: 'dan yang di untuk pada dengan itu ini saya kamu dia kita mereka apa bisa ada tidak akan juga malaysia'.split(' '),
+    sl: 'in je v na z s do od za po pri ker ali če da ne bi slovenski'.split(' '),
+    sr: 'и је у на за од са из по при јер или ако да не би ће српски'.split(' '),
+    uk: 'і в на з до для по при про як що це цей ця ці український'.split(' '),
+    fa: 'و در به از با که این آن برای است را که تا از اما یا اگر چون فارسی'.split(' '),
+    bn: 'এবং এর মধ্যে যে জন্য সঙ্গে হয় না কর এই ওই আমি তুমি সে আমরা তারা বাংলা'.split(' '),
+    ta: 'மற்றும் இந்த ஒரு என்று உள்ளது நான் நீங்கள் அவர் அவள் அது நாங்கள் நீங்கள் அவர்கள் தமிழ்'.split(' '),
+    te: 'మరియు ఈ ఒక అని ఉంది నేను నువ్వు అతను ఆమె అది మేము మీరు వారు తెలుగు'.split(' '),
+    ml: 'ഒപ്പം ഈ ഒരു എന്ന് ഉണ്ട് ഞാൻ നീ അവൻ അവൾ അത് ഞങ്ങൾ നിങ്ങൾ അവർ മലയാളം'.split(' '),
+    kn: 'ಮತ್ತು ಈ ಒಂದು ಎಂದು ಇದೆ ನಾನು ನೀನು ಅವನು ಅವಳು ಅದು ನಾವು ನೀವು ಅವರು ಕನ್ನಡ'.split(' '),
+    mr: 'आणि हे एक की आहे मी तू तो ती ते आम्ही तुम्ही ते मराठी'.split(' '),
+    gu: 'અને આ એક કે છે હું તું તે તેણી તે અમે તમે તેઓ ગુજરાતી'.split(' '),
+    pa: 'ਅਤੇ ਇਹ ਇੱਕ ਕਿ ਹੈ ਮੈਂ ਤੂੰ ਉਹ ਉਹ ਇਹ ਅਸੀਂ ਤੁਸੀਂ ਉਹ ਪੰਜਾਬੀ'.split(' ')
+};
+
+function detectScript(text) {
+    if (!text) return null;
+    if (/[\u4E00-\u9FFF]/.test(text)) return 'zh';
+    if (/[\u3040-\u309F]/.test(text)) return 'ja';
+    if (/[\u30A0-\u30FF]/.test(text)) return 'ja';
+    if (/[\uAC00-\uD7AF]/.test(text)) return 'ko';
+    if (/[\u0900-\u097F]/.test(text)) return 'hi';
+    if (/[\u0980-\u09FF]/.test(text)) return 'bn';
+    if (/[\u0A00-\u0A7F]/.test(text)) return 'pa';
+    if (/[\u0A80-\u0AFF]/.test(text)) return 'gu';
+    if (/[\u0B00-\u0B7F]/.test(text)) return 'or';
+    if (/[\u0B80-\u0BFF]/.test(text)) return 'ta';
+    if (/[\u0C00-\u0C7F]/.test(text)) return 'te';
+    if (/[\u0C80-\u0CFF]/.test(text)) return 'kn';
+    if (/[\u0D00-\u0D7F]/.test(text)) return 'ml';
+    if (/[\u0D80-\u0DFF]/.test(text)) return 'si';
+    if (/[\u0E00-\u0E7F]/.test(text)) return 'th';
+    if (/[\u0E80-\u0EFF]/.test(text)) return 'lo';
+    if (/[\u0F00-\u0FFF]/.test(text)) return 'bo';
+    if (/[\u1000-\u109F]/.test(text)) return 'my';
+    if (/[\u1780-\u17FF]/.test(text)) return 'km';
+    if (/[\u0600-\u06FF]/.test(text)) return 'ar';
+    if (/[\u0750-\u077F]/.test(text)) return 'ar';
+    if (/[\uFB50-\uFDFF]/.test(text)) return 'ar';
+    if (/[\uFE70-\uFEFF]/.test(text)) return 'ar';
+    if (/[\u0590-\u05FF]/.test(text)) return 'he';
+    if (/[\uFB1D-\uFB4F]/.test(text)) return 'he';
+    if (/[\u0400-\u04FF]/.test(text)) return 'ru';
+    if (/[\u0500-\u052F]/.test(text)) return 'ru';
+    if (/[\u2DE0-\u2DFF]/.test(text)) return 'ru';
+    if (/[\uA640-\uA69F]/.test(text)) return 'ru';
+    if (/[\u0370-\u03FF]/.test(text)) return 'el';
+    if (/[\u10A0-\u10FF]/.test(text)) return 'ka';
+    if (/[\u0530-\u058F]/.test(text)) return 'hy';
+    if (/[\u1200-\u137F]/.test(text)) return 'am';
+    if (/[\u2D30-\u2D7F]/.test(text)) return 'ber';
+    return null;
+}
+
+function detectLanguageLocal(title, description = '') {
+    const text = (title + ' ' + description).trim();
+    if (!text) return 'en';
+    const scriptLang = detectScript(text);
+    if (scriptLang) return scriptLang;
+    const words = text.toLowerCase().split(/[\s,.;!?()\[\]{}"':-]+/).filter(w => w.length > 1);
+    const scores = {};
+    for (const lang in LANG_STOPWORDS) scores[lang] = 0;
+    for (const word of words) {
+        for (const lang in LANG_STOPWORDS) {
+            if (LANG_STOPWORDS[lang].includes(word)) {
+                scores[lang] += 1;
+            }
+        }
+    }
+    const normalized = text.toLowerCase();
+    if (normalized.match(/[áàâãéêíóôõúüç]/i)) scores.pt = (scores.pt || 0) + 10;
+    if (normalized.match(/[áéíóúüñ¿¡]/i)) scores.es = (scores.es || 0) + 10;
+    if (normalized.match(/[àâçéèêëîïôœùûüÿ]/i)) scores.fr = (scores.fr || 0) + 10;
+    if (normalized.match(/[äöüß]/i)) scores.de = (scores.de || 0) + 10;
+    if (normalized.match(/[àèéìíîòóùú]/i)) scores.it = (scores.it || 0) + 8;
+    if (normalized.match(/[áéíóúýðþæö]/i)) scores.en = (scores.en || 0) + 2;
+    if (normalized.match(/[åäö]/i)) scores.sv = (scores.sv || 0) + 5;
+    if (normalized.match(/[æøå]/i)) scores.no = (scores.no || 0) + 5;
+    if (normalized.match(/[ěščřžýáíé]/i)) scores.cs = (scores.cs || 0) + 5;
+    if (normalized.match(/[ąčęėįšųūž]/i)) scores.lt = (scores.lt || 0) + 5;
+    let bestLang = 'en';
+    let maxScore = 0;
+    for (const lang in scores) {
+        if (scores[lang] > maxScore) {
+            maxScore = scores[lang];
+            bestLang = lang;
+        }
+    }
+    if (maxScore < 2) return 'en';
+    return bestLang;
+}
+
+// ========== BUSCA UNIFICADA ==========
+const languagePriority = { 'pt':1, 'en':2, 'es':3, 'zh':4, 'fr':5, 'de':6, 'it':7, 'ja':8, 'ru':9, 'ar':10, 'hi':11, 'ko':12 };
+
+async function searchAllContent(query, filterType = 'all') {
+    let results = [];
+    let channelIds = [];
+    if (filterType === 'podcast') channelIds = channelFilters.podcast || [];
+    else if (filterType === 'live') channelIds = channelFilters.live || [];
+    else if (filterType === 'shorts') channelIds = channelFilters.shorts || [];
+    else if (filterType === 'video') channelIds = channelFilters.video || [];
+    else channelIds = channelFilters.video || [];
+    if (filterType === 'podcast') results = await searchYouTube(query, 30, { podcastMode: true, channelIds });
+    else if (filterType === 'live') results = await searchYouTube(query, 30, { liveMode: true, channelIds });
+    else if (filterType === 'shorts') results = await searchYouTube(query, 30, { shortsMode: true, channelIds });
+    else if (filterType === 'video') results = await searchYouTube(query, 30, { channelIds });
+    else {
+        const [videos, podcasts, lives, shorts] = await Promise.all([
+            searchYouTube(query, 12, { channelIds: channelFilters.video || [] }),
+            searchYouTube(query, 12, { podcastMode: true, channelIds: channelFilters.podcast || [] }),
+            searchYouTube(query, 8, { liveMode: true, channelIds: channelFilters.live || [] }),
+            searchYouTube(query, 8, { shortsMode: true, channelIds: channelFilters.shorts || [] })
+        ]);
+        results = [...videos, ...podcasts, ...lives, ...shorts];
+    }
+    results.sort((a, b) => {
+        const langA = a.language?.slice(0,2) || 'en';
+        const langB = b.language?.slice(0,2) || 'en';
+        const priorityA = languagePriority[langA] || 99;
+        const priorityB = languagePriority[langB] || 99;
+        if (priorityA !== priorityB) return priorityA - priorityB;
+        if (a.isLive && !b.isLive) return -1;
+        if (!a.isLive && b.isLive) return 1;
+        return 0;
+    });
+    return results;
+}
+
+// ========== VÍDEOS LOCAIS ==========
+async function loadVideosFromJSON() {
+    try {
+        const r = await fetch('videos.json');
+        if (!r.ok) return [];
+        const data = await r.json();
+        console.log('[Videos] Arquivo videos.json carregado. Itens:', data.length);
+
+        const result = data.map((item, idx) => {
+            const isPlaylist = item.url && (item.url.includes('playlist?list=') || item.url.includes('&list='));
+            
+            let videoId = null;
+            if (!isPlaylist) {
+                videoId = extractVideoId(item.url);
+            }
+
+            if (!isPlaylist && !videoId) {
+                console.warn('[Videos] ID não extraído para:', item.title);
+                return null;
+            }
+
+            let itemType = item.type || 'video';
+            if (itemType === 'story' || itemType === 'short') {
+                itemType = 'shorts';
+            }
+
+            const finalVideoId = isPlaylist ? `playlist_${idx}` : videoId;
+
+            let language = item.language;
+            if (!language) {
+                language = detectLanguageLocal(item.title, item.description || '');
+            }
+
+            let subject = item.subject;
+            if (!subject) {
+                subject = detectSubjectLocal(item.title, item.description || '');
+            }
+
+            const thumbnail = isPlaylist 
+                ? (item.thumbnail || 'https://placehold.co/120x90/1F2933/9CA3AF?text=Playlist')
+                : (item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+
+            const videoObj = {
+                id: `local_${idx}`,
+                videoId: finalVideoId,
+                title: item.title,
+                description: item.description || '',
+                thumbnail: thumbnail,
+                type: itemType,
+                subject: subject,
+                language: language,
+                url: item.url,
+                source: 'Local',
+                isLive: itemType === 'live',
+                isPlaylist: isPlaylist,
+                originalUrl: item.url
+            };
+
+            if (idx < 5) {
+                console.log(`[Videos] Item ${idx}:`, {
+                    title: item.title,
+                    type: itemType,
+                    language: language,
+                    subject: subject,
+                    isPlaylist: isPlaylist
+                });
+            }
+
+            return videoObj;
+        }).filter(v => v !== null);
+
+        console.log(`[Videos] ${result.length} itens (vídeos + playlists) carregados com sucesso.`);
+        return result;
+    } catch (e) {
+        console.error('[Videos] Erro ao carregar videos.json:', e);
+        return [];
+    }
+}
+
+function extractVideoId(url) {
+    if (!url) return null;
+    const patterns = [
+        /youtube\.com\/shorts\/([^?#]+)/i,
+        /youtube\.com\/watch\?v=([^&?#]+)/i,
+        /youtu\.be\/([^?#]+)/i,
+        /youtube\.com\/embed\/([^?#]+)/i,
+        /youtube\.com\/v\/([^?#]+)/i,
+        /youtube\.com\/e\/([^?#]+)/i
+    ];
+    for (const p of patterns) {
+        const match = url.match(p);
+        if (match && match[1]) {
+            return match[1].split('?')[0].split('&')[0];
+        }
+    }
+    return null;
+}
+
+// ========== ATUALIZAÇÃO PRINCIPAL ==========
+async function refreshAllItems(term = '') {
+    showLoading();
+    try {
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve([]), 15000));
+        const [localVideos, onlineContent] = await Promise.allSettled([
+            loadVideosFromJSON(),
+            apiQuotaExceeded ? Promise.resolve([]) : Promise.race([
+                term.length >= 2 ? searchAllContent(term, currentTypeFilter) : searchAllContent('popular', currentTypeFilter),
+                timeoutPromise
+            ])
+        ]);
+        const localItems = (localVideos.status === 'fulfilled' ? localVideos.value : []);
+        const onlineItems = (onlineContent.status === 'fulfilled' ? onlineContent.value : []);
+        const seen = new Set();
+        const merged = [...localItems, ...onlineItems].filter(item => {
+            const key = `${item.videoId}|${item.source}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        allItems = merged;
+        console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
+        // Reconstruir chips após atualização
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        updateAllContent();
+        // Aplicar traduções novamente para garantir
+        applyTranslationsToUI();
+    } catch (e) { console.error('Erro ao carregar itens:', e); }
+    finally { hideLoading(); }
+}
+
+// ========== PLAYER YOUTUBE ==========
+function isYouTubeAPIReady() { return typeof YT !== 'undefined' && YT.Player && YT.loaded; }
+function waitForYouTubeAPI(callback) {
+    if (isYouTubeAPIReady()) { callback(); return; }
+    if (apiLoadAttempts++ < MAX_API_ATTEMPTS) { setTimeout(() => waitForYouTubeAPI(callback), API_RETRY_DELAY); }
+    else { useFallbackPlayer(); }
+}
+function useFallbackPlayer() {
+    const wrapper = document.querySelector('.player-wrapper');
+    if (!wrapper) return;
+    const videoId = currentVideoId || (pendingVideo && pendingVideo.videoId);
+    if (!videoId) return;
+    wrapper.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>`;
+    if (pendingVideo) {
+        document.getElementById('playerTitle').textContent = pendingVideo.title;
+        document.getElementById('playerDescription').textContent = pendingVideo.description;
+        pendingVideo = null;
+    }
+    document.getElementById('playPauseBtn').style.display = 'none';
+    document.querySelector('.progress-container').style.display = 'none';
+    document.querySelector('.volume-control').style.display = 'none';
+    const existingMsg = document.querySelector('.fallback-message');
+    if (!existingMsg) {
+        const msgDiv = document.createElement('div'); msgDiv.className = 'fallback-message';
+        msgDiv.style.cssText = 'padding:0.5rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);';
+        msgDiv.innerHTML = `${t('player_fallback_active')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player')}</button>`;
+        wrapper.parentNode.insertBefore(msgDiv, wrapper.nextSibling);
+        document.getElementById('retryPlayerBtn').addEventListener('click', () => {
+            apiLoadAttempts = 0;
+            const title = document.getElementById('playerTitle').textContent;
+            const desc = document.getElementById('playerDescription').textContent;
+            closePlayer();
+            playVideo(currentVideoId, title, desc);
+        });
+    }
+    document.getElementById('playerContainer').style.display = 'block';
+}
+function onYouTubeIframeAPIReady() {
+    if (pendingVideo) { const p = pendingVideo; pendingVideo = null; playVideo(p.videoId, p.title, p.description); }
+}
+function createPlayer(videoId, startSeconds = 0) {
+    if (!isYouTubeAPIReady()) return false;
+    const wrapper = document.querySelector('.player-wrapper'); if (!wrapper) return false;
+    let el = document.getElementById('youtubePlayer'); if (!el) { el = document.createElement('div'); el.id = 'youtubePlayer'; wrapper.appendChild(el); }
+    if (player) { try { player.destroy(); } catch(e) {} player = null; }
+    try {
+        player = new YT.Player('youtubePlayer', {
+            videoId,
+            playerVars: {
+                autoplay: 1, controls: 0, modestbranding: 1, rel: 0,
+                start: Math.floor(startSeconds),
+                origin: window.location.origin,
+                host: window.location.host
+            },
+            events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: onPlayerError }
+        });
+        currentVideoId = videoId;
+        document.getElementById('playerContainer').style.display = 'block';
+        document.getElementById('playPauseBtn').style.display = 'flex';
+        document.querySelector('.progress-container').style.display = 'flex';
+        document.querySelector('.volume-control').style.display = 'flex';
+        return true;
+    } catch (e) { showPlayerError(t('player_error_generic')); return false; }
+}
+function onPlayerReady(event) {
+    playerReady = true;
+    const duration = player.getDuration();
+    document.getElementById('durationDisplay').textContent = formatTime(duration);
+    document.getElementById('progressBar').max = duration;
+    const savedVolume = localStorage.getItem('yt_player_volume');
+    const volSlider = document.getElementById('volumeSlider');
+    if (savedVolume !== null && volSlider) { player.setVolume(parseInt(savedVolume)); volSlider.value = savedVolume; }
+    startProgressUpdate();
+}
+function onPlayerStateChange(event) {
+    const btn = document.getElementById('playPauseBtn');
+    if (event.data === YT.PlayerState.PLAYING) {
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+        startProgressUpdate();
+        startWatchTimer();
+    } else if (event.data === YT.PlayerState.PAUSED) {
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+        stopProgressUpdate();
+        saveVideoProgress();
+        stopWatchTimer();
+    } else if (event.data === YT.PlayerState.ENDED) {
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+        stopProgressUpdate();
+        stopWatchTimer();
+    }
+    saveAllProgress();
+}
+function onPlayerError(e) {
+    let msg = t('player_error_generic');
+    if (e.data === 2) msg = t('player_error_removed');
+    else if (e.data === 5) msg = t('player_error_issue');
+    else if (e.data === 100) msg = t('player_error_not_found');
+    showPlayerError(msg);
+    stopWatchTimer();
+}
+function showPlayerError(msg) {
+    const w = document.querySelector('.player-wrapper'); if (w) w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i> ${msg}</div>`;
+    document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+}
+function startProgressUpdate() {
+    if (updateTimer) clearInterval(updateTimer);
+    updateTimer = setInterval(() => {
+        if (playerReady && player && player.getCurrentTime) {
+            const ct = player.getCurrentTime();
+            document.getElementById('currentTimeDisplay').textContent = formatTime(ct);
+            document.getElementById('progressBar').value = ct;
+            if (Math.floor(ct) % 5 === 0) saveVideoProgress();
+        }
+    }, 500);
+}
+function stopProgressUpdate() { if (updateTimer) { clearInterval(updateTimer); updateTimer = null; } }
+function saveVideoProgress() { if (currentVideoId && playerReady) { videoProgress[currentVideoId] = player.getCurrentTime(); localStorage.setItem('yt_video_progress', JSON.stringify(videoProgress)); } }
+function loadVideoProgress(id) { const s = localStorage.getItem('yt_video_progress'); if (s) try { return JSON.parse(s)[id] || 0; } catch(e) {} return 0; }
+function formatTime(s) { const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = Math.floor(s%60); return h>0 ? `${h}:${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}` : `${m}:${sec.toString().padStart(2,'0')}`; }
+function toggleAudioMode() {
+    audioMode = !audioMode;
+    const c = document.getElementById('playerContainer'), b = document.getElementById('audioModeBtn');
+    if (!c || !b) return;
+    c.classList.toggle('audio-mode', audioMode); b.classList.toggle('audio-active', audioMode);
+    b.innerHTML = audioMode ? '<i class="fas fa-video"></i>' : '<i class="fas fa-headphones"></i>';
+}
+function setupPlayerControls() {
+    const playBtn = document.getElementById('playPauseBtn'), muteBtn = document.getElementById('muteUnmuteBtn'), volSlider = document.getElementById('volumeSlider'), progBar = document.getElementById('progressBar'), audioBtn = document.getElementById('audioModeBtn'), closeBtn = document.getElementById('closePlayerBtn');
+    if (playBtn) playBtn.addEventListener('click', () => { if (!playerReady) return; player.getPlayerState()===YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); });
+    if (muteBtn) muteBtn.addEventListener('click', () => { if (!playerReady) return; player.isMuted() ? (player.unMute(), muteBtn.innerHTML='<i class="fas fa-volume-up"></i>') : (player.mute(), muteBtn.innerHTML='<i class="fas fa-volume-mute"></i>'); });
+    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
+    if (progBar) progBar.addEventListener('input', e => { if (!playerReady) return; player.seekTo(+e.target.value, true); });
+    if (audioBtn) audioBtn.addEventListener('click', toggleAudioMode);
+    if (closeBtn) closeBtn.addEventListener('click', closePlayer);
+}
+function closePlayer() {
+    document.getElementById('playerContainer').style.display = 'none';
+    if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
+    stopProgressUpdate(); currentVideoId = null; audioMode = false;
+    stopWatchTimer();
+    document.getElementById('playerContainer').classList.remove('audio-mode');
+    document.getElementById('audioModeBtn')?.classList.remove('audio-active');
+    document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
+}
+function playVideo(videoId, title, description) {
+    document.getElementById('playerTitle').textContent = title;
+    document.getElementById('playerDescription').textContent = description;
+    const container = document.getElementById('playerContainer'); container.style.display = 'block';
+    container.classList.toggle('audio-mode', audioMode);
+    document.getElementById('audioModeBtn')?.classList.toggle('audio-active', audioMode);
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    currentVideoId = videoId;
+    document.querySelector('.fallback-message')?.remove();
+    document.getElementById('playPauseBtn').style.display = 'flex';
+    document.querySelector('.progress-container').style.display = 'flex';
+    document.querySelector('.volume-control').style.display = 'flex';
+    if (!isYouTubeAPIReady()) {
+        pendingVideo = { videoId, title, description };
+        waitForYouTubeAPI(() => { if (pendingVideo) { const p = pendingVideo; pendingVideo = null; playVideo(p.videoId, p.title, p.description); } });
+        return;
+    }
+    const start = loadVideoProgress(videoId);
+    if (!createPlayer(videoId, start)) useFallbackPlayer();
+}
+
+// ========== RENDERIZAÇÃO ==========
+function getSubjectIcon(s){
+    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','outros':'fa-tag'};
+    return i[s]||'fa-tag';
+}
+function formatDuration(sec) {
+    if (!sec) return '';
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+    return h > 0 ? `${h}h ${m}m` : `${m} min`;
+}
+function createVideoCardHTML(v) {
+    let badge = '';
+    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
+    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
+    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts')}</span>`;
+    if (v.isPlaylist) {
+        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
+    }
+
+    const subjectName = getSubjectName(v.subject);
+    const subjectIcon = getSubjectIcon(v.subject);
+    const categoryBadge = `<span class="category-badge"><i class="fas ${subjectIcon}"></i> ${subjectName}</span>`;
+
+    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
+        <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
+        <div class="video-info">
+            <div class="video-title">${escapeHtml(v.title)}</div>
+            <div class="video-description">${escapeHtml(v.description)}</div>
+            <div class="video-meta">
+                <span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(v.language)}</span>
+                ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
+                ${categoryBadge}
+            </div>
+        </div>
+    </div>`;
+}
+function renderUnifiedGrid(items) {
+    const container = document.getElementById('videosContainer');
+    if (!container) return;
+    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos')}</p></div>`; return; }
+    let subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    let html = '';
+    for (const subj of subjects) {
+        let subjItems = items.filter(i => i.subject === subj);
+        if (currentSubjectFilter === 'all') subjItems = subjItems.slice(0, 10);
+        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items')}</div></div><div class="category-grid unified-grid">`;
+        subjItems.forEach(item => html += createVideoCardHTML(item));
+        html += `</div></div>`;
+    }
+    container.innerHTML = html;
+    container.querySelectorAll('.video-card').forEach(c => {
+        c.addEventListener('click', () => {
+            const isPlaylist = c.dataset.isPlaylist === 'true';
+            if (isPlaylist) {
+                const url = c.dataset.url;
+                if (url) window.open(url, '_blank');
+            } else {
+                playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description);
+            }
+        });
+    });
+}
+async function handleSearch() {
+    const term = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
+    currentSearchTerm = term;
+    await refreshAllItems(term);
+}
+function updateAllContent() {
+    let filtered = allItems.filter(item => {
+        if (currentSearchTerm && !item.title.toLowerCase().includes(currentSearchTerm) && !(item.description||'').toLowerCase().includes(currentSearchTerm)) return false;
+        if (currentTypeFilter !== 'all' && item.type !== currentTypeFilter) return false;
+        if (currentSubjectFilter !== 'all' && item.subject !== currentSubjectFilter) return false;
+        if (currentLanguageFilter !== 'all' && item.language !== currentLanguageFilter) return false;
+        return true;
+    });
+    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Assunto: ${currentSubjectFilter}, Idioma: ${currentLanguageFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
+    renderUnifiedGrid(filtered);
+    buildLanguageChips(filtered);
+    // Garantir que as traduções sejam aplicadas aos chips
+    applyTranslationsToUI();
+}
+function buildTypeChips() {
+    const c = document.getElementById('typeChips'); if (!c) return;
+    const types = [
+        {value:'all',label:t('all'),icon:'fa-globe'},
+        {value:'video',label:t('type_video'),icon:'fa-play-circle'},
+        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},
+        {value:'live',label:t('type_live'),icon:'fa-circle'},
+        {value:'shorts',label:t('type_shorts'),icon:'fa-film'}
+    ];
+    c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
+        currentTypeFilter = ch.dataset.type;
+        buildTypeChips();
+        await refreshAllItems(currentSearchTerm);
+        // Reaplicar traduções para garantir
+        applyTranslationsToUI();
+    }));
+}
+function buildSubjectChips() {
+    const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    const c = document.getElementById('subjectChips'); if (!c) return;
+    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+        currentSubjectFilter = ch.dataset.subject;
+        buildSubjectChips();
+        updateAllContent();
+        applyTranslationsToUI();
+    }));
+}
+function buildLanguageChips(items = allItems) {
+    const langs = [...new Set(items.map(i => i.language).filter(l => l))];
+    const c = document.getElementById('languageChips'); if (!c) return;
+    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+        currentLanguageFilter = ch.dataset.lang;
+        buildLanguageChips();
+        updateAllContent();
+        applyTranslationsToUI();
+    }));
+}
+function playRandomItem() {
+    if (!allItems.length) return;
+    const item = allItems[Math.floor(Math.random()*allItems.length)];
+    if (item.isPlaylist) {
+        if (item.url) window.open(item.url, '_blank');
+    } else {
+        playVideo(item.videoId, item.title, item.description);
+    }
+}
+function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`; }
+function hideLoading() {}
+
+// ========== CARREGAR FILTRO DE CANAIS ==========
+async function loadChannelFilters() {
+    try {
+        const response = await fetch('canais.json');
+        if (!response.ok) {
+            console.warn('[Auditório] canais.json não encontrado, usando fallback vazio.');
+            channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+            return;
+        }
+        const data = await response.json();
+        if (data.video) channelFilters.video = data.video;
+        if (data.podcast) channelFilters.podcast = data.podcast;
+        if (data.live) channelFilters.live = data.live;
+        if (data.shorts) channelFilters.shorts = data.shorts;
+    } catch (e) {
+        console.warn('[Auditório] Erro ao carregar canais.json:', e);
+        channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+    }
+}
+
+// ========== INICIALIZAÇÃO ==========
+document.addEventListener('DOMContentLoaded', async () => {
+    loadWatchTime();
+    console.log('[Auditório] Horas assistidas carregadas:', totalWatchTime);
+
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    if (!window.YT) { 
+        const s = document.createElement('script'); 
+        s.src = 'https://www.youtube.com/iframe_api'; 
+        document.head.appendChild(s); 
+    }
+    
+    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
+    currentLang = savedLang;
+    await loadTranslations(currentLang);
+    applyTranslationsToUI();
+    updateLanguageSelector(currentLang);
+    
+    const langPtBtn = document.getElementById('langPtBtn');
+    const langEnBtn = document.getElementById('langEnBtn');
+
+    // Função auxiliar para aplicar tradução completa
+    async function applyFullTranslation(lang) {
+        console.log(`[Auditório] Aplicando tradução para ${lang}...`);
+        await loadTranslations(lang);
+        currentLang = lang;
+        localStorage.setItem('selectedLanguage', lang);
+        applyTranslationsToUI();       // Atualiza elementos estáticos
+        updateLanguageSelector(lang);
+        // Recria todos os chips (eles usam t() para os textos)
+        buildTypeChips();
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        // Atualiza o grid (os textos dos cards não mudam, mas os badges sim)
+        updateAllContent();
+        // Dispara evento global para outros módulos
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+        console.log(`[Auditório] Tradução para ${lang} aplicada com sucesso.`);
+    }
+
+    if (langPtBtn) {
+        langPtBtn.addEventListener('click', async () => {
+            await applyFullTranslation('pt-br');
+        });
+    }
+    if (langEnBtn) {
+        langEnBtn.addEventListener('click', async () => {
+            await applyFullTranslation('en');
+        });
+    }
+
+    // Se o idioma atual for pt, ativa o botão PT
+    if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
+    else langEnBtn?.classList.add('active');
+    
+    await loadChannelFilters();
+    setupPlayerControls();
+    document.getElementById('searchInput').addEventListener('input', handleSearch);
+    document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
+    await refreshAllItems('');
+    buildTypeChips();
+    buildSubjectChips();
+    buildLanguageChips(allItems);
+    updateAllContent();
+});
+
+// ========== REAGIR A MUDANÇAS DE IDIOMA ==========
+window.addEventListener('languageChanged', async function(e) {
+    const lang = e.detail.lang || 'pt-br';
+    if (lang !== currentLang) {
+        console.log(`[Auditório] Evento languageChanged recebido: ${lang}`);
+        await loadTranslations(lang);
+        currentLang = lang;
+        applyTranslationsToUI();
+        updateLanguageSelector(lang);
+        // Recria os chips e atualiza o grid
+        buildTypeChips();
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        updateAllContent();
+        // Atualiza botão de perfil e notas
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        }
+        const notasLink = document.querySelector('a[href="../notas/notas.html"]');
+        if (notasLink) {
+            const span = notasLink.querySelector('span');
+            if (span) span.innerText = t('notas_heading');
+        }
+    }
+});

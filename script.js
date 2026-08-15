@@ -1,8 +1,12 @@
 // ============================================================
-// script.js – Versão 3.1
+// script.js – Versão 5.0 – COMPLETO
 // Universidade Livre · Todos os módulos
-// Inclui: cursos, player, progresso, bibliografia, prática,
-// time, licença, i18n, animações modernas e interações
+// CORREÇÃO: Botão de perfil não é sobrescrito pela tradução (verifica imagem/iniciais)
+// CORREÇÃO: Dispara evento languageChanged para todos os módulos
+// CORREÇÃO: Chamada de funções específicas dos módulos após mudança de idioma
+// ADICIONADO: Cache de imagens e fallback automático para imagen-card.png
+// ADICIONADO: Onboarding (trilha de boas-vindas) integrado
+// SUPORTE: Português Brasileiro, Inglês
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -155,7 +159,104 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "external_instruction": "As aulas e atividades serão realizadas na plataforma acima. Após concluir as aulas na plataforma externa, retorne aqui e marque a aula como concluída.",
                 "go_to_platform": "Ir para a plataforma",
                 "external_footer_note": "Após terminar as aulas no site externo, clique em \"Marcar como concluída\".",
-                "exercise_lesson_desc": "Esta atividade deve ser realizada fora da plataforma. Após concluir, clique no botão abaixo para marcar como concluída."
+                "exercise_lesson_desc": "Esta atividade deve ser realizada fora da plataforma. Após concluir, clique no botão abaixo para marcar como concluída.",
+                "profile": "Perfil",
+                "filter_all": "Todos",
+                "filter_by_level": "Filtrar por nível:",
+                "no_courses_found": "Nenhum curso encontrado.",
+                "search_courses_placeholder": "Buscar cursos por nome ou descrição...",
+                "streak_days": "dias",
+                "library_button": "Biblioteca",
+                "mark_as_read": "Marcar como lido",
+                "marked_as_read": "Marcado como lido",
+                "unmark_as_read": "Desmarcar como lido",
+                "books_read": "Livros lidos",
+                "profile_title": "Meu Perfil",
+                "profile_change_photo": "Alterar foto",
+                "profile_name": "Nome",
+                "profile_gender": "Gênero",
+                "profile_password": "Senha (para exportar/importar)",
+                "profile_save_name": "Salvar Nome",
+                "profile_save": "Salvar",
+                "profile_save_progress": "Salvar Progresso",
+                "profile_import_progress": "Importar Progresso",
+                "profile_watched_videos": "Vídeos assistidos",
+                "profile_total_videos": "Total de vídeos",
+                "profile_completed_lessons": "Lições concluídas",
+                "profile_completed_disciplines": "Disciplinas concluídas",
+                "profile_total_points": "Pontuação total",
+                "profile_auditorio_hours": "Horas no Auditório",
+                "profile_saved_courses": "Cursos salvos",
+                "profile_no_courses": "Nenhum curso iniciado ainda.",
+                "profile_in_progress": "Em andamento",
+                "profile_completed": "Concluído",
+                "profile_export_import": "Exportar / Importar dados",
+                "profile_select_notes": "Selecione quais notas exportar:",
+                "profile_data_note": "Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.",
+                "profile_matricula": "Matrícula:",
+                "profile_choose_avatar": "Escolher foto de perfil",
+                "profile_avatar_description": "Selecione uma imagem padrão ou faça upload da sua própria foto.",
+                "profile_upload": "Fazer upload",
+                "profile_remove_photo": "Remover foto",
+                "profile_license": "Licença das imagens",
+                "profile_no_notes": "Nenhuma nota encontrada.",
+                "profile_name_saved": "Nome salvo com sucesso!",
+                "profile_gender_saved": "Gênero salvo com sucesso!",
+                "profile_password_saved": "Senha salva com sucesso!",
+                "profile_avatar_updated": "Foto de perfil atualizada!",
+                "profile_avatar_removed": "Foto removida com sucesso.",
+                "profile_export_success": "Dados exportados com sucesso!",
+                "profile_import_success": "✅ Importação concluída! {{count}} cursos importados com sucesso.",
+                "profile_import_confirm": "⚠️ Isso irá substituir todos os dados atuais do seu perfil. Deseja continuar?",
+                "profile_remove_confirm": "Deseja remover sua foto de perfil?",
+                "profile_no_password_confirm": "Você não tem uma senha definida. Os dados serão exportados sem criptografia. Deseja continuar?",
+                "profile_encrypt_error": "Erro ao criptografar os dados. Tente novamente.",
+                "profile_export_error": "Erro ao exportar dados. Tente novamente.",
+                "profile_import_error": "Erro ao processar o arquivo. Verifique se é um arquivo válido.",
+                "profile_invalid_file": "Arquivo inválido: dados não encontrados.",
+                "profile_password_incorrect": "Senha incorreta! Tente novamente.",
+                "profile_password_required": "Por favor, digite a senha.",
+                "profile_password_min": "A senha deve ter pelo menos 8 caracteres.",
+                "profile_password_weak": "Senha muito fraca! Requisitos não atendidos: ",
+                "profile_avatar_too_big": "A imagem é muito grande. Tente uma foto menor.",
+                "profile_avatar_upload_error": "Erro ao processar a imagem. Tente novamente.",
+                "profile_avatar_storage_error": "A imagem é muito grande para ser armazenada. Tente uma foto menor.",
+                "profile_avatar_save_error": "Erro ao salvar a imagem. Tente novamente.",
+                "profile_processing": "Processando imagem...",
+                "profile_select_image": "Por favor, selecione uma imagem.",
+                "profile_image_too_big": "A imagem é muito grande. Máximo 5 MB.",
+                "profile_name_required": "Por favor, insira um nome.",
+                "profile_password_saved_indicator": "Senha salva",
+                "profile_no_password_saved": "Nenhuma senha salva",
+                "profile_gender_not_informed": "Não informado",
+                "profile_gender_masculine": "Masculino",
+                "profile_gender_feminine": "Feminino",
+                "profile_gender_other": "Outro",
+                "profile_export_courses": "Cursos",
+                "profile_export_videos": "Vídeos",
+                "profile_export_books": "Livros lidos",
+                "profile_export_notes": "Notas",
+                "onboarding_welcome_title": "Bem-vindo à Universidade Livre",
+                "onboarding_welcome_text": "Uma plataforma de educação autodidata, gratuita e aberta para todos.",
+                "onboarding_about_title": "Sobre o projeto",
+                "onboarding_about_text": "A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.",
+                "onboarding_form_title": "Crie seu perfil",
+                "onboarding_form_name_label": "Nome",
+                "onboarding_form_name_placeholder": "Digite seu nome",
+                "onboarding_form_gender_label": "Gênero",
+                "onboarding_form_gender_not_informed": "Não informado",
+                "onboarding_form_gender_masculine": "Masculino",
+                "onboarding_form_gender_feminine": "Feminino",
+                "onboarding_form_gender_other": "Outro",
+                "onboarding_form_username_label": "Nome de usuário (opcional)",
+                "onboarding_form_username_placeholder": "Escolha um apelido",
+                "onboarding_confirm_title": "Pronto para começar!",
+                "onboarding_confirm_text": "Seu perfil foi criado. Explore os cursos, participe da comunidade e comece sua jornada de aprendizado.",
+                "onboarding_button_start": "Começar agora",
+                "onboarding_button_next": "Próximo",
+                "onboarding_button_prev": "Voltar",
+                "onboarding_button_finish": "Concluir",
+                "onboarding_error_name_required": "O nome é obrigatório."
             };
             console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
             return false;
@@ -174,6 +275,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'idiomas': 'Idiomas',
                 'subject_tecnologia': 'Tecnologia',
                 'subject_ciencia': 'Ciência',
+                'subject_matematica': 'Matemática',
+                'profile': 'Perfil'
             };
             if (hardcoded[key]) text = hardcoded[key];
             else console.warn(`[i18n] Chave não encontrada: ${key}`);
@@ -207,7 +310,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         console.log('[i18n] Aplicando traduções aos elementos estáticos e dinâmicos');
+
         document.querySelectorAll('[data-i18n]').forEach(el => {
+            // PULAR O BOTÃO DE PERFIL SE JÁ FOI PERSONALIZADO
+            if (el.id === 'profileBtn') {
+                const hasImage = el.querySelector('img') !== null;
+                const hasInitials = el.querySelector('.profile-initials') !== null;
+                if (hasImage || hasInitials || el.getAttribute('data-profile-custom') === 'true') {
+                    return;
+                }
+            }
             const key = el.getAttribute('data-i18n');
             if (key && translations[key]) {
                 if (el.tagName === 'INPUT' && el.placeholder !== undefined) {
@@ -268,6 +380,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (practiceSearch && practiceSearch.placeholder !== t('search_practice_placeholder')) {
             practiceSearch.placeholder = t('search_practice_placeholder');
         }
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            const hasImage = profileBtn.querySelector('img') !== null;
+            const hasInitials = profileBtn.querySelector('.profile-initials') !== null;
+            const hasCustomContent = hasImage || hasInitials || profileBtn.getAttribute('data-profile-custom') === 'true';
+            if (!hasCustomContent) {
+                profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+                profileBtn.setAttribute('data-profile-custom', 'false');
+            }
+        }
+    }
+
+    function applyAllModuleTranslations() {
+        if (window.updateProfileTranslations && typeof window.updateProfileTranslations === 'function') {
+            window.updateProfileTranslations();
+        }
+        if (window.updateReadButtonTranslation && typeof window.updateReadButtonTranslation === 'function') {
+            window.updateReadButtonTranslation();
+        }
+        if (window.NoteApp && window.NoteApp.I18n && typeof window.NoteApp.I18n.applyTranslations === 'function') {
+            window.NoteApp.I18n.applyTranslations();
+        }
+        if (window.applyTranslationsToUI && typeof window.applyTranslationsToUI === 'function') {
+            window.applyTranslationsToUI();
+        }
+        applyTranslations();
     }
 
     async function setLanguage(lang) {
@@ -283,38 +421,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem('selectedLanguage', lang);
             applyTranslations();
             updateLanguageSelector(lang);
-            if (typeof currentCourse !== 'undefined' && currentCourse) {
-                console.log('[i18n] Recarregando conteúdos dinâmicos do curso');
-                if (typeof renderCurrentLessonPanel === 'function') renderCurrentLessonPanel();
-                if (typeof renderUnifiedCourseContent === 'function') renderUnifiedCourseContent();
-                if (activeTab === 'bibliografia' && typeof renderBooksFilteredByDiscipline === 'function') {
-                    await renderBooksFilteredByDiscipline(currentDiscipline);
-                } else if (activeTab === 'contributors' && typeof renderContributorsTab === 'function') {
-                    await renderContributorsTab();
-                } else if (activeTab === 'license' && typeof renderLicenseTab === 'function') {
-                    await renderLicenseTab();
-                } else if (activeTab === 'team') {
-                    const teamGrid = document.getElementById('team-grid');
-                    if (teamGrid && typeof loadTeamAndContributors === 'function') {
-                        await loadTeamAndContributors(currentCourse);
-                    }
-                } else if (activeTab === 'pratica' && typeof currentPracticeData !== 'undefined' && currentPracticeData && typeof renderPracticeGrid === 'function') {
-                    renderPracticeGrid(currentPracticeData);
-                }
-            }
-            const homeScreen = document.getElementById('homeScreen');
-            if (homeScreen && homeScreen.style.display !== 'none') {
-                await renderCourseCards();
-            }
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
             setTimeout(() => {
-                if (typeof applyTranslations === 'function') applyTranslations();
-            }, 100);
+                applyAllModuleTranslations();
+                if (typeof currentCourse !== 'undefined' && currentCourse) {
+                    console.log('[i18n] Recarregando conteúdos dinâmicos do curso');
+                    if (typeof renderCurrentLessonPanel === 'function') renderCurrentLessonPanel();
+                    if (typeof renderUnifiedCourseContent === 'function') renderUnifiedCourseContent();
+                    if (activeTab === 'bibliografia' && typeof renderBooksFilteredByDiscipline === 'function') {
+                        renderBooksFilteredByDiscipline(currentDiscipline);
+                    } else if (activeTab === 'contributors' && typeof renderContributorsTab === 'function') {
+                        renderContributorsTab();
+                    } else if (activeTab === 'license' && typeof renderLicenseTab === 'function') {
+                        renderLicenseTab();
+                    } else if (activeTab === 'team') {
+                        const teamGrid = document.getElementById('team-grid');
+                        if (teamGrid && typeof loadTeamAndContributors === 'function') {
+                            loadTeamAndContributors(currentCourse);
+                        }
+                    } else if (activeTab === 'pratica' && typeof currentPracticeData !== 'undefined' && currentPracticeData && typeof renderPracticeGrid === 'function') {
+                        renderPracticeGrid(currentPracticeData);
+                    }
+                }
+                const homeScreen = document.getElementById('homeScreen');
+                if (homeScreen && homeScreen.style.display !== 'none') {
+                    renderCourseCards();
+                }
+            }, 150);
             console.log('[i18n] Idioma alterado com sucesso para', lang);
         } else {
             console.error('[i18n] Falha ao carregar traduções, idioma não alterado');
         }
     }
+
+    // Expor setLanguage globalmente para que os módulos possam usá-lo
+    window.setLanguage = setLanguage;
 
     const langPtBtn = document.getElementById('langPtBtn');
     const langEnBtn = document.getElementById('langEnBtn');
@@ -374,7 +515,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
 
-    // ========== CARGA HORÁRIA DOS CURSOS (CÁLCULO TOTAL) ==========
+    // ========== CARGA HORÁRIA DOS CURSOS ==========
     const courseDurationCache = new Map();
 
     async function computeCourseTotalMinutes(courseId) {
@@ -394,7 +535,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
             'ingles': 'cursos/idiomas/ingles/ingles-data.json',
             'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json'
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+            'japones': 'cursos/idiomas/japones/japones-data.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -434,7 +578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${hours}h ${mins}min`;
     }
 
-    // ========== NOTIFICAÇÕES ANIMADAS ==========
+    // ========== NOTIFICAÇÕES ==========
     function showNotification(message, type = 'info') {
         const container = document.getElementById('notificationContainer');
         if (!container) return;
@@ -445,7 +589,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             background: var(--bg-card);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-left: 4px solid ${type === 'success' ? '#4ADE80' : '#6C8CFF'};
+            border-left: 4px solid ${type === 'success' ? '#10b981' : '#6C8CFF'};
             border-radius: 16px;
             padding: 16px 24px;
             box-shadow: var(--card-shadow), var(--shadow-glow);
@@ -505,6 +649,72 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // ========== IMAGENS DOS CURSOS ==========
+    const imageCache = new Map();
+
+    function getCourseImagePath(courseId) {
+        const folderMap = {
+            'computacao': 'cursos/graduacao/ciencia-computacao/',
+            'matematica': 'cursos/graduacao/matematica/',
+            'computer-science': 'cursos/graduacao/computer-science/',
+            'math': 'cursos/graduacao/math/',
+            'computacao_grafica': 'cursos/pos-graduacao/computacao-grafica/',
+            'embarcados': 'cursos/pos-graduacao/embarcados/',
+            'desenvolvimento_web': 'cursos/pos-graduacao/desenvolvimento-web/',
+            'cybersecurity': 'cursos/pos-graduacao/cybersecurity/',
+            'devops': 'cursos/pos-graduacao/devops/',
+            'ciencia_de_dados': 'cursos/pos-graduacao/ciencia-de-dados/',
+            'enem': 'cursos/ensino-medio/enem/',
+            'espcex': 'cursos/ensino-medio/espcex/',
+            'ingles': 'cursos/idiomas/ingles/',
+            'espanhol': 'cursos/idiomas/espanhol/',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/',
+            'japones': 'cursos/idiomas/japones/',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/'
+        };
+        const basePath = folderMap[courseId] || '';
+        if (basePath) {
+            return `${basePath}imagen-card.png`;
+        }
+        return 'cursos/imagen-card.png';
+    }
+
+    async function imageExists(url) {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            return response.ok;
+        } catch {
+            return false;
+        }
+    }
+
+    async function getCourseImageUrl(courseId) {
+        if (imageCache.has(courseId)) return imageCache.get(courseId);
+
+        const specificPath = getCourseImagePath(courseId);
+        const fallbackPath = 'cursos/imagen-card.png';
+        let finalUrl = fallbackPath;
+
+        try {
+            const specificExists = await imageExists(specificPath);
+            if (specificExists) {
+                finalUrl = specificPath;
+            } else {
+                const fallbackExists = await imageExists(fallbackPath);
+                if (!fallbackExists) {
+                    finalUrl = `https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(courseId)}`;
+                }
+            }
+        } catch (error) {
+            console.warn(`[Image] Erro ao verificar imagem para ${courseId}:`, error);
+            finalUrl = `https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(courseId)}`;
+        }
+
+        imageCache.set(courseId, finalUrl);
+        return finalUrl;
+    }
+
     // ========== CARREGAMENTO DE DADOS ==========
     async function loadCourseData(courseId) {
         const courseMap = {
@@ -522,7 +732,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
             'ingles': 'cursos/idiomas/ingles/ingles-data.json',
             'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json'
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+            'japones': 'cursos/idiomas/japones/japones-data.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -569,7 +782,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
             'ingles': 'cursos/idiomas/ingles/team-ingles.json',
             'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json'
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
+            'japones': 'cursos/idiomas/japones/team-japones.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -617,7 +833,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espcex': 'cursos/ensino-medio/espcex/espcex-books.json',
             'ingles': 'cursos/idiomas/ingles/ingles-books.json',
             'espanhol': 'cursos/idiomas/espanhol/espanhol-books.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-books.json'
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-books.json',
+            'japones': 'cursos/idiomas/japones/japones-books.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-books.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-books.json'
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -886,6 +1105,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateGlobalStats();
         updatePracticeTabVisibility();
         if (typeof renderProgressChart === 'function') renderProgressChart();
+        if (document.getElementById('profileModal') && document.getElementById('profileModal').style.display === 'flex') {
+            if (window.updateProfileModal) window.updateProfileModal();
+        }
     }
 
     function updateGlobalStats() {
@@ -1305,7 +1527,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
             'ingles': 'cursos/idiomas/ingles/team-ingles.json',
             'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json'
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
+            'japones': 'cursos/idiomas/japones/team-japones.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -1355,7 +1580,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (e) {}
         if (!practiceData) {
             try {
-                const globalResponse = await fetch('cursos/pratica/practice-global.json');
+                const globalResponse = await fetch('pratica/practice-global.json');
                 if (globalResponse.ok) {
                     practiceData = await globalResponse.json();
                 } else {
@@ -1509,7 +1734,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tabBtns.forEach(btn => btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab'))));
     }
 
-    // ========== YOUTUBE PLAYER (COM CORREÇÃO) ==========
+    // ========== YOUTUBE PLAYER ==========
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('youtube-player', {
             height: '100%',
@@ -1520,7 +1745,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 modestbranding: 1,
                 rel: 0,
                 origin: window.location.origin,
-                host: 'https://www.youtube.com'   // ← Correção para evitar erro de postMessage
+                host: 'https://www.youtube.com'
             },
             events: {
                 onReady: () => {
@@ -1602,80 +1827,88 @@ document.addEventListener('DOMContentLoaded', async () => {
         observeAnimateElements();
     }
 
-    // ========== NAVEGAÇÃO COM ANIMAÇÃO ==========
+    // ========== NAVEGAÇÃO ==========
     async function openCourse(courseId) {
-        const courseData = await loadCourseData(courseId);
-        if (!courseData) return;
-        const courseInfo = allCourses.find(c => c.id === courseId);
-        currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
-        currentCourse = courseId;
-        initCourse(courseData);
-        const homeScreen = document.getElementById("homeScreen");
-        const courseView = document.getElementById("courseView");
-        const homeFilters = document.getElementById('homeFilters');
-
-        // Animar saída da home
-        homeScreen.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        homeScreen.style.opacity = '0';
-        homeScreen.style.transform = 'scale(0.96)';
-
-        setTimeout(() => {
-            homeScreen.style.display = 'none';
-            if (homeFilters) homeFilters.style.display = 'none';
-
-            // Animar entrada do curso
-            courseView.style.display = 'block';
-            courseView.style.opacity = '0';
-            courseView.style.transform = 'translateY(24px)';
-            courseView.classList.add('active');
-
-            void courseView.offsetHeight;
-
-            courseView.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            courseView.style.opacity = '1';
-            courseView.style.transform = 'translateY(0)';
-        }, 400);
-
-        loadTeamAndContributors(courseId);
-        if (window.setCurrentCourseForHelp) window.setCurrentCourseForHelp(courseId);
-        await loadLibraryBooks();
-        if (window.CursorTimeset) {
-            window.CursorTimeset.registerGraduationEntry(courseId);
-        }
-        if (practiceTabButton) practiceTabButton.style.display = 'inline-flex';
-        if (practiceTabContent) practiceTabContent.style.display = 'block';
-        const currentLesson = lessons[currentLessonId];
-        if (currentLesson && currentLesson.videos[0]) currentDiscipline = currentLesson.videos[0].title.split(' - ')[0];
-        else {
-            const books = await loadBooksForCourse(courseId);
-            if (books && books.length > 0) {
-                for (let stage of stagesData) {
-                    for (let disc of stage.disciplines) {
-                        if (books.some(book => normalize(book.discipline) === normalize(disc.name))) {
-                            currentDiscipline = disc.name;
-                            break;
-                        }
-                    }
-                    if (currentDiscipline) break;
-                }
+        console.log('[openCourse] Tentando abrir curso:', courseId);
+        try {
+            const courseData = await loadCourseData(courseId);
+            if (!courseData) {
+                console.error('[openCourse] Dados do curso não carregados para:', courseId);
+                alert('Não foi possível carregar os dados do curso. Tente novamente.');
+                return;
             }
-            if (!currentDiscipline && stagesData[0]?.disciplines[0]) currentDiscipline = stagesData[0].disciplines[0].name;
+            const courseInfo = allCourses.find(c => c.id === courseId);
+            currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
+            currentCourse = courseId;
+            initCourse(courseData);
+            const homeScreen = document.getElementById("homeScreen");
+            const courseView = document.getElementById("courseView");
+            const homeFilters = document.getElementById('homeFilters');
+
+            homeScreen.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            homeScreen.style.opacity = '0';
+            homeScreen.style.transform = 'scale(0.96)';
+
+            setTimeout(() => {
+                homeScreen.style.display = 'none';
+                if (homeFilters) homeFilters.style.display = 'none';
+
+                courseView.style.display = 'block';
+                courseView.style.opacity = '0';
+                courseView.style.transform = 'translateY(24px)';
+                courseView.classList.add('active');
+
+                void courseView.offsetHeight;
+
+                courseView.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                courseView.style.opacity = '1';
+                courseView.style.transform = 'translateY(0)';
+            }, 400);
+
+            loadTeamAndContributors(courseId);
+            if (window.setCurrentCourseForHelp) window.setCurrentCourseForHelp(courseId);
+            await loadLibraryBooks();
+            if (window.CursorTimeset) {
+                window.CursorTimeset.registerGraduationEntry(courseId);
+            }
+            if (practiceTabButton) practiceTabButton.style.display = 'inline-flex';
+            if (practiceTabContent) practiceTabContent.style.display = 'block';
+            const currentLesson = lessons[currentLessonId];
+            if (currentLesson && currentLesson.videos[0]) currentDiscipline = currentLesson.videos[0].title.split(' - ')[0];
+            else {
+                const books = await loadBooksForCourse(courseId);
+                if (books && books.length > 0) {
+                    for (let stage of stagesData) {
+                        for (let disc of stage.disciplines) {
+                            if (books.some(book => normalize(book.discipline) === normalize(disc.name))) {
+                                currentDiscipline = disc.name;
+                                break;
+                            }
+                        }
+                        if (currentDiscipline) break;
+                    }
+                }
+                if (!currentDiscipline && stagesData[0]?.disciplines[0]) currentDiscipline = stagesData[0].disciplines[0].name;
+            }
+            if (!currentDiscipline) ensureCurrentDiscipline();
+            renderUnifiedCourseContent();
+            expandCurrentLessonInUnifiedContent();
+            renderCurrentLessonPanel();
+            activeTab = 'bibliografia';
+            activateTab('bibliografia');
+            const introDisplayed = window.checkCourseIntro && window.checkCourseIntro(courseId);
+            if (introDisplayed) window.onIntroClosed = () => { startLesson(); window.onIntroClosed = null; };
+            else startLesson();
+            updateNotificationPosition();
+            updatePracticeTabVisibility();
+            renderProgressChart();
+            setTimeout(() => {
+                if (typeof applyTranslations === 'function') applyTranslations();
+            }, 100);
+        } catch (error) {
+            console.error('[openCourse] Erro ao abrir curso:', error);
+            alert('Ocorreu um erro ao abrir o curso. Tente novamente.');
         }
-        if (!currentDiscipline) ensureCurrentDiscipline();
-        renderUnifiedCourseContent();
-        expandCurrentLessonInUnifiedContent();
-        renderCurrentLessonPanel();
-        activeTab = 'bibliografia';
-        activateTab('bibliografia');
-        const introDisplayed = window.checkCourseIntro && window.checkCourseIntro(courseId);
-        if (introDisplayed) window.onIntroClosed = () => { startLesson(); window.onIntroClosed = null; };
-        else startLesson();
-        updateNotificationPosition();
-        updatePracticeTabVisibility();
-        renderProgressChart();
-        setTimeout(() => {
-            if (typeof applyTranslations === 'function') applyTranslations();
-        }, 100);
     }
 
     function backToHome() {
@@ -1686,7 +1919,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const courseView = document.getElementById("courseView");
         const homeFilters = document.getElementById('homeFilters');
 
-        // Animar saída do curso
         courseView.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
         courseView.style.opacity = '0';
         courseView.style.transform = 'translateY(20px)';
@@ -1716,7 +1948,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (updateInterval) clearInterval(updateInterval);
     }
 
-    // ========== ANIMAÇÕES MODERNAS ==========
+    // ========== ANIMAÇÕES ==========
     function observeAnimateElements() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1755,7 +1987,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== FILTROS DA PÁGINA INICIAL ==========
     let currentLevelFilter = 'all';
-    let currentSearchTerm = '';
+    let currentSearchTermHome = '';
 
     async function renderCourseCards() {
         const homeScreen = document.getElementById('homeScreen');
@@ -1773,7 +2005,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        const searchTerm = currentSearchTerm.trim().toLowerCase();
+        const searchTerm = currentSearchTermHome.trim().toLowerCase();
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
         const filteredCourses = allCourses.filter(course => {
@@ -1799,7 +2031,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.className = 'course-card animate-in';
             card.dataset.course = course.id;
 
-            const iconHtml = `<div class="course-icon"><i class="fas ${course.icon}"></i></div>`;
+            const imageUrl = await getCourseImageUrl(course.id);
 
             let levelText = '';
             let typeText = '';
@@ -1835,21 +2067,36 @@ document.addEventListener('DOMContentLoaded', async () => {
             const totalMinutes = await computeCourseTotalMinutes(course.id);
             const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
 
-            card.innerHTML = `${iconHtml}<h2>${escapeHtml(course.name)}</h2>
-                             <div class="course-badges">${levelBadge}${typeBadge}</div>
-                             ${roomHtml}${descHtml}
-                             ${durationText}
-                             <div class="course-progress-bar">
-                                <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
-                             </div>
-                             <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
-                             <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>`;
+            card.innerHTML = `
+                <div class="course-image-wrapper">
+                    <img class="course-image" src="${imageUrl}" alt="${escapeHtml(course.name)}" 
+                         onerror="this.src='${await getCourseImageUrl(course.id)}'">
+                </div>
+                <h2>${escapeHtml(course.name)}</h2>
+                <div class="course-badges">${levelBadge}${typeBadge}</div>
+                ${roomHtml}${descHtml}
+                ${durationText}
+                <div class="course-progress-bar">
+                    <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+                </div>
+                <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
+                <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>
+            `;
 
             card.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('continue-btn')) openCourse(course.id);
+                console.log('[Course Card] Clique detectado no card:', course.id);
+                if (!e.target.classList.contains('continue-btn')) {
+                    openCourse(course.id);
+                }
             });
             const btn = card.querySelector('.continue-btn');
-            if (btn) btn.addEventListener('click', () => openCourse(course.id));
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    console.log('[Course Card] Clique no botão:', course.id);
+                    openCourse(course.id);
+                });
+            }
             homeScreen.appendChild(card);
         }
         applyTranslations();
@@ -1863,7 +2110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
-                currentSearchTerm = searchInput.value;
+                currentSearchTermHome = searchInput.value;
                 renderCourseCards();
             }, 300));
         }
@@ -1878,6 +2125,43 @@ document.addEventListener('DOMContentLoaded', async () => {
                     renderCourseCards();
                 });
             });
+        }
+    }
+
+    // ========== PERFIL ==========
+    function initProfile() {
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', () => {
+                if (window.openProfileModal) {
+                    window.openProfileModal();
+                } else {
+                    const modal = document.getElementById('profileModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        if (window.updateProfileModal) window.updateProfileModal();
+                    }
+                }
+            });
+        }
+    }
+
+    // ========== ONBOARDING ==========
+    function initOnboarding() {
+        // Verificar se deve mostrar a trilha de boas-vindas
+        const onboardingComplete = localStorage.getItem('ulivre_onboarding_complete');
+        const hasName = localStorage.getItem('userProfileName');
+        if (!onboardingComplete || !hasName) {
+            // Aguardar um pouco para a página carregar totalmente
+            setTimeout(() => {
+                if (window.startOnboarding) {
+                    window.startOnboarding();
+                } else {
+                    console.warn('[Main] Módulo onboarding não encontrado.');
+                }
+            }, 800);
+        } else {
+            console.log('[Main] Onboarding já concluído e perfil preenchido.');
         }
     }
 
@@ -1905,6 +2189,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await renderCourseCards();
     initHomeFilters();
     applyTranslations();
+    initProfile();
+    initOnboarding();
 
     const backToHomeBtn = document.getElementById("backToHomeBtn");
     if (backToHomeBtn) backToHomeBtn.addEventListener("click", backToHome);
@@ -1968,12 +2254,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     loadSavedVolume();
 
-    // ========== INICIALIZAÇÃO DO PLAYER ==========
-    // A função onYouTubeIframeAPIReady é chamada globalmente quando a API carrega
-    // Ela está definida acima com a correção do host
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
-    // Se a API já estiver carregada, chama diretamente
     if (typeof YT !== 'undefined' && YT.loaded) {
         onYouTubeIframeAPIReady();
     }
@@ -1981,18 +2263,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTabs();
     bindNotificationPositionUpdates();
 
-    // ========== OBSERVAR ELEMENTOS DINÂMICOS ==========
     observeAnimateElements();
     initParallaxCards();
 
-    // Reobservar quando a página for alterada
     const observer = new MutationObserver(() => {
         observeAnimateElements();
         initParallaxCards();
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    console.log('[Main] Inicialização concluída com animações modernas');
+    console.log('[Main] Inicialização concluída com animações modernas, imagens nos cards e sistema de perfil');
+
+    window.addEventListener('languageChanged', function() {
+        applyAllModuleTranslations();
+        if (typeof currentCourse !== 'undefined' && currentCourse) {
+            renderCurrentLessonPanel();
+            renderUnifiedCourseContent();
+            if (activeTab === 'bibliografia' && typeof renderBooksFilteredByDiscipline === 'function') {
+                renderBooksFilteredByDiscipline(currentDiscipline);
+            } else if (activeTab === 'contributors' && typeof renderContributorsTab === 'function') {
+                renderContributorsTab();
+            } else if (activeTab === 'license' && typeof renderLicenseTab === 'function') {
+                renderLicenseTab();
+            } else if (activeTab === 'team') {
+                const teamGrid = document.getElementById('team-grid');
+                if (teamGrid && typeof loadTeamAndContributors === 'function') {
+                    loadTeamAndContributors(currentCourse);
+                }
+            } else if (activeTab === 'pratica' && typeof currentPracticeData !== 'undefined' && currentPracticeData && typeof renderPracticeGrid === 'function') {
+                renderPracticeGrid(currentPracticeData);
+            }
+        }
+        const homeScreen = document.getElementById('homeScreen');
+        if (homeScreen && homeScreen.style.display !== 'none') {
+            renderCourseCards();
+        }
+    });
 });
 
 // ========== MODAL DE CONCLUSÃO ==========

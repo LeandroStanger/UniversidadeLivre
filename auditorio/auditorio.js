@@ -1,10 +1,14 @@
-// auditorio/auditorio.js – Player YouTube + YouTube Data API v3
+// auditorio/auditorio.js – Versão 4.9 – CORREÇÃO DE TRADUÇÃO COM FALLBACK EMBUTIDO
+// Player YouTube + YouTube Data API v3
 // Com Shorts, categorias temáticas, prioridade de idioma, lives e podcasts
-// Filtro por canais via canais.json
+// Filtro por canais via canais.json (fallback se não encontrado)
 // Tratamento de cota excedida e cache de 24h
-// Tradução completa via i18n
-// Sistema de decisão automática para Shorts
-// Detecção de idioma ultracompleta (60+ idiomas)
+// Tradução completa via i18n com escuta do evento languageChanged
+// CORREÇÃO: Caminho absoluto para arquivos de tradução (/lang/)
+// CORREÇÃO: Fallback inline para inglês e português caso o JSON não carregue
+// CORREÇÃO: applyTranslationsToUI() chamada após cada mudança de idioma
+// CORREÇÃO: Reconstrução forçada dos chips após refreshAllItems()
+// CORREÇÃO: Garantia de que o título da página e os placeholders sejam traduzidos
 
 // ========== VARIÁVEIS GLOBAIS ==========
 let allVideos = [];
@@ -33,9 +37,63 @@ const languageCache = new Map();
 // ========== CONTROLE DE COTA ==========
 let apiQuotaExceeded = false;
 
+// ========== CONTADOR DE HORAS ASSISTIDAS ==========
+const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+let totalWatchTime = 0;
+let watchInterval = null;
+let isWatching = false;
+
+function loadWatchTime() {
+    const saved = localStorage.getItem(AUDITORIO_TIME_KEY);
+    if (saved) {
+        totalWatchTime = parseInt(saved, 10) || 0;
+    }
+    return totalWatchTime;
+}
+
+function saveWatchTime() {
+    localStorage.setItem(AUDITORIO_TIME_KEY, totalWatchTime.toString());
+    try {
+        const event = new CustomEvent('auditorioTimeUpdated', {
+            detail: { seconds: totalWatchTime }
+        });
+        window.dispatchEvent(event);
+    } catch (e) {}
+    try {
+        const storageEvent = new StorageEvent('storage', {
+            key: AUDITORIO_TIME_KEY,
+            newValue: totalWatchTime.toString()
+        });
+        window.dispatchEvent(storageEvent);
+    } catch (e) {}
+}
+
+function startWatchTimer() {
+    if (watchInterval) return;
+    isWatching = true;
+    watchInterval = setInterval(() => {
+        if (isWatching && player && playerReady && player.getPlayerState) {
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                totalWatchTime += 1;
+                if (totalWatchTime % 10 === 0) saveWatchTime();
+            }
+        }
+    }, 1000);
+}
+
+function stopWatchTimer() {
+    isWatching = false;
+    if (watchInterval) {
+        clearInterval(watchInterval);
+        watchInterval = null;
+    }
+    saveWatchTime();
+}
+
 // ========== CONFIGURAÇÕES DE APIs ==========
 const YOUTUBE_CONFIG = {
-    apiKey: 'AIzaSyATrKdi9UhEG1d8g0jXu-M6K0UihV91Vwk'
+    apiKey: 'YOUR_YOUTUBE_API_KEY'
 };
 
 const cache = new Map();
@@ -43,7 +101,7 @@ const CACHE_TTL = 24 * 60 * 60 * 1000;
 
 let channelFilters = { video: [], podcast: [], live: [], shorts: [] };
 
-// ========== SUPRESSÃO TOTAL DE LOGS DO YOUTUBE ==========
+// ========== SUPRESSÃO DE LOGS ESPECÍFICOS DO YOUTUBE ==========
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
 
@@ -74,80 +132,178 @@ function getCachedOrFetch(cacheKey, fetchFn, ttl = CACHE_TTL) {
     return fetchFn().then(data => { cache.set(cacheKey, { data, timestamp: Date.now() }); return data; });
 }
 
-// ========== I18N ==========
+// ========== I18N COM FALLBACK INLINE ==========
+// Definição dos fallbacks completos para pt-br e en
+const FALLBACK_PT = {
+    "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
+    "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
+    "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
+    "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
+    "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
+    "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
+    "subject_shorts": "Shorts", "subject_outros": "Outros",
+    "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
+    "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
+    "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
+    "lang_undefined": "Indefinido",
+    "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
+    "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
+    "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
+    "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
+    "filter_by_language": "Filtrar por idioma:", 
+    "auditorio_page_title": "Auditório · Universidade Livre",
+    "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
+    "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
+    "type_live": "Lives", "type_shorts": "Shorts", "items": "itens",
+    "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
+    "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado.",
+    "profile": "Perfil", "notas_heading": "Notas"
+};
+
+const FALLBACK_EN = {
+    "subject_tecnologia": "Technology", "subject_ciencia": "Science", "subject_matematica": "Mathematics",
+    "subject_historia": "History", "subject_literatura": "Literature", "subject_filosofia": "Philosophy",
+    "subject_psicologia": "Psychology", "subject_economia": "Economics", "subject_politica": "Politics",
+    "subject_saude": "Health", "subject_educacao": "Education", "subject_arte": "Art",
+    "subject_esportes": "Sports", "subject_negocios": "Business", "subject_viagem": "Travel",
+    "subject_religiao": "Religion", "subject_autoajuda": "Self-help", "subject_culinaria": "Cooking",
+    "subject_shorts": "Shorts", "subject_outros": "Others",
+    "lang_pt": "Portuguese", "lang_en": "English", "lang_es": "Spanish", "lang_fr": "French",
+    "lang_de": "German", "lang_it": "Italian", "lang_ja": "Japanese", "lang_zh": "Chinese",
+    "lang_ko": "Korean", "lang_ru": "Russian", "lang_ar": "Arabic", "lang_hi": "Hindi",
+    "lang_undefined": "Undefined",
+    "badge_live": "LIVE", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
+    "auditorio_description": "Educational videos selected by the community.",
+    "no_videos": "No items found.", "search_videos_placeholder": "Search videos or podcasts...",
+    "random_btn": "Random", "filter_by_type": "Filter by type:", "filter_by_subject": "Filter by subject:",
+    "filter_by_language": "Filter by language:",
+    "auditorio_page_title": "Auditorium · Open University",
+    "player_fallback_active": "⚠️ Simplified player active.", "retry_player": "Try full player",
+    "loading": "Loading...", "all": "All", "type_video": "Videos", "type_podcast": "Podcasts",
+    "type_live": "Lives", "type_shorts": "Shorts", "items": "items",
+    "player_error_generic": "Player error.", "player_error_removed": "Video removed.",
+    "player_error_issue": "Player issue.", "player_error_not_found": "Video not found.",
+    "profile": "Profile", "notas_heading": "Notes"
+};
+
 async function loadTranslations(lang) {
-    try {
-        const response = await fetch(`../lang/${lang}.json`);
-        if (!response.ok) throw new Error();
-        translations = await response.json();
-        return true;
-    } catch {
-        if (lang !== 'pt-br') return loadTranslations('pt-br');
-        translations = {
-            "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
-            "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
-            "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
-            "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
-            "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
-            "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
-            "subject_shorts": "Shorts", "subject_outros": "Outros",
-            "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
-            "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
-            "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
-            "lang_undefined": "Indefinido",
-            "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-            "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
-            "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
-            "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
-            "filter_by_language": "Filtrar por idioma:", "app_title": "Auditório · Universidade Livre",
-            "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
-            "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
-            "type_live": "Lives", "type_shorts": "Shorts", "items": "itens", "playlist_empty": "Fila vazia",
-            "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
-            "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado."
-        };
-        return false;
+    // Prioriza caminho absoluto a partir da raiz
+    const paths = [
+        `/lang/${lang}.json`,
+        `../lang/${lang}.json`,
+        `lang/${lang}.json`,
+        `./lang/${lang}.json`
+    ];
+    for (const path of paths) {
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                translations = await response.json();
+                console.log(`[Auditório] Traduções carregadas de ${path}`);
+                return true;
+            }
+        } catch (e) { /* continua */ }
     }
+    // Fallback inline caso o JSON não seja encontrado
+    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
+    translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
+    return false;
 }
 
-function t(key, fallback = '') { return translations[key] || fallback || key; }
+function t(key, fallback = '') {
+    return translations[key] || fallback || key;
+}
+
 function getSubjectName(subject) { return t(`subject_${subject}`, subject); }
 function getLanguageName(langCode) { return t(`lang_${langCode}`, langCode?.toUpperCase() || 'Indefinido'); }
 
+function updateLanguageSelector(lang) {
+    const ptBtn = document.getElementById('langPtBtn');
+    const enBtn = document.getElementById('langEnBtn');
+    if (ptBtn && enBtn) {
+        ptBtn.classList.toggle('active', lang === 'pt-br');
+        enBtn.classList.toggle('active', lang === 'en');
+    }
+}
+
 function applyTranslationsToUI() {
+    // Atualiza elementos com data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[key]) {
-            if (el.tagName === 'INPUT') el.placeholder = translations[key];
-            else el.innerText = translations[key];
+            if (el.tagName === 'INPUT') {
+                el.placeholder = translations[key];
+            } else {
+                el.innerText = translations[key];
+            }
         }
     });
-    document.title = t('app_title');
+    // Título da página
+    document.title = t('auditorio_page_title');
+    // Barra de pesquisa
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.placeholder = t('search_videos_placeholder');
+    // Botão aleatório
     const randomBtn = document.querySelector('#randomVideoBtn span');
     if (randomBtn) randomBtn.innerText = t('random_btn');
+    // Rótulos dos filtros
     const typeFilterSpan = document.querySelector('.type-filter span');
     if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type');
     const subjectFilterSpan = document.querySelector('.subject-filter span');
     if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject');
     const languageFilterSpan = document.querySelector('.language-filter span');
     if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language');
+    // Perfil
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+    }
+    // Notas
+    const notasLink = document.querySelector('a[href="../notas/notas.html"]');
+    if (notasLink) {
+        const span = notasLink.querySelector('span');
+        if (span) span.innerText = t('notas_heading');
+        else {
+            const icon = notasLink.querySelector('i');
+            notasLink.innerHTML = '';
+            if (icon) notasLink.appendChild(icon);
+            const newSpan = document.createElement('span');
+            newSpan.setAttribute('data-i18n', 'notas_heading');
+            newSpan.innerText = t('notas_heading');
+            notasLink.appendChild(newSpan);
+        }
+    }
+    console.log('[Auditório] Traduções aplicadas.');
 }
 
 // ========== SISTEMA DE DECISÃO AUTOMÁTICA PARA SHORTS ==========
 function isShortVideo(item) {
-    let score = 0;
+    if (item.type === 'shorts') return true;
     if (item.url && item.url.includes('/shorts/')) return true;
     if (item.categoryId && (item.categoryId === '42' || item.categoryId === '43')) return true;
+
+    let score = 0;
     if (item.duration !== undefined && item.duration <= 60) score += 40;
+
     const title = (item.title || '').toLowerCase();
-    if (title.includes('#shorts') || title.includes('#short')) score += 30;
-    if (title.includes('shorts') || title.includes('short')) score += 15;
     const desc = (item.description || '').toLowerCase();
+
+    if (title.includes('#shorts') || title.includes('#short')) score += 35;
     if (desc.includes('#shorts') || desc.includes('#short')) score += 15;
-    const shortKeywords = ['curto', 'rápido', 'rapido', 'short', 'shorts'];
-    if (shortKeywords.some(kw => title.includes(kw))) score += 5;
+    if (title.includes('shorts') || title.includes('short')) score += 25;
+    if (desc.includes('shorts') || desc.includes('short')) score += 10;
+
+    const shortKeywords = ['curto', 'curta', 'rápido', 'rapido', 'shorts', 'short'];
+    if (shortKeywords.some(kw => title.includes(kw))) score += 10;
+    if (shortKeywords.some(kw => desc.includes(kw))) score += 5;
+
+    if (/#shorts/i.test(title)) score += 20;
+    if (/short/i.test(title) && !/long|extended|full/i.test(title)) score += 10;
+
+    if (item.duration !== undefined && item.duration <= 30 && !title.includes('podcast') && !title.includes('live')) {
+        score += 30;
+    }
+
     return score >= 40;
 }
 
@@ -215,16 +371,17 @@ function detectSubjectLocal(title, description) {
 }
 
 // ========== YOUTUBE API ==========
-async function searchYouTube(query, maxResults = 30, options = {}) {
-    if (apiQuotaExceeded) return [];
+async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
     const { apiKey } = YOUTUBE_CONFIG;
     if (!apiKey) return [];
-    const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
+    
     let searchTerm = query;
     if (podcastMode) searchTerm = `${query} podcast`;
-    if (liveMode) searchTerm = query;
-    if (shortsMode) searchTerm = `${query} shorts`;
-    const cacheKey = `yt_${normalizeText(searchTerm)}_${type}_${podcastMode}_${liveMode}_${shortsMode}_${maxResults}_${channelIds.join(',')}`;
+    else if (liveMode) searchTerm = query;
+    else if (shortsMode) searchTerm = `${query} shorts`;
+    
+    const cacheKey = `yt_${normalizeText(searchTerm)}_${type}_${podcastMode}_${liveMode}_${shortsMode}_${maxResults}_${channelId || 'none'}`;
+    
     return getCachedOrFetch(cacheKey, async () => {
         try {
             const url = new URL('https://www.googleapis.com/youtube/v3/search');
@@ -234,23 +391,39 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
             url.searchParams.append('maxResults', maxResults);
             url.searchParams.append('key', apiKey);
             url.searchParams.append('videoEmbeddable', 'true');
-            if (channelIds.length) url.searchParams.append('channelId', channelIds.join(','));
-            if (liveMode) { url.searchParams.append('eventType', 'live'); url.searchParams.append('type', 'video'); }
-            if (podcastMode) url.searchParams.append('videoDuration', 'long');
-            if (shortsMode) url.searchParams.append('videoDuration', 'short');
-            if (currentLanguageFilter !== 'all') url.searchParams.append('relevanceLanguage', currentLanguageFilter);
+            if (channelId) {
+                url.searchParams.append('channelId', channelId);
+            }
+            if (liveMode) {
+                url.searchParams.append('eventType', 'live');
+                url.searchParams.append('type', 'video');
+            }
+            if (podcastMode) {
+                url.searchParams.append('videoDuration', 'long');
+            }
+            if (shortsMode) {
+                url.searchParams.append('videoDuration', 'short');
+            }
+            if (currentLanguageFilter !== 'all') {
+                url.searchParams.append('relevanceLanguage', currentLanguageFilter);
+            }
+            
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
             const response = await fetch(url.toString(), { signal: controller.signal });
             clearTimeout(timeoutId);
+            
             if (!response.ok) {
                 const errorData = await response.json();
-                if (errorData.error?.message?.includes('quota')) apiQuotaExceeded = true;
+                if (errorData.error?.message?.includes('quota')) {
+                    apiQuotaExceeded = true;
+                }
                 return [];
             }
             const data = await response.json();
             const videoIds = data.items.map(item => item.id.videoId).filter(Boolean);
             const details = await fetchVideoDetails(videoIds);
+            
             return data.items.map(item => {
                 const snippet = item.snippet;
                 const videoId = item.id.videoId;
@@ -259,24 +432,71 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
                 if (liveMode) itemType = 'live';
                 else if (podcastMode) itemType = 'podcast';
                 else if (shortsMode) itemType = 'shorts';
+                
+                const tempItem = { title: snippet.title, description: snippet.description, url: `https://www.youtube.com/watch?v=${videoId}` };
+                if (isShortVideo(tempItem)) {
+                    itemType = 'shorts';
+                }
                 const language = detail.language || detectLanguageLocal(snippet.title, snippet.description);
                 const subject = detail.categoryId ? mapCategoryToSubject(detail.categoryId, detail.categoryTitle) : detectSubjectLocal(snippet.title, snippet.description);
-                const newItem = {
-                    id: `yt_${videoId}`, videoId, title: snippet.title, description: snippet.description,
+                return {
+                    id: `yt_${videoId}`,
+                    videoId,
+                    title: snippet.title,
+                    description: snippet.description,
                     thumbnail: snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url,
-                    type: itemType, subject, language, url: `https://www.youtube.com/watch?v=${videoId}`,
-                    source: 'YouTube', publishedAt: snippet.publishedAt, channelTitle: snippet.channelTitle,
-                    duration: detail.duration, categoryId: detail.categoryId,
-                    isLive: liveMode || snippet.liveBroadcastContent === 'live'
+                    type: itemType,
+                    subject,
+                    language,
+                    url: `https://www.youtube.com/watch?v=${videoId}`,
+                    source: 'YouTube',
+                    publishedAt: snippet.publishedAt,
+                    channelTitle: snippet.channelTitle,
+                    duration: detail.duration,
+                    categoryId: detail.categoryId,
+                    isLive: liveMode || snippet.liveBroadcastContent === 'live',
+                    isPlaylist: false
                 };
-                if (itemType !== 'shorts' && isShortVideo(newItem)) {
-                    newItem.type = 'shorts';
-                    newItem.isLive = false;
-                }
-                return newItem;
             });
-        } catch (e) { return []; }
+        } catch (e) {
+            return [];
+        }
     }, CACHE_TTL);
+}
+
+async function searchYouTube(query, maxResults = 30, options = {}) {
+    if (apiQuotaExceeded) return [];
+    const { apiKey } = YOUTUBE_CONFIG;
+    if (!apiKey) return [];
+    const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
+    
+    if (channelIds.length === 0) {
+        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: null });
+    }
+    
+    if (channelIds.length === 1) {
+        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: channelIds[0] });
+    }
+    
+    const resultsPerChannel = Math.ceil(maxResults / channelIds.length);
+    const allPromises = channelIds.map(channelId => 
+        performYouTubeSearch(query, resultsPerChannel, { type, podcastMode, liveMode, shortsMode, channelId })
+    );
+    
+    const allResponses = await Promise.allSettled(allPromises);
+    let combined = [];
+    for (const res of allResponses) {
+        if (res.status === 'fulfilled' && Array.isArray(res.value)) {
+            combined = combined.concat(res.value);
+        }
+    }
+    const seen = new Set();
+    const unique = combined.filter(item => {
+        if (seen.has(item.videoId)) return false;
+        seen.add(item.videoId);
+        return true;
+    });
+    return unique.slice(0, maxResults);
 }
 
 async function fetchVideoDetails(videoIds) {
@@ -320,13 +540,13 @@ async function fetchVideoDetails(videoIds) {
     }, CACHE_TTL * 2);
 }
 
-// ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA (60+ IDIOMAS) ==========
+// ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA ==========
 const LANG_STOPWORDS = {
     pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer dar ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
     en: 'the and for with you this are have from they know your can more about just like people time year good work life world english will was were been has had their them would could should make get see use tion sion ment ness'.split(' '),
     es: 'el la de y que en por con para como su sobre este esta usted años vida trabajo personas español los las se ha han está están era eran muy bien gracias hola ser tener hacer decir ir ver dar ción dad mente'.split(' '),
-    fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont était étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
-    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war waren wurde wurden sein haben werden können müssen sollen keit heit ung schaft'.split(' '),
+    fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont étaient étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
+    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurde wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
     it: 'il la di e che per con come su questo questa lei più anni vita lavoro persone italiano sono era erano stato stata essere avere fare dire andare vedere dare zione mento ità'.split(' '),
     ru: 'и в не на я что с по а он как его но из они за русский год жизнь это было были быть сказать мочь хотеть знать думать ность ение овать'.split(' '),
     zh: '的 了 是 我 不 在 人 有 他 这 中 大 来 上 国 为 子 你 说 中文 也 个 们 到 去 看 好 什么 没有 可以 自己 因为 所以'.split(' '),
@@ -334,13 +554,13 @@ const LANG_STOPWORDS = {
     ko: '은 는 이 가 을 를 에 에서 으로 로 한국어 그 저 이것 저것 사람 년 일 하다 있다 않다 없다 그리고 또한 습니다'.split(' '),
     ar: 'في من أن على هذا هذه الذي التي عن مع بعد قبل عند خلال العربية كان كانت يكون لي لك له لها ما لا إلى حتى قد'.split(' '),
     hi: 'है हैं और के में से पर यह वह इस उस हिंदी कर करना होना जाना देना लेना का की को ने तक बाद पहले'.split(' '),
-    nl: 'de het een van in op voor met dat dit deze nederlands zijn hebben worden kunnen moeten zullen niet wel maar ook nog al veel mensen'.split(' '),
+    nl: 'de het een van in op voor met dat dit deze nederlands zijn hebben worden kunnen moeten niet wel maar ook nog al veel mensen'.split(' '),
     sv: 'och att det som en på för med av den detta svenska vara ha kunna skola vilja inte men eller om när där här han hon'.split(' '),
     pl: 'i w na z do po przez dla ten ta to polski być mieć móc chcieć nie tak jak co który jego jej ich się już'.split(' '),
     tr: 've bir bu şu o için ile gibi kadar sonra türkçe olmak etmek yapmak gelmek gitmek değil mi da de ya ki çok daha en'.split(' '),
-    cs: 'a být je v na s z do od pro za po při jako i ale které který že se si svůj tento tato toto český'.split(' '),
+    cs: 'a být je v na s z do od pro za po pri jako i ale které který že se si svůj tento tato toto český'.split(' '),
     el: 'και η το ο να δεν είναι σε για από με που τα της του τους τις ένα μια αυτό αυτή αυτές ελληνικ'.split(' '),
-    fi: 'ja on se ei että oli ovat kuin kun kanssa mutta myös kuin hän me te he tämä tässä suomi suomen'.split(' '),
+    fi: 'ja on se ei että oli ovat kuin kun kanssa mutta myös kuin hän me hän te he tämä tässä suomi suomen'.split(' '),
     he: 'את של על לא זה עם גם אם כי או היא הוא אבל אשר עד בין כמו כל עוד כך אחת אחד ישראל עברית'.split(' '),
     hu: 'és hogy a az egy ez azt is nem van de ha már mint még csak el meg mit ki be le fel magyar'.split(' '),
     id: 'dan yang di untuk dengan pada adalah itu dalam ini saya kamu dia kita mereka apa bisa ada tidak akan juga indonesia'.split(' '),
@@ -371,51 +591,41 @@ const LANG_STOPWORDS = {
     pa: 'ਅਤੇ ਇਹ ਇੱਕ ਕਿ ਹੈ ਮੈਂ ਤੂੰ ਉਹ ਉਹ ਇਹ ਅਸੀਂ ਤੁਸੀਂ ਉਹ ਪੰਜਾਬੀ'.split(' ')
 };
 
-// Detecção por script Unicode (prioridade máxima)
 function detectScript(text) {
     if (!text) return null;
-    // Asiáticos
     if (/[\u4E00-\u9FFF]/.test(text)) return 'zh';
     if (/[\u3040-\u309F]/.test(text)) return 'ja';
     if (/[\u30A0-\u30FF]/.test(text)) return 'ja';
     if (/[\uAC00-\uD7AF]/.test(text)) return 'ko';
-    // Sul e Sudeste Asiático
-    if (/[\u0900-\u097F]/.test(text)) return 'hi'; // Devanagari
-    if (/[\u0980-\u09FF]/.test(text)) return 'bn'; // Bengali
-    if (/[\u0A00-\u0A7F]/.test(text)) return 'pa'; // Gurmukhi
-    if (/[\u0A80-\u0AFF]/.test(text)) return 'gu'; // Gujarati
-    if (/[\u0B00-\u0B7F]/.test(text)) return 'or'; // Odia
-    if (/[\u0B80-\u0BFF]/.test(text)) return 'ta'; // Tamil
-    if (/[\u0C00-\u0C7F]/.test(text)) return 'te'; // Telugu
-    if (/[\u0C80-\u0CFF]/.test(text)) return 'kn'; // Kannada
-    if (/[\u0D00-\u0D7F]/.test(text)) return 'ml'; // Malayalam
-    if (/[\u0D80-\u0DFF]/.test(text)) return 'si'; // Sinhala
-    if (/[\u0E00-\u0E7F]/.test(text)) return 'th'; // Thai
-    if (/[\u0E80-\u0EFF]/.test(text)) return 'lo'; // Lao
-    if (/[\u0F00-\u0FFF]/.test(text)) return 'bo'; // Tibetan
-    if (/[\u1000-\u109F]/.test(text)) return 'my'; // Myanmar
-    if (/[\u1780-\u17FF]/.test(text)) return 'km'; // Khmer
-    // Oriente Médio
-    if (/[\u0600-\u06FF]/.test(text)) return 'ar'; // Arabic
-    if (/[\u0750-\u077F]/.test(text)) return 'ar'; // Arabic Supplement
-    if (/[\uFB50-\uFDFF]/.test(text)) return 'ar'; // Arabic Presentation Forms-A
-    if (/[\uFE70-\uFEFF]/.test(text)) return 'ar'; // Arabic Presentation Forms-B
-    if (/[\u0590-\u05FF]/.test(text)) return 'he'; // Hebrew
-    if (/[\uFB1D-\uFB4F]/.test(text)) return 'he'; // Hebrew Presentation Forms
-    // Cirílico
+    if (/[\u0900-\u097F]/.test(text)) return 'hi';
+    if (/[\u0980-\u09FF]/.test(text)) return 'bn';
+    if (/[\u0A00-\u0A7F]/.test(text)) return 'pa';
+    if (/[\u0A80-\u0AFF]/.test(text)) return 'gu';
+    if (/[\u0B00-\u0B7F]/.test(text)) return 'or';
+    if (/[\u0B80-\u0BFF]/.test(text)) return 'ta';
+    if (/[\u0C00-\u0C7F]/.test(text)) return 'te';
+    if (/[\u0C80-\u0CFF]/.test(text)) return 'kn';
+    if (/[\u0D00-\u0D7F]/.test(text)) return 'ml';
+    if (/[\u0D80-\u0DFF]/.test(text)) return 'si';
+    if (/[\u0E00-\u0E7F]/.test(text)) return 'th';
+    if (/[\u0E80-\u0EFF]/.test(text)) return 'lo';
+    if (/[\u0F00-\u0FFF]/.test(text)) return 'bo';
+    if (/[\u1000-\u109F]/.test(text)) return 'my';
+    if (/[\u1780-\u17FF]/.test(text)) return 'km';
+    if (/[\u0600-\u06FF]/.test(text)) return 'ar';
+    if (/[\u0750-\u077F]/.test(text)) return 'ar';
+    if (/[\uFB50-\uFDFF]/.test(text)) return 'ar';
+    if (/[\uFE70-\uFEFF]/.test(text)) return 'ar';
+    if (/[\u0590-\u05FF]/.test(text)) return 'he';
+    if (/[\uFB1D-\uFB4F]/.test(text)) return 'he';
     if (/[\u0400-\u04FF]/.test(text)) return 'ru';
-    if (/[\u0500-\u052F]/.test(text)) return 'ru'; // Cyrillic Supplement
-    if (/[\u2DE0-\u2DFF]/.test(text)) return 'ru'; // Cyrillic Extended-A
-    if (/[\uA640-\uA69F]/.test(text)) return 'ru'; // Cyrillic Extended-B
-    // Grego
+    if (/[\u0500-\u052F]/.test(text)) return 'ru';
+    if (/[\u2DE0-\u2DFF]/.test(text)) return 'ru';
+    if (/[\uA640-\uA69F]/.test(text)) return 'ru';
     if (/[\u0370-\u03FF]/.test(text)) return 'el';
-    // Georgiano
     if (/[\u10A0-\u10FF]/.test(text)) return 'ka';
-    // Armênio
     if (/[\u0530-\u058F]/.test(text)) return 'hy';
-    // Etíope
     if (/[\u1200-\u137F]/.test(text)) return 'am';
-    // Tifinagh
     if (/[\u2D30-\u2D7F]/.test(text)) return 'ber';
     return null;
 }
@@ -423,19 +633,11 @@ function detectScript(text) {
 function detectLanguageLocal(title, description = '') {
     const text = (title + ' ' + description).trim();
     if (!text) return 'en';
-    
-    // 1. Detecção por script (alta confiança)
     const scriptLang = detectScript(text);
     if (scriptLang) return scriptLang;
-    
-    // 2. Análise de stopwords e padrões
     const words = text.toLowerCase().split(/[\s,.;!?()\[\]{}"':-]+/).filter(w => w.length > 1);
     const scores = {};
-    
-    // Inicializar scores
     for (const lang in LANG_STOPWORDS) scores[lang] = 0;
-    
-    // Contar stopwords
     for (const word of words) {
         for (const lang in LANG_STOPWORDS) {
             if (LANG_STOPWORDS[lang].includes(word)) {
@@ -443,8 +645,6 @@ function detectLanguageLocal(title, description = '') {
             }
         }
     }
-    
-    // Bônus por padrões ortográficos
     const normalized = text.toLowerCase();
     if (normalized.match(/[áàâãéêíóôõúüç]/i)) scores.pt = (scores.pt || 0) + 10;
     if (normalized.match(/[áéíóúüñ¿¡]/i)) scores.es = (scores.es || 0) + 10;
@@ -456,8 +656,6 @@ function detectLanguageLocal(title, description = '') {
     if (normalized.match(/[æøå]/i)) scores.no = (scores.no || 0) + 5;
     if (normalized.match(/[ěščřžýáíé]/i)) scores.cs = (scores.cs || 0) + 5;
     if (normalized.match(/[ąčęėįšųūž]/i)) scores.lt = (scores.lt || 0) + 5;
-    
-    // Encontrar o idioma com maior pontuação
     let bestLang = 'en';
     let maxScore = 0;
     for (const lang in scores) {
@@ -466,8 +664,6 @@ function detectLanguageLocal(title, description = '') {
             bestLang = lang;
         }
     }
-    
-    // Se a pontuação for muito baixa, fallback para inglês
     if (maxScore < 2) return 'en';
     return bestLang;
 }
@@ -483,7 +679,6 @@ async function searchAllContent(query, filterType = 'all') {
     else if (filterType === 'shorts') channelIds = channelFilters.shorts || [];
     else if (filterType === 'video') channelIds = channelFilters.video || [];
     else channelIds = channelFilters.video || [];
-    
     if (filterType === 'podcast') results = await searchYouTube(query, 30, { podcastMode: true, channelIds });
     else if (filterType === 'live') results = await searchYouTube(query, 30, { liveMode: true, channelIds });
     else if (filterType === 'shorts') results = await searchYouTube(query, 30, { shortsMode: true, channelIds });
@@ -516,51 +711,95 @@ async function loadVideosFromJSON() {
         const r = await fetch('videos.json');
         if (!r.ok) return [];
         const data = await r.json();
-        return data.map((item, idx) => {
-            const videoId = extractVideoId(item.url);
-            if (!videoId) return null;
+        console.log('[Videos] Arquivo videos.json carregado. Itens:', data.length);
+
+        const result = data.map((item, idx) => {
+            const isPlaylist = item.url && (item.url.includes('playlist?list=') || item.url.includes('&list='));
             
-            let itemType = item.type;
-            if (!itemType) {
-                const tempItem = { title: item.title, description: item.description, url: item.url, thumbnail: item.thumbnail };
-                if (isShortVideo(tempItem)) {
-                    itemType = 'shorts';
-                } else {
-                    const lowerTitle = (item.title || '').toLowerCase();
-                    const lowerUrl = (item.url || '').toLowerCase();
-                    if (lowerUrl.includes('/shorts/') || lowerTitle.includes('shorts')) {
-                        itemType = 'shorts';
-                    } else if (lowerTitle.includes('podcast')) {
-                        itemType = 'podcast';
-                    } else if (lowerTitle.includes('live') || lowerTitle.includes('ao vivo')) {
-                        itemType = 'live';
-                    } else {
-                        itemType = 'video';
-                    }
-                }
+            let videoId = null;
+            if (!isPlaylist) {
+                videoId = extractVideoId(item.url);
             }
-            
-            return {
+
+            if (!isPlaylist && !videoId) {
+                console.warn('[Videos] ID não extraído para:', item.title);
+                return null;
+            }
+
+            let itemType = item.type || 'video';
+            if (itemType === 'story' || itemType === 'short') {
+                itemType = 'shorts';
+            }
+
+            const finalVideoId = isPlaylist ? `playlist_${idx}` : videoId;
+
+            let language = item.language;
+            if (!language) {
+                language = detectLanguageLocal(item.title, item.description || '');
+            }
+
+            let subject = item.subject;
+            if (!subject) {
+                subject = detectSubjectLocal(item.title, item.description || '');
+            }
+
+            const thumbnail = isPlaylist 
+                ? (item.thumbnail || 'https://placehold.co/120x90/1F2933/9CA3AF?text=Playlist')
+                : (item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+
+            const videoObj = {
                 id: `local_${idx}`,
-                videoId: videoId,
+                videoId: finalVideoId,
                 title: item.title,
                 description: item.description || '',
-                thumbnail: item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+                thumbnail: thumbnail,
                 type: itemType,
-                subject: item.subject || detectSubjectLocal(item.title, item.description || ''),
-                language: detectLanguageLocal(item.title, item.description || ''),
+                subject: subject,
+                language: language,
                 url: item.url,
                 source: 'Local',
-                isLive: itemType === 'live'
+                isLive: itemType === 'live',
+                isPlaylist: isPlaylist,
+                originalUrl: item.url
             };
-        }).filter(v => v);
-    } catch (e) { return []; }
+
+            if (idx < 5) {
+                console.log(`[Videos] Item ${idx}:`, {
+                    title: item.title,
+                    type: itemType,
+                    language: language,
+                    subject: subject,
+                    isPlaylist: isPlaylist
+                });
+            }
+
+            return videoObj;
+        }).filter(v => v !== null);
+
+        console.log(`[Videos] ${result.length} itens (vídeos + playlists) carregados com sucesso.`);
+        return result;
+    } catch (e) {
+        console.error('[Videos] Erro ao carregar videos.json:', e);
+        return [];
+    }
 }
 
 function extractVideoId(url) {
     if (!url) return null;
-    const patterns = [/youtube\.com\/watch\?v=([^&?#]+)/i, /youtu\.be\/([^?#]+)/i, /youtube\.com\/embed\/([^?#]+)/i];
-    for (const p of patterns) { const m = url.match(p); if (m && m[1]) return m[1]; }
+    const patterns = [
+        /youtube\.com\/shorts\/([^?#]+)/i,
+        /youtube\.com\/watch\?v=([^&?#]+)/i,
+        /youtu\.be\/([^?#]+)/i,
+        /youtube\.com\/embed\/([^?#]+)/i,
+        /youtube\.com\/v\/([^?#]+)/i,
+        /youtube\.com\/e\/([^?#]+)/i
+    ];
+    for (const p of patterns) {
+        const match = url.match(p);
+        if (match && match[1]) {
+            return match[1].split('?')[0].split('&')[0];
+        }
+    }
     return null;
 }
 
@@ -576,9 +815,23 @@ async function refreshAllItems(term = '') {
                 timeoutPromise
             ])
         ]);
-        allVideos = [...(localVideos.status === 'fulfilled' ? localVideos.value : []), ...(onlineContent.status === 'fulfilled' ? onlineContent.value : [])];
-        allItems = [...allVideos];
-        buildSubjectChips(); buildLanguageChips(allItems);
+        const localItems = (localVideos.status === 'fulfilled' ? localVideos.value : []);
+        const onlineItems = (onlineContent.status === 'fulfilled' ? onlineContent.value : []);
+        const seen = new Set();
+        const merged = [...localItems, ...onlineItems].filter(item => {
+            const key = `${item.videoId}|${item.source}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        allItems = merged;
+        console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
+        // Reconstruir chips após atualização
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        updateAllContent();
+        // Aplicar traduções novamente para garantir
+        applyTranslationsToUI();
     } catch (e) { console.error('Erro ao carregar itens:', e); }
     finally { hideLoading(); }
 }
@@ -630,10 +883,10 @@ function createPlayer(videoId, startSeconds = 0) {
     if (player) { try { player.destroy(); } catch(e) {} player = null; }
     try {
         player = new YT.Player('youtubePlayer', {
-            videoId, 
-            playerVars: { 
-                autoplay: 1, controls: 0, modestbranding: 1, rel: 0, 
-                start: Math.floor(startSeconds), 
+            videoId,
+            playerVars: {
+                autoplay: 1, controls: 0, modestbranding: 1, rel: 0,
+                start: Math.floor(startSeconds),
                 origin: window.location.origin,
                 host: window.location.host
             },
@@ -657,11 +910,23 @@ function onPlayerReady(event) {
     if (savedVolume !== null && volSlider) { player.setVolume(parseInt(savedVolume)); volSlider.value = savedVolume; }
     startProgressUpdate();
 }
-function onPlayerStateChange(e) {
+function onPlayerStateChange(event) {
     const btn = document.getElementById('playPauseBtn');
-    if (e.data === YT.PlayerState.PLAYING) { btn.innerHTML = '<i class="fas fa-pause"></i>'; startProgressUpdate(); }
-    else if (e.data === YT.PlayerState.PAUSED) { btn.innerHTML = '<i class="fas fa-play"></i>'; stopProgressUpdate(); saveVideoProgress(); }
-    else if (e.data === YT.PlayerState.ENDED) { btn.innerHTML = '<i class="fas fa-play"></i>'; stopProgressUpdate(); playlistManager.playNext(); }
+    if (event.data === YT.PlayerState.PLAYING) {
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+        startProgressUpdate();
+        startWatchTimer();
+    } else if (event.data === YT.PlayerState.PAUSED) {
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+        stopProgressUpdate();
+        saveVideoProgress();
+        stopWatchTimer();
+    } else if (event.data === YT.PlayerState.ENDED) {
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+        stopProgressUpdate();
+        stopWatchTimer();
+    }
+    saveAllProgress();
 }
 function onPlayerError(e) {
     let msg = t('player_error_generic');
@@ -669,6 +934,7 @@ function onPlayerError(e) {
     else if (e.data === 5) msg = t('player_error_issue');
     else if (e.data === 100) msg = t('player_error_not_found');
     showPlayerError(msg);
+    stopWatchTimer();
 }
 function showPlayerError(msg) {
     const w = document.querySelector('.player-wrapper'); if (w) w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i> ${msg}</div>`;
@@ -709,6 +975,7 @@ function closePlayer() {
     document.getElementById('playerContainer').style.display = 'none';
     if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
     stopProgressUpdate(); currentVideoId = null; audioMode = false;
+    stopWatchTimer();
     document.getElementById('playerContainer').classList.remove('audio-mode');
     document.getElementById('audioModeBtn')?.classList.remove('audio-active');
     document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
@@ -734,144 +1001,6 @@ function playVideo(videoId, title, description) {
     if (!createPlayer(videoId, start)) useFallbackPlayer();
 }
 
-// ========== PLAYLIST MANAGER ==========
-class PlaylistManager {
-    constructor() {
-        this.queue = [];
-        this.currentIndex = -1;
-        this.repeatMode = 'none';
-        this.shuffle = false;
-        this.originalQueue = [];
-        this.loadFromStorage();
-        this.renderPlaylistPanel();
-    }
-    loadFromStorage() {
-        try {
-            const saved = localStorage.getItem('video_playlist');
-            if (saved) {
-                const data = JSON.parse(saved);
-                this.queue = data.queue || [];
-                this.currentIndex = data.currentIndex ?? -1;
-                this.repeatMode = data.repeatMode || 'none';
-                this.shuffle = data.shuffle || false;
-                this.originalQueue = data.originalQueue || [];
-            }
-        } catch (e) {}
-    }
-    saveToStorage() {
-        try {
-            localStorage.setItem('video_playlist', JSON.stringify({
-                queue: this.queue, currentIndex: this.currentIndex,
-                repeatMode: this.repeatMode, shuffle: this.shuffle, originalQueue: this.originalQueue
-            }));
-        } catch (e) {}
-    }
-    addVideo(video) {
-        if (!video.videoId) return;
-        if (this.queue.length > 0 && this.queue[this.queue.length-1].videoId === video.videoId) return;
-        this.queue.push(video);
-        if (this.shuffle) { this.originalQueue.push(video); this.shuffleQueue(); }
-        this.saveToStorage(); this.renderPlaylistPanel();
-        if (this.currentIndex === -1 && this.queue.length > 0) { this.currentIndex = 0; this.playCurrent(); }
-    }
-    removeVideo(index) {
-        if (index >= 0 && index < this.queue.length) {
-            this.queue.splice(index, 1);
-            if (this.shuffle) this.originalQueue = this.originalQueue.filter(v => !this.queue.every(qV => qV.videoId !== v.videoId));
-            if (index === this.currentIndex) { if (player) player.stopVideo(); this.currentIndex = -1; }
-            else if (index < this.currentIndex) this.currentIndex--;
-            this.saveToStorage(); this.renderPlaylistPanel();
-        }
-    }
-    clearQueue() {
-        this.queue = []; this.currentIndex = -1; this.originalQueue = [];
-        if (player) player.stopVideo();
-        this.saveToStorage(); this.renderPlaylistPanel();
-    }
-    playVideoByIndex(index) { if (index >= 0 && index < this.queue.length) { this.currentIndex = index; this.playCurrent(); } }
-    playCurrent() {
-        const video = this.queue[this.currentIndex];
-        if (!video) return;
-        playVideo(video.videoId, video.title, video.description);
-        this.saveToStorage(); this.renderPlaylistPanel();
-    }
-    playNext() {
-        if (this.repeatMode === 'one') { if (player) player.seekTo(0); return; }
-        if (this.currentIndex < this.queue.length - 1) { this.currentIndex++; this.playCurrent(); }
-        else if (this.repeatMode === 'all') { this.currentIndex = 0; this.playCurrent(); }
-    }
-    playPrevious() {
-        if (this.currentIndex > 0) { this.currentIndex--; this.playCurrent(); }
-        else if (this.repeatMode === 'all') { this.currentIndex = this.queue.length - 1; this.playCurrent(); }
-    }
-    toggleRepeat() {
-        const modes = ['none', 'one', 'all'];
-        const idx = modes.indexOf(this.repeatMode);
-        this.repeatMode = modes[(idx + 1) % modes.length];
-        this.saveToStorage(); this.renderPlaylistPanel();
-    }
-    toggleShuffle() {
-        this.shuffle = !this.shuffle;
-        if (this.shuffle) { this.originalQueue = [...this.queue]; this.shuffleQueue(); }
-        else {
-            this.queue = [...this.originalQueue];
-            if (this.currentIndex >= 0) {
-                const currentV = this.queue[this.currentIndex];
-                const newIndex = this.queue.findIndex(v => v.videoId === currentV.videoId);
-                this.currentIndex = newIndex >= 0 ? newIndex : 0;
-            }
-        }
-        this.saveToStorage(); this.renderPlaylistPanel();
-    }
-    shuffleQueue() {
-        for (let i = this.queue.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.queue[i], this.queue[j]] = [this.queue[j], this.queue[i]];
-        }
-        if (this.currentIndex >= 0) {
-            const currentV = this.queue[this.currentIndex];
-            const newIndex = this.queue.findIndex(v => v.videoId === currentV.videoId);
-            this.currentIndex = newIndex >= 0 ? newIndex : 0;
-        }
-    }
-    renderPlaylistPanel() {
-        const panel = document.getElementById('playlistPanel');
-        if (!panel) return;
-        const listContainer = document.getElementById('playlistItems');
-        if (listContainer) {
-            if (this.queue.length === 0) listContainer.innerHTML = `<div class="playlist-empty">${t('playlist_empty')}</div>`;
-            else {
-                listContainer.innerHTML = this.queue.map((v, idx) => `
-                    <div class="playlist-item ${idx === this.currentIndex ? 'active' : ''}">
-                        <img src="${escapeHtml(v.thumbnail || '')}" onerror="this.src='https://placehold.co/32x32/1F2933/9CA3AF?text=🎵'">
-                        <div class="playlist-item-info">
-                            <div class="playlist-item-title">${escapeHtml(v.title)}</div>
-                            <div class="playlist-item-author">${escapeHtml(v.channelTitle || '')}</div>
-                        </div>
-                        <button class="playlist-item-remove" data-index="${idx}">&times;</button>
-                    </div>
-                `).join('');
-                listContainer.querySelectorAll('.playlist-item').forEach(item => {
-                    const idx = item.querySelector('.playlist-item-remove')?.dataset.index;
-                    if (idx !== undefined) {
-                        item.addEventListener('click', (e) => { if (!e.target.classList.contains('playlist-item-remove')) this.playVideoByIndex(parseInt(idx)); });
-                        item.querySelector('.playlist-item-remove').addEventListener('click', (e) => { e.stopPropagation(); this.removeVideo(parseInt(idx)); });
-                    }
-                });
-            }
-        }
-        const repeatBtn = document.getElementById('playlistRepeatBtn');
-        if (repeatBtn) {
-            const icons = { 'none': 'fa-repeat', 'one': 'fa-repeat-1', 'all': 'fa-repeat' };
-            repeatBtn.innerHTML = `<i class="fas ${icons[this.repeatMode]}"></i>`;
-            repeatBtn.classList.toggle('active', this.repeatMode !== 'none');
-        }
-        const shuffleBtn = document.getElementById('playlistShuffleBtn');
-        if (shuffleBtn) shuffleBtn.classList.toggle('active', this.shuffle);
-    }
-}
-const playlistManager = new PlaylistManager();
-
 // ========== RENDERIZAÇÃO ==========
 function getSubjectIcon(s){
     const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','outros':'fa-tag'};
@@ -884,10 +1013,18 @@ function formatDuration(sec) {
 }
 function createVideoCardHTML(v) {
     let badge = '';
-    if (v.isLive) badge = `<span class="video-badge live"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
-    else if (v.type === 'podcast') badge = `<span class="video-badge podcast"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
+    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
+    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
     else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts')}</span>`;
-    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}">
+    if (v.isPlaylist) {
+        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
+    }
+
+    const subjectName = getSubjectName(v.subject);
+    const subjectIcon = getSubjectIcon(v.subject);
+    const categoryBadge = `<span class="category-badge"><i class="fas ${subjectIcon}"></i> ${subjectName}</span>`;
+
+    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
         <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
         <div class="video-info">
             <div class="video-title">${escapeHtml(v.title)}</div>
@@ -895,6 +1032,7 @@ function createVideoCardHTML(v) {
             <div class="video-meta">
                 <span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(v.language)}</span>
                 ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
+                ${categoryBadge}
             </div>
         </div>
     </div>`;
@@ -914,10 +1052,14 @@ function renderUnifiedGrid(items) {
     }
     container.innerHTML = html;
     container.querySelectorAll('.video-card').forEach(c => {
-        c.addEventListener('click', () => playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description));
-        c.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            playlistManager.addVideo({ videoId: c.dataset.videoId, title: c.dataset.title, description: c.dataset.description, thumbnail: c.dataset.thumbnail, channelTitle: c.dataset.channel });
+        c.addEventListener('click', () => {
+            const isPlaylist = c.dataset.isPlaylist === 'true';
+            if (isPlaylist) {
+                const url = c.dataset.url;
+                if (url) window.open(url, '_blank');
+            } else {
+                playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description);
+            }
         });
     });
 }
@@ -925,7 +1067,6 @@ async function handleSearch() {
     const term = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
     currentSearchTerm = term;
     await refreshAllItems(term);
-    updateAllContent();
 }
 function updateAllContent() {
     let filtered = allItems.filter(item => {
@@ -935,35 +1076,60 @@ function updateAllContent() {
         if (currentLanguageFilter !== 'all' && item.language !== currentLanguageFilter) return false;
         return true;
     });
+    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Assunto: ${currentSubjectFilter}, Idioma: ${currentLanguageFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
     renderUnifiedGrid(filtered);
     buildLanguageChips(filtered);
+    // Garantir que as traduções sejam aplicadas aos chips
+    applyTranslationsToUI();
 }
 function buildTypeChips() {
     const c = document.getElementById('typeChips'); if (!c) return;
     const types = [
-        {value:'all',label:t('all'),icon:'fa-globe'},{value:'video',label:t('type_video'),icon:'fa-play-circle'},
-        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},{value:'live',label:t('type_live'),icon:'fa-circle'},
+        {value:'all',label:t('all'),icon:'fa-globe'},
+        {value:'video',label:t('type_video'),icon:'fa-play-circle'},
+        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},
+        {value:'live',label:t('type_live'),icon:'fa-circle'},
         {value:'shorts',label:t('type_shorts'),icon:'fa-film'}
     ];
     c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => { currentTypeFilter = ch.dataset.type; buildTypeChips(); handleSearch(); }));
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
+        currentTypeFilter = ch.dataset.type;
+        buildTypeChips();
+        await refreshAllItems(currentSearchTerm);
+        // Reaplicar traduções para garantir
+        applyTranslationsToUI();
+    }));
 }
 function buildSubjectChips() {
     const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
     const c = document.getElementById('subjectChips'); if (!c) return;
     c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => { currentSubjectFilter = ch.dataset.subject; buildSubjectChips(); updateAllContent(); }));
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+        currentSubjectFilter = ch.dataset.subject;
+        buildSubjectChips();
+        updateAllContent();
+        applyTranslationsToUI();
+    }));
 }
 function buildLanguageChips(items = allItems) {
     const langs = [...new Set(items.map(i => i.language).filter(l => l))];
     const c = document.getElementById('languageChips'); if (!c) return;
     c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => { currentLanguageFilter = ch.dataset.lang; buildLanguageChips(); updateAllContent(); }));
+    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+        currentLanguageFilter = ch.dataset.lang;
+        buildLanguageChips();
+        updateAllContent();
+        applyTranslationsToUI();
+    }));
 }
 function playRandomItem() {
     if (!allItems.length) return;
     const item = allItems[Math.floor(Math.random()*allItems.length)];
-    playVideo(item.videoId, item.title, item.description);
+    if (item.isPlaylist) {
+        if (item.url) window.open(item.url, '_blank');
+    } else {
+        playVideo(item.videoId, item.title, item.description);
+    }
 }
 function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`; }
 function hideLoading() {}
@@ -972,55 +1138,100 @@ function hideLoading() {}
 async function loadChannelFilters() {
     try {
         const response = await fetch('canais.json');
-        if (!response.ok) return;
+        if (!response.ok) {
+            console.warn('[Auditório] canais.json não encontrado, usando fallback vazio.');
+            channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+            return;
+        }
         const data = await response.json();
         if (data.video) channelFilters.video = data.video;
         if (data.podcast) channelFilters.podcast = data.podcast;
         if (data.live) channelFilters.live = data.live;
         if (data.shorts) channelFilters.shorts = data.shorts;
-    } catch (e) {}
+    } catch (e) {
+        console.warn('[Auditório] Erro ao carregar canais.json:', e);
+        channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+    }
 }
 
 // ========== INICIALIZAÇÃO ==========
 document.addEventListener('DOMContentLoaded', async () => {
+    loadWatchTime();
+    console.log('[Auditório] Horas assistidas carregadas:', totalWatchTime);
+
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     if (!window.YT) { const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+    
     const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt')?'pt-br':'en');
     currentLang = savedLang;
     await loadTranslations(currentLang);
     applyTranslationsToUI();
+    updateLanguageSelector(currentLang);
+    
     const langPtBtn = document.getElementById('langPtBtn'), langEnBtn = document.getElementById('langEnBtn');
     if (langPtBtn) langPtBtn.addEventListener('click', async () => {
-        await loadTranslations('pt-br'); currentLang = 'pt-br'; localStorage.setItem('selectedLanguage', 'pt-br');
-        applyTranslationsToUI(); await refreshAllItems(currentSearchTerm); buildTypeChips(); updateAllContent();
-        langPtBtn.classList.add('active'); langEnBtn.classList.remove('active');
+        await loadTranslations('pt-br');
+        currentLang = 'pt-br';
+        localStorage.setItem('selectedLanguage', 'pt-br');
+        applyTranslationsToUI();
+        updateLanguageSelector('pt-br');
+        await refreshAllItems(currentSearchTerm);
+        // Reforça a tradução dos filtros
+        buildTypeChips();
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
     });
     if (langEnBtn) langEnBtn.addEventListener('click', async () => {
-        await loadTranslations('en'); currentLang = 'en'; localStorage.setItem('selectedLanguage', 'en');
-        applyTranslationsToUI(); await refreshAllItems(currentSearchTerm); buildTypeChips(); updateAllContent();
-        langEnBtn.classList.add('active'); langPtBtn.classList.remove('active');
+        await loadTranslations('en');
+        currentLang = 'en';
+        localStorage.setItem('selectedLanguage', 'en');
+        applyTranslationsToUI();
+        updateLanguageSelector('en');
+        await refreshAllItems(currentSearchTerm);
+        // Reforça a tradução dos filtros
+        buildTypeChips();
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
     });
-    if (currentLang === 'pt-br') langPtBtn?.classList.add('active'); else langEnBtn?.classList.add('active');
+    if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
+    else langEnBtn?.classList.add('active');
+    
     await loadChannelFilters();
     setupPlayerControls();
-    setupPlaylistControls();
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
     await refreshAllItems('');
-    buildTypeChips(); buildSubjectChips(); buildLanguageChips(allItems);
+    buildTypeChips();
+    buildSubjectChips();
+    buildLanguageChips(allItems);
     updateAllContent();
 });
 
-function setupPlaylistControls() {
-    const panel = document.getElementById('playlistPanel');
-    if (!panel) return;
-    document.getElementById('playlistPlayPauseBtn')?.addEventListener('click', () => {
-        if (player && playerReady) player.getPlayerState()===YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
-    });
-    document.getElementById('playlistNextBtn')?.addEventListener('click', () => playlistManager.playNext());
-    document.getElementById('playlistPrevBtn')?.addEventListener('click', () => playlistManager.playPrevious());
-    document.getElementById('playlistRepeatBtn')?.addEventListener('click', () => playlistManager.toggleRepeat());
-    document.getElementById('playlistShuffleBtn')?.addEventListener('click', () => playlistManager.toggleShuffle());
-    document.getElementById('playlistClearBtn')?.addEventListener('click', () => playlistManager.clearQueue());
-    document.getElementById('togglePlaylistBtn')?.addEventListener('click', () => panel.classList.toggle('collapsed'));
-}
+// ========== REAGIR A MUDANÇAS DE IDIOMA ==========
+window.addEventListener('languageChanged', async function(e) {
+    const lang = e.detail.lang || 'pt-br';
+    if (lang !== currentLang) {
+        currentLang = lang;
+        await loadTranslations(lang);
+        applyTranslationsToUI();
+        updateLanguageSelector(lang);
+        // Reforça a reconstrução dos filtros
+        buildTypeChips();
+        buildSubjectChips();
+        buildLanguageChips(allItems);
+        updateAllContent();
+        // Atualiza o botão de perfil se necessário
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        }
+        // Atualiza o botão "Notas"
+        const notasLink = document.querySelector('a[href="../notas/notas.html"]');
+        if (notasLink) {
+            const span = notasLink.querySelector('span');
+            if (span) span.innerText = t('notas_heading');
+        }
+    }
+});

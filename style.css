@@ -1,6 +1,13 @@
 /* ============================================================
-   style.css – Versão 3.1
-   Tema escuro premium com animações modernas e cards glassmorphism
+   style.css – Versão 3.12 – COMPLETO
+   Tema escuro premium com glassmorphism e animações modernas
+   Substituição do vermelho (#EF4444) por #10b981 (verde esmeralda)
+   CORREÇÃO: Hover dos botões do cabeçalho mantém cor branca
+   CORREÇÃO: Botão de perfil com estilos consistentes
+   Inclui: Modal de Perfil com Avatar, Gênero, Senha, Exportação/Importação
+   Cursos em andamento, Barra de Progresso, Cards de Curso com Imagem,
+   Player, Tabs, Bibliografia, Prática, Time, Licença, Notificações,
+   Modais de Ajuda, Introdução e Conclusão.
    Universidade Livre · Todos os módulos
    ============================================================ */
 
@@ -30,8 +37,8 @@
     /* ===== ACENTOS ===== */
     --accent-blue: #6C8CFF;
     --accent-blue-hover: #5A7AEE;
-    --accent-green: #4ADE80;
-    --accent-green-hover: #34D399;
+    --accent-green: #10b981;
+    --accent-green-hover: #0ea575;
     --accent-orange: #FBBF24;
     --accent-purple: #A78BFA;
     --accent-teal: #38BDF8;
@@ -42,12 +49,12 @@
     --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.7);
     --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-    --shadow-glow: 0 0 40px rgba(108, 140, 255, 0.08);
+    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.08);
 
     /* ===== GRADIENTES ===== */
     --gradient-primary: linear-gradient(135deg, #6C8CFF, #A78BFA);
-    --gradient-donate: linear-gradient(135deg, #FBBF24, #EF4444);
-    --gradient-new-badge: linear-gradient(135deg, #4ADE80, #38BDF8);
+    --gradient-donate: linear-gradient(135deg, #FBBF24, #10b981);
+    --gradient-new-badge: linear-gradient(135deg, #10b981, #38BDF8);
     --gradient-shimmer: linear-gradient(90deg,
         var(--bg-tertiary) 25%,
         var(--bg-card) 50%,
@@ -63,8 +70,8 @@
 
     /* ===== OUTROS ===== */
     --card-radius: 1rem;
-    --success: #4ADE80;
-    --danger: #EF4444;
+    --success: #10b981;
+    --danger: #10b981;
     --warning: #FBBF24;
 }
 
@@ -151,12 +158,12 @@ a:hover {
     display: block;
     object-fit: contain;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 4px 12px rgba(108, 140, 255, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.15));
     transition: filter var(--transition-fast);
 }
 
 .logo-universidade:hover {
-    filter: drop-shadow(0 4px 20px rgba(108, 140, 255, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.3));
 }
 
 .logo p {
@@ -188,10 +195,10 @@ a:hover {
     color: var(--accent-blue);
 }
 
-/* ========== BOTÕES DO CABEÇALHO ========== */
+/* ========== BOTÕES DO CABEÇALHO (CORREÇÃO: HOVER BRANCO) ========== */
 .btn-biblioteca {
     background: var(--accent-green);
-    color: #070B14;
+    color: white !important;
     padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
@@ -207,26 +214,96 @@ a:hover {
 
 .btn-biblioteca:hover {
     background: var(--accent-green-hover);
+    color: white !important;
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.25);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
 }
 
 .btn-biblioteca[style*="accent-blue"] {
     background: var(--accent-blue);
-    color: white;
+    color: white !important;
 }
 
 .btn-biblioteca[style*="accent-blue"]:hover {
     background: var(--accent-blue-hover);
+    color: white !important;
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
 }
 
+.btn-biblioteca[style*="accent-purple"] {
+    background: var(--accent-purple);
+    color: white !important;
+}
+
+.btn-biblioteca[style*="accent-purple"]:hover {
+    background: #9A7BED;
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(167, 139, 250, 0.3);
+}
+
+/* ===== BOTÃO DE PERFIL (PERSONALIZADO COM FOTO) ===== */
+#profileBtn {
+    background: var(--accent-purple);
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: none;
+    min-height: 44px;
+}
+
+#profileBtn:hover {
+    background: #9A7BED;
+    color: white !important;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(167, 139, 250, 0.3);
+}
+
+#profileBtn:active {
+    transform: scale(0.97);
+}
+
+#profileBtn img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    margin-right: 4px !important;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+#profileBtn .profile-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+/* ===== BOTÃO DOAR ===== */
 .donate-button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     background: var(--gradient-donate);
-    color: white;
+    color: white !important;
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 600;
@@ -242,12 +319,49 @@ a:hover {
 }
 
 .donate-button:hover {
+    background: var(--accent-green-hover);
+    color: white !important;
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.35);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
 }
 
 .donate-button:active {
     transform: scale(0.98);
+}
+
+/* ===== BOTÃO VOLTAR ===== */
+.btn-back {
+    background: var(--accent-green);
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-medium);
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background: var(--accent-green-hover);
+    color: white !important;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+}
+
+.btn-back[style*="accent-blue"] {
+    background: var(--accent-blue);
+    color: white !important;
+}
+
+.btn-back[style*="accent-blue"]:hover {
+    background: var(--accent-blue-hover);
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
 }
 
 /* ========== SELETOR DE IDIOMA ========== */
@@ -369,6 +483,7 @@ a:hover {
     border-color: var(--accent-blue);
     color: var(--text-primary);
     transform: translateY(-2px);
+    background: var(--bg-tertiary);
 }
 
 #homeFilters .chip.active {
@@ -386,13 +501,13 @@ a:hover {
     justify-content: center;
 }
 
-/* ========== CARD DE CURSO (MODERNIZADO) ========== */
+/* ========== CARD DE CURSO (MODERNIZADO COM IMAGEM) ========== */
 .course-card {
     background: var(--bg-card);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 20px;
-    padding: 1.8rem 1.5rem;
+    padding: 0 1.5rem 1.8rem 1.5rem;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     border: 1px solid var(--border);
@@ -412,7 +527,7 @@ a:hover {
     inset: 0;
     border-radius: 20px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(108, 140, 255, 0.08) 0%, transparent 70%);
+                rgba(16, 185, 129, 0.08) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -424,7 +539,7 @@ a:hover {
     inset: -1px;
     border-radius: 20px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.2), transparent, rgba(167, 139, 250, 0.2));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), transparent, rgba(167, 139, 250, 0.2));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -443,14 +558,38 @@ a:hover {
 
 .course-card:hover {
     transform: translateY(-10px) scale(1.01);
-    border-color: rgba(108, 140, 255, 0.3);
+    border-color: rgba(16, 185, 129, 0.3);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(108, 140, 255, 0.06),
+                0 0 40px rgba(16, 185, 129, 0.06),
                 inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: var(--bg-card);
 }
 
 .course-card:active {
     transform: scale(0.97);
+}
+
+/* ===== IMAGEM DO CURSO NO CARD ===== */
+.course-image-wrapper {
+    width: calc(100% + 3rem);
+    height: 140px;
+    overflow: hidden;
+    margin: 0 -1.5rem 0.8rem -1.5rem;
+    background: var(--bg-tertiary);
+    position: relative;
+    border-radius: 20px 20px 0 0;
+}
+
+.course-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: block;
+}
+
+.course-card:hover .course-image {
+    transform: scale(1.05);
 }
 
 .course-icon {
@@ -511,16 +650,16 @@ a:hover {
 }
 
 .badge-course-type {
-    background: linear-gradient(135deg, #4ADE80, #38BDF8);
+    background: linear-gradient(135deg, #10b981, #38BDF8);
     color: #070B14;
-    box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 .course-room {
     font-size: 0.75rem;
     color: var(--accent-green);
-    background: rgba(74, 222, 128, 0.08);
-    border: 1px solid rgba(74, 222, 128, 0.15);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
     display: inline-block;
     padding: 0.2rem 0.6rem;
     border-radius: 1rem;
@@ -552,15 +691,15 @@ a:hover {
     color: var(--accent-green);
     margin: 0.5rem 0;
     width: fit-content;
-    border: 1px solid rgba(74, 222, 128, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.15);
     backdrop-filter: blur(4px);
     transition: all 0.3s;
 }
 
 .course-card:hover .course-duration {
-    border-color: rgba(74, 222, 128, 0.3);
-    background: rgba(74, 222, 128, 0.05);
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.05);
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.05);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.05);
 }
 
 .course-progress-bar {
@@ -616,6 +755,7 @@ a:hover {
 .continue-btn:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 32px rgba(108, 140, 255, 0.35);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .continue-btn:active {
@@ -664,6 +804,7 @@ a:hover {
     color: var(--accent-blue);
     border-color: var(--accent-blue);
     transform: translateX(-4px);
+    background: var(--bg-secondary);
 }
 
 .main-layout {
@@ -700,8 +841,9 @@ a:hover {
 }
 
 .player-section:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
+    background: var(--bg-card);
 }
 
 .video-wrapper {
@@ -919,6 +1061,7 @@ a:hover {
     border-color: var(--accent-blue);
     color: var(--text-primary);
     transform: translateY(-2px);
+    background: var(--bg-primary);
 }
 
 .tab-content {
@@ -949,8 +1092,9 @@ a:hover {
 }
 
 .current-lesson-panel:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
+    background: var(--bg-card);
 }
 
 .unified-content {
@@ -967,7 +1111,8 @@ a:hover {
 }
 
 .unified-content:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
+    background: var(--bg-card);
 }
 
 .panel-title,
@@ -1071,7 +1216,7 @@ a:hover {
 }
 
 .stage-group-unified:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
 }
 
 .stage-header {
@@ -1117,7 +1262,8 @@ a:hover {
 .discipline-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--card-shadow);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
+    background: var(--bg-secondary);
 }
 
 .discipline-header {
@@ -1194,6 +1340,7 @@ a:hover {
 
 .progress-chart:hover {
     box-shadow: var(--shadow-glow);
+    background: var(--bg-tertiary);
 }
 
 .progress-chart > div:first-child {
@@ -1252,7 +1399,7 @@ a:hover {
     inset: -1px;
     border-radius: 20px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -1267,9 +1414,10 @@ a:hover {
 
 .book-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4),
-                0 0 40px rgba(108, 140, 255, 0.05);
+                0 0 40px rgba(16, 185, 129, 0.05);
+    background: var(--bg-card);
 }
 
 .book-left {
@@ -1370,6 +1518,7 @@ a:hover {
 .go-to-library-btn:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 24px rgba(108, 140, 255, 0.3);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .book-details-btn:disabled {
@@ -1380,12 +1529,13 @@ a:hover {
 }
 
 .go-to-library-btn {
-    background: linear-gradient(135deg, #4ADE80, #38BDF8);
+    background: linear-gradient(135deg, #10b981, #38BDF8);
     color: #070B14;
 }
 
 .go-to-library-btn:hover {
-    box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    background: var(--accent-green-hover);
 }
 
 /* ========== TEAM / CONTRIBUTORS ========== */
@@ -1410,7 +1560,8 @@ a:hover {
 .member-card:hover {
     transform: scale(1.03) translateY(-4px);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
+    background: var(--bg-card);
 }
 
 .member-card.new-contributor {
@@ -1500,8 +1651,9 @@ a:hover {
 
 .license-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
+    background: var(--bg-card);
 }
 
 .license-icon {
@@ -1550,6 +1702,7 @@ a:hover {
 .license-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .bio-section,
@@ -1568,8 +1721,9 @@ a:hover {
 .bio-section:hover,
 .distributor-section:hover,
 .tutoria-section:hover {
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--shadow-glow);
+    background: var(--bg-card);
 }
 
 .bio-section h3,
@@ -1697,6 +1851,7 @@ a:hover {
 .external-btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .external-btn-secondary {
@@ -1752,8 +1907,9 @@ a:hover {
 
 .practice-platform-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(108, 140, 255, 0.25);
+    border-color: rgba(16, 185, 129, 0.25);
     box-shadow: var(--card-shadow-hover), var(--shadow-glow);
+    background: var(--bg-card);
 }
 
 .practice-platform-image {
@@ -1814,6 +1970,7 @@ a:hover {
 .practice-platform-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .practice-search-wrapper {
@@ -2149,16 +2306,15 @@ a:hover {
 
 .intro-logo-large {
     display: block;
-    margin: 0 auto;
-    max-width: 700px;
     width: 100%;
+    height: 200px;
+    object-fit: cover;
     border-radius: 24px 24px 0 0;
-    box-shadow: inset 0 -2px 0 var(--border);
-    background: var(--bg-primary);
-    padding: 1.5rem 1.5rem 1rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    object-fit: contain;
-    max-height: 200px;
+    background: var(--bg-primary, #0A0E17);
+    border-bottom: 1px solid var(--border, #2A3550);
+    padding: 0;
+    max-height: none;
+    margin: 0 0 0 0;
 }
 
 #introContent {
@@ -2427,6 +2583,7 @@ a:hover {
 .start-lesson-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(108, 140, 255, 0.4);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
 }
 
 .start-lesson-btn:hover::after {
@@ -2606,6 +2763,440 @@ a:hover {
 .final-go-home-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(108, 140, 255, 0.4);
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
+}
+
+/* ========== MODAL DE PERFIL (COM GÊNERO, SENHA, IMPORTAÇÃO/EXPORTAÇÃO) ========== */
+.profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 11, 20, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2100;
+    padding: 1rem;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s var(--ease-smooth);
+}
+
+.profile-modal.show {
+    display: flex;
+}
+
+.profile-modal-content {
+    background: var(--bg-secondary);
+    border-radius: 24px;
+    max-width: 550px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    box-shadow: var(--modal-shadow);
+    animation: scaleIn 0.3s var(--ease-spring);
+}
+
+.profile-modal-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-tertiary);
+    border-radius: 24px 24px 0 0;
+}
+
+.profile-modal-header h2 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.profile-modal-header h2 i {
+    color: var(--accent-teal);
+}
+
+.close-profile-modal {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.close-profile-modal:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.profile-modal-body {
+    padding: 1.5rem;
+}
+
+/* ===== AVATAR ===== */
+.profile-avatar-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    border: 3px solid var(--accent-blue);
+    box-shadow: 0 4px 16px rgba(108, 140, 255, 0.2);
+    transition: var(--transition-medium);
+}
+
+.avatar-wrapper:hover {
+    transform: scale(1.05);
+    border-color: var(--accent-teal);
+    box-shadow: 0 4px 24px rgba(56, 189, 248, 0.3);
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: var(--transition-fast);
+    font-size: 0.7rem;
+    backdrop-filter: blur(4px);
+}
+
+.avatar-overlay i {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+    opacity: 1;
+}
+
+/* ===== NOME ===== */
+.profile-user-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+
+.profile-user-section label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.profile-user-section input,
+.profile-user-section select {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    min-width: 150px;
+}
+
+.profile-user-section input:focus,
+.profile-user-section select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.profile-user-section select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* ===== CURSOS EM ANDAMENTO ===== */
+.ongoing-courses-summary {
+    background: var(--bg-tertiary);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-orange);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.ongoing-courses-summary i {
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+}
+
+/* ===== ESTATÍSTICAS ===== */
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 1.2rem 0;
+}
+
+.profile-stats .stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.8rem;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.profile-stats .stat-item span:last-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.profile-stats .stat-item i {
+    color: var(--accent-teal);
+    width: 1.2rem;
+    margin-right: 0.3rem;
+}
+
+.profile-stats .profile-points span:last-child {
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+}
+
+/* ===== LISTA DE CURSOS ===== */
+.profile-course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    margin-bottom: 0.5rem;
+    transition: var(--transition-fast);
+}
+
+.profile-course-item:hover {
+    border-color: var(--accent-blue);
+    background: var(--bg-tertiary);
+}
+
+.profile-course-name {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-course-name i {
+    color: var(--accent-teal);
+}
+
+.profile-course-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.profile-course-progress .points {
+    font-weight: 600;
+    color: var(--accent-orange);
+}
+
+.progress-badge {
+    background: var(--accent-green);
+    color: #070B14;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.progress-badge.ongoing {
+    background: var(--accent-orange);
+}
+
+.progress-badge.completed {
+    background: var(--accent-blue);
+    color: white;
+}
+
+/* ===== AÇÕES DO PERFIL ===== */
+.profile-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.profile-actions .btn-primary,
+.profile-actions .btn-secondary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 2rem;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.profile-actions .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.25);
+}
+
+.profile-actions .btn-primary:hover {
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.35);
+}
+
+.profile-actions .btn-secondary {
+    background: var(--accent-green);
+    color: #070B14;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.profile-actions .btn-secondary:hover {
+    background: var(--accent-green-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+}
+
+.profile-note {
+    margin-top: 1.2rem;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+.profile-note i {
+    margin-right: 0.3rem;
+}
+
+/* ========== BOTÕES ESPECÍFICOS DO PERFIL (COM CORES FORTES) ========== */
+#profileSaveNameBtn.btn-secondary,
+#profileSaveGenderBtn.btn-secondary,
+#profileSavePasswordBtn.btn-secondary {
+    background: var(--accent-blue) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.25) !important;
+    padding: 0.5rem 1.2rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 2rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+#profileSaveNameBtn.btn-secondary:hover,
+#profileSaveGenderBtn.btn-secondary:hover,
+#profileSavePasswordBtn.btn-secondary:hover {
+    background: var(--accent-blue-hover) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.35) !important;
+    border-color: var(--accent-blue-hover) !important;
+}
+
+#generateExportBtn.btn-primary {
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.25) !important;
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 2rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+#generateExportBtn.btn-primary:hover {
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.35) !important;
+    border-color: transparent !important;
+}
+
+#importProgressBtn.btn-secondary {
+    background: var(--accent-green) !important;
+    color: #070B14 !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 2rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+#importProgressBtn.btn-secondary:hover {
+    background: var(--accent-green-hover) !important;
+    color: #070B14 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* ===== BOTÃO "GERENCIAR TAGS" NO MÓDULO DE NOTAS ===== */
+#manageTagsBtn.icon-btn {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+#manageTagsBtn.icon-btn:hover {
+    background: var(--accent-blue) !important;
+    color: white !important;
+    transform: scale(1.08) !important;
+}
+
+/* ===== BOTÃO "ADICIONAR TAG" NO MODAL DE TAGS ===== */
+#addTagBtn.btn-primary {
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.2) !important;
+}
+
+#addTagBtn.btn-primary:hover {
+    background: linear-gradient(135deg, #5A7AEE, #9A7BED) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.3) !important;
 }
 
 /* ========== ANIMAÇÕES GLOBAIS ========== */
@@ -2623,10 +3214,10 @@ a:hover {
 
 @keyframes pulse-glow {
     0%, 100% {
-        filter: drop-shadow(0 0 8px rgba(108, 140, 255, 0.2));
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.2));
     }
     50% {
-        filter: drop-shadow(0 0 24px rgba(108, 140, 255, 0.5));
+        filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.5));
     }
 }
 
@@ -2662,6 +3253,13 @@ a:hover {
     .course-card {
         width: 100%;
         max-width: 400px;
+        padding: 0 1rem 1.2rem 1rem;
+    }
+
+    .course-image-wrapper {
+        width: calc(100% + 2rem);
+        height: 120px;
+        margin: 0 -1rem 0.6rem -1rem;
     }
 
     .main-layout {
@@ -2804,10 +3402,8 @@ a:hover {
         border-radius: 20px;
     }
     .intro-logo-large {
-        max-width: 100%;
-        padding: 1rem 1rem 0.5rem 1rem;
+        height: 140px;
         border-radius: 20px 20px 0 0;
-        max-height: 140px;
     }
     #introContent {
         padding: 0 1rem 1rem 1rem;
@@ -2856,6 +3452,58 @@ a:hover {
     .team-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .profile-modal-content {
+        max-width: 95%;
+        border-radius: 20px;
+    }
+
+    .profile-modal-header {
+        padding: 1rem 1.2rem;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .profile-modal-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .profile-modal-body {
+        padding: 1rem;
+    }
+
+    .profile-user-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-stats .stat-item {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .profile-actions .btn-primary,
+    .profile-actions .btn-secondary {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .profile-course-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .profile-course-progress {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    .intro-logo-large {
+        height: 140px;
+        border-radius: 20px 20px 0 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2864,8 +3512,15 @@ a:hover {
     }
 
     .course-card {
-        padding: 1.2rem;
+        padding: 0 0.8rem 1rem 0.8rem;
     }
+
+    .course-image-wrapper {
+        width: calc(100% + 1.6rem);
+        height: 100px;
+        margin: 0 -0.8rem 0.5rem -0.8rem;
+    }
+
     .course-card h2 {
         font-size: 1.2rem;
     }
@@ -2940,6 +3595,10 @@ a:hover {
         max-height: 90vh;
         border-radius: 16px;
     }
+    .intro-logo-large {
+        height: 120px;
+        border-radius: 16px 16px 0 0;
+    }
     #introContent {
         font-size: 0.85rem;
         padding: 0 0.8rem 0.8rem 0.8rem;
@@ -2958,6 +3617,50 @@ a:hover {
 
     .team-grid {
         grid-template-columns: 1fr;
+    }
+
+    .profile-modal-content {
+        max-width: 98%;
+        border-radius: 16px;
+    }
+
+    .profile-modal-header h2 {
+        font-size: 1rem;
+    }
+
+    .profile-modal-body {
+        padding: 0.8rem;
+    }
+
+    .profile-user-section input,
+    .profile-user-section select {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .profile-stats .stat-item {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .profile-actions .btn-primary,
+    .profile-actions .btn-secondary {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .profile-note {
+        font-size: 0.7rem;
+    }
+
+    .avatar-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .ongoing-courses-summary {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
     }
 }
 
@@ -2988,9 +3691,17 @@ a:hover {
     .book-card::after,
     .help-modal,
     .intro-modal,
-    .final-completion-modal {
+    .final-completion-modal,
+    .profile-modal {
         animation: none !important;
         transition: none !important;
+    }
+
+    .course-image {
+        transform: none !important;
+    }
+    .course-card:hover .course-image {
+        transform: none !important;
     }
 
     .start-lesson-btn::after {
@@ -3023,6 +3734,26 @@ a:hover {
     }
 
     .notification {
+        transition: none !important;
+    }
+
+    .profile-modal {
+        animation: none !important;
+    }
+
+    .profile-modal-content {
+        animation: none !important;
+    }
+
+    .avatar-wrapper {
+        transition: none !important;
+    }
+
+    .avatar-overlay {
+        transition: none !important;
+    }
+
+    .profile-course-item {
         transition: none !important;
     }
 }
