@@ -118,5 +118,29 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "japones",
+    "name": "Japonês",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime."
+  },
+  {
+    "id": "portugues-brasileiro",
+    "name": "Brazilian Portuguese (for English Speakers)",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "japones-ingles",
+    "name": "Japanese (for English Speakers)",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
   }
 ]
