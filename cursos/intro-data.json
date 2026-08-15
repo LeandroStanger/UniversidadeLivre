@@ -1,16 +1,11 @@
 {
   "ciencia_computacao": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/graduacao/ciencia-computacao/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
         "url": "https://github.com/sindresorhus/awesome",
         "icon": "fa-solid fa-glasses"
-      },
-      {
-        "name": "ossu/computer-science",
-        "url": "https://github.com/ossu/computer-science",
-        "icon": "fa-brands fa-github"
       },
       {
         "name": "UBL/ciencia-da-computacao",
@@ -36,17 +31,12 @@
     "readmeContent": "<h1>Ciência da Computação</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Ciência da Computação!</p><p>O Curso de Ciência da Computação oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Ciência da Computação</strong> usando materiais on-line e em Português do Brasil. Este Curso não é pensado para treinamento em tecnologias específicas ou focado em habilidades profissionais direcionadas ao mercado, e sim para aqueles que desejam uma educação própria, <strong>com qualidade</strong>, fundada nos conceitos fundamentais da computação e é planejada para alunos com disciplina, comprometimento e (o mais importante) bons hábitos de estudo majoritariamente independentes, mas que buscam o suporte de uma comunidade de outros estudantes no Brasil todo.</p><p>Este curso contém conteúdos que seriam vistos em um curso de Ciência da Computação organizados de forma estruturada. Os cursos em si são selecionados primariamente do conteúdo aberto de diversas Universidades e Institutos de Educação do Brasil. Entretanto, os cursos presentes na grade seguem os seguintes critérios:</p><p><strong>Bases para a criação do Currículo (Guidelines):</strong></p><p>Levamos em consideração - apesar de não termos implementado completamente conforme sugerido - os seguintes documentos sobre a formação de um currículo em Ciência da Computação. Continuaremos constantemente trabalhando e aceitando sugestões de melhorias para cada vez mais oferecer uma experiência melhor para todos os estudantes que seguem nosso guia aberto de conteúdos. Além das referências abaixo, também utilizamos como referência as grades curriculares de outras instituições de ensino superior brasileiras.</p><ul><li><a href=\"https://books-sol.sbc.org.br/index.php/sbc/catalog/view/134/586/904\">Referenciais de Formação para os Cursos de Graduação em Computação 2017 (SBC)</a></li><li><a href=\"https://www.inf.ufrgs.br/site/wp-content/uploads/2016/05/diretrizes_curriculares.pdf\">Diretrizes Curriculares de Cursos da Área de Computação e Informática (UFRGS)</a></li></ul><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que se espera do Currículo de Ciências da Computação</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada. Note que os livros, em sua maioria, não são gratuitos.</p>"
   },
   "matematica": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/ubl_mat.jpeg",
+    "imageUrl": "cursos/graduacao/matematica/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
         "url": "https://github.com/sindresorhus/awesome",
         "icon": "fa-solid fa-glasses"
-      },
-      {
-        "name": "ossu/math",
-        "url": "https://github.com/ossu/math",
-        "icon": "fa-brands fa-github"
       },
       {
         "name": "UBL/matematica",
@@ -72,7 +62,7 @@
     "readmeContent": "<h1>Matemática</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Matemática!</p><p>O Curso oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Matemática</strong> usando materiais on-line e em Português do Brasil. Esse Curso é pensado para aqueles que desejam uma educação própria, <em>com qualidade</em>, fundada nos conceitos fundamentais da matemática e é planejada para alunos com disciplina, comprometimento e (o mais importante) bons hábitos de estudo majoritariamente independentes, mas que buscam o suporte de uma comunidade de outros estudantes no Brasil todo.</p><p>Esse curso contém conteúdos que seriam vistos em um curso de Matemática organizados de forma estruturada e que contêm disciplinas relacionadas ao campo de estudo e também disciplinas de formação geral. Os cursos em si são selecionados primariamente do conteúdo aberto de diversas Universidades e Institutos de Educação do Brasil, mas no geral os cursos presentes na grade seguem os seguintes critérios:</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que espera-se do Currículo de Matemática</li></ul>"
   },
   "computacao_grafica": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/computacao-grafica/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -103,7 +93,7 @@
     "readmeContent": "<h1>Computação Gráfica</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação em Computação Gráfica: fundamentos e técnicas avançadas de renderização, modelagem, visualização, pipeline gráfico, GPU, OpenGL, shaders e ray tracing.</p><p>Este curso é voltado para profissionais e estudantes que desejam aprofundar seus conhecimentos na área de computação gráfica, utilizando materiais de alta qualidade e integração com plataformas externas.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós-graduação em Computação Gráfica</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "embarcados": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/embarcados/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -134,7 +124,7 @@
     "readmeContent": "<h1>Embarcados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria e prática com plataformas externas.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em sistemas embarcados, desde o hardware básico até o firmware complexo, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Embarcados</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "desenvolvimento_web": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/desenvolvimento-web/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -165,7 +155,7 @@
     "readmeContent": "<h1>Desenvolvimento Web</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em desenvolvimento web, desde os fundamentos até a criação de aplicações completas, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Desenvolvimento Web</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "cybersecurity": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/cybersecurity/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -196,7 +186,7 @@
     "readmeContent": "<h1>CyberSecurity</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em segurança digital, desde os fundamentos até técnicas avançadas de proteção e resposta a incidentes, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em CyberSecurity</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "devops": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/devops/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -227,7 +217,7 @@
     "readmeContent": "<h1>DevOps</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em DevOps, desde os fundamentos até a implementação de pipelines completos, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em DevOps</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "ciencia_de_dados": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/pos-graduacao/ciencia-de-dados/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -258,7 +248,7 @@
     "readmeContent": "<h1>Ciência de Dados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em ciência de dados, desde os fundamentos até a aplicação prática em projetos, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Ciência de Dados</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "computer-science": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/graduacao/computer-science/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -274,7 +264,7 @@
     "readmeContent": "<h1>Computer Science</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in computer science using online materials. It's not merely for career training or professional development. It's for those who want a proper, well-rounded grounding in concepts fundamental to all computing disciplines, and for those who have the discipline, will, and (most importantly!) good habits to obtain this education largely on their own, but with support from a worldwide community of fellow learners.</p><p>It is designed according to the degree requirements of undergraduate computer science majors, minus general education (non-CS) requirements, as it is assumed most of the people following this curriculum are already educated outside the field of CS. The courses themselves are among the very best in the world, often coming from Harvard, Princeton, MIT, etc., but specifically chosen to meet the following criteria.</p>"
   },
   "math": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/ubl_mat.jpeg",
+    "imageUrl": "cursos/graduacao/math/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -290,7 +280,7 @@
     "readmeContent": "<h1>Mathematics</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in mathematics using online materials. It's for those who want a proper grounding in concepts fundamental to all math disciplines, and for those who have the discipline, will, and good habits to obtain this education largely on their own, but with support from a worldwide community of fellow learners.</p><p>It is designed according to the degree requirements of undergraduate math majors, minus general education (non-math) requirements, as it is assumed most of the people following this curriculum are already educated outside the field of math. The courses themselves are among the very best in the world, often coming from Harvard, MIT, Stanford, etc., but specifically chosen to meet the following criteria.</p>"
   },
   "enem": {
-    "imageUrl": "https://eshoje.com.br/wp-content/uploads/2023/10/1_provas_do_enem_foto_shutterstock-7115462.jpg",
+    "imageUrl": "cursos/ensino-medio/enem/imagen-card.png",
     "socialLinks": [
       {
         "name": "LeandroStanger/UniversidadeLivre",
@@ -301,7 +291,7 @@
     "readmeContent": "<h1>ENEM</h1><h3>Universidade Livre</h3><p>Preparação completa para o Exame Nacional do Ensino Médio.</p><p>Este curso reúne videoaulas organizadas por área de conhecimento, seguindo a matriz de referência do ENEM. Todo o conteúdo é gratuito e foi selecionado para cobrir os tópicos mais recorrentes nas provas.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida ou foque nas áreas que você tem mais dificuldade.</li><li>Utilize os materiais complementares e livros recomendados na bibliografia de cada disciplina.</li><li>Ao final, realize o simulado disponível na última etapa para avaliar seu desempenho.</li></ul><p>Bons estudos e sucesso no ENEM!</p>"
   },
   "espcex": {
-    "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.concursosbrasil.org%2Fwp-content%2Fuploads%2F2023%2F03%2Fconcurso-exercito-espcex.png&f=1&nofb=1&ipt=cc8896a4174444057e1b533c1d6beeee0bcad056e9074dc8baaced3ec8067675",
+    "imageUrl": "cursos/ensino-medio/espcex/imagen-card.png",
     "socialLinks": [
       {
         "name": "LeandroStanger/UniversidadeLivre",
@@ -312,7 +302,7 @@
     "readmeContent": "<h1>EsPCEx</h1><h3>Universidade Livre</h3><p>Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx).</p><p>Este curso foi estruturado para cobrir todo o conteúdo programático do exame, com videoaulas gratuitas organizadas por disciplina. Você encontrará aulas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, além de uma etapa dedicada a provas anteriores.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Siga a ordem das etapas ou priorize as disciplinas em que tem mais dificuldade.</li><li>Complemente os estudos com livros e apostilas específicos da EsPCEx.</li><li>Acesse a última etapa para praticar com provas anteriores e familiarize-se com o estilo da banca.</li></ul><p>Bons estudos e sucesso na EsPCEx!</p>"
   },
   "ingles": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/idiomas/ingles/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -328,7 +318,7 @@
     "readmeContent": "<h1>Inglês</h1><h3>Universidade Livre</h3><p>Curso completo de Inglês do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do inglês!</p>"
   },
   "espanhol": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/idiomas/espanhol/imagen-card.png",
     "socialLinks": [
       {
         "name": "awesome",
@@ -344,7 +334,7 @@
     "readmeContent": "<h1>Espanhol</h1><h3>Universidade Livre</h3><p>Curso completo de Espanhol do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1/A2.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do espanhol!</p>"
   },
   "espanhol-ingles": {
-    "imageUrl": "https://raw.githubusercontent.com/Universidade-Livre/imagens/refs/heads/main/outras/placeholder.png",
+    "imageUrl": "cursos/idiomas/espanhol-ingles/imagen-card.png",
     "socialLinks": [
       {
         "name": "EasySpanish",
@@ -368,5 +358,98 @@
       }
     ],
     "readmeContent": "<h1>Spanish (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Spanish course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo and Babbel.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 2 hours per stage</li><li><a href=\"https://www.babbel.com/?locale=en\" target=\"_blank\">Babbel</a> - 2 hours per stage</li></ul><p>Good luck and enjoy your journey learning Spanish!</p><p>¡Buena suerte y disfruta tu viaje aprendiendo español!</p>"
+  },
+  "japones": {
+    "imageUrl": "cursos/idiomas/japones/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Nihongando com Nanda",
+        "url": "https://www.youtube.com/@NihongandocomNanda",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "My Nihongo Lessons",
+        "url": "https://www.youtube.com/@MyNihongoLessons-kp9zx",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Babi san | Hora do Japonês",
+        "url": "https://www.youtube.com/@Babisan",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "HeyJapan",
+        "url": "https://japanese.heylearning.net/?hl=pt",
+        "icon": "fa-solid fa-graduation-cap"
+      },
+      {
+        "name": "Duolingo",
+        "url": "https://pt.duolingo.com/",
+        "icon": "fa-solid fa-language"
+      },
+      {
+        "name": "Memrise",
+        "url": "https://app.memrise.com/bienvenue?source=pt-br&target=jp-full",
+        "icon": "fa-solid fa-brain"
+      }
+    ],
+    "readmeContent": "<h1>Japonês</h1><h3>Universidade Livre</h3><p>Curso completo de Japonês do zero, organizado por etapas de aprendizado.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo os sistemas de escrita (Hiragana e Katakana), vocabulário básico, gramática essencial e prática com animes. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Comece pela 0ª Etapa para aprender Hiragana e Katakana.</li><li>Pratique diariamente com as plataformas HeyJapan, Duolingo e Memrise.</li><li>Assista às aulas básicas para construir seu vocabulário e gramática.</li><li>Na 2ª Etapa, pratique com animes para melhorar sua compreensão auditiva.</li></ul><p><strong>Plataformas de prática externas:</strong></p><ul><li><a href=\"https://japanese.heylearning.net/lessons?hl=pt\" target=\"_blank\">HeyJapan</a> - 5 horas (Etapa 0)</li><li><a href=\"https://pt.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 horas por etapa (Etapas 1 e 2)</li><li><a href=\"https://app.memrise.com/bienvenue?source=pt-br&target=jp-full\" target=\"_blank\">Memrise</a> - 25 horas por etapa (Etapas 1 e 2)</li></ul><p>Bons estudos e boa jornada no aprendizado do japonês!</p><p>がんばってください！</p>"
+  },
+  "portugues-brasileiro": {
+    "imageUrl": "cursos/idiomas/portugues-brasileiro/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Easy Portuguese",
+        "url": "https://www.youtube.com/@EasyPortugueseVideos",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Duolingo",
+        "url": "https://en.duolingo.com/",
+        "icon": "fa-solid fa-language"
+      }
+    ],
+    "readmeContent": "<h1>Brazilian Portuguese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 hours per stage</li></ul><p>Good luck and enjoy your journey learning Brazilian Portuguese!</p><p>Boa sorte e aproveite sua jornada aprendendo português brasileiro!</p>"
+  },
+  "japones-ingles": {
+    "imageUrl": "cursos/idiomas/japones-ingles/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "FunNihongo",
+        "url": "https://www.youtube.com/@funnihongo9881",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "TOMO sensei",
+        "url": "https://www.youtube.com/@TOMOsensei",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "HeyJapan",
+        "url": "https://japanese.heylearning.net/?hl=en",
+        "icon": "fa-solid fa-graduation-cap"
+      },
+      {
+        "name": "Duolingo",
+        "url": "https://en.duolingo.com/",
+        "icon": "fa-solid fa-language"
+      },
+      {
+        "name": "JapanesePod101",
+        "url": "https://www.youtube.com/@JapanesePod101",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "NHK WORLD-JAPAN",
+        "url": "https://www.youtube.com/@NHKWORLDJAPAN",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "JEIS Discord",
+        "url": "https://discord.gg/jeis",
+        "icon": "fa-brands fa-discord"
+      }
+    ],
+    "readmeContent": "<h1>Japanese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Japanese course from zero to intermediate level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering Hiragana, Katakana, Kanji, grammar, vocabulary, listening and reading comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Start with Stage 0 to learn Hiragana and Katakana.</li><li>Practice daily with HeyJapan, Duolingo, and Memrise.</li><li>Watch basic lessons to build vocabulary and grammar.</li><li>In Stage 4, practice with anime and Kanji lessons.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://japanese.heylearning.net/lessons?hl=en\" target=\"_blank\">HeyJapan</a> - 6 hours (Stage 0) / 25 hours (Stages 1-5)</li><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 hours per stage</li></ul><p>Good luck and enjoy your journey learning Japanese!</p><p>がんばってください！</p>"
   }
 }

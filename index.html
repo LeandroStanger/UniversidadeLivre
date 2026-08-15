@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
     <link rel="stylesheet" href="cursos/course-intro.css">
+    <link rel="stylesheet" href="onboarding/onboarding.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.css">
 </head>
 <body>
 <div class="container">
+    <!-- ========== CABEÇALHO ========== -->
     <div class="header">
         <div class="logo">
             <a href="index.html" style="text-decoration: none; display: block;">
@@ -32,13 +34,22 @@
             <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                 <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
             </a>
-            <a href="biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span></a>
-            <a href="auditorio/auditorio.html" class="btn-biblioteca" style="background: var(--accent-blue);"><i class="fas fa-video"></i> Auditório</a>
-            <a href="notas/notas.html" class="btn-biblioteca" target="_blank" style="background: var(--accent-green);"><i class="fas fa-pencil-alt"></i> Notas</a>
+            <a href="biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" data-i18n="library_button">
+                <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span>
+            </a>
+            <a href="auditorio/auditorio.html" class="btn-biblioteca" style="background: var(--accent-blue);" data-i18n="auditorio_title">
+                <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span>
+            </a>
+            <a href="notas/notas.html" class="btn-biblioteca" target="_blank" style="background: var(--accent-green);" data-i18n="notas_heading">
+                <i class="fas fa-pencil-alt"></i> <span data-i18n="notas_heading">Notas</span>
+            </a>
+            <button id="profileBtn" class="btn-biblioteca" style="background: var(--accent-purple);" data-profile-custom="false">
+                <i class="fas fa-user"></i> <span data-i18n="profile">Perfil</span>
+            </button>
         </div>
     </div>
 
-    <!-- Filtros da página inicial -->
+    <!-- ========== FILTROS DA PÁGINA INICIAL ========== -->
     <div id="homeFilters" class="home-filters">
         <div class="search-wrapper">
             <i class="fas fa-search search-icon"></i>
@@ -56,12 +67,15 @@
         </div>
     </div>
 
+    <!-- ========== LISTA DE CURSOS ========== -->
     <div id="homeScreen" class="home-screen"></div>
 
+    <!-- ========== VISUALIZAÇÃO DO CURSO ========== -->
     <div id="courseView" class="course-view">
         <button class="back-btn" id="backToHomeBtn" data-i18n="back_to_courses"><i class="fas fa-arrow-left"></i> Voltar para cursos</button>
         <div class="main-layout">
             <div class="video-column">
+                <!-- Player -->
                 <div class="player-section">
                     <div class="video-wrapper">
                         <div id="youtube-player"></div>
@@ -90,6 +104,7 @@
                     </div>
                 </div>
 
+                <!-- Abas -->
                 <div class="lesson-tabs">
                     <div class="tabs-header">
                         <button class="tab-btn active" data-tab="bibliografia" data-i18n="tab_bibliography">Bibliografia</button>
@@ -118,13 +133,17 @@
                 </div>
             </div>
             <div class="right-sidebar">
+                <!-- Progresso -->
                 <div id="progressChartContainer" class="chart-container"></div>
                 
+                <!-- Aula Atual -->
                 <div class="current-lesson-panel" id="currentLessonPanel">
                     <button class="help-button" id="helpButton" style="display: none;" data-i18n="help_button" aria-label="Ajuda">Ajuda</button>
                     <div class="panel-title" data-i18n="current_lesson"><i class="fas fa-play-circle"></i> Aula Atual</div>
                     <div id="currentLessonPanelContent">Carregando...</div>
                 </div>
+                
+                <!-- Conteúdo do Curso -->
                 <div class="unified-content" id="unifiedCourseContent">
                     <h3 data-i18n="course_content"><i class="fas fa-book-open"></i> Conteúdo do Curso</h3>
                     <div id="unifiedContentList">Carregando...</div>
@@ -134,6 +153,7 @@
     </div>
 </div>
 
+<!-- ========== MODAL DE AJUDA ========== -->
 <div id="helpModal" class="help-modal" role="dialog" aria-hidden="true" aria-label="Ajuda do curso">
     <div class="help-modal-content">
         <div class="help-modal-header">
@@ -144,6 +164,7 @@
     </div>
 </div>
 
+<!-- ========== MODAL DE INTRODUÇÃO DO CURSO ========== -->
 <div id="courseIntroModal" class="course-intro-modal" role="dialog" aria-hidden="true">
     <div class="intro-modal-content">
         <img class="intro-logo-large" src="" alt="Universidade Livre - Um caminho para a educação autodidata">
@@ -157,6 +178,7 @@
     </div>
 </div>
 
+<!-- ========== MODAL DE CONCLUSÃO FINAL ========== -->
 <div id="finalCompletionModal" class="final-completion-modal" role="dialog" aria-hidden="true">
     <div class="final-modal-content">
         <div class="final-modal-header">
@@ -186,12 +208,225 @@
     </div>
 </div>
 
+<!-- ========== MODAL DE PERFIL ========== -->
+<div id="profileModal" class="profile-modal" style="display: none;" aria-hidden="true">
+    <div class="profile-modal-content">
+        <div class="profile-modal-header">
+            <h2><i class="fas fa-user-circle"></i> <span data-i18n="profile_title">Meu Perfil</span></h2>
+            <button class="close-profile-modal" id="closeProfileModal">&times;</button>
+        </div>
+        <div class="profile-modal-body">
+            <!-- Avatar -->
+            <div class="profile-avatar-section">
+                <div class="avatar-wrapper" id="avatarWrapper">
+                    <img id="profileAvatar" src="https://ui-avatars.com/api/?name=Usuario&background=6C8CFF&color=fff&size=80" alt="Avatar">
+                    <div class="avatar-overlay">
+                        <i class="fas fa-camera"></i>
+                        <span data-i18n="profile_change_photo">Alterar foto</span>
+                    </div>
+                </div>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Nome -->
+            <div class="profile-user-section">
+                <label for="profileNameInput"><i class="fas fa-user"></i> <span data-i18n="profile_name">Nome</span></label>
+                <input type="text" id="profileNameInput" placeholder="Seu nome..." value="">
+                <button id="profileSaveNameBtn" class="btn-secondary"><i class="fas fa-save"></i> <span data-i18n="profile_save_name">Salvar Nome</span></button>
+            </div>
+
+            <!-- Gênero -->
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profileGender"><i class="fas fa-venus-mars"></i> <span data-i18n="profile_gender">Gênero</span></label>
+                <select id="profileGender" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;">
+                    <option value="" data-i18n="profile_gender_not_informed">Não informado</option>
+                    <option value="masculino" data-i18n="profile_gender_masculine">Masculino</option>
+                    <option value="feminino" data-i18n="profile_gender_feminine">Feminino</option>
+                    <option value="outro" data-i18n="profile_gender_other">Outro</option>
+                </select>
+                <button id="profileSaveGenderBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
+
+            <!-- Senha -->
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
+                <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;">
+                <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
+            <hr>
+
+            <!-- Cursos em andamento -->
+            <div id="ongoingCoursesContainer" style="margin: 0.5rem 0;"></div>
+
+            <!-- Estatísticas -->
+            <div class="profile-stats">
+                <div class="stat-item"><i class="fas fa-video"></i> <span data-i18n="profile_watched_videos">Vídeos assistidos</span> <span id="profileWatchedVideos">0</span></div>
+                <div class="stat-item"><i class="fas fa-book"></i> <span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
+                <div class="stat-item"><i class="fas fa-check-circle"></i> <span data-i18n="profile_completed_lessons">Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
+                <div class="stat-item"><i class="fas fa-award"></i> <span data-i18n="profile_completed_disciplines">Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
+                <div class="stat-item profile-points"><i class="fas fa-star"></i> <span data-i18n="profile_total_points">Pontuação total</span> <span id="profileTotalPoints">0</span></div>
+                <div class="stat-item"><i class="fas fa-headphones"></i> <span data-i18n="profile_auditorio_hours">Horas no Auditório</span> <span id="profileAuditorioTime">0</span></div>
+            </div>
+
+            <!-- Lista de cursos -->
+            <div id="profileCoursesList" style="margin: 1rem 0;"></div>
+
+            <!-- Exportação/Importação -->
+            <hr style="margin: 1rem 0;">
+            <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+                <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
+                <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
+                <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
+                <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
+            </div>
+            <div id="notesSelectionContainer" style="margin-bottom: 0.8rem; display: block;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
+                <div id="notesCheckboxes"></div>
+            </div>
+            <div class="profile-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
+                <button id="importProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none;"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            </div>
+            <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- ========== NOTIFICAÇÕES ========== -->
 <div id="notificationContainer" style="position: fixed; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; min-width: 320px; max-width: 420px;"></div>
 
+<!-- ========== MODAL DE DETALHES DO LIVRO ========== -->
 <div id="bookDetailModal" class="book-modal" role="dialog" aria-hidden="true">
     <div class="modal-content"><div id="bookDetailContent"></div></div>
 </div>
 
+<!-- ========== MODAL DE ONBOARDING (TRILHA DE BOAS-VINDAS) ========== -->
+<div id="onboardingModal" class="onboarding-modal" style="display: none;" aria-hidden="true">
+    <div class="onboarding-modal-content">
+        <div id="onboardingSteps">
+            <!-- Passo 0: Escolha de idioma -->
+            <div class="step active" data-step="0">
+                <h2><i class="fas fa-globe"></i> <span data-i18n="onboarding_language_title">Escolha seu idioma</span></h2>
+                <p data-i18n="onboarding_language_text">Selecione o idioma da plataforma para continuar.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
+                    <button id="onboardingLangPt" class="lang-select-btn" data-lang="pt-br" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇧🇷 Português
+                    </button>
+                    <button id="onboardingLangEn" class="lang-select-btn" data-lang="en" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇺🇸 English
+                    </button>
+                </div>
+                <div id="onboardingLangError" class="form-error" style="display:none; text-align: center;" data-i18n="onboarding_error_language_required">Por favor, selecione um idioma.</div>
+            </div>
+            <!-- Passo 1: Boas-vindas -->
+            <div class="step" data-step="1">
+                <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
+                <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
+                <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
+                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+            </div>
+            <!-- Passo 2: Sobre o projeto -->
+            <div class="step" data-step="2">
+                <h2><i class="fas fa-info-circle"></i> <span data-i18n="onboarding_about_title">Sobre o projeto</span></h2>
+                <p data-i18n="onboarding_about_text">A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.</p>
+                <p style="font-size:0.9rem; color:var(--text-secondary);"><span data-i18n="course_progress">Progresso do Curso</span> – <span data-i18n="course_hours">Carga horária</span></p>
+            </div>
+            <!-- Passo 3: Login (apenas senha + importação) ou Cadastro -->
+            <div class="step" data-step="3">
+                <h2><i class="fas fa-sign-in-alt"></i> <span id="onboardingModeTitle" data-i18n="onboarding_login_button">Entrar</span></h2>
+
+                <!-- Modo Login (padrão) -->
+                <div id="onboardingLoginMode">
+                    <div class="form-group">
+                        <label for="onboardingLoginPassword" data-i18n="onboarding_login_password_label">Senha</label>
+                        <input type="password" id="onboardingLoginPassword" placeholder="Digite sua senha..." data-i18n-placeholder="onboarding_login_password_placeholder">
+                        <div id="onboardingLoginError" class="form-error" style="display:none;" data-i18n="onboarding_error_login_failed">Senha incorreta.</div>
+                    </div>
+                    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                        <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
+                    </div>
+                    <div style="margin-top: 0.5rem; text-align: center; border-top: 1px solid var(--border); padding-top: 0.8rem;">
+                        <button type="button" id="onboardingToggleModeBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
+                            <span data-i18n="onboarding_create_account">Criar conta</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modo Cadastro (oculto inicialmente) -->
+                <div id="onboardingSignupMode" style="display: none;">
+                    <div class="form-group">
+                        <label for="onboardingName" data-i18n="onboarding_form_name_label">Nome</label>
+                        <input type="text" id="onboardingName" placeholder="Digite seu nome..." data-i18n-placeholder="onboarding_form_name_placeholder">
+                        <div id="onboardingNameError" class="form-error" style="display:none;" data-i18n="onboarding_error_name_required">O nome é obrigatório.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingGender" data-i18n="onboarding_form_gender_label">Sexo <span style="color:#EF4444;">*</span></label>
+                        <select id="onboardingGender">
+                            <option value="" data-i18n="onboarding_form_gender_not_informed">Selecione...</option>
+                            <option value="masculino" data-i18n="onboarding_form_gender_masculine">Masculino</option>
+                            <option value="feminino" data-i18n="onboarding_form_gender_feminine">Feminino</option>
+                            <option value="outro" data-i18n="onboarding_form_gender_other">Outro</option>
+                        </select>
+                        <div id="onboardingGenderError" class="form-error" style="display:none;" data-i18n="onboarding_error_gender_required">Por favor, selecione seu sexo.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingPassword" data-i18n="onboarding_form_password_label">Senha</label>
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingPassword" placeholder="Crie uma senha forte..." data-i18n-placeholder="onboarding_form_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingTogglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
+                        <div id="onboardingPasswordError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_min">A senha deve ter pelo menos 8 caracteres.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingConfirmPassword" data-i18n="onboarding_form_confirm_password_label">Confirmar senha</label>
+                        <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder">
+                        <div id="onboardingConfirmError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_mismatch">As senhas não coincidem.</div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="onboarding_form_avatar_label">Escolha seu avatar</label>
+                        <div id="avatarSelectorContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-top: 6px; padding: 4px 0; max-height: 280px; overflow-y: auto; overflow-x: hidden;"></div>
+                        <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                            <button type="button" id="onboardingUploadAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem;">
+                                <i class="fas fa-upload"></i> <span data-i18n="onboarding_form_avatar_upload">Enviar foto</span>
+                            </button>
+                            <button type="button" id="onboardingRemoveAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem; background:var(--bg-tertiary);">
+                                <i class="fas fa-trash-alt"></i> <span data-i18n="onboarding_form_avatar_remove">Remover foto</span>
+                            </button>
+                            <button type="button" id="onboardingAvatarLicense" class="btn-secondary" style="padding:4px 12px; font-size:0.7rem; background:transparent; border-color:var(--border);">
+                                <i class="fas fa-balance-scale"></i> <span data-i18n="onboarding_form_avatar_license">Licença das imagens</span>
+                            </button>
+                        </div>
+                        <input type="file" id="onboardingAvatarInput" accept="image/*" style="display:none;">
+                    </div>
+                    <div style="margin-top: 0.5rem; text-align: center;">
+                        <button type="button" id="onboardingToggleModeBackBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
+                            <span data-i18n="onboarding_switch_to_login">Já tenho conta? Faça login</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Passo 4: Confirmação (apenas para novo cadastro) -->
+            <div class="step" data-step="4">
+                <h2><i class="fas fa-check-circle"></i> <span data-i18n="onboarding_confirm_title">Pronto para começar!</span></h2>
+                <p data-i18n="onboarding_confirm_text">Seu perfil foi criado. Explore os cursos, participe da comunidade e comece sua jornada de aprendizado.</p>
+                <p style="margin-top:1rem; color:var(--accent-green);"><i class="fas fa-graduation-cap"></i> <span data-i18n="course_progress">Progresso do Curso</span>: 0%</p>
+            </div>
+        </div>
+        <div class="onboarding-footer">
+            <button id="onboardingPrev" class="btn-secondary" style="display:none;" data-i18n="onboarding_button_prev">Voltar</button>
+            <button id="onboardingNext" class="btn-primary" data-i18n="onboarding_button_next">Próximo</button>
+            <button id="onboardingFinish" class="btn-primary" style="display:none;" data-i18n="onboarding_button_finish">Concluir</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== SCRIPTS ========== -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="cursos/cursor-timeset.js"></script>
@@ -199,5 +434,8 @@
 <script src="cursos/ajuda/help-modal.js"></script>
 <script src="cursos/course-intro.js"></script>
 <script src="cursos/final-completion.js"></script>
+<script src="perfil/profile.js"></script>
+<script src="onboarding/onboarding.js"></script>
+
 </body>
 </html>

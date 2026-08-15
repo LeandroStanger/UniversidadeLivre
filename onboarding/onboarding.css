@@ -1,0 +1,881 @@
+/* ============================================================
+   onboarding.css – Versão 5.0 – COMPLETO
+   Estilos para a Trilha de Boas-vindas (Onboarding)
+   Tema escuro premium com glassmorphism e animações modernas
+   Inclui: Login como passo principal, Cadastro, Importação de progresso
+   Avatares em grade com scroll vertical (sem rolagem horizontal)
+   Indicador de força de senha com barras coloridas
+   Universidade Livre · Todos os módulos
+   ============================================================ */
+
+/* ========== IMPORTAÇÃO DE FONTES ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap');
+
+/* ========== MODAL PRINCIPAL ========== */
+.onboarding-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 11, 20, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: onboardingFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.onboarding-modal.show {
+    display: flex;
+}
+
+@keyframes onboardingFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ========== CONTEÚDO DO MODAL ========== */
+.onboarding-modal-content {
+    background: var(--bg-secondary, #0F1624);
+    border-radius: 24px;
+    max-width: 620px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+    animation: onboardingScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes onboardingScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ========== ÁREA DOS PASSOS ========== */
+#onboardingSteps {
+    padding: 2rem 1.8rem 1.5rem 1.8rem;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue, #6C8CFF) var(--bg-tertiary, #1A2638);
+}
+
+#onboardingSteps::-webkit-scrollbar {
+    width: 4px;
+}
+#onboardingSteps::-webkit-scrollbar-track {
+    background: var(--bg-tertiary, #1A2638);
+    border-radius: 4px;
+}
+#onboardingSteps::-webkit-scrollbar-thumb {
+    background: var(--accent-blue, #6C8CFF);
+    border-radius: 4px;
+}
+
+/* ========== PASSOS INDIVIDUAIS ========== */
+.step {
+    display: none;
+    animation: onboardingStepFade 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes onboardingStepFade {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ========== TÍTULOS DOS PASSOS ========== */
+.step h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent-teal, #38BDF8);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    letter-spacing: -0.3px;
+}
+
+.step h2 i {
+    color: var(--accent-blue, #6C8CFF);
+    font-size: 1.4rem;
+}
+
+.step p {
+    color: var(--text-secondary, #B0C4DE);
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+/* ========== LOGO NO PASSO DE BOAS-VINDAS ========== */
+.step .logo-large {
+    display: block;
+    max-width: 120px;
+    margin: 0 auto 1rem;
+    filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.15));
+    transition: filter 0.3s ease;
+}
+
+.step .logo-large:hover {
+    filter: drop-shadow(0 4px 30px rgba(16, 185, 129, 0.3));
+}
+
+/* ========== GRUPOS DE FORMULÁRIO ========== */
+.step .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.step .form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-secondary, #B0C4DE);
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.2px;
+}
+
+.step .form-group label i {
+    margin-right: 0.4rem;
+    color: var(--accent-teal, #38BDF8);
+}
+
+.step .form-group label span {
+    color: #EF4444;
+}
+
+.step .form-group input,
+.step .form-group select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: var(--bg-tertiary, #1A2638);
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    border-radius: 2rem;
+    color: var(--text-primary, #F5F9FF);
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+}
+
+.step .form-group input:focus,
+.step .form-group select:focus {
+    outline: none;
+    border-color: var(--accent-blue, #6C8CFF);
+    box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.15);
+    background: var(--bg-tertiary, #1A2638);
+}
+
+.step .form-group input::placeholder {
+    color: var(--text-tertiary, #7A94B8);
+    opacity: 0.7;
+}
+
+.step .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A94B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.step .form-group select option {
+    background: var(--bg-secondary, #0F1624);
+    color: var(--text-primary, #F5F9FF);
+}
+
+/* ========== ERROS DO FORMULÁRIO ========== */
+.step .form-error {
+    color: #EF4444;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    padding-left: 0.5rem;
+    display: none;
+    animation: onboardingErrorShake 0.3s ease;
+}
+
+@keyframes onboardingErrorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* ========== INDICADOR DE FORÇA DA SENHA (MODERNIZADO) ========== */
+#passwordStrengthIndicator {
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+#passwordStrengthIndicator .strength-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-secondary, #0F1624);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 4px;
+    position: relative;
+}
+
+#passwordStrengthIndicator .strength-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+}
+
+#passwordStrengthIndicator .strength-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+    border-radius: 4px;
+}
+
+/* ========== SELETOR DE AVATAR (GRADE SEM ROLAGEM HORIZONTAL) ========== */
+#avatarSelectorContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    margin-top: 6px;
+    padding: 4px 0;
+    max-height: 280px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue, #6C8CFF) var(--bg-tertiary, #1A2638);
+}
+
+#avatarSelectorContainer::-webkit-scrollbar {
+    width: 4px;
+}
+#avatarSelectorContainer::-webkit-scrollbar-track {
+    background: var(--bg-tertiary, #1A2638);
+    border-radius: 4px;
+}
+#avatarSelectorContainer::-webkit-scrollbar-thumb {
+    background: var(--accent-blue, #6C8CFF);
+    border-radius: 4px;
+}
+
+#avatarSelectorContainer > div {
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 2px solid var(--border, rgba(42, 58, 90, 0.4));
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    background: var(--bg-tertiary, #1A2638);
+    min-width: 0;
+}
+
+#avatarSelectorContainer > div:hover {
+    transform: scale(1.06);
+    border-color: var(--accent-blue, #6C8CFF);
+    z-index: 2;
+}
+
+#avatarSelectorContainer > div.selected {
+    border-color: var(--accent-blue, #6C8CFF);
+    transform: scale(1.04);
+    box-shadow: 0 0 20px rgba(108, 140, 255, 0.25);
+    z-index: 3;
+}
+
+#avatarSelectorContainer > div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Indicador de upload (foto personalizada) */
+#avatarSelectorContainer .upload-indicator {
+    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: var(--accent-green, #10b981);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    border: 2px solid var(--accent-blue, #6C8CFF);
+    animation: onboardingPulse 2s ease-in-out infinite;
+}
+
+@keyframes onboardingPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+
+/* ========== BOTÕES DO SELETOR DE AVATAR ========== */
+#onboardingUploadAvatar,
+#onboardingRemoveAvatar,
+#onboardingAvatarLicense {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+}
+
+#onboardingUploadAvatar {
+    background: var(--gradient-primary, linear-gradient(135deg, #6C8CFF, #A78BFA));
+    color: white;
+    border: none;
+}
+
+#onboardingUploadAvatar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+}
+
+#onboardingRemoveAvatar {
+    background: var(--bg-tertiary, #1A2638);
+    color: var(--text-secondary, #B0C4DE);
+}
+
+#onboardingRemoveAvatar:hover {
+    background: var(--accent-green, #10b981);
+    color: white;
+    border-color: var(--accent-green, #10b981);
+    transform: translateY(-2px);
+}
+
+#onboardingAvatarLicense {
+    background: transparent;
+    color: var(--text-tertiary, #7A94B8);
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+}
+
+#onboardingAvatarLicense:hover {
+    border-color: var(--accent-blue, #6C8CFF);
+    color: var(--text-primary, #F5F9FF);
+    transform: translateY(-2px);
+}
+
+/* ========== BOTÃO DE MOSTRAR/ESCONDER SENHA ========== */
+#onboardingTogglePassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary, #B0C4DE);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+    transition: color 0.3s ease;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#onboardingTogglePassword:hover {
+    color: var(--text-primary, #F5F9FF);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ========== MODO LOGIN ========== */
+#onboardingLoginMode .form-group:last-of-type {
+    margin-bottom: 0.5rem;
+}
+
+#onboardingLoginMode .btn-primary {
+    background: var(--gradient-primary, linear-gradient(135deg, #6C8CFF, #A78BFA));
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+}
+
+#onboardingLoginMode .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.35);
+}
+
+#onboardingLoginMode .btn-primary:active {
+    transform: scale(0.97);
+}
+
+#onboardingImportProgressBtn {
+    background: var(--accent-green, #10b981);
+    color: #070B14;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+}
+
+#onboardingImportProgressBtn:hover {
+    background: var(--accent-green-hover, #0ea575);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+}
+
+#onboardingImportProgressBtn:active {
+    transform: scale(0.97);
+}
+
+/* ========== RODAPÉ DO ONBOARDING ========== */
+.onboarding-footer {
+    padding: 1rem 1.8rem;
+    border-top: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-tertiary, #1A2638);
+    flex-shrink: 0;
+    gap: 1rem;
+    border-radius: 0 0 24px 24px;
+}
+
+.onboarding-footer .btn-secondary,
+.onboarding-footer .btn-primary {
+    padding: 0.6rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 100px;
+    justify-content: center;
+}
+
+.onboarding-footer .btn-secondary {
+    background: var(--bg-secondary, #0F1624);
+    color: var(--text-primary, #F5F9FF);
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+}
+
+.onboarding-footer .btn-secondary:hover {
+    background: var(--bg-tertiary, #1A2638);
+    border-color: var(--accent-blue, #6C8CFF);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.15);
+}
+
+.onboarding-footer .btn-primary {
+    background: var(--gradient-primary, linear-gradient(135deg, #6C8CFF, #A78BFA));
+    color: white;
+    box-shadow: 0 4px 12px rgba(108, 140, 255, 0.2);
+}
+
+.onboarding-footer .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(108, 140, 255, 0.35);
+}
+
+.onboarding-footer .btn-primary:active {
+    transform: scale(0.97);
+}
+
+.onboarding-footer .btn-primary#onboardingFinish {
+    background: var(--gradient-donate, linear-gradient(135deg, #FBBF24, #10b981));
+}
+
+.onboarding-footer .btn-primary#onboardingFinish:hover {
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+}
+
+/* ========== INDICADOR DE PROGRESSO (BOLINHAS) ========== */
+.onboarding-progress {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.5rem 0 0.2rem 0;
+}
+
+.onboarding-progress .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-tertiary, #1A2638);
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.onboarding-progress .dot.active {
+    background: var(--gradient-primary, linear-gradient(135deg, #6C8CFF, #A78BFA));
+    border-color: var(--accent-blue, #6C8CFF);
+    transform: scale(1.2);
+    box-shadow: 0 0 16px rgba(108, 140, 255, 0.3);
+}
+
+.onboarding-progress .dot.completed {
+    background: var(--accent-green, #10b981);
+    border-color: var(--accent-green, #10b981);
+}
+
+/* ========== TOAST DE NOTIFICAÇÃO ========== */
+#onboardingToast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card, rgba(26, 38, 56, 0.7));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 14px 28px;
+    border-radius: 16px;
+    border: 1px solid var(--border, rgba(42, 58, 90, 0.4));
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+    color: var(--text-primary, #F5F9FF);
+    font-size: 0.95rem;
+    font-weight: 500;
+    z-index: 99999;
+    max-width: 90%;
+    text-align: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    animation: onboardingToastSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes onboardingToastSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+}
+
+#onboardingToast.success {
+    border-left: 4px solid #22c55e;
+}
+
+#onboardingToast.error {
+    border-left: 4px solid #ef4444;
+}
+
+#onboardingToast.info {
+    border-left: 4px solid #6C8CFF;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 768px) {
+    .onboarding-modal-content {
+        max-width: 95%;
+        border-radius: 20px;
+    }
+    #onboardingSteps {
+        padding: 1.5rem 1.2rem 1rem 1.2rem;
+    }
+    .step h2 {
+        font-size: 1.3rem;
+    }
+    .step h2 i {
+        font-size: 1.1rem;
+    }
+    .step p {
+        font-size: 0.9rem;
+    }
+    .step .form-group input,
+    .step .form-group select {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.9rem;
+    }
+    #avatarSelectorContainer {
+        gap: 6px;
+        max-height: 220px;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+    #avatarSelectorContainer > div {
+        border-width: 2px;
+    }
+    #avatarSelectorContainer .upload-indicator {
+        font-size: 1.4rem;
+    }
+    #onboardingLoginMode .btn-primary,
+    #onboardingImportProgressBtn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+    .onboarding-footer {
+        padding: 0.8rem 1.2rem;
+        border-radius: 0 0 20px 20px;
+        flex-direction: column-reverse;
+        gap: 0.6rem;
+        align-items: stretch;
+    }
+    .onboarding-footer .btn-secondary,
+    .onboarding-footer .btn-primary {
+        min-width: auto;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    .onboarding-footer .btn-secondary {
+        order: 2;
+    }
+    .onboarding-footer .btn-primary {
+        order: 1;
+    }
+    .onboarding-progress {
+        gap: 6px;
+    }
+    .onboarding-progress .dot {
+        width: 8px;
+        height: 8px;
+    }
+    #onboardingToast {
+        font-size: 0.85rem;
+        padding: 12px 20px;
+        bottom: 20px;
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .onboarding-modal-content {
+        max-width: 98%;
+        border-radius: 16px;
+        max-height: 95vh;
+    }
+    #onboardingSteps {
+        padding: 1.2rem 1rem 0.8rem 1rem;
+    }
+    .step h2 {
+        font-size: 1.1rem;
+    }
+    .step p {
+        font-size: 0.85rem;
+    }
+    .step .form-group {
+        margin-bottom: 0.9rem;
+    }
+    .step .form-group label {
+        font-size: 0.8rem;
+    }
+    .step .form-group input,
+    .step .form-group select {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+        border-radius: 1.5rem;
+    }
+    .step .logo-large {
+        max-width: 80px;
+    }
+    #avatarSelectorContainer {
+        gap: 4px;
+        max-height: 180px;
+        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    }
+    #avatarSelectorContainer > div {
+        border-width: 1.5px;
+    }
+    #avatarSelectorContainer .upload-indicator {
+        font-size: 1.2rem;
+    }
+    #onboardingUploadAvatar,
+    #onboardingRemoveAvatar,
+    #onboardingAvatarLicense {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.7rem;
+    }
+    #onboardingLoginMode {
+        display: flex;
+        flex-direction: column;
+    }
+    #onboardingLoginMode .btn-primary,
+    #onboardingImportProgressBtn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        flex: 1;
+        min-width: auto;
+    }
+    #onboardingLoginMode > div:last-child {
+        flex-direction: column;
+    }
+    .onboarding-footer {
+        padding: 0.6rem 1rem;
+        border-radius: 0 0 16px 16px;
+    }
+    .onboarding-footer .btn-secondary,
+    .onboarding-footer .btn-primary {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        min-height: 40px;
+    }
+    #onboardingTogglePassword {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+        right: 8px;
+    }
+    #passwordStrengthIndicator {
+        font-size: 0.7rem;
+    }
+    .onboarding-progress .dot {
+        width: 6px;
+        height: 6px;
+    }
+    #onboardingToast {
+        font-size: 0.8rem;
+        padding: 10px 16px;
+        bottom: 16px;
+        border-radius: 12px;
+    }
+}
+
+/* ========== ANIMAÇÃO DE CARREGAMENTO DOS AVATARES ========== */
+#avatarSelectorContainer > div {
+    animation: onboardingAvatarLoad 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+#avatarSelectorContainer > div:nth-child(1) { animation-delay: 0.02s; }
+#avatarSelectorContainer > div:nth-child(2) { animation-delay: 0.04s; }
+#avatarSelectorContainer > div:nth-child(3) { animation-delay: 0.06s; }
+#avatarSelectorContainer > div:nth-child(4) { animation-delay: 0.08s; }
+#avatarSelectorContainer > div:nth-child(5) { animation-delay: 0.10s; }
+#avatarSelectorContainer > div:nth-child(6) { animation-delay: 0.12s; }
+#avatarSelectorContainer > div:nth-child(7) { animation-delay: 0.14s; }
+#avatarSelectorContainer > div:nth-child(8) { animation-delay: 0.16s; }
+#avatarSelectorContainer > div:nth-child(9) { animation-delay: 0.18s; }
+#avatarSelectorContainer > div:nth-child(10) { animation-delay: 0.20s; }
+#avatarSelectorContainer > div:nth-child(11) { animation-delay: 0.22s; }
+#avatarSelectorContainer > div:nth-child(12) { animation-delay: 0.24s; }
+#avatarSelectorContainer > div:nth-child(13) { animation-delay: 0.26s; }
+#avatarSelectorContainer > div:nth-child(14) { animation-delay: 0.28s; }
+#avatarSelectorContainer > div:nth-child(15) { animation-delay: 0.30s; }
+#avatarSelectorContainer > div:nth-child(16) { animation-delay: 0.32s; }
+#avatarSelectorContainer > div:nth-child(17) { animation-delay: 0.34s; }
+#avatarSelectorContainer > div:nth-child(18) { animation-delay: 0.36s; }
+#avatarSelectorContainer > div:nth-child(19) { animation-delay: 0.38s; }
+#avatarSelectorContainer > div:nth-child(20) { animation-delay: 0.40s; }
+#avatarSelectorContainer > div:nth-child(21) { animation-delay: 0.42s; }
+#avatarSelectorContainer > div:nth-child(22) { animation-delay: 0.44s; }
+#avatarSelectorContainer > div:nth-child(23) { animation-delay: 0.46s; }
+#avatarSelectorContainer > div:nth-child(24) { animation-delay: 0.48s; }
+
+@keyframes onboardingAvatarLoad {
+    from {
+        opacity: 0;
+        transform: scale(0.6) rotate(-8deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* ========== PREFERS-REDUCED-MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+    .onboarding-modal,
+    .onboarding-modal-content,
+    .step,
+    .onboarding-footer .btn-secondary,
+    .onboarding-footer .btn-primary,
+    #avatarSelectorContainer > div,
+    #onboardingToast {
+        animation: none !important;
+        transition: none !important;
+    }
+    .step {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .onboarding-modal.show .onboarding-modal-content {
+        transform: none !important;
+    }
+    #onboardingToast {
+        animation: none !important;
+    }
+    #avatarSelectorContainer > div:hover {
+        transform: none !important;
+    }
+    .onboarding-footer .btn-secondary:hover,
+    .onboarding-footer .btn-primary:hover {
+        transform: none !important;
+    }
+    #onboardingUploadAvatar:hover,
+    #onboardingRemoveAvatar:hover {
+        transform: none !important;
+    }
+    #onboardingTogglePassword {
+        transition: none !important;
+    }
+    .step .form-group input,
+    .step .form-group select {
+        transition: none !important;
+    }
+    .onboarding-progress .dot {
+        transition: none !important;
+    }
+    .step .form-error {
+        animation: none !important;
+    }
+    #passwordStrengthIndicator .strength-bar-fill {
+        transition: none !important;
+    }
+    .onboarding-progress .dot.active {
+        transform: none !important;
+    }
+    #avatarSelectorContainer .upload-indicator {
+        animation: none !important;
+    }
+    .step .logo-large {
+        transition: none !important;
+    }
+}

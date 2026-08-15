@@ -1,7 +1,8 @@
 /* ============================================================
-   biblioteca.css – Versão 3.1
+   biblioteca.css – Versão 3.1 – CORES ATUALIZADAS
    Estilos completos para a Biblioteca Digital
    Tema escuro premium com glassmorphism e animações modernas
+   Substituição do vermelho (#EF4444) por #10b981 (verde esmeralda)
    Universidade Livre · Todos os módulos
    ============================================================ */
 
@@ -30,8 +31,8 @@
     /* ===== ACENTOS ===== */
     --accent-blue: #6C8CFF;
     --accent-blue-hover: #5A7AEE;
-    --accent-green: #4ADE80;
-    --accent-green-hover: #34D399;
+    --accent-green: #10b981;
+    --accent-green-hover: #0ea575;
     --accent-orange: #FBBF24;
     --accent-purple: #A78BFA;
     --accent-teal: #38BDF8;
@@ -42,12 +43,12 @@
     --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.7);
     --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-    --shadow-glow: 0 0 40px rgba(108, 140, 255, 0.08);
+    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.08);
 
     /* ===== GRADIENTES ===== */
     --gradient-primary: linear-gradient(135deg, #6C8CFF, #A78BFA);
-    --gradient-donate: linear-gradient(135deg, #FBBF24, #EF4444);
-    --gradient-new-badge: linear-gradient(135deg, #4ADE80, #38BDF8);
+    --gradient-donate: linear-gradient(135deg, #FBBF24, #10b981);
+    --gradient-new-badge: linear-gradient(135deg, #10b981, #38BDF8);
     --gradient-shimmer: linear-gradient(90deg,
         var(--bg-tertiary) 25%,
         var(--bg-card) 50%,
@@ -63,8 +64,8 @@
 
     /* ===== OUTROS ===== */
     --card-radius: 1rem;
-    --success: #4ADE80;
-    --danger: #EF4444;
+    --success: #10b981;
+    --danger: #10b981;
     --warning: #FBBF24;
 }
 
@@ -146,12 +147,12 @@ a:hover {
     display: block;
     object-fit: contain;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 4px 12px rgba(108, 140, 255, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.15));
     transition: filter var(--transition-fast);
 }
 
 .logo-universidade:hover {
-    filter: drop-shadow(0 4px 20px rgba(108, 140, 255, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.3));
 }
 
 .logo p {
@@ -203,7 +204,7 @@ a:hover {
 .btn-biblioteca:hover {
     background: var(--accent-green-hover);
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.25);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
 }
 
 .btn-biblioteca[style*="accent-blue"] {
@@ -238,7 +239,7 @@ a:hover {
 
 .donate-button:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.35);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
 }
 
 .donate-button:active {
@@ -454,7 +455,7 @@ a:hover {
     inset: 0;
     border-radius: 16px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(108, 140, 255, 0.06) 0%, transparent 70%);
+                rgba(16, 185, 129, 0.06) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -466,7 +467,7 @@ a:hover {
     inset: -1px;
     border-radius: 16px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.15), transparent, rgba(167, 139, 250, 0.15));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), transparent, rgba(167, 139, 250, 0.15));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -486,8 +487,8 @@ a:hover {
 .book-mini-card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(108, 140, 255, 0.06);
-    border-color: rgba(108, 140, 255, 0.3);
+                0 0 40px rgba(16, 185, 129, 0.06);
+    border-color: rgba(16, 185, 129, 0.3);
 }
 
 .book-mini-card:active {
@@ -582,7 +583,7 @@ a:hover {
     inset: 0;
     border-radius: 18px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(108, 140, 255, 0.04) 0%, transparent 70%);
+                rgba(16, 185, 129, 0.04) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -594,7 +595,7 @@ a:hover {
     inset: -1px;
     border-radius: 18px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -614,8 +615,8 @@ a:hover {
 .library-card:hover {
     transform: translateY(-8px) scale(1.01);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35),
-                0 0 40px rgba(108, 140, 255, 0.04);
-    border-color: rgba(108, 140, 255, 0.25);
+                0 0 40px rgba(16, 185, 129, 0.04);
+    border-color: rgba(16, 185, 129, 0.25);
 }
 
 .library-cover {
@@ -683,13 +684,13 @@ a:hover {
     font-weight: 600;
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
-    background: linear-gradient(135deg, #4ADE80, #38BDF8);
+    background: linear-gradient(135deg, #10b981, #38BDF8);
     color: #070B14;
-    box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 .library-price-tag.paid {
-    background: linear-gradient(135deg, #FBBF24, #EF4444);
+    background: linear-gradient(135deg, #FBBF24, #10b981);
     color: white;
 }
 
@@ -800,7 +801,7 @@ a:hover {
     inset: 0;
     border-radius: 16px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(108, 140, 255, 0.04) 0%, transparent 70%);
+                rgba(16, 185, 129, 0.04) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -812,7 +813,7 @@ a:hover {
     inset: -1px;
     border-radius: 16px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(108, 140, 255, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -832,8 +833,8 @@ a:hover {
 .audiobook-card:hover {
     transform: translateY(-6px) scale(1.01);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35),
-                0 0 40px rgba(108, 140, 255, 0.04);
-    border-color: rgba(108, 140, 255, 0.25);
+                0 0 40px rgba(16, 185, 129, 0.04);
+    border-color: rgba(16, 185, 129, 0.25);
 }
 
 .audiobook-card:active {
@@ -1037,7 +1038,7 @@ a:hover {
     -webkit-backdrop-filter: blur(8px);
     border-radius: 14px;
     padding: 12px 16px;
-    border: 1px solid rgba(74, 222, 128, 0.25);
+    border: 1px solid rgba(16, 185, 129, 0.25);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1058,7 +1059,7 @@ a:hover {
     inset: -1px;
     border-radius: 14px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), transparent, rgba(56, 189, 248, 0.2));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), transparent, rgba(56, 189, 248, 0.2));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -1072,10 +1073,10 @@ a:hover {
 }
 
 .continue-listening-card:hover {
-    border-color: rgba(108, 140, 255, 0.3);
+    border-color: rgba(16, 185, 129, 0.3);
     transform: translateY(-6px) scale(1.01);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3),
-                0 0 30px rgba(108, 140, 255, 0.04);
+                0 0 30px rgba(16, 185, 129, 0.04);
 }
 
 .continue-cover {
@@ -1611,12 +1612,12 @@ a:hover {
 }
 
 .error-state {
-    border-color: var(--danger);
+    border-color: var(--accent-green);
     color: #f87171;
 }
 
 .error-state i {
-    color: var(--danger);
+    color: var(--accent-green);
 }
 
 /* ========== ANIMAÇÕES GLOBAIS ========== */
@@ -1634,10 +1635,10 @@ a:hover {
 
 @keyframes pulse-glow {
     0%, 100% {
-        filter: drop-shadow(0 0 8px rgba(108, 140, 255, 0.2));
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.2));
     }
     50% {
-        filter: drop-shadow(0 0 24px rgba(108, 140, 255, 0.5));
+        filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.5));
     }
 }
 

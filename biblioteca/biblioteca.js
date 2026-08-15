@@ -1,8 +1,13 @@
 // biblioteca.js – Busca de livros com loading estável, enriquecimento de metadados e APIs externas
-// Versão com i18n completo e suporte a bibliotecas.json multilíngue
-// CORREÇÃO: Aguarda carregamento dos livros locais antes da primeira busca
+// Versão final com i18n robusto, múltiplos caminhos para traduções e sincronização de idioma
+// CORREÇÃO: Carregamento de traduções com fallback de caminhos (../lang/, lang/, /lang/)
+// CORREÇÃO: Sincronização do seletor de idioma (PT/EN) com o estado atual
+// CORREÇÃO: Re-renderização do modal e do perfil ao mudar idioma
+// CORREÇÃO: Remoção de dependência do audiobook.js (não utilizado)
 
 document.addEventListener('DOMContentLoaded', async () => {
+    'use strict';
+
     // ========== CONFIGURAÇÕES GLOBAIS ==========
     let translations = {};
     let currentLang = 'pt-br';
@@ -35,89 +40,113 @@ document.addEventListener('DOMContentLoaded', async () => {
     const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
     const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
 
-    // Chaves de API (substitua se necessário)
     const HATHITRUST_API_KEY = 'YOUR_HATHITRUST_API_KEY';
     const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
 
+    // ========== FUNÇÃO DE TRADUÇÃO ==========
+    function t(key, replacements = {}) {
+        let text = translations[key] || key;
+        if (text === key) {
+            const hardcoded = {
+                'mark_as_read': 'Marcar como lido',
+                'marked_as_read': 'Marcado como lido',
+                'profile': 'Perfil',
+                'download_book': 'Baixar Livro',
+                'access_online': 'Acessar Online',
+                'book_author': 'Autor',
+                'book_year': 'Ano',
+                'book_publisher': 'Editora',
+                'book_language': 'Idioma',
+                'repository_prefix': 'Repositório:',
+                'type_book': 'Livro',
+                'no_description': 'Sem descrição.',
+                'unknown_author': 'Autor desconhecido',
+                'unknown_publisher': 'Editora desconhecida',
+                'year_not_informed': 'Ano não informado',
+                'unavailable': 'Indisponível',
+                'no_link_available': 'Nenhum link disponível.',
+                'close': 'Fechar',
+                'search_library_placeholder': 'Buscar por título, autor, idioma ou assunto...',
+                'search_audiobooks_placeholder': 'Buscar audiobooks por título ou autor...',
+                'loading': 'Carregando...',
+                'no_results': 'Nenhum resultado encontrado.',
+                'error_loading': 'Erro ao carregar resultados.',
+                'library_title': 'Biblioteca · Universidade Livre',
+                'library_subtitle': 'Biblioteca Digital',
+                'library_book_count': 'itens',
+                'filter_books': 'Livros',
+                'filter_articles': 'Artigos',
+                'filter_papers': 'Papers',
+                'filter_tcc': 'TCC',
+                'filter_dissertation': 'Dissertações',
+                'filter_thesis': 'Teses',
+                'tab_library': 'Biblioteca',
+                'tab_audiobooks': 'Audiobooks',
+                'tab_recommended': 'Bibliotecas Recomendadas',
+                'back_to_courses': 'Voltar para cursos',
+                'donate_button': 'Doar',
+                'donate_text': 'Doar',
+                'price_free': 'Grátis',
+                'price_paid': 'Pago',
+                'unavailable': 'Indisponível',
+                'profile': 'Perfil'
+            };
+            if (hardcoded[key]) text = hardcoded[key];
+        }
+        for (const [k, v] of Object.entries(replacements)) {
+            text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
+        }
+        return text;
+    }
+
     // ========== I18N ==========
     async function loadTranslations(lang) {
-        try {
-            const response = await fetch(`../lang/${lang}.json`);
-            if (!response.ok) throw new Error();
-            translations = await response.json();
-            return true;
-        } catch {
-            if (lang !== 'pt-br') return loadTranslations('pt-br');
-            // Fallback robusto com todas as chaves necessárias
-            translations = {
-                "search_library_placeholder": "Buscar por título, autor, idioma ou assunto...",
-                "search_audiobooks_placeholder": "Buscar audiobooks por título ou autor...",
-                "loading": "Carregando...",
-                "no_results": "Nenhum resultado encontrado.",
-                "error_loading": "Erro ao carregar resultados.",
-                "unknown_author": "Autor desconhecido",
-                "unknown_publisher": "Editora desconhecida",
-                "year_not_informed": "Ano não informado",
-                "type_book": "Livro",
-                "type_article": "Artigo",
-                "type_paper": "Paper",
-                "type_tcc": "TCC",
-                "type_dissertation": "Dissertação",
-                "type_thesis": "Tese",
-                "filter_books": "Livros",
-                "filter_articles": "Artigos",
-                "filter_papers": "Papers",
-                "filter_tcc": "TCC",
-                "filter_dissertation": "Dissertações",
-                "filter_thesis": "Teses",
-                "download_book": "Baixar Livro",
-                "access_online": "Acessar Online",
-                "no_description": "Sem descrição.",
-                "close": "Fechar",
-                "repository_prefix": "Repositório:",
-                "book_author": "Autor",
-                "book_year": "Ano",
-                "book_language": "Idioma",
-                "book_publisher": "Editora",
-                "tab_library": "Biblioteca",
-                "tab_recommended": "Bibliotecas Recomendadas",
-                "tab_audiobooks": "Audiobooks",
-                "library_title": "Biblioteca · Universidade Livre",
-                "library_subtitle": "Biblioteca Digital",
-                "library_book_count": "itens",
-                "back_to_courses": "Voltar para cursos",
-                "donate_button": "Doar",
-                "donate_text": "Doar",
-                "continue_listening": "Continuar ouvindo",
-                "continue_listening_btn": "Continuar",
-                "search_results": "Resultados da busca",
-                "listen_button": "Ouvir",
-                "subtitles_available": "Legendas disponíveis",
-                "filter_by_language": "Filtrar por idioma:",
-                "filter_all_languages": "Todos",
-                "price_free": "Grátis",
-                "price_paid": "Pago",
-                "unavailable": "Indisponível",
-                "audiobook_loading": "Carregando audiobooks...",
-                "audio_error": "Erro ao carregar o áudio.",
-                "open_page": "Abrir página",
-                "extras": "Extras"
-            };
-            return false;
+        // Múltiplos caminhos para buscar os arquivos de tradução
+        const paths = [
+            `../lang/${lang}.json`,
+            `lang/${lang}.json`,
+            `/lang/${lang}.json`,
+            `./lang/${lang}.json`
+        ];
+        for (const path of paths) {
+            try {
+                const response = await fetch(path);
+                if (response.ok) {
+                    translations = await response.json();
+                    console.log(`[Biblioteca] Traduções carregadas de ${path}`);
+                    return true;
+                }
+            } catch (e) {
+                // Continua tentando outros caminhos
+            }
+        }
+        console.warn('[Biblioteca] Nenhum arquivo de tradução encontrado. Usando fallback.');
+        translations = {};
+        return false;
+    }
+
+    function updateLanguageSelector(lang) {
+        const ptBtn = document.getElementById('langPtBtn');
+        const enBtn = document.getElementById('langEnBtn');
+        if (ptBtn && enBtn) {
+            ptBtn.classList.toggle('active', lang === 'pt-br');
+            enBtn.classList.toggle('active', lang === 'en');
         }
     }
 
-    function t(key, fallback = '') {
-        return translations[key] || fallback || key;
-    }
-
     function applyAllTranslations() {
-        if (!translations) return;
+        if (!translations || Object.keys(translations).length === 0) {
+            console.warn('[Biblioteca] applyAllTranslations: traduções vazias, ignorando.');
+            return;
+        }
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[key]) {
-                if (el.tagName === 'INPUT') el.placeholder = translations[key];
-                else el.innerText = translations[key];
+                if (el.tagName === 'INPUT') {
+                    el.placeholder = translations[key];
+                } else {
+                    el.innerText = translations[key];
+                }
             }
         });
         if (searchInput) searchInput.placeholder = t('search_library_placeholder');
@@ -141,16 +170,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             const count = bookCountSpan.innerText;
             bookCountSpan.nextSibling.nodeValue = ' ' + t('library_book_count');
         }
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true') {
+            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        }
+        updateReadButtonTranslation();
     }
 
     // ========== FUNÇÕES AUXILIARES ==========
-    function normalizeText(text) { 
-        if (!text || typeof text !== 'string') return ''; 
-        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim(); 
+    function normalizeText(text) {
+        if (!text || typeof text !== 'string') return '';
+        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
     }
-    function escapeHtml(str) { return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : ''; }
-    function generateId() { return 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); }
-    
+
+    function escapeHtml(str) {
+        return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : '';
+    }
+
+    function generateId() {
+        return 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
     function formatAuthor(authorString) {
         if (!authorString) return t('unknown_author');
         let authorStr = Array.isArray(authorString) ? authorString.join(', ') : String(authorString);
@@ -158,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (authors.length === 0) return authorStr;
         return authors.length <= 3 ? authorStr : authors.slice(0, 3).join(', ') + '...';
     }
-    
+
     function detectDownloadLabelFromUrl(url) {
         if (!url) return t('access_online');
         try {
@@ -169,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return t('access_online');
         } catch { return t('access_online'); }
     }
-    
+
     function isAudiobook(book) {
         if (book.type === 'audiobook') return true;
         const title = (book.title || '').toLowerCase();
@@ -180,17 +220,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (source.includes('librivox') || source.includes('audible')) return true;
         return false;
     }
-    
+
     async function forceDownload(url, filename, fallbackUrl = null) {
         try {
-            const a = document.createElement('a'); a.href = url; a.download = filename || ''; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             await new Promise(r => setTimeout(r, 500));
             const response = await fetch(url);
             if (!response.ok) throw new Error('Fetch falhou');
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
-            const a2 = document.createElement('a'); a2.href = blobUrl; a2.download = filename || url.split('/').pop() || 'download';
-            document.body.appendChild(a2); a2.click(); document.body.removeChild(a2); URL.revokeObjectURL(blobUrl);
+            const a2 = document.createElement('a');
+            a2.href = blobUrl;
+            a2.download = filename || url.split('/').pop() || 'download';
+            document.body.appendChild(a2);
+            a2.click();
+            document.body.removeChild(a2);
+            URL.revokeObjectURL(blobUrl);
         } catch (error) {
             console.warn('[Download] Falha, tentando fallback:', error);
             if (fallbackUrl) {
@@ -198,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else window.open(url, '_blank');
         }
     }
-    
+
     function inferBookType(book) {
         if (book.type) return book.type;
         const title = (book.title || '').toLowerCase();
@@ -210,6 +260,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (title.includes('artigo') || shelf.includes('article') || description.includes('artigo científico')) return 'article';
         if (title.includes('paper') || shelf.includes('paper') || description.includes('conferência')) return 'paper';
         return 'book';
+    }
+
+    // ========== SISTEMA DE "MARCAR COMO LIDO" ==========
+    function getReadBooks() {
+        try {
+            const stored = localStorage.getItem('ulivre_livros_lidos');
+            return stored ? JSON.parse(stored) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveReadBooks(books) {
+        localStorage.setItem('ulivre_livros_lidos', JSON.stringify(books));
+    }
+
+    function isBookRead(bookId) {
+        const read = getReadBooks();
+        return read.some(b => b.id === bookId);
+    }
+
+    function toggleBookRead(book) {
+        let read = getReadBooks();
+        const index = read.findIndex(b => b.id === book.id);
+        if (index > -1) {
+            read.splice(index, 1);
+        } else {
+            read.push({
+                id: book.id,
+                title: book.title,
+                author: book.author,
+                cover: book.cover,
+                timestamp: new Date().toISOString()
+            });
+        }
+        saveReadBooks(read);
+        return index === -1;
+    }
+
+    function updateReadButtonTranslation() {
+        const toggleBtn = document.getElementById('toggleReadBtn');
+        if (!toggleBtn) return;
+        const isRead = toggleBtn.classList.contains('read-btn');
+        const key = isRead ? 'marked_as_read' : 'mark_as_read';
+        const icon = toggleBtn.querySelector('i');
+        if (icon) {
+            const iconClone = icon.cloneNode(true);
+            toggleBtn.innerHTML = '';
+            toggleBtn.appendChild(iconClone);
+            toggleBtn.appendChild(document.createTextNode(' ' + t(key)));
+        } else {
+            toggleBtn.textContent = t(key);
+        }
     }
 
     // ========== ENRIQUECIMENTO DE METADADOS ==========
@@ -307,7 +410,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return enriched;
     }
 
-    // ========== GOOGLE BOOKS API ==========
+    // ========== APIS EXTERNAS ==========
     async function searchGoogleBooks(query) {
         if (!query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `google_books_free_${normalizeText(query)}`;
@@ -318,7 +421,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            const results = (data.items || []).map(book => {
+            return (data.items || []).map(book => {
                 const volume = book.volumeInfo || {};
                 const imageLinks = volume.imageLinks || {};
                 const cover = imageLinks.thumbnail || imageLinks.smallThumbnail || null;
@@ -339,9 +442,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     year: volume.publishedDate ? volume.publishedDate.substring(0, 4) : null
                 };
             });
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Google Books] ${results.length} resultados`);
-            return results;
         } catch (error) { console.warn('[Google Books] Erro:', error); return []; }
     }
 
@@ -349,28 +449,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchWithRetry(url, options = {}, maxRetries = 3, baseDelay = 1000) {
         for (let i = 0; i <= maxRetries; i++) {
             try {
-                const controller = new AbortController(); const timeoutId = setTimeout(() => controller.abort(), 15000);
-                const response = await fetch(url, { ...options, signal: controller.signal }); clearTimeout(timeoutId);
-                if (response.status === 429) { const delay = baseDelay * Math.pow(2, i); await new Promise(r => setTimeout(r, delay)); continue; }
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (response.status === 429) {
+                    const delay = baseDelay * Math.pow(2, i);
+                    await new Promise(r => setTimeout(r, delay));
+                    continue;
+                }
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 return response;
-            } catch (error) { if (i === maxRetries) throw error; const delay = baseDelay * Math.pow(2, i); await new Promise(r => setTimeout(r, delay)); }
+            } catch (error) {
+                if (i === maxRetries) throw error;
+                const delay = baseDelay * Math.pow(2, i);
+                await new Promise(r => setTimeout(r, delay));
+            }
         }
         throw new Error(`Falha após ${maxRetries} tentativas`);
     }
 
     async function fetchWithProxy(url, timeout = 15000, retries = 2) {
-        try { const response = await fetchWithRetry(url, {}, retries, 1000); if (response.ok) return response; } catch (e) {}
+        try {
+            const response = await fetchWithRetry(url, {}, retries, 1000);
+            if (response.ok) return response;
+        } catch (e) { /* fallback */ }
         for (let i = 0; i < retries; i++) {
             for (const proxy of CORS_PROXIES) {
-                try { const proxyUrl = proxy + encodeURIComponent(url); const response = await fetchWithRetry(proxyUrl, {}, 1, 1000); if (response.ok) return response; } catch (e) {}
+                try {
+                    const proxyUrl = proxy + encodeURIComponent(url);
+                    const response = await fetchWithRetry(proxyUrl, {}, 1, 1000);
+                    if (response.ok) return response;
+                } catch (e) { /* continua */ }
             }
             await new Promise(r => setTimeout(r, 1000 * (i + 1)));
         }
         throw new Error(`Falha ao acessar ${url}`);
     }
 
-    // ========== APIS EXTERNAS ==========
+    // ========== APIS EXTERNAS (simplificadas) ==========
     async function searchArxiv(query) {
         if (!query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `arxiv_${normalizeText(query)}`;
@@ -390,13 +507,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const id = entry.querySelector('id')?.textContent || '';
                 const pdfLink = id.replace('abs', 'pdf') + '.pdf';
                 results.push({
-                    id: `arxiv_${id.split('/').pop()}`, title, author: formatAuthor(authors), rawAuthor: authors,
-                    description: summary, cover: null, download: pdfLink, downloadLabel: t('download_book'),
-                    language: 'en', publisher: 'arXiv', source: 'arXiv', type: 'paper', year: null
+                    id: `arxiv_${id.split('/').pop()}`,
+                    title,
+                    author: formatAuthor(authors),
+                    rawAuthor: authors,
+                    description: summary,
+                    cover: null,
+                    download: pdfLink,
+                    downloadLabel: t('download_book'),
+                    language: 'en',
+                    publisher: 'arXiv',
+                    source: 'arXiv',
+                    type: 'paper',
+                    year: null
                 });
             });
             apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[arXiv] ${results.length} resultados`);
             return results;
         } catch (error) { console.warn('[arXiv] Erro:', error); return []; }
     }
@@ -410,7 +536,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            const results = (data.results || []).map(book => ({
+            return (data.results || []).map(book => ({
                 id: `gutenberg_${book.id}`,
                 title: book.title,
                 author: formatAuthor(book.authors?.map(a => a.name).join(', ') || t('unknown_author')),
@@ -425,9 +551,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 type: 'book',
                 year: null
             }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Gutenberg] ${results.length} resultados`);
-            return results;
         } catch (error) { console.warn('[Gutenberg] Erro:', error); return []; }
     }
 
@@ -440,7 +563,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetchWithProxy(url);
             const data = await response.json();
             const docs = data.response?.docs || [];
-            const results = docs.map(doc => ({
+            return docs.map(doc => ({
                 id: `ia_${doc.identifier}`,
                 title: doc.title || 'Sem título',
                 author: formatAuthor(doc.creator),
@@ -455,9 +578,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 type: 'book',
                 year: doc.year || null
             }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Internet Archive] ${results.length} resultados`);
-            return results;
         } catch (error) { console.warn('[Internet Archive] Erro:', error); return []; }
     }
 
@@ -468,25 +588,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const url = 'https://standardebooks.org/ebooks.json';
             const response = await fetchWithProxy(url);
-            
             const contentType = response.headers.get('content-type');
-            if (!response.ok || !contentType || !contentType.includes('application/json')) {
-                console.warn('[Standard Ebooks] Resposta não é JSON. Status:', response.status);
-                return [];
-            }
-            
+            if (!response.ok || !contentType || !contentType.includes('application/json')) return [];
             const text = await response.text();
-            if (!text || text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<?xml')) {
-                console.warn('[Standard Ebooks] Resposta é HTML/XML, não JSON.');
-                return [];
-            }
-            
+            if (!text || text.trim().startsWith('<!DOCTYPE')) return [];
             const data = JSON.parse(text);
-            const filtered = data.filter(book => 
+            const filtered = data.filter(book =>
                 book.title.toLowerCase().includes(query.toLowerCase()) ||
                 (book.author && book.author.toLowerCase().includes(query.toLowerCase()))
             ).slice(0, MAX_EXTERNAL_RESULTS);
-            const results = filtered.map(book => ({
+            return filtered.map(book => ({
                 id: `standard_${book.id}`,
                 title: book.title,
                 author: formatAuthor(book.author),
@@ -501,11 +612,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 type: 'book',
                 year: null
             }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Standard Ebooks] ${results.length} resultados`);
-            return results;
         } catch (error) {
-            console.warn('[Standard Ebooks] Erro tratado:', error.message);
+            console.warn('[Standard Ebooks] Erro:', error);
             return [];
         }
     }
@@ -518,7 +626,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const url = `https://directory.doabooks.org/rest/search?query=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
             const response = await fetchWithProxy(url);
             const data = await response.json();
-            const results = (data.results || []).map(book => ({
+            return (data.results || []).map(book => ({
                 id: `doab_${book.id}`,
                 title: book.title,
                 author: formatAuthor(book.author),
@@ -533,9 +641,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 type: 'book',
                 year: book.year || null
             }));
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[DOAB] ${results.length} resultados`);
-            return results;
         } catch (error) { console.warn('[DOAB] Erro:', error); return []; }
     }
 
@@ -548,7 +653,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            const results = (data.docs || []).map(doc => {
+            return (data.docs || []).map(doc => {
                 let coverId = doc.cover_i;
                 let coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : null;
                 let downloadUrl = `https://openlibrary.org${doc.key}`;
@@ -568,9 +673,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     year: doc.first_publish_year || null
                 };
             });
-            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
-            console.log(`[Open Library] ${results.length} resultados`);
-            return results;
         } catch (error) { console.warn('[Open Library] Erro:', error); return []; }
     }
 
@@ -602,7 +704,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         ];
         const results = await Promise.allSettled(promises);
         const all = [];
-        for (const res of results) if (res.status === 'fulfilled' && Array.isArray(res.value)) all.push(...res.value);
+        for (const res of results) {
+            if (res.status === 'fulfilled' && Array.isArray(res.value)) {
+                all.push(...res.value);
+            }
+        }
         console.log(`[Busca Externa] Total de ${all.length} livros encontrados`);
         const enriched = await Promise.all(all.map(async book => await enrichBookMetadata(book)));
         return enriched;
@@ -774,18 +880,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         const typeText = t(typeKey, normalized.type);
         let iconClass = '';
         switch (normalized.type) {
-            case 'book': iconClass = 'fas fa-book'; break;
-            case 'article': iconClass = 'fas fa-file-alt'; break;
-            case 'paper': iconClass = 'fas fa-file-pdf'; break;
-            case 'tcc': iconClass = 'fas fa-graduation-cap'; break;
-            case 'dissertation': iconClass = 'fas fa-tasks'; break;
-            case 'thesis': iconClass = 'fas fa-award'; break;
+            case 'book': iconClass = 'fas fa-book';
+            break;
+            case 'article': iconClass = 'fas fa-file-alt';
+            break;
+            case 'paper': iconClass = 'fas fa-file-pdf';
+            break;
+            case 'tcc': iconClass = 'fas fa-graduation-cap';
+            break;
+            case 'dissertation': iconClass = 'fas fa-tasks';
+            break;
+            case 'thesis': iconClass = 'fas fa-award';
+            break;
             default: iconClass = 'fas fa-file';
         }
         typeTagHtml = `<div class="mini-type-tag"><i class="${iconClass}"></i> ${typeText}</div>`;
+
+        const isRead = isBookRead(normalized.id);
+        const readBadge = isRead ? `<span class="read-badge"><i class="fas fa-check-circle"></i> ${t('marked_as_read')}</span>` : '';
+
         const card = document.createElement('div');
         card.className = 'book-mini-card';
         card.style.cursor = 'pointer';
+        card.dataset.id = normalized.id;
         card.innerHTML = `
             <img class="mini-cover" src="${coverUrl}" alt="${escapeHtml(normalized.title)}" onerror="this.src='${generateEnhancedColorCover(normalized.title)}'">
             <div class="mini-title">${escapeHtml(normalized.title)}</div>
@@ -793,6 +910,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
             ${normalized.publisher ? `<div class="mini-publisher">${escapeHtml(normalized.publisher)}</div>` : ''}
             ${typeTagHtml}
+            ${readBadge}
         `;
         card.addEventListener('click', () => showModal(normalized));
         return card;
@@ -803,6 +921,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const enriched = await enrichBookMetadata(item);
         const coverUrl = enriched.cover || generateEnhancedColorCover(enriched.title);
         const fullAuthor = enriched.rawAuthor || enriched.author;
+        const isRead = isBookRead(enriched.id);
+
+        modal._currentItem = enriched;
+
         modalBody.innerHTML = `
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
                 <img class="modal-cover" src="${coverUrl}" alt="${escapeHtml(enriched.title)}" onerror="this.src='${generateEnhancedColorCover(enriched.title)}'">
@@ -817,16 +939,62 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${enriched.type ? `<p><strong>Tipo:</strong> ${t('type_' + enriched.type, enriched.type)}</p>` : ''}
                     <div class="modal-description">${escapeHtml(enriched.description || t('no_description'))}</div>
                     <div id="actionButtons" class="modal-actions"></div>
+                    <div class="modal-read-actions">
+                        <button id="toggleReadBtn" class="action-btn ${isRead ? 'read-btn' : 'unread-btn'}">
+                            <i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}"></i>
+                            ${isRead ? t('marked_as_read') : t('mark_as_read')}
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
         renderActionButtons(enriched);
+
+        const toggleBtn = document.getElementById('toggleReadBtn');
+        if (toggleBtn) {
+            const newToggleBtn = toggleBtn.cloneNode(true);
+            toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+
+            newToggleBtn.addEventListener('click', function() {
+                const nowRead = toggleBookRead(enriched);
+                const key = nowRead ? 'marked_as_read' : 'mark_as_read';
+                const icon = this.querySelector('i');
+                if (icon) {
+                    const iconClone = icon.cloneNode(true);
+                    this.innerHTML = '';
+                    this.appendChild(iconClone);
+                    this.appendChild(document.createTextNode(' ' + t(key)));
+                } else {
+                    this.textContent = t(key);
+                }
+                this.className = `action-btn ${nowRead ? 'read-btn' : 'unread-btn'}`;
+                const card = document.querySelector(`.book-mini-card[data-id="${enriched.id}"]`);
+                if (card) {
+                    const existingBadge = card.querySelector('.read-badge');
+                    if (nowRead) {
+                        if (!existingBadge) {
+                            const badge = document.createElement('span');
+                            badge.className = 'read-badge';
+                            badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
+                            card.appendChild(badge);
+                        }
+                    } else {
+                        if (existingBadge) existingBadge.remove();
+                    }
+                }
+                modal._currentItem = enriched;
+            });
+            document.getElementById('toggleReadBtn');
+        }
+
         modal.style.display = 'flex';
+        updateReadButtonTranslation();
     }
 
     function closeModal() {
         modal.style.display = 'none';
         modalBody.innerHTML = '';
+        modal._currentItem = null;
     }
 
     function generateEnhancedColorCover(title) {
@@ -834,12 +1002,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
         const colorIndex = Math.abs(title.length * 7) % colors.length;
         const bgColor = colors[colorIndex];
-        const canvas = document.createElement('canvas'); canvas.width = 300; canvas.height = 450;
+        const canvas = document.createElement('canvas');
+        canvas.width = 300;
+        canvas.height = 450;
         const ctx = canvas.getContext('2d');
         const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        grad.addColorStop(0, bgColor); grad.addColorStop(1, bgColor + 'cc');
-        ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        grad.addColorStop(0, bgColor);
+        grad.addColorStop(1, bgColor + 'cc');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
         const words = title.split(' ').filter(w => w.length > 0);
         let initials = words.map(w => w[0].toUpperCase()).join('');
         if (initials.length > 3) initials = initials.slice(0, 3);
@@ -879,25 +1054,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         const url = book.download;
         const repoLink = book.repositoryLink;
         if (!url && !repoLink) {
-            const disabled = document.createElement('span'); disabled.textContent = label || t('unavailable'); disabled.className = 'action-btn disabled-btn'; return disabled;
+            const disabled = document.createElement('span');
+            disabled.textContent = label || t('unavailable');
+            disabled.className = 'action-btn disabled-btn';
+            return disabled;
         }
-        const btn = document.createElement('a'); btn.textContent = label; btn.className = 'action-btn download-btn'; btn.href = '#';
+        const btn = document.createElement('a');
+        btn.textContent = label;
+        btn.className = 'action-btn download-btn';
+        btn.href = '#';
         btn.addEventListener('click', async (e) => {
             e.preventDefault();
-            if (label === t('download_book') && url) await forceDownload(url, (book.title || 'documento').replace(/[^a-z0-9]/gi, '_') + '.pdf', repoLink);
-            else if (url) window.open(url, '_blank');
-            else if (repoLink) window.open(repoLink, '_blank');
-            else alert(t('no_link_available'));
+            if (label === t('download_book') && url) {
+                await forceDownload(url, (book.title || 'documento').replace(/[^a-z0-9]/gi, '_') + '.pdf', repoLink);
+            } else if (url) {
+                window.open(url, '_blank');
+            } else if (repoLink) {
+                window.open(repoLink, '_blank');
+            } else {
+                alert(t('no_link_available'));
+            }
         });
         return btn;
     }
 
     function renderActionButtons(book) {
-        const container = document.getElementById('actionButtons'); if (!container) return; container.innerHTML = '';
-        const mainBtn = createActionButton(book); container.appendChild(mainBtn);
+        const container = document.getElementById('actionButtons');
+        if (!container) return;
+        container.innerHTML = '';
+        const mainBtn = createActionButton(book);
+        container.appendChild(mainBtn);
         if (book.repositoryLink && book.download !== book.repositoryLink) {
-            const repoBtn = document.createElement('a'); repoBtn.textContent = book.repositoryName ? `${t('repository_prefix')} ${book.repositoryName}` : t('repository');
-            repoBtn.href = book.repositoryLink; repoBtn.target = '_blank'; repoBtn.rel = 'noopener noreferrer'; repoBtn.className = 'action-btn repo-btn';
+            const repoBtn = document.createElement('a');
+            repoBtn.textContent = book.repositoryName ? `${t('repository_prefix')} ${book.repositoryName}` : t('repository');
+            repoBtn.href = book.repositoryLink;
+            repoBtn.target = '_blank';
+            repoBtn.rel = 'noopener noreferrer';
+            repoBtn.className = 'action-btn repo-btn';
             container.appendChild(repoBtn);
         }
     }
@@ -925,9 +1118,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         let html = '';
         externalLibrariesData.forEach(lib => {
-            // Obter título e descrição traduzidos (suporte a objeto ou string)
-            const title = typeof lib.title === 'object' 
-                ? (lib.title[currentLang] || lib.title['pt-br'] || '') 
+            const title = typeof lib.title === 'object'
+                ? (lib.title[currentLang] || lib.title['pt-br'] || '')
                 : lib.title || '';
             const description = typeof lib.description === 'object'
                 ? (lib.description[currentLang] || lib.description['pt-br'] || '')
@@ -936,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const priceTag = lib.price === 'free' ? t('price_free') : (lib.price === 'paid' ? t('price_paid') : '');
             const priceClass = lib.price === 'free' ? 'free' : 'paid';
             const typeText = lib.type === 'digital' ? 'Digital' : (lib.type === 'physical' ? 'Físico' : 'Físico/Digital');
-            
+
             html += `
                 <div class="library-card" data-url="${escapeHtml(lib.url)}">
                     <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=${encodeURIComponent(title.substring(0,2))}'">
@@ -960,6 +1152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (url) window.open(url, '_blank');
             });
         });
+        applyAllTranslations();
     }
 
     // ========== BUSCAS PRINCIPAIS ==========
@@ -1011,9 +1204,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const debouncedPerformSearch = debounce(performSearchWithFilters, 400);
+
     function debounce(func, delay) {
         let timeoutId;
-        return function (...args) {
+        return function(...args) {
             clearTimeout(timeoutId);
             timeoutId = setTimeout(() => func.apply(this, args), delay);
         };
@@ -1032,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         return data.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
                     }
                 }
-            } catch (e) {}
+            } catch (e) { /* tenta próximo */ }
         }
         console.warn('[Biblioteca] Nenhum arquivo books.json encontrado. A biblioteca local estará vazia.');
         return [];
@@ -1094,9 +1288,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     performSearchWithFilters(currentSearchTerm);
                 } else if (tabId === 'audiobooks') {
                     audiobooksContent.classList.add('active');
-                    if (window.AudiobookModule && typeof window.AudiobookModule.refreshContinueListening === 'function') {
-                        window.AudiobookModule.refreshContinueListening('continueListeningContainer', t);
-                    }
+                    // Módulo de audiobooks não utilizado
                 } else if (tabId === 'recommended') {
                     recommendedContent.classList.add('active');
                     if (externalLibrariesData.length === 0) loadExternalLibraries();
@@ -1106,58 +1298,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ========== INTEGRAÇÃO COM AUDIOBOOKS ==========
-    async function initAudiobookTab() {
-        const audiobookInput = document.getElementById('audiobookSearchInput');
-        if (!window.AudiobookModule) {
-            console.warn('[Biblioteca] Módulo de audiobooks não carregado.');
-            return;
-        }
-        const mod = window.AudiobookModule;
-        mod.setTranslator(t);
-        mod.setProgressUpdateCallback(() => {
-            if (activeMainTab === 'audiobooks') {
-                mod.refreshContinueListening('continueListeningContainer', t);
-            }
-        });
-        if (audiobookInput) {
-            audiobookInput.addEventListener('input', (e) => {
-                const query = e.target.value.trim();
-                if (query.length < 2) {
-                    mod.loadRandom().then(results => {
-                        mod.renderGrid(results, 'audiobooksGrid', t);
-                        const langs = results.map(b => b.language).filter(l => l);
-                        mod.buildLanguageChips(langs, 'audioLanguageChips', 'audioLanguageFilterContainer', () => {
-                            const filtered = mod.getCurrentLanguageFilter() === 'all' 
-                                ? results 
-                                : results.filter(b => b.language === mod.getCurrentLanguageFilter());
-                            mod.renderGrid(filtered, 'audiobooksGrid', t);
-                        }, t);
-                    });
-                    return;
+    // ========== PERFIL ==========
+    function initProfile() {
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', () => {
+                if (window.openProfileModal) {
+                    window.openProfileModal();
+                } else {
+                    const modal = document.getElementById('profileModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        if (window.updateProfileModal) window.updateProfileModal();
+                    }
                 }
-                mod.showLoading('audiobooksGrid');
-                mod.search(query, 'audiobooksGrid', t).then(results => {
-                    mod.renderGrid(results, 'audiobooksGrid', t);
-                    const langs = results.map(b => b.language).filter(l => l);
-                    mod.buildLanguageChips(langs, 'audioLanguageChips', 'audioLanguageFilterContainer', () => {
-                        const filtered = mod.getCurrentLanguageFilter() === 'all' 
-                            ? results 
-                            : results.filter(b => b.language === mod.getCurrentLanguageFilter());
-                        mod.renderGrid(filtered, 'audiobooksGrid', t);
-                    }, t);
-                });
             });
-            mod.showLoading('audiobooksGrid');
-            const randomBooks = await mod.loadRandom();
-            mod.renderGrid(randomBooks, 'audiobooksGrid', t);
-            const langs = randomBooks.map(b => b.language).filter(l => l);
-            mod.buildLanguageChips(langs, 'audioLanguageChips', 'audioLanguageFilterContainer', () => {
-                const filtered = mod.getCurrentLanguageFilter() === 'all' 
-                    ? randomBooks 
-                    : randomBooks.filter(b => b.language === mod.getCurrentLanguageFilter());
-                mod.renderGrid(filtered, 'audiobooksGrid', t);
-            }, t);
         }
     }
 
@@ -1182,6 +1337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentLang = initialLang;
         await loadTranslations(currentLang);
         applyAllTranslations();
+        updateLanguageSelector(currentLang);
 
         // Configurar botões de idioma
         const langPtBtn = document.getElementById('langPtBtn');
@@ -1191,6 +1347,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentLang = 'pt-br';
             localStorage.setItem('selectedLanguage', 'pt-br');
             applyAllTranslations();
+            updateLanguageSelector('pt-br');
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
             if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
             else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
             langPtBtn.classList.add('active');
@@ -1201,20 +1359,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentLang = 'en';
             localStorage.setItem('selectedLanguage', 'en');
             applyAllTranslations();
+            updateLanguageSelector('en');
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
             if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
             else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
             langEnBtn.classList.add('active');
             langPtBtn.classList.remove('active');
         });
-        if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
-        else langEnBtn?.classList.add('active');
 
         setupMainTabs();
         setupTabs();
         await loadExternalLibraries();
 
-        // ========== CORREÇÃO: CARREGAR LIVROS ANTES DE QUALQUER BUSCA ==========
-        localBooksCache = await loadLocalBooks();  // <-- AGUARDA O CARREGAMENTO COMPLETO
+        localBooksCache = await loadLocalBooks();
 
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
@@ -1223,13 +1380,44 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        await initAudiobookTab();
+        initProfile();
 
-        // Agora que os livros estão carregados, executa a busca inicial
         if (activeMainTab === 'library') {
             await performSearchWithFilters('');
         }
     }
+
+    // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
+    window.addEventListener('languageChanged', function(e) {
+        const lang = e.detail.lang || currentLang;
+        currentLang = lang;
+        console.log(`[Biblioteca] Idioma alterado para: ${lang}, recarregando traduções...`);
+
+        loadTranslations(lang).then(() => {
+            applyAllTranslations();
+            updateLanguageSelector(lang);
+
+            const profileBtn = document.getElementById('profileBtn');
+            if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true') {
+                profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+            }
+            updateReadButtonTranslation();
+
+            if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) {
+                renderExternalLibraries();
+            }
+
+            if (modal && modal.style.display === 'flex' && modal._currentItem) {
+                setTimeout(() => {
+                    showModal(modal._currentItem);
+                }, 50);
+            }
+
+            if (activeMainTab === 'library') {
+                performSearchWithFilters(currentSearchTerm);
+            }
+        });
+    });
 
     init();
 });
