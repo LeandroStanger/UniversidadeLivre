@@ -1,27 +1,157 @@
-// help-modal.js – versão com i18n e suporte a ENEM, EsPCEx, INGLÊS, ESPANHOL e ESPANHOL-INGLÊS
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('helpModal');
-    if (!modal) {
-        console.warn('[help-modal] Elemento #helpModal não encontrado.');
-        return;
-    }
-    const closeBtn = modal.querySelector('.close-help');
-    const modalBody = document.getElementById('helpContent');
-    const modalTitle = document.getElementById('helpModalTitle');
+// help-modal.js – versão 3.0
+// Modal de ajuda com i18n, suporte a todos os cursos e carregamento dinâmico de dados
+// Inclui: ENEM, EsPCEx, INGLÊS, ESPANHOL, ESPANHOL-INGLÊS, JAPONÊS, PORTUGUÊS BRASILEIRO, JAPONÊS-INGLÊS
 
-    let currentCourse = null;
+(function() {
+    'use strict';
 
-    // Função para obter tradução
+    // ========== ELEMENTOS DOM ==========
+    let modal = null;
+    let closeBtn = null;
+    let modalBody = null;
+    let modalTitle = null;
+    let helpButton = null;
+
+    let currentCourse = null;               // ID do curso (ex: 'ciencia_computacao')
+    let helpDataCache = null;              // Cache do JSON
+    let translationsFallbackApplied = false;
+
+    // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
-        if (window.getTranslation) return window.getTranslation(key, replacements);
-        let text = key;
+        // Tenta usar a função global de tradução se disponível
+        if (window.getTranslation && typeof window.getTranslation === 'function') {
+            try {
+                return window.getTranslation(key, replacements);
+            } catch (e) {
+                // fallback
+            }
+        }
+
+        // Fallback interno (apenas para chaves críticas)
+        const fallbacks = {
+            'help_modal_title': 'Ajuda - {{course}}',
+            'help_unknown_course': 'Curso não identificado.',
+            'help_unavailable': 'Conteúdo de ajuda não disponível para este curso.',
+            'loading': 'Carregando...',
+            'error_loading': 'Erro ao carregar conteúdo de ajuda. Tente novamente mais tarde.',
+            'help_button': 'Ajuda'
+        };
+
+        let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
             text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
         }
         return text;
     }
 
-    window.setCurrentCourseForHelp = (courseId) => {
+    // ========== CARREGAMENTO DE DADOS ==========
+    async function loadHelpData() {
+        if (helpDataCache) return helpDataCache;
+        try {
+            const response = await fetch('cursos/ajuda/help-data.json');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            helpDataCache = await response.json();
+            console.log('[Ajuda] Dados carregados com sucesso');
+            return helpDataCache;
+        } catch (error) {
+            console.error('[Ajuda] Erro ao carregar help-data.json:', error);
+            return null;
+        }
+    }
+
+    // ========== ESCAPE HTML ==========
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // ========== RENDERIZAR CONTEÚDO ==========
+    async function renderHelpContent() {
+        if (!modalBody) return;
+
+        if (!currentCourse) {
+            modalBody.innerHTML = `<p>${t('help_unknown_course')}</p>`;
+            console.warn('[Ajuda] Curso não definido ao carregar conteúdo.');
+            return;
+        }
+
+        const data = await loadHelpData();
+        if (!data) {
+            modalBody.innerHTML = `<p>${t('error_loading')}</p>`;
+            return;
+        }
+
+        const courseData = data[currentCourse];
+        if (!courseData) {
+            modalBody.innerHTML = `<p>${t('help_unavailable')}</p>`;
+            console.warn(`[Ajuda] Curso "${currentCourse}" não encontrado no JSON.`);
+            return;
+        }
+
+        // Atualizar título do modal
+        if (modalTitle) {
+            // O título pode vir do JSON ou ser gerado
+            const title = courseData.title || t('help_modal_title', { course: currentCourse });
+            modalTitle.innerText = title;
+        }
+
+        // Construir HTML a partir das seções
+        let html = '';
+        if (courseData.sections && courseData.sections.length) {
+            courseData.sections.forEach(section => {
+                if (section.heading) {
+                    html += `<h3>${escapeHtml(section.heading)}</h3>`;
+                }
+                if (section.content) {
+                    html += `<p>${escapeHtml(section.content)}</p>`;
+                }
+                if (section.subsections) {
+                    section.subsections.forEach(sub => {
+                        if (sub.heading) html += `<h4>${escapeHtml(sub.heading)}</h4>`;
+                        if (sub.content) html += `<p>${escapeHtml(sub.content)}</p>`;
+                    });
+                }
+                if (section.links && section.links.length) {
+                    html += '<div class="links-grid">';
+                    section.links.forEach(link => {
+                        html += `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> ${escapeHtml(link.text)}</a>`;
+                    });
+                    html += '</div>';
+                }
+            });
+        } else {
+            html = `<p>${t('help_unavailable')}</p>`;
+        }
+
+        modalBody.innerHTML = html;
+
+        // Reaplicar traduções para elementos dentro do conteúdo (caso contenham data-i18n)
+        if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+            window.applyTranslations();
+        }
+    }
+
+    // ========== ABRIR / FECHAR MODAL ==========
+    function openHelp() {
+        if (!modal) return;
+        modal.classList.add('show');
+        modal.style.display = 'flex';
+        renderHelpContent();
+    }
+
+    function closeHelp() {
+        if (!modal) return;
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+    }
+
+    // ========== CONFIGURAR CURSO ATUAL ==========
+    function setCurrentCourse(courseId) {
         const courseMap = {
             'computacao': 'ciencia_computacao',
             'matematica': 'matematica',
@@ -37,110 +167,82 @@ document.addEventListener('DOMContentLoaded', () => {
             'espcex': 'espcex',
             'ingles': 'ingles',
             'espanhol': 'espanhol',
-            'espanhol-ingles': 'espanhol-ingles'   // <-- ADICIONADO
+            'espanhol-ingles': 'espanhol-ingles',
+            'japones': 'japones',
+            'portugues-brasileiro': 'portugues-brasileiro',
+            'japones-ingles': 'japones-ingles'
         };
+
         currentCourse = courseMap[courseId] || courseId;
-        const helpButton = document.getElementById('helpButton');
+
+        // Mostrar/esconder botão de ajuda conforme suporte
+        const supportedCourses = [
+            'computacao', 'matematica', 'computacao_grafica', 'embarcados',
+            'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
+            'computer-science', 'math', 'enem', 'espcex',
+            'ingles', 'espanhol', 'espanhol-ingles', 'japones',
+            'portugues-brasileiro', 'japones-ingles'
+        ];
         if (helpButton) {
-            const supportedCourses = [
-                'computacao', 'matematica', 'computacao_grafica', 'embarcados',
-                'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
-                'computer-science', 'math', 'enem', 'espcex',
-                'ingles', 'espanhol',
-                'espanhol-ingles'   // <-- ADICIONADO
-            ];
             helpButton.style.display = supportedCourses.includes(courseId) ? 'inline-flex' : 'none';
         }
-        console.log(`[Ajuda] Curso definido: ${currentCourse} (original: ${courseId})`);
-        if (modalTitle) {
-            let courseName = '';
-            if (courseId === 'computacao') courseName = 'Ciência da Computação';
-            else if (courseId === 'matematica') courseName = 'Matemática';
-            else if (courseId === 'computer-science') courseName = 'Computer Science';
-            else if (courseId === 'math') courseName = 'Math';
-            else if (courseId === 'enem') courseName = 'ENEM';
-            else if (courseId === 'espcex') courseName = 'EsPCEx';
-            else if (courseId === 'ingles') courseName = 'Inglês';
-            else if (courseId === 'espanhol') courseName = 'Espanhol';
-            else if (courseId === 'espanhol-ingles') courseName = 'Spanish (for English Speakers)';
-            else courseName = courseId;
-            modalTitle.innerText = t('help_modal_title', { course: courseName });
-        }
-    };
 
-    async function loadHelpContent() {
-        if (!currentCourse) {
-            if (modalBody) modalBody.innerHTML = `<p>${t('help_unknown_course')}</p>`;
-            console.warn('[Ajuda] Curso não definido ao carregar conteúdo.');
+        console.log(`[Ajuda] Curso definido: ${currentCourse} (original: ${courseId})`);
+    }
+
+    // ========== INICIALIZAÇÃO ==========
+    function init() {
+        // Capturar elementos
+        modal = document.getElementById('helpModal');
+        if (!modal) {
+            console.warn('[Ajuda] Elemento #helpModal não encontrado.');
             return;
         }
-        try {
-            const response = await fetch('cursos/ajuda/help-data.json');
-            if (!response.ok) throw new Error('Erro ao carregar dados de ajuda');
-            const data = await response.json();
 
-            const courseData = data[currentCourse];
-            if (!courseData) {
-                if (modalBody) modalBody.innerHTML = `<p>${t('help_unavailable')}</p>`;
-                console.warn(`[Ajuda] Curso "${currentCourse}" não encontrado no JSON.`);
-                return;
-            }
+        closeBtn = modal.querySelector('.close-help');
+        modalBody = document.getElementById('helpContent');
+        modalTitle = document.getElementById('helpModalTitle');
+        helpButton = document.getElementById('helpButton');
 
-            if (modalTitle) modalTitle.innerText = courseData.title;
+        // Expor função para definir curso
+        window.setCurrentCourseForHelp = setCurrentCourse;
 
-            let html = '';
-            if (courseData.sections && courseData.sections.length) {
-                courseData.sections.forEach(section => {
-                    if (section.heading) html += `<h3>${escapeHtml(section.heading)}</h3>`;
-                    if (section.content) html += `<p>${escapeHtml(section.content)}</p>`;
-                    if (section.subsections) {
-                        section.subsections.forEach(sub => {
-                            html += `<h4>${escapeHtml(sub.heading)}</h4>`;
-                            html += `<p>${escapeHtml(sub.content)}</p>`;
-                        });
-                    }
-                    if (section.links) {
-                        html += '<ul>';
-                        section.links.forEach(link => {
-                            html += `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.text)}</a></li>`;
-                        });
-                        html += '</ul>';
-                    }
-                });
-            } else {
-                html = '<p>Nenhuma seção de ajuda encontrada.</p>';
-            }
-            if (modalBody) modalBody.innerHTML = html;
-        } catch (error) {
-            console.error('[Ajuda] Erro ao carregar ajuda:', error);
-            if (modalBody) modalBody.innerHTML = '<p>Erro ao carregar conteúdo de ajuda. Tente novamente mais tarde.</p>';
+        // Event listeners
+        if (helpButton) {
+            helpButton.addEventListener('click', openHelp);
         }
-    }
 
-    function openHelp() {
-        modal.classList.add('show');
-        modal.style.display = 'flex';
-        loadHelpContent();
-    }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeHelp);
+        }
 
-    function closeHelp() {
-        modal.classList.remove('show');
-        modal.style.display = 'none';
-    }
-
-    const helpButton = document.getElementById('helpButton');
-    if (helpButton) helpButton.addEventListener('click', openHelp);
-    if (closeBtn) closeBtn.addEventListener('click', closeHelp);
-    window.addEventListener('click', (e) => { if (e.target === modal) closeHelp(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') closeHelp(); });
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
+        // Fechar ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) closeHelp();
         });
+
+        // Fechar com tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closeHelp();
+            }
+        });
+
+        // Atualizar conteúdo se o idioma mudar (quando o modal estiver aberto)
+        window.addEventListener('languageChanged', () => {
+            if (modal && modal.style.display === 'flex') {
+                renderHelpContent();
+            }
+        });
+
+        console.log('[Ajuda] Módulo inicializado com sucesso');
     }
-});
+
+    // Inicializar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
