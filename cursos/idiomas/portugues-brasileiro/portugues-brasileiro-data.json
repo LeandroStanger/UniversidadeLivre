@@ -1,0 +1,83 @@
+{
+  "name": "Português Brasileiro",
+  "type": "Idiomas",
+  "icon": "fa-language",
+  "description": "Curso completo de Português Brasileiro do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de inglês e outros idiomas.",
+  "stages": [
+    {
+      "name": "Stage 0 · BEGINNER | A1-A2 | Learn Brazilian Portuguese",
+      "disciplines": [
+        {
+          "name": "Beginner Brazilian Portuguese",
+          "videoIds": [
+            "3Q-ucChaQek", "NwBupoM1jzM", "l0fGA3yFbOA", "n5iUXyaCguw", "aP7nb6BB8cw",
+            "CG-VLGlG7TY", "1apkVCEmHsg", "LSR6SRS_Z2k", "dATSeRRyCe4", "kMllc0S4_mc",
+            "jYL0Zs1qwRw", "eHK8xPphBUg", "Oyyfzh8mN6s", "UcrxqVirLRU", "40Zg3H5aSKQ",
+            "Dxo3FC_ZwHs", "8xq24fNMo3I", "om0Fc8kEwqk", "2f3YBM1ui0s", "YJjYtSZzMFw",
+            "JeHIHnsZt9w", "dEa-0ODgdOc", "78bns3mUACE", "5z4eXg8aAbE", "4QADrPS7G5c",
+            "SJFTOwvPwWU", "fTu5KR1to-E", "u4Aa3A4hmsI", "ZCsJhXZJEwU", "ZMZ7B7gpXQM",
+            "q543oA1X6kE", "tRUJZUtXShA", "6rBdg0xiVXI", "BfF54EnaaWE", "k_Fv2Fy-kp0",
+            "lZnTPMfJulI", "SAdgsBrLi70", "yFkpwyPNHLA", "2wCLJ2zILjM", "Q579E9jZpXg",
+            "TNHTPz95fdY", "L-tLcCInBSE", "URyjKokENXo", "PcLfHd0rY0Q", "o4YGq9ZuHKI",
+            "kg6KKH3N6Oc", "niQNnHWc8JU", "kdexvG5Pne0"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 1 · INTERMEDIATE | B1-B2 | Learn Brazilian Portuguese",
+      "disciplines": [
+        {
+          "name": "Intermediate Brazilian Portuguese",
+          "videoIds": [
+            "J5xCJnpftSA", "xDwQt0XCjMg", "XSy6mcfGf-k", "OSrWrKGwB-Y", "BM15TCGVdKY",
+            "_GXlXnG71Qs", "0wTRNS0rt-s", "oQTjWp4GvAQ", "jVnKYLuRHa8", "gQ2DJ8lis9I",
+            "WnCrkvWPepI", "4MSxuBzg38A", "L6CZ3n4EO9o", "iKlI-tWxDaI", "_8R4H4GD7gY",
+            "rnumabcnCWY", "Q19jl3oKV_k", "232NQkCRB2k", "jSLLQ7hxqPo", "xm0nHQb2ZCY",
+            "JjXXuSKk7Y0", "JFrKnvzuvS8", "U_1Nngw3Co8", "Jgbx3gqDCjA", "RTyGq6wwr0A",
+            "ytub5xL-jS0", "6LV3UYGJroI", "gfk6P50_N5Y", "96ffC-WFd24", "5130DLr_AkI",
+            "bL_godVxzVo", "wVPOVdwM7ZE"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 2 · ADVANCED | C1-C2 | Learn Brazilian Portuguese",
+      "disciplines": [
+        {
+          "name": "Advanced Brazilian Portuguese",
+          "videoIds": [
+            "TVwwR6c1u9g", "jE4xb6KMv0s", "58Gn6xCemsI", "AKivJrzRXw4", "VkmPytuoKlk",
+            "TWJWtVISKwo", "ldlotZvqcnM", "MBimQqbC1lc", "cR7kzu9zV0M", "vhxK_XLwh5U",
+            "NrqYYPX4sZQ", "hhjbemC8O3g", "0UcOh28d_Us", "ayQW12KV4Bo", "C6IKjt6RtjE",
+            "qim1W9i0o3g"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}
