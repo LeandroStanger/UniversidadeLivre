@@ -1,9 +1,10 @@
 /* ============================================================
-   style.css – Versão 3.12 – COMPLETO
+   style.css – Versão 4.0 – COMPLETO COM ANIMAÇÕES SUAVES
    Tema escuro premium com glassmorphism e animações modernas
    Substituição do vermelho (#EF4444) por #10b981 (verde esmeralda)
-   CORREÇÃO: Hover dos botões do cabeçalho mantém cor branca
-   CORREÇÃO: Botão de perfil com estilos consistentes
+   CORREÇÃO: Animações com translate3d para GPU acceleration
+   CORREÇÃO: Will-change em elementos animados
+   CORREÇÃO: Transições mais suaves com cubic-bezier
    Inclui: Modal de Perfil com Avatar, Gênero, Senha, Exportação/Importação
    Cursos em andamento, Barra de Progresso, Cards de Curso com Imagem,
    Player, Tabs, Bibliografia, Prática, Time, Licença, Notificações,
@@ -501,7 +502,7 @@ a:hover {
     justify-content: center;
 }
 
-/* ========== CARD DE CURSO (MODERNIZADO COM IMAGEM) ========== */
+/* ========== CARD DE CURSO (MODERNIZADO COM IMAGEM E ANIMAÇÃO SUAVE) ========== */
 .course-card {
     background: var(--bg-card);
     backdrop-filter: blur(8px);
@@ -509,7 +510,9 @@ a:hover {
     border-radius: 20px;
     padding: 0 1.5rem 1.8rem 1.5rem;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     border: 1px solid var(--border);
     width: 360px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
@@ -518,7 +521,8 @@ a:hover {
     min-height: 100px;
     position: relative;
     overflow: hidden;
-    will-change: transform;
+    will-change: transform, opacity, box-shadow;
+    transform: translate3d(0, 0, 0);
 }
 
 .course-card::before {
@@ -530,7 +534,7 @@ a:hover {
                 rgba(16, 185, 129, 0.08) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.4s var(--ease-smooth);
 }
 
 .course-card::after {
@@ -545,7 +549,7 @@ a:hover {
     mask-composite: exclude;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.4s var(--ease-smooth);
 }
 
 .course-card:hover::before {
@@ -557,7 +561,7 @@ a:hover {
 }
 
 .course-card:hover {
-    transform: translateY(-10px) scale(1.01);
+    transform: translate3d(0, -10px, 0) scale(1.01);
     border-color: rgba(16, 185, 129, 0.3);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6),
                 0 0 40px rgba(16, 185, 129, 0.06),
@@ -586,6 +590,7 @@ a:hover {
     object-fit: cover;
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: block;
+    will-change: transform;
 }
 
 .course-card:hover .course-image {
@@ -599,7 +604,7 @@ a:hover {
     display: flex;
     justify-content: center;
     filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.15));
-    transition: filter 0.4s;
+    transition: filter 0.4s var(--ease-smooth);
 }
 
 .course-card:hover .course-icon {
@@ -615,7 +620,7 @@ a:hover {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    transition: all 0.4s;
+    transition: all 0.4s var(--ease-smooth);
 }
 
 .course-card:hover h2 {
@@ -693,7 +698,7 @@ a:hover {
     width: fit-content;
     border: 1px solid rgba(16, 185, 129, 0.15);
     backdrop-filter: blur(4px);
-    transition: all 0.3s;
+    transition: all 0.3s var(--ease-smooth);
 }
 
 .course-card:hover .course-duration {
@@ -735,6 +740,7 @@ a:hover {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(108, 140, 255, 0.2);
+    will-change: transform, box-shadow;
 }
 
 .continue-btn::after {
@@ -744,7 +750,7 @@ a:hover {
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
                 rgba(255, 255, 255, 0.15) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s var(--ease-smooth);
     pointer-events: none;
 }
 
@@ -1391,6 +1397,7 @@ a:hover {
     min-height: 280px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     position: relative;
+    will-change: transform, box-shadow;
 }
 
 .book-card::after {
@@ -1405,7 +1412,7 @@ a:hover {
     mask-composite: exclude;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.4s var(--ease-smooth);
 }
 
 .book-card:hover::after {
@@ -1432,7 +1439,8 @@ a:hover {
     border-radius: 12px;
     background: var(--bg-primary);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    transition: transform 0.4s, box-shadow 0.4s;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .book-card:hover .book-cover {
@@ -1449,7 +1457,7 @@ a:hover {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    transition: all 0.3s;
+    transition: all 0.3s var(--ease-smooth);
 }
 
 .book-card:hover .book-title {
@@ -1555,6 +1563,7 @@ a:hover {
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     border: 1px solid var(--border);
     position: relative;
+    will-change: transform, box-shadow;
 }
 
 .member-card:hover {
@@ -1903,6 +1912,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    will-change: transform, box-shadow;
 }
 
 .practice-platform-card:hover {
@@ -2555,6 +2565,7 @@ a:hover {
     gap: 0.5rem;
     position: relative;
     overflow: hidden;
+    will-change: transform, box-shadow;
 }
 
 .start-lesson-btn::after {
@@ -2564,7 +2575,7 @@ a:hover {
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
                 rgba(255, 255, 255, 0.15) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s var(--ease-smooth);
     pointer-events: none;
 }
 
@@ -2743,6 +2754,7 @@ a:hover {
     letter-spacing: 0.3px;
     position: relative;
     overflow: hidden;
+    will-change: transform, box-shadow;
 }
 
 .final-go-home-btn::after {
@@ -2752,7 +2764,7 @@ a:hover {
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
                 rgba(255, 255, 255, 0.15) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s var(--ease-smooth);
     pointer-events: none;
 }
 
@@ -3202,15 +3214,22 @@ a:hover {
 /* ========== ANIMAÇÕES GLOBAIS ========== */
 .animate-in {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s var(--ease-smooth),
-                transform 0.7s var(--ease-spring);
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
 }
 
 .animate-in.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
 }
+
+.animate-in.delay-1 { transition-delay: 50ms; }
+.animate-in.delay-2 { transition-delay: 100ms; }
+.animate-in.delay-3 { transition-delay: 150ms; }
+.animate-in.delay-4 { transition-delay: 200ms; }
+.animate-in.delay-5 { transition-delay: 250ms; }
 
 @keyframes pulse-glow {
     0%, 100% {
