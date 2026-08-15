@@ -1,18 +1,18 @@
 // ============================================================
-// script.js – Versão 5.0 – COMPLETO
+// script.js – Versão 6.0 – CORREÇÃO DE CURSOS DUPLICADOS E ANIMAÇÕES SUAVES
 // Universidade Livre · Todos os módulos
-// CORREÇÃO: Botão de perfil não é sobrescrito pela tradução (verifica imagem/iniciais)
-// CORREÇÃO: Dispara evento languageChanged para todos os módulos
-// CORREÇÃO: Chamada de funções específicas dos módulos após mudança de idioma
-// ADICIONADO: Cache de imagens e fallback automático para imagen-card.png
-// ADICIONADO: Onboarding (trilha de boas-vindas) integrado
-// SUPORTE: Português Brasileiro, Inglês
+// CORREÇÃO: Prevenção de renderização concorrente de cursos
+// CORREÇÃO: Animações mais suaves com translate3d e will-change
+// CORREÇÃO: Remoção de chamadas redundantes a renderCourseCards
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
     if (localStorage.getItem('currentStep') !== null) localStorage.removeItem('currentStep');
+
+    // ========== VARIÁVEL DE CONTROLE PARA RENDERIZAÇÃO ==========
+    let _renderingCourses = false;
 
     // ========== INICIALIZAR CURSOR TIMESET ==========
     if (window.CursorTimeset && typeof window.CursorTimeset.initialize === 'function') {
@@ -312,7 +312,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('[i18n] Aplicando traduções aos elementos estáticos e dinâmicos');
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            // PULAR O BOTÃO DE PERFIL SE JÁ FOI PERSONALIZADO
             if (el.id === 'profileBtn') {
                 const hasImage = el.querySelector('img') !== null;
                 const hasInitials = el.querySelector('.profile-initials') !== null;
@@ -406,6 +405,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.applyTranslationsToUI();
         }
         applyTranslations();
+
+        // Recarregar cursos apenas se necessário e se não estiver renderizando
+        const homeScreen = document.getElementById('homeScreen');
+        if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
+            renderCourseCards();
+        }
     }
 
     async function setLanguage(lang) {
@@ -444,7 +449,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 }
                 const homeScreen = document.getElementById('homeScreen');
-                if (homeScreen && homeScreen.style.display !== 'none') {
+                if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
                     renderCourseCards();
                 }
             }, 150);
@@ -454,7 +459,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Expor setLanguage globalmente para que os módulos possam usá-lo
     window.setLanguage = setLanguage;
 
     const langPtBtn = document.getElementById('langPtBtn');
@@ -1989,9 +1993,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentLevelFilter = 'all';
     let currentSearchTermHome = '';
 
+    // ========== RENDERIZAÇÃO DE CURSOS (CORRIGIDA) ==========
     async function renderCourseCards() {
+        if (_renderingCourses) {
+            console.log('[Main] renderCourseCards já em execução, ignorando chamada.');
+            return;
+        }
+        _renderingCourses = true;
+
         const homeScreen = document.getElementById('homeScreen');
-        if (!homeScreen) return;
+        if (!homeScreen) {
+            _renderingCourses = false;
+            return;
+        }
+
+        // Limpa o container para evitar duplicação
+        homeScreen.innerHTML = '';
 
         if (allCourses.length === 0) {
             try {
@@ -2001,6 +2018,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (error) {
                 console.error('Erro ao carregar cursos:', error);
                 homeScreen.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
+                _renderingCourses = false;
                 return;
             }
         }
@@ -2022,10 +2040,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             homeScreen.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
             applyTranslations();
             observeAnimateElements();
+            _renderingCourses = false;
             return;
         }
 
-        homeScreen.innerHTML = '';
+        // Usar DocumentFragment para melhor performance
+        const fragment = document.createDocumentFragment();
+
         for (const course of filteredCourses) {
             const card = document.createElement('div');
             card.className = 'course-card animate-in';
@@ -2097,11 +2118,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                     openCourse(course.id);
                 });
             }
-            homeScreen.appendChild(card);
+            fragment.appendChild(card);
         }
+
+        homeScreen.appendChild(fragment);
+
+        // Aplica animações com um pequeno delay para garantir que os elementos estejam no DOM
+        requestAnimationFrame(() => {
+            document.querySelectorAll('.course-card.animate-in').forEach((card, index) => {
+                card.style.transitionDelay = (index * 50) + 'ms';
+                card.classList.add('visible');
+            });
+        });
+
         applyTranslations();
         observeAnimateElements();
         initParallaxCards();
+        _renderingCourses = false;
     }
 
     function initHomeFilters() {
@@ -2148,11 +2181,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== ONBOARDING ==========
     function initOnboarding() {
-        // Verificar se deve mostrar a trilha de boas-vindas
         const onboardingComplete = localStorage.getItem('ulivre_onboarding_complete');
         const hasName = localStorage.getItem('userProfileName');
         if (!onboardingComplete || !hasName) {
-            // Aguardar um pouco para a página carregar totalmente
             setTimeout(() => {
                 if (window.startOnboarding) {
                     window.startOnboarding();
@@ -2295,7 +2326,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
         const homeScreen = document.getElementById('homeScreen');
-        if (homeScreen && homeScreen.style.display !== 'none') {
+        if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
             renderCourseCards();
         }
     });
