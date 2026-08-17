@@ -8,7 +8,6 @@
       },
       {
         "heading": "Canais de Comunidade",
-        "content": "Participe dos grupos oficiais para tirar dúvidas, compartilhar conhecimento e interagir com outros estudantes.",
         "links": [
           {
             "text": "Discord",
@@ -64,336 +63,12 @@
       }
     ]
   },
-  "matematica": {
-    "title": "Ajuda do Curso Matemática",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Matemática da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos da Matemática, utilizando recursos gratuitos e de alta qualidade."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/1045135924390023209"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/11"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/matematica"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Haverão mais cursos além de Matemática?",
-            "content": "Sim, a ideia é que existam mais cursos além de Matemática. Futuramente, estamos pensando em experimentar expandir também para outras áreas além de Matemática. Mas estamos estudando as possibilidades com calma."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
-          },
-          {
-            "heading": "O Camilo comanda a UBL?",
-            "content": "Não. A UBL tem 5 pessoas na Administração com igual poder de decisão; não é uma ditadura."
-          },
-          {
-            "heading": "Preciso ter base sólida em matemática do ensino médio?",
-            "content": "Recomendamos que você revise os fundamentos, mas o curso começa com pré-cálculo e matemática básica, então mesmo que você esteja enferrujado, conseguirá acompanhar."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas que cobrem desde pré-cálculo até tópicos avançados como análise complexa e topologia. Cada etapa contém disciplinas com videoaulas e materiais de apoio."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "A matemática exige prática constante. Recomendamos:\n• Resolver muitos exercícios\n• Tentar provar teoremas por conta própria\n• Usar a biblioteca para consultar livros-texto\n• Participar de grupos de estudo"
-      },
-      {
-        "heading": "Dicas para Iniciantes",
-        "content": "Não pule etapas. Domine bem os conceitos básicos antes de avançar. A matemática é cumulativa; cada novo tópico depende do anterior. Seja paciente e persistente."
-      }
-    ]
-  },
-  "computacao_grafica": {
-    "title": "Ajuda do Curso Computação Gráfica",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Computação Gráfica da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos e técnicas avançadas da área, utilizando recursos gratuitos e de alta qualidade."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/computacao-grafica"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Este curso é de Pós-graduação?",
-            "content": "Sim, este curso é uma pós-graduação focada em Computação Gráfica, abrangendo desde fundamentos até técnicas avançadas de renderização, modelagem e programação de GPUs."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais que tem como objetivo auxiliar para que você aprenda os assuntos que normalmente são estudados em um curso universitário. Algumas pessoas envolvidas com a UBL podem estar trabalhando em outras empresas que podem oferecer algum tipo de certificação, mas a Universidade Livre Brasileira não está envolvida com qualquer emissão de certificado ou certificação."
-          },
-          {
-            "heading": "Preciso de conhecimento prévio em programação?",
-            "content": "Sim, é recomendável ter conhecimentos básicos de programação em C++ ou Python, além de familiaridade com álgebra linear."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais da computação gráfica. Inclui aulas em vídeo, projetos práticos e integração com plataformas externas como Khan Academy."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Recomendamos que você assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
-      },
-      {
-        "heading": "Dicas para Aproveitamento",
-        "content": "A computação gráfica é uma área visual e prática. Além de assistir às aulas, tente implementar pequenos projetos, como um renderizador simples ou um visualizador 3D, para consolidar o aprendizado."
-      }
-    ]
-  },
-  "embarcados": {
-    "title": "Ajuda do Curso Embarcados",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Pós‑graduação em Embarcados da Universidade Livre. Este curso oferece uma formação sólida em microeletrônica, programação de microcontroladores, sistemas operacionais de tempo real, FPGA e IoT, utilizando recursos gratuitos e de alta qualidade."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/embarcados"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Preciso de hardware específico para acompanhar?",
-            "content": "Embora alguns conteúdos externos (Univesp) não exijam hardware, as disciplinas práticas sugerem o uso de plataformas como Arduino (AVR), kits FPGA e sensores IoT. A ULivre não fornece hardware, mas recomenda materiais de baixo custo."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
-          },
-          {
-            "heading": "Preciso saber eletrônica básica?",
-            "content": "É recomendável ter noções básicas de eletrônica (lei de Ohm, componentes, circuitos). O curso oferece materiais para nivelamento."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais de sistemas embarcados. Inclui aulas em vídeo, cursos externos (Univesp) e projetos práticos."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
-      }
-    ]
-  },
-  "desenvolvimento_web": {
-    "title": "Ajuda do Curso Desenvolvimento Web",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Pós‑graduação em Desenvolvimento Web da Universidade Livre. Este curso oferece uma formação sólida em HTML, CSS, JavaScript, frameworks modernos e back-end, utilizando recursos gratuitos e de alta qualidade."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/desenvolvimento-web"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Preciso de conhecimento prévio?",
-            "content": "Recomenda-se conhecimento básico de lógica de programação, mas o curso começa com fundamentos web."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
-          },
-          {
-            "heading": "Quais frameworks serão abordados?",
-            "content": "O curso cobre React, Node.js, Express, TypeScript, além de ferramentas como ESLint, Prettier e metodologias REST API."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas que abordam tópicos essenciais do desenvolvimento web."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
-      }
-    ]
-  },
-  "cybersecurity": {
-    "title": "Ajuda do Curso CyberSecurity",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Pós‑graduação em CyberSecurity da Universidade Livre. Este curso oferece uma formação sólida em segurança cibernética, incluindo análise de vulnerabilidades, testes de invasão, engenharia reversa, criptografia e conformidade com normas como a LGPD."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/cybersecurity"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Preciso de conhecimento prévio?",
-            "content": "Recomenda-se conhecimento básico de redes e sistemas operacionais, mas o curso começa com fundamentos de segurança."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
-          },
-          {
-            "heading": "O curso aborda ferramentas práticas?",
-            "content": "Sim, inclui tópicos sobre OWASP, ferramentas de pentest, SIEM, SAST/DAST/IAST, e técnicas de engenharia reversa."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais da segurança cibernética."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
-      }
-    ]
-  },
-  "devops": {
-    "title": "Ajuda do Curso DevOps",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Pós‑graduação em DevOps da Universidade Livre. Este curso oferece uma formação sólida em automação, infraestrutura como código, containers, orquestração e pipelines de CI/CD."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
-          },
-          {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
-          },
-          {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/devops"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Preciso de conhecimento prévio?",
-            "content": "Recomenda-se conhecimento básico de Linux e programação, mas o curso começa com fundamentos de Linux e DevOps."
-          },
-          {
-            "heading": "A UBL oferece algum diploma?",
-            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
-          },
-          {
-            "heading": "Quais ferramentas são abordadas?",
-            "content": "Docker, Kubernetes, Vagrant, Git, CI/CD com Jenkins, além de práticas de Infraestrutura como Código."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais de DevOps."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
-      }
-    ]
-  },
   "ciencia_de_dados": {
     "title": "Ajuda do Curso Ciência de Dados",
     "sections": [
       {
         "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Pós‑graduação em Ciência de Dados da Universidade Livre. Este curso oferece uma formação sólida em análise de dados, estatística, limpeza de dados e reprodutibilidade científica."
+        "content": "Bem-vindo ao curso de Pós‑graduação em Ciência de Dados da Universidade Livre. Este curso oferece uma formação sólida em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
       },
       {
         "heading": "Canais de Comunidade",
@@ -488,47 +163,267 @@
       }
     ]
   },
-  "math": {
-    "title": "Math Course Help",
+  "computacao_grafica": {
+    "title": "Ajuda do Curso Computação Gráfica",
     "sections": [
       {
-        "heading": "Introduction",
-        "content": "Welcome to the Math course from the Open Source Society University. This course was created to provide a solid foundation in Mathematics fundamentals, using free and high-quality resources."
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Computação Gráfica da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos e técnicas avançadas da área, utilizando recursos gratuitos e de alta qualidade."
       },
       {
-        "heading": "Community Channels",
+        "heading": "Canais de Comunidade",
         "links": [
           {
             "text": "Discord",
-            "url": "https://discord.com/channels/744385009028431943/870780483347292221"
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
           },
           {
-            "text": "GitHub Repository",
-            "url": "https://github.com/ossu/math"
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/computacao-grafica"
           }
         ]
       },
       {
-        "heading": "Frequently Asked Questions",
+        "heading": "Perguntas Frequentes",
         "content": "",
         "subsections": [
           {
-            "heading": "Will there be more courses beyond Mathematics?",
-            "content": "Yes, the idea is to have more courses beyond Math. In the future, we are thinking about expanding to other areas beyond Mathematics as well. But we are studying the possibilities carefully."
+            "heading": "Este curso é de Pós-graduação?",
+            "content": "Sim, este curso é uma pós-graduação focada em Computação Gráfica, abrangendo desde fundamentos até técnicas avançadas de renderização, modelagem e programação de GPUs."
           },
           {
-            "heading": "Does the Open Source Society University offer any diploma?",
-            "content": "No. The Open Source Society University is a guide to educational resources. We do not issue certificates or diplomas."
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais que tem como objetivo auxiliar para que você aprenda os assuntos que normalmente são estudados em um curso universitário. Algumas pessoas envolvidas com a UBL podem estar trabalhando em outras empresas que podem oferecer algum tipo de certificação, mas a Universidade Livre Brasileira não está envolvida com qualquer emissão de certificado ou certificação."
+          },
+          {
+            "heading": "Preciso de conhecimento prévio em programação?",
+            "content": "Sim, é recomendável ter conhecimentos básicos de programação em C++ ou Python, além de familiaridade com álgebra linear."
           }
         ]
       },
       {
-        "heading": "Course Structure",
-        "content": "The course is divided into stages, each containing disciplines that cover essential Math topics. Lessons are organized into YouTube videos and supplementary materials."
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais da computação gráfica. Inclui aulas em vídeo, projetos práticos e integração com plataformas externas como Khan Academy."
       },
       {
-        "heading": "Study Methodology",
-        "content": "We recommend that you watch the lessons in the proposed order, practice the suggested exercises, and participate in the community to ask questions and share knowledge."
+        "heading": "Metodologia de Estudo",
+        "content": "Recomendamos que você assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      },
+      {
+        "heading": "Dicas para Aproveitamento",
+        "content": "A computação gráfica é uma área visual e prática. Além de assistir às aulas, tente implementar pequenos projetos, como um renderizador simples ou um visualizador 3D, para consolidar o aprendizado."
+      }
+    ]
+  },
+  "cybersecurity": {
+    "title": "Ajuda do Curso CyberSecurity",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em CyberSecurity da Universidade Livre. Este curso oferece uma formação sólida em segurança cibernética, incluindo análise de vulnerabilidades, testes de invasão, engenharia reversa, criptografia e conformidade com normas como a LGPD."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/cybersecurity"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de redes e sistemas operacionais, mas o curso começa com fundamentos de segurança."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "O curso aborda ferramentas práticas?",
+            "content": "Sim, inclui tópicos sobre OWASP, ferramentas de pentest, SIEM, SAST/DAST/IAST, e técnicas de engenharia reversa."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais da segurança cibernética."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "desenvolvimento_web": {
+    "title": "Ajuda do Curso Desenvolvimento Web",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em Desenvolvimento Web da Universidade Livre. Este curso oferece uma formação sólida em HTML, CSS, JavaScript, frameworks modernos e back-end, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/desenvolvimento-web"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de lógica de programação, mas o curso começa com fundamentos web."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "Quais frameworks serão abordados?",
+            "content": "O curso cobre React, Node.js, Express, TypeScript, além de ferramentas como ESLint, Prettier e metodologias REST API."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas que abordam tópicos essenciais do desenvolvimento web."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "devops": {
+    "title": "Ajuda do Curso DevOps",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em DevOps da Universidade Livre. Este curso oferece uma formação sólida em automação, infraestrutura como código, containers, orquestração e pipelines de CI/CD."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/devops"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio?",
+            "content": "Recomenda-se conhecimento básico de Linux e programação, mas o curso começa com fundamentos de Linux e DevOps."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "Quais ferramentas são abordadas?",
+            "content": "Docker, Kubernetes, Vagrant, Git, CI/CD com Jenkins, além de práticas de Infraestrutura como Código."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas externas e vídeos que abordam tópicos essenciais de DevOps."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
+      }
+    ]
+  },
+  "embarcados": {
+    "title": "Ajuda do Curso Embarcados",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Pós‑graduação em Embarcados da Universidade Livre. Este curso oferece uma formação sólida em microeletrônica, programação de microcontroladores, sistemas operacionais de tempo real, FPGA e IoT, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/embarcados"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de hardware específico para acompanhar?",
+            "content": "Embora alguns conteúdos externos (Univesp) não exijam hardware, as disciplinas práticas sugerem o uso de plataformas como Arduino (AVR), kits FPGA e sensores IoT. A ULivre não fornece hardware, mas recomenda materiais de baixo custo."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "Preciso saber eletrônica básica?",
+            "content": "É recomendável ter noções básicas de eletrônica (lei de Ohm, componentes, circuitos). O curso oferece materiais para nivelamento."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas, cada uma contendo disciplinas que abordam tópicos essenciais de sistemas embarcados. Inclui aulas em vídeo, cursos externos (Univesp) e projetos práticos."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Assista às aulas na ordem proposta, pratique os exercícios sugeridos e participe da comunidade para tirar dúvidas e compartilhar conhecimento."
       }
     ]
   },
@@ -572,6 +467,162 @@
       {
         "heading": "Dicas de Estudo",
         "content": "Além de assistir às videoaulas, resolva provas anteriores e treine redação regularmente. A prática é essencial para se familiarizar com o estilo da prova."
+      }
+    ]
+  },
+  "engenharia_computacao": {
+    "title": "Ajuda do Curso Engenharia de Computação",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Engenharia de Computação da Universidade Livre. Este curso oferece uma formação abrangente que integra hardware, software, sistemas embarcados, redes, automação e inteligência computacional. Desenvolvido com recursos gratuitos e de alta qualidade, ele prepara você para projetar, implementar e gerenciar sistemas computacionais complexos."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord: Boteco dos Devs",
+            "url": "https://discord.gg/Trn8KCN2h"
+          },
+          {
+            "text": "Discord: Programadores BR",
+            "url": "https://discord.gg/programacao"
+          },
+          {
+            "text": "Discord: Lan House",
+            "url": "https://discord.gg/ZpzByecV5"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Este curso é equivalente a um bacharelado presencial?",
+            "content": "A Universidade Livre oferece um guia de estudos com curadoria de conteúdos gratuitos que cobrem os tópicos de um bacharelado em Engenharia de Computação. Não substitui a experiência prática e o networking de um curso presencial, mas é uma excelente base para o autodidatismo."
+          },
+          {
+            "heading": "Preciso de conhecimento prévio em eletrônica ou programação?",
+            "content": "Não. O curso começa com fundamentos de matemática, pensamento computacional e introdução à programação. As disciplinas de hardware e circuitos digitais também partem do básico."
+          },
+          {
+            "heading": "A UBL oferece certificado de conclusão?",
+            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "Quais áreas da Engenharia de Computação são abordadas?",
+            "content": "O curso cobre desde algoritmos e estruturas de dados, passando por sistemas embarcados, redes, IoT, desenvolvimento web, processamento de sinais, controle e automação, até tópicos avançados como compiladores e cidades inteligentes."
+          },
+          {
+            "heading": "Preciso ter acesso a equipamentos de laboratório?",
+            "content": "Embora alguns conteúdos utilizem simulações (como circuitos digitais e processamento de sinais), as disciplinas de sistemas embarcados sugerem o uso de plataformas de baixo custo como Arduino e kits FPGA. A Universidade Livre não fornece hardware, mas recomenda materiais acessíveis."
+          },
+          {
+            "heading": "Quanto tempo leva para concluir o curso?",
+            "content": "O curso é autoformativo. Com dedicação de 1 a 2 horas por dia, você pode concluí-lo em cerca de 4 anos. O ritmo é totalmente flexível."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em 8 etapas, começando com fundamentos de estudo e Git, passando por bases de programação, matemática, física, circuitos digitais, engenharia de software, sistemas embarcados, IoT, desenvolvimento web, processamento de sinais, controle, automação e, por fim, impactos sociais e legislação profissional. Cada etapa contém videoaulas do YouTube e links para conteúdos externos."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Para obter o máximo do curso, recomendamos:\n• Assistir às videoaulas na ordem proposta\n• Praticar os exercícios e desafios indicados\n• Participar ativamente da comunidade para esclarecer dúvidas\n• Utilizar a biblioteca para consultar livros e materiais complementares\n• Realizar projetos próprios para consolidar o aprendizado"
+      },
+      {
+        "heading": "Dicas para Iniciantes",
+        "content": "Se você está começando, não se preocupe com a quantidade de conteúdo. Comece pela etapa 0 (técnicas de estudo) e progrida gradualmente. Dedique tempo para entender os fundamentos de matemática e programação, pois eles são a base para todo o resto. A prática constante e a paciência são os maiores aliados no aprendizado de engenharia."
+      }
+    ]
+  },
+  "espanhol": {
+    "title": "Ajuda do Curso Espanhol",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Espanhol da Universidade Livre. Este curso foi criado para oferecer uma formação completa no idioma, do nível A1 ao C2, utilizando recursos gratuitos e de alta qualidade, com videoaulas do YouTube e o portal MEC Idiomas."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Spanish-English Learning Server",
+            "url": "https://discord.gg/spanish-english"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Preciso de conhecimento prévio para começar?",
+            "content": "Não. O curso começa do nível A1/A2 (iniciante) e avança progressivamente até o C2 (nativo). Basta ter disposição para estudar e praticar."
+          },
+          {
+            "heading": "O curso cobre todos os aspectos do idioma?",
+            "content": "Sim. As videoaulas abordam gramática, vocabulário, pronúncia, compreensão auditiva, leitura e produção textual, seguindo os níveis do Quadro Europeu Comum de Referência para Línguas (CEFR)."
+          },
+          {
+            "heading": "A Universidade Livre oferece certificado de proficiência?",
+            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas. Recomendamos que, ao final do curso, você faça exames de proficiência reconhecidos internacionalmente, como DELE ou SIELE."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em 4 etapas: a Etapa 0 ensina técnicas de estudo eficientes, e as etapas 1 a 3 correspondem aos níveis A1/A2, B1/B2 e C1/C2. Cada etapa inclui dezenas de videoaulas e uma disciplina externa com o portal MEC Idiomas para prática complementar."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Assista às aulas na ordem sugerida, pratique diariamente com os exercícios e recursos complementares, e participe dos canais dos contribuidores para tirar dúvidas. A prática constante e a imersão no idioma são fundamentais para a fluência."
+      }
+    ]
+  },
+  "espanhol-ingles": {
+    "title": "Spanish Course Help (for English Speakers)",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Spanish course from Universidade Livre. This course was created to offer a complete formation in the Spanish language, from A1 to C2 level, using free and high-quality resources, with YouTube video lessons and external platforms like Duolingo and Babbel."
+      },
+      {
+        "heading": "Community Channels",
+        "links": [
+          {
+            "text": "Spanish-English Learning Server",
+            "url": "https://discord.gg/spanish-english"
+          }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Do I need prior knowledge to start?",
+            "content": "No. The course starts from A1 level (absolute beginner) and progresses to C2 (native). You just need to be willing to study and practice."
+          },
+          {
+            "heading": "Does the course cover all aspects of the language?",
+            "content": "Yes. The video lessons cover grammar, vocabulary, pronunciation, listening comprehension, reading, and writing, following the Common European Framework of Reference for Languages (CEFR)."
+          },
+          {
+            "heading": "Does Universidade Livre offer a proficiency certificate?",
+            "content": "No. Universidade Livre is a guide to educational resources. We do not issue certificates or diplomas. We recommend that after completing the course, you take internationally recognized proficiency exams such as DELE or SIELE."
+          }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into 6 stages: Stage 0 covers study techniques, and Stages 1 to 5 correspond to levels A1, A2, B1, B2, C1 and C2. Each stage includes dozens of video lessons and external practice with Duolingo and Babbel."
+      },
+      {
+        "heading": "Study Methodology",
+        "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for fluency."
       }
     ]
   },
@@ -666,94 +717,6 @@
       }
     ]
   },
-  "espanhol": {
-    "title": "Ajuda do Curso Espanhol",
-    "sections": [
-      {
-        "heading": "Introdução",
-        "content": "Bem-vindo ao curso de Espanhol da Universidade Livre. Este curso foi criado para oferecer uma formação completa no idioma, do nível A1 ao C2, utilizando recursos gratuitos e de alta qualidade, com videoaulas do YouTube e o portal MEC Idiomas."
-      },
-      {
-        "heading": "Canais de Comunidade",
-        "links": [
-          {
-            "text": "Spanish-English Learning Server",
-            "url": "https://discord.gg/spanish-english"
-          }
-        ]
-      },
-      {
-        "heading": "Perguntas Frequentes",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Preciso de conhecimento prévio para começar?",
-            "content": "Não. O curso começa do nível A1/A2 (iniciante) e avança progressivamente até o C2 (nativo). Basta ter disposição para estudar e praticar."
-          },
-          {
-            "heading": "O curso cobre todos os aspectos do idioma?",
-            "content": "Sim. As videoaulas abordam gramática, vocabulário, pronúncia, compreensão auditiva, leitura e produção textual, seguindo os níveis do Quadro Europeu Comum de Referência para Línguas (CEFR)."
-          },
-          {
-            "heading": "A Universidade Livre oferece certificado de proficiência?",
-            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas. Recomendamos que, ao final do curso, você faça exames de proficiência reconhecidos internacionalmente, como DELE ou SIELE."
-          }
-        ]
-      },
-      {
-        "heading": "Estrutura do Curso",
-        "content": "O curso é dividido em 4 etapas: a Etapa 0 ensina técnicas de estudo eficientes, e as etapas 1 a 3 correspondem aos níveis A1/A2, B1/B2 e C1/C2. Cada etapa inclui dezenas de videoaulas e uma disciplina externa com o portal MEC Idiomas para prática complementar."
-      },
-      {
-        "heading": "Metodologia de Estudo",
-        "content": "Assista às aulas na ordem sugerida, pratique diariamente com os exercícios e recursos complementares, e participe dos canais dos contribuidores para tirar dúvidas. A prática constante e a imersão no idioma são fundamentais para a fluência."
-      }
-    ]
-  },
-  "espanhol-ingles": {
-    "title": "Spanish Course Help (for English Speakers)",
-    "sections": [
-      {
-        "heading": "Introduction",
-        "content": "Welcome to the Spanish course from Universidade Livre. This course was created to offer a complete formation in the Spanish language, from A1 to C2 level, using free and high-quality resources, with YouTube video lessons and external platforms like Duolingo and Babbel."
-      },
-      {
-        "heading": "Community Channels",
-        "links": [
-          {
-            "text": "Spanish-English Learning Server",
-            "url": "https://discord.gg/spanish-english"
-          }
-        ]
-      },
-      {
-        "heading": "Frequently Asked Questions",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Do I need prior knowledge to start?",
-            "content": "No. The course starts from A1 level (absolute beginner) and progresses to C2 (native). You just need to be willing to study and practice."
-          },
-          {
-            "heading": "Does the course cover all aspects of the language?",
-            "content": "Yes. The video lessons cover grammar, vocabulary, pronunciation, listening comprehension, reading, and writing, following the Common European Framework of Reference for Languages (CEFR)."
-          },
-          {
-            "heading": "Does Universidade Livre offer a proficiency certificate?",
-            "content": "No. Universidade Livre is a guide to educational resources. We do not issue certificates or diplomas. We recommend that after completing the course, you take internationally recognized proficiency exams such as DELE or SIELE."
-          }
-        ]
-      },
-      {
-        "heading": "Course Structure",
-        "content": "The course is divided into 6 stages: Stage 0 covers study techniques, and Stages 1 to 5 correspond to levels A1, A2, B1, B2, C1 and C2. Each stage includes dozens of video lessons and external practice with Duolingo and Babbel."
-      },
-      {
-        "heading": "Study Methodology",
-        "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for fluency."
-      }
-    ]
-  },
   "japones": {
     "title": "Ajuda do Curso Japonês",
     "sections": [
@@ -806,50 +769,6 @@
       }
     ]
   },
-  "portugues-brasileiro": {
-    "title": "Brazilian Portuguese Course Help (for English Speakers)",
-    "sections": [
-      {
-        "heading": "Introduction",
-        "content": "Welcome to the Brazilian Portuguese course from Universidade Livre. This course was created to offer a complete formation in the Brazilian Portuguese language, from A1 to C2 level, using free and high-quality resources, with YouTube video lessons and external platforms like Duolingo."
-      },
-      {
-        "heading": "Community Channels",
-        "links": [
-          {
-            "text": "Easy Portuguese",
-            "url": "https://www.youtube.com/@EasyPortugueseVideos"
-          }
-        ]
-      },
-      {
-        "heading": "Frequently Asked Questions",
-        "content": "",
-        "subsections": [
-          {
-            "heading": "Do I need prior knowledge to start?",
-            "content": "No. The course starts from A1 level (absolute beginner) and progresses to C2 (native). You just need to be willing to study and practice."
-          },
-          {
-            "heading": "Does the course cover all aspects of the language?",
-            "content": "Yes. The video lessons cover grammar, vocabulary, pronunciation, listening comprehension, reading, and writing, following the Common European Framework of Reference for Languages (CEFR)."
-          },
-          {
-            "heading": "Does Universidade Livre offer a proficiency certificate?",
-            "content": "No. Universidade Livre is a guide to educational resources. We do not issue certificates or diplomas. We recommend that after completing the course, you take internationally recognized proficiency exams such as CELPE-Bras."
-          }
-        ]
-      },
-      {
-        "heading": "Course Structure",
-        "content": "The course is divided into 3 stages: Stage 0 covers A1-A2 levels, Stage 1 covers B1-B2 levels, and Stage 2 covers C1-C2 levels. Each stage includes dozens of video lessons and external practice with Duolingo."
-      },
-      {
-        "heading": "Study Methodology",
-        "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for fluency."
-      }
-    ]
-  },
   "japones-ingles": {
     "title": "Japanese Course Help (for English Speakers)",
     "sections": [
@@ -891,6 +810,154 @@
       {
         "heading": "Study Methodology",
         "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for learning."
+      }
+    ]
+  },
+  "matematica": {
+    "title": "Ajuda do Curso Matemática",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Matemática da Universidade Livre. Este curso foi criado para oferecer uma formação sólida nos fundamentos da Matemática, utilizando recursos gratuitos e de alta qualidade."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/1045135924390023209"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/11"
+          },
+          {
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/matematica"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Haverão mais cursos além de Matemática?",
+            "content": "Sim, a ideia é que existam mais cursos além de Matemática. Futuramente, estamos pensando em experimentar expandir também para outras áreas além de Matemática. Mas estamos estudando as possibilidades com calma."
+          },
+          {
+            "heading": "A UBL oferece algum diploma?",
+            "content": "Não. UBL é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "O Camilo comanda a UBL?",
+            "content": "Não. A UBL tem 5 pessoas na Administração com igual poder de decisão; não é uma ditadura."
+          },
+          {
+            "heading": "Preciso ter base sólida em matemática do ensino médio?",
+            "content": "Recomendamos que você revise os fundamentos, mas o curso começa com pré-cálculo e matemática básica, então mesmo que você esteja enferrujado, conseguirá acompanhar."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em etapas que cobrem desde pré-cálculo até tópicos avançados como análise complexa e topologia. Cada etapa contém disciplinas com videoaulas e materiais de apoio."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "A matemática exige prática constante. Recomendamos:\n• Resolver muitos exercícios\n• Tentar provar teoremas por conta própria\n• Usar a biblioteca para consultar livros-texto\n• Participar de grupos de estudo"
+      },
+      {
+        "heading": "Dicas para Iniciantes",
+        "content": "Não pule etapas. Domine bem os conceitos básicos antes de avançar. A matemática é cumulativa; cada novo tópico depende do anterior. Seja paciente e persistente."
+      }
+    ]
+  },
+  "math": {
+    "title": "Math Course Help",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Math course from the Open Source Society University. This course was created to provide a solid foundation in Mathematics fundamentals, using free and high-quality resources."
+      },
+      {
+        "heading": "Community Channels",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/744385009028431943/870780483347292221"
+          },
+          {
+            "text": "GitHub Repository",
+            "url": "https://github.com/ossu/math"
+          }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Will there be more courses beyond Mathematics?",
+            "content": "Yes, the idea is to have more courses beyond Math. In the future, we are thinking about expanding to other areas beyond Mathematics as well. But we are studying the possibilities carefully."
+          },
+          {
+            "heading": "Does the Open Source Society University offer any diploma?",
+            "content": "No. The Open Source Society University is a guide to educational resources. We do not issue certificates or diplomas."
+          }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into stages, each containing disciplines that cover essential Math topics. Lessons are organized into YouTube videos and supplementary materials."
+      },
+      {
+        "heading": "Study Methodology",
+        "content": "We recommend that you watch the lessons in the proposed order, practice the suggested exercises, and participate in the community to ask questions and share knowledge."
+      }
+    ]
+  },
+  "portugues-brasileiro": {
+    "title": "Brazilian Portuguese Course Help (for English Speakers)",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Brazilian Portuguese course from Universidade Livre. This course was created to offer a complete formation in the Brazilian Portuguese language, from A1 to C2 level, using free and high-quality resources, with YouTube video lessons and external platforms like Duolingo."
+      },
+      {
+        "heading": "Community Channels",
+        "links": [
+          {
+            "text": "Easy Portuguese",
+            "url": "https://www.youtube.com/@EasyPortugueseVideos"
+          }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Do I need prior knowledge to start?",
+            "content": "No. The course starts from A1 level (absolute beginner) and progresses to C2 (native). You just need to be willing to study and practice."
+          },
+          {
+            "heading": "Does the course cover all aspects of the language?",
+            "content": "Yes. The video lessons cover grammar, vocabulary, pronunciation, listening comprehension, reading, and writing, following the Common European Framework of Reference for Languages (CEFR)."
+          },
+          {
+            "heading": "Does Universidade Livre offer a proficiency certificate?",
+            "content": "No. Universidade Livre is a guide to educational resources. We do not issue certificates or diplomas. We recommend that after completing the course, you take internationally recognized proficiency exams such as CELPE-Bras."
+          }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course is divided into 3 stages: Stage 0 covers A1-A2 levels, Stage 1 covers B1-B2 levels, and Stage 2 covers C1-C2 levels. Each stage includes dozens of video lessons and external practice with Duolingo."
+      },
+      {
+        "heading": "Study Methodology",
+        "content": "Watch the lessons in the suggested order, practice daily with exercises and complementary resources, and join the contributors' channels to ask questions. Constant practice and immersion in the language are essential for fluency."
       }
     ]
   }

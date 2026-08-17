@@ -1,4 +1,4 @@
-// course-intro.js – versão com i18n e suporte a tradução (incluindo ENEM)
+// course-intro.js – versão com i18n e suporte a tradução (incluindo ENEM e Engenharia de Computação)
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('courseIntroModal');
     const closeBtn = modal?.querySelector('.close-intro');
@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // fallback básico
         const fallbacks = {
             'intro_start': 'Começar aula agora',
-            'intro_dont_show': 'Não mostrar novamente'
+            'intro_dont_show': 'Não mostrar novamente',
+            'completion_go_graduation': 'Ir para Graduação',
+            'completion_go_postgrad': 'Ir para Pós-Graduação',
+            'completion_go_other': 'Ir para Outra Pós-Graduação'
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
@@ -24,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return text;
     }
 
+    // Mapeamento de IDs de curso para chaves no JSON
     const courseIdToJsonKey = {
         'computacao': 'ciencia_computacao',
         'matematica': 'matematica',
@@ -35,7 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
         'ciencia_de_dados': 'ciencia_de_dados',
         'computer-science': 'computer-science',
         'math': 'math',
-        'enem': 'enem'   // <-- NOVO
+        'enem': 'enem',
+        'espcex': 'espcex',
+        'ingles': 'ingles',
+        'espanhol': 'espanhol',
+        'espanhol-ingles': 'espanhol-ingles',
+        'japones': 'japones',
+        'portugues-brasileiro': 'portugues-brasileiro',
+        'japones-ingles': 'japones-ingles',
+        'engenharia_computacao': 'engenharia_computacao'  // NOVO
     };
 
     async function loadIntroData() {
@@ -103,6 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const storageKey = `intro_seen_${courseId}`;
         const alreadySeen = localStorage.getItem(storageKey) === 'true';
         if (alreadySeen) return false;
+
+        // Lista de cursos com suporte a introdução
+        const supportedCourses = [
+            'computacao', 'matematica', 'computacao_grafica', 'embarcados',
+            'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
+            'computer-science', 'math', 'enem', 'espcex',
+            'ingles', 'espanhol', 'espanhol-ingles', 'japones',
+            'portugues-brasileiro', 'japones-ingles', 'engenharia_computacao'
+        ];
+
+        if (!supportedCourses.includes(courseId)) {
+            console.log(`[Intro] Curso ${courseId} não possui introdução personalizada.`);
+            return false;
+        }
 
         const success = await renderContent(courseId);
         if (success) {
