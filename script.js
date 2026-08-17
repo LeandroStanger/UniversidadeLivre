@@ -1,9 +1,9 @@
 // ============================================================
-// script.js – Versão 6.0 – CORREÇÃO DE CURSOS DUPLICADOS E ANIMAÇÕES SUAVES
+// script.js – Versão 6.1 – ORDENAÇÃO DE CARDS POR NÍVEL
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
-// CORREÇÃO: Remoção de chamadas redundantes a renderCourseCards
+// CORREÇÃO: Ordenação: Ensino Médio → Graduação → Pós‑Graduação → Idiomas
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -406,7 +406,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         applyTranslations();
 
-        // Recarregar cursos apenas se necessário e se não estiver renderizando
         const homeScreen = document.getElementById('homeScreen');
         if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
             renderCourseCards();
@@ -542,7 +541,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
             'japones': 'cursos/idiomas/japones/japones-data.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -675,7 +675,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/',
             'japones': 'cursos/idiomas/japones/',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -739,7 +740,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
             'japones': 'cursos/idiomas/japones/japones-data.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -789,7 +791,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
             'japones': 'cursos/idiomas/japones/team-japones.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -1534,7 +1537,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
             'japones': 'cursos/idiomas/japones/team-japones.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -1993,7 +1997,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentLevelFilter = 'all';
     let currentSearchTermHome = '';
 
-    // ========== RENDERIZAÇÃO DE CURSOS (CORRIGIDA) ==========
+    // ========== ORDENAÇÃO DOS CARDS POR NÍVEL ==========
+    const LEVEL_ORDER = {
+        'ensino-medio': 0,
+        'graduacao': 1,
+        'pos-graduacao': 2,
+        'idiomas': 3
+    };
+
+    // ========== RENDERIZAÇÃO DE CURSOS (CORRIGIDA + ORDENADA) ==========
     async function renderCourseCards() {
         if (_renderingCourses) {
             console.log('[Main] renderCourseCards já em execução, ignorando chamada.');
@@ -2026,7 +2038,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const searchTerm = currentSearchTermHome.trim().toLowerCase();
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-        const filteredCourses = allCourses.filter(course => {
+        let filteredCourses = allCourses.filter(course => {
             if (currentLevelFilter !== 'all' && course.courseLevel !== currentLevelFilter) return false;
             if (searchTerm) {
                 const name = (course.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -2034,6 +2046,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!name.includes(normalizedSearch) && !desc.includes(normalizedSearch)) return false;
             }
             return true;
+        });
+
+        // ===== ORDENAÇÃO POR NÍVEL (Ensino Médio → Graduação → Pós‑Graduação → Idiomas) =====
+        filteredCourses.sort((a, b) => {
+            const orderA = LEVEL_ORDER[a.courseLevel] ?? 99;
+            const orderB = LEVEL_ORDER[b.courseLevel] ?? 99;
+            if (orderA !== orderB) return orderA - orderB;
+            // Ordem alfabética dentro do mesmo nível
+            return (a.name || '').localeCompare(b.name || '');
         });
 
         if (filteredCourses.length === 0) {

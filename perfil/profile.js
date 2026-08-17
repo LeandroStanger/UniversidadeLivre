@@ -1,10 +1,11 @@
-// perfil/profile.js – Versão 16.1 – COMPLETO COM IMPORTAÇÃO/EXPORTAÇÃO APRIMORADA
+// perfil/profile.js – Versão 17.0 – COMPLETO COM IMPORTAÇÃO/EXPORTAÇÃO APRIMORADA
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
 // Integração com onboarding e outros módulos
 // CORREÇÃO: Exportação inclui senha (hash), gênero, avatar, matrícula, tempo
 // CORREÇÃO: Importação verifica senha (hash) antes de restaurar todos os dados
 // CORREÇÃO: Restaura nome, gênero, avatar, matrícula, tempo, cursos, vídeos, livros, notas, tags
 // CORREÇÃO: Atualiza interface após importação
+// CORREÇÃO: Avatar com suporte a upload e seleção de avatares padrão
 
 (function() {
     'use strict';
@@ -549,8 +550,8 @@
         }
         const hash = await hashPassword(password);
         localStorage.setItem(STORAGE_KEYS.PASSWORD, hash);
-        // Armazenar em texto claro apenas para compatibilidade (fallback)
-        localStorage.setItem(STORAGE_KEYS.PASSWORD_PLAIN, password);
+        // NÃO armazenar em texto claro (removido por segurança)
+        // localStorage.setItem(STORAGE_KEYS.PASSWORD_PLAIN, password); // REMOVIDO
         updateProfileModal();
         showPasswordSavedIndicator(true);
         showToast(t('profile_password_saved'), 'success');
@@ -1009,7 +1010,8 @@
             'espanhol-ingles': 'Spanish',
             'japones': 'Japonês',
             'portugues-brasileiro': 'Brazilian Portuguese',
-            'japones-ingles': 'Japanese'
+            'japones-ingles': 'Japanese',
+            'engenharia_computacao': 'Engenharia de Computação'
         };
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -1309,7 +1311,12 @@
         // ===== RESTAURAR DADOS DO PERFIL =====
         if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
         if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
-        if (importedData.avatar) localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
+        if (importedData.avatar) {
+            localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
+            if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
+                window.saveUserAvatar(importedData.avatar);
+            }
+        }
         if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
         if (importedData.auditorioTime) localStorage.setItem(AUDITORIO_TIME_KEY, importedData.auditorioTime);
 
@@ -1642,6 +1649,16 @@
         container.innerHTML = html;
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
     // ========== ABRIR/FECHAR MODAL ==========
     function openProfileModal() {
         console.log('[Profile] openProfileModal chamado');
@@ -1671,16 +1688,6 @@
         modal.classList.remove('show');
         modal.style.display = 'none';
         console.log('[Profile] Modal fechado');
-    }
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
     }
 
     // ========== INICIALIZAÇÃO ==========
