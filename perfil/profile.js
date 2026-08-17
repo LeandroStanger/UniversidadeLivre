@@ -1,11 +1,9 @@
-// perfil/profile.js – Versão 17.0 – COMPLETO COM IMPORTAÇÃO/EXPORTAÇÃO APRIMORADA
+// perfil/profile.js – Versão 19.0 – CORREÇÃO DE TRADUÇÃO PARA ADMINISTRAÇÃO E TODOS OS CURSOS
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
 // Integração com onboarding e outros módulos
-// CORREÇÃO: Exportação inclui senha (hash), gênero, avatar, matrícula, tempo
-// CORREÇÃO: Importação verifica senha (hash) antes de restaurar todos os dados
-// CORREÇÃO: Restaura nome, gênero, avatar, matrícula, tempo, cursos, vídeos, livros, notas, tags
-// CORREÇÃO: Atualiza interface após importação
-// CORREÇÃO: Avatar com suporte a upload e seleção de avatares padrão
+// CORREÇÃO: Nomes dos cursos agora são traduzidos dinamicamente com base no idioma atual
+// CORREÇÃO: Adicionado suporte a 'administracao' com tradução pt/en
+// CORREÇÃO: Todos os cursos do projeto possuem entrada no mapa de traduções
 
 (function() {
     'use strict';
@@ -59,6 +57,30 @@
         { key: 'avatar_zebra', file: 'Zebra.png' },
         { key: 'avatar_beija_flor', file: 'Beija-flor.png' }
     ];
+
+    // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
+    const COURSE_NAMES = {
+        'administracao': { pt: 'Administração', en: 'Administration' },
+        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
+        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
+        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
+        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
+        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
+        'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
+        'math': { pt: 'Math', en: 'Math' },
+        'enem': { pt: 'ENEM', en: 'ENEM' },
+        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
+        'ingles': { pt: 'Inglês', en: 'English' },
+        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
+        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
+        'japones': { pt: 'Japonês', en: 'Japanese' },
+        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
+        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
+        'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' }
+    };
 
     // ========== FALLBACKS DE TRADUÇÃO ==========
     const FALLBACK_PT = {
@@ -270,6 +292,13 @@
             }
         }
         return text;
+    }
+
+    // ========== FUNÇÃO PARA OBTER NOME TRADUZIDO DO CURSO ==========
+    function getCourseName(courseId) {
+        const nameObj = COURSE_NAMES[courseId];
+        if (!nameObj) return courseId; // fallback para o próprio ID
+        return nameObj[currentLang] || nameObj.pt || courseId;
     }
 
     // ========== I18N ==========
@@ -992,27 +1021,6 @@
 
     function getAllCoursesProgress() {
         const courses = [];
-        const courseNames = {
-            'computacao': 'Ciência da Computação',
-            'matematica': 'Matemática',
-            'computacao_grafica': 'Computação Gráfica',
-            'embarcados': 'Embarcados',
-            'desenvolvimento_web': 'Desenvolvimento Web',
-            'cybersecurity': 'CyberSecurity',
-            'devops': 'DevOps',
-            'ciencia_de_dados': 'Ciência de Dados',
-            'computer-science': 'Computer Science',
-            'math': 'Math',
-            'enem': 'ENEM',
-            'espcex': 'EsPCEx',
-            'ingles': 'Inglês',
-            'espanhol': 'Espanhol',
-            'espanhol-ingles': 'Spanish',
-            'japones': 'Japonês',
-            'portugues-brasileiro': 'Brazilian Portuguese',
-            'japones-ingles': 'Japanese',
-            'engenharia_computacao': 'Engenharia de Computação'
-        };
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key && key.startsWith('ulivre_course_')) {
@@ -1021,7 +1029,7 @@
                     const data = JSON.parse(localStorage.getItem(key));
                     if (data && data.watchedMap) {
                         const stats = calculateCourseStats(data.watchedMap);
-                        const name = courseNames[courseId] || courseId;
+                        const name = getCourseName(courseId);
                         courses.push({ id: courseId, name: name, stats: stats, data: data });
                     }
                 } catch (e) {}
