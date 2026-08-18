@@ -144,6 +144,14 @@
     "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
   },
   {
+    "id": "matematica-licenciatura",
+    "name": "Matemática (Licenciatura)",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-square-root-alt",
+    "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica."
+  },
+  {
     "id": "math",
     "name": "Math",
     "courseLevel": "graduacao",

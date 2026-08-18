@@ -1,10 +1,12 @@
 // ============================================================
-// script.js – Versão 7.0 – COMPLETO COM 20 CURSOS
+// script.js – Versão 8.0 – COMPLETO E AUTOSSUFICIENTE
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
 // CORREÇÃO: Ordenação: Ensino Médio → Graduação → Pós‑Graduação → Idiomas
 // CORREÇÃO: Suporte ao curso de Administração
+// CORREÇÃO: Suporte ao curso de Matemática (Licenciatura)
+// CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -468,6 +470,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         langEnBtn.addEventListener('click', () => setLanguage('en'));
     }
 
+    // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
+    const COURSE_NAMES = {
+        'administracao': { pt: 'Administração', en: 'Administration' },
+        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
+        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
+        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
+        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
+        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
+        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
+        'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
+        'math': { pt: 'Math', en: 'Math' },
+        'enem': { pt: 'ENEM', en: 'ENEM' },
+        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
+        'ingles': { pt: 'Inglês', en: 'English' },
+        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
+        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
+        'japones': { pt: 'Japonês', en: 'Japanese' },
+        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
+        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
+        'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' }
+    };
+
+    function getCourseName(courseId) {
+        const nameObj = COURSE_NAMES[courseId];
+        if (!nameObj) return courseId;
+        return nameObj[currentLang] || nameObj.pt || courseId;
+    }
+
     // ========== VARIÁVEIS GLOBAIS ==========
     let allCourses = [];
     let currentCourseDetails = null;
@@ -528,6 +561,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
             embarcados: 'cursos/pos-graduacao/embarcados/embarcados-data.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
@@ -663,6 +697,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/',
             computacao: 'cursos/graduacao/ciencia-computacao/',
             matematica: 'cursos/graduacao/matematica/',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
             'computer-science': 'cursos/graduacao/computer-science/',
             'math': 'cursos/graduacao/math/',
             'computacao_grafica': 'cursos/pos-graduacao/computacao-grafica/',
@@ -729,6 +764,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
             embarcados: 'cursos/pos-graduacao/embarcados/embarcados-data.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
@@ -781,6 +817,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
             embarcados: 'cursos/pos-graduacao/embarcados/team-embarcados.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',
@@ -835,6 +872,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/administracao-books.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
             embarcados: 'cursos/pos-graduacao/embarcados/embarcados-books.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-books.json',
@@ -1177,7 +1215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (window._completionPopupTriggered) return;
             window._completionPopupTriggered = true;
             localStorage.setItem(`course_completed_${currentCourse}`, 'true');
-            const courseName = currentCourseDetails?.name || (currentCourse === 'computacao' ? 'Ciência da Computação' : currentCourse);
+            const courseName = currentCourseDetails?.name || getCourseName(currentCourse);
             const folderPath = currentCourseFolder;
             if (window.showFinalCompletionModal) window.showFinalCompletionModal(currentCourse, courseName, folderPath);
         }
@@ -1529,6 +1567,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
             embarcados: 'cursos/pos-graduacao/embarcados/team-embarcados.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',

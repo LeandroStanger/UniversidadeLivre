@@ -1,9 +1,13 @@
-// perfil/profile.js – Versão 19.0 – CORREÇÃO DE TRADUÇÃO PARA ADMINISTRAÇÃO E TODOS OS CURSOS
+// perfil/profile.js – Versão 20.0 – COMPLETO E AUTOSSUFICIENTE
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
 // Integração com onboarding e outros módulos
-// CORREÇÃO: Nomes dos cursos agora são traduzidos dinamicamente com base no idioma atual
-// CORREÇÃO: Adicionado suporte a 'administracao' com tradução pt/en
-// CORREÇÃO: Todos os cursos do projeto possuem entrada no mapa de traduções
+// CORREÇÃO: Exportação inclui senha (hash), gênero, avatar, matrícula, tempo
+// CORREÇÃO: Importação verifica senha (hash) antes de restaurar todos os dados
+// CORREÇÃO: Restaura nome, gênero, avatar, matrícula, tempo, cursos, vídeos, livros, notas, tags
+// CORREÇÃO: Atualiza interface após importação
+// CORREÇÃO: Avatar com suporte a upload e seleção de avatares padrão
+// CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
+// CORREÇÃO: Suporte a todos os cursos incluindo Matemática (Licenciatura)
 
 (function() {
     'use strict';
@@ -63,6 +67,7 @@
         'administracao': { pt: 'Administração', en: 'Administration' },
         'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
         'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
         'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
         'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
@@ -297,7 +302,7 @@
     // ========== FUNÇÃO PARA OBTER NOME TRADUZIDO DO CURSO ==========
     function getCourseName(courseId) {
         const nameObj = COURSE_NAMES[courseId];
-        if (!nameObj) return courseId; // fallback para o próprio ID
+        if (!nameObj) return courseId;
         return nameObj[currentLang] || nameObj.pt || courseId;
     }
 
@@ -1847,6 +1852,7 @@
     window.resizeImage = resizeImage;
     window.checkPasswordStrength = checkPasswordStrength;
     window.getPasswordFeedback = getPasswordFeedback;
+    window.getCourseName = getCourseName;
 
     // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
     if (document.readyState === 'loading') {
