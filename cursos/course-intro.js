@@ -1,5 +1,8 @@
-// course-intro.js – Versão 3.0 – COMPLETO COM SUPORTE A TODOS OS CURSOS
-// Inclui: Administração, Matemática (Licenciatura), Engenharia de Computação e todos os demais
+// course-intro.js – Versão 3.0 – COMPLETO E AUTOSSUFICIENTE
+// Modal de introdução para todos os cursos da Universidade Livre
+// Suporte a: Administração, Matemática (Licenciatura), Engenharia de Computação,
+// Engenharia de Produção, e todos os demais cursos da plataforma.
+// Inclui i18n, detecção de idioma, cache de dados e prevenção de reexibição.
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('courseIntroModal');
@@ -11,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCourseId = null;
     let introData = null;
 
-    // Função para obter tradução do sistema global (se disponível)
+    // ========== FUNÇÃO DE TRADUÇÃO (fallback) ==========
     function t(key, replacements = {}) {
         if (window.getTranslation) return window.getTranslation(key, replacements);
         const fallbacks = {
@@ -28,33 +31,33 @@ document.addEventListener('DOMContentLoaded', () => {
         return text;
     }
 
-    // Mapeamento de IDs de curso para chaves no JSON (caso necessário)
-    // A maioria usa o próprio ID, mas alguns têm nomes diferentes no JSON
+    // ========== MAPEAMENTO DE IDs PARA CHAVES NO JSON ==========
     const courseIdToJsonKey = {
-        'computacao': 'ciencia_computacao',
-        'matematica': 'matematica',
-        'matematica-licenciatura': 'matematica-licenciatura',
         'administracao': 'administracao',
         'ciencia_de_dados': 'ciencia_de_dados',
+        'computacao': 'ciencia_computacao',
         'computacao_grafica': 'computacao_grafica',
-        'embarcados': 'embarcados',
-        'desenvolvimento_web': 'desenvolvimento_web',
-        'cybersecurity': 'cybersecurity',
-        'devops': 'devops',
         'computer-science': 'computer-science',
-        'math': 'math',
+        'cybersecurity': 'cybersecurity',
+        'desenvolvimento_web': 'desenvolvimento_web',
+        'devops': 'devops',
+        'embarcados': 'embarcados',
         'enem': 'enem',
-        'espcex': 'espcex',
-        'ingles': 'ingles',
+        'engenharia_computacao': 'engenharia_computacao',
+        'engenharia-producao': 'engenharia-producao',
         'espanhol': 'espanhol',
         'espanhol-ingles': 'espanhol-ingles',
+        'espcex': 'espcex',
+        'ingles': 'ingles',
         'japones': 'japones',
-        'portugues-brasileiro': 'portugues-brasileiro',
         'japones-ingles': 'japones-ingles',
-        'engenharia_computacao': 'engenharia_computacao'
+        'matematica': 'matematica',
+        'matematica-licenciatura': 'matematica-licenciatura',
+        'math': 'math',
+        'portugues-brasileiro': 'portugues-brasileiro'
     };
 
-    // Lista de cursos com suporte a introdução personalizada
+    // ========== CURSOS COM INTRODUÇÃO PERSONALIZADA ==========
     const supportedCourses = [
         'administracao',
         'ciencia_de_dados',
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'embarcados',
         'enem',
         'engenharia_computacao',
+        'engenharia-producao',
         'espanhol',
         'espanhol-ingles',
         'espcex',
@@ -79,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'portugues-brasileiro'
     ];
 
+    // ========== CARREGAR DADOS DE INTRODUÇÃO ==========
     async function loadIntroData() {
         if (introData) return introData;
         try {
@@ -92,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ========== ABRIR LINKS EM NOVA ABA ==========
     function makeLinksOpenInNewTab(container) {
         if (!container) return;
         const links = container.querySelectorAll('a');
@@ -103,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========== RENDERIZAR CONTEÚDO DO CURSO ==========
     async function renderContent(courseId) {
         const data = await loadIntroData();
         if (!data) return false;
@@ -134,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
 
+    // ========== FUNÇÃO PÚBLICA PARA VERIFICAR E EXIBIR INTRODUÇÃO ==========
     window.checkCourseIntro = async function(courseId) {
         const completedKey = `course_completed_${courseId}`;
         if (localStorage.getItem(completedKey) === 'true') {
@@ -145,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const alreadySeen = localStorage.getItem(storageKey) === 'true';
         if (alreadySeen) return false;
 
-        // Verifica se o curso tem suporte a introdução
         if (!supportedCourses.includes(courseId)) {
             console.log(`[Intro] Curso ${courseId} não possui introdução personalizada.`);
             return false;
@@ -162,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     };
 
+    // ========== FECHAR MODAL E SALVAR PREFERÊNCIA ==========
     function closeModalAndSave() {
         if (dontShowCheckbox && dontShowCheckbox.checked && currentCourseId) {
             const storageKey = `intro_seen_${currentCourseId}`;
@@ -171,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
     }
 
+    // ========== INICIAR AULA ==========
     function startLesson() {
         if (window.onIntroClosed && typeof window.onIntroClosed === 'function') {
             window.onIntroClosed();
@@ -178,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModalAndSave();
     }
 
+    // ========== ATUALIZAR TEXTOS DO MODAL (i18n) ==========
     function updateModalTexts() {
         const startBtnText = document.getElementById('startLessonBtn');
         const dontShowLabel = document.querySelector('.dont-show-again span');
@@ -185,16 +195,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (dontShowLabel) dontShowLabel.innerText = t('intro_dont_show');
     }
 
+    // ========== EVENTOS GLOBAIS ==========
     window.addEventListener('languageChanged', updateModalTexts);
 
+    // ========== EVENTOS DO MODAL ==========
     if (closeBtn) closeBtn.addEventListener('click', closeModalAndSave);
     if (startBtn) startBtn.addEventListener('click', startLesson);
+
     window.addEventListener('click', (e) => {
         if (e.target === modal) closeModalAndSave();
     });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.style.display === 'flex') closeModalAndSave();
     });
 
+    // ========== INICIALIZAR TEXTOS ==========
     updateModalTexts();
+
+    console.log('[Intro] Módulo de introdução carregado com sucesso.');
 });

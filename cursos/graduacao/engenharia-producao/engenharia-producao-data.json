@@ -1,0 +1,462 @@
+{
+  "name": "Engenharia de Produção",
+  "type": "Bacharelado",
+  "icon": "fa-industry",
+  "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Fundamentos",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Bases da Engenharia",
+      "disciplines": [
+        {
+          "name": "Pensamento Computacional",
+          "videoIds": [
+            "01Hb_UV-yDA", "GGKLbcpO_DY", "0aPzdqLQezg", "CavGI3hojDs", "L-rQmj3xMkI",
+            "Ntq26PHJ-MM", "4Z5JhJylsic", "CM-U0bX-0kQ", "3RW9zEiG6W4", "fIlciM63TLE",
+            "AASk-CP-J88", "Y9QwlY_GL_M", "McVt05VV8lo", "RcJoHOw7fbM", "Rgf9-jjrhDU",
+            "7e7RgvT5zUw", "yteOg2jkoV0", "Y8Nogbn5ksw", "7gJktl2k97s", "HLgWwXI5fWo",
+            "17dEbecypfE", "CvSbIY4f0GU", "S5B31VYLlLA", "YFjqnRr00GA", "GtFf8ZZYVE4",
+            "-f27KPLQeHs"
+          ]
+        },
+        {
+          "name": "Leitura e Produção de textos",
+          "videoIds": [
+            "XSlhDmmIlfY", "6RjngqRakfs", "9FdpWNrBlyw", "87BdHUN5tDg", "A2m_c8naWbY",
+            "z-EH84wilb8", "GkdjaYM1aEo", "_EiYrhGMq4A", "LnTfQkEPxv0", "8UgQmjH_Dps",
+            "mX9C-dUHl1s", "zbfpXRoFK0A", "or8rF9KO7VQ", "fyozvFryC8U", "UAwyu9TclJs",
+            "1QJxGX5_SUU", "IKJsGub7FOQ", "F7xpp43rw7g", "YJLU2FRZDMo", "FJeeU-jSkX0",
+            "jjaEDNDU4Rw", "ymvHV8RfWxQ", "ZgK5PChA6yM", "zMj9oRzIupI", "I65fMGbUGKQ",
+            "GvUfhSbBeHU", "1fGxSb1Bv8A", "45bIadEEmHI"
+          ]
+        },
+        {
+          "name": "Ética, cidadania e sociedade",
+          "videoIds": [
+            "6tu8ERj7g-Y", "zExhdFHldNY", "dn0JImC9e_g", "KEWIozUNOlI", "mAV5WjcFjX0",
+            "rhRGqzjDkms", "SEKIIAaoobg", "vdhnCBe5djQ", "L4boqXeykhI", "lIzsuUA2LJY",
+            "aXBLvoikpc4", "eEnIuI5ZtbA", "h3DFle6I8IU", "KRxyU42_uKQ"
+          ]
+        },
+        {
+          "name": "Matemática Básica",
+          "videoIds": [
+            "D8-PdKrR-D8", "iFW8gm-zoR4", "yzpiMJW3CzM", "8O5K-bQQ97o", "1rq2pdPpdmI",
+            "I9npqB-KkSE", "F0c9YLIq5dU", "VWFaoQPaxmk", "xdHTggX-OCA", "gcaL43wVftc",
+            "HP46l0XzsEM", "4ZGGSvfMQPQ", "Koqt286csj0", "CDoENi_jWAY", "bDVrHTuVaxM",
+            "uhrlhquQQjM", "6qDwHKJwg2Q", "k3FbgsVb6DM", "fmtL8_lkOCM", "EggCD5WZmEI",
+            "tejNGd5477g", "gXU2xZ5sR74", "LyJDqKXwHK4", "8Tnm2HBv12w", "T-5HSfZGKO0",
+            "RSs7GY-0Itw", "TjUW0QCRbqc", "Ot241-L6KbA", "y2CIlCDWAdw"
+          ]
+        },
+        {
+          "name": "Inglês",
+          "videoIds": [
+            "DL5iSh5JI6I", "EYApFdRZznA", "Z0lJflPh43w", "z8NE1NJzYWU", "t4jMJ_Ga-3U",
+            "Evh1fxjI02o", "EfTlGdRLirQ", "rOdphGGDbgI", "N2bfqi4Onys", "_mA_tCRKB4E",
+            "xvFxnWZMu3w", "uqX5pSf41wU", "OWqlER5Nx4E", "ouZamTwq_C8", "ZQaS5KjxSLQ",
+            "5n9mCVGeYeE", "C1iHiewEZQA"
+          ]
+        },
+        {
+          "name": "Projetos e Métodos para a Produção do Conhecimento",
+          "videoIds": [
+            "DOITQ9x-G2Y", "3ozoRkbqG-w", "iWOu2YLwoJc", "dKM83WB6pwQ", "Fk18X38Mn4o",
+            "zS72bOJ3DZw", "NHxtCbc6pAI", "GwMEAxX5dfQ", "AVBvcXeenPg", "OVK3r4haJcQ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Fundamentos de Gestão e Economia",
+      "disciplines": [
+        {
+          "name": "Teoria Econômica e Economia Digital",
+          "videoIds": [
+            "IlcFpBU3WgY", "DU8mgO7-I0k", "bLk2Yz_lWyY", "F2wLruJnZP8", "GRPOeDVgces",
+            "enDwErgC6_U", "07Sb52O77-A", "hyXHzWX3kvc", "IfdR5qYjlRA", "Sesox-rrztU",
+            "jsk7_lmtupM", "bTp1sVIFjRA", "QhbdZyJR57E", "niLk2cvM0gA", "d-6C99WDWz8",
+            "0yF88ZVBZOU", "ZVYzmkc3DR4", "Css6OchaWMk", "nEeJeKRPcZ4", "GcN-I0utvRQ",
+            "IoGuB4bFt58", "ANIgPV__ZmE"
+          ]
+        },
+        {
+          "name": "Estudos Organizacionais",
+          "videoIds": [
+            "vbm-UFeg5ps", "e_uQNKfc6A4", "MfYIrAc367I", "eWaTi8uwJnU", "tZt9Cul1X_g",
+            "_00n1LHMlJc", "Djm5i6IoUH8", "BniZH1w0sFA", "01by54xJxx8", "GFn6Pi1ihCE",
+            "iJf0Sy-YKvw", "zNyDK5U6w9s", "A5m60DzDI5g", "NMpAJnJWfaA", "YP5z0Lzjhe4",
+            "ybZnwDsJmG8", "E55MFuq_a8A", "8qyV9a8msv4", "srp8SuOW1jg", "MgaCqp_KUpI",
+            "yD_ZeXHYVpY", "jNoqOazj0A4"
+          ]
+        },
+        {
+          "name": "Matemática Financeira",
+          "videoIds": [
+            "OyAbZHSj64E", "eRDBOGjPnpA", "DbVoj1KPO_4", "LCeIbT8rDG0", "vnO-eW90FGw",
+            "HxXMlN60_EA", "ilbM8SR7R_Q", "HAEvwZWzBf0", "v9NP0oB8EU8", "Vd6CQd7awU0",
+            "j8nkcu9bOFk", "I7xcA6HRNEM", "Mj8o2QwH4dM", "uNR-fAy3JqM", "HpuJsk8_EyI"
+          ]
+        },
+        {
+          "name": "Comportamento Humano nas Organizações",
+          "videoIds": [
+            "KrPHs6zeciQ", "sCeZm_aLidI", "mKFsgPVh42g", "MuZeSU5dFPc", "8cgiwlK8oHU",
+            "s_ywXwsqD5k", "p_GrQzP19EQ", "uVzydtFr6xg", "6a7M5whCbK4", "1TfPNr9qFd0",
+            "Cuy-gdqUuuo", "3VEn-JwgQ5M"
+          ]
+        },
+        {
+          "name": "Gestão Contábil",
+          "videoIds": [
+            "s6Ga_Cze-b8", "mCrT5R3sZEc", "jRaa0ekvSxA", "zVt7GPWk7Ys", "LwStrG10zUA",
+            "kpTJuEBpke0", "OnaSvAy9ZgE", "CGCZ0SltDSQ", "IC46ZGld0Xk", "5MINAAMfVRc",
+            "QoUVqbrj6Qc", "e8rkj361yOs", "PROfIRra3Pk", "yAf4MwaTmqM", "1nna0qAZaNU",
+            "WBsUMcxr3ns", "BWHCygWeXNc", "WJVpoe9Ki5Y"
+          ]
+        },
+        {
+          "name": "Estatística aplicada aos negócios",
+          "videoIds": [
+            "wEBYohJLfEo", "jK5WR7IovbI", "UG3cNot8j9A", "_R2Y3JegmRY", "g7u1CyRdDMo",
+            "xMRJpDG8bvs", "k7cdBD-p6W8", "jbQuNyqgKcM", "81yPqX16F_k", "A1rahTtSLwU",
+            "qL3BFEfm9FM", "FTZQ4k6VrGc", "FQj69KYxCUc", "GHp26iv63IU"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Engenharia e Processos",
+      "disciplines": [
+        {
+          "name": "Algoritmos e Programação de Computadores 1",
+          "videoIds": [
+            "MQMm7JuCJCc", "d54piSlu4zs", "sBZUFk243n4", "ecE0tLSDFQY", "qRXno770Mfs",
+            "dFYaWTAemck", "0u27gmeqJZU", "jIvDyTz5xDk", "M8B_fvO6SaA", "7zZR8z3CcR4",
+            "BZ3O39957Oc", "Dow-n6hqX-0", "qCabcDN0LYI", "Kn-ekrQxvb8", "shoFjracm08",
+            "KsVwmmb_Dv8", "lBeAoYop1JE", "1YaGMruipOk", "UrPTIgsBiCU", "KeefJErKf9I",
+            "RDC5Eu2PKU0"
+          ]
+        },
+        {
+          "name": "Indicadores de Desempenho para Tomada de Decisão",
+          "videoIds": [
+            "aYpfMLv7j4M", "93wHgJjcO3w", "7lcqF4oE8lM", "i7KV_d1rh-M", "gxQAPXdMp-8",
+            "1dQ2lZHHGrg", "xgTVKjS0Dik", "Lhh9s7wbqSE", "Ki7_qqa_AVc", "4zqRm5FDdB8",
+            "DJKAZpbAz6w", "D_rqs51NA-Q", "ViTOqVBa_X0", "K8v9wlt3waA", "ZtcPfTSlbCU",
+            "Vj6bltFx8Oc", "ezrX69mSDes", "uCpaHv9JSQ8", "XKVwGT5YceU", "vd3Z4DZvw3k",
+            "fkobIjMF8LY", "1B2MJsbdAjQ"
+          ]
+        },
+        {
+          "name": "Introdução à Engenharia de Produção",
+          "videoIds": [
+            "2NHRDyAVsCQ", "jOygl-tBr1g", "euXCA8uNS98", "e3tOOy6vHPk", "SrIsWvuz7fI",
+            "ecqipNjxop4", "AaAmXVzWPOk", "rVo-wwtubs4", "AsR0PsUzURY", "ISl9gf2O8Z8",
+            "uJIWutop8no", "icMGfPx3XcE", "e74SgCwFtBU"
+          ]
+        },
+        {
+          "name": "Cálculo 1",
+          "videoIds": [
+            "pWkeiG7-SkU", "WNb_5iWqxuE", "LH0OLTt8vhQ", "CCqOs7E9m4c", "uzM6J8QHvLE",
+            "Yahp9K54ngs", "ZCGoF194nHg", "A0iyvB2zCjs", "Ji4AK1rabiQ", "UQWd_SD63NE",
+            "ECQB0XglrvU", "Q_0begmaMuU", "bVo9Q6NyVPg", "n48LAd-RMEo", "WFuCTPzs-WQ",
+            "5tNoQcxoZMI", "uVN8-WQErSk", "5pw1IL4aeaU", "dxEHYS-R3zY", "3bKkN_wAUUk",
+            "56wBjJ5llf4", "N7xLB0WwJLA", "SQ5nApy71ik", "k5VgEVd_CIw", "46u2BtKHcek",
+            "IOwJ4wiMt5s", "0fSa2nqeFLs", "SIsvE_SZbNk", "fepnfYHVT8c", "XiLqWeVJyQo",
+            "ZGIITEFXeLU", "r-rUtnHd2n8", "zwjLKfhyaqQ", "0WQJ7Kdatr0", "Iuqo_utoZzw",
+            "uWrrc0cd8BE", "rUR_yTRhbSo", "LLlQuTkd2SA", "mUcZz-d-Ypw", "6yMWhimbuuI",
+            "3npl5EZxM-s", "7_E8j4IxItI", "jsMpZdJRblc", "wI0aHXfohCg", "-LIffJBtDKc",
+            "uCvxqr9GJCY", "VWW8lwx-Mvk"
+          ]
+        },
+        {
+          "name": "Empreendedorismo e Inovação",
+          "videoIds": [
+            "CgzDy1T6cKc", "PVk2ns85VUs", "Is3lNDvryfE", "uom74npnY9w", "4Vl2no-xoIA",
+            "2VQy7EEpyqI", "X0ecQhW8AEE", "3ybSs14iklc", "DmsCrlEkoAk", "cLwWxodpWSM",
+            "cYEKptjkWP0", "hdbbfRNp1jI", "AdSTJYlfvDc", "dnL5x2RuAd4", "AYZWYzTaT2I",
+            "1swJDQcBkf0", "QaePsFCi6gU", "-ELwiH09c6c", "_FofjMxMtvA", "brIYUsWCAyw",
+            "o-YfeLsdfCM"
+          ]
+        },
+        {
+          "name": "Materiais e Processos de Fabricação para Engenharia de Produção",
+          "videoIds": [
+            "2P04oNGkkGA", "Wxc0xg6piFI", "oX5dUIv6jgc", "D-of5608sSI", "8hDQ94vCmNI",
+            "KgTwixIKKMA", "I9AlYnHXaSk", "TqVvyvYOkoI", "nA3SUHwPGNs", "D-H9ae-LExo",
+            "ksu0tB0OmfE", "cwBwgHH29NM", "K0_6YyE3l_A", "QQtLEyLH0xI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Matemática, Desenho e Qualidade",
+      "disciplines": [
+        {
+          "name": "Cálculo 2",
+          "videoIds": [
+            "9MNRWvkF2wg", "v90QbOma17I", "v1Ik-QrrFDs", "BVLf9XjKC2U", "DOgVKMGQ_Jg",
+            "lZmSkYzLizw", "Krsx02LLEgM", "wDaj2KmigJM", "gfYmR0mIpDc", "CTYqAv4svFw",
+            "M5GFck2zvtw", "3SVHB1uGQhw", "WZnU1m3oUZ8", "uhFjTrcFt7k", "ngrH9fwj6bs",
+            "KEIrIjzLfmI", "qGqLjtDjOO8", "FTxgA1CxXjc", "LrEVr3UlWw4", "unGh31SdL48",
+            "EX7l7geNc6g", "SK9EWk9IxIw", "vJs9hfBeFKY", "YYScJwvlFog", "FF89pIZw4ss",
+            "S90AvHPjvto", "AzAN_045PXI", "sFonRd95DTs", "BRZmnwHYLXA"
+          ]
+        },
+        {
+          "name": "Desenho Técnico Assistido por Computador",
+          "videoIds": [
+            "8pBYZ4wt0MM", "IIeTLbd1320", "6AZRLL1bSL0", "y2neY6zNMF8", "ycJLra9nQ0k",
+            "wehFhzAiVlk", "NU_BUo26qdc", "_rBaPObaLOM", "-Mcrok7_h18", "M-ur9Gjgskg",
+            "u7RadXOXm9s", "DNbgVmMopjI", "Vp16AtQB8KE", "DakqtVfU7WE", "FxM1bOTKsfs",
+            "3ZBKoX0nI2k", "CCI8XbmPvv8", "Wcsq278lrBE"
+          ]
+        },
+        {
+          "name": "Física do Movimento",
+          "videoIds": [
+            "5i3Ho_MRIk8", "k6xKcDD8KQ8", "EtBoBzAlV3w", "yz007Fxx3ts", "jQH6o6PyynI",
+            "VkmD1KdrsiQ", "dHERTiEkYes", "N7AMgXzmkbU", "jgsMR7p7JoE", "L0XhNOlsOkM",
+            "sxZ4Rs9Wntc", "WNWkud-yHTk", "ec_Gyml_Emk", "U5kalb0Mc14", "vACNJ5yrXi0",
+            "zIQLfrJQcBw", "O0IQBqg-IfY", "qgTzmDkSAvg", "QF01omZuWkA", "zOwdV125Opg",
+            "XxHS3jneAOc", "SZZnYoplAQQ", "pOk5GaXOufM", "UtMleuWiH38"
+          ]
+        },
+        {
+          "name": "Controle Estatístico de Processo",
+          "videoIds": [
+            "qDBmiOn7s0g", "CtzMxEGJsgA", "GDpkwsm5GYo", "L9d5U0PUtO0", "Xp0Ct_Cyous",
+            "855TxY_eBfM", "fJzSR1t_Zsw", "NsQ5PVF1yPQ"
+          ]
+        },
+        {
+          "name": "Gestão da Qualidade",
+          "videoIds": [
+            "REdITBBbldc", "TOrnd4CRqq0", "Z8jCOlQ2JJE", "YeNgNDsmMsM", "qHZxsg5J96M",
+            "U8wuZtP4aaE", "K1y3H3k2g1Y", "gxuNzvwZi9k", "F_xIjuK-PkY", "YiC6rhyTH_E",
+            "hxKofc_YBcU", "XEeGBx3G40s", "gVypCOBIHnA"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Projetos e Pesquisa Operacional",
+      "disciplines": [
+        {
+          "name": "Gestão de Projetos",
+          "videoIds": [
+            "6LiDcv6o6xI", "cvZd1ZzbsxU", "7Dff1pNo7Fw", "ZFOG0WplJUQ", "13Um86zVDnc",
+            "5I71D3_G3-M", "ydWxUvEIldc", "xjc996cWTpg", "OARPou1b_OY", "oJZY3ZU0wUY",
+            "Yla5D9HkgAU", "U-GGObmTa6A", "xaKUkUGJ2cU", "DkrL5fh7hcM", "FuPOibVdnLc",
+            "mE9cTnextyQ", "ACm3X4RCJwA", "VR71qKf1dwc", "k7WxLLHUAw4", "h_LqLp8MUAY",
+            "R8J4iTn3f08", "pPRTRT6S59Q", "84g6C_EO7zk", "I7tU4K-UgQg", "v8J-RVvh2GY"
+          ]
+        },
+        {
+          "name": "Pesquisa Operacional I",
+          "videoIds": [
+            "cq5DKvDEBzE", "RbUCIOvE6ME", "4AbjF8Lehe8", "aznvb3WEpec", "jOddPnqZPmM",
+            "29q6FcbTWeU", "qf1mAyDv61E", "Ct3BLwDyQBE", "97no_B8mnNE", "H7eoDvNpD5s",
+            "GNrCFpBLqfQ", "nCY8l6NGi1Q", "E30TnWwpI_o", "yNhg_yVX5YA", "vax3ZUMYAtU",
+            "NU-bG08QN-U", "JDNgB8uE1_4", "EmXJh7g5CwQ", "t4YTFsx8xkE", "gJyF6co8qTY",
+            "MkIKnnd0fcI", "UB976cD-CZY", "4lv_QhffCW8", "a-CXSuVa8jI", "Vn82DRrExEo",
+            "0YUvKj2OYA8", "xiPI9wjHG88", "t5yL2Ird10A"
+          ]
+        },
+        {
+          "name": "Geometria Analítica e Álgebra Linear",
+          "videoIds": [
+            "YPNsX0gBJ8I", "eRY6-t3Ijx4", "1AaTNhOnGrI", "kUjtRPlvUro", "9PEZXryDy9I",
+            "kbORVHdDV_s", "Xw7EqG2cY3Y", "pUmcOkfbmU8", "phGbrWT3gKU", "dGLeJRidSJM",
+            "-6SWdtmdGtk", "Ou6OAeKqb58", "tctO5bDQ92k", "rfPVH3J3UhE", "hggu-icwj_4",
+            "JmQeK735Y64", "Kosdla7pDVQ", "MgV91QfZ-VY", "R1Z9mP9uNlE", "q-IgJfu4540",
+            "aEX5hLAZ6IE", "s670SFmbaRw"
+          ]
+        },
+        {
+          "name": "Pesquisa Operacional II",
+          "videoIds": [
+            "FKFdCXNWJis", "2bo5jtZ_0xA", "D0YToDcic0w", "TgNx403i72Y", "0GR8T8uL8iw",
+            "wM_hLnsa2Rk", "Doy6cBjb8uw", "yI9bRgXbE1c", "1Mi1PbmdCG8", "hE3dr-TIKWA",
+            "TtzxiYZdulI", "g8ah6_jZSFI", "HkqIdcW__u4", "Da_GTFv-6Ao", "XO5oreJogCw",
+            "jxSyvA6vbGw", "o_xP_YZG5ro", "_GFmRAfmNAA", "At6YFZk9KKU", "1oGfOHJQe5o",
+            "uNkHa1g5Pwg", "gegv9FkGctQ", "BY15B5dnZUQ", "Ujk_x5Owxoo", "pbDHIMFGgLk",
+            "YWQQ-7U0PzU", "LmGRAIpF28Q", "8kCSGXgJG8Y"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Inovação e Sustentabilidade",
+      "disciplines": [
+        {
+          "name": "Indústria 4.0",
+          "videoIds": [
+            "RQP-dleIu9Q", "smgDhCYxLZ0", "KUOM_6bbl1c", "zTmoLdqpP6E", "gyx_Vll-gOM",
+            "B9O24WtLueA", "hxA8QMopsQY", "D761C9dsLCw", "ba9ewrCR3nU", "W85oXKNhN5E",
+            "WOombftatKg", "i5T5wlZFTfI", "JuBVSuEsZME", "SNXX5qDmLBg", "JYXrve0mNVY",
+            "MZEnSFnfUCk", "9XsATJy-wOY", "j2ZXEl2Xh0c", "2Nf-Wyp_c48", "NJJChTKPAhw",
+            "eF3FziHUr_8", "alHcRTqVYzs"
+          ]
+        },
+        {
+          "name": "Ciências do Ambiente",
+          "videoIds": [
+            "8gyevef_cHg", "2JeNApHQuAo", "k9lmJdsXlH8", "IE325rvu5sY", "h94W1gDcC40",
+            "Om7SaPELwlw", "qqoPxHb2ywg", "EacFC1qMbhA", "iGImTFg5Q48", "1FIdbm_KUsU",
+            "Nfep1RRBIg8", "edUOBC7AarA", "s62sZKzN7oE", "lkFrMu_AcWM", "s8EHgBZKPBk",
+            "x84X-5IWUUw", "loz_Bf05UsQ"
+          ]
+        },
+        {
+          "name": "Projeto e Desenvolvimento de Produto",
+          "videoIds": [
+            "qOifllb8S-E", "h2upY8S0k7A", "6HEl4jPfrOw", "c3iqV6iGfHs", "JoMKNewwHjM",
+            "FsDY4irX864", "f4MIHOIMogo", "43DfsJBBN6I", "mB2DqZOZOzM", "A_sN3E_ifug",
+            "v9zOWRtOs1I", "W4Yb77fH2SQ", "OEd--FrJ6vI", "AValp-9J33Y", "08kILs_QSgw",
+            "mgObDV2Y_NQ", "AMdLXL6mIl8", "CLm4xxlQ3B0", "PCrB9e8g3Y4"
+          ]
+        },
+        {
+          "name": "Simulação e Modelagem",
+          "videoIds": [
+            "Ve49nl4i7Oo", "7GeGarRpQPo", "706JBA1QUsI", "JhkhOFw4-Pk", "7YHpIV3EJqM",
+            "E9ogTTVL_00", "ajiOsdHSZyY", "sFfYqFTjK7M", "msiP-bJ18qc", "27e96qYY6nM",
+            "9lPzsELu3S8", "-6Mpr7aZqYY", "w2MMe-lZNMc", "BYQOegXGey8", "2MbGREE_hTU",
+            "G6fx3leOQm8", "Zkb5p-kXSDA", "8x4vY_JfuZc", "DWbFffkbZZQ", "NWhp1_tDWA4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7ª Etapa · Energia, Cadeia e Organização",
+      "disciplines": [
+        {
+          "name": "Química Tecnológica e Ambiental",
+          "videoIds": [
+            "sJEOrGnwLjA", "JozqPw-HpaA", "7X30svNvBqg", "mORS72yYtio", "yMwWe_qGGxI",
+            "vLoioBqrRxM", "f0CDFEAujGk", "bVfufaV70eA", "neKp-erTbKk", "wbxrslVAZ6k",
+            "_oeZHX3Vrjk", "FqbpaoBeUwI", "LVRqCbmHKk8", "hFFk7UbXZgo", "vexncr0rSIc"
+          ]
+        },
+        {
+          "name": "Gestão da Cadeia de Suprimentos",
+          "videoIds": [
+            "Vjn-wg54Ktk", "jxVwSlywFIk", "iMaBWVhC8yA", "mzUD6L0U19U", "HUn0DDCRDYI",
+            "PEYq554F-io", "nrVZqjfSBDU", "EHEG5wyOW6k", "vhBmK8P3_Ck", "Y_0oZF_-UBU",
+            "gidlT-9X4Co", "SRa8zM86Tjo", "m_bk21oncts", "jqrGtXBYzgI", "RK51frGUwmk",
+            "B45DlyZrTjg", "b4XqoHX4IpY"
+          ]
+        },
+        {
+          "name": "Geração de Energia",
+          "videoIds": [
+            "Nf97aEDPXYo", "smphL6Z1icw", "irAQOcvyUVo", "xOsfsgotlZs", "pbeYq-I_PgQ",
+            "bCEYAMIQoVQ", "R6f8EWnThVc", "MuW00ju4KGY", "OPdaF65edlQ", "5IKhisCJ-uc",
+            "QoXXBL3yMZI", "9gLkISDjlT8", "u9jIun6q00E", "KA2jokUllFc", "OlIvzmXArdI",
+            "Hp0t5ci9oDM", "eFY51q7LkeE", "Q16FZCUolQo", "pBtEG9FfdHU", "gkgBlygsHno",
+            "0iPHNzYvClo", "CMJVGShZa4U", "MXgt93yzd6U", "GC6H6kFMzWk", "hbBIeej0I4g",
+            "tBKg6IUGeCk", "HmtOf7wLvGY", "FFUP6nVUjeo", "bnatCj0KkvE", "iks8bjWRQe4",
+            "lA9d4ITfwno", "47_1DsnwlrM", "hbhG7D4R-rE", "bs1MrdBStiM", "4sNl3XojC2w",
+            "4aw01y7cStw", "So7jkqNLNLA", "fJaH4UDkm24", "l9s-RUrXgsQ", "l6dzuz8rUGk",
+            "sJ5bcdddKrw"
+          ]
+        },
+        {
+          "name": "Organização do trabalho em empresas",
+          "videoIds": [
+            "Diwk_zs7FaU", "GAIHHe7lKNk", "4bexF_1z98o", "3KK_ajYauxI", "XAN410eHX6g",
+            "46bmqgMdq50", "icY0jHIK4gM", "f2eTTny1rTo", "hIiTqzZvsdo", "UcKtQK-2QKc"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8ª Etapa · Logística, Economia e Custos",
+      "disciplines": [
+        {
+          "name": "Logística, Layout e Armazenagem",
+          "videoIds": [
+            "7Y8MNzmxOy4", "RUynw5Y4kLU", "3RCJ1zKM-LU", "COvTAPvZzpQ", "JHzIQrVAhmQ",
+            "f9AitMAEGlE", "8lESFR3l2bQ", "k-Q2Tt_a5nE", "I7yv_T0-hM0", "lS9U6TB91bM",
+            "uH7Zga9G55E", "HuChNcG78f4", "-FsI4GLsOX4", "70iDWgu8-QE", "zgInaIdhPYw",
+            "MTXrpQpo6Y4", "I9EnUncTBts", "yy0sL7ia38o", "9Iu8B77q-d4", "vIhWFk3nbTw",
+            "9jWUIhgaBOc", "H6zSEICERSA"
+          ]
+        },
+        {
+          "name": "Engenharia Econômica",
+          "videoIds": [
+            "PvPOViOTHCI", "EB3Xb2_5B28", "YujDm7uc21M", "MQES1GCT4DE", "oQBGYHRMhQ4",
+            "4fYZX_8MCaY", "BxPWwp58LJo", "FjtVxjpskcQ", "57AGpci-fN8", "nWXumJDbdvQ",
+            "gSavit7QmF4", "lSZV337nFW0", "A5HgYBYJIKo", "wx43zSsGug4", "hKQUvjU7iQk",
+            "vqaa6gB0P70", "DfnKn_iXw1g", "fd8ebw0x610", "WIaQwfiUN08", "g59IvR9DWZk",
+            "Dj8lWDSkkbI", "-TINY6_GpB4"
+          ]
+        },
+        {
+          "name": "Sistemas de Custeio",
+          "videoIds": [
+            "Us445RKiqW4", "e6WiUXN4fDc", "A4jFVC0be0Y", "tVICSdNgGCo", "Q-AplIxeA5s",
+            "9jnXYAgwx5g", "oqVX3tb0PyA", "gHnqNFhtHRk", "PvZ3BCNUrH8", "DR8kq9AvhAw",
+            "tJRDNNhkVNU", "2tq0rLXXxTU", "TB2jkAHGjJc", "vwxnntDi87c"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "9ª Etapa · Estratégia e Marketing",
+      "disciplines": [
+        {
+          "name": "Manufatura Enxuta",
+          "videoIds": [
+            "61XeVq-1xbY", "SH8IItbvH_0", "oN-BK11YJRk", "_Zf5sNZHeVw", "uBCrJO4AEOs",
+            "5t6MGf9MOEg", "sE7B8IEfLmE", "4Czr3unv378", "rtCkRYo863A", "X_wuhr24qHE",
+            "EZnNFk-Rczc", "pgfgTcuerOY", "hqFoILrtVhk", "dw-VpPSIxvs", "_q_p4a8e2Ro",
+            "6aQhwg20xDc", "_xtpC45zHsI", "MTa5SInsqvo", "548wfSD1bS8"
+          ]
+        },
+        {
+          "name": "Gestão Estratégica da Produção",
+          "videoIds": [
+            "K-xCG1hxg30", "JX5w7KjeAVQ", "NjdV_XRsYFQ", "J9iS_FAxshY", "YV_oU0WEsMg",
+            "zuXoJL3iDgY", "JeZrlRqZi_c", "NJHPf0uJFVc", "G81iRI9kfr0", "BhNCGiNnPcI",
+            "5OnNh7Xu8I4", "HelDIkIU7Rw", "68hHQxFkV8A", "jKnb3r8QF_c", "kT2E2SYdFAA",
+            "L5QSJ1IzTtI", "nKBYtRuM3xo", "v9p5-K-snyY", "zBvVpEbmR3s", "p0qED_fA7kg",
+            "vCbnW1LbDUg", "KM2FyR48yno", "Xf2uGSAtco0", "w7nYq_H_gjs"
+          ]
+        },
+        {
+          "name": "Marketing",
+          "videoIds": [
+            "u9u-rCnglQY", "h0MinLZKQPo", "WjQylXkNIAw", "6tscqcKxZnI", "K8N3wtu00Ds",
+            "Cjf4YOejbuE", "UeVCWKdshUs", "zTrouxR1eWs", "xmtxEj14A1c", "VADtol1bGf8",
+            "FfZ5G3bu-VM", "rTxPwy4mKKw", "WYlTVRtnUuQ", "BJpf9VD7A5g", "9Lj-wIfZQ6M",
+            "W6PLmL27sPs", "VDRvZgjcpVg", "GvMV2xNMmNM", "oQHDbaBoXvk", "OAZ-DJm2Qpw",
+            "p10EWseGumo", "dP7IbsM3_I8", "xllsM6Tb8YY", "ZKbojGW9_So", "6xy1vpnkMYY",
+            "sCvG0WEIjDA", "oShdGfAy6dM", "AcPOnczUhyo", "S0-5rRUovkk", "iVn0lLOfshE",
+            "-QqDueHxGNQ", "KBiU5Hge0oY", "FQ29eXQZeeU", "D_Ov4h8Qkww", "KWtQk_uocXg",
+            "iDCjcF4q_No", "818J4UkWAjE", "QeZOYhYFR7E", "FfBohIWWb-A", "hjurTPiF_Fg",
+            "fjeuFaGyOCw", "2MrhKTByyVg"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,11 +1,12 @@
 // ============================================================
-// script.js – Versão 8.0 – COMPLETO E AUTOSSUFICIENTE
+// script.js – Versão 9.0 – COMPLETO E AUTOSSUFICIENTE
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
 // CORREÇÃO: Ordenação: Ensino Médio → Graduação → Pós‑Graduação → Idiomas
 // CORREÇÃO: Suporte ao curso de Administração
 // CORREÇÃO: Suporte ao curso de Matemática (Licenciatura)
+// CORREÇÃO: Suporte a Engenharia de Produção
 // CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
 // ============================================================
 
@@ -492,7 +493,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'japones': { pt: 'Japonês', en: 'Japanese' },
         'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
         'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
-        'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' }
+        'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
+        'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' }
     };
 
     function getCourseName(courseId) {
@@ -578,7 +580,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones': 'cursos/idiomas/japones/japones-data.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json'
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -714,7 +717,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones': 'cursos/idiomas/japones/',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/',
             'japones-ingles': 'cursos/idiomas/japones-ingles/',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/'
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -781,7 +785,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones': 'cursos/idiomas/japones/japones-data.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json'
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -834,7 +839,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones': 'cursos/idiomas/japones/team-japones.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json'
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -1584,7 +1590,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones': 'cursos/idiomas/japones/team-japones.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json'
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;

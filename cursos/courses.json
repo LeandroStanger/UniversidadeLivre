@@ -88,6 +88,14 @@
     "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
   },
   {
+    "id": "engenharia-producao",
+    "name": "Engenharia de Produção",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-industry",
+    "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
+  },
+  {
     "id": "espanhol",
     "name": "Espanhol",
     "courseLevel": "idiomas",
