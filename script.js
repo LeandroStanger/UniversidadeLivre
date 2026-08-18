@@ -1,9 +1,10 @@
 // ============================================================
-// script.js – Versão 6.1 – ORDENAÇÃO DE CARDS POR NÍVEL
+// script.js – Versão 7.0 – COMPLETO COM 20 CURSOS
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
 // CORREÇÃO: Ordenação: Ensino Médio → Graduação → Pós‑Graduação → Idiomas
+// CORREÇÃO: Suporte ao curso de Administração
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -524,6 +525,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function computeCourseTotalMinutes(courseId) {
         if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
         const courseMap = {
+            administracao: 'cursos/graduacao/administracao/administracao-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
@@ -658,8 +660,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function getCourseImagePath(courseId) {
         const folderMap = {
-            'computacao': 'cursos/graduacao/ciencia-computacao/',
-            'matematica': 'cursos/graduacao/matematica/',
+            administracao: 'cursos/graduacao/administracao/',
+            computacao: 'cursos/graduacao/ciencia-computacao/',
+            matematica: 'cursos/graduacao/matematica/',
             'computer-science': 'cursos/graduacao/computer-science/',
             'math': 'cursos/graduacao/math/',
             'computacao_grafica': 'cursos/pos-graduacao/computacao-grafica/',
@@ -723,6 +726,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========== CARREGAMENTO DE DADOS ==========
     async function loadCourseData(courseId) {
         const courseMap = {
+            administracao: 'cursos/graduacao/administracao/administracao-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
@@ -774,6 +778,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadContributors(courseId) {
         const teamFiles = {
+            administracao: 'cursos/graduacao/administracao/team-administracao.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
@@ -827,6 +832,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadBooksForCourse(courseId) {
         if (booksCache.has(courseId)) return booksCache.get(courseId);
         const bookFiles = {
+            administracao: 'cursos/graduacao/administracao/administracao-books.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
@@ -1520,6 +1526,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadTeamAndContributors(courseId) {
         const teamFiles = {
+            administracao: 'cursos/graduacao/administracao/team-administracao.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
