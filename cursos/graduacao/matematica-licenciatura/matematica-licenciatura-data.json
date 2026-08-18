@@ -1,0 +1,431 @@
+{
+  "name": "Matemática",
+  "type": "Licenciatura",
+  "icon": "fa-square-root-alt",
+  "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Técnicas de estudo e aprendizagem",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Fundamentos da Educação e Matemática Básica",
+      "disciplines": [
+        {
+          "name": "Pensamento Computacional",
+          "videoIds": [
+            "01Hb_UV-yDA", "GGKLbcpO_DY", "0aPzdqLQezg", "CavGI3hojDs", "L-rQmj3xMkI",
+            "Ntq26PHJ-MM", "4Z5JhJylsic", "CM-U0bX-0kQ", "3RW9zEiG6W4", "fIlciM63TLE",
+            "AASk-CP-J88", "Y9QwlY_GL_M", "McVt05VV8lo", "RcJoHOw7fbM", "Rgf9-jjrhDU",
+            "7e7RgvT5zUw", "yteOg2jkoV0", "Y8Nogbn5ksw", "7gJktl2k97s", "HLgWwXI5fWo",
+            "17dEbecypfE", "CvSbIY4f0GU", "S5B31VYLlLA", "YFjqnRr00GA", "GtFf8ZZYVE4",
+            "-f27KPLQeHs"
+          ]
+        },
+        {
+          "name": "Leitura e Produção de textos",
+          "videoIds": [
+            "XSlhDmmIlfY", "6RjngqRakfs", "9FdpWNrBlyw", "87BdHUN5tDg", "A2m_c8naWbY",
+            "z-EH84wilb8", "GkdjaYM1aEo", "_EiYrhGMq4A", "LnTfQkEPxv0", "8UgQmjH_Dps",
+            "mX9C-dUHl1s", "zbfpXRoFK0A", "or8rF9KO7VQ", "fyozvFryC8U", "UAwyu9TclJs",
+            "1QJxGX5_SUU", "IKJsGub7FOQ", "F7xpp43rw7g", "YJLU2FRZDMo", "FJeeU-jSkX0",
+            "jjaEDNDU4Rw", "ymvHV8RfWxQ", "ZgK5PChA6yM", "zMj9oRzIupI", "I65fMGbUGKQ",
+            "GvUfhSbBeHU", "1fGxSb1Bv8A", "45bIadEEmHI"
+          ]
+        },
+        {
+          "name": "Ética, cidadania e sociedade",
+          "videoIds": [
+            "6tu8ERj7g-Y", "zExhdFHldNY", "dn0JImC9e_g", "KEWIozUNOlI", "mAV5WjcFjX0",
+            "rhRGqzjDkms", "SEKIIAaoobg", "vdhnCBe5djQ", "L4boqXeykhI", "lIzsuUA2LJY",
+            "aXBLvoikpc4", "eEnIuI5ZtbA", "h3DFle6I8IU", "KRxyU42_uKQ"
+          ]
+        },
+        {
+          "name": "Matemática Básica",
+          "videoIds": [
+            "3uovxT_Lars", "6RQwK25anXg", "OUnuiIGN0mM", "H9yhlNa7-0g", "FMZRzZ-SyWY",
+            "EdFhJFVdcR4", "9dUfbqePJoQ", "NxeFMjKteKU", "Q3QBSTw-Q_o", "WSbEYAUBw4Q",
+            "q06i1WdqvCs", "yjkqbo4mC8I", "PgOT-5_Viqs", "tXPcSivNofk", "V7TghJJ2tOg",
+            "U9DJp18gxH0", "1EocP3JFd6Q", "U7Cn_w9HBw4", "eP6RuOf5yNk", "Mi-ESgTFthY",
+            "5Ak4zl9idb0", "FhUC0RcSNi8", "yX40oGkerHE", "JhRZEWef6cc", "KmNs5OodlhY",
+            "aM0WcERZZ44", "td9zI6OCKSw", "gmZlrF_ZdyY", "fL_oR9Qg_EU"
+          ]
+        },
+        {
+          "name": "Inglês",
+          "videoIds": [
+            "sDvkRjuBKyA", "0GM6iku9ENY", "Z4LU1t7MUdg", "XE3T6SVy2I4", "xK-VmNkI4qw",
+            "tzWOOcu0rFI", "qlJFeAMZys8", "So8kvmnoWx4", "0C_n_rP0tKA", "s4nlYN_saIM",
+            "aCA4aQJ4d98", "cIXjU0gmtH4", "QakvkTkKR4U", "wtnRXAlRGeY", "ge1wW0-gsC8",
+            "VC6k8d1HY8E", "JtvAA3SMGN4", "hqk8XMoP-tU", "turkRBJOHMs", "59TQ3rpeUbY",
+            "sRnJKhb2nnA", "z7nWUZ6xULs", "yvTEOyXsOHk", "eVlecNg_Xsw", "TNMKeQWgqoY",
+            "VP_-cwEb4a8", "Cou0I4eWn-E", "FTcU5og3vvE", "8w9iYOk184U", "UUDoQMuYn60",
+            "d_ml2744KZk", "ReJ2HlDpGyo", "oxBZmOKidPw", "8JlJfPCOGAk", "HdvuZ5zakok",
+            "4grIpm8Ldno", "gr2ZlYr0fvk", "bn4sDG34sbM", "3WRsL6EAKZg", "y0LjaAMbsa8",
+            "6hJNOKCUjvo", "9X2qubdU8Ek", "ybBidJkfBTU", "_fChVeEgKQg", "0oGjgi3ZwgQ",
+            "GOxNfSARCHM", "pwfKSNHnKOc", "QQa9FbnNLKY", "bLyr0YwrvVo", "vneVV9BDfCs",
+            "uo6tr59P1Jc", "IBErLu25r-E", "wivv8cQtVyE", "I1I_z54ZXFs", "s-_ezudwyZ0",
+            "bSpfDGYCza8", "Fe9kQTBa-UE", "T34y0QkzhHI", "Mqw2t7E_kuo", "icY5jFoewwY",
+            "KE8811foBDE", "jc44I9P1S3s", "CNlmnDNVfBE", "uk1dE5oK1cA", "h22spnTi50Q",
+            "1HhPHwJrZAQ", "R19AaeC-m-w", "hL9WOW_K16k", "tvEimHW5BrE", "qf9G_hXYE3I",
+            "Og-J7sJQXMY", "NSpeQP96ONA", "v4IO9D3IV0Q", "PAS3wlOAi8c", "5RZcgkFbjiE",
+            "YPn-E7FuL6g", "4SwpqGjIjGU", "NWjcDsrKLJE", "-ZYvpWzuEzA", "OFyTgFCphE4",
+            "AI8oSKgliR0", "kd75fZp-zzM", "47mumXCelmo", "h6O3mqi9EEU", "6DAi4WlV8RU"
+          ]
+        },
+        {
+          "name": "Projetos e métodos para produção do conhecimento",
+          "videoIds": [
+            "DOITQ9x-G2Y", "3ozoRkbqG-w", "iWOu2YLwoJc", "dKM83WB6pwQ", "Fk18X38Mn4o",
+            "zS72bOJ3DZw", "NHxtCbc6pAI", "GwMEAxX5dfQ", "AVBvcXeenPg", "OVK3r4haJcQ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Fundamentos Pedagógicos",
+      "disciplines": [
+        {
+          "name": "Fundamentos Históricos, Filosóficos e Sociológicos da Educação",
+          "videoIds": [
+            "YJ9dq7WG17c", "Y2Fnc9NxC3I", "sr98V7D9ENA", "Qrk2gX_bds0", "3tBSBFTzX6c",
+            "n9P6F5wb0Hw", "T9w3Vmae3W0", "RrgDObEvGVM", "NpHBmZgzBRw", "nW_pMIPI8t8",
+            "4377f6Et9MY", "BUujg0wLDmQ", "2F2D7u8Trbo", "7O5DB_GcQkU", "hd9LggGl2LY",
+            "LjiU8UEz6jc", "EtGz8q_Bv5A", "QWZQa0oAmZQ", "kTldhXtuvAo"
+          ]
+        },
+        {
+          "name": "Didática",
+          "videoIds": [
+            "oN5d5sRkgko", "3QxdVWLtZKs", "taU_VL073MQ", "CppVsNIjq78", "IDeKqd2yrVI",
+            "QmcEQ3H977g", "NlDSVRqTmyc", "54ZCczUqH_s", "0CJBAgZu-e0", "7O5DCWxrZQw",
+            "3dxzKJ4EBLU", "9aiHZ_Gvn7A", "UY7X-rrCS98", "BXXc5hRXxaM", "H7Px-z2g10g",
+            "LEf1bn0bJiw", "Dk2CEDsEFBQ", "zlzGouoam7M", "pF3u-oodW9g", "7mJRoN9HlD4",
+            "AT42P-NyH74", "SKPwevYzp6w"
+          ]
+        },
+        {
+          "name": "Escola e Cultura",
+          "videoIds": [
+            "zJGijadcmwA", "qSAHcax5Ov8", "5QCZIsCybe0", "i3AJsf2yv_Q", "lZ9nn4C94zE",
+            "3zGFZGnkNLU", "6QBJGuWBCes", "v1NaIYGO0yo", "iY4v4yOD4LE", "ugcop8y5fJA",
+            "vFvKVjTzBXw", "ki_PEV2Ayuw", "NbpbYHSe5fk"
+          ]
+        },
+        {
+          "name": "Avaliação educacional e da aprendizagem",
+          "videoIds": [
+            "P6YRvON0GTQ", "-oRER-4NT7k", "8NnjdnMynpo", "kCN9enYL4tQ", "5jE-31bXo2Q",
+            "ApPMuuol9xU", "S30vDinQTXM", "RUtZY32N0cg", "InAqC2q44Sk", "svXuFAISMQc",
+            "tGJU5G2Wi_8", "JYwhg32cNEM", "XD2wmUp5lQU", "R9Rft_eGpZw", "uoe7NR7bKyk",
+            "JzhiHFVr-90", "3RBjM-nq8BI", "z1b2A182dFQ"
+          ]
+        },
+        {
+          "name": "Psicologia da Educação",
+          "videoIds": [
+            "vsVpldOfGlQ", "SUVqrCFWUto", "DS75E3gy8I4", "WGTIRwnUCDQ", "BKbxz_2FXuA",
+            "D4v0Q9_Bjo0", "zAEw5kdOfEc", "Vck-i-SruVI", "B2uuw73TSG4", "hesSoJ2Z0gg",
+            "AePQ_slQpR8", "mkS8vgplACg", "bYNXugqcVqk", "Th8dQHl5w8U", "FBi7vLIDePk",
+            "Dt4W9AppkIY", "cgfBtIvNfZA", "kpOApbwrKGs", "sR-Bm2_VBrU", "Xqxghw6xBsg",
+            "3mdw4gZeQtA"
+          ]
+        },
+        {
+          "name": "Políticas Educacionais e Estrutura e Organização da Educação Básica",
+          "videoIds": [
+            "mCE-2adonlA", "zssKOyIW0ZU", "9DnVa8t7tyg", "2-DgharsqOk", "R2UUusrhGlQ",
+            "859w140OZTw", "06tZjREyhP8", "7YScvr1VWtg", "7Wlas4yfENA", "68O9_ehteR4",
+            "oLTt0jqkny8", "6ow4aX3NgRk", "Dysafclz3sk", "hH971EgXZTY", "s6-eHNiEfAg",
+            "7J1Nfa_kvYw", "Eg-cZsTV-XA", "i4HfzMgy2ew", "NNaOaudMEr8", "KFNLueEnwWM",
+            "5RmEBs9Ajac", "f0wrGk-NoP8", "OAjjWE0KL1A", "Z_sQ02hdOao", "jY537LC-nBY",
+            "FMmgvagyZws", "fUEAwcDrEsA", "vRio5kTNdBk", "1CP-vaPSYWQ", "cXstnqeroHo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Currículo e Fundamentos Matemáticos",
+      "disciplines": [
+        {
+          "name": "Teorias do Currículo",
+          "videoIds": [
+            "xjytbB7IAW8", "YWys2JtHYrs", "S2EJaCn4kI8", "-J2YXURxPXg", "zLNex2F2yuQ",
+            "JTNBzQy49pc", "QLrYOm7tep0", "ZSiUf7cxF1M", "Gx5MGxpz1BY", "pz2NxQYws48",
+            "pPGT6ZWTfwU", "o3bLXPwkKVM", "m9e9sAF1eCo", "NKNimSPNvb0", "lh-27JpCxc4",
+            "qhXkCr70CHs", "0LoNnmhG_GM", "RrXnHwuJB24", "WBQdlBh6Ezo", "M_1gCThR1aE",
+            "qD7xl0ZZjhk"
+          ]
+        },
+        {
+          "name": "Fundamentos da Matemática Elementar",
+          "videoIds": [
+            "Kh6ZHdYQut4", "gaCpDdRZPyw", "6kQvsR33wRE", "aFn-hhxc_iA", "GhtXV9MEUgo",
+            "PaHvNeTvr-0", "w2g1YiWIGnw", "Ui3-QLVe7BY", "74pX4A685R0", "jTsHpaBH_Uk",
+            "Gy7CectKuyk", "ViBdL9QiaBA", "l96GW8I06bM", "Fj1v8GBz0vw", "HpkYntqiSPg",
+            "smBPfGphE6w", "uBPwQz8Hiso", "UXK1pRxHAw8", "n_pNkIAkCR8", "nZ--KuWsrCU",
+            "nqOohXfiAoU", "nK53LIjbuqo", "TACFUpoMyKY", "WCzLIdLt53E"
+          ]
+        },
+        {
+          "name": "Geometria Analítica",
+          "videoIds": [
+            "t9dAl4imiO4", "WhcTfvX9vJk", "hyGia7VREcU", "hYLSxAg0U18", "1C43Zlwe9h4",
+            "_Vi9S62Aipw", "E_wm77isckY", "M064Cv7DK3o", "SIssYpYEUX4", "bD-RMSP1db4",
+            "NdWjwExnQWg", "uQPMW44RDpk", "OE6MJLQZAlY", "iAn65WYDWb8", "V1n9bG8vovo",
+            "wDIvgP91DsU", "BXsx2CcH1kk", "aRSxKV1HUbo", "6pMZbxbqm0g", "egIXadtpVnc",
+            "xPDi8RjCEfg", "XnbAKv6IqxA", "F4LEHjXnvlU", "hgu4pprFEhI", "QUTiiEJtaQo",
+            "6x7UwrJD4z8", "-sEmXHPkJHc", "g2Xl5MR_PHU"
+          ]
+        },
+        {
+          "name": "História da Matemática",
+          "videoIds": [
+            "FI2hFNGuTBU", "t0AHhY8Juqo", "HjTr7b-1_5E", "N0DN_yyZok4", "PhV2xqgBZ0g",
+            "aBM0laEKvvg", "36ZqsQYIBxk", "RLSpzT7hUdA", "An7OGn6pysM", "SIaXbG-ooSU",
+            "NnJHdr3BXno", "1NEI875UbgM", "JnMlos7kjgY", "uw7po9bzF54", "k26GwXV6RhU",
+            "r0GnS_SWU2s"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Educação Inclusiva e Geometria",
+      "disciplines": [
+        {
+          "name": "Educação Especial e inclusiva",
+          "videoIds": [
+            "ggRUwXPPVic", "WeeiCmoOokc", "NUmA2KGG5S4", "fJ7b4E6V0wg", "f87N50sl540",
+            "a3YzVyIv3UY", "UuEte3373Yo", "dlkQkhBNKOA", "MzPO54L9m0w", "u8r36SUIl14",
+            "HzbDo-LPbLM", "lEcPZQ_bQX8", "TtG3tnM4jpg", "FZlKlQadC6g", "eyLVQlA938k",
+            "eLc3rbMzyDQ", "toK36WpkAhY", "Q00jFdEtU6Q", "iqR-jPtV2dI", "NRoUCQpygiw",
+            "Rs_4BCga76w", "VYFu8QSvHws"
+          ]
+        },
+        {
+          "name": "Geometria Euclidiana Plana",
+          "videoIds": [
+            "4eMMvwsBhs8", "HERm4A8ixTM", "1G2y3rAcDt4", "KCnFnfqVtps", "zyRLWeKJGvU",
+            "kThsBbz78DA", "x_hdSZCg7b4", "TGiOFdC8Pns", "8Dc6vegEMzY", "E7FuQUCRl44",
+            "uFEd8EHfR8o", "GFkQPQJoXwg", "_u8gYGQ4XUc", "eySGiCNFAko", "N3Qkoj8n1k4",
+            "aMD_ax8QLGo", "qGDn0xTQ3g8", "5NnyHtBKL48", "3CKKCeAt1pQ", "-49lnq6U9lk",
+            "zJutdEIO4-w", "je-DaqFNQuM"
+          ]
+        },
+        {
+          "name": "Letramento em LIBRAS para professores",
+          "videoIds": [
+            "rUhLsca4UGY", "6ZKi1TborVg", "56K0T80zjOQ", "QeeqTSRLStY", "UiL18gJRq7k",
+            "bEoXtI62BEU", "dkAszUX3bC4", "bgqItnu9aF8", "I1PdweOpHj4", "4X0Q72gNVsk",
+            "Bxu0SV52KAs", "Vcwfga4A17M", "kQ7mE5d39UQ", "j4TPE6ZV4nw", "8ozOKLt9jns",
+            "n7V0hGj2oww", "yMwbubUlmgM", "S9EcaMVmphg", "mqlxbD7jEcg", "c4EAxiUJUow",
+            "_9UNaPqwEgQ", "yNOOqIk-YCc", "-eFyit2BXR8", "vK9YB-WicmM", "6ynVUQF3YlU",
+            "5qT4xo8dY4Q", "OMdygCJ_4Dc", "ZHmElaAAmS8", "PmcuEtCyScA", "KY6g97pcGMI",
+            "vMVNXEr6JXA", "EI6vKaoKdjo", "kDbsbHcaR_E", "tA1vgWD15Ts", "7lNMHKU4PdI",
+            "uFZvFJiez0c", "5fgBkq6W5Y8", "lra8zPRrv20", "EsCshoZWZ8s", "fsJcVbDpAOE",
+            "Tx0bsvD5yJg", "qnN4eN0ZEXw", "aKgL7_FxHd0", "ryLa0Z2v6aw", "HPPOkaDs2lA",
+            "CEoGnv7J500", "3kuyUNfIcjU", "TXqAig39h68", "CaNChuUXOtY", "ayBVNwqY4nc",
+            "Dz2B1A0sBJg", "aS1n-GmfeSM", "FPk8aEQwa5g", "ZITSU24h2_I"
+          ]
+        },
+        {
+          "name": "Planejamento para o Ensino de Matemática",
+          "videoIds": [
+            "UI-GNG71C4Y", "GRAkOSwAi5E", "2oUZWhJw_sI", "aEzcgQjbNGA", "-tk5OImY9dk",
+            "RmnWX0yAC6I", "urQxrXDMLJY", "GD3QZaa3j0c", "QEatTpl-Pa0", "wpVgCppE3nY",
+            "FYbLy-VPD1I", "n4AX9ev_aI8", "cDjkHlzv6iU", "Fr6REx8thTg", "OWhiRAdIFPU",
+            "d6R9Rin7MBk", "8-_Nx-Lgu9E", "r4LwIYxB3us", "L2lPlCaVWBM", "b1ULABIamVw",
+            "wuHyqg7-Ubk", "1PhW894kBqA", "qhEbClMWlm0", "y00N8HGlrqc", "K2G9OLahHMw",
+            "lClg2m06dec", "zk4o4MtH01E", "jQHfttt97Yc", "TIy4vC7b91s"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Tecnologias e Cálculo I",
+      "disciplines": [
+        {
+          "name": "Educação mediada por tecnologias",
+          "videoIds": [
+            "c8WlfFJrOSo", "h0PFvYNUZPE", "GqjeWAqYW58", "4j9s83GJC0A", "IiFW15bgDH4",
+            "LVoK3eCsG-Y", "ctYfT9QqGU8", "1Umd2sEn-68", "rlB_zGqgE-E", "A0SsLT-JTQA",
+            "a_f2puUOKH8", "ejhhLEQBtJU", "Qmkmkdq6yBU", "uFNIs0t41R0", "4cdoYJRVuNY",
+            "UFdn8xVLJ3o", "kDPv_rOwEVg", "uwn3zwPkFKI", "L2Shgd5SVys", "TXSkHJYVe2A",
+            "uIF8XUmSP6s"
+          ]
+        },
+        {
+          "name": "Cálculo I para Licenciatura",
+          "videoIds": [
+            "Rwq_aSsfS1k", "q_-ZyGKzgqU", "jZqsmqQnozY", "fXxQ1oJjMSo", "caGzd9W-or0",
+            "Q4XUV_rmEGU", "arCF_pwgtms", "vZ_l7wy-6Y4", "y2u9Ma7Hat4", "ZPDzIlglBZ0",
+            "SeBcn5C8TOA", "C9DZIGU5-gg", "6UqtOVdnet4", "kxchC5jyx3c", "T6mpa15aKu8",
+            "v1C9LMSDEnY", "QyN0Qh5l7kI", "UoF0qWPEO_4", "E8Hb9bsNU7M", "nNsftL0GfPI",
+            "vBN9PjeQ2Z0", "xjJWjmKQnDg", "BEHErrGcOiA", "N0dbyYRZqsM", "slZD95ZZwkw",
+            "NCArNdzUzLY", "yT9UdI79890", "5xypJyxx1Q0"
+          ]
+        },
+        {
+          "name": "Álgebra Linear",
+          "videoIds": [
+            "JMl8ue5bz3g", "fmv2EI2Hs68", "iTdC2JWyCMc", "cCzvclIHR2A", "dXlx4nZdfeA",
+            "MRASoi5g7Hk", "kiO2oYsvPMI", "YnHPnO9yyfk", "aINEQuHYU-I", "4FMyljY5P9k",
+            "Ud0ZGsxOLdY", "DL5ZMWAAu_M", "e7gvNK5AmJI", "3PbiCw5084A", "p_POVTBUai4",
+            "f_rcm8zPXec", "h_ivLmEgCJQ", "qXk-5OAIEec", "Jl9Fvid85bI", "Fp_wep6u7G8",
+            "kTbMXaC0vq4", "7uafGz9NHbk"
+          ]
+        },
+        {
+          "name": "Didática da Matemática",
+          "videoIds": [
+            "oN5d5sRkgko", "3QxdVWLtZKs", "taU_VL073MQ", "CppVsNIjq78", "IDeKqd2yrVI",
+            "QmcEQ3H977g", "NlDSVRqTmyc", "54ZCczUqH_s", "0CJBAgZu-e0", "7O5DCWxrZQw",
+            "3dxzKJ4EBLU", "9aiHZ_Gvn7A", "UY7X-rrCS98", "BXXc5hRXxaM", "H7Px-z2g10g",
+            "LEf1bn0bJiw", "Dk2CEDsEFBQ", "zlzGouoam7M", "pF3u-oodW9g", "7mJRoN9HlD4",
+            "AT42P-NyH74", "SKPwevYzp6w"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Materiais e Cálculo II",
+      "disciplines": [
+        {
+          "name": "Materiais Didáticos para o Ensino",
+          "videoIds": [
+            "OV0xZdADmrc", "SWUcc1nl44I", "dfa9xCifWZ8", "qiaI-c_Rpdw", "OzWhUtPlrF4",
+            "09nLqZoZ_Wk", "2qudbanSiDQ", "K5LCmWTuC-0", "27ktujcxoIU", "Ty4WV0gjtF0",
+            "x7-mlEJyzE4", "qqVxm5faDV8", "m7b_0u28MPg", "5b7JKFfRnL0", "Yr1qq0pvE0o",
+            "8_NCmIXHq1s", "oG2T1BoKeP8"
+          ]
+        },
+        {
+          "name": "Cálculo II para Licenciatura",
+          "videoIds": [
+            "wIXCb0_iVrc", "zZobguo-YX4", "936QYEghk10", "6loegDsff2A", "BfR-7OOcHew",
+            "9veo4nKCvHY", "sTQ_RKCjgsg", "jRfGVyX8qJY", "577ipdB1IhY", "GKzhUAZTpyE",
+            "3ktGwOYFwQk", "qE6l-izo_5E", "DmLgtv82oxk", "_urKxdagpGg", "_BQ1gVIk3KI",
+            "15JKH9zO178", "bVtYruv5qqE", "a2r_eIZIAaA", "4sx0MTZVUx4", "j9Cxkklgzdk",
+            "ykS26k4Gfw8", "U9cK9GOR1q0", "t9eurCKI4ug", "7Uvvlb-NFHQ", "vK5dwicUHDc",
+            "lTt7kSa0phY", "HoXeVrxEzgQ", "7DWXJkUaT0o", "ykoXBeR_W3Y"
+          ]
+        },
+        {
+          "name": "Geometria Espacial",
+          "videoIds": [
+            "SInJeGt9ZUk", "I57YMSHroCA", "pFbiRfMUcW0", "eDsCmYf1ff8", "XV5xemGNtTI",
+            "wsblbSpIj5U", "4pOSi7u4GuI", "Q5deou0WvMo", "EmThOnJLMTY", "qMd-fyD_Rwo",
+            "wmapUYcjZHg", "AeUjK_K8_ag", "OUgwggNjH-4", "-VrpHnqFYDo", "OrcIcpNX2cs"
+          ]
+        },
+        {
+          "name": "Lógica e Matemática Discreta",
+          "videoIds": [
+            "bW_e68PoN4Q", "EElh5FJ7FhI", "MOJPp7n_5dQ", "I92EYq0FLaU", "bmm9Q6pCzHE",
+            "Esg9NLDZFdI", "ENptMNeiDTQ", "8guZB85DYF8", "QhoTDQZsfcU", "PmnFIiQnBK0",
+            "31Ovf0d3NxU", "L5W8aEp_kNs", "XyQ302OVdlE", "zDlNYWeKN9E", "SVXCfdtXdiI",
+            "DsHnvrhWwnE", "FrJSVVHvoIY", "q84zG9bmJT8", "wLv9uKwUIVE", "PBaFPKKEvFk",
+            "ji-Rz31jKT0", "wIEtzZzwh-4", "-trNZtVHG1o", "CNutlRgys14", "zH1vLYs08JQ",
+            "0W7pBq_LbbA", "TYT3O3c6Tns", "-EpxNtgnZ6U"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7ª Etapa · Física e Cálculo III",
+      "disciplines": [
+        {
+          "name": "Física Geral",
+          "videoIds": [
+            "S5EsTXrl7KI", "MAg2SV-bUrU", "ZUI0uySotJ4", "786KbwYbTas", "YTipZAIoET8",
+            "MVeC_DqUYI8", "MPdJTYsJDMs", "SuNABtcEjCw", "XfLYnrAytyU", "y5MUrTjm9Jc",
+            "CbMsqQ_IiEk", "ZHZKuM9iWdo", "5cBSgGjLczc", "26DgDSXxNyM", "mm1Ljgiec6I",
+            "VNTBHXDarb4", "gtusn3CB5Iw", "BJyGKYpdIxY", "axZFAMflARI", "0W3TwQT7kUc",
+            "uMA6MZc3kwc", "NsTc9KxJ7RE", "uKTCPdXfKJw", "F-IBZynMWxI", "OnIroKPPfYo",
+            "nn9Y0U7RL5o", "x5Ii4xpAX98", "O1Fyfp2DkQg"
+          ]
+        },
+        {
+          "name": "Cálculo III",
+          "videoIds": [
+            "LBShvcD79Vo", "M_Ymd5sApXE", "t7RpFe2X0JA", "fehwBk777vw", "LmKuPTNyAbk",
+            "MO_Ls3uQTWs", "YRRT33hmlYg", "Cfbtycn1nWs", "Vx9KK5YqrY0", "un5zxs1rdGs",
+            "sIp2rbuHDmo", "PSBaXFu_m-g", "qhH-JcFqnqA", "V0GuOPf_v4U", "mI7seXlgS30",
+            "4j2I-Kxee_M", "XrRmZOuCMfk", "vpVrHQ3F2Ok", "266FhESPRdA", "PtkvlilFSyE",
+            "75LuU2kSvns", "ONGFc2eT27I", "SdVQYthqzC0", "xvKSzUPSIe0", "m_BjPDt-Vrg",
+            "Pg7WRDs1bX0", "ArM19Dmz4aE", "9XGYyKHSnqs"
+          ]
+        },
+        {
+          "name": "Estatística",
+          "videoIds": [
+            "U9Edpy2bTYs", "njIfamBjxu8", "rfMFTdYfB1Y", "yTBXXAjgrpE", "1YTHuiLpJoU",
+            "Ux84OgqiNYg", "lwooAYbGd8A", "QDOzSch9Vf8", "rxJVPhHAkDM", "P7G8DpVkSwA",
+            "2LQmpzOZ1xU", "DCBsQikdaIg", "3x0qdYBK_e0"
+          ]
+        },
+        {
+          "name": "Educação de Jovens e Adultos",
+          "videoIds": [
+            "968vbyF8b4w", "8OaMQHldjHs", "JdDXv0jbuSU", "d6FVRfu9PKg", "3FsWtjAIhcs",
+            "jile1MsuhEU", "BA9gsyOQQe4", "pCMedvQ5dMw", "BzOSEOaggDw", "Hs2CqW2ad4M",
+            "TnYGdV3d1gM", "KeOaq8SFbb4", "ZLS2-Qu3cX4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8ª Etapa · Cálculo IV e Práticas",
+      "disciplines": [
+        {
+          "name": "Cálculo IV",
+          "videoIds": [
+            "21SCMkkKQuQ", "Z45I-ls-Xf4", "xmJAyttXLtQ", "RaoMZ67gJkg", "Y9V_rGkEM9U",
+            "6s8XIbuAYxA", "tH9graDOIi4", "OjYncPPpfKM", "cswW0da56Nc", "oXZpBln_CLk",
+            "oSk0EORKdBs", "uU4O16i8GEQ", "MTqKXsLLWzQ", "h7jzQ2Wu_jQ", "HlmbvulXwdE",
+            "y5DRLDbw5hM", "0ilX6rr5ToI", "ZE30DbaCG7c", "l4Ib_vujSJg", "pJeRGzJEahw",
+            "keiI9mkLXqU"
+          ]
+        },
+        {
+          "name": "Design Educacional",
+          "videoIds": [
+            "xIGq2Vb4myQ", "wgUGOz7WUoo", "MqqXQWoBg70", "Z45jlDPnTlk", "7sOGqgoVMss",
+            "cYJIZn7GJ5k", "4LxCdLou7GI", "EYRLLflVTcU"
+          ]
+        },
+        {
+          "name": "Elementos de Álgebra",
+          "videoIds": [
+            "AMIE0t1yt-U", "lSPkMq0SrGc", "3g3R1rniSUo", "mUvzuLh-gPk", "5tc3Y6Cl-DE",
+            "Jx8QjqUWGvE", "ZBo0XTKKQwY", "YPwPXWT3jbk", "bhmXqYNR2yk", "sVQ2UOt40vE",
+            "gu6JHhrA_w4", "4AskeZ3RjfQ", "b1b6HpMMC80", "eJNwGXURwgs", "19VMo4TOiyY",
+            "SDuxiI8c9Ik"
+          ]
+        },
+        {
+          "name": "Práticas para o Ensino de Matemática",
+          "videoIds": [
+            "FnkbGHcyKBM", "qUs8sbNVkr0", "TSdimT_5N3I", "TRjjnrG2ARM", "ZuAtoTKkQhk",
+            "W2kEpQb8fPg", "Be8Ns4XPUNs", "rrUUiye5Qyc", "vuDJHVrmL78", "VMWMyymfJm0",
+            "Exu6qdbiyWQ", "9enj263-9WU", "v2_-q9GAF9E", "m2lcYGIj1QA", "fe0TpCv5ZBA",
+            "4n_OWKoEpAg", "UKJ_qji9Axo", "_hDyYfAYCYY", "WQ5filxfmHo", "auCYJRYmFDE",
+            "cWnmoIvB3LA"
+          ]
+        }
+      ]
+    }
+  ]
+}

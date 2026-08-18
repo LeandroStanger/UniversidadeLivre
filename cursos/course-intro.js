@@ -1,4 +1,6 @@
-// course-intro.js – versão com i18n e suporte a tradução (incluindo ENEM e Engenharia de Computação)
+// course-intro.js – Versão 3.0 – COMPLETO COM SUPORTE A TODOS OS CURSOS
+// Inclui: Administração, Matemática (Licenciatura), Engenharia de Computação e todos os demais
+
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('courseIntroModal');
     const closeBtn = modal?.querySelector('.close-intro');
@@ -12,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para obter tradução do sistema global (se disponível)
     function t(key, replacements = {}) {
         if (window.getTranslation) return window.getTranslation(key, replacements);
-        // fallback básico
         const fallbacks = {
             'intro_start': 'Começar aula agora',
             'intro_dont_show': 'Não mostrar novamente',
@@ -27,16 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return text;
     }
 
-    // Mapeamento de IDs de curso para chaves no JSON
+    // Mapeamento de IDs de curso para chaves no JSON (caso necessário)
+    // A maioria usa o próprio ID, mas alguns têm nomes diferentes no JSON
     const courseIdToJsonKey = {
         'computacao': 'ciencia_computacao',
         'matematica': 'matematica',
+        'matematica-licenciatura': 'matematica-licenciatura',
+        'administracao': 'administracao',
+        'ciencia_de_dados': 'ciencia_de_dados',
         'computacao_grafica': 'computacao_grafica',
         'embarcados': 'embarcados',
         'desenvolvimento_web': 'desenvolvimento_web',
         'cybersecurity': 'cybersecurity',
         'devops': 'devops',
-        'ciencia_de_dados': 'ciencia_de_dados',
         'computer-science': 'computer-science',
         'math': 'math',
         'enem': 'enem',
@@ -47,8 +51,33 @@ document.addEventListener('DOMContentLoaded', () => {
         'japones': 'japones',
         'portugues-brasileiro': 'portugues-brasileiro',
         'japones-ingles': 'japones-ingles',
-        'engenharia_computacao': 'engenharia_computacao'  // NOVO
+        'engenharia_computacao': 'engenharia_computacao'
     };
+
+    // Lista de cursos com suporte a introdução personalizada
+    const supportedCourses = [
+        'administracao',
+        'ciencia_de_dados',
+        'computacao',
+        'computacao_grafica',
+        'computer-science',
+        'cybersecurity',
+        'desenvolvimento_web',
+        'devops',
+        'embarcados',
+        'enem',
+        'engenharia_computacao',
+        'espanhol',
+        'espanhol-ingles',
+        'espcex',
+        'ingles',
+        'japones',
+        'japones-ingles',
+        'matematica',
+        'matematica-licenciatura',
+        'math',
+        'portugues-brasileiro'
+    ];
 
     async function loadIntroData() {
         if (introData) return introData;
@@ -116,15 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const alreadySeen = localStorage.getItem(storageKey) === 'true';
         if (alreadySeen) return false;
 
-        // Lista de cursos com suporte a introdução
-        const supportedCourses = [
-            'computacao', 'matematica', 'computacao_grafica', 'embarcados',
-            'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
-            'computer-science', 'math', 'enem', 'espcex',
-            'ingles', 'espanhol', 'espanhol-ingles', 'japones',
-            'portugues-brasileiro', 'japones-ingles', 'engenharia_computacao'
-        ];
-
+        // Verifica se o curso tem suporte a introdução
         if (!supportedCourses.includes(courseId)) {
             console.log(`[Intro] Curso ${courseId} não possui introdução personalizada.`);
             return false;
@@ -135,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentCourseId = courseId;
             modal.classList.add('show');
             modal.style.display = 'flex';
-            updateModalTexts(); // garantir textos atuais
+            updateModalTexts();
             return true;
         }
         return false;
@@ -157,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModalAndSave();
     }
 
-    // Atualizar textos do modal com i18n (botões e label)
     function updateModalTexts() {
         const startBtnText = document.getElementById('startLessonBtn');
         const dontShowLabel = document.querySelector('.dont-show-again span');
@@ -165,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (dontShowLabel) dontShowLabel.innerText = t('intro_dont_show');
     }
 
-    // Observar mudanças de idioma
     window.addEventListener('languageChanged', updateModalTexts);
 
     if (closeBtn) closeBtn.addEventListener('click', closeModalAndSave);

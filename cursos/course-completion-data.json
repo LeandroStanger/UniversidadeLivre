@@ -89,6 +89,11 @@
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
   },
+  "matematica-licenciatura": {
+    "text": "Parabéns por concluir a Licenciatura em Matemática!\nVocê construiu uma base sólida em conteúdos matemáticos e desenvolveu competências pedagógicas essenciais para o ensino.\nAgora você está preparado para inspirar e formar novas gerações de estudantes, tornando a Matemática acessível, significativa e transformadora.\nQue sua jornada como educador seja repleta de realizações e contribuições para a educação!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
   "math": {
     "text": "Excellent! You have completed the Bachelor's Degree in Mathematics.\nYou have mastered fundamental concepts ranging from calculus to abstract algebra, developing logical and analytical reasoning.\nThis degree opens doors to careers in research, education, technology, and finance.\nApply your knowledge to solve complex problems and inspire others with your journey.",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
