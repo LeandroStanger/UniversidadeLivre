@@ -1,5 +1,13 @@
 [
   {
+    "id": "administracao",
+    "name": "Administração",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-briefcase",
+    "description": "Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico."
+  },
+  {
     "id": "ciencia_de_dados",
     "name": "Ciência de Dados",
     "courseLevel": "pos-graduacao",

@@ -1,4 +1,9 @@
 {
+  "administracao": {
+    "text": "Parabéns por concluir o curso de Administração!\nVocê desenvolveu uma visão sistêmica das organizações, dominando gestão de pessoas, finanças, marketing, operações e estratégia.\nCom essa formação abrangente, você está preparado para liderar equipes, tomar decisões estratégicas e impulsionar a inovação em diferentes tipos de organizações.\nContinue aplicando seus conhecimentos e transformando realidades!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
   "ciencia_de_dados": {
     "text": "Pós‑graduação em Ciência de Dados concluída!\nVocê aprendeu a analisar, interpretar e extrair valor dos dados, utilizando estatística e machine learning.\nCom essa base, você pode transformar dados em insights estratégicos para organizações.\nContinue praticando com projetos reais e contribua para a tomada de decisão baseada em evidências.",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",

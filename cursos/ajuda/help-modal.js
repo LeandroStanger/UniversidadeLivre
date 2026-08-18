@@ -1,7 +1,7 @@
-// help-modal.js – versão 4.0 – COMPLETO COM SUPORTE A TODOS OS CURSOS
+// help-modal.js – versão 5.0 – COMPLETO COM SUPORTE A TODOS OS 20 CURSOS
 // Modal de ajuda com i18n, suporte a todos os cursos e carregamento dinâmico de dados
-// Inclui: ENEM, EsPCEx, INGLÊS, ESPANHOL, ESPANHOL-INGLÊS, JAPONÊS, PORTUGUÊS BRASILEIRO,
-// JAPONÊS-INGLÊS, ENGENHARIA DE COMPUTAÇÃO e todos os demais
+// Inclui: Administração, ENEM, EsPCEx, INGLÊS, ESPANHOL, ESPANHOL-INGLÊS, JAPONÊS,
+// PORTUGUÊS BRASILEIRO, JAPONÊS-INGLÊS, ENGENHARIA DE COMPUTAÇÃO e todos os demais
 
 (function() {
     'use strict';
@@ -48,34 +48,50 @@
 
     // ========== Mapeamento de IDs para chaves no help-data.json ==========
     const courseIdToKeyMap = {
-        'computacao': 'ciencia_computacao',
-        'matematica': 'matematica',
-        'computacao_grafica': 'computacao_grafica',
-        'embarcados': 'embarcados',
-        'desenvolvimento_web': 'desenvolvimento_web',
-        'cybersecurity': 'cybersecurity',
-        'devops': 'devops',
+        'administracao': 'administracao',           // NOVO
         'ciencia_de_dados': 'ciencia_de_dados',
+        'computacao': 'ciencia_computacao',
+        'computacao_grafica': 'computacao_grafica',
         'computer-science': 'computer-science',
-        'math': 'math',
+        'cybersecurity': 'cybersecurity',
+        'desenvolvimento_web': 'desenvolvimento_web',
+        'devops': 'devops',
+        'embarcados': 'embarcados',
         'enem': 'enem',
-        'espcex': 'espcex',
-        'ingles': 'ingles',
+        'engenharia_computacao': 'engenharia_computacao',
         'espanhol': 'espanhol',
         'espanhol-ingles': 'espanhol-ingles',
+        'espcex': 'espcex',
+        'ingles': 'ingles',
         'japones': 'japones',
-        'portugues-brasileiro': 'portugues-brasileiro',
         'japones-ingles': 'japones-ingles',
-        'engenharia_computacao': 'engenharia_computacao'  // NOVO
+        'matematica': 'matematica',
+        'math': 'math',
+        'portugues-brasileiro': 'portugues-brasileiro'
     };
 
     // Lista de cursos com suporte a ajuda
     const supportedCourses = [
-        'computacao', 'matematica', 'computacao_grafica', 'embarcados',
-        'desenvolvimento_web', 'cybersecurity', 'devops', 'ciencia_de_dados',
-        'computer-science', 'math', 'enem', 'espcex',
-        'ingles', 'espanhol', 'espanhol-ingles', 'japones',
-        'portugues-brasileiro', 'japones-ingles', 'engenharia_computacao'
+        'administracao',            // NOVO
+        'ciencia_de_dados',
+        'computacao',
+        'computacao_grafica',
+        'computer-science',
+        'cybersecurity',
+        'desenvolvimento_web',
+        'devops',
+        'embarcados',
+        'enem',
+        'engenharia_computacao',
+        'espanhol',
+        'espanhol-ingles',
+        'espcex',
+        'ingles',
+        'japones',
+        'japones-ingles',
+        'matematica',
+        'math',
+        'portugues-brasileiro'
     ];
 
     // ========== CARREGAMENTO DE DADOS ==========

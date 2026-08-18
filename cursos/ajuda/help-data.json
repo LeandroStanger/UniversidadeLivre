@@ -1,4 +1,68 @@
 {
+  "administracao": {
+    "title": "Ajuda do Curso Administração",
+    "sections": [
+      {
+        "heading": "Introdução",
+        "content": "Bem-vindo ao curso de Administração da Universidade Livre. Este curso foi criado para oferecer uma formação completa e atualizada em gestão de organizações, combinando fundamentos teóricos com as práticas mais relevantes do mercado contemporâneo. Você aprenderá a liderar equipes, tomar decisões estratégicas, gerir recursos e impulsionar a inovação em diferentes tipos de organizações."
+      },
+      {
+        "heading": "Canais de Comunidade",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/"
+          }
+        ]
+      },
+      {
+        "heading": "Perguntas Frequentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Este curso é equivalente a um bacharelado presencial?",
+            "content": "A Universidade Livre oferece um guia de estudos com curadoria de conteúdos gratuitos que cobrem os tópicos de um bacharelado em Administração. Não substitui a experiência prática e o networking de um curso presencial, mas é uma excelente base para o autodidatismo e para quem busca uma formação sólida na área."
+          },
+          {
+            "heading": "Preciso de conhecimento prévio em matemática ou economia?",
+            "content": "Não. O curso começa com fundamentos de matemática básica e introdução à economia. As disciplinas de finanças e contabilidade também partem do básico, permitindo que qualquer pessoa, independentemente da formação anterior, possa acompanhar."
+          },
+          {
+            "heading": "A UBL oferece certificado de conclusão?",
+            "content": "Não. A Universidade Livre é um guia de recursos educacionais. Não emitimos certificados ou diplomas."
+          },
+          {
+            "heading": "Quais áreas da Administração são abordadas?",
+            "content": "O curso cobre desde fundamentos de gestão, passando por gestão de pessoas, finanças, marketing, operações, estratégia, empreendedorismo, economia digital, gestão de projetos, inovação e muito mais. É uma formação abrangente que prepara para atuar em diferentes áreas de uma organização."
+          },
+          {
+            "heading": "Preciso ter acesso a ferramentas específicas?",
+            "content": "Não. Todo o conteúdo é baseado em videoaulas do YouTube e materiais gratuitos. Para algumas disciplinas de Business Intelligence e análise de dados, recomenda-se o uso de ferramentas como Excel, Power BI ou Google Sheets, mas há opções gratuitas disponíveis."
+          },
+          {
+            "heading": "Quanto tempo leva para concluir o curso?",
+            "content": "O curso é autoformativo. Com dedicação de 1 a 2 horas por dia, você pode concluí-lo em cerca de 4 anos. O ritmo é totalmente flexível e você pode adaptar conforme sua disponibilidade."
+          }
+        ]
+      },
+      {
+        "heading": "Estrutura do Curso",
+        "content": "O curso é dividido em 9 etapas, começando com fundamentos de estudo e técnicas de aprendizagem, passando por bases de gestão, finanças, marketing, operações, estratégia, inovação e transformação digital. Cada etapa contém videoaulas do YouTube organizadas por disciplinas, com uma progressão lógica que permite construir conhecimento de forma estruturada."
+      },
+      {
+        "heading": "Metodologia de Estudo",
+        "content": "Para obter o máximo do curso, recomendamos:\n• Assistir às videoaulas na ordem proposta\n• Praticar com os exercícios e estudos de caso indicados\n• Participar ativamente da comunidade para esclarecer dúvidas\n• Utilizar a biblioteca para consultar livros e materiais complementares\n• Desenvolver projetos e planos de negócio próprios para consolidar o aprendizado"
+      },
+      {
+        "heading": "Dicas para Iniciantes",
+        "content": "Se você está começando, não se preocupe com a quantidade de conteúdo. Comece pela etapa 0 (técnicas de estudo) e progrida gradualmente. Dedique tempo para entender os fundamentos de economia, contabilidade e matemática financeira, pois eles são a base para disciplinas mais avançadas. A prática constante e a aplicação dos conceitos em situações reais são os maiores aliados no aprendizado de administração."
+      }
+    ]
+  },
   "ciencia_computacao": {
     "title": "Ajuda do Curso Ciência da Computação",
     "sections": [
@@ -481,16 +545,16 @@
         "heading": "Canais de Comunidade",
         "links": [
           {
-            "text": "Discord: Boteco dos Devs",
-            "url": "https://discord.gg/Trn8KCN2h"
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
           },
           {
-            "text": "Discord: Programadores BR",
-            "url": "https://discord.gg/programacao"
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
           },
           {
-            "text": "Discord: Lan House",
-            "url": "https://discord.gg/ZpzByecV5"
+            "text": "GitHub",
+            "url": "https://github.com/Universidade-Livre/engenharia-computacao"
           }
         ]
       },
