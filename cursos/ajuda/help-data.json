@@ -545,16 +545,16 @@
         "heading": "Canais de Comunidade",
         "links": [
           {
-            "text": "Discord",
-            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+             "text": "Discord: Boteco dos Devs",
+            "url": "https://discord.gg/Trn8KCN2h"
           },
           {
-            "text": "Telegram",
-            "url": "https://t.me/universidadebrasileiralivre/13"
+            "text": "Discord: Programadores BR",
+            "url": "https://discord.gg/programacao"
           },
           {
-            "text": "GitHub",
-            "url": "https://github.com/Universidade-Livre/engenharia-computacao"
+            "text": "Discord: Lan House",
+            "url": "https://discord.gg/ZpzByecV5"
           }
         ]
       },
