@@ -144,6 +144,14 @@
     "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
   },
   {
+    "id": "letras-portugues",
+    "name": "Letras – Habilitação em Língua Portuguesa",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-book-open",
+    "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
+  },
+  {
     "id": "matematica",
     "name": "Matemática",
     "courseLevel": "graduacao",

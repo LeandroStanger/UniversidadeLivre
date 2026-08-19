@@ -89,6 +89,11 @@
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "idiomas"
   },
+  "letras-portugues": {
+    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa!\nVocê desenvolveu uma base sólida em linguística, literatura, gramática e práticas pedagógicas, preparando-se para atuar como professor de Língua Portuguesa na Educação Básica.\nCom essa formação, você está apto a mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.\nContinue aprimorando sua prática e inspirando novas gerações de leitores e escritores!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
   "matematica": {
     "text": "Excelente! Você completou o Bacharelado em Matemática.\nDomine conceitos fundamentais que vão do cálculo à álgebra abstrata, desenvolvendo raciocínio lógico e analítico.\nEssa formação abre portas para carreiras em pesquisa, educação, tecnologia e finanças.\nAplique seu conhecimento para resolver problemas complexos e inspire outros com sua jornada.",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
