@@ -1,0 +1,418 @@
+{
+  "name": "Letras – Habilitação em Língua Portuguesa",
+  "type": "Licenciatura",
+  "icon": "fa-book-open",
+  "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Técnicas de estudo, organização e aprendizagem",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Bases da Educação e Linguagem",
+      "disciplines": [
+        {
+          "name": "Pensamento Computacional",
+          "videoIds": [
+            "01Hb_UV-yDA", "GGKLbcpO_DY", "0aPzdqLQezg", "CavGI3hojDs", "L-rQmj3xMkI",
+            "Ntq26PHJ-MM", "4Z5JhJylsic", "CM-U0bX-0kQ", "3RW9zEiG6W4", "fIlciM63TLE",
+            "AASk-CP-J88", "Y9QwlY_GL_M", "McVt05VV8lo", "RcJoHOw7fbM", "Rgf9-jjrhDU",
+            "7e7RgvT5zUw", "yteOg2jkoV0", "Y8Nogbn5ksw", "7gJktl2k97s", "HLgWwXI5fWo",
+            "17dEbecypfE", "CvSbIY4f0GU", "S5B31VYLlLA", "YFjqnRr00GA", "GtFf8ZZYVE4",
+            "-f27KPLQeHs"
+          ]
+        },
+        {
+          "name": "Leitura e Produção de Textos",
+          "videoIds": [
+            "zqTefJuHtPc", "Al-5QR-tS4s", "oJ-DqShyEBE", "Hk-Z466EYzE", "I3heTOd2NN0",
+            "grD6rdHG_HQ", "0ukUQ-BMIsw", "4DA20009Ov4", "x8zR8V1OHVE", "mo_x3mx7TYM",
+            "okeBTcfNxyc", "dxFMgX1mSHw", "lJHvVkr0H1U", "7HJ1grIrAZU", "Kbr2LKB0qVY",
+            "ZERJY21_78c"
+          ]
+        },
+        {
+          "name": "Ética, Cidadania e Sociedade",
+          "videoIds": [
+            "6tu8ERj7g-Y", "zExhdFHldNY", "dn0JImC9e_g", "KEWIozUNOlI", "mAV5WjcFjX0",
+            "rhRGqzjDkms", "SEKIIAaoobg", "vdhnCBe5djQ", "L4boqXeykhI", "lIzsuUA2LJY",
+            "aXBLvoikpc4", "eEnIuI5ZtbA", "h3DFle6I8IU", "KRxyU42_uKQ"
+          ]
+        },
+        {
+          "name": "Matemática básica",
+          "videoIds": [
+            "3uovxT_Lars", "6RQwK25anXg", "OUnuiIGN0mM", "H9yhlNa7-0g", "FMZRzZ-SyWY",
+            "EdFhJFVdcR4", "9dUfbqePJoQ", "NxeFMjKteKU", "Q3QBSTw-Q_o", "WSbEYAUBw4Q",
+            "q06i1WdqvCs", "yjkqbo4mC8I", "PgOT-5_Viqs", "tXPcSivNofk", "V7TghJJ2tOg",
+            "U9DJp18gxH0", "1EocP3JFd6Q", "U7Cn_w9HBw4", "eP6RuOf5yNk", "Mi-ESgTFthY",
+            "5Ak4zl9idb0", "FhUC0RcSNi8", "yX40oGkerHE", "JhRZEWef6cc", "KmNs5OodlhY",
+            "aM0WcERZZ44", "td9zI6OCKSw", "gmZlrF_ZdyY", "fL_oR9Qg_EU"
+          ]
+        },
+        {
+          "name": "Inglês",
+          "videoIds": [
+            "ok5PaRPltcM", "GPGKhgTmu_o", "4jHlBGkxvv8", "mJsKcjdoIqo", "-dwoqBp1W1c",
+            "YmfkAtR4opw", "-IbRgj-CnIk", "fHrLpPsO-Fk", "ZEqOJej6w9w", "ONMztFZKyUQ",
+            "nNmG3YSqqEI", "E6MP5uXiaEI", "9TJU3U700zM", "nm4l124dQi0", "KObxyRmpckM",
+            "qC741rq4xyY", "ef8g9Y1SJVU", "azOf1XhJOQU"
+          ]
+        },
+        {
+          "name": "Projetos e métodos para produção do conhecimento",
+          "videoIds": [
+            "DOITQ9x-G2Y", "3ozoRkbqG-w", "iWOu2YLwoJc", "dKM83WB6pwQ", "Fk18X38Mn4o",
+            "zS72bOJ3DZw", "NHxtCbc6pAI", "GwMEAxX5dfQ", "AVBvcXeenPg", "OVK3r4haJcQ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Fundamentos Pedagógicos",
+      "disciplines": [
+        {
+          "name": "Fundamentos Históricos, Filosóficos e Sociológicos da Educação",
+          "videoIds": [
+            "5YJzRRwXseo", "8xt0V4SjDNs", "XbJTOdeNhiQ", "IS8_8MidQ_c", "FGsx54XABlE",
+            "YilLVGhU5pw", "Lu2O-6u4ZV0", "QpcqBKrqvPU", "dIpKsIeU6Kk", "nT2-K003-R8",
+            "Nbx8P813IYM", "E3Zjjo7fqEg", "Zt4fHvvalDw", "FCqjtKb_m7g", "tP4--rtSxDs",
+            "1w8AH-vyVXc", "bg-lpHzZIpU", "WFzk79SZUQ4", "HxoMv2T62bY", "9naksP2cNdg"
+          ]
+        },
+        {
+          "name": "Didática",
+          "videoIds": [
+            "0vx6R3FgYSo", "SJuXaSm0vhs", "iDe7lOsWSgA", "TOi4XLtY6K8", "pDMjytkuJJw",
+            "-k1Qj1Mnd2g", "eTYWvbW8XPw", "ia5r2Ff-5kc", "CO58mB_hNoY", "vuvhKS-fApQ",
+            "bdSkSb2wEYk", "otZP6XhiWx8", "G5VEkMf5DRk", "beuoldA1eps", "ILy_PZ1e2y4",
+            "RMR0yk4RZKM", "GNh2goLlRcg"
+          ]
+        },
+        {
+          "name": "Escola e Cultura",
+          "videoIds": [
+            "zJGijadcmwA", "qSAHcax5Ov8", "5QCZIsCybe0", "i3AJsf2yv_Q", "lZ9nn4C94zE",
+            "3zGFZGnkNLU", "6QBJGuWBCes", "v1NaIYGO0yo", "iY4v4yOD4LE", "ugcop8y5fJA",
+            "vFvKVjTzBXw", "ki_PEV2Ayuw", "NbpbYHSe5fk"
+          ]
+        },
+        {
+          "name": "Avaliação Educacional e da Aprendizagem",
+          "videoIds": [
+            "3xamJF-BPPE", "4SgIxv5bUFM", "_Yk6Y5cxeZE", "T1Q7nVmyISk", "VNgyQwg2oHU",
+            "yafJ_mJGNyM", "SKaeH7KFADE", "1bSc4ZPAFQw", "W_yl-D3r_tM", "v_psU-0omw8",
+            "TFbSZUvQYXY", "CrWz-YhOBQ0", "Q-gzBc8y5i4", "Jh6b76-uqbk", "TOO3cq7QpzA",
+            "EYPCRrnmKDI", "rzfP-CHsrgY", "8zSY3FtZIsc", "UHYLCo6pk2w", "ACvV3nqGzoQ",
+            "-clX3kFWbrA", "Vd3GYw4GhZY", "6z1g4i5AtO4", "9bOZ9JvnOZE", "HKJr3Xr1j1k",
+            "-orxvplzkIY", "CW0kRqS5yC8", "vgB98vshLmU", "iTFLAJvgCz8", "3J2hIaUhvCA"
+          ]
+        },
+        {
+          "name": "Psicologia da Educação",
+          "videoIds": [
+            "vsVpldOfGlQ", "SUVqrCFWUto", "DS75E3gy8I4", "WGTIRwnUCDQ", "BKbxz_2FXuA",
+            "D4v0Q9_Bjo0", "zAEw5kdOfEc", "Vck-i-SruVI", "B2uuw73TSG4", "hesSoJ2Z0gg",
+            "AePQ_slQpR8", "mkS8vgplACg", "bYNXugqcVqk", "Th8dQHl5w8U", "FBi7vLIDePk",
+            "Dt4W9AppkIY", "cgfBtIvNfZA", "kpOApbwrKGs", "sR-Bm2_VBrU", "Xqxghw6xBsg",
+            "3mdw4gZeQtA"
+          ]
+        },
+        {
+          "name": "Políticas Educacionais e Estrutura e Organização da Educação Básica",
+          "videoIds": [
+            "ZOIXkSU_Z24", "h_IvfHghaSQ", "1b-JSpYcRpI", "UywlSuBxauE", "jROq7BZFR3E",
+            "5KeNVR_4IKo", "3mxT0HpKVjE", "a3eO6-D4nHo", "o0eRJXz_Qs0", "juWogT2_EFw",
+            "AdVWa6C_UzA", "SQ_G0dSkzaM", "LVzPKKp1hm4", "Vxw23uZXjdI", "a8wfOjgkzPw",
+            "VcoUL47eKxA", "7byqp7dIc1o", "gxSZZ5DcqE8", "m-3eO6X23zM", "uv5oilo91fg",
+            "7o9X6iuMG7k", "Gq6iH20DRnk", "TYCeD0kX0u8", "79lEGavY14U", "jHrFA53vWIo",
+            "qEqhdQyicDs", "oZksOS_-msM", "S3YZSiOx8PE", "3odWsPQ9-LQ", "wcKu5DH1rdo",
+            "ot9zvJwrZEo", "XMfhoWyHV9c", "01KrSGaSreU", "S5Fn0c44obc", "KQsTWMi5Em8",
+            "2MoqksWOGvc", "6k8lWlTyDzQ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Currículo e Fundamentos Linguísticos",
+      "disciplines": [
+        {
+          "name": "Teorias do Currículo",
+          "videoIds": [
+            "xjytbB7IAW8", "YWys2JtHYrs", "S2EJaCn4kI8", "-J2YXURxPXg", "zLNex2F2yuQ",
+            "JTNBzQy49pc", "QLrYOm7tep0", "ZSiUf7cxF1M", "Gx5MGxpz1BY", "pz2NxQYws48",
+            "pPGT6ZWTfwU", "o3bLXPwkKVM", "m9e9sAF1eCo", "NKNimSPNvb0", "lh-27JpCxc4",
+            "qhXkCr70CHs", "0LoNnmhG_GM", "RrXnHwuJB24", "WBQdlBh6Ezo", "M_1gCThR1aE",
+            "qD7xl0ZZjhk"
+          ]
+        },
+        {
+          "name": "Teoria da Literatura",
+          "videoIds": [
+            "ElSDjDYYgac", "FeZLU4tXPbI", "uWTp_3r0ouA", "5asaw7sTyXo", "btX2SBsAXYs",
+            "FNagU3R5neA", "8SFxIDhYkeY", "-zNHk_bhgPM", "a-m8HZg4f30", "gNRWFeXd1Yw",
+            "2ExpFQ7o5ag", "zTXEJZs_ECg", "0XwJKZubNFA", "OlHyzFOkqbQ", "FEd0OjvK5EM",
+            "-Y_ebzEi7yE", "DTOm6J69z8I", "VpSKuvNpdqw", "Qal0RPNQotY", "4wScbNRvMew",
+            "kvD7EzUASyw"
+          ]
+        },
+        {
+          "name": "Projeto Integrador para Licenciatura II",
+          "videoIds": [
+            "IpeOCVClUMI", "XP5VWlpclGE", "UEZEt224Pn4", "Zub56gEjILw", "7Um0FT7Z6fU"
+          ]
+        },
+        {
+          "name": "Introdução à Linguística",
+          "videoIds": [
+            "J4nCu-VPq0I", "yq1G536SEWw", "hmuucMtR2co", "HIMn3968F7c", "BVOHiqxi0LM",
+            "T7y3W2DPBNA", "YWM96aHq3xU", "PStRaXkXvW8", "0vI1_ipo3hg", "WZRvYDuY8z8",
+            "MzyyloboK7s", "5vcJuXWetYQ", "vlIe6KPNJTk", "TufNsHiowGE", "a3xl_-EsgMc",
+            "cPamnWmd-M8", "EogSdXXv8_k", "CZHvG2XtekI", "vouNaCgxgWc", "TKVqMkM6dyk",
+            "onproRH2wPw", "VCdqP7KK30Q"
+          ]
+        },
+        {
+          "name": "Gramática de Língua Portuguesa I",
+          "videoIds": [
+            "m65I8Ces7BQ", "KCQ55v14GHw", "hGYs6TXqlEM", "7SbMmZEZ728", "kERxo00O2G8",
+            "FW7Anc8ui_w", "GzocjO4XK34", "WdKNgi1pkaQ", "lLofV6ZAWMM", "KMlBSNJ6UiA",
+            "rG2-lz5ztbg", "U78PlXk1Sqg", "yX8pU6-hMzE", "GFWAyoDwDt8", "c7SmSeYGHiQ",
+            "aNsMexhCOos", "3PyH050XiSo", "mJSH2cAV4RI", "SDs8314e1sM", "w56j-u3PBBI",
+            "pWn1mJPojLY", "csY3Hk9X4Qc", "48JGnEIocCc"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Produção Textual e Fonética",
+      "disciplines": [
+        {
+          "name": "Laboratório de Produção Textual",
+          "videoIds": [
+            "--cIAxUD5Sg", "nct1xoUXpV4", "LQn5hDoQcY4", "UhM1K3k5Aq0", "S8K4sWe2D2A",
+            "vm-ncwAxSJA", "mIaPRG72b8Q", "VAEJ_-XVStA", "NSM34jwLDBQ", "Kv5mQdh4aes",
+            "mjLstlCXWxk", "-uOPsEUPrqA", "uT5RbWV46_0", "99ztpSwZg3w", "ioEPEBGAo_E",
+            "OJ8nyVfR3n8", "ERdnlfE61dg", "JJR4TplN8Sg", "ElXjlsCIOEc", "C98c9hXgsMM",
+            "VO-SjX1avt0", "J08tBTRj77w", "CQNA2eSs-q4"
+          ]
+        },
+        {
+          "name": "Introdução à Fonética e à Fonologia",
+          "videoIds": [
+            "kc6ii_wvP4A", "kNih_dLGHk0", "t3TThPjOdAg", "ohrTQHSOASA", "aZyklI3JKJM",
+            "a7yY6ykVtsg", "3JQrq2aIBBQ", "IKrQ0Onalio", "0Phou0SJai4", "pX0urSGrYxc",
+            "2XBnapt1YOI", "UMoLVquKqLM", "LAr5JfeAEO8", "k5jYp0adjCo", "lf7Url490DE",
+            "Q9VmccT88LQ", "NIZ50acZqbs", "uQ_BfK-ObWw", "Br_h1MnWnGU", "whkGtBgz4vk",
+            "kzH7nKyjxvM", "gvszj1wD0LM", "Y56QecsHK94", "uTqNLP2Q_ss", "6njaX2a0iy0",
+            "6j6VPzwuGjc"
+          ]
+        },
+        {
+          "name": "Projeto Integrador para Licenciatura III",
+          "videoIds": [
+            "Wxclbb3zFi4", "l38BVuA6x3Q", "y13RLiN-fCg", "wRm3My-BK4s", "09i5bwUookY",
+            "kJYSwFppVL8", "lfMefhmcUAY", "wCl_kTDCMPA", "F6fyyb_SN6E", "P3vRzZ-g4Tg"
+          ]
+        },
+        {
+          "name": "Educação Especial e LIBRAS",
+          "videoIds": [
+            "ybM4F6Niezs", "4LgA9YhtBWk", "CXIUA6xKoTA", "ySsCtrOwuNM", "Bi0Zz4Gz-EA",
+            "dUZd1z0DoI4", "6dxWTEN_HZ0", "U5XVzp9T4fc", "xRmty-UYkw4", "Cc6S5Vt--2k",
+            "bGrVPuQ1Qm4", "ui3KRWR98Mo"
+          ]
+        },
+        {
+          "name": "Linguagem e Significação",
+          "videoIds": [
+            "Q1DVUzS25go", "-o4wc3ppjoM", "81kGOB3foo8", "HzsIby9OLek", "DYWDPbMtVrU",
+            "KtBVlPmluLE", "ize_yQbXoFE", "T2fIB6PvAuU", "TK1nFs6vvIE", "tkPwTzM70NY",
+            "dsAQs_HJo5M", "YDhDMP8Dt3E", "d0_eWsLKbJI", "SOdZpq3KySM", "n56HcIQBXlA",
+            "DIkLuTHF68c", "CSvSNS6DP0Q", "ke7B-9mCcPw", "fKzIRDAyQKM", "rIvWguvkMvc",
+            "9gpgWKcdkX8", "kDgBx21pRuc", "XnQWX6bXLGk", "YVy-LQixCbY"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Aquisição e Literatura Brasileira",
+      "disciplines": [
+        {
+          "name": "Aquisição da Linguagem: oralidade e escrita",
+          "videoIds": [
+            "39yuJ4owMJI", "BDK3a3NVpNY", "Tv9dX16uhDk", "CoFtKP_z4_s", "Oe3vt4w4BuU",
+            "B0CoHxIsd58", "yUIDpviE-Qo", "IdZ7gylEgec", "h4Pl5-tFlc4", "gXyc-Mvdc2k",
+            "TWO8I9sIND0", "iHaoJIsw60w", "t5xYuDVeLr4", "aU3jPoebAgk", "Si9GApckO-E",
+            "UI2vbG8ASas", "t4jGJDDWqxI", "GmPIPIvqLQ8", "HZtRad4r45s", "tjcjZ1_x8mw"
+          ]
+        },
+        {
+          "name": "Literatura e Cultura Brasileira",
+          "videoIds": [
+            "0Qe1l7npgjA", "SCt4OZceG-U", "DWp1DNqqSTQ", "4XYBSIZM2cs", "unchXeSMgHc",
+            "VOQCsdbg8_g", "aJDl_Tn_K1w", "pRreOHVk8ng", "Aao_xIu7WeE", "6mrtD-Yh0j4",
+            "uIw5Ckltqxc", "5knJYIeBXtY", "Ud5KO6ZjMcI", "uV7HlO5eFbE", "CMSDvfuuLSE",
+            "--miCIhtTYM"
+          ]
+        },
+        {
+          "name": "Projeto Integrador para Licenciatura IV",
+          "videoIds": [
+            "CMG6j2aiW7A", "paNBVR9pab8", "LKuthwVnm_Q", "xLeYUuCmfX0", "iDI8nf0auTg",
+            "jl_urtmEkoU"
+          ]
+        },
+        {
+          "name": "Educação mediada por tecnologias",
+          "videoIds": [
+            "c8WlfFJrOSo", "h0PFvYNUZPE", "GqjeWAqYW58", "4j9s83GJC0A", "IiFW15bgDH4",
+            "LVoK3eCsG-Y", "ctYfT9QqGU8", "1Umd2sEn-68", "rlB_zGqgE-E", "A0SsLT-JTQA",
+            "a_f2puUOKH8", "ejhhLEQBtJU", "Qmkmkdq6yBU", "uFNIs0t41R0", "4cdoYJRVuNY",
+            "UFdn8xVLJ3o", "kDPv_rOwEVg", "uwn3zwPkFKI", "L2Shgd5SVys", "TXSkHJYVe2A",
+            "uIF8XUmSP6s"
+          ]
+        },
+        {
+          "name": "Gramática de Língua Portuguesa II",
+          "videoIds": [
+            "m65I8Ces7BQ", "KCQ55v14GHw", "hGYs6TXqlEM", "7SbMmZEZ728", "kERxo00O2G8",
+            "FW7Anc8ui_w", "GzocjO4XK34", "WdKNgi1pkaQ", "lLofV6ZAWMM", "KMlBSNJ6UiA",
+            "rG2-lz5ztbg", "U78PlXk1Sqg", "yX8pU6-hMzE", "GFWAyoDwDt8", "c7SmSeYGHiQ",
+            "aNsMexhCOos", "3PyH050XiSo", "mJSH2cAV4RI", "SDs8314e1sM", "w56j-u3PBBI",
+            "pWn1mJPojLY", "csY3Hk9X4Qc", "48JGnEIocCc"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Estudos Literários e Semântica",
+      "disciplines": [
+        {
+          "name": "Estudos de Literatura em Língua Portuguesa",
+          "videoIds": [
+            "42M_p6vagDo", "3bV81GRPvZw", "VyNY-g021js", "uHtwEamtUME", "3j8XoDSoA-E",
+            "MP8dACow08g", "q3jutYlhqTE", "gYT1xXVmL0k", "AiGfWZrwrSE", "GVtf-N5EYAQ",
+            "bRfgWCzTjo4"
+          ]
+        },
+        {
+          "name": "Semântica",
+          "videoIds": [
+            "YqNzW1qhLPg", "6-WG3x2lYLQ", "35MhXRr2d0o", "cAL89xOqfBQ", "MpXh9tSLp3M",
+            "_DZ8VEQIJ1s", "CIeBTq-HgA4", "e3ErXsr6JRs", "e_t6qcwpapE", "O9z1O_rXVRc",
+            "1AzxEbiuKGQ", "DjQ9G04EWfc"
+          ]
+        },
+        {
+          "name": "Metodologia e Desenvolvimento de Materiais Didáticos para o Ensino",
+          "videoIds": [
+            "OV0xZdADmrc", "SWUcc1nl44I", "dfa9xCifWZ8", "qiaI-c_Rpdw", "OzWhUtPlrF4",
+            "09nLqZoZ_Wk", "2qudbanSiDQ", "K5LCmWTuC-0", "27ktujcxoIU", "Ty4WV0gjtF0",
+            "x7-mlEJyzE4", "qqVxm5faDV8", "m7b_0u28MPg", "5b7JKFfRnL0", "Yr1qq0pvE0o",
+            "8_NCmIXHq1s", "oG2T1BoKeP8"
+          ]
+        },
+        {
+          "name": "Gêneros Narrativos na Literatura Brasileira",
+          "videoIds": [
+            "HEoPAbUeudU", "oDg8VMW534s", "rqXLn6CtOPI", "3m3YwrgUXns", "9llVHjK9Q5Y",
+            "wv4ZuSH_ZlI", "j0C5ymv3kIM", "XiizDiRFs1E", "unognQxnomY", "8IMcNnHjKos",
+            "uGxI0nMFPac", "kRf9Iqm5N0A", "QtKs3pjGyl0", "ddRZ2WQ8TDc", "95_TZ2z_Z3k",
+            "Vfnu2EI4ngE", "gWi8i_RR4ok", "JlPJzuBhwuo", "8IMcNnHjKos", "NSy1Y_uxxYo",
+            "BWfiPiyLY2I"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7ª Etapa · Organização do Trabalho e Ensino",
+      "disciplines": [
+        {
+          "name": "Organização do trabalho pedagógico",
+          "videoIds": [
+            "KgF7sa58r4o", "Hf_s1hhyIGo", "wJdNd7jdNwE", "AHJpY0tELTo", "WkBb_NamQ00",
+            "XtsYwzT7xjE", "ZBK_Vwhr0Cc", "RUgI8Aa5YVs", "0HI56LD92ZI", "WeZ_svRhli8",
+            "Me8VVFhdGlo", "UKBLFBbcxYQ", "g6KLWFIUEjU", "-kkdm72bWBQ", "r1qTHSlZNWY",
+            "5hJccrw7DcE", "tFXhc4zUegQ", "Omy8RSItFIw", "qSjhtEjT5lA", "scEfFL32LFU",
+            "Zyn0EqCiKS4", "8DLtQE49MUQ"
+          ]
+        },
+        {
+          "name": "Ensino e Aprendizagem de Língua e Literatura",
+          "videoIds": [
+            "H1nJQruRC4g", "oaSCLjq19rM", "mIC9vEbdYfo", "19CpbwFT4m4", "0WrN5UdLdtE",
+            "pYA3vHGYrm0", "QjNkeY47ynk", "Plr65DFX7y8", "Wxh8yd9r8tk", "z_BHgugrTGw",
+            "cPlwWMNofLE", "G-wDB3hDfWs", "9-3s6DibUdk", "OTOhaCDAK7A", "Fuow3CoCUuY",
+            "W67PHf-sN_s", "YC7CS0yt0eA", "_FhlpSJVD8Q"
+          ]
+        },
+        {
+          "name": "Educação de Jovens e Adultos",
+          "videoIds": [
+            "968vbyF8b4w", "8OaMQHldjHs", "JdDXv0jbuSU", "d6FVRfu9PKg", "3FsWtjAIhcs",
+            "jile1MsuhEU", "BA9gsyOQQe4", "pCMedvQ5dMw", "BzOSEOaggDw", "Hs2CqW2ad4M",
+            "TnYGdV3d1gM", "KeOaq8SFbb4", "ZLS2-Qu3cX4"
+          ]
+        },
+        {
+          "name": "Aquisição da Língua Escrita",
+          "videoIds": [
+            "39yuJ4owMJI", "BDK3a3NVpNY", "Tv9dX16uhDk", "CoFtKP_z4_s", "Oe3vt4w4BuU",
+            "B0CoHxIsd58", "yUIDpviE-Qo", "IdZ7gylEgec", "h4Pl5-tFlc4", "gXyc-Mvdc2k",
+            "TWO8I9sIND0", "iHaoJIsw60w", "t5xYuDVeLr4", "aU3jPoebAgk", "Si9GApckO-E",
+            "UI2vbG8ASas", "t4jGJDDWqxI", "GmPIPIvqLQ8", "HZtRad4r45s", "tjcjZ1_x8mw"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8ª Etapa · Variação e Design Educacional",
+      "disciplines": [
+        {
+          "name": "Variação e Mudança Linguística",
+          "videoIds": [
+            "x163qT7_u7Y", "M85-qDZRbMs", "ETcDZZ8OOuY", "_X1-JUM3YTM", "1I4-NZDEyFo",
+            "DxSYvOA_wZU", "-HwcmCmLgnM", "uCf5FcyrXj8", "iTjDltQIaNg", "-Tjaqk_Rlj4",
+            "JH_0zxZJHsw", "MdaIwQzF_kY", "2vohnLcVC-s", "6ObuUPQmhiw", "sQMyJ0StUFA",
+            "lvAw5VpjhfQ"
+          ]
+        },
+        {
+          "name": "Design Educacional",
+          "videoIds": [
+            "FHfs6f-GC6w", "iwdTStvdRaE", "gmkd3wTVT04", "fcN_Nv2OXD4", "odcWiaEBi2g",
+            "GXhaFEImcME", "Yff3FsJP2Fo", "60LC5Qfw2Kc", "2A1XToT-f-M", "KxiqfaAt604"
+          ]
+        },
+        {
+          "name": "Literatura infanto juvenil",
+          "videoIds": [
+            "ScDI5eWPd30", "ZetcJJ_OVcA", "DmrKYt7ezk8", "QQ_T0loJpZg", "pF-bsRzHzI4",
+            "nq9joaIMQsI", "hypb0IDVN38", "IoveRDKP2DM", "hfSgEmz8f1E", "RCXdnvGvUPc",
+            "xuiGThvw9mU", "LMQORiRKdfE", "XnpWap4PcI0", "ZkVnTKBTLKI"
+          ]
+        },
+        {
+          "name": "Texto, Discurso e Ensino de Língua",
+          "videoIds": [
+            "XLGiS7CN89Y", "GkIw8MNZjfg", "1YHUQnCJNnU", "oZzcxxxH0fc", "trupbZaThj8",
+            "T-hccRZnNq8", "t3fxyqvnoSI", "xDlD_ibnfyk", "dSAtD9B624Q", "Buy9hipxbZQ",
+            "235eWLkQNCU"
+          ]
+        }
+      ]
+    }
+  ]
+}

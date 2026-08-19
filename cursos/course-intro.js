@@ -1,7 +1,8 @@
-// course-intro.js – Versão 3.0 – COMPLETO E AUTOSSUFICIENTE
+// course-intro.js – Versão 4.0 – COMPLETO E AUTOSSUFICIENTE
 // Modal de introdução para todos os cursos da Universidade Livre
 // Suporte a: Administração, Matemática (Licenciatura), Engenharia de Computação,
-// Engenharia de Produção, e todos os demais cursos da plataforma.
+// Engenharia de Produção, Letras – Habilitação em Língua Portuguesa,
+// e todos os demais cursos da plataforma.
 // Inclui i18n, detecção de idioma, cache de dados e prevenção de reexibição.
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'ingles': 'ingles',
         'japones': 'japones',
         'japones-ingles': 'japones-ingles',
+        'letras-portugues': 'letras-portugues',
         'matematica': 'matematica',
         'matematica-licenciatura': 'matematica-licenciatura',
         'math': 'math',
@@ -77,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'ingles',
         'japones',
         'japones-ingles',
+        'letras-portugues',
         'matematica',
         'matematica-licenciatura',
         'math',

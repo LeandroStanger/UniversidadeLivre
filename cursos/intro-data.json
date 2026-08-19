@@ -322,6 +322,26 @@
         "name": "UNIVESP",
         "url": "https://www.youtube.com/@univesptv",
         "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UBL/engenharia-producao",
+        "url": "https://github.com/Universidade-Livre/engenharia-producao",
+        "icon": "fa-brands fa-github"
+      },
+      {
+        "name": "X",
+        "url": "https://twitter.com/UBLivre",
+        "icon": "fa-brands fa-x-twitter"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
+        "icon": "fab fa-linkedin"
+      },
+      {
+        "name": "Twitch",
+        "url": "https://www.twitch.tv/universidade_livre",
+        "icon": "fab fa-twitch"
       }
     ],
     "readmeContent": "<h1>Engenharia de Produção</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para projetar, implementar e gerenciar sistemas produtivos com eficiência e sustentabilidade.</p><p>O Curso de Engenharia de Produção da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão de operações</strong>, combinando fundamentos matemáticos, estatísticos e econômicos com as práticas mais atuais da engenharia de produção. Desenvolvido para formar engenheiros capazes de otimizar processos, reduzir desperdícios, melhorar a qualidade e aumentar a competitividade de organizações em diversos setores.</p><p>Este curso integra conhecimentos de engenharia, administração, economia e sustentabilidade, preparando você para atuar em áreas como: planejamento e controle da produção, logística, gestão da qualidade, pesquisa operacional, simulação, engenharia econômica, manufatura enxuta e gestão estratégica.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de engenharia, matemática e estatística</li><li>Gestão de operações e processos produtivos</li><li>Logística, cadeia de suprimentos e armazenagem</li><li>Controle estatístico de processo e gestão da qualidade</li><li>Pesquisa operacional e otimização de sistemas</li><li>Engenharia econômica e análise de investimentos</li><li>Manufatura enxuta e sistemas de produção</li><li>Gestão estratégica da produção e marketing</li><li>Indústria 4.0, inovação e sustentabilidade</li><li>Comportamento organizacional e gestão de projetos</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 10 etapas (0 a 9), distribuídas em:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo e hábitos de aprendizagem)</li><li><strong>1ª Etapa:</strong> Bases da Engenharia (pensamento computacional, leitura, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Fundamentos de Gestão e Economia (teoria econômica, estudos organizacionais, matemática financeira, contabilidade, estatística)</li><li><strong>3ª Etapa:</strong> Engenharia e Processos (algoritmos, indicadores, introdução à produção, cálculo I, empreendedorismo, materiais)</li><li><strong>4ª Etapa:</strong> Matemática, Desenho e Qualidade (cálculo II, desenho técnico, física, controle estatístico, gestão da qualidade)</li><li><strong>5ª Etapa:</strong> Projetos e Pesquisa Operacional (gestão de projetos, PO I e II, geometria analítica)</li><li><strong>6ª Etapa:</strong> Inovação e Sustentabilidade (indústria 4.0, ciências do ambiente, projeto de produto, simulação)</li><li><strong>7ª Etapa:</strong> Energia, Cadeia e Organização (química, cadeia de suprimentos, geração de energia, organização do trabalho)</li><li><strong>8ª Etapa:</strong> Logística, Economia e Custos (logística, engenharia econômica, sistemas de custeio)</li><li><strong>9ª Etapa:</strong> Estratégia e Marketing (manufatura enxuta, gestão estratégica da produção, marketing)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e industrial</li><li>Alinhados com as diretrizes curriculares de Engenharia de Produção</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com exercícios e estudos de caso</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos práticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Engenharia de Produção!</p>"
@@ -471,6 +491,22 @@
       }
     ],
     "readmeContent": "<h1>Japanese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Japanese course from zero to intermediate level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering Hiragana, Katakana, Kanji, grammar, vocabulary, listening and reading comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Start with Stage 0 to learn Hiragana and Katakana.</li><li>Practice daily with HeyJapan, Duolingo, and Memrise.</li><li>Watch basic lessons to build vocabulary and grammar.</li><li>In Stage 4, practice with anime and Kanji lessons.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://japanese.heylearning.net/lessons?hl=en\" target=\"_blank\">HeyJapan</a> - 6 hours (Stage 0) / 25 hours (Stages 1-5)</li><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 hours per stage</li></ul><p>Good luck and enjoy your journey learning Japanese!</p><p>がんばってください！</p>"
+  },
+  "letras-portugues": {
+    "imageUrl": "cursos/graduacao/letras-portugues/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Letras – Habilitação em Língua Portuguesa</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Língua Portuguesa com excelência e paixão.</p><p>O Curso de Letras da Universidade Livre Brasileira oferece <strong>uma formação sólida em linguística, literatura e gramática</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Língua Portuguesa na Educação Básica. Este curso foi desenvolvido para formar educadores capazes de mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.</p><p>Este curso integra fundamentos teóricos da linguagem com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação linguística na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da linguística e da gramática da língua portuguesa</li><li>Teoria e crítica literária</li><li>Literatura brasileira e portuguesa</li><li>Produção textual e análise do discurso</li><li>Didática e metodologias para o ensino de língua e literatura</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e LIBRAS</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8):</p><ul><li><strong>0ª Etapa:</strong> Técnicas de estudo e aprendizagem</li><li><strong>1ª Etapa:</strong> Bases da Educação e Linguagem</li><li><strong>2ª Etapa:</strong> Fundamentos Pedagógicos</li><li><strong>3ª Etapa:</strong> Currículo e Fundamentos Linguísticos</li><li><strong>4ª Etapa:</strong> Produção Textual e Fonética</li><li><strong>5ª Etapa:</strong> Aquisição e Literatura Brasileira</li><li><strong>6ª Etapa:</strong> Estudos Literários e Semântica</li><li><strong>7ª Etapa:</strong> Organização do Trabalho e Ensino</li><li><strong>8ª Etapa:</strong> Variação e Design Educacional</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica</li><li>Alinhados com as Diretrizes Curriculares Nacionais para a Licenciatura em Letras</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique a produção textual e a análise linguística</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva planos de aula e materiais didáticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Letras!</p>"
   },
   "matematica": {
     "imageUrl": "cursos/graduacao/matematica/imagen-card.png",
