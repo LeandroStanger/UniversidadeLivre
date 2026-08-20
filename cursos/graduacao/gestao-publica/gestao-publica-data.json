@@ -1,0 +1,261 @@
+{
+  "name": "Gestão Pública",
+  "type": "Tecnólogo",
+  "icon": "fa-landmark",
+  "description": "Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Técnicas de estudo, organização e aprendizagem",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Fundamentos da Gestão Pública",
+      "disciplines": [
+        {
+          "name": "Sociedade, Estado e Governo",
+          "videoIds": [
+            "DFV5n1NheqU", "oe8-aaQUTYg", "-kH5qNBlZOA", "P_haxmRhx8A",
+            "-zc2FkSCUhs", "ewbFKHqya_c", "GvEJPSeb5sw", "B8MVBfbpOlU"
+          ]
+        },
+        {
+          "name": "Administração Pública",
+          "videoIds": [
+            "eMXnLFr3OZk", "F65EroOL9Ps", "2VSj0vBOHbY", "_8SUEtTyaJw",
+            "It8lKTodv6Q", "uJoNmnuYXiU", "7fSgx0KProI", "B3jdHS0Z6so"
+          ]
+        },
+        {
+          "name": "Comunicação, Expressão e Redação Oficial",
+          "videoIds": [
+            "zEDRW5zp0Ok", "fEEjEUAix9I", "Ava1q2voqZM", "xN2VQQqfy5g",
+            "XeAgTKF8ytc", "Q8PnclrBTBM", "86_4vIMnH4k", "02-f6dMHJsU"
+          ]
+        },
+        {
+          "name": "Matemática Elementar",
+          "videoIds": [
+            "WFac7Mjqqu8", "1Lt2JyhU9Ko", "YfMb8_xfMTU", "8vr2BIMQrKo",
+            "vrx51iw_cjs", "Pd0BFajFc3A", "MfyULV7kBj0", "rgbAjZPbbNE"
+          ]
+        },
+        {
+          "name": "Língua Inglesa I",
+          "videoIds": [
+            "6KH8ng09K5o", "XoXTPj0ir6M", "P14pk1TmddI", "IljEpIpNnWI",
+            "Ehp_5qP02sg", "PSkTUmaNNnc", "KA0yn8K2m5s", "2zW6MATk9qk"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Políticas e Economia no Setor Público",
+      "disciplines": [
+        {
+          "name": "Políticas Públicas",
+          "videoIds": [
+            "uqEFircOwHA", "s-XsDW10yHA", "SsXkmkjVZNQ", "bj7NM64N570",
+            "gwoCSLH-2iU", "EHPRSqDaN5o", "kSOGAc97ESQ", "Su6-TpmVFsQ"
+          ]
+        },
+        {
+          "name": "Economia e Setor Público",
+          "videoIds": [
+            "18inCfpvlC0", "2bj1ppGtFrs", "dyGh4TWqXx0", "8DqBtmiUx_s",
+            "5ovSTjI1mfs", "y8Jgvdq0nGk", "CGaVKB5ycCw", "6UPhz3z-d2Y"
+          ]
+        },
+        {
+          "name": "Metodologia da Pesquisa Científico-Tecnológica",
+          "videoIds": [
+            "gBnVWG7pTVI", "-ezzAtiCpj0", "a-8Sf1hUtBk", "8jrY1RfdNVY",
+            "extfYB-mBa4", "Rft3s0bGi78", "LPVZIdC1R-Y", "rzd9_q8AqPA",
+            "eQETXPHxTrY", "84-SXD697P4", "9_YnlPXKlLU", "Ls1RFIYONoE",
+            "tS-4KErLcdM", "q40uPdnyhp0", "lZ5zcMD6spM", "U9VU9Cy4T6k",
+            "ErcA1QgtIIw", "LOr8iTX7vlA", "jJ87B0UFy9s", "6N8Kws7d8cg",
+            "oRY0gxQ9gAg", "F3nwvZNgc5c"
+          ]
+        },
+        {
+          "name": "Matemática Financeira",
+          "videoIds": [
+            "I1bYXvz6eMo", "lz0FoLSWA7A", "SaNSMTVr3wA", "b8QuvRKWRdY",
+            "hP1A-tpbyYM", "bdcPyEGW4Jo", "jksILSvqr2M", "clgYin4da2M"
+          ]
+        },
+        {
+          "name": "Língua Inglesa II",
+          "videoIds": [
+            "pqa_9GyazgE", "6DCmfrHNWhI", "6b5OjbUYaAQ", "2k9Y5RixbaA",
+            "M25uXcfQT5c", "dyYbrYLD7SM", "tfe8WBIpuzM", "3edG8D3yTNg"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Direito, Gestão de Pessoas e Tecnologia",
+      "disciplines": [
+        {
+          "name": "Direito Constitucional e Administrativo",
+          "videoIds": [
+            "S8Ujmw1_2MY", "_JE8k-L1qmI", "wJtVYMC5Eh8", "qoe-LfhnFoQ",
+            "_hlS4E7dEUk", "LGynLsURY_s", "vNXRjBLkOto", "MzWOGn0a3Pk"
+          ]
+        },
+        {
+          "name": "Gestão de Pessoas no Setor Público",
+          "videoIds": [
+            "5f4djPQXzIc", "EWIY4rlGQ74", "LHYoB2EKUQU", "M-Ag8q3WNuw",
+            "GKaoozYrGFE", "agXzXgtw4Z4", "5uCm_5D-0kM", "y17rM_CUuZk",
+            "v5QGmQTq_3c"
+          ]
+        },
+        {
+          "name": "Tecnologia da Informação na Gestão Pública",
+          "videoIds": [
+            "Ki6Y_BhXpeU", "XReOJgbcexQ", "y-gOftgiu30", "pJ2V84ymmXU",
+            "W-uj-9yASTA", "Fyf73yVRRUc", "HXoZXvXtWUI", "dESaBKB1KEM"
+          ]
+        },
+        {
+          "name": "Estatística",
+          "videoIds": [
+            "JZqPTeLH_Mg", "8N0LtUpEB_c", "3gXB2jJe3Kc", "ZE-YIz5ah3g",
+            "bTBO4BKROkw", "UVWtrj4y3dg", "kkbgGt8UkzY", "uF78_zMorHU"
+          ]
+        },
+        {
+          "name": "Língua Inglesa III",
+          "videoIds": [
+            "S2vHy3707cU", "BiHSA8JTDWk", "fDgNI-xxG3c", "FwucHpnLCtY",
+            "FsY10dxcD7s"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Ética, Projetos, Logística e Meio Ambiente",
+      "disciplines": [
+        {
+          "name": "Ética e Legalidade em Serviços Públicos",
+          "videoIds": [
+            "w22ORP9VGLw", "fyPVl7YEIGs", "7PzOOGaedIM", "kPw9p2JBOLU",
+            "3DbtEbxz3YU", "E97H2hPkFP8", "uvPeoWKyNV8", "iuDQGdcknEs",
+            "X5iD1-wvc_I", "gomzs7KgU9k", "nqs5kt-LzOw", "KfwD1Ed8vbs",
+            "gzLWZ4jKlZA", "5Sq2Y0wSgEA", "Syy8P5DBVVk", "rX0IdANNHHk"
+          ]
+        },
+        {
+          "name": "Gestão de Projetos no Setor Público",
+          "videoIds": [
+            "YMlkP0WCWiI", "WijuDX4xRqg", "sr4hWrjB6R4", "RlWqkUbuEOQ",
+            "F08OAPxFzCc", "8rF2HqqVDsA", "N8NoNP5KayA", "V8seFT6iTN0",
+            "xCpfjrtmONU", "6ualQXEQvIg"
+          ]
+        },
+        {
+          "name": "Logística e Gestão de Materiais",
+          "videoIds": [
+            "Jg_cZf576jE", "HuITE1QJGXY", "uKP04j3Cwqw", "VVvN6xjdSO8",
+            "DvhUodT5v68", "zqijg2YIEgQ", "pifVt42qq5o", "KvtNgCfR9ak",
+            "0jq97pXmx6I"
+          ]
+        },
+        {
+          "name": "Gestão Ambiental",
+          "videoIds": [
+            "pV2cxVxOWEc", "9eDzntrUvHY", "DaMe-VlSP3A", "IIbjJLAGkls",
+            "qyC-RCblaLI", "dYnRAFsFM0o", "L-WEcC2IlbA", "vWrFemPS_3c"
+          ]
+        },
+        {
+          "name": "Língua Espanhola",
+          "videoIds": [
+            "B9lZjAqut_A", "cSxuCKhI8UM", "9lufeYZZQv0", "aemn4dcGcMw",
+            "yHFOyXh8O14", "i-oQKCzBbcc", "qWzzezW_dYY", "ga5nuDNDcmE",
+            "c2r3gjr5s2E", "UPNAeyl1vRA", "udQnYejGSGQ", "nw4gg77KgNM",
+            "mcRAc5L-DHI", "y7fOhdylZIY"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Gestão Financeira, Processos e Licitações",
+      "disciplines": [
+        {
+          "name": "Gestão Financeira e Orçamentária",
+          "videoIds": [
+            "iYGNdWRgYR0", "pfR7bauoPw0", "zkbq4KikuA8", "RfFlUgbpmPE",
+            "FpYOpulG8B0", "3VBrrTCwPyc", "GxmCFSl38hc", "XkLFH2QeUq8"
+          ]
+        },
+        {
+          "name": "Gestão por Processos",
+          "videoIds": [
+            "_WXvjA5peBk", "TtjfqOhexz0", "Y-Ij2LrEvKc", "iFyRqu3unb4",
+            "uWzCLgUWBmo", "gD22R5r7s9Y"
+          ]
+        },
+        {
+          "name": "Gestão de Contratos e Convênios",
+          "videoIds": [
+            "SNJb0UzL14w", "bMp1FsPELYI", "KF83i_bW5hk", "nSJSlT24v5I",
+            "PkyYrmE1tcc", "pZSYpP5Lq4Q", "GAdxjUeV9Bs", "4zRjpbGYIxU",
+            "8pqcwoorEiw"
+          ]
+        },
+        {
+          "name": "Gestão de Compras e Licitações Públicas",
+          "videoIds": [
+            "mEDGNvFm3k0", "WfKX3MBd_pI", "cfFE4efooQc", "45WwdRr8ke8",
+            "iYJjJDYIv-g", "gMpHHczEKRE", "OvU1EElYnxU", "HjUiIvMKh3k"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Planejamento, Qualidade, Contabilidade e Documentação",
+      "disciplines": [
+        {
+          "name": "Planejamento e Orçamento Públicos",
+          "videoIds": [
+            "ugzXXqohWR4", "53xOApqIUV8", "L_9snyN590M", "WzEgJc3F2mQ",
+            "qxhteRbxceI", "uQuQlhZKnOU", "erVcZ2E7knM", "zegexQTLHts"
+          ]
+        },
+        {
+          "name": "Qualidade em Serviços Públicos",
+          "videoIds": [
+            "Cr54eCV609A", "6P9cQeq8gpI", "Y2TTwXihEO4", "ucACC9kPX3o",
+            "uHgurQ3JYEU", "Wo5Qaotcnkg", "U04Nlbv9alc", "Aj7_MEYRrP8"
+          ]
+        },
+        {
+          "name": "Contabilidade Pública",
+          "videoIds": [
+            "a7lQphwVyIM", "B9rnYPQmeVg", "sjm5h4cEj_k", "WqPQ3Y-eo28",
+            "hELEGcNbS3s", "RLv2OPTAPc8", "8BYT2O4JVwI"
+          ]
+        },
+        {
+          "name": "Gestão Documental",
+          "videoIds": [
+            "brBM5AgWWRw", "yeiZP4xPe8M", "-203Iq9aRks", "R0KMHSCRTPY",
+            "uzJKOfOqx-A", "iA9_2jiKHUs", "5ivn9vyAKQc"
+          ]
+        }
+      ]
+    }
+  ]
+}

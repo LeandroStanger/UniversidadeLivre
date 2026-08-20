@@ -1,10 +1,17 @@
-// final-completion.js – Modal de conclusão com tratamento de erros e fallback
-// Suporte completo para todos os cursos, incluindo Engenharia de Computação
-// Nota: A maior parte da lógica agora está em script.js, mas este arquivo é mantido para compatibilidade e melhorias.
+// final-completion.js – Versão 5.0 – COMPLETO E AUTOSSUFICIENTE
+// Modal de conclusão para todos os cursos da Universidade Livre
+// Suporte completo para: Administração, Ciência da Computação, Matemática,
+// Matemática (Licenciatura), Engenharia de Computação, Engenharia de Produção,
+// Letras – Habilitação em Língua Portuguesa, Pedagogia, Gestão Pública,
+// Computer Science, Math, Computação Gráfica, Embarcados, Desenvolvimento Web,
+// CyberSecurity, DevOps, Ciência de Dados, ENEM, EsPCEx, Inglês, Espanhol,
+// Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
+// Inclui i18n, cache de dados, prevenção de múltiplas exibições e fallbacks
 
 (function() {
     'use strict';
 
+    // ========== VARIÁVEIS DE ESTADO ==========
     let modal = null;
     let closeBtn = null;
     let goHomeBtn = null;
@@ -13,6 +20,8 @@
     let modalTitle = null;
 
     let completionDataCache = null;
+    let _initialized = false;
+    let _completionModalShowing = false;
 
     // ========== FUNÇÃO DE TRADUÇÃO ==========
     function t(key, replacements = {}) {
@@ -25,7 +34,9 @@
             'completion_congrats': 'Parabéns!',
             'completion_go_graduation': 'Ir para Graduação',
             'completion_go_postgrad': 'Ir para Pós-Graduação',
-            'completion_go_other': 'Ir para Outra Pós-Graduação'
+            'completion_go_other': 'Ir para Outra Pós-Graduação',
+            'loading': 'Carregando...',
+            'error_loading': 'Erro ao carregar dados de conclusão.'
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
@@ -33,6 +44,35 @@
         }
         return text;
     }
+
+    // ========== MAPEAMENTO DE IDs PARA CHAVES NO COMPLETION-DATA ==========
+    const courseIdToKeyMap = {
+        'administracao': 'administracao',
+        'ciencia_de_dados': 'ciencia_de_dados',
+        'computacao': 'computacao',
+        'computacao_grafica': 'computacao_grafica',
+        'computer-science': 'computer-science',
+        'cybersecurity': 'cybersecurity',
+        'desenvolvimento_web': 'desenvolvimento_web',
+        'devops': 'devops',
+        'embarcados': 'embarcados',
+        'enem': 'enem',
+        'engenharia_computacao': 'engenharia_computacao',
+        'engenharia-producao': 'engenharia-producao',
+        'espanhol': 'espanhol',
+        'espanhol-ingles': 'espanhol-ingles',
+        'espcex': 'espcex',
+        'gestao-publica': 'gestao-publica',
+        'ingles': 'ingles',
+        'japones': 'japones',
+        'japones-ingles': 'japones-ingles',
+        'letras-portugues': 'letras-portugues',
+        'matematica': 'matematica',
+        'matematica-licenciatura': 'matematica-licenciatura',
+        'math': 'math',
+        'pedagogia': 'pedagogia',
+        'portugues-brasileiro': 'portugues-brasileiro'
+    };
 
     // ========== CARREGAR DADOS DE CONCLUSÃO ==========
     async function loadCompletionData() {
@@ -69,6 +109,7 @@
         if (modal) {
             modal.classList.remove('show');
             modal.style.display = 'none';
+            _completionModalShowing = false;
             console.log('[Completion] Modal fechada');
         }
     }
@@ -79,6 +120,7 @@
             modal.style.display = 'flex';
             modal.offsetHeight; // Força reflow para animação
             modal.classList.add('show');
+            _completionModalShowing = true;
             console.log('[Completion] Modal exibida');
         }
     }
@@ -101,29 +143,6 @@
         }
     }
 
-    // ========== Mapeamento de IDs para chaves no completion-data ==========
-    const courseIdToKeyMap = {
-        'computacao': 'computacao',
-        'matematica': 'matematica',
-        'computacao_grafica': 'computacao_grafica',
-        'embarcados': 'embarcados',
-        'desenvolvimento_web': 'desenvolvimento_web',
-        'cybersecurity': 'cybersecurity',
-        'devops': 'devops',
-        'ciencia_de_dados': 'ciencia_de_dados',
-        'computer-science': 'computer-science',
-        'math': 'math',
-        'enem': 'enem',
-        'espcex': 'espcex',
-        'ingles': 'ingles',
-        'espanhol': 'espanhol',
-        'espanhol-ingles': 'espanhol-ingles',
-        'japones': 'japones',
-        'portugues-brasileiro': 'portugues-brasileiro',
-        'japones-ingles': 'japones-ingles',
-        'engenharia_computacao': 'engenharia_computacao'  // NOVO
-    };
-
     // ========== DETECTAR NÍVEL DO CURSO PELA PASTA ==========
     function detectLevelFromPath(folderPath) {
         if (!folderPath) return 'graduacao';
@@ -139,15 +158,13 @@
         console.log(`[Completion] showFinalCompletionModal chamado para curso: ${courseId}`);
 
         // Evitar múltiplas exibições do mesmo modal
-        if (window._completionModalShowing) {
+        if (_completionModalShowing) {
             console.log('[Completion] Modal já está sendo exibido, ignorando.');
             return;
         }
-        window._completionModalShowing = true;
 
         if (!getModalElements()) {
             console.error('[Completion] Não foi possível obter os elementos da modal');
-            window._completionModalShowing = false;
             return;
         }
 
@@ -247,16 +264,32 @@
 
         // Resetar o flag após um pequeno delay para permitir reabertura
         setTimeout(() => {
-            window._completionModalShowing = false;
+            _completionModalShowing = false;
         }, 500);
     };
 
     // ========== FUNÇÃO PARA FECHAR O MODAL EXTERNAMENTE ==========
     window.closeFinalCompletionModal = function() {
         closeModal();
-        window._completionModalShowing = false;
+        _completionModalShowing = false;
     };
 
     // ========== INICIALIZAÇÃO ==========
-    console.log('[Completion] Módulo de conclusão final carregado com sucesso');
+    function init() {
+        if (_initialized) return;
+        _initialized = true;
+
+        // Pré-carregar dados de conclusão em segundo plano
+        loadCompletionData().catch(() => {});
+
+        console.log('[Completion] Módulo de conclusão final carregado com sucesso');
+    }
+
+    // ========== AUTOINICIALIZAÇÃO ==========
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
 })();
