@@ -1,11 +1,12 @@
-// final-completion.js – Versão 5.0 – COMPLETO E AUTOSSUFICIENTE
+// final-completion.js – Versão 6.0 – COMPLETO E AUTOSSUFICIENTE
 // Modal de conclusão para todos os cursos da Universidade Livre
 // Suporte completo para: Administração, Ciência da Computação, Matemática,
 // Matemática (Licenciatura), Engenharia de Computação, Engenharia de Produção,
 // Letras – Habilitação em Língua Portuguesa, Pedagogia, Gestão Pública,
-// Computer Science, Math, Computação Gráfica, Embarcados, Desenvolvimento Web,
-// CyberSecurity, DevOps, Ciência de Dados, ENEM, EsPCEx, Inglês, Espanhol,
-// Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
+// Tecnologia da Informação, Computer Science, Math, Computação Gráfica,
+// Embarcados, Desenvolvimento Web, CyberSecurity, DevOps, Ciência de Dados,
+// ENEM, EsPCEx, Inglês, Espanhol, Espanhol-Inglês, Japonês, Japonês-Inglês,
+// Português Brasileiro
 // Inclui i18n, cache de dados, prevenção de múltiplas exibições e fallbacks
 
 (function() {
@@ -71,7 +72,8 @@
         'matematica-licenciatura': 'matematica-licenciatura',
         'math': 'math',
         'pedagogia': 'pedagogia',
-        'portugues-brasileiro': 'portugues-brasileiro'
+        'portugues-brasileiro': 'portugues-brasileiro',
+        'tecnologia-informacao': 'tecnologia-informacao'
     };
 
     // ========== CARREGAR DADOS DE CONCLUSÃO ==========

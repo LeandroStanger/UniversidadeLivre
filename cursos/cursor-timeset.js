@@ -1,5 +1,5 @@
 // cursos/cursor-timeset.js – Rastreamento de tempo de atividade do usuário (versão final)
-// Suporte completo para todos os cursos, incluindo Engenharia de Computação
+// Suporte completo para todos os cursos, incluindo Engenharia de Computação e Tecnologia da Informação
 (function() {
     'use strict';
 
@@ -56,17 +56,14 @@
             } else {
                 data.graduation[id].lastAccess = now;
             }
-            // Suporte específico para Computer Science
-            if (id === 'computer-science') {
-                localStorage.setItem('cursor_timeset_computer_science_last_access', now);
-                const sessionTime = localStorage.getItem('cursor_timeset_computer_science_session_time') || '0';
-                localStorage.setItem('cursor_timeset_computer_science_session_time', sessionTime);
-            }
-            // Suporte específico para Engenharia de Computação
-            if (id === 'engenharia_computacao') {
-                localStorage.setItem('cursor_timeset_engenharia_computacao_last_access', now);
-                const sessionTime = localStorage.getItem('cursor_timeset_engenharia_computacao_session_time') || '0';
-                localStorage.setItem('cursor_timeset_engenharia_computacao_session_time', sessionTime);
+            // Suporte específico para cursos selecionados
+            const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
+            if (specialCourses.includes(id)) {
+                const storageKey = `cursor_timeset_${id}_last_access`;
+                localStorage.setItem(storageKey, now);
+                const sessionKey = `cursor_timeset_${id}_session_time`;
+                const sessionTime = localStorage.getItem(sessionKey) || '0';
+                localStorage.setItem(sessionKey, sessionTime);
             }
         } else if (context === 'discipline' && subId) {
             if (!data.discipline[id]) data.discipline[id] = {};
@@ -108,19 +105,15 @@
                 if (currentContext === 'graduation') {
                     if (data.graduation[currentCourseId]) {
                         data.graduation[currentCourseId].totalTime += elapsedSeconds;
-                        // Suporte específico para Computer Science
-                        if (currentCourseId === 'computer-science') {
-                            let csSession = parseInt(localStorage.getItem('cursor_timeset_computer_science_session_time') || '0');
-                            csSession += elapsedSeconds;
-                            localStorage.setItem('cursor_timeset_computer_science_session_time', csSession.toString());
-                            localStorage.setItem('cursor_timeset_computer_science_activity_time', now.toString());
-                        }
-                        // Suporte específico para Engenharia de Computação
-                        if (currentCourseId === 'engenharia_computacao') {
-                            let ecSession = parseInt(localStorage.getItem('cursor_timeset_engenharia_computacao_session_time') || '0');
-                            ecSession += elapsedSeconds;
-                            localStorage.setItem('cursor_timeset_engenharia_computacao_session_time', ecSession.toString());
-                            localStorage.setItem('cursor_timeset_engenharia_computacao_activity_time', now.toString());
+                        // Suporte específico para cursos selecionados
+                        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
+                        if (specialCourses.includes(currentCourseId)) {
+                            const sessionKey = `cursor_timeset_${currentCourseId}_session_time`;
+                            let session = parseInt(localStorage.getItem(sessionKey) || '0');
+                            session += elapsedSeconds;
+                            localStorage.setItem(sessionKey, session.toString());
+                            const activityKey = `cursor_timeset_${currentCourseId}_activity_time`;
+                            localStorage.setItem(activityKey, now.toString());
                         }
                     }
                 } else if (currentContext === 'discipline' && currentDisciplineName) {
@@ -245,40 +238,84 @@
             bibliography: data.bibliography[courseId] || {}
         };
         // Dados específicos do localStorage para cursos selecionados
-        if (courseId === 'computer-science') {
-            result.csExtra = {
-                lastAccess: localStorage.getItem('cursor_timeset_computer_science_last_access'),
-                sessionTime: localStorage.getItem('cursor_timeset_computer_science_session_time'),
-                activityTime: localStorage.getItem('cursor_timeset_computer_science_activity_time')
+        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
+        if (specialCourses.includes(courseId)) {
+            const extra = {
+                lastAccess: localStorage.getItem(`cursor_timeset_${courseId}_last_access`),
+                sessionTime: localStorage.getItem(`cursor_timeset_${courseId}_session_time`),
+                activityTime: localStorage.getItem(`cursor_timeset_${courseId}_activity_time`)
             };
-        }
-        if (courseId === 'engenharia_computacao') {
-            result.ecExtra = {
-                lastAccess: localStorage.getItem('cursor_timeset_engenharia_computacao_last_access'),
-                sessionTime: localStorage.getItem('cursor_timeset_engenharia_computacao_session_time'),
-                activityTime: localStorage.getItem('cursor_timeset_engenharia_computacao_activity_time')
-            };
+            // Usar chave dinâmica
+            const key = courseId === 'computer-science' ? 'csExtra' :
+                       courseId === 'engenharia_computacao' ? 'ecExtra' :
+                       courseId === 'tecnologia-informacao' ? 'tiExtra' : 'extra';
+            result[key] = extra;
         }
         return result;
+    }
+    
+    // ========== OBTER DADOS GERAIS DE TEMPO ==========
+    function getTotalTimeData() {
+        const data = loadTimesetData();
+        let totalGraduationTime = 0;
+        let totalDisciplineTime = 0;
+        let totalPracticeTime = 0;
+        let totalBibliographyTime = 0;
+        
+        for (const courseId in data.graduation) {
+            if (data.graduation[courseId] && data.graduation[courseId].totalTime) {
+                totalGraduationTime += data.graduation[courseId].totalTime;
+            }
+        }
+        for (const courseId in data.discipline) {
+            for (const discipline in data.discipline[courseId]) {
+                if (data.discipline[courseId][discipline] && data.discipline[courseId][discipline].totalTime) {
+                    totalDisciplineTime += data.discipline[courseId][discipline].totalTime;
+                }
+            }
+        }
+        for (const courseId in data.practice) {
+            for (const discipline in data.practice[courseId]) {
+                if (data.practice[courseId][discipline] && data.practice[courseId][discipline].totalTime) {
+                    totalPracticeTime += data.practice[courseId][discipline].totalTime;
+                }
+            }
+        }
+        for (const courseId in data.bibliography) {
+            for (const discipline in data.bibliography[courseId]) {
+                if (data.bibliography[courseId][discipline] && data.bibliography[courseId][discipline].totalTime) {
+                    totalBibliographyTime += data.bibliography[courseId][discipline].totalTime;
+                }
+            }
+        }
+        
+        return {
+            graduation: totalGraduationTime,
+            discipline: totalDisciplineTime,
+            practice: totalPracticeTime,
+            bibliography: totalBibliographyTime,
+            total: totalGraduationTime + totalDisciplineTime + totalPracticeTime + totalBibliographyTime
+        };
     }
     
     // ========== INICIALIZAÇÃO ==========
     function initializeCursorTimeset() {
         console.log('[CursorTimeset] Inicializado');
         // Verificar se há dados de sessão anterior e restaurar se necessário
-        const lastSession = localStorage.getItem('cursor_timeset_computer_science_last_access');
-        if (lastSession) {
-            console.log(`[CursorTimeset] Sessão anterior detectada para Computer Science: ${lastSession}`);
-        }
-        const lastSessionEC = localStorage.getItem('cursor_timeset_engenharia_computacao_last_access');
-        if (lastSessionEC) {
-            console.log(`[CursorTimeset] Sessão anterior detectada para Engenharia de Computação: ${lastSessionEC}`);
-        }
+        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
+        specialCourses.forEach(courseId => {
+            const lastAccess = localStorage.getItem(`cursor_timeset_${courseId}_last_access`);
+            if (lastAccess) {
+                console.log(`[CursorTimeset] Sessão anterior detectada para ${courseId}: ${lastAccess}`);
+            }
+        });
         window.addEventListener('beforeunload', () => {
             if (currentContext) updateElapsedTime();
         });
         // Adicionar atributo indicador de sessão ativa no body
         document.body.setAttribute('data-cursor-active', 'true');
+        // Iniciar o monitoramento mesmo sem curso ativo (apenas para detectar atividade)
+        startActivityMonitoring();
     }
     
     // ========== EXPOR API PÚBLICA ==========
@@ -289,6 +326,7 @@
         registerExit,
         getTimesetData: loadTimesetData,
         getCourseSpecificData,
+        getTotalTimeData,
         // Método para obter dados específicos do Computer Science (mantido para compatibilidade)
         getComputerScienceData: function() {
             return getCourseSpecificData('computer-science').csExtra || {};
@@ -296,6 +334,10 @@
         // Método para obter dados específicos da Engenharia de Computação
         getEngenhariaComputacaoData: function() {
             return getCourseSpecificData('engenharia_computacao').ecExtra || {};
+        },
+        // Método para obter dados específicos da Tecnologia da Informação
+        getTecnologiaInformacaoData: function() {
+            return getCourseSpecificData('tecnologia-informacao').tiExtra || {};
         }
     };
     
