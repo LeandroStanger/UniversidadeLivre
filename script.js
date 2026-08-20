@@ -1,5 +1,5 @@
 // ============================================================
-// script.js – Versão 10.0 – COMPLETO E AUTOSSUFICIENTE
+// script.js – Versão 11.0 – COMPLETO E AUTOSSUFICIENTE
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
@@ -8,7 +8,11 @@
 // CORREÇÃO: Suporte ao curso de Matemática (Licenciatura)
 // CORREÇÃO: Suporte a Engenharia de Produção
 // CORREÇÃO: Suporte a Letras – Habilitação em Língua Portuguesa
+// CORREÇÃO: Suporte a Pedagogia
 // CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
+// CORREÇÃO: loadLicenseData com cache funcionando
+// CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
+// CORREÇÃO: activateTab trata currentDiscipline indefinido
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -496,7 +500,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
         'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
-        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' }
+        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' }
     };
 
     function getCourseName(courseId) {
@@ -584,7 +589,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json'
+            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -722,7 +728,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/'
+            'letras-portugues': 'cursos/graduacao/letras-portugues/',
+            'pedagogia': 'cursos/graduacao/pedagogia/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -791,7 +798,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json'
+            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -808,14 +816,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Cache para license.json (CORRIGIDO)
+    let _licenseCache = null;
+
     async function loadLicenseData() {
-        let licenseCache = null;
-        if (licenseCache) return licenseCache;
+        if (_licenseCache) return _licenseCache;
         try {
             const response = await fetch('cursos/license.json');
             if (!response.ok) throw new Error('Erro ao carregar dados da licença');
-            licenseCache = await response.json();
-            return licenseCache;
+            _licenseCache = await response.json();
+            return _licenseCache;
         } catch (error) {
             console.error('Erro ao carregar license.json:', error);
             return null;
@@ -846,7 +856,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json'
+            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -971,7 +982,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '';
         if (!discipline) {
             discipline = ensureCurrentDiscipline();
-            if (!discipline || discipline === t('discipline_unavailable')) {
+            if (!discipline) {
                 container.innerHTML = `<div class="bibliografia-heading">${t('tab_bibliography')}</div><p>${t('loading')}</p>`;
                 applyTranslations();
                 return;
@@ -1023,14 +1034,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         observeAnimateElements();
     }
 
+    // CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
     function ensureCurrentDiscipline() {
         if (currentDiscipline) return currentDiscipline;
-        if (stagesData && stagesData.length > 0 && stagesData[0].disciplines.length > 0) {
-            currentDiscipline = stagesData[0].disciplines[0].name;
-            return currentDiscipline;
+        for (const stage of stagesData || []) {
+            for (const disc of stage.disciplines || []) {
+                if (disc.name) {
+                    currentDiscipline = disc.name;
+                    return currentDiscipline;
+                }
+            }
         }
-        currentDiscipline = t('discipline_unavailable');
-        return currentDiscipline;
+        return null;
     }
 
     // ========== FUNÇÕES DO CURSO ==========
@@ -1598,7 +1613,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json'
+            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -1757,7 +1773,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPracticeGrid({ intro: currentPracticeData.intro, platforms: filteredPlatforms });
     }
 
-    // ========== ACTIVATE TAB ==========
+    // ========== ACTIVATE TAB (CORRIGIDO) ==========
     function activateTab(tabId) {
         const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
         const tabContent = document.getElementById(`${tabId}-tab`);
@@ -1772,10 +1788,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         tabContent.classList.add('active');
         tabBtn.classList.add('active');
         if (tabId === 'bibliografia') {
-            if (!currentDiscipline) ensureCurrentDiscipline();
-            renderBooksFilteredByDiscipline(currentDiscipline);
-            if (window.CursorTimeset && currentCourse && currentDiscipline) {
-                window.CursorTimeset.registerDisciplineEntry(currentCourse, currentDiscipline, 'bibliography');
+            if (!currentDiscipline) {
+                currentDiscipline = ensureCurrentDiscipline();
+                if (!currentDiscipline) {
+                    // Fallback: pegar o nome da primeira disciplina disponível
+                    if (stagesData.length > 0 && stagesData[0].disciplines.length > 0) {
+                        currentDiscipline = stagesData[0].disciplines[0].name;
+                    }
+                }
+            }
+            if (currentDiscipline) {
+                renderBooksFilteredByDiscipline(currentDiscipline);
+                if (window.CursorTimeset && currentCourse && currentDiscipline) {
+                    window.CursorTimeset.registerDisciplineEntry(currentCourse, currentDiscipline, 'bibliography');
+                }
             }
         } else if (tabId === 'pratica') {
             if (currentCourse) {
@@ -1958,7 +1984,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 if (!currentDiscipline && stagesData[0]?.disciplines[0]) currentDiscipline = stagesData[0].disciplines[0].name;
             }
-            if (!currentDiscipline) ensureCurrentDiscipline();
+            if (!currentDiscipline) {
+                currentDiscipline = ensureCurrentDiscipline();
+            }
             renderUnifiedCourseContent();
             expandCurrentLessonInUnifiedContent();
             renderCurrentLessonPanel();
