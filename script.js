@@ -1,5 +1,5 @@
 // ============================================================
-// script.js – Versão 12.0 – COMPLETO E AUTOSSUFICIENTE
+// script.js – Versão 13.0 – COMPLETO E AUTOSSUFICIENTE
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
@@ -10,6 +10,7 @@
 // CORREÇÃO: Suporte a Letras – Habilitação em Língua Portuguesa
 // CORREÇÃO: Suporte a Pedagogia
 // CORREÇÃO: Suporte a Gestão Pública
+// CORREÇÃO: Suporte a Tecnologia da Informação
 // CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
 // CORREÇÃO: loadLicenseData com cache funcionando
 // CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
@@ -503,7 +504,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
         'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
         'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
-        'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' }
+        'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
     function getCourseName(courseId) {
@@ -593,7 +595,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json'
+            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -733,7 +736,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/',
             'letras-portugues': 'cursos/graduacao/letras-portugues/',
             'pedagogia': 'cursos/graduacao/pedagogia/',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/'
+            'gestao-publica': 'cursos/graduacao/gestao-publica/',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -804,7 +808,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json'
+            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -821,7 +826,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Cache para license.json (CORRIGIDO)
+    // Cache para license.json
     let _licenseCache = null;
 
     async function loadLicenseData() {
@@ -863,7 +868,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json'
+            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -1621,7 +1627,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json'
+            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;

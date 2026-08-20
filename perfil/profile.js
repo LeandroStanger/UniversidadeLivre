@@ -1,4 +1,4 @@
-// perfil/profile.js – Versão 24.0 – COMPLETO E AUTOSSUFICIENTE
+// perfil/profile.js – Versão 23.0 – COMPLETO E AUTOSSUFICIENTE
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
 // Integração com onboarding e outros módulos
 // CORREÇÃO: Exportação inclui senha (hash), gênero, avatar, matrícula, tempo
@@ -7,7 +7,7 @@
 // CORREÇÃO: Atualiza interface após importação
 // CORREÇÃO: Avatar com suporte a upload e seleção de avatares padrão
 // CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
-// CORREÇÃO: Suporte a todos os cursos incluindo Matemática (Licenciatura), Engenharia de Produção, Letras e Pedagogia, Gestão Pública
+// CORREÇÃO: Suporte a todos os cursos incluindo Matemática (Licenciatura), Engenharia de Produção, Letras e Pedagogia
 
 (function() {
     'use strict';
@@ -87,8 +87,7 @@
         'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
         'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
-        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
-        'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' }
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' }
     };
 
     // ========== FALLBACKS DE TRADUÇÃO ==========
