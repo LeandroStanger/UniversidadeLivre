@@ -8,148 +8,12 @@
     "description": "Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico."
   },
   {
-    "id": "ciencia_de_dados",
-    "name": "Ciência de Dados",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-database",
-    "description": "Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
-  },
-  {
     "id": "computacao",
     "name": "Ciência da Computação",
     "courseLevel": "graduacao",
     "courseType": "bacharelado",
     "icon": "fa-laptop-code",
     "description": "Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software."
-  },
-  {
-    "id": "computacao_grafica",
-    "name": "Computação Gráfica",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-cubes",
-    "description": "Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional."
-  },
-  {
-    "id": "computer-science",
-    "name": "Computer Science",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-laptop-code",
-    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
-  },
-  {
-    "id": "cybersecurity",
-    "name": "CyberSecurity",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-shield-alt",
-    "description": "Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança."
-  },
-  {
-    "id": "desenvolvimento_web",
-    "name": "Desenvolvimento Web",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-code",
-    "description": "Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino."
-  },
-  {
-    "id": "devops",
-    "name": "DevOps",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-server",
-    "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
-  },
-  {
-    "id": "embarcados",
-    "name": "Embarcados",
-    "courseLevel": "pos-graduacao",
-    "courseType": null,
-    "icon": "fa-microchip",
-    "description": "Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos."
-  },
-  {
-    "id": "enem",
-    "name": "ENEM",
-    "courseLevel": "ensino-medio",
-    "courseType": null,
-    "icon": "fa-graduation-cap",
-    "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática."
-  },
-  {
-    "id": "engenharia_computacao",
-    "name": "Engenharia de Computação",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-microchip",
-    "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
-  },
-  {
-    "id": "engenharia-producao",
-    "name": "Engenharia de Produção",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-industry",
-    "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
-  },
-  {
-    "id": "espanhol",
-    "name": "Espanhol",
-    "courseLevel": "idiomas",
-    "courseType": null,
-    "icon": "fa-language",
-    "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
-  },
-  {
-    "id": "espanhol-ingles",
-    "name": "Spanish (for English Speakers)",
-    "courseLevel": "idiomas",
-    "courseType": null,
-    "icon": "fa-language",
-    "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
-  },
-  {
-    "id": "espcex",
-    "name": "EsPCEx",
-    "courseLevel": "ensino-medio",
-    "courseType": null,
-    "icon": "fa-shield-halbed",
-    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
-  },
-  {
-    "id": "ingles",
-    "name": "Inglês",
-    "courseLevel": "idiomas",
-    "courseType": null,
-    "icon": "fa-language",
-    "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
-  },
-  {
-    "id": "japones",
-    "name": "Japonês",
-    "courseLevel": "idiomas",
-    "courseType": null,
-    "icon": "fa-language",
-    "description": "Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime."
-  },
-  {
-    "id": "japones-ingles",
-    "name": "Japanese (for English Speakers)",
-    "courseLevel": "idiomas",
-    "courseType": null,
-    "icon": "fa-language",
-    "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
-  },
-  {
-    "id": "letras-portugues",
-    "name": "Letras – Habilitação em Língua Portuguesa",
-    "courseLevel": "graduacao",
-    "courseType": "licenciatura",
-    "icon": "fa-book-open",
-    "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
   },
   {
     "id": "matematica",
@@ -168,12 +32,28 @@
     "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica."
   },
   {
-    "id": "math",
-    "name": "Math",
+    "id": "engenharia_computacao",
+    "name": "Engenharia de Computação",
     "courseLevel": "graduacao",
     "courseType": "bacharelado",
-    "icon": "fa-square-root-alt",
-    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+    "icon": "fa-microchip",
+    "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
+  },
+  {
+    "id": "engenharia-producao",
+    "name": "Engenharia de Produção",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-industry",
+    "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
+  },
+  {
+    "id": "letras-portugues",
+    "name": "Letras – Habilitação em Língua Portuguesa",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-book-open",
+    "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
   },
   {
     "id": "pedagogia",
@@ -184,11 +64,139 @@
     "description": "Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais."
   },
   {
+    "id": "gestao-publica",
+    "name": "Gestão Pública",
+    "courseLevel": "graduacao",
+    "courseType": "tecnologo",
+    "icon": "fa-landmark",
+    "description": "Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público."
+  },
+  {
+    "id": "computer-science",
+    "name": "Computer Science",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
+  },
+  {
+    "id": "math",
+    "name": "Math",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+  },
+  {
+    "id": "computacao_grafica",
+    "name": "Computação Gráfica",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-cubes",
+    "description": "Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional."
+  },
+  {
+    "id": "embarcados",
+    "name": "Embarcados",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-microchip",
+    "description": "Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos."
+  },
+  {
+    "id": "desenvolvimento_web",
+    "name": "Desenvolvimento Web",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-code",
+    "description": "Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino."
+  },
+  {
+    "id": "cybersecurity",
+    "name": "CyberSecurity",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-shield-alt",
+    "description": "Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança."
+  },
+  {
+    "id": "devops",
+    "name": "DevOps",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-server",
+    "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
+  },
+  {
+    "id": "ciencia_de_dados",
+    "name": "Ciência de Dados",
+    "courseLevel": "pos-graduacao",
+    "courseType": null,
+    "icon": "fa-database",
+    "description": "Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
+  },
+  {
+    "id": "enem",
+    "name": "ENEM",
+    "courseLevel": "ensino-medio",
+    "courseType": null,
+    "icon": "fa-graduation-cap",
+    "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática."
+  },
+  {
+    "id": "espcex",
+    "name": "EsPCEx",
+    "courseLevel": "ensino-medio",
+    "courseType": null,
+    "icon": "fa-shield-halbed",
+    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+  },
+  {
+    "id": "ingles",
+    "name": "Inglês",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
+  },
+  {
+    "id": "espanhol",
+    "name": "Espanhol",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
+  },
+  {
+    "id": "espanhol-ingles",
+    "name": "Spanish (for English Speakers)",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "japones",
+    "name": "Japonês",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime."
+  },
+  {
     "id": "portugues-brasileiro",
     "name": "Brazilian Portuguese (for English Speakers)",
     "courseLevel": "idiomas",
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "japones-ingles",
+    "name": "Japanese (for English Speakers)",
+    "courseLevel": "idiomas",
+    "courseType": null,
+    "icon": "fa-language",
+    "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
   }
 ]

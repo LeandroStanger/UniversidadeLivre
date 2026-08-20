@@ -4,93 +4,8 @@
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
   },
-  "ciencia_de_dados": {
-    "text": "Pós‑graduação em Ciência de Dados concluída!\nVocê aprendeu a analisar, interpretar e extrair valor dos dados, utilizando estatística e machine learning.\nCom essa base, você pode transformar dados em insights estratégicos para organizações.\nContinue praticando com projetos reais e contribua para a tomada de decisão baseada em evidências.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
   "computacao": {
     "text": "Parabéns por concluir o curso de Ciência da Computação!\nVocê adquiriu uma base sólida nos fundamentos da computação, desde algoritmos até sistemas complexos.\nAgora você está pronto para enfrentar desafios inovadores e contribuir com soluções tecnológicas de impacto.\nContinue explorando novas áreas e aprofundando seu conhecimento para se tornar um profissional ainda mais completo.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "graduacao"
-  },
-  "computacao_grafica": {
-    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica!\nVocê explorou técnicas avançadas de renderização, modelagem 3D e pipeline gráfico.\nAgora está preparado para criar experiências visuais imersivas e contribuir com projetos de jogos, simulações e realidade virtual.\nContinue praticando e inovando nesse campo fascinante.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
-  "computer-science": {
-    "text": "Congratulations on completing the Computer Science degree!\nYou have built a solid foundation in computing fundamentals, from algorithms to complex systems.\nNow you are ready to tackle innovative challenges and contribute with impactful technological solutions.\nKeep exploring new areas and deepening your knowledge to become an even more complete professional.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "graduacao"
-  },
-  "cybersecurity": {
-    "text": "Pós‑graduação em CyberSecurity concluída!\nVocê aprendeu a proteger sistemas, analisar vulnerabilidades e implementar estratégias de defesa.\nCom esse conhecimento, você pode atuar na linha de frente contra ameaças digitais e garantir a integridade de dados.\nMantenha-se atualizado e pratique a ética para um mundo digital mais seguro.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
-  "desenvolvimento_web": {
-    "text": "Pós‑graduação em Desenvolvimento Web concluída!\nVocê está apto a criar aplicações web completas e modernas, desde o front-end até o back-end.\nCom domínio de frameworks, APIs e boas práticas, você pode construir soluções escaláveis e de alta performance.\nContinue acompanhando as tendências e contribuindo para a evolução da web.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
-  "devops": {
-    "text": "Pós‑graduação em DevOps concluída!\nVocê agora domina automação, integração contínua, entrega contínua e infraestrutura como código.\nEssas habilidades permitem acelerar entregas com qualidade e eficiência operacional.\nAplique os princípios de colaboração e melhoria contínua em seus projetos e equipes.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
-  "embarcados": {
-    "text": "Pós‑graduação em Embarcados concluída!\nVocê dominou conceitos de microcontroladores, sistemas de tempo real e IoT, integrando hardware e software.\nEssa expertise é essencial para criar dispositivos inteligentes e soluções inovadoras em automação.\nAplique seus conhecimentos em projetos reais e continue explorando novas fronteiras da eletrônica embarcada.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "pos-graduacao"
-  },
-  "enem": {
-    "text": "Parabéns por concluir o curso preparatório para o ENEM!\nVocê revisou os principais conteúdos das quatro áreas de conhecimento e treinou sua redação.\nAgora é hora de fazer o simulado e confiar no seu potencial.\nBoa sorte no exame!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "ensino-medio"
-  },
-  "engenharia_computacao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Computação!\nVocê integrou conhecimentos de hardware, software, sistemas embarcados, redes e automação.\nCom essa formação abrangente, você está preparado para projetar sistemas computacionais complexos, desde dispositivos IoT até infraestruturas escaláveis.\nContinue inovando e aplicando sua visão de engenharia para resolver problemas do mundo real!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "graduacao"
-  },
-  "engenharia-producao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Produção!\nVocê desenvolveu uma visão sistêmica dos processos produtivos, dominando gestão de operações, qualidade, logística, estratégia e otimização.\nCom essa formação, você está preparado para liderar equipes, implementar melhorias contínuas e aumentar a eficiência em diferentes tipos de organizações.\nContinue aplicando seus conhecimentos para transformar realidades e impulsionar a inovação!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "graduacao"
-  },
-  "espanhol": {
-    "text": "Parabéns por concluir o curso de Espanhol!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
-  "espanhol-ingles": {
-    "text": "Congratulations on completing the Spanish course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\n¡Felicidades y sigue adelante!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
-  "espcex": {
-    "text": "Parabéns por concluir o curso preparatório para a EsPCEx!\nVocê revisou todo o conteúdo programático do concurso, desde Matemática até Redação.\nAgora é hora de intensificar a resolução de provas anteriores e confiar na sua preparação.\nBoa sorte no exame e siga firme rumo à carreira militar!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "ensino-medio"
-  },
-  "ingles": {
-    "text": "Parabéns por concluir o curso de Inglês!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
-  "japones": {
-    "text": "Parabéns por concluir o curso de Japonês!\nVocê aprendeu os sistemas de escrita Hiragana e Katakana, vocabulário básico e estruturas gramaticais essenciais.\nContinue praticando com animes, músicas e conversação para alcançar a fluência.\n日本語を勉強して頑張りました！",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
-  "japones-ingles": {
-    "text": "Congratulations on completing the Japanese course!\nYou have learned Hiragana, Katakana, basic vocabulary, essential grammar, and Kanji.\nContinue practicing with anime, music, and conversation to achieve fluency.\n日本語を勉強して頑張りました！",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
-  "letras-portugues": {
-    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa!\nVocê desenvolveu uma base sólida em linguística, literatura, gramática e práticas pedagógicas, preparando-se para atuar como professor de Língua Portuguesa na Educação Básica.\nCom essa formação, você está apto a mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.\nContinue aprimorando sua prática e inspirando novas gerações de leitores e escritores!",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
   },
@@ -104,13 +19,108 @@
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
   },
+  "engenharia_computacao": {
+    "text": "Parabéns por concluir o curso de Engenharia de Computação!\nVocê integrou conhecimentos de hardware, software, sistemas embarcados, redes e automação.\nCom essa formação abrangente, você está preparado para projetar sistemas computacionais complexos, desde dispositivos IoT até infraestruturas escaláveis.\nContinue inovando e aplicando sua visão de engenharia para resolver problemas do mundo real!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "engenharia-producao": {
+    "text": "Parabéns por concluir o curso de Engenharia de Produção!\nVocê desenvolveu uma visão sistêmica dos processos produtivos, dominando gestão de operações, qualidade, logística, estratégia e otimização.\nCom essa formação, você está preparado para liderar equipes, implementar melhorias contínuas e aumentar a eficiência em diferentes tipos de organizações.\nContinue aplicando seus conhecimentos para transformar realidades e impulsionar a inovação!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "letras-portugues": {
+    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa!\nVocê desenvolveu uma base sólida em linguística, literatura, gramática e práticas pedagógicas, preparando-se para atuar como professor de Língua Portuguesa na Educação Básica.\nCom essa formação, você está apto a mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.\nContinue aprimorando sua prática e inspirando novas gerações de leitores e escritores!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "pedagogia": {
+    "text": "Parabéns por concluir o curso de Pedagogia!\nVocê construiu uma base sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil.\nAgora você está preparado para atuar na Educação Infantil, nos anos iniciais do Ensino Fundamental, na gestão educacional e em espaços não formais de educação.\nQue sua jornada como educador seja repleta de realizações e contribuições para a formação de novas gerações!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "gestao-publica": {
+    "text": "Parabéns por concluir o curso de Gestão Pública!\nVocê desenvolveu uma visão sistêmica da administração pública, dominando políticas públicas, gestão financeira, licitações, contratos, ética e logística no setor público.\nCom essa formação, você está preparado para atuar com excelência em órgãos públicos, organizações sociais e entidades do terceiro setor, contribuindo para uma gestão mais eficiente, transparente e voltada ao bem comum.\nContinue aplicando seus conhecimentos e transformando realidades!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
+  "computer-science": {
+    "text": "Congratulations on completing the Computer Science degree!\nYou have built a solid foundation in computing fundamentals, from algorithms to complex systems.\nNow you are ready to tackle innovative challenges and contribute with impactful technological solutions.\nKeep exploring new areas and deepening your knowledge to become an even more complete professional.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "graduacao"
+  },
   "math": {
     "text": "Excellent! You have completed the Bachelor's Degree in Mathematics.\nYou have mastered fundamental concepts ranging from calculus to abstract algebra, developing logical and analytical reasoning.\nThis degree opens doors to careers in research, education, technology, and finance.\nApply your knowledge to solve complex problems and inspire others with your journey.",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "graduacao"
   },
+  "ciencia_de_dados": {
+    "text": "Pós‑graduação em Ciência de Dados concluída!\nVocê aprendeu a analisar, interpretar e extrair valor dos dados, utilizando estatística e machine learning.\nCom essa base, você pode transformar dados em insights estratégicos para organizações.\nContinue praticando com projetos reais e contribua para a tomada de decisão baseada em evidências.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "computacao_grafica": {
+    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica!\nVocê explorou técnicas avançadas de renderização, modelagem 3D e pipeline gráfico.\nAgora está preparado para criar experiências visuais imersivas e contribuir com projetos de jogos, simulações e realidade virtual.\nContinue praticando e inovando nesse campo fascinante.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "embarcados": {
+    "text": "Pós‑graduação em Embarcados concluída!\nVocê dominou conceitos de microcontroladores, sistemas de tempo real e IoT, integrando hardware e software.\nEssa expertise é essencial para criar dispositivos inteligentes e soluções inovadoras em automação.\nAplique seus conhecimentos em projetos reais e continue explorando novas fronteiras da eletrônica embarcada.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "desenvolvimento_web": {
+    "text": "Pós‑graduação em Desenvolvimento Web concluída!\nVocê está apto a criar aplicações web completas e modernas, desde o front-end até o back-end.\nCom domínio de frameworks, APIs e boas práticas, você pode construir soluções escaláveis e de alta performance.\nContinue acompanhando as tendências e contribuindo para a evolução da web.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "cybersecurity": {
+    "text": "Pós‑graduação em CyberSecurity concluída!\nVocê aprendeu a proteger sistemas, analisar vulnerabilidades e implementar estratégias de defesa.\nCom esse conhecimento, você pode atuar na linha de frente contra ameaças digitais e garantir a integridade de dados.\nMantenha-se atualizado e pratique a ética para um mundo digital mais seguro.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "devops": {
+    "text": "Pós‑graduação em DevOps concluída!\nVocê agora domina automação, integração contínua, entrega contínua e infraestrutura como código.\nEssas habilidades permitem acelerar entregas com qualidade e eficiência operacional.\nAplique os princípios de colaboração e melhoria contínua em seus projetos e equipes.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "pos-graduacao"
+  },
+  "enem": {
+    "text": "Parabéns por concluir o curso preparatório para o ENEM!\nVocê revisou os principais conteúdos das quatro áreas de conhecimento e treinou sua redação.\nAgora é hora de fazer o simulado e confiar no seu potencial.\nBoa sorte no exame!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "ensino-medio"
+  },
+  "espcex": {
+    "text": "Parabéns por concluir o curso preparatório para a EsPCEx!\nVocê revisou todo o conteúdo programático do concurso, desde Matemática até Redação.\nAgora é hora de intensificar a resolução de provas anteriores e confiar na sua preparação.\nBoa sorte no exame e siga firme rumo à carreira militar!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "ensino-medio"
+  },
+  "ingles": {
+    "text": "Parabéns por concluir o curso de Inglês!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
+  "espanhol": {
+    "text": "Parabéns por concluir o curso de Espanhol!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
+  "espanhol-ingles": {
+    "text": "Congratulations on completing the Spanish course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\n¡Felicidades y sigue adelante!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
+  "japones": {
+    "text": "Parabéns por concluir o curso de Japonês!\nVocê aprendeu os sistemas de escrita Hiragana e Katakana, vocabulário básico e estruturas gramaticais essenciais.\nContinue praticando com animes, músicas e conversação para alcançar a fluência.\n日本語を勉強して頑張りました！",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
   "portugues-brasileiro": {
     "text": "Congratulations on completing the Brazilian Portuguese course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\nParabéns e continue assim!",
+    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "level": "idiomas"
+  },
+  "japones-ingles": {
+    "text": "Congratulations on completing the Japanese course!\nYou have learned Hiragana, Katakana, basic vocabulary, essential grammar, and Kanji.\nContinue practicing with anime, music, and conversation to achieve fluency.\n日本語を勉強して頑張りました！",
     "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
     "level": "idiomas"
   }
