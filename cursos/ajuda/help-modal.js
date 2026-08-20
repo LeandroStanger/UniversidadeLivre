@@ -1,7 +1,11 @@
-// help-modal.js – versão 5.0 – COMPLETO COM SUPORTE A TODOS OS 20 CURSOS
-// Modal de ajuda com i18n, suporte a todos os cursos e carregamento dinâmico de dados
-// Inclui: Administração, ENEM, EsPCEx, INGLÊS, ESPANHOL, ESPANHOL-INGLÊS, JAPONÊS,
-// PORTUGUÊS BRASILEIRO, JAPONÊS-INGLÊS, ENGENHARIA DE COMPUTAÇÃO e todos os demais
+// ajuda/help-modal.js – Versão 11.0 – COMPLETO E AUTOSSUFICIENTE
+// Modal de ajuda com suporte a todos os cursos, i18n, carregamento dinâmico de dados
+// Inclui: Administração, Ciência da Computação, Matemática, Matemática (Licenciatura),
+// Computer Science, Math, Engenharia de Computação, Engenharia de Produção,
+// Letras – Habilitação em Língua Portuguesa, Pedagogia, Gestão Pública,
+// Tecnologia da Informação, Ciência de Dados, Computação Gráfica, CyberSecurity,
+// Desenvolvimento Web, DevOps, Embarcados, ENEM, EsPCEx,
+// Inglês, Espanhol, Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
 
 (function() {
     'use strict';
@@ -15,7 +19,7 @@
 
     let currentCourse = null;               // ID do curso (ex: 'ciencia_computacao')
     let helpDataCache = null;              // Cache do JSON
-    let translationsFallbackApplied = false;
+    let _initialized = false;              // Evita múltiplas inicializações
 
     // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
@@ -46,9 +50,9 @@
         return text;
     }
 
-    // ========== Mapeamento de IDs para chaves no help-data.json ==========
+    // ========== MAPEAMENTO DE IDs PARA CHAVES NO help-data.json ==========
     const courseIdToKeyMap = {
-        'administracao': 'administracao',           // NOVO
+        'administracao': 'administracao',
         'ciencia_de_dados': 'ciencia_de_dados',
         'computacao': 'ciencia_computacao',
         'computacao_grafica': 'computacao_grafica',
@@ -59,20 +63,26 @@
         'embarcados': 'embarcados',
         'enem': 'enem',
         'engenharia_computacao': 'engenharia_computacao',
+        'engenharia-producao': 'engenharia-producao',
         'espanhol': 'espanhol',
         'espanhol-ingles': 'espanhol-ingles',
         'espcex': 'espcex',
+        'gestao-publica': 'gestao-publica',
         'ingles': 'ingles',
         'japones': 'japones',
         'japones-ingles': 'japones-ingles',
+        'letras-portugues': 'letras-portugues',
         'matematica': 'matematica',
+        'matematica-licenciatura': 'matematica-licenciatura',
         'math': 'math',
-        'portugues-brasileiro': 'portugues-brasileiro'
+        'pedagogia': 'pedagogia',
+        'portugues-brasileiro': 'portugues-brasileiro',
+        'tecnologia-informacao': 'tecnologia-informacao'
     };
 
     // Lista de cursos com suporte a ajuda
     const supportedCourses = [
-        'administracao',            // NOVO
+        'administracao',
         'ciencia_de_dados',
         'computacao',
         'computacao_grafica',
@@ -83,15 +93,21 @@
         'embarcados',
         'enem',
         'engenharia_computacao',
+        'engenharia-producao',
         'espanhol',
         'espanhol-ingles',
         'espcex',
+        'gestao-publica',
         'ingles',
         'japones',
         'japones-ingles',
+        'letras-portugues',
         'matematica',
+        'matematica-licenciatura',
         'math',
-        'portugues-brasileiro'
+        'pedagogia',
+        'portugues-brasileiro',
+        'tecnologia-informacao'
     ];
 
     // ========== CARREGAMENTO DE DADOS ==========
@@ -122,13 +138,19 @@
 
     // ========== RENDERIZAR CONTEÚDO ==========
     async function renderHelpContent() {
-        if (!modalBody) return;
+        if (!modalBody) {
+            console.warn('[Ajuda] modalBody não encontrado.');
+            return;
+        }
 
         if (!currentCourse) {
             modalBody.innerHTML = `<p>${t('help_unknown_course')}</p>`;
             console.warn('[Ajuda] Curso não definido ao carregar conteúdo.');
             return;
         }
+
+        // Mostrar indicador de carregamento
+        modalBody.innerHTML = `<p>${t('loading')}</p>`;
 
         const data = await loadHelpData();
         if (!data) {
@@ -145,7 +167,6 @@
 
         // Atualizar título do modal
         if (modalTitle) {
-            // O título pode vir do JSON ou ser gerado
             const title = courseData.title || t('help_modal_title', { course: currentCourse });
             modalTitle.innerText = title;
         }
@@ -160,7 +181,16 @@
                 }
                 // Conteúdo
                 if (section.content) {
-                    html += `<p>${escapeHtml(section.content)}</p>`;
+                    // Substituir quebras de linha por <br> e manter parágrafos
+                    const paragraphs = section.content.split('\n').filter(p => p.trim());
+                    paragraphs.forEach(p => {
+                        if (p.trim().startsWith('•')) {
+                            // Lista com bullets
+                            html += `<ul>${p.split('•').filter(item => item.trim()).map(item => `<li>${escapeHtml(item.trim())}</li>`).join('')}</ul>`;
+                        } else {
+                            html += `<p>${escapeHtml(p.trim())}</p>`;
+                        }
+                    });
                 }
                 // Subseções (FAQ)
                 if (section.subsections) {
@@ -202,7 +232,10 @@
 
     // ========== ABRIR / FECHAR MODAL ==========
     function openHelp() {
-        if (!modal) return;
+        if (!modal) {
+            console.warn('[Ajuda] Modal não encontrado.');
+            return;
+        }
         modal.classList.add('show');
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
@@ -244,6 +277,12 @@
 
     // ========== INICIALIZAÇÃO ==========
     function init() {
+        // Evitar múltiplas inicializações
+        if (_initialized) {
+            console.log('[Ajuda] Módulo já inicializado.');
+            return;
+        }
+
         // Capturar elementos
         modal = document.getElementById('helpModal');
         if (!modal) {
@@ -261,7 +300,7 @@
 
         // Event listeners
         if (helpButton) {
-            // Remove listeners antigos e adiciona novo
+            // Remove listeners antigos e adiciona novo (evita duplicação)
             const newHelpBtn = helpButton.cloneNode(true);
             helpButton.parentNode.replaceChild(newHelpBtn, helpButton);
             helpButton = newHelpBtn;
@@ -300,6 +339,7 @@
             }
         });
 
+        _initialized = true;
         console.log('[Ajuda] Módulo inicializado com sucesso');
     }
 

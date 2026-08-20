@@ -1,10 +1,10 @@
-// course-intro.js – Versão 5.0 – COMPLETO E AUTOSSUFICIENTE
+// course-intro.js – Versão 6.0 – COMPLETO E AUTOSSUFICIENTE
 // Modal de introdução para todos os cursos da Universidade Livre
 // Suporte a: Administração, Ciência da Computação, Matemática, Matemática (Licenciatura),
 // Engenharia de Computação, Engenharia de Produção, Letras – Habilitação em Língua Portuguesa,
-// Pedagogia, Gestão Pública, Computer Science, Math, Computação Gráfica, Embarcados,
-// Desenvolvimento Web, CyberSecurity, DevOps, Ciência de Dados, ENEM, EsPCEx,
-// Inglês, Espanhol, Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
+// Pedagogia, Gestão Pública, Tecnologia da Informação, Computer Science, Math,
+// Computação Gráfica, Embarcados, Desenvolvimento Web, CyberSecurity, DevOps, Ciência de Dados,
+// ENEM, EsPCEx, Inglês, Espanhol, Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
 // Inclui i18n, detecção de idioma, cache de dados, prevenção de reexibição e fallbacks
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'matematica-licenciatura': 'matematica-licenciatura',
         'math': 'math',
         'pedagogia': 'pedagogia',
-        'portugues-brasileiro': 'portugues-brasileiro'
+        'portugues-brasileiro': 'portugues-brasileiro',
+        'tecnologia-informacao': 'tecnologia-informacao'
     };
 
     // ========== CURSOS COM INTRODUÇÃO PERSONALIZADA ==========
@@ -99,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'matematica-licenciatura',
         'math',
         'pedagogia',
-        'portugues-brasileiro'
+        'portugues-brasileiro',
+        'tecnologia-informacao'
     ];
 
     // ========== CARREGAR DADOS DE INTRODUÇÃO ==========
