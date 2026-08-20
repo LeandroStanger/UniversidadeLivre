@@ -176,6 +176,14 @@
     "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
   },
   {
+    "id": "pedagogia",
+    "name": "Pedagogia",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-chalkboard-teacher",
+    "description": "Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais."
+  },
+  {
     "id": "portugues-brasileiro",
     "name": "Brazilian Portuguese (for English Speakers)",
     "courseLevel": "idiomas",
