@@ -1,132 +1,142 @@
 {
   "administracao": {
-    "text": "Parabéns por concluir o curso de Administração!\nVocê desenvolveu uma visão sistêmica das organizações, dominando gestão de pessoas, finanças, marketing, operações e estratégia.\nCom essa formação abrangente, você está preparado para liderar equipes, tomar decisões estratégicas e impulsionar a inovação em diferentes tipos de organizações.\nContinue aplicando seus conhecimentos e transformando realidades!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Administração! Você agora possui uma visão estratégica e sistêmica das organizações, com competências para liderar, inovar e transformar negócios. Sua jornada acadêmica está apenas começando!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Administra%C3%A7%C3%A3o",
     "level": "graduacao"
   },
-  "ciencia_computacao": {
-    "text": "Parabéns por concluir o curso de Ciência da Computação!\nVocê adquiriu uma base sólida nos fundamentos da computação, desde algoritmos até sistemas complexos.\nAgora você está pronto para enfrentar desafios inovadores e contribuir com soluções tecnológicas de impacto.\nContinue explorando novas áreas e aprofundando seu conhecimento para se tornar um profissional ainda mais completo.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+  "computacao": {
+    "text": "Parabéns por concluir o curso de Ciência da Computação! Você domina os fundamentos da computação, desde algoritmos até sistemas complexos. Agora você está preparado para enfrentar os desafios da tecnologia com uma base sólida e crítica.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+da+Computa%C3%A7%C3%A3o",
     "level": "graduacao"
   },
   "computer-science": {
-    "text": "Congratulations on completing the Computer Science degree!\nYou have built a solid foundation in computing fundamentals, from algorithms to complex systems.\nNow you are ready to tackle innovative challenges and contribute with impactful technological solutions.\nKeep exploring new areas and deepening your knowledge to become an even more complete professional.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Congratulations on completing the Computer Science course! You have mastered the fundamentals of computing, from algorithms to complex systems. You are now ready to tackle the challenges of technology with a solid and critical foundation.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Computer+Science",
     "level": "graduacao"
   },
   "engenharia_computacao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Computação!\nVocê integrou conhecimentos de hardware, software, sistemas embarcados, redes e automação.\nCom essa formação abrangente, você está preparado para projetar sistemas computacionais complexos, desde dispositivos IoT até infraestruturas escaláveis.\nContinue inovando e aplicando sua visão de engenharia para resolver problemas do mundo real!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Engenharia de Computação! Você integra hardware, software e sistemas embarcados com maestria. Sua formação sólida em engenharia o capacita a projetar e construir o futuro da tecnologia.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Computa%C3%A7%C3%A3o",
     "level": "graduacao"
   },
   "engenharia-producao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Produção!\nVocê desenvolveu uma visão sistêmica dos processos produtivos, dominando gestão de operações, qualidade, logística, estratégia e otimização.\nCom essa formação, você está preparado para liderar equipes, implementar melhorias contínuas e aumentar a eficiência em diferentes tipos de organizações.\nContinue aplicando seus conhecimentos para transformar realidades e impulsionar a inovação!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Engenharia de Produção! Você aprendeu a otimizar processos, gerenciar operações e liderar com eficiência. Sua visão integrada da produção e da gestão é um diferencial para o mercado.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Produ%C3%A7%C3%A3o",
     "level": "graduacao"
   },
   "gestao-publica": {
-    "text": "Parabéns por concluir o curso de Gestão Pública!\nVocê desenvolveu uma visão sistêmica da administração pública, dominando políticas públicas, gestão financeira, licitações, contratos, ética e logística no setor público.\nCom essa formação, você está preparado para atuar com excelência em órgãos públicos, organizações sociais e entidades do terceiro setor, contribuindo para uma gestão mais eficiente, transparente e voltada ao bem comum.\nContinue aplicando seus conhecimentos e transformando realidades!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Gestão Pública! Você está preparado para atuar com ética, transparência e eficiência no setor público. Sua formação contribuirá para a construção de uma administração mais justa e cidadã.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Gest%C3%A3o+P%C3%BAblica",
     "level": "graduacao"
   },
   "letras-portugues": {
-    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa!\nVocê desenvolveu uma base sólida em linguística, literatura, gramática e práticas pedagógicas, preparando-se para atuar como professor de Língua Portuguesa na Educação Básica.\nCom essa formação, você está apto a mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.\nContinue aprimorando sua prática e inspirando novas gerações de leitores e escritores!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa! Você dominou a língua, a literatura e a linguística, e está pronto para ensinar com paixão e conhecimento. Sua jornada como educador começa agora!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Letras",
     "level": "graduacao"
   },
   "matematica": {
-    "text": "Excelente! Você completou o Bacharelado em Matemática.\nDomine conceitos fundamentais que vão do cálculo à álgebra abstrata, desenvolvendo raciocínio lógico e analítico.\nEssa formação abre portas para carreiras em pesquisa, educação, tecnologia e finanças.\nAplique seu conhecimento para resolver problemas complexos e inspire outros com sua jornada.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Matemática! Você desenvolveu o raciocínio lógico e abstrato necessário para explorar os fundamentos da ciência. Sua base matemática é a chave para desvendar os mistérios do universo.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica",
     "level": "graduacao"
   },
   "matematica-licenciatura": {
-    "text": "Parabéns por concluir a Licenciatura em Matemática!\nVocê construiu uma base sólida em conteúdos matemáticos e desenvolveu competências pedagógicas essenciais para o ensino.\nAgora você está preparado para inspirar e formar novas gerações de estudantes, tornando a Matemática acessível, significativa e transformadora.\nQue sua jornada como educador seja repleta de realizações e contribuições para a educação!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Matemática (Licenciatura)! Você une o rigor matemático à paixão pelo ensino. Agora você está preparado para inspirar novas gerações de estudantes e transformar vidas pela educação.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica+%28Licenciatura%29",
     "level": "graduacao"
   },
   "math": {
-    "text": "Excellent! You have completed the Bachelor's Degree in Mathematics.\nYou have mastered fundamental concepts ranging from calculus to abstract algebra, developing logical and analytical reasoning.\nThis degree opens doors to careers in research, education, technology, and finance.\nApply your knowledge to solve complex problems and inspire others with your journey.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Congratulations on completing the Mathematics course! You have developed the logical and abstract reasoning necessary to explore the foundations of science. Your mathematical background is the key to unraveling the mysteries of the universe.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Mathematics",
     "level": "graduacao"
   },
   "pedagogia": {
-    "text": "Parabéns por concluir o curso de Pedagogia!\nVocê construiu uma base sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil.\nAgora você está preparado para atuar na Educação Infantil, nos anos iniciais do Ensino Fundamental, na gestão educacional e em espaços não formais de educação.\nQue sua jornada como educador seja repleta de realizações e contribuições para a formação de novas gerações!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Pedagogia! Você se tornou um educador completo, capaz de transformar a realidade através do ensino. Sua dedicação e sensibilidade farão a diferença na vida de muitos alunos.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Pedagogia",
     "level": "graduacao"
   },
   "tecnologia-informacao": {
-    "text": "Parabéns por concluir o curso de Tecnologia da Informação!\nVocê desenvolveu habilidades sólidas em programação, sistemas, redes, segurança, gestão e inovação.\nCom essa formação, você está preparado para atuar em diferentes áreas da TI, desde o desenvolvimento de software até a gestão de infraestrutura e projetos.\nContinue se atualizando e aplicando seus conhecimentos para transformar o mundo digital!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso de Tecnologia da Informação! Você é um profissional capacitado para desenvolver, gerenciar e inovar em soluções tecnológicas. O mundo digital está em suas mãos!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Tecnologia+da+Informa%C3%A7%C3%A3o",
+    "level": "graduacao"
+  },
+  "ciencia-de-dados-bacharelado": {
+    "text": "Parabéns por concluir o curso de Ciência de Dados! Você domina a arte de extrair conhecimento e valor dos dados. Sua capacidade de transformar dados em decisões estratégicas é um diferencial competitivo em qualquer organização.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+de+Dados",
+    "level": "graduacao"
+  },
+  "processos-gerenciais": {
+    "text": "Parabéns por concluir o curso de Processos Gerenciais! Você está preparado para analisar, planejar e otimizar processos organizacionais com visão estratégica. Sua capacidade de gestão e liderança é um ativo valioso para qualquer equipe.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Processos+Gerenciais",
     "level": "graduacao"
   },
   "ciencia_de_dados": {
-    "text": "Pós‑graduação em Ciência de Dados concluída!\nVocê aprendeu a analisar, interpretar e extrair valor dos dados, utilizando estatística e machine learning.\nCom essa base, você pode transformar dados em insights estratégicos para organizações.\nContinue praticando com projetos reais e contribua para a tomada de decisão baseada em evidências.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em Ciência de Dados! Você aprofundou seus conhecimentos em análise, estatística e exploração de dados. Sua expertise é essencial para a tomada de decisão baseada em evidências.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Ci%C3%AAncia+de+Dados",
     "level": "pos-graduacao"
   },
   "computacao_grafica": {
-    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica!\nVocê explorou técnicas avançadas de renderização, modelagem 3D e pipeline gráfico.\nAgora está preparado para criar experiências visuais imersivas e contribuir com projetos de jogos, simulações e realidade virtual.\nContinue praticando e inovando nesse campo fascinante.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica! Você domina as técnicas avançadas de renderização, modelagem e visualização. Sua criatividade e conhecimento técnico abrem portas para o mundo da arte digital e da simulação.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Computa%C3%A7%C3%A3o+Gr%C3%A1fica",
     "level": "pos-graduacao"
   },
   "cybersecurity": {
-    "text": "Pós‑graduação em CyberSecurity concluída!\nVocê aprendeu a proteger sistemas, analisar vulnerabilidades e implementar estratégias de defesa.\nCom esse conhecimento, você pode atuar na linha de frente contra ameaças digitais e garantir a integridade de dados.\nMantenha-se atualizado e pratique a ética para um mundo digital mais seguro.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em CyberSecurity! Você é um guardião da informação, capacitado para proteger sistemas, analisar vulnerabilidades e responder a incidentes. Sua atuação é fundamental para a segurança digital.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-CyberSecurity",
     "level": "pos-graduacao"
   },
   "desenvolvimento_web": {
-    "text": "Pós‑graduação em Desenvolvimento Web concluída!\nVocê está apto a criar aplicações web completas e modernas, desde o front-end até o back-end.\nCom domínio de frameworks, APIs e boas práticas, você pode construir soluções escaláveis e de alta performance.\nContinue acompanhando as tendências e contribuindo para a evolução da web.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em Desenvolvimento Web! Você construiu uma base sólida em HTML, CSS, JavaScript, React e Node.js. Sua capacidade de criar aplicações web modernas e escaláveis é um diferencial no mercado.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Desenvolvimento+Web",
     "level": "pos-graduacao"
   },
   "devops": {
-    "text": "Pós‑graduação em DevOps concluída!\nVocê agora domina automação, integração contínua, entrega contínua e infraestrutura como código.\nEssas habilidades permitem acelerar entregas com qualidade e eficiência operacional.\nAplique os princípios de colaboração e melhoria contínua em seus projetos e equipes.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em DevOps! Você domina automação, infraestrutura como código, containers e CI/CD. Sua habilidade de integrar desenvolvimento e operações torna você um profissional essencial para times ágeis.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-DevOps",
     "level": "pos-graduacao"
   },
   "embarcados": {
-    "text": "Pós‑graduação em Embarcados concluída!\nVocê dominou conceitos de microcontroladores, sistemas de tempo real e IoT, integrando hardware e software.\nEssa expertise é essencial para criar dispositivos inteligentes e soluções inovadoras em automação.\nAplique seus conhecimentos em projetos reais e continue explorando novas fronteiras da eletrônica embarcada.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir a Pós‑graduação em Embarcados! Você compreende microeletrônica, sistemas em tempo real e IoT. Sua expertise em hardware e software embarcado é a base para a inovação tecnológica.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Embarcados",
     "level": "pos-graduacao"
   },
   "enem": {
-    "text": "Parabéns por concluir o curso preparatório para o ENEM!\nVocê revisou os principais conteúdos das quatro áreas de conhecimento e treinou sua redação.\nAgora é hora de fazer o simulado e confiar no seu potencial.\nBoa sorte no exame!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso preparatório para o ENEM! Você revisou os conteúdos essenciais e está pronto para encarar o exame com confiança. Sua dedicação e esforço serão recompensados. Boa sorte!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=ENEM",
     "level": "ensino-medio"
   },
   "espcex": {
-    "text": "Parabéns por concluir o curso preparatório para a EsPCEx!\nVocê revisou todo o conteúdo programático do concurso, desde Matemática até Redação.\nAgora é hora de intensificar a resolução de provas anteriores e confiar na sua preparação.\nBoa sorte no exame e siga firme rumo à carreira militar!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Parabéns por concluir o curso preparatório para a EsPCEx! Você está pronto para encarar os desafios do concurso com disciplina e determinação. Seu esforço e dedicação abrirão caminho para a carreira militar.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=EsPCEx",
     "level": "ensino-medio"
   },
-  "ingles": {
-    "text": "Parabéns por concluir o curso de Inglês!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
-    "level": "idiomas"
-  },
   "espanhol": {
-    "text": "Parabéns por concluir o curso de Espanhol!\nVocê desenvolveu habilidades de compreensão e comunicação do nível A1 ao C2, ampliando suas oportunidades acadêmicas e profissionais.\nContinue praticando e explorando o idioma para alcançar a fluência completa.",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "¡Felicidades por completar el curso de español! Has alcanzado un nuevo nivel de fluidez y comprensión del idioma. Sigue practicando y explorando la riqueza cultural hispanohablante. ¡Buen trabajo!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Espanhol",
     "level": "idiomas"
   },
   "espanhol-ingles": {
-    "text": "Congratulations on completing the Spanish course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\n¡Felicidades y sigue adelante!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Congratulations on completing the Spanish course! You have reached a new level of fluency and understanding of the language. Keep practicing and exploring the richness of Spanish-speaking cultures. Great job!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Spanish",
+    "level": "idiomas"
+  },
+  "ingles": {
+    "text": "Parabéns por concluir o curso de Inglês! Você alcançou um novo nível de fluência e compreensão do idioma. Continue praticando e explorando a cultura de língua inglesa. Ótimo trabalho!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ingl%C3%AAs",
     "level": "idiomas"
   },
   "japones": {
-    "text": "Parabéns por concluir o curso de Japonês!\nVocê aprendeu os sistemas de escrita Hiragana e Katakana, vocabulário básico e estruturas gramaticais essenciais.\nContinue praticando com animes, músicas e conversação para alcançar a fluência.\n日本語を勉強して頑張りました！",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "おめでとうございます！日本語コースを修了しました。新しい言語のスキルを活かして、さらに学び続けてください。よく頑張りました！",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Japon%C3%AAs",
     "level": "idiomas"
   },
   "japones-ingles": {
-    "text": "Congratulations on completing the Japanese course!\nYou have learned Hiragana, Katakana, basic vocabulary, essential grammar, and Kanji.\nContinue practicing with anime, music, and conversation to achieve fluency.\n日本語を勉強して頑張りました！",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Congratulations on completing the Japanese course! You have built a solid foundation in the language, from Hiragana and Katakana to Kanji and conversation. Keep immersing yourself in Japanese culture and media. Great job!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Japanese",
     "level": "idiomas"
   },
   "portugues-brasileiro": {
-    "text": "Congratulations on completing the Brazilian Portuguese course!\nYou have developed comprehension and communication skills from A1 to C2 level, expanding your academic and professional opportunities.\nKeep practicing and exploring the language to achieve complete fluency.\nParabéns e continue assim!",
-    "image": "https://raw.githubusercontent.com/Universidade-Livre/imagens/raw/main/mascote/mascote_ubl_cut.png",
+    "text": "Congratulations on completing the Brazilian Portuguese course! You have developed fluency and cultural understanding of this vibrant language. Keep practicing and enjoy your journey with Portuguese!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Brazilian+Portuguese",
     "level": "idiomas"
   }
 }
