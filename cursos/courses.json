@@ -96,6 +96,22 @@
     "description": "Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores."
   },
   {
+    "id": "ciencia-de-dados-bacharelado",
+    "name": "Ciência de Dados (Bacharelado)",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-database",
+    "description": "Curso de Bacharelado em Ciência de Dados com formação abrangente em programação, matemática, estatística, aprendizado de máquina, visualização e infraestrutura para análise de dados. Preparação para atuar como cientista de dados em organizações de diversos setores."
+  },
+  {
+    "id": "processos-gerenciais",
+    "name": "Processos Gerenciais",
+    "courseLevel": "graduacao",
+    "courseType": "tecnologo",
+    "icon": "fa-briefcase",
+    "description": "Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão."
+  },
+  {
     "id": "ciencia_de_dados",
     "name": "Ciência de Dados",
     "courseLevel": "pos-graduacao",

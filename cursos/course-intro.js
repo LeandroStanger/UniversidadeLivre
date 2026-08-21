@@ -1,10 +1,11 @@
-// course-intro.js – Versão 6.0 – COMPLETO E AUTOSSUFICIENTE
+// course-intro.js – Versão 7.0 – COMPLETO E AUTOSSUFICIENTE
 // Modal de introdução para todos os cursos da Universidade Livre
 // Suporte a: Administração, Ciência da Computação, Matemática, Matemática (Licenciatura),
 // Engenharia de Computação, Engenharia de Produção, Letras – Habilitação em Língua Portuguesa,
 // Pedagogia, Gestão Pública, Tecnologia da Informação, Computer Science, Math,
 // Computação Gráfica, Embarcados, Desenvolvimento Web, CyberSecurity, DevOps, Ciência de Dados,
-// ENEM, EsPCEx, Inglês, Espanhol, Espanhol-Inglês, Japonês, Japonês-Inglês, Português Brasileiro
+// Ciência de Dados (Bacharelado), ENEM, EsPCEx, Inglês, Espanhol, Espanhol-Inglês,
+// Japonês, Japonês-Inglês, Português Brasileiro
 // Inclui i18n, detecção de idioma, cache de dados, prevenção de reexibição e fallbacks
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const courseIdToJsonKey = {
         'administracao': 'administracao',
         'ciencia_de_dados': 'ciencia_de_dados',
+        'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
         'computacao': 'ciencia_computacao',
         'computacao_grafica': 'computacao_grafica',
         'computer-science': 'computer-science',
@@ -78,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const supportedCourses = [
         'administracao',
         'ciencia_de_dados',
+        'ciencia-de-dados-bacharelado',
         'computacao',
         'computacao_grafica',
         'computer-science',

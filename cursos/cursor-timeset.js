@@ -1,5 +1,6 @@
 // cursos/cursor-timeset.js – Rastreamento de tempo de atividade do usuário (versão final)
-// Suporte completo para todos os cursos, incluindo Engenharia de Computação e Tecnologia da Informação
+// Suporte completo para todos os cursos, incluindo Engenharia de Computação, Tecnologia da Informação
+// e Ciência de Dados (Bacharelado)
 (function() {
     'use strict';
 
@@ -14,6 +15,14 @@
     let lastActiveTimestamp = null;
     let activeInterval = null;
     let isActive = true;
+    
+    // ========== LISTA DE CURSOS COM RASTREAMENTO ESPECIAL ==========
+    const SPECIAL_COURSES = [
+        'computer-science',
+        'engenharia_computacao',
+        'tecnologia-informacao',
+        'ciencia-de-dados-bacharelado'
+    ];
     
     // ========== CARREGAR DADOS ==========
     function loadTimesetData() {
@@ -57,8 +66,7 @@
                 data.graduation[id].lastAccess = now;
             }
             // Suporte específico para cursos selecionados
-            const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
-            if (specialCourses.includes(id)) {
+            if (SPECIAL_COURSES.includes(id)) {
                 const storageKey = `cursor_timeset_${id}_last_access`;
                 localStorage.setItem(storageKey, now);
                 const sessionKey = `cursor_timeset_${id}_session_time`;
@@ -106,8 +114,7 @@
                     if (data.graduation[currentCourseId]) {
                         data.graduation[currentCourseId].totalTime += elapsedSeconds;
                         // Suporte específico para cursos selecionados
-                        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
-                        if (specialCourses.includes(currentCourseId)) {
+                        if (SPECIAL_COURSES.includes(currentCourseId)) {
                             const sessionKey = `cursor_timeset_${currentCourseId}_session_time`;
                             let session = parseInt(localStorage.getItem(sessionKey) || '0');
                             session += elapsedSeconds;
@@ -238,8 +245,7 @@
             bibliography: data.bibliography[courseId] || {}
         };
         // Dados específicos do localStorage para cursos selecionados
-        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
-        if (specialCourses.includes(courseId)) {
+        if (SPECIAL_COURSES.includes(courseId)) {
             const extra = {
                 lastAccess: localStorage.getItem(`cursor_timeset_${courseId}_last_access`),
                 sessionTime: localStorage.getItem(`cursor_timeset_${courseId}_session_time`),
@@ -248,7 +254,8 @@
             // Usar chave dinâmica
             const key = courseId === 'computer-science' ? 'csExtra' :
                        courseId === 'engenharia_computacao' ? 'ecExtra' :
-                       courseId === 'tecnologia-informacao' ? 'tiExtra' : 'extra';
+                       courseId === 'tecnologia-informacao' ? 'tiExtra' :
+                       courseId === 'ciencia-de-dados-bacharelado' ? 'cdExtra' : 'extra';
             result[key] = extra;
         }
         return result;
@@ -302,8 +309,7 @@
     function initializeCursorTimeset() {
         console.log('[CursorTimeset] Inicializado');
         // Verificar se há dados de sessão anterior e restaurar se necessário
-        const specialCourses = ['computer-science', 'engenharia_computacao', 'tecnologia-informacao'];
-        specialCourses.forEach(courseId => {
+        SPECIAL_COURSES.forEach(courseId => {
             const lastAccess = localStorage.getItem(`cursor_timeset_${courseId}_last_access`);
             if (lastAccess) {
                 console.log(`[CursorTimeset] Sessão anterior detectada para ${courseId}: ${lastAccess}`);
@@ -338,6 +344,10 @@
         // Método para obter dados específicos da Tecnologia da Informação
         getTecnologiaInformacaoData: function() {
             return getCourseSpecificData('tecnologia-informacao').tiExtra || {};
+        },
+        // Método para obter dados específicos da Ciência de Dados (Bacharelado)
+        getCienciaDadosBachareladoData: function() {
+            return getCourseSpecificData('ciencia-de-dados-bacharelado').cdExtra || {};
         }
     };
     

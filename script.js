@@ -1,5 +1,5 @@
 // ============================================================
-// script.js – Versão 13.0 – COMPLETO E AUTOSSUFICIENTE
+// script.js – Versão 14.0 – COMPLETO E AUTOSSUFICIENTE
 // Universidade Livre · Todos os módulos
 // CORREÇÃO: Prevenção de renderização concorrente de cursos
 // CORREÇÃO: Animações mais suaves com translate3d e will-change
@@ -11,11 +11,12 @@
 // CORREÇÃO: Suporte a Pedagogia
 // CORREÇÃO: Suporte a Gestão Pública
 // CORREÇÃO: Suporte a Tecnologia da Informação
+// CORREÇÃO: Suporte a Ciência de Dados (Bacharelado)
+// CORREÇÃO: Suporte a Processos Gerenciais
 // CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
 // CORREÇÃO: loadLicenseData com cache funcionando
 // CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
 // CORREÇÃO: activateTab trata currentDiscipline indefinido
-// ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
@@ -490,6 +491,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
         'devops': { pt: 'DevOps', en: 'DevOps' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
+        'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
         'math': { pt: 'Math', en: 'Math' },
         'enem': { pt: 'ENEM', en: 'ENEM' },
@@ -505,7 +507,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
         'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
         'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
-        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' },
+        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' }
     };
 
     function getCourseName(courseId) {
@@ -581,6 +584,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-data.json',
             devops: 'cursos/pos-graduacao/devops/devops-data.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
             'math': 'cursos/graduacao/math/math-data.json',
             'enem': 'cursos/ensino-medio/enem/enem-data.json',
@@ -596,7 +600,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -716,6 +721,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             computacao: 'cursos/graduacao/ciencia-computacao/',
             matematica: 'cursos/graduacao/matematica/',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/',
             'computer-science': 'cursos/graduacao/computer-science/',
             'math': 'cursos/graduacao/math/',
             'computacao_grafica': 'cursos/pos-graduacao/computacao-grafica/',
@@ -737,7 +743,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'letras-portugues': 'cursos/graduacao/letras-portugues/',
             'pedagogia': 'cursos/graduacao/pedagogia/',
             'gestao-publica': 'cursos/graduacao/gestao-publica/',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/'
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -794,6 +801,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-data.json',
             devops: 'cursos/pos-graduacao/devops/devops-data.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
             'math': 'cursos/graduacao/math/math-data.json',
             'enem': 'cursos/ensino-medio/enem/enem-data.json',
@@ -809,7 +817,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -854,6 +863,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/team-cybersecurity.json',
             devops: 'cursos/pos-graduacao/devops/team-devops.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
             'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
             'math': 'cursos/graduacao/math/team-math.json',
             'enem': 'cursos/ensino-medio/enem/team-enem.json',
@@ -869,7 +879,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json'
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -914,6 +925,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-books.json',
             devops: 'cursos/pos-graduacao/devops/devops-books.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-books.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-books.json',
             'enem': 'cursos/ensino-medio/enem/enem-books.json',
             'espcex': 'cursos/ensino-medio/espcex/espcex-books.json',
@@ -922,7 +934,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-books.json',
             'japones': 'cursos/idiomas/japones/japones-books.json',
             'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-books.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-books.json'
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-books.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-books.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-books.json',
+            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-books.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-books.json',
+            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-books.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-books.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-books.json'
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -1613,6 +1632,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/team-cybersecurity.json',
             devops: 'cursos/pos-graduacao/devops/team-devops.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
             'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
             'math': 'cursos/graduacao/math/team-math.json',
             'enem': 'cursos/ensino-medio/enem/team-enem.json',
@@ -1628,7 +1648,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json'
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;

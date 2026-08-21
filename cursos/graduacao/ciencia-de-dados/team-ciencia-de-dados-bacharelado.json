@@ -1,0 +1,87 @@
+{
+  "course": "Ciência de Dados (Bacharelado)",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "year": "2026",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    },
+    {
+      "name": "Camilo Cunha de Azevedo",
+      "github": "https://github.com/Camilotk",
+      "role": "Co-fundador e Coordenador de Currículo",
+      "year": "2024",
+      "description": "Co-fundador da ULivre, responsável pela organização e desenvolvimento do currículo de Ciência de Dados.",
+      "image": "https://avatars.githubusercontent.com/u/30880723?v=4"
+    },
+    {
+      "name": "Mateus Roveda",
+      "github": "https://github.com/mateusrovedaa",
+      "role": "Líder de Comunidade",
+      "year": "2024",
+      "description": "Liderança da comunidade, organização de eventos e engajamento dos alunos.",
+      "image": "https://avatars.githubusercontent.com/u/13920205?v=4"
+    },
+    {
+      "name": "Jefferson Quesado",
+      "github": "https://github.com/jeffque",
+      "role": "Revisor de Conteúdo",
+      "year": "2024",
+      "description": "Revisão e curadoria do conteúdo didático do curso.",
+      "image": "https://avatars.githubusercontent.com/u/4756392?v=4"
+    },
+    {
+      "name": "Emanuel Castelo",
+      "github": "https://github.com/elvcastelo",
+      "role": "Suporte Técnico e Infraestrutura",
+      "year": "2024",
+      "description": "Administração e suporte técnico da plataforma.",
+      "image": "https://avatars.githubusercontent.com/u/91682516?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "github": "https://www.youtube.com/@pgdinamica",
+      "role": "Videoaulas de lógica, programação e fundamentos",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj",
+      "year": "2024",
+      "description": "Canal com conteúdo sobre programação dinâmica, algoritmos e técnicas de estudo."
+    },
+    {
+      "name": "Willian Justen",
+      "github": "https://www.youtube.com/@WillianJustenCursos",
+      "role": "Videoaulas sobre Git, GitHub e desenvolvimento web",
+      "image": "https://yt3.ggpht.com/bmRO-Sn-f86uDwgsT383N_dBfyrT6an4rukJND7DHVOrKpVHNDlRNkrn8BDLce3VlONsgj1G=s48-c-k-c0x00ffffff-no-rj",
+      "year": "2024",
+      "description": "Canal com cursos práticos de ferramentas e tecnologias web."
+    },
+    {
+      "name": "UNIVESP",
+      "github": "https://www.youtube.com/@univesptv",
+      "role": "Videoaulas institucionais de matemática, estatística e computação",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k2l0LbNyqTitrPcifcZx8L7Lo32RMR0Dyv2xya7InrLVI=s48-c-k-c0x00ffffff-no-rj",
+      "year": "2024",
+      "description": "Universidade Virtual do Estado de São Paulo, com vasto acervo de aulas de ciências exatas."
+    },
+    {
+      "name": "Data Science Academy",
+      "github": "https://www.youtube.com/@DataScienceAcademy",
+      "role": "Videoaulas sobre ciência de dados, machine learning e Python",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_ncZ6qWq_zDp4dj4bTvDUJ14gq75_-QECPWV5ykXhI=s48-c-k-c0x00ffffff-no-rj",
+      "year": "2024",
+      "description": "Conteúdo focado em ciência de dados, análise e visualização."
+    },
+    {
+      "name": "Curso em Vídeo",
+      "github": "https://www.youtube.com/@CursoemVideo",
+      "role": "Videoaulas de programação e fundamentos",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj",
+      "year": "2024",
+      "description": "Cursos de programação, lógica e tecnologias web."
+    }
+  ]
+}
