@@ -1,13 +1,7 @@
-// perfil/profile.js – Versão 23.0 – COMPLETO E AUTOSSUFICIENTE
+// perfil/profile.js – Versão 26.1 – CORRIGIDO (sintaxe e caracteres invisíveis)
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
-// Integração com onboarding e outros módulos
-// CORREÇÃO: Exportação inclui senha (hash), gênero, avatar, matrícula, tempo
-// CORREÇÃO: Importação verifica senha (hash) antes de restaurar todos os dados
-// CORREÇÃO: Restaura nome, gênero, avatar, matrícula, tempo, cursos, vídeos, livros, notas, tags
-// CORREÇÃO: Atualiza interface após importação
-// CORREÇÃO: Avatar com suporte a upload e seleção de avatares padrão
-// CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
-// CORREÇÃO: Suporte a todos os cursos incluindo Matemática (Licenciatura), Engenharia de Produção, Letras e Pedagogia
+// CORREÇÃO: Sintaxe da função deriveKey e outras strings com aspas curvas
+// CORREÇÃO: Remoção de caracteres invisíveis e quebras de linha inesperadas
 
 (function() {
     'use strict';
@@ -20,7 +14,6 @@
         AVATAR: 'userAvatar',
         GENDER: 'userGender',
         PASSWORD: 'userPasswordHash',
-        PASSWORD_PLAIN: 'userPassword', // Fallback inseguro (apenas para compatibilidade)
         MATRICULA: 'userMatricula'
     };
 
@@ -74,6 +67,7 @@
         'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
         'devops': { pt: 'DevOps', en: 'DevOps' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
+        'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
         'math': { pt: 'Math', en: 'Math' },
         'enem': { pt: 'ENEM', en: 'ENEM' },
@@ -87,7 +81,10 @@
         'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
         'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
-        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' }
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' },
+        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' }
     };
 
     // ========== FALLBACKS DE TRADUÇÃO ==========
@@ -229,7 +226,7 @@
         'profile_import_success': '✅ Import completed! {{count}} courses imported successfully.',
         'profile_import_confirm': '⚠️ This will replace all your current profile data. Do you want to continue?',
         'profile_remove_confirm': 'Do you want to remove your profile picture?',
-        'profile_no_password_confirm': "You don't have a password set. Data will be exported without encryption. Do you want to continue?",
+        'profile_no_password_confirm': 'You don\'t have a password set. Data will be exported without encryption. Do you want to continue?',
         'profile_encrypt_error': 'Error encrypting data. Please try again.',
         'profile_export_error': 'Error exporting data. Please try again.',
         'profile_import_error': 'Error processing file. Please check if it\'s a valid file.',
@@ -283,18 +280,22 @@
         'avatar_beija_flor': 'Hummingbird'
     };
 
-    // ========== TRADUÇÃO ==========
+    // ========== ESTADO ==========
     let translations = {};
     let currentLang = 'pt-br';
     let translationsLoaded = false;
+    let imageBasePath = null;
+    let _initialized = false;
 
-    function t(key, replacements = {}) {
+    // ========== TRADUÇÃO ==========
+    function t(key, replacements) {
+        replacements = replacements || {};
         let text = translations[key];
         if (!text) {
-            const fallback = currentLang === 'en' ? FALLBACK_EN : FALLBACK_PT;
+            var fallback = currentLang === 'en' ? FALLBACK_EN : FALLBACK_PT;
             text = fallback[key] || key;
         }
-        for (const k in replacements) {
+        for (var k in replacements) {
             if (replacements.hasOwnProperty(k)) {
                 text = text.replace(new RegExp('{{' + k + '}}', 'g'), replacements[k]);
             }
@@ -302,9 +303,8 @@
         return text;
     }
 
-    // ========== FUNÇÃO PARA OBTER NOME TRADUZIDO DO CURSO ==========
     function getCourseName(courseId) {
-        const nameObj = COURSE_NAMES[courseId];
+        var nameObj = COURSE_NAMES[courseId];
         if (!nameObj) return courseId;
         return nameObj[currentLang] || nameObj.pt || courseId;
     }
@@ -314,15 +314,15 @@
         if (translationsLoaded && lang === currentLang && Object.keys(translations).length > 0) {
             return true;
         }
-        const paths = [
+        var paths = [
             '../lang/' + lang + '.json',
             'lang/' + lang + '.json',
             '/lang/' + lang + '.json',
             './lang/' + lang + '.json'
         ];
-        for (let i = 0; i < paths.length; i++) {
+        for (var i = 0; i < paths.length; i++) {
             try {
-                const response = await fetch(paths[i]);
+                var response = await fetch(paths[i]);
                 if (response.ok) {
                     translations = await response.json();
                     translationsLoaded = true;
@@ -339,19 +339,19 @@
 
     // ========== FUNÇÕES AUXILIARES ==========
     function generateMatricula() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hour = String(now.getHours()).padStart(2, '0');
-        const minute = String(now.getMinutes()).padStart(2, '0');
-        const second = String(now.getSeconds()).padStart(2, '0');
-        const millisecond = String(now.getMilliseconds()).padStart(3, '0');
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()).padStart(2, '0');
+        var hour = String(now.getHours()).padStart(2, '0');
+        var minute = String(now.getMinutes()).padStart(2, '0');
+        var second = String(now.getSeconds()).padStart(2, '0');
+        var millisecond = String(now.getMilliseconds()).padStart(3, '0');
         return year + month + day + hour + minute + second + millisecond;
     }
 
     function getMatricula() {
-        let matricula = localStorage.getItem(STORAGE_KEYS.MATRICULA);
+        var matricula = localStorage.getItem(STORAGE_KEYS.MATRICULA);
         if (!matricula) {
             matricula = generateMatricula();
             localStorage.setItem(STORAGE_KEYS.MATRICULA, matricula);
@@ -360,9 +360,9 @@
     }
 
     function getAuditorioHours() {
-        const timeInSeconds = parseInt(localStorage.getItem(AUDITORIO_TIME_KEY) || '0', 10);
-        const hours = Math.floor(timeInSeconds / 3600);
-        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        var timeInSeconds = parseInt(localStorage.getItem(AUDITORIO_TIME_KEY) || '0', 10);
+        var hours = Math.floor(timeInSeconds / 3600);
+        var minutes = Math.floor((timeInSeconds % 3600) / 60);
         return {
             seconds: timeInSeconds,
             hours: hours,
@@ -372,8 +372,8 @@
     }
 
     function updateAuditorioTimeDisplay() {
-        const auditTime = getAuditorioHours();
-        const el = document.getElementById('profileAuditorioTime');
+        var auditTime = getAuditorioHours();
+        var el = document.getElementById('profileAuditorioTime');
         if (el) el.textContent = auditTime.formatted;
     }
 
@@ -384,9 +384,9 @@
             window.queueNotification(message, type);
             return;
         }
-        const existing = document.getElementById('customToast');
+        var existing = document.getElementById('customToast');
         if (existing) existing.remove();
-        const toast = document.createElement('div');
+        var toast = document.createElement('div');
         toast.id = 'customToast';
         toast.style.cssText =
             'position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);' +
@@ -417,8 +417,8 @@
     // ========== LIMPEZA DE OBJETOS ==========
     function cleanObject(obj, maxDepth) {
         maxDepth = maxDepth || 15;
-        const seen = new WeakSet();
-        let depth = 0;
+        var seen = new WeakSet();
+        var depth = 0;
 
         function clean(value) {
             if (typeof value !== 'object' || value === null) return value;
@@ -427,12 +427,12 @@
             seen.add(value);
             depth++;
             if (Array.isArray(value)) {
-                const arr = value.map(clean);
+                var arr = value.map(clean);
                 depth--;
                 return arr;
             }
-            const result = {};
-            for (const key in value) {
+            var result = {};
+            for (var key in value) {
                 if (value.hasOwnProperty(key)) {
                     try { result[key] = clean(value[key]); } catch (e) { result[key] = '[Error]'; }
                 }
@@ -445,18 +445,27 @@
 
     function safeStringify(obj, maxDepth) {
         maxDepth = maxDepth || 15;
-        const cleaned = cleanObject(obj, maxDepth);
+        var cleaned = cleanObject(obj, maxDepth);
         try { return JSON.stringify(cleaned); } catch (e) { return '{"error":"Serialization failed"}'; }
     }
 
-    // ========== CRIPTOGRAFIA ==========
+    // ========== CRIPTOGRAFIA (com fallback) ==========
     async function deriveKey(password, salt) {
-        const encoder = new TextEncoder();
-        const keyMaterial = await crypto.subtle.importKey(
-            'raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']
+        var encoder = new TextEncoder();
+        var keyMaterial = await crypto.subtle.importKey(
+            'raw',
+            encoder.encode(password),
+            'PBKDF2',
+            false,
+            ['deriveKey']
         );
         return crypto.subtle.deriveKey(
-            { name: 'PBKDF2', salt: encoder.encode(salt), iterations: 100000, hash: 'SHA-256' },
+            {
+                name: 'PBKDF2',
+                salt: encoder.encode(salt),
+                iterations: 100000,
+                hash: 'SHA-256'
+            },
             keyMaterial,
             { name: 'AES-GCM', length: 256 },
             false,
@@ -466,17 +475,17 @@
 
     async function encryptData(data, password) {
         try {
-            const encoder = new TextEncoder();
-            const salt = crypto.getRandomValues(new Uint8Array(16));
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const key = await deriveKey(password, salt);
-            const jsonString = safeStringify(data, 15);
-            const encrypted = await crypto.subtle.encrypt(
+            var encoder = new TextEncoder();
+            var salt = crypto.getRandomValues(new Uint8Array(16));
+            var iv = crypto.getRandomValues(new Uint8Array(12));
+            var key = await deriveKey(password, salt);
+            var jsonString = safeStringify(data, 15);
+            var encrypted = await crypto.subtle.encrypt(
                 { name: 'AES-GCM', iv: iv },
                 key,
                 encoder.encode(jsonString)
             );
-            const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            var result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
             result.set(salt, 0);
             result.set(iv, salt.length);
             result.set(new Uint8Array(encrypted), salt.length + iv.length);
@@ -489,17 +498,17 @@
 
     async function decryptData(encryptedBase64, password) {
         try {
-            const encrypted = Uint8Array.from(atob(encryptedBase64), function(c) { return c.charCodeAt(0); });
-            const salt = encrypted.slice(0, 16);
-            const iv = encrypted.slice(16, 28);
-            const data = encrypted.slice(28);
-            const key = await deriveKey(password, salt);
-            const decrypted = await crypto.subtle.decrypt(
+            var encrypted = Uint8Array.from(atob(encryptedBase64), function(c) { return c.charCodeAt(0); });
+            var salt = encrypted.slice(0, 16);
+            var iv = encrypted.slice(16, 28);
+            var data = encrypted.slice(28);
+            var key = await deriveKey(password, salt);
+            var decrypted = await crypto.subtle.decrypt(
                 { name: 'AES-GCM', iv: iv },
                 key,
                 data
             );
-            const decoder = new TextDecoder();
+            var decoder = new TextDecoder();
             return JSON.parse(decoder.decode(decrypted));
         } catch (error) {
             console.error('Erro na descriptografia:', error);
@@ -509,35 +518,45 @@
 
     async function verifyPassword(inputPassword, storedHash) {
         if (!storedHash) return false;
-        const encoder = new TextEncoder();
-        const data = encoder.encode(inputPassword);
-        const hash = await crypto.subtle.digest('SHA-256', data);
-        const hashBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
-        return hashBase64 === storedHash;
+        try {
+            var encoder = new TextEncoder();
+            var data = encoder.encode(inputPassword);
+            var hash = await crypto.subtle.digest('SHA-256', data);
+            var hashBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+            return hashBase64 === storedHash;
+        } catch (e) {
+            console.error('[Profile] Erro ao verificar senha:', e);
+            return false;
+        }
     }
 
     async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hash = await crypto.subtle.digest('SHA-256', data);
-        return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+        try {
+            var encoder = new TextEncoder();
+            var data = encoder.encode(password);
+            var hash = await crypto.subtle.digest('SHA-256', data);
+            return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+        } catch (e) {
+            console.error('[Profile] Erro ao gerar hash:', e);
+            return null;
+        }
     }
 
     // ========== VALIDAÇÃO DE SENHA ==========
     function checkPasswordStrength(password) {
-        const checks = {
+        var checks = {
             minLength: password.length >= PASSWORD_MIN_LENGTH,
             hasUpper: PASSWORD_REQUIREMENTS.hasUpper.test(password),
             hasLower: PASSWORD_REQUIREMENTS.hasLower.test(password),
             hasNumber: PASSWORD_REQUIREMENTS.hasNumber.test(password),
             hasSpecial: PASSWORD_REQUIREMENTS.hasSpecial.test(password)
         };
-        let passed = 0;
-        for (const key in checks) {
+        var passed = 0;
+        for (var key in checks) {
             if (checks.hasOwnProperty(key) && checks[key]) passed++;
         }
-        let strength = 'Fraca';
-        let color = '#ef4444';
+        var strength = 'Fraca';
+        var color = '#ef4444';
         if (passed === 5) { strength = 'Forte'; color = '#22c55e'; }
         else if (passed >= 4) { strength = 'Boa'; color = '#eab308'; }
         else if (passed >= 3) { strength = 'Média'; color = '#f59e0b'; }
@@ -547,7 +566,7 @@
     }
 
     function getPasswordFeedback(checks) {
-        const messages = [];
+        var messages = [];
         if (!checks.minLength) messages.push('Mínimo de ' + PASSWORD_MIN_LENGTH + ' caracteres');
         if (!checks.hasUpper) messages.push('Pelo menos uma letra maiúscula');
         if (!checks.hasLower) messages.push('Pelo menos uma letra minúscula');
@@ -579,16 +598,18 @@
             showToast(t('profile_password_min'), 'error');
             return false;
         }
-        const strength = checkPasswordStrength(password);
+        var strength = checkPasswordStrength(password);
         if (strength.passed < 3) {
-            const feedback = getPasswordFeedback(strength.checks);
+            var feedback = getPasswordFeedback(strength.checks);
             showToast(t('profile_password_weak') + feedback.join(', '), 'error');
             return false;
         }
-        const hash = await hashPassword(password);
+        var hash = await hashPassword(password);
+        if (!hash) {
+            showToast('Erro ao salvar senha. Tente novamente.', 'error');
+            return false;
+        }
         localStorage.setItem(STORAGE_KEYS.PASSWORD, hash);
-        // NÃO armazenar em texto claro (removido por segurança)
-        // localStorage.setItem(STORAGE_KEYS.PASSWORD_PLAIN, password); // REMOVIDO
         updateProfileModal();
         showPasswordSavedIndicator(true);
         showToast(t('profile_password_saved'), 'success');
@@ -603,12 +624,12 @@
         maxHeight = maxHeight || 150;
         quality = quality || 0.7;
         return new Promise(function(resolve, reject) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
-                const img = new Image();
+                var img = new Image();
                 img.onload = function() {
-                    let width = img.width;
-                    let height = img.height;
+                    var width = img.width;
+                    var height = img.height;
                     if (width > height) {
                         if (width > maxWidth) {
                             height = Math.round((height * maxWidth) / width);
@@ -620,14 +641,14 @@
                             height = maxHeight;
                         }
                     }
-                    const canvas = document.createElement('canvas');
+                    var canvas = document.createElement('canvas');
                     canvas.width = width;
                     canvas.height = height;
-                    const ctx = canvas.getContext('2d');
+                    var ctx = canvas.getContext('2d');
                     ctx.imageSmoothingEnabled = true;
                     ctx.imageSmoothingQuality = 'high';
                     ctx.drawImage(img, 0, 0, width, height);
-                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    var dataUrl = canvas.toDataURL('image/jpeg', quality);
                     resolve(dataUrl);
                 };
                 img.onerror = reject;
@@ -642,7 +663,7 @@
     function getUserAvatar() { return localStorage.getItem(STORAGE_KEYS.AVATAR) || null; }
 
     function saveUserAvatar(base64) {
-        const sizeInBytes = base64.length * 0.75;
+        var sizeInBytes = base64.length * 0.75;
         if (sizeInBytes > 500 * 1024) {
             showToast(t('profile_avatar_too_big'), 'error');
             return false;
@@ -664,25 +685,28 @@
     }
 
     function loadAvatarToModal() {
-        const img = document.getElementById('profileAvatar');
-        if (!img) return;
-        const avatar = getUserAvatar();
+        var img = document.getElementById('profileAvatar');
+        if (!img) {
+            console.warn('[Profile] #profileAvatar não encontrado');
+            return;
+        }
+        var avatar = getUserAvatar();
         if (avatar) {
             img.src = avatar;
+            console.log('[Profile] Avatar carregado do localStorage');
         } else {
-            const name = loadProfileName() || 'Usuario';
+            var name = loadProfileName() || 'Usuario';
             img.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=6C8CFF&color=fff&size=80';
+            console.log('[Profile] Avatar gerado via API');
         }
     }
 
     // ========== DETECÇÃO AUTOMÁTICA DO CAMINHO DAS IMAGENS ==========
-    let imageBasePath = null;
-
     async function detectImageBasePath() {
         if (imageBasePath) return imageBasePath;
 
-        const testFile = 'Aguia.png';
-        const paths = [
+        var testFile = 'Aguia.png';
+        var paths = [
             '/perfil/img/',
             'perfil/img/',
             '../perfil/img/',
@@ -691,10 +715,10 @@
             window.location.origin + '/universidade/perfil/img/'
         ];
 
-        for (let i = 0; i < paths.length; i++) {
-            const testUrl = paths[i] + testFile;
+        for (var i = 0; i < paths.length; i++) {
+            var testUrl = paths[i] + testFile;
             try {
-                const response = await fetch(testUrl, { method: 'HEAD' });
+                var response = await fetch(testUrl, { method: 'HEAD' });
                 if (response.ok) {
                     imageBasePath = paths[i];
                     console.log('[Profile] Caminho das imagens detectado: ' + imageBasePath);
@@ -711,14 +735,14 @@
     async function setDefaultAvatar() {
         if (getUserAvatar()) return;
         try {
-            const basePath = await detectImageBasePath();
-            const firstAvatar = DEFAULT_AVATARS[0];
-            const imgSrc = basePath + firstAvatar.file;
-            const response = await fetch(imgSrc);
+            var basePath = await detectImageBasePath();
+            var firstAvatar = DEFAULT_AVATARS[0];
+            var imgSrc = basePath + firstAvatar.file;
+            var response = await fetch(imgSrc);
             if (!response.ok) throw new Error('Falha ao carregar imagem padrão');
-            const blob = await response.blob();
-            const fileObj = new File([blob], firstAvatar.file, { type: blob.type });
-            const resizedBase64 = await resizeImage(fileObj, 150, 150, 0.7);
+            var blob = await response.blob();
+            var fileObj = new File([blob], firstAvatar.file, { type: blob.type });
+            var resizedBase64 = await resizeImage(fileObj, 150, 150, 0.7);
             saveUserAvatar(resizedBase64);
         } catch (error) {
             console.warn('[Profile] Erro ao definir avatar padrão:', error);
@@ -728,33 +752,33 @@
     // ========== SELETOR DE AVATAR ==========
     async function showAvatarSelector() {
         console.log('[Profile] showAvatarSelector chamado');
-        const existing = document.getElementById('avatarSelectorModal');
+        var existing = document.getElementById('avatarSelectorModal');
         if (existing) {
             existing.remove();
             console.log('[Profile] Modal de avatar já existia, removido');
         }
 
-        const basePath = await detectImageBasePath();
+        var basePath = await detectImageBasePath();
 
-        const overlay = document.createElement('div');
+        var overlay = document.createElement('div');
         overlay.id = 'avatarSelectorModal';
         overlay.style.cssText =
             'position:fixed;top:0;left:0;width:100%;height:100%;' +
             'background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);' +
             'z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
 
-        const modal = document.createElement('div');
+        var modal = document.createElement('div');
         modal.style.cssText =
             'background:var(--bg-secondary);border-radius:24px;padding:1.5rem;' +
             'max-width:780px;width:100%;max-height:90vh;overflow-y:auto;' +
             'border:1px solid var(--border);box-shadow:0 20px 40px rgba(0,0,0,0.7);' +
             'animation:scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);';
 
-        let avatarOptionsHtml = '';
-        for (let i = 0; i < DEFAULT_AVATARS.length; i++) {
-            const av = DEFAULT_AVATARS[i];
-            const imgSrc = basePath + av.file;
-            const avatarName = t(av.key);
+        var avatarOptionsHtml = '';
+        for (var i = 0; i < DEFAULT_AVATARS.length; i++) {
+            var av = DEFAULT_AVATARS[i];
+            var imgSrc = basePath + av.file;
+            var avatarName = t(av.key);
             avatarOptionsHtml += `
                 <div class="avatar-option" data-file="${av.file}" style="
                     cursor:pointer;border-radius:12px;overflow:hidden;
@@ -806,7 +830,7 @@
         document.body.appendChild(overlay);
         console.log('[Profile] Modal de avatar adicionado ao DOM');
 
-        const closeBtn = document.getElementById('closeAvatarSelector');
+        var closeBtn = document.getElementById('closeAvatarSelector');
         if (closeBtn) {
             closeBtn.addEventListener('click', function() {
                 overlay.remove();
@@ -821,7 +845,7 @@
             }
         });
 
-        const licenseBtn = document.getElementById('licenseAvatarBtn');
+        var licenseBtn = document.getElementById('licenseAvatarBtn');
         if (licenseBtn) {
             licenseBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -829,11 +853,11 @@
             });
         }
 
-        const options = document.querySelectorAll('.avatar-option');
+        var options = document.querySelectorAll('.avatar-option');
         console.log('[Profile] Encontradas ' + options.length + ' opções de avatar');
-        for (let j = 0; j < options.length; j++) {
+        for (var j = 0; j < options.length; j++) {
             (function(opt) {
-                const label = opt.querySelector('div:last-child');
+                var label = opt.querySelector('div:last-child');
                 opt.addEventListener('mouseenter', function() {
                     if (label) label.style.opacity = '1';
                     this.style.borderColor = 'var(--accent-blue)';
@@ -845,13 +869,13 @@
                     this.style.transform = 'scale(1)';
                 });
                 opt.addEventListener('click', function() {
-                    const file = this.dataset.file;
+                    var file = this.dataset.file;
                     console.log('[Profile] Avatar selecionado: ' + file);
-                    const imgSrc = basePath + file;
+                    var imgSrc = basePath + file;
                     fetch(imgSrc)
                         .then(function(res) { return res.blob(); })
                         .then(function(blob) {
-                            const fileObj = new File([blob], file, { type: blob.type });
+                            var fileObj = new File([blob], file, { type: blob.type });
                             return resizeImage(fileObj, 150, 150, 0.7);
                         })
                         .then(function(resizedBase64) {
@@ -867,8 +891,8 @@
             })(options[j]);
         }
 
-        const uploadBtn = document.getElementById('uploadAvatarBtn');
-        const fileInput = document.createElement('input');
+        var uploadBtn = document.getElementById('uploadAvatarBtn');
+        var fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.accept = 'image/*';
         fileInput.style.display = 'none';
@@ -883,7 +907,7 @@
 
         fileInput.addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
-                const file = e.target.files[0];
+                var file = e.target.files[0];
                 console.log('[Profile] Arquivo selecionado: ' + file.name);
                 handleAvatarUpload(file, function() {
                     overlay.remove();
@@ -893,7 +917,7 @@
             fileInput.value = '';
         });
 
-        const removeBtn = document.getElementById('removeAvatarBtn');
+        var removeBtn = document.getElementById('removeAvatarBtn');
         if (removeBtn) {
             removeBtn.addEventListener('click', function() {
                 if (confirm(t('profile_remove_confirm'))) {
@@ -907,7 +931,7 @@
             });
         }
 
-        const escHandler = function(e) {
+        var escHandler = function(e) {
             if (e.key === 'Escape') {
                 overlay.remove();
                 document.removeEventListener('keydown', escHandler);
@@ -916,7 +940,7 @@
         };
         document.addEventListener('keydown', escHandler);
 
-        const observer = new MutationObserver(function() {
+        var observer = new MutationObserver(function() {
             if (!document.getElementById('avatarSelectorModal')) {
                 document.removeEventListener('keydown', escHandler);
                 if (fileInput.parentNode) fileInput.remove();
@@ -951,33 +975,33 @@
 
     // ========== ATUALIZAR BOTÃO DE PERFIL ==========
     function updateProfileButton() {
-        const btn = document.getElementById('profileBtn');
+        var btn = document.getElementById('profileBtn');
         if (!btn) {
             console.warn('[Profile] Botão #profileBtn não encontrado');
             return;
         }
-        const avatar = getUserAvatar();
-        const name = loadProfileName() || 'Usuário';
-        const initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+        var avatar = getUserAvatar();
+        var name = loadProfileName() || 'Usuário';
+        var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
 
         btn.setAttribute('data-profile-custom', 'true');
         btn.innerHTML = '';
 
         if (avatar) {
-            const img = document.createElement('img');
+            var img = document.createElement('img');
             img.src = avatar;
             img.alt = 'Perfil';
             img.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;';
             btn.appendChild(img);
         } else {
-            const span = document.createElement('span');
+            var span = document.createElement('span');
             span.textContent = initials;
             span.className = 'profile-initials';
             span.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:0.85rem;font-weight:600;margin-right:8px;';
             btn.appendChild(span);
         }
 
-        const textNode = document.createTextNode(' ' + t('profile'));
+        var textNode = document.createTextNode(' ' + t('profile'));
         btn.appendChild(textNode);
         btn.style.cssText =
             'display: inline-flex; align-items: center; gap: 0.4rem;' +
@@ -986,15 +1010,17 @@
             'font-size: 0.85rem; cursor: pointer; border: none;' +
             'transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);' +
             'text-decoration: none; white-space: nowrap; box-shadow: none; min-height: 44px;';
+
+        console.log('[Profile] Botão de perfil atualizado');
     }
 
     // ========== INDICADOR DE SENHA ==========
     function showPasswordSavedIndicator(saved) {
-        const container = document.getElementById('profilePassword');
+        var container = document.getElementById('profilePassword');
         if (!container) return;
-        const parent = container.closest('.profile-user-section');
+        var parent = container.closest('.profile-user-section');
         if (!parent) return;
-        let indicator = parent.querySelector('.password-saved-indicator');
+        var indicator = parent.querySelector('.password-saved-indicator');
         if (!indicator) {
             indicator = document.createElement('div');
             indicator.className = 'password-saved-indicator';
@@ -1012,11 +1038,11 @@
 
     // ========== ESTATÍSTICAS DOS CURSOS ==========
     function calculateCourseStats(watchedMap) {
-        const totalVideos = watchedMap.length;
-        const watchedVideos = watchedMap.filter(function(v) { return v === true; }).length;
-        const completedLessons = Math.floor(watchedVideos / 5);
-        const completedDisciplines = Math.floor(watchedVideos / 25);
-        const points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
+        var totalVideos = watchedMap.length;
+        var watchedVideos = watchedMap.filter(function(v) { return v === true; }).length;
+        var completedLessons = Math.floor(watchedVideos / 5);
+        var completedDisciplines = Math.floor(watchedVideos / 25);
+        var points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
         return {
             totalVideos: totalVideos,
             watchedVideos: watchedVideos,
@@ -1028,16 +1054,16 @@
     }
 
     function getAllCoursesProgress() {
-        const courses = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
+        var courses = [];
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
             if (key && key.startsWith('ulivre_course_')) {
-                const courseId = key.replace('ulivre_course_', '');
+                var courseId = key.replace('ulivre_course_', '');
                 try {
-                    const data = JSON.parse(localStorage.getItem(key));
+                    var data = JSON.parse(localStorage.getItem(key));
                     if (data && data.watchedMap) {
-                        const stats = calculateCourseStats(data.watchedMap);
-                        const name = getCourseName(courseId);
+                        var stats = calculateCourseStats(data.watchedMap);
+                        var name = getCourseName(courseId);
                         courses.push({ id: courseId, name: name, stats: stats, data: data });
                     }
                 } catch (e) {}
@@ -1048,27 +1074,27 @@
 
     // ========== EXPORTAÇÃO/IMPORTAÇÃO ==========
     function getVideosProgress() {
-        const progress = localStorage.getItem('yt_video_progress');
+        var progress = localStorage.getItem('yt_video_progress');
         try { return progress ? JSON.parse(progress) : {}; } catch (e) { return {}; }
     }
 
     function getBooksRead() {
-        const books = localStorage.getItem('ulivre_livros_lidos');
+        var books = localStorage.getItem('ulivre_livros_lidos');
         try { return books ? JSON.parse(books) : []; } catch (e) { return []; }
     }
 
     function getNotes() {
-        const notes = localStorage.getItem('ulivre_notas_estudo');
+        var notes = localStorage.getItem('ulivre_notas_estudo');
         try { return notes ? JSON.parse(notes) : []; } catch (e) { return []; }
     }
 
     function getTags() {
-        const tags = localStorage.getItem('ulivre_notas_tags');
+        var tags = localStorage.getItem('ulivre_notas_tags');
         try { return tags ? JSON.parse(tags) : []; } catch (e) { return []; }
     }
 
     function generateExportData(includeCourses, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
-        const exportData = {
+        var exportData = {
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
             timestamp: new Date().toISOString(),
@@ -1080,11 +1106,11 @@
         };
 
         // ===== INCLUSÃO DA SENHA (HASH) PARA VERIFICAÇÃO NA IMPORTAÇÃO =====
-        const passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
+        var passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
         exportData.password = passwordHash;
 
         if (includeCourses) {
-            const courses = getAllCoursesProgress();
+            var courses = getAllCoursesProgress();
             exportData.data.courses = courses.map(function(c) {
                 return {
                     id: c.id,
@@ -1104,7 +1130,7 @@
         if (includeVideos) exportData.data.videos = getVideosProgress();
         if (includeBooks) exportData.data.booksRead = getBooksRead();
         if (includeNotes) {
-            const allNotes = getNotes();
+            var allNotes = getNotes();
             exportData.data.notes = (selectedNoteIds && selectedNoteIds.length > 0) ?
                 allNotes.filter(function(n) { return selectedNoteIds.indexOf(n.id) !== -1; }) : allNotes;
             exportData.data.tags = getTags();
@@ -1114,15 +1140,15 @@
 
     // ========== MODAL DE SENHA ==========
     function createPasswordModal(title, message, callback) {
-        const existing = document.getElementById('customPasswordModal');
+        var existing = document.getElementById('customPasswordModal');
         if (existing) existing.remove();
-        const overlay = document.createElement('div');
+        var overlay = document.createElement('div');
         overlay.id = 'customPasswordModal';
         overlay.style.cssText =
             'position:fixed;top:0;left:0;width:100%;height:100%;' +
             'background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;' +
             'z-index:9999;backdrop-filter:blur(8px);';
-        const modal = document.createElement('div');
+        var modal = document.createElement('div');
         modal.style.cssText =
             'background:var(--bg-secondary);border-radius:24px;padding:2rem;' +
             'max-width:420px;width:90%;border:1px solid var(--border);' +
@@ -1149,7 +1175,7 @@
             <div id="passwordModalError" style="color:#ef4444;font-size:0.85rem;margin-bottom:0.5rem;display:none;"></div>
             <div style="display:flex;gap:0.8rem;justify-content:flex-end;">
                 <button id="passwordModalCancel" style="padding:0.6rem 1.2rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);cursor:pointer;">
-                    ${t('notas_cancel')}
+                    ${t('notas_cancel') || 'Cancelar'}
                 </button>
                 <button id="passwordModalConfirm" style="padding:0.6rem 1.2rem;background:var(--gradient-primary);border:none;border-radius:12px;color:white;cursor:pointer;font-weight:600;">
                     ${t('profile_save')}
@@ -1159,30 +1185,30 @@
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
 
-        const input = document.getElementById('passwordModalInput');
-        const errorDiv = document.getElementById('passwordModalError');
-        const confirmBtn = document.getElementById('passwordModalConfirm');
-        const cancelBtn = document.getElementById('passwordModalCancel');
-        const toggleBtn = document.getElementById('togglePasswordVisibility');
-        const closeModal = function() { overlay.remove(); };
+        var input = document.getElementById('passwordModalInput');
+        var errorDiv = document.getElementById('passwordModalError');
+        var confirmBtn = document.getElementById('passwordModalConfirm');
+        var cancelBtn = document.getElementById('passwordModalCancel');
+        var toggleBtn = document.getElementById('togglePasswordVisibility');
+        var closeModal = function() { overlay.remove(); };
 
         toggleBtn.addEventListener('click', function() {
-            const type = input.type === 'password' ? 'text' : 'password';
+            var type = input.type === 'password' ? 'text' : 'password';
             input.type = type;
             toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
 
         confirmBtn.addEventListener('click', async function() {
-            const password = input.value;
+            var password = input.value;
             if (!password) {
                 errorDiv.textContent = t('profile_password_required');
                 errorDiv.style.display = 'block';
                 return;
             }
             try {
-                const storedHash = localStorage.getItem(STORAGE_KEYS.PASSWORD);
+                var storedHash = localStorage.getItem(STORAGE_KEYS.PASSWORD);
                 if (storedHash) {
-                    const isValid = await verifyPassword(password, storedHash);
+                    var isValid = await verifyPassword(password, storedHash);
                     if (!isValid) {
                         errorDiv.textContent = t('profile_password_incorrect');
                         errorDiv.style.display = 'block';
@@ -1209,27 +1235,38 @@
 
     // ========== EXPORTAÇÃO ==========
     async function handleExport() {
-        const includeCourses = document.getElementById('exportCourses').checked;
-        const includeVideos = document.getElementById('exportVideos').checked;
-        const includeBooks = document.getElementById('exportBooks').checked;
-        const includeNotes = document.getElementById('exportNotes').checked;
-        let selectedNoteIds = [];
-        if (includeNotes) {
-            const checkboxes = document.querySelectorAll('#notesCheckboxes input[type="checkbox"]:checked');
-            for (let i = 0; i < checkboxes.length; i++) {
+        var includeCourses = document.getElementById('exportCourses');
+        var includeVideos = document.getElementById('exportVideos');
+        var includeBooks = document.getElementById('exportBooks');
+        var includeNotes = document.getElementById('exportNotes');
+
+        if (!includeCourses || !includeVideos || !includeBooks || !includeNotes) {
+            showToast('Erro ao carregar opções de exportação.', 'error');
+            return;
+        }
+
+        var includeCoursesChecked = includeCourses.checked;
+        var includeVideosChecked = includeVideos.checked;
+        var includeBooksChecked = includeBooks.checked;
+        var includeNotesChecked = includeNotes.checked;
+
+        var selectedNoteIds = [];
+        if (includeNotesChecked) {
+            var checkboxes = document.querySelectorAll('#notesCheckboxes input[type="checkbox"]:checked');
+            for (var i = 0; i < checkboxes.length; i++) {
                 selectedNoteIds.push(checkboxes[i].value);
             }
         }
-        const hasPassword = hasStoredPassword();
+        var hasPassword = hasStoredPassword();
 
-        const exportAction = async function(password) {
+        var exportAction = async function(password) {
             try {
-                const data = generateExportData(includeCourses, includeVideos, includeBooks, includeNotes, selectedNoteIds);
-                let finalData = data;
-                let isEncrypted = false;
+                var data = generateExportData(includeCoursesChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
+                var finalData = data;
+                var isEncrypted = false;
                 if (password && password.length > 0) {
                     try {
-                        const encrypted = await encryptData(data, password);
+                        var encrypted = await encryptData(data, password);
                         finalData = {
                             encrypted: true,
                             data: encrypted,
@@ -1243,12 +1280,12 @@
                         return;
                     }
                 }
-                const json = JSON.stringify(finalData, null, 2);
-                const blob = new Blob([json], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
+                var json = JSON.stringify(finalData, null, 2);
+                var blob = new Blob([json], { type: 'application/json' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
                 a.href = url;
-                const suffix = isEncrypted ? '_criptografado' : '';
+                var suffix = isEncrypted ? '_criptografado' : '';
                 a.download = 'dados_completos_' + data.user + '_' + new Date().toISOString().slice(0,10) + suffix + '.json';
                 document.body.appendChild(a);
                 a.click();
@@ -1272,14 +1309,14 @@
     // ========== IMPORTAÇÃO ==========
     async function handleImport(file) {
         if (!file) return;
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.onload = async function(e) {
             try {
-                let importedData = JSON.parse(e.target.result);
+                var importedData = JSON.parse(e.target.result);
                 if (importedData.encrypted === true) {
                     createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
                         try {
-                            const decrypted = await decryptData(importedData.data, password);
+                            var decrypted = await decryptData(importedData.data, password);
                             importedData = decrypted;
                             await applyImportedData(importedData);
                         } catch (err) {
@@ -1294,7 +1331,7 @@
                     // Se houver senha armazenada no arquivo, pede a senha do usuário
                     createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
                         try {
-                            const match = await verifyPassword(password, importedData.password);
+                            var match = await verifyPassword(password, importedData.password);
                             if (match) {
                                 await applyImportedData(importedData);
                             } else {
@@ -1321,8 +1358,8 @@
             return;
         }
         if (!confirm(t('profile_import_confirm'))) return;
-        const data = importedData.data;
-        let importedCount = 0;
+        var data = importedData.data;
+        var importedCount = 0;
 
         // ===== RESTAURAR DADOS DO PERFIL =====
         if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
@@ -1338,8 +1375,8 @@
 
         // ===== RESTAURAR CURSOS =====
         if (data.courses) {
-            for (let i = 0; i < data.courses.length; i++) {
-                const course = data.courses[i];
+            for (var i = 0; i < data.courses.length; i++) {
+                var course = data.courses[i];
                 if (course.id && course.rawData) {
                     localStorage.setItem('ulivre_course_' + course.id, JSON.stringify(course.rawData));
                     importedCount++;
@@ -1372,54 +1409,54 @@
 
     // ========== ATUALIZAR TRADUÇÕES DO MODAL ==========
     function updateProfileTranslations() {
-        const modalHeader = document.querySelector('.profile-modal-header h2');
+        var modalHeader = document.querySelector('.profile-modal-header h2');
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
 
-        const avatarOverlay = document.querySelector('.avatar-overlay span');
+        var avatarOverlay = document.querySelector('.avatar-overlay span');
         if (avatarOverlay) avatarOverlay.textContent = t('profile_change_photo');
 
-        const nameLabel = document.querySelector('label[for="profileNameInput"]');
+        var nameLabel = document.querySelector('label[for="profileNameInput"]');
         if (nameLabel) nameLabel.innerHTML = '<i class="fas fa-user"></i> ' + t('profile_name');
 
-        const nameInput = document.getElementById('profileNameInput');
+        var nameInput = document.getElementById('profileNameInput');
         if (nameInput) nameInput.placeholder = t('profile_name_placeholder');
 
-        const genderLabel = document.querySelector('label[for="profileGender"]');
+        var genderLabel = document.querySelector('label[for="profileGender"]');
         if (genderLabel) genderLabel.innerHTML = '<i class="fas fa-venus-mars"></i> ' + t('profile_gender');
 
-        const passwordLabel = document.querySelector('label[for="profilePassword"]');
+        var passwordLabel = document.querySelector('label[for="profilePassword"]');
         if (passwordLabel) passwordLabel.innerHTML = '<i class="fas fa-lock"></i> ' + t('profile_password');
 
-        const passwordInput = document.getElementById('profilePassword');
+        var passwordInput = document.getElementById('profilePassword');
         if (passwordInput) passwordInput.placeholder = t('profile_password_placeholder');
 
-        const saveNameBtn = document.getElementById('profileSaveNameBtn');
+        var saveNameBtn = document.getElementById('profileSaveNameBtn');
         if (saveNameBtn) saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
 
-        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        var saveGenderBtn = document.getElementById('profileSaveGenderBtn');
         if (saveGenderBtn) saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
 
-        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        var savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
 
-        const genderSelect = document.getElementById('profileGender');
+        var genderSelect = document.getElementById('profileGender');
         if (genderSelect) {
-            const options = genderSelect.querySelectorAll('option');
-            const genderMap = {
+            var options = genderSelect.querySelectorAll('option');
+            var genderMap = {
                 '': t('profile_gender_not_informed'),
                 'masculino': t('profile_gender_masculine'),
                 'feminino': t('profile_gender_feminine'),
                 'outro': t('profile_gender_other')
             };
-            for (let i = 0; i < options.length; i++) {
-                const opt = options[i];
+            for (var i = 0; i < options.length; i++) {
+                var opt = options[i];
                 if (genderMap[opt.value] !== undefined) opt.textContent = genderMap[opt.value];
             }
         }
 
-        const statItems = document.querySelectorAll('.profile-stats .stat-item');
+        var statItems = document.querySelectorAll('.profile-stats .stat-item');
         if (statItems.length >= 6) {
-            const texts = [
+            var texts = [
                 t('profile_watched_videos'),
                 t('profile_total_videos'),
                 t('profile_completed_lessons'),
@@ -1427,31 +1464,31 @@
                 t('profile_total_points'),
                 t('profile_auditorio_hours')
             ];
-            for (let j = 0; j < statItems.length && j < texts.length; j++) {
-                const labelSpan = statItems[j].querySelector('span:first-child');
+            for (var j = 0; j < statItems.length && j < texts.length; j++) {
+                var labelSpan = statItems[j].querySelector('span:first-child');
                 if (labelSpan) labelSpan.textContent = texts[j];
             }
         }
 
-        const exportItems = [
+        var exportItems = [
             { id: 'exportCourses', key: 'profile_export_courses' },
             { id: 'exportVideos', key: 'profile_export_videos' },
             { id: 'exportBooks', key: 'profile_export_books' },
             { id: 'exportNotes', key: 'profile_export_notes' }
         ];
-        for (let k = 0; k < exportItems.length; k++) {
-            const item = exportItems[k];
-            const input = document.getElementById(item.id);
+        for (var k = 0; k < exportItems.length; k++) {
+            var item = exportItems[k];
+            var input = document.getElementById(item.id);
             if (input) {
-                const label = input.closest('label');
+                var label = input.closest('label');
                 if (label) {
-                    const icon = label.querySelector('i');
+                    var icon = label.querySelector('i');
                     if (icon) {
-                        const inputClone = input.cloneNode(true);
+                        var inputClone = input.cloneNode(true);
                         label.innerHTML = '';
                         label.appendChild(inputClone);
                         label.appendChild(document.createTextNode(' '));
-                        const iconClone = icon.cloneNode(true);
+                        var iconClone = icon.cloneNode(true);
                         label.appendChild(iconClone);
                         label.appendChild(document.createTextNode(' ' + t(item.key)));
                     } else {
@@ -1461,39 +1498,39 @@
             }
         }
 
-        const coursesTitle = document.querySelector('#profileCoursesList h4');
+        var coursesTitle = document.querySelector('#profileCoursesList h4');
         if (coursesTitle) coursesTitle.innerHTML = '<i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses');
 
-        const exportTitle = document.querySelector('.profile-modal-body hr + h4');
+        var exportTitle = document.querySelector('.profile-modal-body hr + h4');
         if (exportTitle) exportTitle.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_export_import');
 
-        const selectNotesLabel = document.querySelector('#notesSelectionContainer p');
+        var selectNotesLabel = document.querySelector('#notesSelectionContainer p');
         if (selectNotesLabel) selectNotesLabel.textContent = t('profile_select_notes');
 
-        const exportBtn = document.getElementById('generateExportBtn');
+        var exportBtn = document.getElementById('generateExportBtn');
         if (exportBtn) exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
 
-        const importBtn = document.getElementById('importProgressBtn');
+        var importBtn = document.getElementById('importProgressBtn');
         if (importBtn) importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
 
-        const profileNote = document.querySelector('.profile-note');
+        var profileNote = document.querySelector('.profile-note');
         if (profileNote) profileNote.innerHTML = '<i class="fas fa-database"></i> ' + t('profile_data_note');
 
-        const matriculaLabel = document.querySelector('.profile-matricula span:first-child');
+        var matriculaLabel = document.querySelector('.profile-matricula span:first-child');
         if (matriculaLabel) matriculaLabel.textContent = t('profile_matricula');
 
-        const ongoingBadges = document.querySelectorAll('.profile-course-item .progress-badge.ongoing');
-        for (let m = 0; m < ongoingBadges.length; m++) {
+        var ongoingBadges = document.querySelectorAll('.profile-course-item .progress-badge.ongoing');
+        for (var m = 0; m < ongoingBadges.length; m++) {
             ongoingBadges[m].textContent = t('profile_in_progress');
         }
-        const completedBadges = document.querySelectorAll('.profile-course-item .progress-badge.completed');
-        for (let n = 0; n < completedBadges.length; n++) {
+        var completedBadges = document.querySelectorAll('.profile-course-item .progress-badge.completed');
+        for (var n = 0; n < completedBadges.length; n++) {
             completedBadges[n].textContent = t('profile_completed');
         }
 
-        const ongoingText = document.querySelector('.ongoing-courses-summary span');
+        var ongoingText = document.querySelector('.ongoing-courses-summary span');
         if (ongoingText) {
-            const ongoingCount = document.querySelectorAll('.profile-course-item .progress-badge.ongoing').length;
+            var ongoingCount = document.querySelectorAll('.profile-course-item .progress-badge.ongoing').length;
             if (ongoingCount > 0) {
                 ongoingText.innerHTML = '<strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase();
             }
@@ -1510,20 +1547,20 @@
     }
 
     function _updateProfileModal() {
-        const allCourses = getAllCoursesProgress();
-        let totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
-        let ongoingCount = 0;
+        var allCourses = getAllCoursesProgress();
+        var totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
+        var ongoingCount = 0;
 
-        const nameInput = document.getElementById('profileNameInput');
+        var nameInput = document.getElementById('profileNameInput');
         if (nameInput) {
             nameInput.value = loadProfileName();
             nameInput.placeholder = t('profile_name_placeholder');
         }
 
-        const genderSelect = document.getElementById('profileGender');
+        var genderSelect = document.getElementById('profileGender');
         if (genderSelect) genderSelect.value = getProfileGender();
 
-        const passwordInput = document.getElementById('profilePassword');
+        var passwordInput = document.getElementById('profilePassword');
         if (passwordInput) {
             passwordInput.value = '';
             passwordInput.placeholder = t('profile_password_placeholder');
@@ -1535,15 +1572,15 @@
             if (passwordInput.value.length > 0) updatePasswordStrengthIndicator.call(passwordInput);
         }
 
-        const matricula = getMatricula();
-        const avatarSection = document.querySelector('.profile-avatar-section');
+        var matricula = getMatricula();
+        var avatarSection = document.querySelector('.profile-avatar-section');
         if (avatarSection) {
             avatarSection.style.display = 'flex';
             avatarSection.style.flexDirection = 'column';
             avatarSection.style.alignItems = 'center';
-            const oldMatricula = avatarSection.querySelector('.profile-matricula');
+            var oldMatricula = avatarSection.querySelector('.profile-matricula');
             if (oldMatricula) oldMatricula.remove();
-            const matriculaEl = document.createElement('div');
+            var matriculaEl = document.createElement('div');
             matriculaEl.className = 'profile-matricula';
             matriculaEl.style.cssText =
                 'text-align:center;margin-top:0.3rem;font-size:0.7rem;' +
@@ -1553,17 +1590,17 @@
             avatarSection.appendChild(matriculaEl);
         }
 
-        const listContainer = document.getElementById('profileCoursesList');
-        let listHtml = '<h4 style="margin:0.5rem 0;color:var(--text-secondary);"><i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses') + '</h4>';
+        var listContainer = document.getElementById('profileCoursesList');
+        var listHtml = '<h4 style="margin:0.5rem 0;color:var(--text-secondary);"><i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses') + '</h4>';
         if (allCourses.length === 0) {
             listHtml += '<p style="color:var(--text-tertiary);font-size:0.9rem;">' + t('profile_no_courses') + '</p>';
         } else {
-            for (let i = 0; i < allCourses.length; i++) {
-                const course = allCourses[i];
-                const stats = course.stats;
-                const isOngoing = stats.progressPercent > 0 && stats.progressPercent < 100;
-                const isCompleted = stats.progressPercent >= 100;
-                let badge = '';
+            for (var i = 0; i < allCourses.length; i++) {
+                var course = allCourses[i];
+                var stats = course.stats;
+                var isOngoing = stats.progressPercent > 0 && stats.progressPercent < 100;
+                var isCompleted = stats.progressPercent >= 100;
+                var badge = '';
                 if (isOngoing) { badge = '<span class="progress-badge ongoing">' + t('profile_in_progress') + '</span>'; ongoingCount++; }
                 else if (isCompleted) badge = '<span class="progress-badge completed">' + t('profile_completed') + '</span>';
                 totalStats.watchedVideos += stats.watchedVideos;
@@ -1571,7 +1608,7 @@
                 totalStats.completedLessons += stats.completedLessons;
                 totalStats.completedDisciplines += stats.completedDisciplines;
                 totalStats.points += stats.points;
-                const iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
+                var iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
                 listHtml +=
                     '<div class="profile-course-item">' +
                     '<div class="profile-course-name">' +
@@ -1586,7 +1623,7 @@
         }
         if (listContainer) listContainer.innerHTML = listHtml;
 
-        const ongoingContainer = document.getElementById('ongoingCoursesContainer');
+        var ongoingContainer = document.getElementById('ongoingCoursesContainer');
         if (ongoingContainer) {
             if (ongoingCount > 0) {
                 ongoingContainer.innerHTML = '<div class="ongoing-courses-summary"><i class="fas fa-play-circle"></i> <span><strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase() + '</span></div>';
@@ -1609,39 +1646,39 @@
 
     // ========== INDICADOR DE FORÇA DA SENHA ==========
     function updatePasswordStrengthIndicator() {
-        const input = document.getElementById('profilePassword');
+        var input = document.getElementById('profilePassword');
         if (!input) return;
-        const password = input.value;
-        const container = input.closest('.profile-user-section');
+        var password = input.value;
+        var container = input.closest('.profile-user-section');
         if (!container) return;
-        const oldIndicator = container.querySelector('.password-strength-indicator');
+        var oldIndicator = container.querySelector('.password-strength-indicator');
         if (oldIndicator) oldIndicator.remove();
         if (password.length === 0) return;
-        const strength = checkPasswordStrength(password);
-        const feedback = getPasswordFeedback(strength.checks);
-        const indicator = document.createElement('div');
+        var strength = checkPasswordStrength(password);
+        var feedback = getPasswordFeedback(strength.checks);
+        var indicator = document.createElement('div');
         indicator.className = 'password-strength-indicator';
         indicator.style.cssText = 'margin-top:0.5rem;width:100%;background:var(--bg-tertiary);border-radius:8px;padding:0.6rem 1rem;border:1px solid var(--border);';
-        const barContainer = document.createElement('div');
+        var barContainer = document.createElement('div');
         barContainer.style.cssText = 'width:100%;height:6px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;margin-bottom:0.3rem;';
-        const bar = document.createElement('div');
-        const percent = (strength.passed / strength.total) * 100;
+        var bar = document.createElement('div');
+        var percent = (strength.passed / strength.total) * 100;
         bar.style.cssText = 'width:' + percent + '%;height:100%;background:' + strength.color + ';transition:width 0.3s;border-radius:4px;';
         barContainer.appendChild(bar);
         indicator.appendChild(barContainer);
-        const textRow = document.createElement('div');
+        var textRow = document.createElement('div');
         textRow.style.cssText = 'display:flex;justify-content:space-between;color:var(--text-secondary);font-size:0.8rem;';
-        const strengthText = document.createElement('span');
+        var strengthText = document.createElement('span');
         strengthText.textContent = 'Força: ' + strength.strength;
         strengthText.style.color = strength.color;
         strengthText.style.fontWeight = '600';
         textRow.appendChild(strengthText);
-        const reqsText = document.createElement('span');
+        var reqsText = document.createElement('span');
         reqsText.textContent = strength.passed + '/' + strength.total + ' requisitos';
         textRow.appendChild(reqsText);
         indicator.appendChild(textRow);
         if (feedback.length > 0) {
-            const feedbackDiv = document.createElement('div');
+            var feedbackDiv = document.createElement('div');
             feedbackDiv.style.cssText = 'margin-top:0.3rem;font-size:0.75rem;color:var(--text-tertiary);';
             feedbackDiv.textContent = 'Falta: ' + feedback.join(', ');
             indicator.appendChild(feedbackDiv);
@@ -1650,16 +1687,16 @@
     }
 
     function updateNotesCheckboxes() {
-        const container = document.getElementById('notesCheckboxes');
+        var container = document.getElementById('notesCheckboxes');
         if (!container) return;
-        const notes = getNotes();
+        var notes = getNotes();
         if (notes.length === 0) {
             container.innerHTML = '<p style="color:var(--text-tertiary);">' + t('profile_no_notes') + '</p>';
             return;
         }
-        let html = '';
-        for (let i = 0; i < notes.length; i++) {
-            const note = notes[i];
+        var html = '';
+        for (var i = 0; i < notes.length; i++) {
+            var note = notes[i];
             html += '<label style="display:block;margin:0.2rem 0;"><input type="checkbox" class="note-select" value="' + note.id + '" checked> ' + escapeHtml(note.titulo || 'Sem título') + '</label>';
         }
         container.innerHTML = html;
@@ -1678,7 +1715,7 @@
     // ========== ABRIR/FECHAR MODAL ==========
     function openProfileModal() {
         console.log('[Profile] openProfileModal chamado');
-        const modal = document.getElementById('profileModal');
+        var modal = document.getElementById('profileModal');
         if (!modal) {
             console.warn('[Profile] Modal #profileModal não encontrado no DOM');
             return;
@@ -1699,7 +1736,7 @@
     }
 
     function closeProfileModal() {
-        const modal = document.getElementById('profileModal');
+        var modal = document.getElementById('profileModal');
         if (!modal) return;
         modal.classList.remove('show');
         modal.style.display = 'none';
@@ -1708,43 +1745,60 @@
 
     // ========== INICIALIZAÇÃO ==========
     async function initProfileSystem() {
+        if (_initialized) {
+            console.log('[Profile] Sistema já inicializado.');
+            return;
+        }
+        _initialized = true;
+
         console.log('[Profile] initProfileSystem iniciado');
-        const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language && navigator.language.startsWith('pt') ? 'pt-br' : 'en');
+        var savedLang = localStorage.getItem('selectedLanguage') || (navigator.language && navigator.language.startsWith('pt') ? 'pt-br' : 'en');
         currentLang = savedLang;
         await loadTranslations(currentLang);
 
         await detectImageBasePath();
 
-        const profileBtn = document.getElementById('profileBtn');
+        // ===== ATUALIZAR BOTÃO DE PERFIL =====
+        var profileBtn = document.getElementById('profileBtn');
         console.log('[Profile] Botão #profileBtn encontrado?', !!profileBtn);
 
         if (profileBtn) {
+            // Remove listeners antigos para evitar duplicação
             profileBtn.removeEventListener('click', openProfileModal);
             profileBtn.addEventListener('click', openProfileModal);
             console.log('[Profile] Listener de clique adicionado ao botão #profileBtn');
+            // Atualiza imediatamente a aparência do botão
             setTimeout(updateProfileButton, 50);
             setTimeout(updateProfileButton, 300);
         } else {
             console.warn('[Profile] Botão #profileBtn NÃO encontrado. Verifique o HTML.');
         }
 
-        const avatarWrapper = document.getElementById('avatarWrapper');
+        // ===== AVATAR WRAPPER =====
+        var avatarWrapper = document.getElementById('avatarWrapper');
+        console.log('[Profile] #avatarWrapper encontrado?', !!avatarWrapper);
         if (avatarWrapper) {
+            // Remove listeners antigos
             avatarWrapper.removeEventListener('click', showAvatarSelector);
             avatarWrapper.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 console.log('[Profile] Clique no avatarWrapper – abrindo seletor');
                 showAvatarSelector();
             });
             console.log('[Profile] Listener de clique adicionado ao #avatarWrapper');
         } else {
-            console.warn('[Profile] #avatarWrapper não encontrado');
+            console.warn('[Profile] #avatarWrapper não encontrado. O seletor de avatar não funcionará.');
         }
 
-        const closeBtn = document.getElementById('closeProfileModal');
-        if (closeBtn) closeBtn.addEventListener('click', closeProfileModal);
+        // ===== FECHAR MODAL DE PERFIL =====
+        var closeBtn = document.getElementById('closeProfileModal');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeProfileModal);
+        }
 
-        const modal = document.getElementById('profileModal');
+        // ===== MODAL DE PERFIL =====
+        var modal = document.getElementById('profileModal');
         if (modal) {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) closeProfileModal();
@@ -1754,31 +1808,32 @@
             });
         }
 
-        const saveNameBtn = document.getElementById('profileSaveNameBtn');
+        // ===== BOTÕES DE SALVAR =====
+        var saveNameBtn = document.getElementById('profileSaveNameBtn');
         if (saveNameBtn) {
             saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
             saveNameBtn.addEventListener('click', function() {
-                const name = document.getElementById('profileNameInput').value.trim();
+                var name = document.getElementById('profileNameInput').value.trim();
                 if (!name) { showToast(t('profile_name_required'), 'error'); return; }
                 saveProfileName(name);
             });
         }
 
-        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        var saveGenderBtn = document.getElementById('profileSaveGenderBtn');
         if (saveGenderBtn) {
             saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
             saveGenderBtn.addEventListener('click', function() {
-                const gender = document.getElementById('profileGender').value;
+                var gender = document.getElementById('profileGender').value;
                 saveProfileGender(gender);
             });
         }
 
-        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        var savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) {
             savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
             savePasswordBtn.addEventListener('click', async function() {
-                const password = document.getElementById('profilePassword').value;
-                const saved = await saveProfilePassword(password);
+                var password = document.getElementById('profilePassword').value;
+                var saved = await saveProfilePassword(password);
                 if (saved) {
                     document.getElementById('profilePassword').value = '';
                     showPasswordSavedIndicator(true);
@@ -1786,22 +1841,23 @@
             });
         }
 
-        const exportBtn = document.getElementById('generateExportBtn');
+        // ===== EXPORTAÇÃO E IMPORTAÇÃO =====
+        var exportBtn = document.getElementById('generateExportBtn');
         if (exportBtn) {
             exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
             exportBtn.addEventListener('click', handleExport);
         }
 
-        const importBtn = document.getElementById('importProgressBtn');
+        var importBtn = document.getElementById('importProgressBtn');
         if (importBtn) {
             importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
             importBtn.addEventListener('click', function() {
-                const importInput = document.getElementById('importFileInput');
+                var importInput = document.getElementById('importFileInput');
                 if (importInput) importInput.click();
             });
         }
 
-        const importInput = document.getElementById('importFileInput');
+        var importInput = document.getElementById('importFileInput');
         if (importInput) {
             importInput.addEventListener('change', function(e) {
                 if (e.target.files && e.target.files[0]) {
@@ -1811,19 +1867,27 @@
             });
         }
 
-        if (!getUserAvatar()) setDefaultAvatar();
+        // ===== AVATAR INICIAL =====
+        if (!getUserAvatar()) {
+            setDefaultAvatar();
+        }
 
+        // ===== CARREGAR DADOS NO MODAL =====
         loadAvatarToModal();
-        const nameInputField = document.getElementById('profileNameInput');
+        var nameInputField = document.getElementById('profileNameInput');
         if (nameInputField) {
             nameInputField.value = loadProfileName();
             nameInputField.placeholder = t('profile_name_placeholder');
         }
-        const genderSelectField = document.getElementById('profileGender');
-        if (genderSelectField) genderSelectField.value = getProfileGender();
-        const passwordInputField = document.getElementById('profilePassword');
-        if (passwordInputField) passwordInputField.placeholder = t('profile_password_placeholder');
-        showPasswordSavedIndicator(hasStoredPassword());
+        var genderSelectField = document.getElementById('profileGender');
+        if (genderSelectField) {
+            genderSelectField.value = getProfileGender();
+        }
+        var passwordInputField = document.getElementById('profilePassword');
+        if (passwordInputField) {
+            passwordInputField.placeholder = t('profile_password_placeholder');
+            showPasswordSavedIndicator(hasStoredPassword());
+        }
 
         updateProfileButton();
         updateProfileTranslations();
@@ -1858,39 +1922,43 @@
     window.getCourseName = getCourseName;
 
     // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('[Profile] DOMContentLoaded – iniciando profile');
+    function autoInit() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('[Profile] DOMContentLoaded – iniciando profile');
+                if (!window._profileInitialized) {
+                    window._profileInitialized = true;
+                    initProfileSystem();
+                }
+            });
+        } else {
+            console.log('[Profile] DOM já carregado – iniciando profile imediatamente');
             if (!window._profileInitialized) {
                 window._profileInitialized = true;
                 initProfileSystem();
             }
-        });
-    } else {
-        console.log('[Profile] DOM já carregado – iniciando profile imediatamente');
-        if (!window._profileInitialized) {
-            window._profileInitialized = true;
-            initProfileSystem();
         }
     }
 
+    autoInit();
+
     // ========== EVENTOS DE HORAS DO AUDITÓRIO ==========
     window.addEventListener('auditorioTimeUpdated', function(e) {
-        const seconds = e.detail.seconds;
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const formatted = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
-        const el = document.getElementById('profileAuditorioTime');
+        var seconds = e.detail.seconds;
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var formatted = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
+        var el = document.getElementById('profileAuditorioTime');
         if (el) el.textContent = formatted;
     });
 
     window.addEventListener('storage', function(e) {
         if (e.key === AUDITORIO_TIME_KEY) {
-            const el = document.getElementById('profileAuditorioTime');
+            var el = document.getElementById('profileAuditorioTime');
             if (el && document.getElementById('profileModal').style.display === 'flex') {
-                const seconds = parseInt(e.newValue || '0', 10);
-                const hours = Math.floor(seconds / 3600);
-                const minutes = Math.floor((seconds % 3600) / 60);
+                var seconds = parseInt(e.newValue || '0', 10);
+                var hours = Math.floor(seconds / 3600);
+                var minutes = Math.floor((seconds % 3600) / 60);
                 el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
             }
         }
@@ -1898,13 +1966,13 @@
 
     // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
     window.addEventListener('languageChanged', async function(e) {
-        const lang = e.detail.lang || 'pt-br';
+        var lang = e.detail.lang || 'pt-br';
         if (lang !== currentLang) {
             currentLang = lang;
             await loadTranslations(lang);
         }
         updateProfileButton();
-        const modal = document.getElementById('profileModal');
+        var modal = document.getElementById('profileModal');
         if (modal && modal.style.display === 'flex') {
             updateProfileTranslations();
             _updateProfileModal();
