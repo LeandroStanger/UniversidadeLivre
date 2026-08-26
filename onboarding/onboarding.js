@@ -1,4 +1,4 @@
-// onboarding/onboarding.js – Versão 19.0 – COMPLETO E AUTOSSUFICIENTE
+// onboarding/onboarding.js – Versão 20.0 – COMPLETO E AUTOSSUFICIENTE
 // Trilha de boas-vindas (Onboarding) com Login, Cadastro, Importação de progresso
 // Suporte a verificação de senha para importação (incluindo arquivos criptografados)
 // Restauração completa do perfil (nome, gênero, avatar, matrícula, tempo, cursos, etc.)
@@ -6,6 +6,9 @@
 // CORREÇÃO: Funções de criptografia embutidas no próprio módulo (não depende de profile.js)
 // CORREÇÃO: Suporte a arquivos criptografados e não criptografados
 // CORREÇÃO: Mensagens de erro claras e botão para recarregar a página
+// CORREÇÃO: Traduções carregadas exclusivamente do arquivo JSON (fallback mínimo)
+// CORREÇÃO: MutationObserver desconectado ao fechar modal
+// CORREÇÃO: Removidos fallbacks hardcoded enormes – agora usa window.t ou traduções carregadas
 
 (function() {
     'use strict';
@@ -107,79 +110,21 @@
         return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
     }
 
-    // ========== TRADUÇÃO COM FALLBACK ==========
+    // ========== TRADUÇÃO (SEM FALLBACK HARCODED) ==========
+    // A função t() agora usa exclusivamente as traduções carregadas via JSON.
+    // Se a chave não for encontrada, retorna a própria chave (para facilitar a identificação de faltas).
     function t(key, replacements = {}) {
-        if (window.getTranslation && typeof window.getTranslation === 'function') {
-            try {
-                return window.getTranslation(key, replacements);
-            } catch (e) { /* fallback */ }
+        // Prioriza o objeto global de traduções se disponível
+        let translations = {};
+        if (window.__translations) {
+            translations = window.__translations;
+        } else if (window.translations) {
+            translations = window.translations;
+        } else if (typeof window.getTranslations === 'function') {
+            translations = window.getTranslations() || {};
         }
 
-        const fallbacks = {
-            'onboarding_language_title': 'Escolha seu idioma',
-            'onboarding_language_text': 'Selecione o idioma da plataforma para continuar.',
-            'onboarding_error_language_required': 'Por favor, selecione um idioma.',
-            'onboarding_welcome_title': 'Bem-vindo à Universidade Livre',
-            'onboarding_welcome_text': 'Uma plataforma de educação autodidata, gratuita e aberta para todos.',
-            'onboarding_about_title': 'Sobre o projeto',
-            'onboarding_about_text': 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.',
-            'onboarding_form_title': 'Crie seu perfil',
-            'onboarding_form_name_label': 'Nome',
-            'onboarding_form_name_placeholder': 'Digite seu nome...',
-            'onboarding_form_gender_label': 'Gênero',
-            'onboarding_form_gender_not_informed': 'Não informado',
-            'onboarding_form_gender_masculine': 'Masculino',
-            'onboarding_form_gender_feminine': 'Feminino',
-            'onboarding_form_gender_other': 'Outro',
-            'onboarding_form_password_label': 'Senha',
-            'onboarding_form_password_placeholder': 'Crie uma senha forte...',
-            'onboarding_form_confirm_password_label': 'Confirmar senha',
-            'onboarding_form_confirm_password_placeholder': 'Repita a senha...',
-            'onboarding_form_avatar_label': 'Escolha seu avatar',
-            'onboarding_form_avatar_upload': 'Enviar foto',
-            'onboarding_form_avatar_remove': 'Remover foto',
-            'onboarding_form_avatar_license': 'Licença das imagens',
-            'onboarding_confirm_title': 'Pronto para começar!',
-            'onboarding_confirm_text': 'Seu perfil foi criado. Explore os cursos, participe da comunidade e comece sua jornada de aprendizado.',
-            'onboarding_button_start': 'Começar agora',
-            'onboarding_button_next': 'Próximo',
-            'onboarding_button_prev': 'Voltar',
-            'onboarding_button_finish': 'Concluir',
-            'onboarding_error_name_required': 'O nome é obrigatório.',
-            'onboarding_error_gender_required': 'Por favor, selecione seu sexo.',
-            'onboarding_error_password_min': 'A senha deve ter pelo menos 8 caracteres.',
-            'onboarding_error_password_weak': 'Senha muito fraca! Requisitos não atendidos: ',
-            'onboarding_error_password_mismatch': 'As senhas não coincidem.',
-            'onboarding_password_strength_weak': 'Fraca',
-            'onboarding_password_strength_medium': 'Média',
-            'onboarding_password_strength_good': 'Boa',
-            'onboarding_password_strength_strong': 'Forte',
-            'onboarding_login_password_label': 'Senha',
-            'onboarding_login_password_placeholder': 'Digite sua senha...',
-            'onboarding_login_button': 'Entrar',
-            'onboarding_error_login_failed': 'Senha incorreta.',
-            'onboarding_error_password_required': 'Por favor, digite a senha para importar.',
-            'onboarding_import_button': 'Importar Progresso',
-            'onboarding_create_account': 'Criar conta',
-            'main_program_description': 'Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação',
-            'course_progress': 'Progresso do Curso',
-            'course_hours': 'Carga horária',
-            'profile': 'Perfil',
-            'profile_select_image': 'Selecione uma imagem.',
-            'profile_image_too_big': 'A imagem é muito grande. Máximo 5 MB.',
-            'profile_avatar_upload_error': 'Erro ao processar a imagem. Tente novamente.',
-            'profile_avatar_updated': 'Avatar atualizado!',
-            'profile_avatar_removed': 'Avatar removido.',
-            'profile_import_progress': 'Importar Progresso',
-            'onboarding_switch_to_login': 'Já tenho conta? Faça login',
-            'profile_import_success': '✅ Importação concluída! {{count}} cursos importados com sucesso.',
-            'profile_import_confirm': '⚠️ Isso irá substituir todos os dados atuais do seu perfil. Deseja continuar?',
-            'profile_export_import': 'Exportar / Importar dados',
-            'profile_password_incorrect': 'Senha incorreta! Tente novamente.',
-            'reload_page': 'Recarregar página'
-        };
-
-        let text = fallbacks[key] || key;
+        let text = translations[key] || key;
         for (const k in replacements) {
             if (replacements.hasOwnProperty(k)) {
                 text = text.replace(new RegExp('{{' + k + '}}', 'g'), replacements[k]);
@@ -284,6 +229,7 @@
         const errorDiv = document.getElementById('onboardingLangError');
         if (errorDiv) errorDiv.style.display = 'none';
 
+        // Dispara evento de mudança de idioma para que outros módulos sejam atualizados
         if (window.setLanguage && typeof window.setLanguage === 'function') {
             window.setLanguage(lang);
         } else if (window.I18n && window.I18n.setLanguage) {
@@ -581,7 +527,7 @@
                         <div id="onboardingLoginError" class="form-error" style="display:none;">${t('onboarding_error_login_failed')}</div>
                     </div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> ${t('onboarding_import_button')}</button>
+                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> ${t('profile_import_progress')}</button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
                     </div>
 
@@ -1271,9 +1217,11 @@
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
 
+        // Desconectar o MutationObserver para evitar vazamento de memória
         if (passwordObserver) {
             passwordObserver.disconnect();
             passwordObserver = null;
+            console.log('[Onboarding] MutationObserver desconectado.');
         }
     }
 
@@ -1326,6 +1274,7 @@
     function initEvents() {
         if (!prevBtn || !nextBtn || !finishBtn) return;
 
+        // Clona os botões para remover listeners antigos
         const newPrev = prevBtn.cloneNode(true);
         const newNext = nextBtn.cloneNode(true);
         const newFinish = finishBtn.cloneNode(true);

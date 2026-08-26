@@ -8,92 +8,12 @@
     "description": "Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico."
   },
   {
-    "id": "computacao",
-    "name": "Ciência da Computação",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-laptop-code",
-    "description": "Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software."
-  },
-  {
-    "id": "computer-science",
-    "name": "Computer Science",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-laptop-code",
-    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
-  },
-  {
-    "id": "engenharia_computacao",
-    "name": "Engenharia de Computação",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-microchip",
-    "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
-  },
-  {
-    "id": "engenharia-producao",
-    "name": "Engenharia de Produção",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-industry",
-    "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
-  },
-  {
-    "id": "gestao-publica",
-    "name": "Gestão Pública",
-    "courseLevel": "graduacao",
-    "courseType": "tecnologo",
-    "icon": "fa-landmark",
-    "description": "Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público."
-  },
-  {
-    "id": "letras-portugues",
-    "name": "Letras – Habilitação em Língua Portuguesa",
+    "id": "biologia",
+    "name": "Biologia",
     "courseLevel": "graduacao",
     "courseType": "licenciatura",
-    "icon": "fa-book-open",
-    "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
-  },
-  {
-    "id": "matematica",
-    "name": "Matemática",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-square-root-alt",
-    "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
-  },
-  {
-    "id": "matematica-licenciatura",
-    "name": "Matemática (Licenciatura)",
-    "courseLevel": "graduacao",
-    "courseType": "licenciatura",
-    "icon": "fa-square-root-alt",
-    "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica."
-  },
-  {
-    "id": "math",
-    "name": "Math",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-square-root-alt",
-    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
-  },
-  {
-    "id": "pedagogia",
-    "name": "Pedagogia",
-    "courseLevel": "graduacao",
-    "courseType": "licenciatura",
-    "icon": "fa-chalkboard-teacher",
-    "description": "Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais."
-  },
-  {
-    "id": "tecnologia-informacao",
-    "name": "Tecnologia da Informação",
-    "courseLevel": "graduacao",
-    "courseType": "bacharelado",
-    "icon": "fa-laptop-code",
-    "description": "Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores."
+    "icon": "fa-leaf",
+    "description": "Curso de Licenciatura em Biologia com formação sólida em fundamentos biológicos, pedagógicos e práticos, preparando para o ensino de Ciências e Biologia na Educação Básica."
   },
   {
     "id": "ciencia-de-dados-bacharelado",
@@ -104,14 +24,6 @@
     "description": "Curso de Bacharelado em Ciência de Dados com formação abrangente em programação, matemática, estatística, aprendizado de máquina, visualização e infraestrutura para análise de dados. Preparação para atuar como cientista de dados em organizações de diversos setores."
   },
   {
-    "id": "processos-gerenciais",
-    "name": "Processos Gerenciais",
-    "courseLevel": "graduacao",
-    "courseType": "tecnologo",
-    "icon": "fa-briefcase",
-    "description": "Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão."
-  },
-  {
     "id": "ciencia_de_dados",
     "name": "Ciência de Dados",
     "courseLevel": "pos-graduacao",
@@ -120,12 +32,28 @@
     "description": "Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
   },
   {
+    "id": "computacao",
+    "name": "Ciência da Computação",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software."
+  },
+  {
     "id": "computacao_grafica",
     "name": "Computação Gráfica",
     "courseLevel": "pos-graduacao",
     "courseType": null,
     "icon": "fa-cubes",
     "description": "Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional."
+  },
+  {
+    "id": "computer-science",
+    "name": "Computer Science",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
   },
   {
     "id": "cybersecurity",
@@ -168,12 +96,20 @@
     "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática."
   },
   {
-    "id": "espcex",
-    "name": "EsPCEx",
-    "courseLevel": "ensino-medio",
-    "courseType": null,
-    "icon": "fa-shield-halbed",
-    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+    "id": "engenharia-producao",
+    "name": "Engenharia de Produção",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-industry",
+    "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
+  },
+  {
+    "id": "engenharia_computacao",
+    "name": "Engenharia de Computação",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-microchip",
+    "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
   },
   {
     "id": "espanhol",
@@ -190,6 +126,30 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "espcex",
+    "name": "EsPCEx",
+    "courseLevel": "ensino-medio",
+    "courseType": null,
+    "icon": "fa-shield-halbed",
+    "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+  },
+  {
+    "id": "fisica",
+    "name": "Física",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-atom",
+    "description": "Curso de Licenciatura em Física com formação sólida em fundamentos físicos, matemáticos, pedagógicos e práticos, preparando para o ensino de Física na Educação Básica."
+  },
+  {
+    "id": "gestao-publica",
+    "name": "Gestão Pública",
+    "courseLevel": "graduacao",
+    "courseType": "tecnologo",
+    "icon": "fa-landmark",
+    "description": "Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público."
   },
   {
     "id": "ingles",
@@ -216,11 +176,83 @@
     "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
   },
   {
+    "id": "letras",
+    "name": "Letras",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-book-open",
+    "description": "Curso de Licenciatura em Letras com formação ampla em língua, literatura e linguística, preparando para o ensino de língua portuguesa e literatura na Educação Básica. Abrange desde fundamentos da educação até práticas de ensino, com ênfase em análise linguística, produção textual e estudos literários."
+  },
+  {
+    "id": "letras-portugues",
+    "name": "Letras – Habilitação em Língua Portuguesa",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-book-open",
+    "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
+  },
+  {
+    "id": "matematica",
+    "name": "Matemática",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
+  },
+  {
+    "id": "matematica-licenciatura",
+    "name": "Matemática (Licenciatura)",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-square-root-alt",
+    "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica."
+  },
+  {
+    "id": "math",
+    "name": "Math",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-square-root-alt",
+    "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+  },
+  {
+    "id": "pedagogia",
+    "name": "Pedagogia",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-chalkboard-teacher",
+    "description": "Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais."
+  },
+  {
     "id": "portugues-brasileiro",
     "name": "Brazilian Portuguese (for English Speakers)",
     "courseLevel": "idiomas",
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+  },
+  {
+    "id": "processos-gerenciais",
+    "name": "Processos Gerenciais",
+    "courseLevel": "graduacao",
+    "courseType": "tecnologo",
+    "icon": "fa-briefcase",
+    "description": "Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão."
+  },
+  {
+    "id": "quimica",
+    "name": "Química",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "icon": "fa-flask",
+    "description": "Curso de Licenciatura em Química com formação sólida em fundamentos químicos, pedagógicos e práticos, preparando para o ensino de Química na Educação Básica."
+  },
+  {
+    "id": "tecnologia-informacao",
+    "name": "Tecnologia da Informação",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-laptop-code",
+    "description": "Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores."
   }
 ]

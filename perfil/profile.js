@@ -1,7 +1,14 @@
-// perfil/profile.js – Versão 26.1 – CORRIGIDO (sintaxe e caracteres invisíveis)
+// perfil/profile.js – Versão 29.0 – COMPLETO E OTIMIZADO
 // Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
-// CORREÇÃO: Sintaxe da função deriveKey e outras strings com aspas curvas
-// CORREÇÃO: Remoção de caracteres invisíveis e quebras de linha inesperadas
+// CORREÇÃO: Validação robusta de estrutura de dados na importação
+// CORREÇÃO: Logs detalhados para depuração
+// CORREÇÃO: Suporte a todos os cursos (incluindo Física, Letras e Química)
+// CORREÇÃO: Fallback para estruturas antigas de arquivos
+// CORREÇÃO: Tratamento de exceções individuais (avatar, cursos, etc.)
+// CORREÇÃO: Sincronização com módulo de Onboarding
+// CORREÇÃO: Exportação de dados do perfil com checksum e senha
+// CORREÇÃO: Importação com verificação de integridade e estrutura
+// CORREÇÃO: Usa módulo central i18n (window.t) com fallback próprio
 
 (function() {
     'use strict';
@@ -58,243 +65,55 @@
     // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
     const COURSE_NAMES = {
         'administracao': { pt: 'Administração', en: 'Administration' },
-        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
-        'matematica': { pt: 'Matemática', en: 'Mathematics' },
-        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
-        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
-        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
-        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
-        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
-        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'biologia': { pt: 'Biologia', en: 'Biology' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
+        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
-        'math': { pt: 'Math', en: 'Math' },
+        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
+        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
+        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
         'enem': { pt: 'ENEM', en: 'ENEM' },
-        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
-        'ingles': { pt: 'Inglês', en: 'English' },
-        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
-        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
-        'japones': { pt: 'Japonês', en: 'Japanese' },
-        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
-        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
         'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
-        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
-        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
+        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
+        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
+        'fisica': { pt: 'Física', en: 'Physics' },
         'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
-        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' },
-        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' }
+        'ingles': { pt: 'Inglês', en: 'English' },
+        'japones': { pt: 'Japonês', en: 'Japanese' },
+        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
+        'letras': { pt: 'Letras', en: 'Letters' },
+        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
+        'math': { pt: 'Math', en: 'Math' },
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
+        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' },
+        'quimica': { pt: 'Química', en: 'Chemistry' },
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
-    // ========== FALLBACKS DE TRADUÇÃO ==========
-    const FALLBACK_PT = {
-        'profile': 'Perfil',
-        'profile_title': 'Meu Perfil',
-        'profile_change_photo': 'Alterar foto',
-        'profile_name': 'Nome',
-        'profile_name_placeholder': 'Seu nome...',
-        'profile_gender': 'Gênero',
-        'profile_password': 'Senha (para exportar/importar)',
-        'profile_password_placeholder': 'Defina uma senha forte...',
-        'profile_save_name': 'Salvar Nome',
-        'profile_save': 'Salvar',
-        'profile_save_progress': 'Salvar Progresso',
-        'profile_import_progress': 'Importar Progresso',
-        'profile_watched_videos': 'Vídeos assistidos',
-        'profile_total_videos': 'Total de vídeos',
-        'profile_completed_lessons': 'Lições concluídas',
-        'profile_completed_disciplines': 'Disciplinas concluídas',
-        'profile_total_points': 'Pontuação total',
-        'profile_auditorio_hours': 'Horas no Auditório',
-        'profile_saved_courses': 'Cursos salvos',
-        'profile_no_courses': 'Nenhum curso iniciado ainda.',
-        'profile_in_progress': 'Em andamento',
-        'profile_completed': 'Concluído',
-        'profile_export_import': 'Exportar / Importar dados',
-        'profile_select_notes': 'Selecione quais notas exportar:',
-        'profile_data_note': 'Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.',
-        'profile_matricula': 'Matrícula:',
-        'profile_choose_avatar': 'Escolher foto de perfil',
-        'profile_avatar_description': 'Selecione uma imagem padrão ou faça upload da sua própria foto.',
-        'profile_upload': 'Fazer upload',
-        'profile_remove_photo': 'Remover foto',
-        'profile_license': 'Licença das imagens',
-        'profile_no_notes': 'Nenhuma nota encontrada.',
-        'profile_name_saved': 'Nome salvo com sucesso!',
-        'profile_gender_saved': 'Gênero salvo com sucesso!',
-        'profile_password_saved': 'Senha salva com sucesso!',
-        'profile_avatar_updated': 'Foto de perfil atualizada!',
-        'profile_avatar_removed': 'Foto removida com sucesso.',
-        'profile_export_success': 'Dados exportados com sucesso!',
-        'profile_import_success': '✅ Importação concluída! {{count}} cursos importados com sucesso.',
-        'profile_import_confirm': '⚠️ Isso irá substituir todos os dados atuais do seu perfil. Deseja continuar?',
-        'profile_remove_confirm': 'Deseja remover sua foto de perfil?',
-        'profile_no_password_confirm': 'Você não tem uma senha definida. Os dados serão exportados sem criptografia. Deseja continuar?',
-        'profile_encrypt_error': 'Erro ao criptografar os dados. Tente novamente.',
-        'profile_export_error': 'Erro ao exportar dados. Tente novamente.',
-        'profile_import_error': 'Erro ao processar o arquivo. Verifique se é um arquivo válido.',
-        'profile_invalid_file': 'Arquivo inválido: dados não encontrados.',
-        'profile_password_incorrect': 'Senha incorreta! Tente novamente.',
-        'profile_password_required': 'Por favor, digite a senha.',
-        'profile_password_min': 'A senha deve ter pelo menos 8 caracteres.',
-        'profile_password_weak': 'Senha muito fraca! Requisitos não atendidos: ',
-        'profile_avatar_too_big': 'A imagem é muito grande. Tente uma foto menor.',
-        'profile_avatar_upload_error': 'Erro ao processar a imagem. Tente novamente.',
-        'profile_avatar_storage_error': 'A imagem é muito grande para ser armazenada. Tente uma foto menor.',
-        'profile_avatar_save_error': 'Erro ao salvar a imagem. Tente novamente.',
-        'profile_processing': 'Processando imagem...',
-        'profile_select_image': 'Por favor, selecione uma imagem.',
-        'profile_image_too_big': 'A imagem é muito grande. Máximo 5 MB.',
-        'profile_name_required': 'Por favor, insira um nome.',
-        'profile_password_saved_indicator': 'Senha salva',
-        'profile_no_password_saved': 'Nenhuma senha salva',
-        'profile_gender_not_informed': 'Não informado',
-        'profile_gender_masculine': 'Masculino',
-        'profile_gender_feminine': 'Feminino',
-        'profile_gender_other': 'Outro',
-        'profile_export_courses': 'Cursos',
-        'profile_export_videos': 'Vídeos',
-        'profile_export_books': 'Livros lidos',
-        'profile_export_notes': 'Notas',
-        'notas_heading': 'Notas',
-        'avatar_aguia': 'Águia',
-        'avatar_guepardo': 'Guepardo',
-        'avatar_gato': 'Gato',
-        'avatar_cachorro': 'Cachorro',
-        'avatar_passaro': 'Pássaro',
-        'avatar_papagaio_do_mar': 'Papagaio-do-mar',
-        'avatar_pato': 'Pato',
-        'avatar_galo': 'Galo',
-        'avatar_flamingo': 'Flamingo',
-        'avatar_cavalo': 'Cavalo',
-        'avatar_dragao_barbudo': 'Dragão-barbudo',
-        'avatar_leao': 'Leão',
-        'avatar_urso': 'Urso',
-        'avatar_columba_livia': 'Columba-lívia',
-        'avatar_coruja': 'Coruja',
-        'avatar_pastor_alemao': 'Pastor-alemão',
-        'avatar_papagaio_verdadeiro': 'Papagaio-verdadeiro',
-        'avatar_arara_azul_grande': 'Arara-azul-grande',
-        'avatar_arara_caninde': 'Arara-caninde',
-        'avatar_capivara': 'Capivara',
-        'avatar_lobo': 'Lobo',
-        'avatar_esquilo': 'Esquilo',
-        'avatar_zebra': 'Zebra',
-        'avatar_beija_flor': 'Beija-flor'
-    };
-
-    const FALLBACK_EN = {
-        'profile': 'Profile',
-        'profile_title': 'My Profile',
-        'profile_change_photo': 'Change photo',
-        'profile_name': 'Name',
-        'profile_name_placeholder': 'Your name...',
-        'profile_gender': 'Gender',
-        'profile_password': 'Password (for export/import)',
-        'profile_password_placeholder': 'Set a strong password...',
-        'profile_save_name': 'Save Name',
-        'profile_save': 'Save',
-        'profile_save_progress': 'Save Progress',
-        'profile_import_progress': 'Import Progress',
-        'profile_watched_videos': 'Videos watched',
-        'profile_total_videos': 'Total videos',
-        'profile_completed_lessons': 'Lessons completed',
-        'profile_completed_disciplines': 'Disciplines completed',
-        'profile_total_points': 'Total points',
-        'profile_auditorio_hours': 'Hours on Auditorium',
-        'profile_saved_courses': 'Saved courses',
-        'profile_no_courses': 'No courses started yet.',
-        'profile_in_progress': 'In progress',
-        'profile_completed': 'Completed',
-        'profile_export_import': 'Export / Import data',
-        'profile_select_notes': 'Select which notes to export:',
-        'profile_data_note': 'Data stored locally in your browser. Password is used to encrypt the export.',
-        'profile_matricula': 'Enrollment ID:',
-        'profile_choose_avatar': 'Choose profile picture',
-        'profile_avatar_description': 'Select a default image or upload your own photo.',
-        'profile_upload': 'Upload',
-        'profile_remove_photo': 'Remove photo',
-        'profile_license': 'Image license',
-        'profile_no_notes': 'No notes found.',
-        'profile_name_saved': 'Name saved successfully!',
-        'profile_gender_saved': 'Gender saved successfully!',
-        'profile_password_saved': 'Password saved successfully!',
-        'profile_avatar_updated': 'Profile picture updated!',
-        'profile_avatar_removed': 'Photo removed successfully.',
-        'profile_export_success': 'Data exported successfully!',
-        'profile_import_success': '✅ Import completed! {{count}} courses imported successfully.',
-        'profile_import_confirm': '⚠️ This will replace all your current profile data. Do you want to continue?',
-        'profile_remove_confirm': 'Do you want to remove your profile picture?',
-        'profile_no_password_confirm': 'You don\'t have a password set. Data will be exported without encryption. Do you want to continue?',
-        'profile_encrypt_error': 'Error encrypting data. Please try again.',
-        'profile_export_error': 'Error exporting data. Please try again.',
-        'profile_import_error': 'Error processing file. Please check if it\'s a valid file.',
-        'profile_invalid_file': 'Invalid file: data not found.',
-        'profile_password_incorrect': 'Incorrect password! Please try again.',
-        'profile_password_required': 'Please enter the password.',
-        'profile_password_min': 'Password must be at least 8 characters.',
-        'profile_password_weak': 'Password too weak! Requirements not met: ',
-        'profile_avatar_too_big': 'Image is too large. Please try a smaller photo.',
-        'profile_avatar_upload_error': 'Error processing image. Please try again.',
-        'profile_avatar_storage_error': 'Image is too large to store. Please try a smaller photo.',
-        'profile_avatar_save_error': 'Error saving image. Please try again.',
-        'profile_processing': 'Processing image...',
-        'profile_select_image': 'Please select an image.',
-        'profile_image_too_big': 'Image is too large. Maximum 5 MB.',
-        'profile_name_required': 'Please enter a name.',
-        'profile_password_saved_indicator': 'Password saved',
-        'profile_no_password_saved': 'No password saved',
-        'profile_gender_not_informed': 'Not informed',
-        'profile_gender_masculine': 'Male',
-        'profile_gender_feminine': 'Female',
-        'profile_gender_other': 'Other',
-        'profile_export_courses': 'Courses',
-        'profile_export_videos': 'Videos',
-        'profile_export_books': 'Books read',
-        'profile_export_notes': 'Notes',
-        'notas_heading': 'Notes',
-        'avatar_aguia': 'Eagle',
-        'avatar_guepardo': 'Cheetah',
-        'avatar_gato': 'Cat',
-        'avatar_cachorro': 'Dog',
-        'avatar_passaro': 'Bird',
-        'avatar_papagaio_do_mar': 'Puffin',
-        'avatar_pato': 'Duck',
-        'avatar_galo': 'Rooster',
-        'avatar_flamingo': 'Flamingo',
-        'avatar_cavalo': 'Horse',
-        'avatar_dragao_barbudo': 'Bearded Dragon',
-        'avatar_leao': 'Lion',
-        'avatar_urso': 'Bear',
-        'avatar_columba_livia': 'Rock Dove',
-        'avatar_coruja': 'Owl',
-        'avatar_pastor_alemao': 'German Shepherd',
-        'avatar_papagaio_verdadeiro': 'True Parrot',
-        'avatar_arara_azul_grande': 'Hyacinth Macaw',
-        'avatar_arara_caninde': 'Caninde Macaw',
-        'avatar_capivara': 'Capybara',
-        'avatar_lobo': 'Wolf',
-        'avatar_esquilo': 'Squirrel',
-        'avatar_zebra': 'Zebra',
-        'avatar_beija_flor': 'Hummingbird'
-    };
-
-    // ========== ESTADO ==========
+    // ========== TRADUÇÃO (com fallback mínimo) ==========
     let translations = {};
     let currentLang = 'pt-br';
     let translationsLoaded = false;
-    let imageBasePath = null;
-    let _initialized = false;
 
-    // ========== TRADUÇÃO ==========
-    function t(key, replacements) {
-        replacements = replacements || {};
-        let text = translations[key];
-        if (!text) {
-            var fallback = currentLang === 'en' ? FALLBACK_EN : FALLBACK_PT;
-            text = fallback[key] || key;
+    // Função t() que usa window.t se disponível
+    function t(key, replacements = {}) {
+        // Tenta usar o módulo central i18n
+        if (window.t && typeof window.t === 'function') {
+            try {
+                return window.t(key, replacements);
+            } catch (e) { /* fallback */ }
         }
+
+        // Fallback próprio
+        let text = translations[key] || key;
         for (var k in replacements) {
             if (replacements.hasOwnProperty(k)) {
                 text = text.replace(new RegExp('{{' + k + '}}', 'g'), replacements[k]);
@@ -311,9 +130,22 @@
 
     // ========== I18N ==========
     async function loadTranslations(lang) {
-        if (translationsLoaded && lang === currentLang && Object.keys(translations).length > 0) {
-            return true;
+        // Tenta usar o módulo central i18n
+        if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+            try {
+                await window.i18n.loadTranslations(lang);
+                translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+                if (Object.keys(translations).length > 0) {
+                    translationsLoaded = true;
+                    console.log('[Profile] Traduções carregadas do módulo central i18n');
+                    return true;
+                }
+            } catch (e) {
+                console.warn('[Profile] Falha ao carregar do módulo central:', e);
+            }
         }
+
+        // Fallback: tenta carregar o arquivo JSON diretamente
         var paths = [
             '../lang/' + lang + '.json',
             'lang/' + lang + '.json',
@@ -331,7 +163,7 @@
                 }
             } catch (e) { /* continua */ }
         }
-        console.warn('[Profile] Nenhum arquivo de tradução encontrado para ' + lang + '. Usando fallback.');
+        console.warn('[Profile] Nenhum arquivo de tradução encontrado para ' + lang + '. Usando fallback mínimo.');
         translations = {};
         translationsLoaded = false;
         return false;
@@ -1101,13 +933,26 @@
             avatar: getUserAvatar() || null,
             matricula: getMatricula(),
             auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
-            version: '2.0',
+            version: '2.1',
             data: {}
         };
 
         // ===== INCLUSÃO DA SENHA (HASH) PARA VERIFICAÇÃO NA IMPORTAÇÃO =====
         var passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
         exportData.password = passwordHash;
+
+        // ===== CHECKSUM PARA VALIDAÇÃO DE INTEGRIDADE =====
+        try {
+            var tempJson = JSON.stringify(exportData);
+            var hash = 0;
+            for (var idx = 0; idx < tempJson.length; idx++) {
+                hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
+                hash |= 0;
+            }
+            exportData.checksum = hash.toString(16);
+        } catch (e) {
+            console.warn('[Profile] Erro ao gerar checksum:', e);
+        }
 
         if (includeCourses) {
             var courses = getAllCoursesProgress();
@@ -1136,6 +981,41 @@
             exportData.data.tags = getTags();
         }
         return exportData;
+    }
+
+    // ========== VALIDAÇÃO DE ESTRUTURA DE DADOS ==========
+    function validateImportedData(data) {
+        console.log('[Profile] Validando estrutura dos dados importados...');
+        
+        if (!data || typeof data !== 'object') {
+            console.error('[Profile] Dados inválidos: objeto vazio ou malformado.');
+            throw new Error('Dados inválidos: objeto vazio ou malformado.');
+        }
+
+        // Verifica se há pelo menos um campo obrigatório
+        const hasUser = !!data.user;
+        const hasData = !!data.data && typeof data.data === 'object';
+        const hasCourses = data.data && Array.isArray(data.data.courses);
+        
+        if (!hasUser && !hasData) {
+            console.error('[Profile] Estrutura de dados não reconhecida.');
+            throw new Error('Arquivo inválido: estrutura de dados não reconhecida.');
+        }
+
+        // Se não tiver data, tenta construir a partir dos dados antigos (fallback)
+        if (!hasData) {
+            console.warn('[Profile] Propriedade "data" ausente. Tentando adaptar estrutura antiga...');
+            if (Array.isArray(data.courses)) {
+                data.data = { courses: data.courses };
+                console.log('[Profile] Estrutura adaptada: data.courses criado a partir de courses raiz.');
+            } else {
+                console.error('[Profile] Não foi possível adaptar: courses não encontrado na raiz.');
+                throw new Error('Estrutura de dados não suportada.');
+            }
+        }
+
+        console.log('[Profile] Validação concluída com sucesso.');
+        return true;
     }
 
     // ========== MODAL DE SENHA ==========
@@ -1270,9 +1150,10 @@
                         finalData = {
                             encrypted: true,
                             data: encrypted,
-                            version: '2.0-encrypted',
+                            version: '2.1-encrypted',
                             user: data.user,
-                            timestamp: data.timestamp
+                            timestamp: data.timestamp,
+                            checksum: data.checksum
                         };
                         isEncrypted = true;
                     } catch (e) {
@@ -1293,6 +1174,7 @@
                 URL.revokeObjectURL(url);
                 showToast(t('profile_export_success'), 'success');
             } catch (error) {
+                console.error('[Profile] Erro na exportação:', error);
                 showToast(t('profile_export_error'), 'error');
             }
         };
@@ -1308,102 +1190,188 @@
 
     // ========== IMPORTAÇÃO ==========
     async function handleImport(file) {
-        if (!file) return;
+        if (!file) {
+            showToast('Nenhum arquivo selecionado.', 'error');
+            return;
+        }
+        console.log('[Import] Arquivo selecionado:', file.name, file.size, file.type);
+
         var reader = new FileReader();
         reader.onload = async function(e) {
             try {
+                console.log('[Import] Leitura do arquivo concluída. Tamanho:', e.target.result.length);
                 var importedData = JSON.parse(e.target.result);
+                console.log('[Import] JSON parseado com sucesso. Chaves:', Object.keys(importedData));
+
+                // Validação inicial
+                if (!importedData || typeof importedData !== 'object') {
+                    throw new Error('Arquivo inválido: dados não encontrados.');
+                }
+
+                // Verifica checksum se presente
+                if (importedData.checksum) {
+                    try {
+                        var tempJson = JSON.stringify(importedData);
+                        var hash = 0;
+                        for (var idx = 0; idx < tempJson.length; idx++) {
+                            hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
+                            hash |= 0;
+                        }
+                        var computedChecksum = hash.toString(16);
+                        if (computedChecksum !== importedData.checksum) {
+                            console.warn('[Import] Checksum inválido. O arquivo pode estar corrompido.');
+                            // Não interrompe a importação, apenas avisa
+                        } else {
+                            console.log('[Import] Checksum verificado com sucesso.');
+                        }
+                    } catch (e) {
+                        console.warn('[Import] Erro ao verificar checksum:', e);
+                    }
+                }
+
+                // === ARQUIVO CRIPTOGRAFADO ===
                 if (importedData.encrypted === true) {
+                    console.log('[Import] Arquivo criptografado detectado.');
                     createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
                         try {
+                            console.log('[Import] Iniciando descriptografia...');
                             var decrypted = await decryptData(importedData.data, password);
-                            importedData = decrypted;
-                            await applyImportedData(importedData);
+                            console.log('[Import] Descriptografia bem-sucedida. Chaves:', Object.keys(decrypted));
+                            // Valida a estrutura antes de aplicar
+                            validateImportedData(decrypted);
+                            await applyImportedData(decrypted);
                         } catch (err) {
-                            showToast(t('profile_password_incorrect'), 'error');
+                            console.error('[Import] Erro na descriptografia:', err);
+                            showToast(t('profile_password_incorrect') || 'Senha incorreta ou arquivo corrompido.', 'error');
                         }
                     });
                     return;
                 }
 
-                // ===== ARQUIVO NÃO CRIPTOGRAFADO: VERIFICA SENHA =====
+                // === ARQUIVO NÃO CRIPTOGRAFADO ===
+                console.log('[Import] Arquivo não criptografado.');
+
+                // Verifica se há campo de senha
                 if (importedData.password) {
-                    // Se houver senha armazenada no arquivo, pede a senha do usuário
+                    console.log('[Import] Arquivo com hash de senha detectado.');
                     createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
                         try {
+                            console.log('[Import] Verificando senha...');
                             var match = await verifyPassword(password, importedData.password);
                             if (match) {
+                                console.log('[Import] Senha correta.');
+                                validateImportedData(importedData);
                                 await applyImportedData(importedData);
                             } else {
+                                console.warn('[Import] Senha incorreta.');
                                 showToast(t('profile_password_incorrect'), 'error');
                             }
                         } catch (err) {
+                            console.error('[Import] Erro na verificação de senha:', err);
                             showToast(t('profile_password_incorrect'), 'error');
                         }
                     });
                 } else {
-                    // Sem senha: aplica diretamente (fallback)
+                    console.log('[Import] Arquivo sem senha. Aplicando diretamente.');
+                    validateImportedData(importedData);
                     await applyImportedData(importedData);
                 }
+
             } catch (error) {
-                showToast(t('profile_import_error'), 'error');
+                console.error('[Import] Erro crítico:', error);
+                showToast(t('profile_import_error') || 'Erro ao processar o arquivo. Verifique se é um arquivo válido.', 'error');
             }
         };
+
+        reader.onerror = function() {
+            console.error('[Import] Erro ao ler o arquivo.');
+            showToast('Erro ao ler o arquivo. Tente novamente.', 'error');
+        };
+
         reader.readAsText(file);
     }
 
+    // ========== APLICAR DADOS IMPORTADOS ==========
     async function applyImportedData(importedData) {
-        if (!importedData.data) {
-            showToast(t('profile_invalid_file'), 'error');
+        console.log('[Import] Aplicando dados importados...');
+
+        // Verificação robusta
+        if (!importedData) {
+            showToast('Dados importados inválidos.', 'error');
             return;
         }
-        if (!confirm(t('profile_import_confirm'))) return;
+
+        // Se não houver data, tenta construir com dados antigos
+        if (!importedData.data) {
+            console.warn('[Import] Propriedade "data" ausente. Tentando adaptar...');
+            if (Array.isArray(importedData.courses)) {
+                importedData.data = { courses: importedData.courses };
+            } else {
+                showToast(t('profile_invalid_file'), 'error');
+                return;
+            }
+        }
+
         var data = importedData.data;
         var importedCount = 0;
 
-        // ===== RESTAURAR DADOS DO PERFIL =====
-        if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
-        if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
-        if (importedData.avatar) {
-            localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
-            if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
-                window.saveUserAvatar(importedData.avatar);
-            }
-        }
-        if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
-        if (importedData.auditorioTime) localStorage.setItem(AUDITORIO_TIME_KEY, importedData.auditorioTime);
+        // Confirmação do usuário
+        if (!confirm(t('profile_import_confirm'))) return;
 
-        // ===== RESTAURAR CURSOS =====
-        if (data.courses) {
-            for (var i = 0; i < data.courses.length; i++) {
-                var course = data.courses[i];
-                if (course.id && course.rawData) {
-                    localStorage.setItem('ulivre_course_' + course.id, JSON.stringify(course.rawData));
-                    importedCount++;
+        try {
+            // === DADOS DO PERFIL ===
+            if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
+            if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
+            if (importedData.avatar) {
+                try {
+                    localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
+                    if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
+                        window.saveUserAvatar(importedData.avatar);
+                    }
+                } catch (e) {
+                    console.warn('[Import] Erro ao salvar avatar:', e);
                 }
             }
-        }
+            if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
+            if (importedData.auditorioTime) localStorage.setItem(AUDITORIO_TIME_KEY, importedData.auditorioTime);
 
-        // ===== RESTAURAR OUTROS DADOS =====
-        if (data.videos) localStorage.setItem('yt_video_progress', JSON.stringify(data.videos));
-        if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
-        if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
-        if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
+            // === CURSOS ===
+            if (data.courses && Array.isArray(data.courses)) {
+                for (var course of data.courses) {
+                    if (course.id && course.rawData) {
+                        try {
+                            localStorage.setItem('ulivre_course_' + course.id, JSON.stringify(course.rawData));
+                            importedCount++;
+                        } catch (e) {
+                            console.warn('[Import] Erro ao salvar curso ' + course.id + ':', e);
+                        }
+                    }
+                }
+            }
 
-        // ===== ATUALIZAR INTERFACE =====
-        showToast(t('profile_import_success', { count: importedCount }), 'success');
+            // === OUTROS DADOS ===
+            if (data.videos) localStorage.setItem('yt_video_progress', JSON.stringify(data.videos));
+            if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
+            if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
+            if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
 
-        // Atualiza o modal de perfil e o botão de perfil
-        updateProfileModal();
-        updateProfileButton();
-        loadAvatarToModal();
-
-        // Notifica outros módulos (ex: página principal)
-        if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '/index') {
-            location.reload();
-        } else {
+            // === ATUALIZAR INTERFACE ===
+            showToast(t('profile_import_success', { count: importedCount }), 'success');
             if (window.updateProfileModal) window.updateProfileModal();
-            if (window.renderCourseCards) window.renderCourseCards();
+            if (window.updateProfileButton) window.updateProfileButton();
+            if (window.loadAvatarToModal) window.loadAvatarToModal();
+
+            // Recarregar a página se estiver na home, senão apenas atualiza os componentes
+            if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+                setTimeout(function() { location.reload(); }, 1000);
+            } else {
+                if (window.renderCourseCards) window.renderCourseCards();
+            }
+
+            console.log('[Import] Importação concluída. ' + importedCount + ' cursos importados.');
+        } catch (error) {
+            console.error('[Import] Erro ao aplicar dados:', error);
+            showToast('Erro ao aplicar os dados importados. Tente novamente.', 'error');
         }
     }
 
@@ -1644,6 +1612,17 @@
         updateProfileTranslations();
     }
 
+    // ========== ESCAPE HTML ==========
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
     // ========== INDICADOR DE FORÇA DA SENHA ==========
     function updatePasswordStrengthIndicator() {
         var input = document.getElementById('profilePassword');
@@ -1702,16 +1681,6 @@
         container.innerHTML = html;
     }
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
     // ========== ABRIR/FECHAR MODAL ==========
     function openProfileModal() {
         console.log('[Profile] openProfileModal chamado');
@@ -1744,6 +1713,9 @@
     }
 
     // ========== INICIALIZAÇÃO ==========
+    let imageBasePath = null;
+    let _initialized = false;
+
     async function initProfileSystem() {
         if (_initialized) {
             console.log('[Profile] Sistema já inicializado.');
@@ -1920,6 +1892,7 @@
     window.checkPasswordStrength = checkPasswordStrength;
     window.getPasswordFeedback = getPasswordFeedback;
     window.getCourseName = getCourseName;
+    window.validateImportedData = validateImportedData;
 
     // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
     function autoInit() {

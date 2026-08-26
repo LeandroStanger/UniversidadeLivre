@@ -1,0 +1,295 @@
+{
+  "name": "Japanese (for English Speakers)",
+  "type": "Idiomas",
+  "icon": "fa-language",
+  "description": "Complete Japanese course from zero to intermediate level, with video lessons organized by learning stages. Includes Hiragana, Katakana, basic vocabulary, essential grammar, Kanji, and practice with anime and real-world content.",
+  "stages": [
+    {
+      "name": "Stage 0 · Hiragana & Katakana",
+      "disciplines": [
+        {
+          "name": "Hiragana",
+          "videoIds": [
+            "K-nw5EUxDz0", "yDfzQyfZzUY", "z2WnfXNWiRA", "leH_loxePr8", "xNxsGCiX3qA",
+            "bEPagHe6iUI", "X4mCd2y-k4c", "J9MvqJnj5kQ", "rsL86uUTJpw", "r9aH5OoyloM",
+            "z_47dk9eFFs", "_Hk2d4AO-Uk", "HBC2LrtoIWM", "AmQ9kmom1v8", "awAReY29ZGs",
+            "s4RXDEVFO_E", "QoO4Ua1yNUg", "yaG5LVMvv4I", "gja3er94xJc", "a9wJV8ukLJY",
+            "VkjoTPyd4gs", "zn6dapc6RRU", "GQ7rDitFzOE", "q6LLJuQsK30", "89jdV0iYAGo",
+            "bfFVkSfkqHo", "lW8V5uMMM-4", "SC21Wfx1ujc", "zCrkE7QiDy8", "QaL6JSCbpWo",
+            "4qqAgRRByIU", "rdndza_RXQk", "5yPgd1sR6KY", "liLs-D4ubXk", "c02SESx7Oiw",
+            "oqXCTuDlnHc", "XOXo6vIxIVY", "VYCJDaWWcIs", "EZb3fs4Ntgc", "oEvr5bBhS1Q",
+            "b_ZEmlJN_m0", "nGLciw6mZCo", "PFePHyONkaY", "XA0Deg1uvu8", "k4XbM3pCNTs",
+            "IASpv95AKPA", "bZnmk9Odi3M", "Asy10OI-lFU", "5JGjT9Cy2ak", "Jn2arzAJ_gg",
+            "toxpjW-eylE", "yKIA-v1z3X4", "V34OFinfTbU", "8Tg5Qf0hjKw", "IvWHkhBKYXY",
+            "1qjSzYm_Nto", "tH76pNJ1Z_M", "b8l09uC4svs", "u6TQkbQNmzo", "AKCmkEt3QrQ",
+            "Ca6PndWbLTM", "q5Tqkd_USsA", "wfn-rnQ2JU8", "Jqglm3rZEnc", "2eVhwP2G6OU",
+            "XLlwdQFXEFQ", "qnhdSl0jYSk", "-jnKu6BJpb0", "onKG0ZKfr6s", "HpFL2SwSOrc",
+            "8YQBt5DiE00", "97h0awIV4SY", "kgc7KeoM9CU"
+          ]
+        },
+        {
+          "name": "Katakana",
+          "videoIds": [
+            "JOwgSgKH8VM", "n6vCcTYkqF4", "R7ZgIzf2b_w", "W_tTFar2Imk", "ynKgXGutp-U",
+            "OaUWGHK6Ga8", "4KUq7RgYGzM", "-ktRdQx8hag", "HaRklVFjJuA", "Kzu4qyWfQR4",
+            "EEcoZC_yMoE", "dtumPKJUqWo", "jmwXWPC-l4o", "77hMPEDDzoM", "hSNgfxCOao0",
+            "muTXmwyakD4"
+          ]
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "360 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 1 · Basic Japanese",
+      "disciplines": [
+        {
+          "name": "Learn Basic Japanese",
+          "videoIds": [
+            "8IUlF0ckalA", "K94rFS1Mcio", "FCtHKQk2Dc0", "EK4YZPd7XE8", "5OltN6NJy88",
+            "B6691z2dE40", "s6B8ZWr2xZE", "IbPun-eHN-A", "7_b17c9K950", "rox2J1Mr8uM",
+            "xzSAS-4VEf0", "Xt2TdSDzOhs", "8tEDotXyvK8", "PG4NdEUFTLI", "kuT_nXxBd-Y",
+            "H0Um1c5m_U0", "jOmnWab1HlI", "Yjy0xvt9jFk", "njFFasRHUO0", "kNtrMReGNgM",
+            "dgfHPQ8mkHc", "LWvuqIc0Mf0", "-MP8F4hyBfk", "7BHhpZ9vfVY", "Xmg5vOLm0vE",
+            "h4OpwnufC4U", "n6QUNeRY3nU", "GhJgi-qzayQ", "ZQHKCxUQ4UM", "lJL0V7hOtWo",
+            "6vjxY5nDmCE", "d8kawTa8HAQ", "_bCoVoyEr-8", "QhvHiOIl3kE", "vysvHuIZ9Xw",
+            "9DVheMzsY08", "7a-pHZsBgQo", "Pzl11ksDcm0", "1iAiQK2YOmw", "rOyAX1M4zB4",
+            "d4sn0VdMTvE", "tkMOsYrtV74"
+          ]
+        },
+        {
+          "name": "Marugoto A1",
+          "videoIds": [
+            "SICPIfjARr8", "YpjwG_PuxN8", "W1kHgpBcmSA", "KVkvIvrhq9I", "7R1zTPXrrx0",
+            "O0UoxPH2KAc", "3kxMfFLSuqQ", "8-0r3qsG89A", "FZDIXanC6W8", "ZfQ3T5FhLWA",
+            "tET6ASfVxHk", "QsGuy4q1HNY", "JNFxDwpqfuI", "X1w5Y7PGu5E", "NqVdKyUx584",
+            "4CShOK3jkuk", "-9ZnvnC5diQ", "U6Vy0Ruohlo", "Ks3a3P_vRJY", "Eb6Ny7iqLqM",
+            "yUM9gxyF1bo", "hbmrtH6kugM", "g9aHXZcW1n0", "7DaqSDROE_o", "rE8YOYB7DDo",
+            "CqNDUlx_dNg", "n07262YrKME", "2OzdpUFyEYs", "iUw4k3rWy3o", "myfKoYrjR9U",
+            "u9Jp6MCSeuw", "lpP_nGBQ2pA", "eLF6MOMJJeU", "96oMyhvCSbs", "zYxd9C4jf68",
+            "08IBKZq543w", "FkvkpUQA1PA", "ndKDNbjUR4A", "dJ1mag4Z-Cs", "d82pN2sQrtQ",
+            "MlVbphaaXqE", "N8c8RZywZfI"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "1500 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 2 · Intermediate Japanese 1",
+      "disciplines": [
+        {
+          "name": "NHK WORLD-JAPAN",
+          "videoIds": [
+            "3qkge9R4KwE", "PptLsKz71YU", "jUQmCYDq0C8", "k2Scb3HvGX8", "8klSgH7gMIY",
+            "eF2evR3Wnz8", "C-CaJVCVZmU", "ieEQhRBHOO8", "o_z4rlbHBqE", "xnXGBKhTLsw",
+            "nCFIWekPXb4", "RwtGTgm1-3Y", "2rEMVcq-jBo", "F-aEK0He8K8", "7N9TEerCuE8",
+            "ZlOaN9HiOTo", "urypHodP7cM", "8Np-RNuN4qw", "ZLpDFieovjw", "SsmWUvHI6U8",
+            "JZUxRjE-X8E", "e0ORR4R9Ru0", "hXwrbrMl9HM"
+          ]
+        },
+        {
+          "name": "Marugoto A2 E1",
+          "videoIds": [
+            "gniuJNSAMr8", "6EW-r7CuUzU", "axKO8XjfmpY", "vKjjWZZkVOw", "hNg70t-pMP4",
+            "ubFs3okDupg", "JQxaE7XqLks", "AZ5S07AFbA8", "bTBzNsrP7NE", "sfSdLMb-7xU",
+            "28n6dZLQ98s", "0yPzZCFc8Ak", "5142-I_Zw8g", "EfuDcAF_oeU", "dJZ5WlO84Hg",
+            "Ybj3TWIWE3U", "-XdQFKbHXSc", "KRByOh_K65A", "KOkILCKArb4", "nGJ8x7EYQvU",
+            "pYUrdhfgSRM", "gdNqAyzllmc", "R9NF9kl7HiU", "lk3EeALNhTE", "MHtLjTRdFBE",
+            "G4B9vrIIx0I", "Gn7jWemeWhk", "ekr2nIex040", "iCzfB20QMow", "mKZ-OkL-_9g"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "1500 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 3 · Intermediate Japanese 2",
+      "disciplines": [
+        {
+          "name": "Marugoto A2 E2",
+          "videoIds": [
+            "k4SfjnZT-Qg", "BCf9jKxlwcg", "_yFlIR6Uvt0", "N42BQSuYwUk", "CRBYDijOn0E",
+            "omYMh_3aUvo", "Du-Jt89jQF4", "iwgX71ZXVBo", "b1FlAy8RkSM", "NrgVJqN71f0",
+            "1p-NNLoExw0", "juIM5XfnAr0", "XC-exQssmAI", "XuAOB_haZ5M", "UHlXDNxszpo",
+            "ZIFD2BFFXqU", "npSKJ_76O5I", "N1Rer1PElAk", "Vwgo4fY1Ago", "tT2pRHEyAgc",
+            "zRN0Hu1rgdc", "71h5OQ7Xb8E", "8wvZ8sCuAKg", "dJA-MM-4Ou4", "sTYqGE06pNQ",
+            "0izf1wOoOFE", "hgK-LOWvjkE", "0JLRExeOH-k", "lk3EeALNhTE", "MHtLjTRdFBE",
+            "G4B9vrIIx0I", "Gn7jWemeWhk", "ekr2nIex040", "iCzfB20QMow", "mKZ-OkL-_9g"
+          ]
+        },
+        {
+          "name": "Marugoto B1",
+          "videoIds": [
+            "8rHhqNhdLVM", "Z6Vz8mKxASE", "jtkleb_4Rxs", "i3y3IXuAins", "u7oomtNofWo",
+            "WSaKPLqCECI", "5CVjED1lFOc", "QHl1Xlic_f4", "dwrwb4DI5Ds", "LVyXQys0Mko",
+            "CJJnNAFfagw", "9-RdHV-HTV8", "wlFxnYHSPTc", "h5Uaabp3Yyo", "NqbcI-NpwPM"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "1500 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 4 · Kanji & Anime Practice",
+      "disciplines": [
+        {
+          "name": "All Japanese Kanji Lessons",
+          "videoIds": [
+            "O5SYCxSQzUw", "ACOlV4c9AaA", "AYO0usoRkUI", "5uz05QLvu08", "wgblVME_4jA",
+            "7oNma3fIWYk", "gPHE4mf2klc", "q-lWpnL43wA", "77pmsvhl75w", "_Ygy4B7I0zw",
+            "h-V1mv8WHlw", "MpdFBvrX1PA", "KW-Hcm2GpsQ", "fIHXnscvt-8", "36n1CPhCxCg",
+            "6UjzHCtgkp4", "ylk--HP_5C8", "bc6ayX8Kdt4", "p8NNTQxu05M", "iOb2BsBunVU",
+            "cQ9TrP46vDc", "HW33cC4Vbio", "CPDVZoNnNrw", "euiwzzHMQ6E", "v9ngjXJrra4",
+            "RiSTxNqMcPc", "ndKO0mi_VyA", "Xgk7hPsxUF8", "kIGCy4vmt9g", "mUL5wYUkkEc",
+            "j5Sl4zfQet4", "KYnG4uQW3Nk", "dJ_niQUq9_U", "xwWK-bIXeIw", "wZPaBlhWaW4",
+            "6TeMYDbq9Kg", "7hgS-H7GLgo", "z1Yaz4TD-rg", "eALuZ_SNnlc", "tbxvyldzhk4",
+            "ZwoZmsEDIi8", "SPKrKzccWes", "J0J2lt5sIfk", "Q2obaHU4xhE", "e3UNSWOjhZc",
+            "dYr2AYLetVE", "O2D8K_MLRKc", "N0ZD_SkciV8", "uCFmBKSHqxA", "eUmT_vsNgpA",
+            "qUnQ4kQ8D2s", "eto3Ho1NnAg", "s6qufMu1Mg4", "cgQrn5vb61Q", "dKKzYXDNzyM",
+            "B5Gtdhjs_Kk", "Ldev8S8UMqE", "nqAYv8N54QQ", "newc0MSryzU", "SncwaGL6YeM",
+            "rmKgQxpdRS8", "F_rQjHQjp1Q", "m8tuB9IXiWg", "JQskXKHdCOs", "Um7TIqgdEdc",
+            "k-VuJ-t-_h8", "J-C1OQx6_BQ", "WM9_Qc_ae20", "H0KWOP2RP8c", "4-n5PNqrPZc",
+            "Cb7UsL-48ck", "XXTfA-eShaw", "wST7a7531ss", "jepUM5ShCqM", "NmxX4MQGldg",
+            "DcmSjNktU9w", "qjMJ5Dlg91g", "bW6sTpDThO0", "xMngRD2TejY", "2GRPVh3RZv0",
+            "pzS5ITiDIdY", "aGE6yoN8Fh0", "qE5ThrOL8qA", "CFKH-OJiAGA", "ufHhaxBh1S4",
+            "TNqNmhHYjxk", "Kvp_kRR3MI4", "bxvbaoxNJzE", "61RSMPLsJ94", "VZoMwwLcDvw",
+            "dxtE0IrppTc", "t8bOg2Jq_i0", "JzkRQ6eDHa8", "8U4opWYhc28", "4rvlQwuJm08",
+            "Gyvp8YjM-eo", "8tuQxAhYGqg", "bbHsVIsCZTo", "PXoLNtMELzo", "UxmudIXN2z4",
+            "RnrpmaXWZGU", "o9VEMdIX3DM", "iu7NdQAi5Js", "69jwwcMaJ3E", "89voaQje9Fk",
+            "Dlkc5D8anEw", "QHYDFjDJVYc", "aLifnFHeYRQ", "i1Gd40gUm5A", "ycNxt_sMWgQ",
+            "Y2phmt8663k", "oDbVKeIN8J4", "lQa4CEF-l-o", "594nGkgPy_w", "Ou5aNuRYsW0",
+            "3zFNOy7VxBs", "1IEMqeUyGZA", "ad2azjO5UwI", "CzKPL0e7pAo", "cbEa8N-62d8",
+            "HSvfFLn40cQ"
+          ]
+        },
+        {
+          "name": "Learn Japanese with Anime",
+          "videoIds": [
+            "2x-B_soAH6o", "YuoCJJuEcg4", "K7SH3iUMskw", "5cgw7Ociv1s", "VadeqI42UcQ",
+            "rNzMTl5oVJk", "10ZGIL2WsBE", "JKoJwj0qFnQ", "Eh4HWIRHcfo", "wu5wrXf53cI",
+            "yLevNnb7t_w", "hWU0z0i5rlA", "J5Q6Y21Qwbw", "e0OiMWMfFLU", "gdSQ9BaIwew",
+            "6pZtwDLPM9c", "V1rWyknDmf0", "gysScWcv78c", "iU1vDPxoGNU", "WH1SW9_hM_0",
+            "Bz3ef92xjdM", "4ngCNmUzSLQ", "nSSGaxyc4zQ", "beLWmOkVCqU", "tbdlfIIfoYk",
+            "omT8ETU_Txc", "P_F3KHtOcUI", "tFiW64tFWsU", "h1xiamUgDXM", "Ped3CfI6Dyo",
+            "zL5a4EYxk20", "6hR3Z9kGcGk", "PYNjk-EQGgw", "UrrEMWXvVmY", "470gKoSyHQc",
+            "715_Tv4IhmA", "9gAhNLHwQHA", "jwxcxPUtHKc", "fDONEHrrhrE", "vuXJgeJGCX4",
+            "Q1fgdB4ObSU", "oMsku4KjLSc", "BqSomcUfgOA", "Rk4P3fPJ3gg", "GNIuLFfM99s",
+            "RjKO-O-0xEc", "Ih0wOUT4wmk", "XoUf98wXQjs", "yOV0wYhfpe0", "i5ee7IM7h3Q",
+            "gQ4Ums72FEo", "jt3c3AWWcmE", "10AXvF3pVBg", "icY3wg4yUBM", "t_QDflM_Z5k",
+            "JcciWtrns28", "luY_RX_ctqI", "odbDBzLGcFw", "nWTBEDlSY1E", "3S9Wgvz9TDs",
+            "88dMi0F_jmg", "audUKlZs8iI", "7uccQrBuonM", "8VbLeMjrn04", "vzWu32vbRmg",
+            "THJHsizeAaM", "7qAOyWlpdsY", "GccMfUXwWgY", "3Vo6ZNFqJSs", "M8S-h_Q97-s",
+            "-9IKp7rX-Yc", "WzK4swij9Kc", "Gm30C7bYe-E", "sZmSq0cQhWM", "wHx5btH0WGY",
+            "AnQe2QYbBAU", "1I-3cmR1ouQ", "I-WuFR6d1hg", "EnTFNm6dy-w", "X6VavZp0yhI",
+            "l9UV5xUPBjY", "7KHN2q31hrk", "HpvG-6p54fQ", "C9CqqinHKys", "q5Mxr7iyhPs",
+            "69ngtfAW3Og", "WlPnLyO7Lg4", "BBia_DqEvWo", "gvZ6eWZW3S8", "lZw0lSV0t_Y",
+            "tNihumYxWb0", "wI4M5OW4PkQ", "gFfUaHnuFL8", "CioV_C42b10", "7JWKy6nMG6E",
+            "_P8d_6h6BNI", "9lkMkYO6da8", "GDWm-NU1X-o"
+          ]
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "1500 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        }
+      ]
+    },
+    {
+      "name": "Stage 5 · Practice & Community",
+      "disciplines": [
+        {
+          "name": "Japanese English International School",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://discord.gg/jeis",
+          "platformName": "Discord",
+          "videoIds": []
+        },
+        {
+          "name": "Duolingo",
+          "type": "external",
+          "time": "900 min",
+          "externalUrl": "https://en.duolingo.com/",
+          "platformName": "Duolingo",
+          "videoIds": []
+        },
+        {
+          "name": "HeyJapan",
+          "type": "external",
+          "time": "1500 min",
+          "externalUrl": "https://japanese.heylearning.net/lessons?hl=en",
+          "platformName": "HeyJapan",
+          "videoIds": []
+        }
+      ]
+    }
+  ]
+}

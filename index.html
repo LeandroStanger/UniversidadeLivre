@@ -49,6 +49,16 @@
         </div>
     </div>
 
+    <!-- ========== SLIDER DINÂMICO (5 ALEATÓRIOS) ========== -->
+    <div id="homeSlider" class="home-slider-container">
+        <div class="home-slider-track">
+            <!-- Preenchido pelo JavaScript -->
+        </div>
+        <button class="home-slider-prev" aria-label="Slide anterior"><i class="fas fa-chevron-left"></i></button>
+        <button class="home-slider-next" aria-label="Próximo slide"><i class="fas fa-chevron-right"></i></button>
+        <div class="home-slider-dots"></div>
+    </div>
+
     <!-- ========== FILTROS DA PÁGINA INICIAL ========== -->
     <div id="homeFilters" class="home-filters">
         <div class="search-wrapper">
@@ -67,8 +77,12 @@
         </div>
     </div>
 
-    <!-- ========== LISTA DE CURSOS ========== -->
-    <div id="homeScreen" class="home-screen"></div>
+    <!-- ========== LISTA DE CURSOS (CARROSSEL) ========== -->
+    <div id="homeScreen" class="home-screen">
+        <div id="carouselContainer" class="carousel-container">
+            <!-- O JavaScript preencherá aqui -->
+        </div>
+    </div>
 
     <!-- ========== VISUALIZAÇÃO DO CURSO ========== -->
     <div id="courseView" class="course-view">
@@ -152,6 +166,8 @@
         </div>
     </div>
 </div>
+
+<!-- ========== MODAIS ========== -->
 
 <!-- ========== MODAL DE AJUDA ========== -->
 <div id="helpModal" class="help-modal" role="dialog" aria-hidden="true" aria-label="Ajuda do curso">

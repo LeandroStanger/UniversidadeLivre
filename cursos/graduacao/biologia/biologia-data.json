@@ -1,0 +1,506 @@
+{
+  "name": "Biologia",
+  "type": "Licenciatura",
+  "icon": "fa-leaf",
+  "description": "Curso de Licenciatura em Biologia com formação sólida em fundamentos biológicos, pedagógicos e práticos, preparando para o ensino de Ciências e Biologia na Educação Básica.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Como estudar do jeito certo",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
+            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
+            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
+            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
+            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Fundamentos da Educação e Linguagens",
+      "disciplines": [
+        {
+          "name": "História da Educação",
+          "videoIds": [
+            "fCyojmJn1lQ", "deSMxt1Tg1M", "5XvfHHiutLM", "QOq-2sFl8eA", "PRGr57_EjjQ",
+            "j7hplm-Tvy0", "fjMX4_J0Xes", "9snwjdSOtWk", "NZX3JAVC-qM", "uHQDWwA42HQ",
+            "1_mmzfjvCTw", "_I0Oc7uhqUk", "LPuD8t4m_PA", "vu7oSszee-k", "vzlIWmfSGFI",
+            "M-2KKzKX1Rk", "gz8z28YJE0c", "iS-QtRh9DT8", "fgZPSd3ERic", "gSHiDQFma0o",
+            "ZHxulDbAeWw"
+          ]
+        },
+        {
+          "name": "Inglês I",
+          "videoIds": [
+            "sDvkRjuBKyA", "0GM6iku9ENY", "Z4LU1t7MUdg", "XE3T6SVy2I4", "xK-VmNkI4qw",
+            "tzWOOcu0rFI", "qlJFeAMZys8", "So8kvmnoWx4", "0C_n_rP0tKA", "s4nlYN_saIM",
+            "aCA4aQJ4d98", "cIXjU0gmtH4", "QakvkTkKR4U", "wtnRXAlRGeY", "ge1wW0-gsC8",
+            "VC6k8d1HY8E", "JtvAA3SMGN4", "hqk8XMoP-tU", "turkRBJOHMs", "59TQ3rpeUbY",
+            "sRnJKhb2nnA", "z7nWUZ6xULs", "yvTEOyXsOHk", "eVlecNg_Xsw", "TNMKeQWgqoY",
+            "VP_-cwEb4a8", "Cou0I4eWn-E", "FTcU5og3vvE", "8w9iYOk184U", "UUDoQMuYn60",
+            "d_ml2744KZk", "ReJ2HlDpGyo", "oxBZmOKidPw", "8JlJfPCOGAk", "HdvuZ5zakok",
+            "4grIpm8Ldno", "gr2ZlYr0fvk", "bn4sDG34sbM", "3WRsL6EAKZg", "y0LjaAMbsa8",
+            "6hJNOKCUjvo", "9X2qubdU8Ek", "ybBidJkfBTU", "_fChVeEgKQg", "0oGjgi3ZwgQ",
+            "GOxNfSARCHM", "pwfKSNHnKOc", "QQa9FbnNLKY", "bLyr0YwrvVo", "vneVV9BDfCs",
+            "uo6tr59P1Jc", "IBErLu25r-E", "wivv8cQtVyE", "I1I_z54ZXFs", "s-_ezudwyZ0",
+            "bSpfDGYCza8", "Fe9kQTBa-UE", "T34y0QkzhHI", "Mqw2t7E_kuo", "icY5jFoewwY",
+            "KE8811foBDE", "jc44I9P1S3s", "CNlmnDNVfBE", "uk1dE5oK1cA", "h22spnTi50Q",
+            "1HhPHwJrZAQ", "R19AaeC-m-w", "hL9WOW_K16k", "tvEimHW5BrE", "qf9G_hXYE3I",
+            "Og-J7sJQXMY", "NSpeQP96ONA", "v4IO9D3IV0Q", "PAS3wlOAi8c", "5RZcgkFbjiE",
+            "YPn-E7FuL6g", "4SwpqGjIjGU", "NWjcDsrKLJE", "-ZYvpWzuEzA", "OFyTgFCphE4",
+            "AI8oSKgliR0", "kd75fZp-zzM", "47mumXCelmo", "h6O3mqi9EEU", "6DAi4WlV8RU"
+          ]
+        },
+        {
+          "name": "Leitura e Produção de Textos",
+          "videoIds": [
+            "XSlhDmmIlfY", "6RjngqRakfs", "9FdpWNrBlyw", "87BdHUN5tDg", "A2m_c8naWbY",
+            "z-EH84wilb8", "GkdjaYM1aEo", "_EiYrhGMq4A", "LnTfQkEPxv0", "8UgQmjH_Dps",
+            "mX9C-dUHl1s", "zbfpXRoFK0A", "or8rF9KO7VQ", "fyozvFryC8U", "UAwyu9TclJs",
+            "1QJxGX5_SUU", "IKJsGub7FOQ", "F7xpp43rw7g", "YJLU2FRZDMo", "FJeeU-jSkX0",
+            "jjaEDNDU4Rw", "ymvHV8RfWxQ", "ZgK5PChA6yM", "zMj9oRzIupI", "I65fMGbUGKQ",
+            "GvUfhSbBeHU", "1fGxSb1Bv8A", "45bIadEEmHI"
+          ]
+        },
+        {
+          "name": "Letramento Digital",
+          "videoIds": [
+            "nprjW_I922g", "F0lAz1xlLbA", "LKZtpxiSrpg", "UNyK3EAbEvQ", "yk6efcEDRJA",
+            "sg7MrhPKYc8", "3ypAdcOT_Yc", "Z8s9Mc7SjVQ", "BgYup779Hvw", "00qrlKSHeWw",
+            "SL6wjJVafoE", "eQaDfQNyEAc", "GvKyoO-wW5Y", "RrSYrkPCiHY", "uJnY8JeVxuQ",
+            "lp2g2FYIdIk", "uwdBc7Qm-w4", "jppL3lVX_6s", "4T3--ocMAQM", "G_CzTVnB7kU",
+            "s9D1q1Ubvjs", "I8R74Oc3NO8", "r8tzLDHAiO4", "36IKBKEayoc", "FcOeed1fyr8",
+            "ESVoPftwjoU", "Qg3P8AK_XGY", "dCHvoByEaPI"
+          ]
+        },
+        {
+          "name": "Matemática Básica",
+          "videoIds": [
+            "D8-PdKrR-D8", "iFW8gm-zoR4", "yzpiMJW3CzM", "8O5K-bQQ97o", "1rq2pdPpdmI",
+            "I9npqB-KkSE", "F0c9YLIq5dU", "VWFaoQPaxmk", "xdHTggX-OCA", "gcaL43wVftc",
+            "HP46l0XzsEM", "4ZGGSvfMQPQ", "Koqt286csj0", "CDoENi_jWAY", "bDVrHTuVaxM",
+            "uhrlhquQQjM", "6qDwHKJwg2Q", "k3FbgsVb6DM", "fmtL8_lkOCM", "EggCD5WZmEI",
+            "tejNGd5477g", "gXU2xZ5sR74", "LyJDqKXwHK4", "8Tnm2HBv12w", "T-5HSfZGKO0",
+            "RSs7GY-0Itw", "TjUW0QCRbqc", "Ot241-L6KbA", "y2CIlCDWAdw"
+          ]
+        },
+        {
+          "name": "Sociedade, Tecnologia e Inovação",
+          "videoIds": [
+            "c77J1BZnCiY", "CKqYfrD8mYA", "SAwTn61D1ZA", "Al45zK0EGLA", "XPRcrwF9fjs",
+            "--9J45QEIXY", "T5uwmO47vPg", "5ymCNYZUsUg", "XqTYbJxhph0", "HCD3WzFugd4",
+            "mmM1XDNRlvY", "DsMwYIuHNSU", "JsDQk0UeHiI", "A_mkcg-77eg"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Fundamentos Teórico-Metodológicos",
+      "disciplines": [
+        {
+          "name": "Estatística",
+          "videoIds": [
+            "0EySnmt_d_0", "0yv_Q3UvSqg", "MQRZHgdw6uw", "-dJOxU9kPj0", "wn_-c8GGhqk",
+            "s-3Erw1rrIc", "MpkX9dWUzkQ", "iQThfSGORGU", "4EgmVmryowE", "6TeaBhTepqU",
+            "j3Zbup0KMxY", "1Gm8SfaceJw", "sWJlocN-bpc", "HtLfGbi87bI", "KUEHA2vcBME",
+            "L2Ki10DBa1M", "kiG3UCMlCms", "YKnH9i_lwxg", "373QprSNWnk", "UKrWNMuZ6CQ",
+            "BTsamy09-DE", "unNyFOmbovo", "Xk3yJSD-4a8", "08wNJSnUx4o", "83S_GCWl6wU",
+            "d9w0Oyh1P1g", "oqmN0zRB8cA", "PLoTfGC5fwE"
+          ]
+        },
+        {
+          "name": "Filosofia da Educação",
+          "videoIds": [
+            "pX0yJAPBRbM", "5AD2-PAbgfk", "l7JTgoaRBgE", "szaarP5Ys2w", "r6uIFzkiH0A",
+            "SQh-CX1bCTA", "GJkALFMl4Rk", "ysB_cHH31-g", "u4cvoagEYtc", "rWbYN0xnCFg",
+            "Dkh81383Y08", "ZQZILKkyOFY", "hoBulric-KM", "Z6z442YJLts", "yK9HVcNondA",
+            "fdWUm2ErJOQ", "6SFfkoi4EgU", "xe7K_SSC0Xs", "XakbBXUnlp4", "77DJmxGa0Kg",
+            "bfNmaYOP76o", "YyY-QrAB6G0", "PGrKjcQrqaI", "-7UOFjTL5-w", "lYZS5-NqIuk",
+            "7dT2xQFb7RA", "lgjRkguaRn8", "E57mOSF8JTQ"
+          ]
+        },
+        {
+          "name": "Inglês II",
+          "videoIds": [
+            "ge1wW0-gsC8", "VC6k8d1HY8E", "JtvAA3SMGN4", "hqk8XMoP-tU", "turkRBJOHMs",
+            "59TQ3rpeUbY", "sRnJKhb2nnA"
+          ]
+        },
+        {
+          "name": "Organização do Estado Brasileiro",
+          "videoIds": [
+            "22_F7EExTd0", "-Pg6AGCUYT4", "rRkakYCs3Nw", "sgMqkHf8oHU", "OTELrylB3-c",
+            "G1zrCg3SlpY", "Re7hc--d4Ts", "I5JVteKfifE", "3_RNaBV1gmI", "tlatLlcEypw",
+            "1imgzWmjQ0g", "9FYNNF6N9is", "O_vinmyShf4", "2xABzbRO_I8"
+          ]
+        },
+        {
+          "name": "Políticas Públicas para a Educação",
+          "videoIds": [
+            "3mxT0HpKVjE", "VrbDK4WYhAU", "s0zURl8Njvg", "AJfZf-RlxqM", "iIt6Lazq1Vc",
+            "YZgSHo1RjMY", "sCx0BX0vDMs", "yPcoByQdx70", "prfgvevhl7I", "5DpyvLCGUwk",
+            "ATUfdlq0nGg", "6WhS66rHgo8", "IhfjObufcek", "5HDx4w9yb6Q", "1YN6jCswNMk",
+            "hhcgceI5ufM", "yWVJrXB-rl0", "BTMKryQLqs8", "YxKCf-d85Yg", "yhCMHhW-Xbc",
+            "U2e9YSszjXE", "chWq1vFo4iQ", "op_67id4SRo", "flVlroa9SVE", "jcyLJbhMw7o",
+            "pFWMn1CPyF4", "YvHgEAqXt1E", "NG-rOCPsWrk"
+          ]
+        },
+        {
+          "name": "Psicologia do Desenvolvimento",
+          "videoIds": [
+            "I__1zse1d8Q", "VARaLKQiTsw", "t7qYh3CoAHE", "QWG7mjVbY30", "rQ_PhKLH_fY",
+            "yt15YLSshmQ", "VZUeqkM9gjo", "VbatI__STxg", "NQcjzoWTlAM", "NbbhBohBbec",
+            "h3xJMocjMO4", "rdYQPWebv-4", "hlqWjGnQ-gE", "7aDuOhdNWEA", "Av4I18c2OFk",
+            "sI1_YuyUaGI", "EprqzzvSQ94", "IKZeE2mogLQ", "DWWIoYpVHBA", "sOXl6pSieto",
+            "nPh9ohtxi3g", "yMj849Lus-8", "V2CVq_jdfFk", "iYT1rySPJHY", "Vhng7RDsrUo",
+            "NqgaSJYpHVM", "y2QtAnaI1Ns", "KIkAI4cmcms"
+          ]
+        },
+        {
+          "name": "Sociologia da Educação",
+          "videoIds": [
+            "7gKph1NXOc8", "1A7mbzXp4mw", "ecViMnXIc3Y", "3x0tvb3FNag", "rnlLVi2uS5c",
+            "5uPeVxcDpvQ", "AtPUOpAPALE", "6vCpgVPOTqc", "2-tK_XxzUWA", "N6eZ2NbexrU",
+            "qKyX-s5-0yg", "zr9wJ979Y2s", "1In6CnXHsr4", "_aKBFHmXh2c"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · Formação Geral em Ciências",
+      "disciplines": [
+        {
+          "name": "Biologia Geral",
+          "videoIds": [
+            "6EepQG_eRZU", "PMT5PsbSLAw", "ZZjLb-DTPwI", "rSwWTpHOCh4", "cl619FkDv8M",
+            "w5Wmitfwetk", "OgfsUdPrqyY", "vuux4HkSr_Y", "rT5XOEwBBPc", "nnWZuQQiOVE",
+            "jR43ePEQznA", "gXZYURal6Do", "3rKg7U7lBOo", "kvura7uSctU", "XnImC3I3kQU",
+            "WaIIqoDFUys", "DQbzhg7V1Iw", "jtKtOK6alKQ", "djUilMQleD8", "vLhKKRrVJxw",
+            "72jf1uFtQoc", "m_kqOWO24bw", "ZMkZMZFlUHo", "kcfReBzbqsQ", "Nc4iehEPbRQ",
+            "8c3JjqgCn0w", "6NQlfXLq4pg", "MbKmasMrUuo"
+          ]
+        },
+        {
+          "name": "Cálculo I",
+          "videoIds": [
+            "Rwq_aSsfS1k", "q_-ZyGKzgqU", "jZqsmqQnozY", "fXxQ1oJjMSo", "caGzd9W-or0",
+            "Q4XUV_rmEGU", "arCF_pwgtms", "vZ_l7wy-6Y4", "y2u9Ma7Hat4", "ZPDzIlglBZ0",
+            "SeBcn5C8TOA", "C9DZIGU5-gg", "6UqtOVdnet4", "kxchC5jyx3c", "T6mpa15aKu8",
+            "v1C9LMSDEnY", "QyN0Qh5l7kI", "UoF0qWPEO_4", "E8Hb9bsNU7M", "nNsftL0GfPI",
+            "vBN9PjeQ2Z0", "xjJWjmKQnDg", "BEHErrGcOiA", "N0dbyYRZqsM", "slZD95ZZwkw",
+            "NCArNdzUzLY", "yT9UdI79890", "5xypJyxx1Q0"
+          ]
+        },
+        {
+          "name": "Educação e Inclusão Social",
+          "videoIds": [
+            "BWHMd8FsfiA", "sfq4duAYhrw", "e0jbrQwAbDQ", "Dm7xJWxg_Wo", "RBpxKKTzFu8",
+            "ZqVLJGetBCY", "w1HthVrEi3Y", "ZOE7xGqMcTs", "whQtZz1VVr0", "eAA8DNOk0GE",
+            "LQAmaZ_GrE8", "yZ02r3zkDV4", "kRvMXUhTorY", "nKvcwGZyKio", "Bw6sZuhM4-E",
+            "W-F1tgOEqB8", "DfUu1FLnknw", "QnxcOVhXfYM", "ZA3vVnvf_uM", "fVN91X1XgLk",
+            "6y4IXuGlT-M", "NZedDcWiu7E", "vk2megr-XSw", "L5TWrpFwRCc", "KgDPxrl7jIM",
+            "tFvhToszxSQ", "lICTahkVbOg", "fHMZ5Mi8b2U"
+          ]
+        },
+        {
+          "name": "Inglês III",
+          "videoIds": [
+            "4grIpm8Ldno", "gr2ZlYr0fvk", "bn4sDG34sbM", "3WRsL6EAKZg", "y0LjaAMbsa8",
+            "6hJNOKCUjvo", "9X2qubdU8Ek"
+          ]
+        },
+        {
+          "name": "Meio Ambiente e Sustentabilidade",
+          "videoIds": [
+            "q8dhQRjXJG4", "qop11qf3tTs", "sygBTa3SkDI", "lfR6LEx6eZg", "nbAPLfmdrKE",
+            "ibkodnWEKBE", "WAlTeEfU6as", "yc94C7jsAPM", "Ya7wGSrZjX4", "oDceh9hvPc8",
+            "odVchJ9pmgY", "knq3eOIIq08", "uvikmLdK8os", "RtAUxma6r6Y"
+          ]
+        },
+        {
+          "name": "Processos de Avaliação",
+          "videoIds": [
+            "gzoVnKvuDUU", "8WPW7ugWWLA", "63m2WVmN4OQ", "sLrsT067acE", "TKn3a1NqcnA",
+            "kKK9rYZVXCk", "yGIK3KEzscI", "bFc1mlwbg94", "jROq7BZFR3E", "dsx25AHR7Mc",
+            "3Ppwn1FlH10", "q7X0vNe9_QM", "onJH38QIusw", "PCvzKcjNbt4"
+          ]
+        },
+        {
+          "name": "Psicologia da Aprendizagem",
+          "videoIds": [
+            "lSkUGYiAVY0", "vK150k5AXeY", "J9oCpyDambg", "wHlYYUAdWkU", "XoNwkemEC64",
+            "ryiqMN9j0T8", "HwimYcjaNL4", "XLqbZSQ_VUI", "Icc5kwMIRWI", "O4aL4MvoCaY",
+            "JRd3Xx-fCE4", "hSTcKtdSIiw", "aF0UbIdN1Eg", "UQ4Zdk5QuBk", "Y8EQv33htyg",
+            "_dqMcP2EEhQ", "t48W5Gj4uSM", "nTx7iytGYZo", "1RjsRYtdbGA", "I0ppUBoFFoM",
+            "Sc80ojwSz8o", "7c-xGzN0QI4", "Z1TTLw1uI4Y", "gjRnru_KHF8", "tbKs4HAo02s",
+            "umdTgzu5mZ0", "z-hFAx5ztrg"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Ciências da Natureza e Ensino",
+      "disciplines": [
+        {
+          "name": "Estudos da Atmosfera, Geosfera e Hidrosfera",
+          "videoIds": [
+            "MAtIomtEA38", "lxLd1KDWFxs", "gnZp3JEfuZQ", "nuti7WIm3K8", "YyFqyGgHC44",
+            "CLQ46WT5gG4", "bypMvQXu4c4", "YgJPRus7Bug", "HNk_NEqPAYc", "v3MYOnszJWE",
+            "dikvGsdpvVg", "h4NDxNd-euM", "lo_RLUQAMuk", "h9h6q2AbHG8", "ZPds80mx5Z4",
+            "gDKdnXsvijQ", "ry5D9e4aX2w", "IOaaJdALzGo", "1qQYo1FbJbI", "Bc3GKqcLvrM",
+            "HPNjlPQizH0", "mabQQJqGfOM", "ks8prFtQ7Dc", "1er51I15e2o", "5kORvX9Tj3A",
+            "9KDvlSIxFow", "Ke5Zw3qB_hU", "FA-Pe4SKEmk"
+          ]
+        },
+        {
+          "name": "Física Geral",
+          "videoIds": [
+            "S5EsTXrl7KI", "MAg2SV-bUrU", "ZUI0uySotJ4", "786KbwYbTas", "YTipZAIoET8",
+            "MVeC_DqUYI8", "MPdJTYsJDMs", "SuNABtcEjCw", "XfLYnrAytyU", "y5MUrTjm9Jc",
+            "CbMsqQ_IiEk", "ZHZKuM9iWdo", "5cBSgGjLczc", "26DgDSXxNyM", "mm1Ljgiec6I",
+            "VNTBHXDarb4", "gtusn3CB5Iw", "BJyGKYpdIxY", "axZFAMflARI", "0W3TwQT7kUc",
+            "uMA6MZc3kwc", "NsTc9KxJ7RE", "uKTCPdXfKJw", "F-IBZynMWxI", "OnIroKPPfYo",
+            "nn9Y0U7RL5o", "x5Ii4xpAX98", "O1Fyfp2DkQg"
+          ]
+        },
+        {
+          "name": "Fundamentos da Organização do Currículo Escolar",
+          "videoIds": [
+            "Wevbe-px4lk", "JGwjPALarWY", "ATA_cDewe4Y", "OHaFUYVnT9U", "QFbKogokEmQ",
+            "kfCGbNrlo0c", "bOpRXVNhQiM", "yv_7s7Um5UE", "uS7fcCJIcH0", "26CLw56KEZE",
+            "_kD1dGoniHA", "IG1M-ljUciE", "Ym-ZFj-naDc", "hPoR7QRaLeo"
+          ]
+        },
+        {
+          "name": "Inglês IV",
+          "videoIds": [
+            "ybBidJkfBTU", "_fChVeEgKQg", "0oGjgi3ZwgQ", "GOxNfSARCHM", "pwfKSNHnKOc",
+            "QQa9FbnNLKY", "bLyr0YwrvVo"
+          ]
+        },
+        {
+          "name": "Legislação do Ensino",
+          "videoIds": [
+            "dR04jSVhUMQ", "Nc9xj0QMkJw", "Vv2lWNIT6x0", "9uNYmbs15mg", "grRLpxmJdGQ",
+            "oa7TloSEhmo", "AwmZex7aeg4", "GcodofOwurI", "3MEr_BRVzt0", "vq7fqQoWL74",
+            "RrBwAHaPOPk", "GtX8KDqTQXI", "ShVOuDQdbVE", "_BcQ6QQB1Ew"
+          ]
+        },
+        {
+          "name": "Métodos para a Produção do Conhecimento",
+          "videoIds": [
+            "QbwdHHfAOS0", "v-YJT1AC3mc", "yQkahEehq8w", "GNW7SY_ZUHM", "xbp2Y6_Bw0M",
+            "rPVf-ZanYk0", "swizh67WTfA", "2wSbgcEh5Rg", "r8mMyV0f7b4", "rls5vAu_DcU",
+            "DpSLLFINIuE", "5BjB_Px1aH4", "oFlej_JKhJ8", "o8X9VhXOY28"
+          ]
+        },
+        {
+          "name": "Química Geral",
+          "videoIds": [
+            "nPAAD60Sup8", "5Ehh_XJs4Gc", "xibiSjeRX9Y", "Bsykg-Yaxx0", "qBo_-_2loMg",
+            "GbhLdioEwcU", "o7BZyoZlmxo", "WCPWorkXtB4", "jQ21bWlrcKA", "UT9443UqFBk",
+            "lpEOk09rlIY", "PttDY-eNjjQ", "1dMupDfaYT4", "uLfrc-dt2hA", "GXWDeTNulOY",
+            "AwNPJSXqTOM", "rduvPymKknU", "CDFJxkJHlYQ", "ai6wpgz1S6w", "lnkuCHzoamI",
+            "Op4Gjx7ktEU", "MYFrp2jHajo", "NuvlowCgy-4", "QOE6294x9jk", "m6KjotRbLkY",
+            "FEIxQMzrin8", "XW-xuSea2rg", "PLtCF0QjjFo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5ª Etapa · Biologia e Ensino I",
+      "disciplines": [
+        {
+          "name": "Bioquímica",
+          "videoIds": [
+            "fivcA6e-ScY", "lA4Vld32O18", "n4n8h5uKEsM", "IySmGJh4TqI", "kTgDYPRA-BE",
+            "P5vlsX8SHag", "WX6R0LVDKbM", "mCAGFOREDNE", "ueIGFcA0clQ", "gOZb8yjEuY8",
+            "VvgAA9zCOYY", "0L05yTRxPj4", "OTJVjKwCwaQ", "UawrKW4i2vw", "wxmmX5d5LzU",
+            "epEf6icfBtk", "PBNu9rYahIo", "FEv4xOWOnV0", "5DtwdEbvLos", "qFtxYtPKQCg",
+            "pJjO2cJzD7E", "ztif775hj5w", "UIOT2ZvCafM", "YuZbQzHweMw", "A-_Roxqak78",
+            "cj3oN4qosHc", "IW05LzeRmxc", "8YTO8ovlCAo"
+          ]
+        },
+        {
+          "name": "Células e Tecidos",
+          "videoIds": [
+            "xWiLW3mdA2Y", "Qm2LP_oehAA", "IeEvOls82u8", "pJ1nsX6PXc0", "N1yQXaYEZRY",
+            "jSWMefj2bUE", "m79pPEoU-Q4", "aGQVwwN_C48", "DT8WrknYmJo", "OCDYw4TeqT0",
+            "bzQSe3vOIrU", "gfPRDc8frvA", "eD7kAywxudI", "f8fO27GvGSw", "ElSahKo3wf4",
+            "uPrpUKk8A18", "WQRyjxS2bJs", "jSvLlLjoY6k", "RF-npiDAjSY", "ngOF-ra_R0g",
+            "W7N6QQqbAQc", "O0-zVKZDBso", "sCbM-O8qg_A", "FHKfF9FqsVk", "CZx90eM5Ysk",
+            "xM1h6zCjzW8", "zmtMOeFsDgk", "T6NqDuIY2KQ"
+          ]
+        },
+        {
+          "name": "Didática",
+          "videoIds": [
+            "INFsBDnZI6U", "Dy0hvaFFeCA", "ELLgwoC8oeA", "LWbCe4KYC6Y", "Mh5-u5FzrIA",
+            "0oM7HQnk2oQ", "UuK0bErrfWo", "WJ1qy4b46oE", "ZfnXGaMqmgs", "_gBV62u3m1Q",
+            "mF5ry0WE1Vg", "Oer38bsOFwo", "OonAlCVX60s", "pp8QK--Fyjk", "1VQpjUGuTK8",
+            "mUNmbZXtvE4", "3PGGVq7wfwg", "BkUVQBCUlbo", "na1h6ZHMYGY", "j5KK5U3oJq4",
+            "YZITfH6XQTc", "0BMEGfaZPzc", "KQJ3Y8bQ7-k", "cY5u4yhog3U", "GJaoNept1b4",
+            "R8f_QWKo3_w", "H92heb6NrM8", "IfdZOf7HxaY"
+          ]
+        },
+        {
+          "name": "Inglês V",
+          "videoIds": [
+            "uk1dE5oK1cA", "h22spnTi50Q", "1HhPHwJrZAQ", "R19AaeC-m-w", "hL9WOW_K16k",
+            "tvEimHW5BrE", "qf9G_hXYE3I"
+          ]
+        },
+        {
+          "name": "Práticas do Ensino em Ciências",
+          "videoIds": [
+            "MvV46hVy3_Y", "iL_3unIkPsU", "3t1tmq8sOSI", "RqrhCHsc7-U", "_ucSUb1W1R4",
+            "Z0AIKTDNBNQ", "l-ZYZadPXto", "TxKOIBAeCgs", "_1aUOnpWV-w", "BsDIQsZq2f4",
+            "Jv__qw-LfN4", "HZUZMHCLn7o", "pxuv929hMmY", "2HoFyQlYxEg"
+          ]
+        },
+        {
+          "name": "Zoologia dos Invertebrados",
+          "videoIds": [
+            "irigKT9UiKU", "5Cl3bRQ3Lmw", "YjqMvMLEw60", "pA5_McTpbxk", "GK9DN4HzS2w",
+            "MDjT9672a0s", "ENNUyvgjLRU", "c7hyWfaHGL8", "bGBf1nc06zo", "0grkE7EP248",
+            "THSF0nGRuCk", "_N9fhNxQsNQ", "eaQ2bxSi5tA", "UkSKK1NtdZk", "0CpJeyz0BQA",
+            "x4elBnbV6j4", "kYfDBvQNCNg", "mFNEAD7KnYE", "uH_C1HhmPHg", "VmSh9frm6tc",
+            "tQSW80GzcLk", "3VNoDqyrghE", "NAIbCcjCpSM", "HqySaVNebkw", "oPZ88iZ1Rws",
+            "O1Spef62UTk", "R28Ifrlnmqs", "6oc82FI8LR0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6ª Etapa · Biologia e Ensino II",
+      "disciplines": [
+        {
+          "name": "Corpo Humano: Órgãos e Sistemas",
+          "videoIds": [
+            "UzkUYqw_SAY", "FEx9XOigC3w", "AKKC83NYQVY", "lJqepoETtF0", "nLSrWt1jkDU",
+            "cuGHARqxGUw", "Qnj0omzEG9M", "Wr7zTsmcbW0", "Y60dX3Caiy4", "H3BvC9QccFQ",
+            "YjjCC7_LWUc", "Htm0K8oXW0s", "eHgVdzdQAcI", "pfmmurLMsGo", "OmI1fGRgdbk",
+            "e-LjJ_bFtxU", "6a4XIO1RflE", "9wvKGDD1jp0", "vtcbzr3b-n4", "o7VTsSi5Wzk",
+            "0AcIYjAMuQc", "xx_wL-16QTs", "fHn7Gp4rQVs", "hq7v_rVeYvc", "1m2WxriqJyM",
+            "6-xHrfxtqvo", "g0zyJvoWwL0", "KRdKYKOb6uM"
+          ]
+        },
+        {
+          "name": "Inglês VI",
+          "videoIds": [
+            "NWjcDsrKLJE", "-ZYvpWzuEzA", "OFyTgFCphE4", "AI8oSKgliR0", "kd75fZp-zzM",
+            "47mumXCelmo", "h6O3mqi9EEU", "6DAi4WlV8RU"
+          ]
+        },
+        {
+          "name": "Morfologia Vegetal",
+          "videoIds": [
+            "QgDlvf-qZ4k", "sXCE8_zO9Jc", "lGjen0rFklI", "WiPtucedsrQ", "qYuOgeIYPEk",
+            "VBLDovqrJh4", "Wrkf-4-bE8M", "cBD9hVaNVw4", "d2Cd5yCVgqI", "KCRXNdKjqMo",
+            "dsTjvuMVIM8", "u3t9SWBW6JI", "rp_p82HTxRk", "8dDEv_wJ_98", "OUuWyb4cUgM",
+            "khVwy43WnOQ", "0pVfOpylmcE", "sJGBqP67YYY", "EaT4-Zx62_0", "V6oce7L_0i0",
+            "Wpiod7YjfgM", "Q7hsA4squn8", "biWtb9c9UVQ", "m5HdlZtTNRs", "aB_ekz98v-o",
+            "ZjLQ78yYXks", "5-xNvKt8P-0", "Di4MTFKZDYY"
+          ]
+        },
+        {
+          "name": "Planejamento",
+          "videoIds": [
+            "tBYA3-7P64c", "fS82sMc1Jvs", "A--dJDv4bNM", "P1mmo05gobY", "uRecUtMEOrQ",
+            "GcBmwioOgKs", "IjdrlrEdl0U", "Ge9v9DlZNrU", "RfJDPfJbWX8", "HeUXY8qmRN8",
+            "CLn4D5bdJQY", "ua5kN06x2t0", "kM6WgTzkN1A", "mv5rIQbRPsE", "Ascn5n-9c0A",
+            "z2eRLcsLc1E", "LGFzMagkfrA", "Kp3YEI5VJTw", "SDoOwjEdT1s", "lhmoUFLkoVI",
+            "EkX1gCuHm_U", "Lu4LXz3179s", "4cbF2RU_KLo", "vZrX1ye9e4w", "3i2FGcbWRVM",
+            "Ge6oFFDY2BM", "cD1WOzwBcn8", "WmJOwJyiQaE"
+          ]
+        },
+        {
+          "name": "Zoologia dos Vertebrados",
+          "videoIds": [
+            "eEKw3sewND4", "WiGWQqSMFbE", "oP3ZoLTL3is", "PDk4uiV-Gr0", "eUlM4rV9xl8",
+            "EFPZqK5w_O4", "mZGDF0UYXN0", "shjsGqp_MFA", "JeQyv45QV-4", "mgH-DzcH4rg",
+            "hXs5G7Eb5zg", "jTkoBsl7rPI", "7wAV0hLTS2g", "7wFAtZxXhT4", "8jzxLEydoVo",
+            "0Eqdt_1Kj4o", "UAmNz3m6CK0", "MKpek6-MDG0", "iaEBUlWLBLI", "dzc-zzBCnbY",
+            "jXwHj1Pip_4", "flhPLlHVHmI", "dWz1CM5RDOo", "a-cBEYWy5Dc", "NeImV8JsMWA",
+            "FkBQjTuuFsM", "qW4EI9Ok-n8", "XBWcD5E9wn0", "26vbYtbj6ao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7ª Etapa · Biologia Avançada",
+      "disciplines": [
+        {
+          "name": "Ecologia",
+          "videoIds": [
+            "MHycnpmHq-g", "AwfEmUnrk9g", "BCmGACVtQbs", "O631cUyco3Q", "Hs60EPIuees",
+            "gNC5kZxiBuo", "nDb1EHWpjDA", "vilm5SFy6_U", "kxw-qm6hn6o", "4Bt8MLDmImE",
+            "GsjBmK1Hmjk", "Jsb9wXhjGLY", "Q5dV9kczGyM", "5EFxN7jGob8", "eWPP5EzRLjY"
+          ]
+        },
+        {
+          "name": "Genética",
+          "videoIds": [
+            "CH-qjwMAa9w", "C7Mh7LFmuxM", "ITzMpidFgJ0", "F7wEXAVUjdE", "4xMSTeet7wQ",
+            "WlZ5hTGA21Y", "t3o2gsUXt2Q", "jXiMC-csW8Q", "bUgP9XmsO4E", "78a4HSIPimU",
+            "RSvi0ngWRYw", "eB3rW8FG4dM", "AWnGJVsOLVg", "OvLscrf-b54", "B_ykhI13gEk"
+          ]
+        },
+        {
+          "name": "Microbiologia e Imunologia",
+          "videoIds": [
+            "VAwXVGstQTM", "HljNRejPDrU", "yrYJ5C7GSXM", "kri0zUky1Uc", "VZr3iKAlslw",
+            "30Ofh5Y0xyI", "P3O7gV1SAyE", "l3W2KAJly7Y", "GWdrX2pe2Eg", "3gxq9wa_0kg",
+            "PYJUOv9opOc", "-PzQVQSg92A", "d88jT0krM08", "g37GAWaU7D0", "H3EqfadXDqg"
+          ]
+        },
+        {
+          "name": "Taxonomia Vegetal",
+          "videoIds": [
+            "m9wgYi2WOeY", "UKbla1io0-0", "YZH7eALRjn8", "jfYrVJMNuqI", "y1apct2IhYU",
+            "3OCcGS-zRc8", "AqEXq6vt3r0", "rzwuxoOsfyM", "pj4hzNtid_s", "G5AuG-lS19E",
+            "am5zTn4GTvg", "U7SFwSKS7WM", "6QTQXlEHVWM", "ko7AgQKbftM"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8ª Etapa · Tópicos Especiais em Biologia",
+      "disciplines": [
+        {
+          "name": "Biologia Molecular",
+          "videoIds": [
+            "8yCgiesI8w8", "uEEbKokBt6o", "jTj4Rw5-Qhs", "iUt9FdG5v7c", "qhJGDzgxQXE",
+            "fJ1AnYqp5Lo", "JzOek0qh8jg", "OMfP88hr-K4"
+          ]
+        },
+        {
+          "name": "Fisiologia Vegetal",
+          "videoIds": [
+            "1BEPLyTpRlA", "BJ2rWy0JmG8", "ggBg-zMbaZQ", "92KaOH4SSOw", "wefhQ7s9x7M",
+            "nEsATXN3Wo4", "sbyHOgBll3Q", "rnl487XHmmk", "5Oo1nn1yoi0", "IXBeOxtNy00",
+            "UeSxRZNrK1w", "l0rzvXlb81o", "p_Xfvnlv834", "3koYfJ2ADMg", "kPEaucWv9Cs"
+          ]
+        },
+        {
+          "name": "Parasitologia",
+          "videoIds": [
+            "varBsyUVr4I", "ZnZcAsZkyRA", "-nl8N3_9f5w", "82jwE0cXgfE", "1u86ZwgKD94",
+            "yijm3z_ljQI", "BQxSSYat0bA", "u_5f8LDvrII", "w62SqMbaC1Y", "HFy0Kk4k0TI",
+            "9VV09ZKABno", "3tVm6EljwiM", "ACiWgBzR4N4", "gp00K-l_Kpo", "vtEFJ3UgQVg"
+          ]
+        },
+        {
+          "name": "Saneamento e Recuperação Ambientais",
+          "videoIds": [
+            "m_cf4_6XsFU", "3xb-SqIUTbg", "nizUgPKFlYU", "h09g53A-Mb8", "ZyjU-uTJ1c4",
+            "6DWnE9JcnvM", "sGJiBJy9yPc", "aIDeG3Uo140", "N9e-NkVuucY"
+          ]
+        }
+      ]
+    }
+  ]
+}
