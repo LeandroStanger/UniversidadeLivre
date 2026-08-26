@@ -1,4 +1,4 @@
-// onboarding/onboarding.js – Versão 20.0 – COMPLETO E AUTOSSUFICIENTE
+// onboarding/onboarding.js – Versão 21.0 – COMPLETO E INTEGRADO AO i18n CENTRAL
 // Trilha de boas-vindas (Onboarding) com Login, Cadastro, Importação de progresso
 // Suporte a verificação de senha para importação (incluindo arquivos criptografados)
 // Restauração completa do perfil (nome, gênero, avatar, matrícula, tempo, cursos, etc.)
@@ -6,9 +6,9 @@
 // CORREÇÃO: Funções de criptografia embutidas no próprio módulo (não depende de profile.js)
 // CORREÇÃO: Suporte a arquivos criptografados e não criptografados
 // CORREÇÃO: Mensagens de erro claras e botão para recarregar a página
-// CORREÇÃO: Traduções carregadas exclusivamente do arquivo JSON (fallback mínimo)
+// CORREÇÃO: Traduções carregadas exclusivamente do módulo central i18n (window.t)
 // CORREÇÃO: MutationObserver desconectado ao fechar modal
-// CORREÇÃO: Removidos fallbacks hardcoded enormes – agora usa window.t ou traduções carregadas
+// CORREÇÃO: Removidos fallbacks hardcoded enormes – usa window.t ou chave como fallback
 
 (function() {
     'use strict';
@@ -110,27 +110,104 @@
         return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
     }
 
-    // ========== TRADUÇÃO (SEM FALLBACK HARCODED) ==========
-    // A função t() agora usa exclusivamente as traduções carregadas via JSON.
-    // Se a chave não for encontrada, retorna a própria chave (para facilitar a identificação de faltas).
+    // ========== TRADUÇÃO (INTEGRAÇÃO COM i18n CENTRAL) ==========
     function t(key, replacements = {}) {
-        // Prioriza o objeto global de traduções se disponível
-        let translations = {};
-        if (window.__translations) {
-            translations = window.__translations;
-        } else if (window.translations) {
-            translations = window.translations;
-        } else if (typeof window.getTranslations === 'function') {
-            translations = window.getTranslations() || {};
+        // Usa o sistema central de tradução (window.t)
+        if (window.t && typeof window.t === 'function') {
+            try {
+                return window.t(key, replacements);
+            } catch (e) { /* fallback */ }
         }
-
-        let text = translations[key] || key;
+        // Fallback: usa traduções carregadas localmente (window.__translations)
+        let text = (window.__translations && window.__translations[key]) || key;
         for (const k in replacements) {
             if (replacements.hasOwnProperty(k)) {
                 text = text.replace(new RegExp('{{' + k + '}}', 'g'), replacements[k]);
             }
         }
         return text;
+    }
+
+    // ========== CARREGAR TRADUÇÕES (usa i18n central se disponível) ==========
+    async function loadTranslations(lang) {
+        // Tenta usar o módulo central i18n
+        if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+            try {
+                await window.i18n.loadTranslations(lang);
+                // Garante que window.__translations esteja atualizado
+                if (window.i18n.getTranslations) {
+                    window.__translations = window.i18n.getTranslations();
+                }
+                return true;
+            } catch (e) {
+                console.warn('[Onboarding] Falha ao carregar do i18n central:', e);
+            }
+        }
+
+        // Fallback: tenta carregar JSON diretamente
+        const paths = [
+            `../lang/${lang}.json`,
+            `lang/${lang}.json`,
+            `/lang/${lang}.json`,
+            `./lang/${lang}.json`
+        ];
+        for (const path of paths) {
+            try {
+                const response = await fetch(path);
+                if (response.ok) {
+                    window.__translations = await response.json();
+                    return true;
+                }
+            } catch (e) { /* continua */ }
+        }
+        console.warn('[Onboarding] Nenhum arquivo de tradução encontrado. Usando chaves como fallback.');
+        window.__translations = {};
+        return false;
+    }
+
+    // ========== APLICAR TRADUÇÕES NO DOM ==========
+    function applyTranslations() {
+        // Tenta usar o sistema central
+        if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+            try {
+                window.applyTranslations();
+                return;
+            } catch (e) {
+                console.warn('[Onboarding] Erro ao chamar applyTranslations central:', e);
+            }
+        }
+
+        // Fallback: aplica localmente
+        const translations = window.__translations || {};
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[key]) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translations[key];
+                } else {
+                    const icon = el.querySelector('i');
+                    if (icon) {
+                        const cloneIcon = icon.cloneNode(true);
+                        el.innerHTML = '';
+                        el.appendChild(cloneIcon);
+                        el.appendChild(document.createTextNode(' ' + translations[key]));
+                    } else {
+                        el.innerText = translations[key];
+                    }
+                }
+            }
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if (translations[key]) el.placeholder = translations[key];
+        });
+        document.querySelectorAll('[data-i18n-title]').forEach(el => {
+            const key = el.getAttribute('data-i18n-title');
+            if (translations[key]) el.title = translations[key];
+        });
+        if (translations.app_title) {
+            document.title = translations.app_title;
+        }
     }
 
     // ========== INICIALIZAR ELEMENTOS ==========
@@ -190,10 +267,12 @@
             nextBtn.style.cursor = 'pointer';
         }
 
+        // Atualiza textos dos botões
         prevBtn.textContent = t('onboarding_button_prev');
         nextBtn.textContent = t('onboarding_button_next');
         finishBtn.textContent = t('onboarding_button_finish');
 
+        // Atualiza elementos específicos
         if (index === 3) {
             updateModeUI();
             if (!loginMode) {
@@ -204,6 +283,7 @@
             }
         }
 
+        // Foco automático
         if (index === 3) {
             if (loginMode) {
                 const loginPass = document.getElementById('onboardingLoginPassword');
@@ -213,6 +293,9 @@
                 if (nameInput) setTimeout(() => nameInput.focus(), 150);
             }
         }
+
+        // Reaplicar traduções no passo atual
+        applyTranslations();
     }
 
     // ========== ESCOLHA DE IDIOMA ==========
@@ -229,14 +312,15 @@
         const errorDiv = document.getElementById('onboardingLangError');
         if (errorDiv) errorDiv.style.display = 'none';
 
-        // Dispara evento de mudança de idioma para que outros módulos sejam atualizados
+        // Dispara evento de mudança de idioma
         if (window.setLanguage && typeof window.setLanguage === 'function') {
             window.setLanguage(lang);
-        } else if (window.I18n && window.I18n.setLanguage) {
-            window.I18n.setLanguage(lang);
         } else {
             localStorage.setItem('selectedLanguage', lang);
-            if (window.applyTranslations) window.applyTranslations();
+            loadTranslations(lang).then(() => {
+                applyTranslations();
+                renderStep(currentStep);
+            });
         }
 
         renderStep(currentStep);
@@ -256,18 +340,17 @@
         if (loginMode) {
             signupDiv.style.display = 'none';
             loginDiv.style.display = 'block';
-            title.textContent = t('onboarding_login_button') || 'Entrar';
+            title.textContent = t('onboarding_login_button');
             nextBtn.style.display = 'none';
             finishBtn.style.display = 'none';
-
-            // Atualiza o estado do botão de importação
             updateImportButtonState();
         } else {
             signupDiv.style.display = 'block';
             loginDiv.style.display = 'none';
-            title.textContent = t('onboarding_form_title') || 'Crie seu perfil';
+            title.textContent = t('onboarding_form_title');
             renderStep(currentStep);
         }
+        applyTranslations();
     }
 
     // ========== IMPORTAÇÃO (LOGIN VIA ARQUIVO) ==========
@@ -338,7 +421,7 @@
                         showToast(t('onboarding_error_login_failed'), 'error');
                     }
                 } else {
-                    // Arquivo não tem campo de senha: permite importação sem validação (fallback)
+                    // Arquivo sem senha: importa diretamente
                     applyImportedData(importedData);
                 }
             } catch (err) {
@@ -646,7 +729,8 @@
             }
         }
 
-        if (window.applyTranslations) window.applyTranslations();
+        // Aplicar traduções após construir os passos
+        applyTranslations();
 
         updateImportButtonState();
         updateModeUI();
@@ -1226,7 +1310,7 @@
     }
 
     // ========== ABRIR ONBOARDING ==========
-    function openOnboarding() {
+    async function openOnboarding() {
         if (localStorage.getItem(ONBOARDING_COMPLETE_KEY) === 'true') {
             const hasName = localStorage.getItem('userProfileName');
             if (hasName) {
@@ -1235,10 +1319,13 @@
             }
         }
 
-        buildSteps();
-
+        // Carregar traduções antes de construir os passos
         const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
         selectedLang = savedLang;
+        await loadTranslations(savedLang);
+        applyTranslations();
+
+        buildSteps();
 
         const ptBtn = document.getElementById('onboardingLangPt');
         const enBtn = document.getElementById('onboardingLangEn');
@@ -1307,6 +1394,7 @@
             }
         });
 
+        // Reagir a mudanças de idioma globais
         window.addEventListener('languageChanged', () => {
             if (modal && modal.classList.contains('show')) {
                 const nameInput = document.getElementById('onboardingName');
