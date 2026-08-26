@@ -2,6 +2,7 @@
 // v2.6.0 - CORREÇÃO: Preservação de ícones nas traduções
 // v2.6.0 - CORREÇÃO: Logs para depuração de chaves não encontradas
 // v2.6.0 - CORREÇÃO: Fallback inline completo para pt-br e en
+// v2.6.1 - MELHORIA: Usa window.t() se disponível, senão fallback interno
 
 (function() {
     'use strict';
@@ -26,7 +27,7 @@
     // Quill editor
     let quill = null;
 
-    // ========== FALLBACKS INLINE ==========
+    // ========== FALLBACKS INLINE (usados apenas se window.t não estiver disponível) ==========
     const FALLBACK_PT = {
         "notas_title": "Notas de Estudo · Universidade Livre",
         "notas_subtitle": "Caderno de Estudos",
@@ -108,11 +109,26 @@
     // ========== MÓDULO I18N ==========
     const I18n = {
         async loadTranslations(lang) {
-            // Prioriza caminho relativo (sobe um nível) que funciona com a estrutura do projeto
+            // Tenta usar o módulo central i18n se disponível
+            if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+                try {
+                    await window.i18n.loadTranslations(lang);
+                    state.translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+                    if (Object.keys(state.translations).length > 0) {
+                        console.log('[Notas] Traduções carregadas do módulo central i18n');
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('[Notas] Falha ao carregar do módulo central:', e);
+                }
+            }
+
+            // Fallback: tenta carregar o arquivo JSON diretamente
             const paths = [
-                `../lang/${lang}.json`,   // sobe um nível (raiz do projeto) - MAIS PROVÁVEL
-                `./lang/${lang}.json`,    // dentro da pasta notas (caso tenha cópia)
-                `lang/${lang}.json`       // relativo sem ./
+                `../lang/${lang}.json`,
+                `./lang/${lang}.json`,
+                `lang/${lang}.json`,
+                `/lang/${lang}.json`
             ];
             for (const path of paths) {
                 try {
@@ -136,6 +152,14 @@
         },
 
         t(key, fallback = '') {
+            // Se window.t estiver disponível (módulo central), usa-o
+            if (window.t && typeof window.t === 'function') {
+                try {
+                    return window.t(key);
+                } catch (e) {
+                    // fallback
+                }
+            }
             return state.translations[key] || fallback || key;
         },
 
@@ -144,7 +168,19 @@
                 console.warn('[Notas] applyTranslations ignorado: traduções vazias.');
                 return;
             }
-            // Elementos com data-i18n
+
+            // Se window.applyTranslations estiver disponível, usa-o para evitar duplicação
+            if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+                try {
+                    window.applyTranslations();
+                    console.log('[Notas] applyTranslations delegado ao módulo central.');
+                    // Ainda assim, aplica as específicas do módulo
+                } catch (e) {
+                    console.warn('[Notas] Erro ao chamar applyTranslations central:', e);
+                }
+            }
+
+            // Aplica traduções específicas do módulo notas
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (state.translations[key]) {
@@ -192,8 +228,6 @@
                     profileBtn.innerText = this.t('profile');
                 }
             }
-            // Atualiza também o botão "Biblioteca" e "Auditório" (caso não estejam com data-i18n)
-            // Mas eles já têm data-i18n, então já foram tratados acima
             console.log('[Notas] Traduções aplicadas.');
         },
 

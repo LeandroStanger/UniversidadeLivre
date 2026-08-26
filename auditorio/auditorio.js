@@ -1,14 +1,13 @@
-// auditorio/auditorio.js – Versão 4.9 – CORREÇÃO DE TRADUÇÃO COM FALLBACK EMBUTIDO
+// auditorio/auditorio.js – Versão 5.0 – COMPLETO E OTIMIZADO
 // Player YouTube + YouTube Data API v3
 // Com Shorts, categorias temáticas, prioridade de idioma, lives e podcasts
 // Filtro por canais via canais.json (fallback se não encontrado)
 // Tratamento de cota excedida e cache de 24h
-// Tradução completa via i18n com escuta do evento languageChanged
-// CORREÇÃO: Caminho absoluto para arquivos de tradução (/lang/)
-// CORREÇÃO: Fallback inline para inglês e português caso o JSON não carregue
+// Tradução completa via i18n central (window.t) com fallback mínimo
+// CORREÇÃO: Usa módulo central i18n se disponível
+// CORREÇÃO: Fallback mínimo embutido apenas para chaves críticas
 // CORREÇÃO: applyTranslationsToUI() chamada após cada mudança de idioma
 // CORREÇÃO: Reconstrução forçada dos chips após refreshAllItems()
-// CORREÇÃO: Garantia de que o título da página e os placeholders sejam traduzidos
 
 // ========== VARIÁVEIS GLOBAIS ==========
 let allVideos = [];
@@ -132,62 +131,24 @@ function getCachedOrFetch(cacheKey, fetchFn, ttl = CACHE_TTL) {
     return fetchFn().then(data => { cache.set(cacheKey, { data, timestamp: Date.now() }); return data; });
 }
 
-// ========== I18N COM FALLBACK INLINE ==========
-// Definição dos fallbacks completos para pt-br e en
-const FALLBACK_PT = {
-    "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
-    "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
-    "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
-    "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
-    "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
-    "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
-    "subject_shorts": "Shorts", "subject_outros": "Outros",
-    "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
-    "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
-    "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
-    "lang_undefined": "Indefinido",
-    "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
-    "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
-    "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
-    "filter_by_language": "Filtrar por idioma:", 
-    "auditorio_page_title": "Auditório · Universidade Livre",
-    "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
-    "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "itens",
-    "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
-    "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado.",
-    "profile": "Perfil", "notas_heading": "Notas"
-};
-
-const FALLBACK_EN = {
-    "subject_tecnologia": "Technology", "subject_ciencia": "Science", "subject_matematica": "Mathematics",
-    "subject_historia": "History", "subject_literatura": "Literature", "subject_filosofia": "Philosophy",
-    "subject_psicologia": "Psychology", "subject_economia": "Economics", "subject_politica": "Politics",
-    "subject_saude": "Health", "subject_educacao": "Education", "subject_arte": "Art",
-    "subject_esportes": "Sports", "subject_negocios": "Business", "subject_viagem": "Travel",
-    "subject_religiao": "Religion", "subject_autoajuda": "Self-help", "subject_culinaria": "Cooking",
-    "subject_shorts": "Shorts", "subject_outros": "Others",
-    "lang_pt": "Portuguese", "lang_en": "English", "lang_es": "Spanish", "lang_fr": "French",
-    "lang_de": "German", "lang_it": "Italian", "lang_ja": "Japanese", "lang_zh": "Chinese",
-    "lang_ko": "Korean", "lang_ru": "Russian", "lang_ar": "Arabic", "lang_hi": "Hindi",
-    "lang_undefined": "Undefined",
-    "badge_live": "LIVE", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Educational videos selected by the community.",
-    "no_videos": "No items found.", "search_videos_placeholder": "Search videos or podcasts...",
-    "random_btn": "Random", "filter_by_type": "Filter by type:", "filter_by_subject": "Filter by subject:",
-    "filter_by_language": "Filter by language:",
-    "auditorio_page_title": "Auditorium · Open University",
-    "player_fallback_active": "⚠️ Simplified player active.", "retry_player": "Try full player",
-    "loading": "Loading...", "all": "All", "type_video": "Videos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "items",
-    "player_error_generic": "Player error.", "player_error_removed": "Video removed.",
-    "player_error_issue": "Player issue.", "player_error_not_found": "Video not found.",
-    "profile": "Profile", "notas_heading": "Notes"
-};
-
+// ========== I18N COM FALLBACK MÍNIMO ==========
+// Usa o módulo central i18n se disponível, senão fallback próprio
 async function loadTranslations(lang) {
-    // Prioriza caminho absoluto a partir da raiz
+    // Tenta usar o módulo central i18n
+    if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+        try {
+            await window.i18n.loadTranslations(lang);
+            translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+            if (Object.keys(translations).length > 0) {
+                console.log('[Auditório] Traduções carregadas do módulo central i18n');
+                return true;
+            }
+        } catch (e) {
+            console.warn('[Auditório] Falha ao carregar do módulo central:', e);
+        }
+    }
+
+    // Fallback: tenta carregar o arquivo JSON diretamente
     const paths = [
         `/lang/${lang}.json`,
         `../lang/${lang}.json`,
@@ -204,13 +165,22 @@ async function loadTranslations(lang) {
             }
         } catch (e) { /* continua */ }
     }
-    // Fallback inline caso o JSON não seja encontrado
-    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
-    translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
+    // Fallback mínimo: apenas chaves críticas
+    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback mínimo.');
+    translations = {};
     return false;
 }
 
+// Função t() com fallback mínimo
 function t(key, fallback = '') {
+    // Se window.t estiver disponível (módulo central), usa-o
+    if (window.t && typeof window.t === 'function') {
+        try {
+            return window.t(key);
+        } catch (e) {
+            // fallback
+        }
+    }
     return translations[key] || fallback || key;
 }
 
@@ -230,46 +200,56 @@ function applyTranslationsToUI() {
     // Atualiza elementos com data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[key]) {
+        const text = t(key);
+        if (text && text !== key) {
             if (el.tagName === 'INPUT') {
-                el.placeholder = translations[key];
+                el.placeholder = text;
             } else {
-                el.innerText = translations[key];
+                // Preserva ícone se existir
+                const icon = el.querySelector('i');
+                if (icon) {
+                    const iconClone = icon.cloneNode(true);
+                    el.innerHTML = '';
+                    el.appendChild(iconClone);
+                    el.appendChild(document.createTextNode(' ' + text));
+                } else {
+                    el.innerText = text;
+                }
             }
         }
     });
     // Título da página
-    document.title = t('auditorio_page_title');
+    document.title = t('auditorio_page_title', 'Auditório · Universidade Livre');
     // Barra de pesquisa
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.placeholder = t('search_videos_placeholder');
+    if (searchInput) searchInput.placeholder = t('search_videos_placeholder', 'Buscar vídeos ou podcasts...');
     // Botão aleatório
     const randomBtn = document.querySelector('#randomVideoBtn span');
-    if (randomBtn) randomBtn.innerText = t('random_btn');
+    if (randomBtn) randomBtn.innerText = t('random_btn', 'Aleatório');
     // Rótulos dos filtros
     const typeFilterSpan = document.querySelector('.type-filter span');
-    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type');
+    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type', 'Filtrar por tipo:');
     const subjectFilterSpan = document.querySelector('.subject-filter span');
-    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject');
+    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject', 'Filtrar por assunto:');
     const languageFilterSpan = document.querySelector('.language-filter span');
-    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language');
+    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language', 'Filtrar por idioma:');
     // Perfil
     const profileBtn = document.getElementById('profileBtn');
     if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile', 'Perfil')}`;
     }
     // Notas
     const notasLink = document.querySelector('a[href="../notas/notas.html"]');
     if (notasLink) {
         const span = notasLink.querySelector('span');
-        if (span) span.innerText = t('notas_heading');
+        if (span) span.innerText = t('notas_heading', 'Notas');
         else {
             const icon = notasLink.querySelector('i');
             notasLink.innerHTML = '';
             if (icon) notasLink.appendChild(icon);
             const newSpan = document.createElement('span');
             newSpan.setAttribute('data-i18n', 'notas_heading');
-            newSpan.innerText = t('notas_heading');
+            newSpan.innerText = t('notas_heading', 'Notas');
             notasLink.appendChild(newSpan);
         }
     }
@@ -542,11 +522,11 @@ async function fetchVideoDetails(videoIds) {
 
 // ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA ==========
 const LANG_STOPWORDS = {
-    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer dar ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
+    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
     en: 'the and for with you this are have from they know your can more about just like people time year good work life world english will was were been has had their them would could should make get see use tion sion ment ness'.split(' '),
     es: 'el la de y que en por con para como su sobre este esta usted años vida trabajo personas español los las se ha han está están era eran muy bien gracias hola ser tener hacer decir ir ver dar ción dad mente'.split(' '),
     fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont étaient étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
-    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurde wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
+    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurden wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
     it: 'il la di e che per con come su questo questa lei più anni vita lavoro persone italiano sono era erano stato stata essere avere fare dire andare vedere dare zione mento ità'.split(' '),
     ru: 'и в не на я что с по а он как его но из они за русский год жизнь это было были быть сказать мочь хотеть знать думать ность ение овать'.split(' '),
     zh: '的 了 是 我 不 在 人 有 他 这 中 大 来 上 国 为 子 你 说 中文 也 个 们 到 去 看 好 什么 没有 可以 自己 因为 所以'.split(' '),
@@ -861,7 +841,7 @@ function useFallbackPlayer() {
     if (!existingMsg) {
         const msgDiv = document.createElement('div'); msgDiv.className = 'fallback-message';
         msgDiv.style.cssText = 'padding:0.5rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);';
-        msgDiv.innerHTML = `${t('player_fallback_active')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player')}</button>`;
+        msgDiv.innerHTML = `${t('player_fallback_active', '⚠️ Player simplificado ativo.')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player', 'Tentar player completo')}</button>`;
         wrapper.parentNode.insertBefore(msgDiv, wrapper.nextSibling);
         document.getElementById('retryPlayerBtn').addEventListener('click', () => {
             apiLoadAttempts = 0;
@@ -898,7 +878,7 @@ function createPlayer(videoId, startSeconds = 0) {
         document.querySelector('.progress-container').style.display = 'flex';
         document.querySelector('.volume-control').style.display = 'flex';
         return true;
-    } catch (e) { showPlayerError(t('player_error_generic')); return false; }
+    } catch (e) { showPlayerError(t('player_error_generic', 'Erro no player.')); return false; }
 }
 function onPlayerReady(event) {
     playerReady = true;
@@ -929,10 +909,10 @@ function onPlayerStateChange(event) {
     saveAllProgress();
 }
 function onPlayerError(e) {
-    let msg = t('player_error_generic');
-    if (e.data === 2) msg = t('player_error_removed');
-    else if (e.data === 5) msg = t('player_error_issue');
-    else if (e.data === 100) msg = t('player_error_not_found');
+    let msg = t('player_error_generic', 'Erro no player.');
+    if (e.data === 2) msg = t('player_error_removed', 'Vídeo removido.');
+    else if (e.data === 5) msg = t('player_error_issue', 'Problema no player.');
+    else if (e.data === 100) msg = t('player_error_not_found', 'Vídeo não encontrado.');
     showPlayerError(msg);
     stopWatchTimer();
 }
@@ -1013,9 +993,9 @@ function formatDuration(sec) {
 }
 function createVideoCardHTML(v) {
     let badge = '';
-    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
-    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
-    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts')}</span>`;
+    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live', 'AO VIVO')}</span>`;
+    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast', 'PODCAST')}</span>`;
+    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts', 'SHORTS')}</span>`;
     if (v.isPlaylist) {
         badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
     }
@@ -1040,13 +1020,13 @@ function createVideoCardHTML(v) {
 function renderUnifiedGrid(items) {
     const container = document.getElementById('videosContainer');
     if (!container) return;
-    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos')}</p></div>`; return; }
+    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos', 'Nenhum item encontrado.')}</p></div>`; return; }
     let subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
     let html = '';
     for (const subj of subjects) {
         let subjItems = items.filter(i => i.subject === subj);
         if (currentSubjectFilter === 'all') subjItems = subjItems.slice(0, 10);
-        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items')}</div></div><div class="category-grid unified-grid">`;
+        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items', 'itens')}</div></div><div class="category-grid unified-grid">`;
         subjItems.forEach(item => html += createVideoCardHTML(item));
         html += `</div></div>`;
     }
@@ -1085,11 +1065,11 @@ function updateAllContent() {
 function buildTypeChips() {
     const c = document.getElementById('typeChips'); if (!c) return;
     const types = [
-        {value:'all',label:t('all'),icon:'fa-globe'},
-        {value:'video',label:t('type_video'),icon:'fa-play-circle'},
-        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},
-        {value:'live',label:t('type_live'),icon:'fa-circle'},
-        {value:'shorts',label:t('type_shorts'),icon:'fa-film'}
+        {value:'all',label:t('all', 'Todos'),icon:'fa-globe'},
+        {value:'video',label:t('type_video', 'Vídeos'),icon:'fa-play-circle'},
+        {value:'podcast',label:t('type_podcast', 'Podcasts'),icon:'fa-podcast'},
+        {value:'live',label:t('type_live', 'Lives'),icon:'fa-circle'},
+        {value:'shorts',label:t('type_shorts', 'Shorts'),icon:'fa-film'}
     ];
     c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
     c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
@@ -1103,7 +1083,7 @@ function buildTypeChips() {
 function buildSubjectChips() {
     const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
     const c = document.getElementById('subjectChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
+    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all', 'Todos')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
     c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
         currentSubjectFilter = ch.dataset.subject;
         buildSubjectChips();
@@ -1114,7 +1094,7 @@ function buildSubjectChips() {
 function buildLanguageChips(items = allItems) {
     const langs = [...new Set(items.map(i => i.language).filter(l => l))];
     const c = document.getElementById('languageChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
+    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all', 'Todos')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
     c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
         currentLanguageFilter = ch.dataset.lang;
         buildLanguageChips();
@@ -1131,7 +1111,7 @@ function playRandomItem() {
         playVideo(item.videoId, item.title, item.description);
     }
 }
-function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`; }
+function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading', 'Carregando...')}</p></div>`; }
 function hideLoading() {}
 
 // ========== CARREGAR FILTRO DE CANAIS ==========
@@ -1225,13 +1205,13 @@ window.addEventListener('languageChanged', async function(e) {
         // Atualiza o botão de perfil se necessário
         const profileBtn = document.getElementById('profileBtn');
         if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile', 'Perfil')}`;
         }
         // Atualiza o botão "Notas"
         const notasLink = document.querySelector('a[href="../notas/notas.html"]');
         if (notasLink) {
             const span = notasLink.querySelector('span');
-            if (span) span.innerText = t('notas_heading');
+            if (span) span.innerText = t('notas_heading', 'Notas');
         }
     }
 });

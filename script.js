@@ -1,22 +1,11 @@
 // ============================================================
-// script.js – Versão 14.0 – COMPLETO E AUTOSSUFICIENTE
-// Universidade Livre · Todos os módulos
-// CORREÇÃO: Prevenção de renderização concorrente de cursos
-// CORREÇÃO: Animações mais suaves com translate3d e will-change
-// CORREÇÃO: Ordenação: Ensino Médio → Graduação → Pós‑Graduação → Idiomas
-// CORREÇÃO: Suporte ao curso de Administração
-// CORREÇÃO: Suporte ao curso de Matemática (Licenciatura)
-// CORREÇÃO: Suporte a Engenharia de Produção
-// CORREÇÃO: Suporte a Letras – Habilitação em Língua Portuguesa
-// CORREÇÃO: Suporte a Pedagogia
-// CORREÇÃO: Suporte a Gestão Pública
-// CORREÇÃO: Suporte a Tecnologia da Informação
-// CORREÇÃO: Suporte a Ciência de Dados (Bacharelado)
-// CORREÇÃO: Suporte a Processos Gerenciais
-// CORREÇÃO: Nomes dos cursos traduzidos dinamicamente
-// CORREÇÃO: loadLicenseData com cache funcionando
-// CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
-// CORREÇÃO: activateTab trata currentDiscipline indefinido
+// script.js – Versão 27.2 – COM SLIDER LOOP INFINITO E PREVIEW LATERAL
+// CORREÇÃO: Slider com loop infinito (clones do primeiro e último slide)
+// CORREÇÃO: Preview lateral com 10% de visibilidade dos slides adjacentes
+// CORREÇÃO: Navegação suave com redirecionamento automático entre clones
+// CORREÇÃO: Chip ativo com underline via box-shadow (CSS)
+// CORREÇÃO: Centralização do i18n com window.t()
+// ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
@@ -25,13 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== VARIÁVEL DE CONTROLE PARA RENDERIZAÇÃO ==========
     let _renderingCourses = false;
+    let _progressJustHit100 = false;
 
     // ========== INICIALIZAR CURSOR TIMESET ==========
     if (window.CursorTimeset && typeof window.CursorTimeset.initialize === 'function') {
         window.CursorTimeset.initialize();
         console.log('[Main] CursorTimeset inicializado com sucesso');
-    } else {
-        console.error('[Main] CursorTimeset não disponível – verifique se cursos/cursor-timeset.js foi carregado');
     }
 
     // ========== TIMESET (TIMESTAMP) ==========
@@ -45,34 +33,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function detectSystemLanguage() {
         const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
-        console.log('[Language Detection] Idioma detectado no navegador:', browserLang);
-        if (browserLang.startsWith('pt')) {
-            console.log('[Language Detection] Mapeado para: pt-br');
-            return 'pt-br';
-        }
-        if (browserLang.startsWith('en')) {
-            console.log('[Language Detection] Mapeado para: en');
-            return 'en';
-        }
-        console.log('[Language Detection] Idioma não suportado, usando padrão: en');
+        if (browserLang.startsWith('pt')) return 'pt-br';
+        if (browserLang.startsWith('en')) return 'en';
         return 'en';
     }
 
     async function loadTranslations(lang) {
-        console.log(`[i18n] Carregando traduções para: ${lang}`);
+        // Tenta usar o módulo central i18n
+        if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+            try {
+                await window.i18n.loadTranslations(lang);
+                translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+                if (Object.keys(translations).length > 0) {
+                    console.log('[Main] Traduções carregadas do módulo central i18n');
+                    return true;
+                }
+            } catch (e) {
+                console.warn('[Main] Falha ao carregar do módulo central:', e);
+            }
+        }
+
+        // Fallback: tenta carregar o arquivo JSON diretamente
         try {
             const response = await fetch(`lang/${lang}.json`);
-            if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             translations = await response.json();
-            console.log(`[i18n] Traduções carregadas com sucesso para ${lang}`);
             return true;
         } catch (error) {
-            console.error(`[i18n] Erro ao carregar traduções para ${lang}:`, error);
-            if (lang !== 'pt-br') {
-                console.log('[i18n] Tentando carregar pt-br como fallback');
-                return loadTranslations('pt-br');
-            }
-            // Fallback completo com todas as chaves necessárias
+            if (lang !== 'pt-br') return loadTranslations('pt-br');
+            // Fallback inline mínimo
             translations = {
                 "app_title": "Universidade Livre",
                 "tab_bibliography": "Bibliografia",
@@ -160,23 +149,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "badge_live": "AO VIVO",
                 "badge_podcast": "PODCAST",
                 "badge_shorts": "SHORTS",
-                "search_practice_placeholder": "Buscar práticas por título ou descrição...",
-                "no_practice": "Nenhuma prática disponível no momento.",
-                "practice_unavailable": "Conteúdo de prática não disponível no momento.",
+                "search_practice_placeholder": "Buscar práticas...",
+                "no_practice": "Nenhuma prática disponível.",
+                "practice_unavailable": "Conteúdo indisponível.",
                 "exercise_type_practice": "Prática",
                 "exercise_type_challenge": "Desafio",
                 "exercise_type_assessment": "Avaliação",
-                "external_lesson_desc": "Este conteúdo está disponível em uma plataforma de terceiros.",
+                "external_lesson_desc": "Conteúdo em plataforma externa.",
                 "external_platform_default": "Plataforma externa",
-                "external_instruction": "As aulas e atividades serão realizadas na plataforma acima. Após concluir as aulas na plataforma externa, retorne aqui e marque a aula como concluída.",
+                "external_instruction": "Após concluir, marque como concluído.",
                 "go_to_platform": "Ir para a plataforma",
-                "external_footer_note": "Após terminar as aulas no site externo, clique em \"Marcar como concluída\".",
-                "exercise_lesson_desc": "Esta atividade deve ser realizada fora da plataforma. Após concluir, clique no botão abaixo para marcar como concluída.",
+                "external_footer_note": "Clique em \"Marcar como concluída\" após terminar.",
+                "exercise_lesson_desc": "Atividade prática.",
                 "profile": "Perfil",
                 "filter_all": "Todos",
                 "filter_by_level": "Filtrar por nível:",
                 "no_courses_found": "Nenhum curso encontrado.",
-                "search_courses_placeholder": "Buscar cursos por nome ou descrição...",
+                "search_courses_placeholder": "Buscar cursos...",
                 "streak_days": "dias",
                 "library_button": "Biblioteca",
                 "mark_as_read": "Marcar como lido",
@@ -187,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "profile_change_photo": "Alterar foto",
                 "profile_name": "Nome",
                 "profile_gender": "Gênero",
-                "profile_password": "Senha (para exportar/importar)",
+                "profile_password": "Senha",
                 "profile_save_name": "Salvar Nome",
                 "profile_save": "Salvar",
                 "profile_save_progress": "Salvar Progresso",
@@ -199,47 +188,47 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "profile_total_points": "Pontuação total",
                 "profile_auditorio_hours": "Horas no Auditório",
                 "profile_saved_courses": "Cursos salvos",
-                "profile_no_courses": "Nenhum curso iniciado ainda.",
+                "profile_no_courses": "Nenhum curso iniciado.",
                 "profile_in_progress": "Em andamento",
                 "profile_completed": "Concluído",
-                "profile_export_import": "Exportar / Importar dados",
-                "profile_select_notes": "Selecione quais notas exportar:",
-                "profile_data_note": "Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.",
+                "profile_export_import": "Exportar / Importar",
+                "profile_select_notes": "Selecione notas:",
+                "profile_data_note": "Dados locais. Senha criptografa a exportação.",
                 "profile_matricula": "Matrícula:",
-                "profile_choose_avatar": "Escolher foto de perfil",
-                "profile_avatar_description": "Selecione uma imagem padrão ou faça upload da sua própria foto.",
-                "profile_upload": "Fazer upload",
-                "profile_remove_photo": "Remover foto",
-                "profile_license": "Licença das imagens",
-                "profile_no_notes": "Nenhuma nota encontrada.",
-                "profile_name_saved": "Nome salvo com sucesso!",
-                "profile_gender_saved": "Gênero salvo com sucesso!",
-                "profile_password_saved": "Senha salva com sucesso!",
-                "profile_avatar_updated": "Foto de perfil atualizada!",
-                "profile_avatar_removed": "Foto removida com sucesso.",
-                "profile_export_success": "Dados exportados com sucesso!",
-                "profile_import_success": "✅ Importação concluída! {{count}} cursos importados com sucesso.",
-                "profile_import_confirm": "⚠️ Isso irá substituir todos os dados atuais do seu perfil. Deseja continuar?",
-                "profile_remove_confirm": "Deseja remover sua foto de perfil?",
-                "profile_no_password_confirm": "Você não tem uma senha definida. Os dados serão exportados sem criptografia. Deseja continuar?",
-                "profile_encrypt_error": "Erro ao criptografar os dados. Tente novamente.",
-                "profile_export_error": "Erro ao exportar dados. Tente novamente.",
-                "profile_import_error": "Erro ao processar o arquivo. Verifique se é um arquivo válido.",
-                "profile_invalid_file": "Arquivo inválido: dados não encontrados.",
-                "profile_password_incorrect": "Senha incorreta! Tente novamente.",
-                "profile_password_required": "Por favor, digite a senha.",
-                "profile_password_min": "A senha deve ter pelo menos 8 caracteres.",
-                "profile_password_weak": "Senha muito fraca! Requisitos não atendidos: ",
-                "profile_avatar_too_big": "A imagem é muito grande. Tente uma foto menor.",
-                "profile_avatar_upload_error": "Erro ao processar a imagem. Tente novamente.",
-                "profile_avatar_storage_error": "A imagem é muito grande para ser armazenada. Tente uma foto menor.",
-                "profile_avatar_save_error": "Erro ao salvar a imagem. Tente novamente.",
-                "profile_processing": "Processando imagem...",
-                "profile_select_image": "Por favor, selecione uma imagem.",
-                "profile_image_too_big": "A imagem é muito grande. Máximo 5 MB.",
-                "profile_name_required": "Por favor, insira um nome.",
+                "profile_choose_avatar": "Escolher foto",
+                "profile_avatar_description": "Selecione uma imagem.",
+                "profile_upload": "Enviar",
+                "profile_remove_photo": "Remover",
+                "profile_license": "Licença",
+                "profile_no_notes": "Nenhuma nota.",
+                "profile_name_saved": "Nome salvo!",
+                "profile_gender_saved": "Gênero salvo!",
+                "profile_password_saved": "Senha salva!",
+                "profile_avatar_updated": "Avatar atualizado!",
+                "profile_avatar_removed": "Avatar removido.",
+                "profile_export_success": "Exportado com sucesso!",
+                "profile_import_success": "✅ Importado! {{count}} cursos.",
+                "profile_import_confirm": "⚠️ Substituirá dados atuais. Continuar?",
+                "profile_remove_confirm": "Remover foto?",
+                "profile_no_password_confirm": "Exportar sem criptografia?",
+                "profile_encrypt_error": "Erro na criptografia.",
+                "profile_export_error": "Erro ao exportar.",
+                "profile_import_error": "Erro ao importar.",
+                "profile_invalid_file": "Arquivo inválido.",
+                "profile_password_incorrect": "Senha incorreta.",
+                "profile_password_required": "Digite a senha.",
+                "profile_password_min": "Mínimo 8 caracteres.",
+                "profile_password_weak": "Senha fraca: ",
+                "profile_avatar_too_big": "Imagem muito grande.",
+                "profile_avatar_upload_error": "Erro ao processar.",
+                "profile_avatar_storage_error": "Imagem muito grande para armazenar.",
+                "profile_avatar_save_error": "Erro ao salvar.",
+                "profile_processing": "Processando...",
+                "profile_select_image": "Selecione uma imagem.",
+                "profile_image_too_big": "Máximo 5 MB.",
+                "profile_name_required": "Nome obrigatório.",
                 "profile_password_saved_indicator": "Senha salva",
-                "profile_no_password_saved": "Nenhuma senha salva",
+                "profile_no_password_saved": "Nenhuma senha",
                 "profile_gender_not_informed": "Não informado",
                 "profile_gender_masculine": "Masculino",
                 "profile_gender_feminine": "Feminino",
@@ -248,51 +237,41 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "profile_export_videos": "Vídeos",
                 "profile_export_books": "Livros lidos",
                 "profile_export_notes": "Notas",
-                "onboarding_welcome_title": "Bem-vindo à Universidade Livre",
-                "onboarding_welcome_text": "Uma plataforma de educação autodidata, gratuita e aberta para todos.",
+                "onboarding_welcome_title": "Bem-vindo",
+                "onboarding_welcome_text": "Educação autodidata gratuita.",
                 "onboarding_about_title": "Sobre o projeto",
-                "onboarding_about_text": "A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.",
+                "onboarding_about_text": "Cursos curados gratuitos.",
                 "onboarding_form_title": "Crie seu perfil",
                 "onboarding_form_name_label": "Nome",
-                "onboarding_form_name_placeholder": "Digite seu nome",
+                "onboarding_form_name_placeholder": "Seu nome",
                 "onboarding_form_gender_label": "Gênero",
                 "onboarding_form_gender_not_informed": "Não informado",
                 "onboarding_form_gender_masculine": "Masculino",
                 "onboarding_form_gender_feminine": "Feminino",
                 "onboarding_form_gender_other": "Outro",
-                "onboarding_form_username_label": "Nome de usuário (opcional)",
-                "onboarding_form_username_placeholder": "Escolha um apelido",
-                "onboarding_confirm_title": "Pronto para começar!",
-                "onboarding_confirm_text": "Seu perfil foi criado. Explore os cursos, participe da comunidade e comece sua jornada de aprendizado.",
-                "onboarding_button_start": "Começar agora",
+                "onboarding_form_username_label": "Usuário (opcional)",
+                "onboarding_form_username_placeholder": "Apelido",
+                "onboarding_confirm_title": "Pronto!",
+                "onboarding_confirm_text": "Comece sua jornada.",
+                "onboarding_button_start": "Começar",
                 "onboarding_button_next": "Próximo",
                 "onboarding_button_prev": "Voltar",
                 "onboarding_button_finish": "Concluir",
-                "onboarding_error_name_required": "O nome é obrigatório."
+                "onboarding_error_name_required": "Nome obrigatório."
             };
-            console.warn("[i18n] Usando fallback interno devido a erro de carregamento");
+            console.warn("[i18n] Usando fallback interno.");
             return false;
         }
     }
 
     function t(key, replacements = {}) {
-        let text = translations[key] || key;
-        if (text === key) {
-            const hardcoded = {
-                'course_progress': 'Progresso:',
-                'continue_studies': 'Continuar Estudos',
-                'clause.progression': 'Progresso do Curso',
-                'course_hours': 'Carga horária',
-                'ensino_medio': 'Ensino Médio',
-                'idiomas': 'Idiomas',
-                'subject_tecnologia': 'Tecnologia',
-                'subject_ciencia': 'Ciência',
-                'subject_matematica': 'Matemática',
-                'profile': 'Perfil'
-            };
-            if (hardcoded[key]) text = hardcoded[key];
-            else console.warn(`[i18n] Chave não encontrada: ${key}`);
+        // Usa window.t se disponível (módulo central)
+        if (window.t && typeof window.t === 'function') {
+            try {
+                return window.t(key, replacements);
+            } catch (e) { /* fallback */ }
         }
+        let text = translations[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
             text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
         }
@@ -306,31 +285,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         const ptBtn = document.getElementById('langPtBtn');
         const enBtn = document.getElementById('langEnBtn');
         if (ptBtn && enBtn) {
-            if (lang === 'pt-br') {
-                ptBtn.classList.add('active');
-                enBtn.classList.remove('active');
-            } else if (lang === 'en') {
-                enBtn.classList.add('active');
-                ptBtn.classList.remove('active');
-            }
+            ptBtn.classList.toggle('active', lang === 'pt-br');
+            enBtn.classList.toggle('active', lang === 'en');
         }
     }
 
     function applyTranslations() {
-        if (!translations || Object.keys(translations).length === 0) {
-            console.warn('[i18n] applyTranslations ignorado: traduções ainda não carregadas');
-            return;
+        if (!translations || Object.keys(translations).length === 0) return;
+
+        // Se window.applyTranslations estiver disponível, usa-o
+        if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+            try {
+                window.applyTranslations();
+                return;
+            } catch (e) {
+                console.warn('[Main] Erro ao chamar applyTranslations central:', e);
+            }
         }
-        console.log('[i18n] Aplicando traduções aos elementos estáticos e dinâmicos');
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            if (el.id === 'profileBtn') {
-                const hasImage = el.querySelector('img') !== null;
-                const hasInitials = el.querySelector('.profile-initials') !== null;
-                if (hasImage || hasInitials || el.getAttribute('data-profile-custom') === 'true') {
-                    return;
-                }
-            }
             const key = el.getAttribute('data-i18n');
             if (key && translations[key]) {
                 if (el.tagName === 'INPUT' && el.placeholder !== undefined) {
@@ -356,118 +329,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             const key = el.getAttribute('data-i18n-placeholder');
-            if (key && translations[key]) el.setAttribute('placeholder', translations[key]);
+            if (key && translations[key]) el.placeholder = translations[key];
         });
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            const tabId = btn.getAttribute('data-tab');
-            if (tabId === 'bibliografia') btn.innerText = t('tab_bibliography');
-            else if (tabId === 'pratica') btn.innerText = t('tab_practice');
-            else if (tabId === 'team') btn.innerText = t('tab_team');
-            else if (tabId === 'contributors') btn.innerText = t('tab_contributors');
-            else if (tabId === 'license') btn.innerText = t('tab_license');
-        });
-        const backBtn = document.getElementById('backToHomeBtn');
-        if (backBtn && !backBtn.hasAttribute('data-i18n')) {
-            backBtn.innerHTML = `<i class="fas fa-arrow-left"></i> ${t('back_to_courses')}`;
-        }
-        const helpBtn = document.getElementById('helpButton');
-        if (helpBtn && !helpBtn.hasAttribute('data-i18n')) {
-            helpBtn.innerHTML = `<i class="fas fa-question-circle"></i> ${t('help_button')}`;
-        }
-        const markWatched = document.getElementById('markWatchedBtn');
-        if (markWatched && !markWatched.hasAttribute('data-i18n')) {
-            markWatched.innerHTML = `<i class="fas fa-check"></i> ${t('mark_watched')}`;
-        }
-        const panelTitle = document.querySelector('.panel-title');
-        if (panelTitle && !panelTitle.hasAttribute('data-i18n')) {
-            panelTitle.innerHTML = `<i class="fas fa-play-circle"></i> ${t('current_lesson')}`;
-        }
-        const unifiedTitle = document.querySelector('.unified-content h3');
-        if (unifiedTitle && !unifiedTitle.hasAttribute('data-i18n')) {
-            unifiedTitle.innerHTML = `<i class="fas fa-book-open"></i> ${t('course_content')}`;
-        }
         document.title = t('app_title');
-        const practiceSearch = document.getElementById('practiceSearchInput');
-        if (practiceSearch && practiceSearch.placeholder !== t('search_practice_placeholder')) {
-            practiceSearch.placeholder = t('search_practice_placeholder');
-        }
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            const hasImage = profileBtn.querySelector('img') !== null;
-            const hasInitials = profileBtn.querySelector('.profile-initials') !== null;
-            const hasCustomContent = hasImage || hasInitials || profileBtn.getAttribute('data-profile-custom') === 'true';
-            if (!hasCustomContent) {
-                profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
-                profileBtn.setAttribute('data-profile-custom', 'false');
-            }
-        }
-    }
-
-    function applyAllModuleTranslations() {
-        if (window.updateProfileTranslations && typeof window.updateProfileTranslations === 'function') {
-            window.updateProfileTranslations();
-        }
-        if (window.updateReadButtonTranslation && typeof window.updateReadButtonTranslation === 'function') {
-            window.updateReadButtonTranslation();
-        }
-        if (window.NoteApp && window.NoteApp.I18n && typeof window.NoteApp.I18n.applyTranslations === 'function') {
-            window.NoteApp.I18n.applyTranslations();
-        }
-        if (window.applyTranslationsToUI && typeof window.applyTranslationsToUI === 'function') {
-            window.applyTranslationsToUI();
-        }
-        applyTranslations();
-
-        const homeScreen = document.getElementById('homeScreen');
-        if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
-            renderCourseCards();
-        }
     }
 
     async function setLanguage(lang) {
-        console.log(`[i18n] setLanguage chamado: lang=${lang}, currentLang=${currentLang}, translationsLoaded=${Object.keys(translations).length}`);
         if (lang === currentLang && Object.keys(translations).length > 0) {
-            console.log('[i18n] Idioma já carregado, ignorando');
+            applyTranslations();
             return;
         }
-        console.log('[i18n] Carregando/recarregando traduções...');
-        const success = await loadTranslations(lang);
-        if (success) {
-            currentLang = lang;
-            localStorage.setItem('selectedLanguage', lang);
-            applyTranslations();
-            updateLanguageSelector(lang);
-            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
-            setTimeout(() => {
-                applyAllModuleTranslations();
-                if (typeof currentCourse !== 'undefined' && currentCourse) {
-                    console.log('[i18n] Recarregando conteúdos dinâmicos do curso');
-                    if (typeof renderCurrentLessonPanel === 'function') renderCurrentLessonPanel();
-                    if (typeof renderUnifiedCourseContent === 'function') renderUnifiedCourseContent();
-                    if (activeTab === 'bibliografia' && typeof renderBooksFilteredByDiscipline === 'function') {
-                        renderBooksFilteredByDiscipline(currentDiscipline);
-                    } else if (activeTab === 'contributors' && typeof renderContributorsTab === 'function') {
-                        renderContributorsTab();
-                    } else if (activeTab === 'license' && typeof renderLicenseTab === 'function') {
-                        renderLicenseTab();
-                    } else if (activeTab === 'team') {
-                        const teamGrid = document.getElementById('team-grid');
-                        if (teamGrid && typeof loadTeamAndContributors === 'function') {
-                            loadTeamAndContributors(currentCourse);
-                        }
-                    } else if (activeTab === 'pratica' && typeof currentPracticeData !== 'undefined' && currentPracticeData && typeof renderPracticeGrid === 'function') {
-                        renderPracticeGrid(currentPracticeData);
-                    }
-                }
-                const homeScreen = document.getElementById('homeScreen');
-                if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
-                    renderCourseCards();
-                }
-            }, 150);
-            console.log('[i18n] Idioma alterado com sucesso para', lang);
-        } else {
-            console.error('[i18n] Falha ao carregar traduções, idioma não alterado');
-        }
+        await loadTranslations(lang);
+        currentLang = lang;
+        localStorage.setItem('selectedLanguage', lang);
+        applyTranslations();
+        updateLanguageSelector(lang);
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+        if (typeof applyAllModuleTranslations === 'function') applyAllModuleTranslations();
     }
 
     window.setLanguage = setLanguage;
@@ -482,33 +360,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
     const COURSE_NAMES = {
         'administracao': { pt: 'Administração', en: 'Administration' },
-        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
-        'matematica': { pt: 'Matemática', en: 'Mathematics' },
-        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
-        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
-        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
-        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
-        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
-        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'biologia': { pt: 'Biologia', en: 'Biology' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
+        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
-        'math': { pt: 'Math', en: 'Math' },
+        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
+        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
+        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
         'enem': { pt: 'ENEM', en: 'ENEM' },
-        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
-        'ingles': { pt: 'Inglês', en: 'English' },
-        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
-        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
-        'japones': { pt: 'Japonês', en: 'Japanese' },
-        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
-        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
         'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
         'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
-        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
-        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
+        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
+        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
+        'fisica': { pt: 'Física', en: 'Physics' },
         'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
-        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' },
-        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' }
+        'ingles': { pt: 'Inglês', en: 'English' },
+        'japones': { pt: 'Japonês', en: 'Japanese' },
+        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
+        'letras': { pt: 'Letras', en: 'Letters' },
+        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
+        'math': { pt: 'Math', en: 'Math' },
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
+        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' },
+        'quimica': { pt: 'Química', en: 'Chemistry' },
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
     function getCourseName(courseId) {
@@ -575,6 +457,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
         const courseMap = {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
+            biologia: 'cursos/graduacao/biologia/biologia-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
@@ -597,11 +480,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
+            'letras': 'cursos/graduacao/letras/letras-data.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+            'fisica': 'cursos/graduacao/fisica/fisica-data.json',
+            'quimica': 'cursos/graduacao/quimica/quimica-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -718,6 +604,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getCourseImagePath(courseId) {
         const folderMap = {
             administracao: 'cursos/graduacao/administracao/',
+            biologia: 'cursos/graduacao/biologia/',
             computacao: 'cursos/graduacao/ciencia-computacao/',
             matematica: 'cursos/graduacao/matematica/',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
@@ -740,11 +627,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/',
+            'letras': 'cursos/graduacao/letras/',
             'letras-portugues': 'cursos/graduacao/letras-portugues/',
             'pedagogia': 'cursos/graduacao/pedagogia/',
             'gestao-publica': 'cursos/graduacao/gestao-publica/',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/',
+            'fisica': 'cursos/graduacao/fisica/',
+            'quimica': 'cursos/graduacao/quimica/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
@@ -780,7 +670,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         } catch (error) {
-            console.warn(`[Image] Erro ao verificar imagem para ${courseId}:`, error);
             finalUrl = `https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(courseId)}`;
         }
 
@@ -792,6 +681,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadCourseData(courseId) {
         const courseMap = {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
+            biologia: 'cursos/graduacao/biologia/biologia-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
@@ -814,11 +704,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
+            'letras': 'cursos/graduacao/letras/letras-data.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+            'fisica': 'cursos/graduacao/fisica/fisica-data.json',
+            'quimica': 'cursos/graduacao/quimica/quimica-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -829,8 +722,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return await response.json();
         } catch (error) {
             console.error('Falha ao carregar dados do curso:', error);
-            const homeScreen = document.getElementById('homeScreen');
-            if (homeScreen) homeScreen.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
             return null;
         }
     }
@@ -854,6 +745,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadContributors(courseId) {
         const teamFiles = {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
+            biologia: 'cursos/graduacao/biologia/team-biologia.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
@@ -876,11 +768,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
+            'letras': 'cursos/graduacao/letras/team-letras.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json',
+            'fisica': 'cursos/graduacao/fisica/team-fisica.json',
+            'quimica': 'cursos/graduacao/quimica/team-quimica.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -916,6 +811,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (booksCache.has(courseId)) return booksCache.get(courseId);
         const bookFiles = {
             administracao: 'cursos/graduacao/administracao/administracao-books.json',
+            biologia: 'cursos/graduacao/biologia/biologia-books.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
@@ -937,11 +833,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-books.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-books.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-books.json',
+            'letras': 'cursos/graduacao/letras/letras-books.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-books.json',
             'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-books.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-books.json',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-books.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-books.json'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-books.json',
+            'fisica': 'cursos/graduacao/fisica/fisica-books.json',
+            'quimica': 'cursos/graduacao/quimica/quimica-books.json'
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -962,13 +861,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const container = document.getElementById('contributors-grid');
         if (!container) return;
         const contributors = await loadContributors(currentCourse);
-        if (!contributors.length) { container.innerHTML = `<p>${t('no_contributors')}</p>`; applyTranslations(); return; }
+        if (!contributors.length) { container.innerHTML = `<p>${t('no_contributors')}</p>`; return; }
         let html = '';
         contributors.forEach(contributor => {
             const isNew = contributor.isNew === true;
+            const link = contributor.github || contributor.url || '#';
             html += `<div class="member-card ${isNew ? 'new-contributor' : ''} animate-in">
                         <img class="member-photo" src="${escapeHtml(contributor.image || 'https://placehold.co/60x60/1F2933/9CA3AF?text=?')}" alt="${escapeHtml(contributor.name)}" onerror="this.src='https://placehold.co/60x60/1F2933/9CA3AF?text=?'">
-                        <div class="member-name"><a href="${escapeHtml(contributor.github)}" target="_blank" rel="noopener noreferrer">${escapeHtml(contributor.name)}</a>${isNew ? `<span class="new-badge">${t('new_badge')}</span>` : ''}</div>
+                        <div class="member-name"><a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(contributor.name)}</a>${isNew ? `<span class="new-badge">${t('new_badge')}</span>` : ''}</div>
                         <div class="member-role">${escapeHtml(contributor.role)}</div>
                         <div class="member-year">${escapeHtml(contributor.year)}</div>
                         <div class="member-desc">${escapeHtml(contributor.description)}</div>
@@ -983,7 +883,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const container = document.getElementById('license-content');
         if (!container) return;
         const data = await loadLicenseData();
-        if (!data) { container.innerHTML = `<p>${t('license_load_error')}</p>`; applyTranslations(); return; }
+        if (!data) { container.innerHTML = `<p>${t('license_load_error')}</p>`; return; }
         let html = '';
         if (data.license) {
             html += `<div class="license-card animate-in">
@@ -1015,14 +915,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             discipline = ensureCurrentDiscipline();
             if (!discipline) {
                 container.innerHTML = `<div class="bibliografia-heading">${t('tab_bibliography')}</div><p>${t('loading')}</p>`;
-                applyTranslations();
                 return;
             }
         }
         const books = await loadBooksForCourse(currentCourse);
         if (!books || books.length === 0) {
             container.innerHTML = `<div class="bibliografia-heading">${t('tab_bibliography')}</div><p>${t('no_books')}</p>`;
-            applyTranslations();
             return;
         }
         const normalizedDiscipline = normalize(discipline);
@@ -1030,7 +928,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const headingText = `${t('tab_bibliography')} — ${discipline}`;
         if (filteredBooks.length === 0) {
             container.innerHTML = `<div class="bibliografia-heading">${escapeHtml(headingText)}</div><p>${t('no_books')}</p>`;
-            applyTranslations();
             return;
         }
         let html = `<div class="bibliografia-heading animate-in">${escapeHtml(headingText)}</div><div class="books-container">`;
@@ -1065,7 +962,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         observeAnimateElements();
     }
 
-    // CORREÇÃO: ensureCurrentDiscipline retorna null em vez de string de erro
     function ensureCurrentDiscipline() {
         if (currentDiscipline) return currentDiscipline;
         for (const stage of stagesData || []) {
@@ -1172,7 +1068,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (e) { console.error(`[Progresso] Erro ao parsear dados para ${courseId}:`, e); resetProgressForNewCourse(); }
         } else { resetProgressForNewCourse(); }
         saveAllProgress();
-        checkCourseCompletion();
     }
 
     function resetProgressForNewCourse() {
@@ -1187,7 +1082,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const practiceTab = document.getElementById('practiceTabBtn');
         if (!practiceTab) return;
         if (practiceTab.style.display !== 'inline-flex') {
-            console.log('[Prática] Garantindo que a aba Prática esteja visível');
             practiceTab.style.display = 'inline-flex';
         }
         if (currentCourse && !currentPracticeData && activeTab === 'pratica') {
@@ -1217,6 +1111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (document.getElementById('profileModal') && document.getElementById('profileModal').style.display === 'flex') {
             if (window.updateProfileModal) window.updateProfileModal();
         }
+        checkCourseCompletion();
     }
 
     function updateGlobalStats() {
@@ -1265,17 +1160,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function checkCourseCompletion() {
-        if (!currentCourse || !allVideosFlat.length) return;
+        if (!currentCourse) return;
+        const courseView = document.getElementById('courseView');
+        if (!courseView || courseView.style.display !== 'block') return;
+        if (!allVideosFlat || allVideosFlat.length === 0) return;
+        if (localStorage.getItem(`course_completed_${currentCourse}`) === 'true') return;
+
         const total = allVideosFlat.length;
         const watched = allVideosFlat.filter(v => v.watched).length;
         const progressPercent = total ? Math.floor((watched / total) * 100) : 0;
-        if (progressPercent >= 100) {
+
+        if (progressPercent >= 100 && !_progressJustHit100) {
+            _progressJustHit100 = true;
+            localStorage.setItem(`course_completed_${currentCourse}`, 'true');
             if (window._completionPopupTriggered) return;
             window._completionPopupTriggered = true;
-            localStorage.setItem(`course_completed_${currentCourse}`, 'true');
+
             const courseName = currentCourseDetails?.name || getCourseName(currentCourse);
             const folderPath = currentCourseFolder;
-            if (window.showFinalCompletionModal) window.showFinalCompletionModal(currentCourse, courseName, folderPath);
+            if (window.showFinalCompletionModal) {
+                window.showFinalCompletionModal(currentCourse, courseName, folderPath);
+            }
         }
     }
 
@@ -1472,7 +1377,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     loadCurrentLesson();
                 } else {
                     alert(t('all_videos_completed'));
-                    setTimeout(() => checkCourseCompletion(), 100);
                 }
             } else {
                 if (currentVideoInLesson + 1 < lesson.videos.length) {
@@ -1480,10 +1384,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     loadCurrentLesson();
                 }
             }
-            saveAllProgress(); renderCurrentLessonPanel(); renderUnifiedCourseContent();
+            saveAllProgress();
+            renderCurrentLessonPanel();
+            renderUnifiedCourseContent();
             expandCurrentLessonInUnifiedContent();
             updateCurrentDiscipline();
-            checkCourseCompletion();
             updateNotificationPosition();
         } else {
             alert(t('video_already_watched'));
@@ -1533,7 +1438,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let container = document.getElementById("currentLessonPanelContent");
         if (!container) return;
         let lesson = lessons[currentLessonId];
-        if (!lesson) { container.innerHTML = `<p>${t('loading')}</p>`; applyTranslations(); return; }
+        if (!lesson) { container.innerHTML = `<p>${t('loading')}</p>`; return; }
         let watched = lesson.videos.filter(v => v.watched).length;
         let percent = (watched / lesson.videos.length) * 100;
         let html = `<div class="current-lesson-info">
@@ -1623,6 +1528,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadTeamAndContributors(courseId) {
         const teamFiles = {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
+            biologia: 'cursos/graduacao/biologia/team-biologia.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
@@ -1645,11 +1551,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
             'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
             'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
+            'letras': 'cursos/graduacao/letras/team-letras.json',
             'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
             'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
             'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
             'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json'
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json',
+            'fisica': 'cursos/graduacao/fisica/team-fisica.json',
+            'quimica': 'cursos/graduacao/quimica/team-quimica.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -1669,16 +1578,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderTeam(team) {
         const container = document.getElementById('team-grid');
         if (!container) return;
-        if (!team || team.length === 0) { container.innerHTML = `<p>${t('no_team')}</p>`; applyTranslations(); return; }
-        container.innerHTML = team.map(member => `
-            <div class="member-card animate-in">
+        if (!team || team.length === 0) { container.innerHTML = `<p>${t('no_team')}</p>`; return; }
+        container.innerHTML = team.map(member => {
+            const link = member.github || member.url || '#';
+            return `<div class="member-card animate-in">
                 <img class="member-photo" src="${member.image || 'img/team/default-avatar.png'}" alt="${escapeHtml(member.name)}" onerror="this.src='img/team/default-avatar.png'">
-                <div class="member-name"><a href="${member.github}" target="_blank" rel="noopener noreferrer">${escapeHtml(member.name)}</a></div>
+                <div class="member-name"><a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(member.name)}</a></div>
                 <div class="member-role">${escapeHtml(member.role)}</div>
                 <div class="member-year">${escapeHtml(member.year)}</div>
                 <div class="member-desc">${escapeHtml(member.description)}</div>
-            </div>
-        `).join('');
+            </div>`;
+        }).join('');
         applyTranslations();
         observeAnimateElements();
     }
@@ -1808,7 +1718,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPracticeGrid({ intro: currentPracticeData.intro, platforms: filteredPlatforms });
     }
 
-    // ========== ACTIVATE TAB (CORRIGIDO) ==========
+    // ========== ACTIVATE TAB ==========
     function activateTab(tabId) {
         const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
         const tabContent = document.getElementById(`${tabId}-tab`);
@@ -1826,7 +1736,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!currentDiscipline) {
                 currentDiscipline = ensureCurrentDiscipline();
                 if (!currentDiscipline) {
-                    // Fallback: pegar o nome da primeira disciplina disponível
                     if (stagesData.length > 0 && stagesData[0].disciplines.length > 0) {
                         currentDiscipline = stagesData[0].disciplines[0].name;
                     }
@@ -1973,6 +1882,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const homeScreen = document.getElementById("homeScreen");
             const courseView = document.getElementById("courseView");
             const homeFilters = document.getElementById('homeFilters');
+            const slider = document.getElementById('homeSlider');
+
+            if (slider) {
+                slider.style.display = 'none';
+                stopSliderAutoPlay();
+            }
 
             homeScreen.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
             homeScreen.style.opacity = '0';
@@ -2042,6 +1957,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // ========== EXPORTAÇÃO GLOBAL DA FUNÇÃO openCourse PARA O SLIDER ==========
+    window.openCourse = openCourse;
+
     function backToHome() {
         stopAllMedia();
         if (window.CursorTimeset) window.CursorTimeset.registerExit();
@@ -2049,6 +1967,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const homeScreen = document.getElementById("homeScreen");
         const courseView = document.getElementById("courseView");
         const homeFilters = document.getElementById('homeFilters');
+        const slider = document.getElementById('homeSlider');
 
         courseView.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
         courseView.style.opacity = '0';
@@ -2074,9 +1993,245 @@ document.addEventListener('DOMContentLoaded', async () => {
                 homeFilters.style.flexDirection = 'column';
                 homeFilters.style.gap = '1rem';
             }
+            if (slider) {
+                slider.style.display = 'block';
+                // Recarregar slides aleatórios
+                renderRandomSlides();
+                startSliderAutoPlay();
+            }
         }, 400);
 
         if (updateInterval) clearInterval(updateInterval);
+    }
+
+    // ========== SLIDER ALEATÓRIO COM LOOP INFINITO E PREVIEW LATERAL ==========
+    const ALL_SLIDES = [
+        { course: 'enem', img: 'slides/ENEM.png', title: 'ENEM', desc: 'Preparação completa para o Exame Nacional do Ensino Médio' },
+        { course: 'engenharia_computacao', img: 'slides/Engenharia de Computação.png', title: 'Engenharia de Computação', desc: 'Hardware, software, sistemas embarcados e automação' },
+        { course: 'administracao', img: 'slides/Administração.png', title: 'Administração', desc: 'Gestão de pessoas, finanças, marketing e estratégia' },
+        { course: 'engenharia-producao', img: 'slides/Engenharia de Produção.png', title: 'Engenharia de Produção', desc: 'Otimização de processos, logística, qualidade e sustentabilidade' },
+        { course: 'gestao-publica', img: 'slides/Gestão Pública.png', title: 'Gestão Pública', desc: 'Administração pública, políticas públicas, gestão financeira e ética' },
+        { course: 'matematica', img: 'slides/Matemática.png', title: 'Matemática', desc: 'Raciocínio lógico, álgebra, cálculo e fundamentos matemáticos' },
+        { course: 'pedagogia', img: 'slides/Pedagogia.png', title: 'Pedagogia', desc: 'Formação de educadores, gestão escolar e práticas pedagógicas' },
+        { course: 'letras', img: 'slides/Letras.png', title: 'Letras', desc: 'Língua, literatura, linguística e ensino de português' },
+        { course: 'biologia', img: 'slides/Biologia.png', title: 'Biologia', desc: 'Fundamentos biológicos, pedagogia e práticas para o ensino de ciências' },
+        { course: 'computacao', img: 'slides/Ciência da Computação.png', title: 'Ciência da Computação', desc: 'Algoritmos, programação, sistemas e fundamentos da computação' },
+        { course: 'ciencia-de-dados-bacharelado', img: 'slides/Ciência de Dados (Bacharelado).png', title: 'Ciência de Dados (Bacharelado)', desc: 'Programação, estatística, machine learning e análise de dados' },
+        { course: 'computer-science', img: 'slides/Computer Science.png', title: 'Computer Science', desc: 'Full Computer Science curriculum in English' },
+        { course: 'fisica', img: 'slides/Física.png', title: 'Física', desc: 'Fundamentos físicos, matemáticos e práticas para o ensino' },
+        { course: 'letras-portugues', img: 'slides/Letras – Habilitação em Língua Portuguesa.png', title: 'Letras – Habilitação em Língua Portuguesa', desc: 'Linguística, literatura, gramática e ensino de português' },
+        { course: 'matematica-licenciatura', img: 'slides/Matemática (Licenciatura).png', title: 'Matemática (Licenciatura)', desc: 'Formação pedagógica e aprofundamento em conteúdos matemáticos' },
+        { course: 'math', img: 'slides/Mathematics.png', title: 'Mathematics', desc: 'Complete Mathematics curriculum in English' },
+        { course: 'processos-gerenciais', img: 'slides/Processos Gerenciais.png', title: 'Processos Gerenciais', desc: 'Gestão de processos, pessoas, finanças e estratégia' },
+        { course: 'quimica', img: 'slides/Química.png', title: 'Química', desc: 'Fundamentos químicos, pedagógicos e práticas para o ensino' },
+        { course: 'tecnologia-informacao', img: 'slides/Tecnologia da Informação.png', title: 'Tecnologia da Informação', desc: 'Programação, sistemas, redes, segurança e gestão de TI' },
+        { course: 'espcex', img: 'slides/EsPCEx.png', title: 'EsPCEx', desc: 'Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército' },
+        { course: 'ciencia_de_dados', img: 'slides/Ciência de Dados.png', title: 'Ciência de Dados (Pós)', desc: 'Análise de dados, estatística aplicada e reprodução de pesquisas' },
+        { course: 'computacao_grafica', img: 'slides/Computação Gráfica.png', title: 'Computação Gráfica', desc: 'Renderização, modelagem, GPU, OpenGL e ray tracing' },
+        { course: 'cybersecurity', img: 'slides/CyberSecurity.png', title: 'CyberSecurity', desc: 'Segurança cibernética, testes de invasão, engenharia reversa e conformidade' },
+        { course: 'desenvolvimento_web', img: 'slides/Desenvolvimento Web.png', title: 'Desenvolvimento Web', desc: 'HTML, CSS, JavaScript, React, Node.js e TypeScript' },
+        { course: 'devops', img: 'slides/DevOps.png', title: 'DevOps', desc: 'Automação, CI/CD, containers, orquestração e infraestrutura como código' },
+        { course: 'embarcados', img: 'slides/Embarcados.png', title: 'Embarcados', desc: 'Microeletrônica, sistemas em tempo real, FPGA e IoT' },
+        { course: 'portugues-brasileiro', img: 'slides/Brazilian Portuguese (for English Speakers).png', title: 'Brazilian Portuguese', desc: 'Complete Portuguese course from A1 to C2 for English speakers' },
+        { course: 'espanhol', img: 'slides/Espanhol.png', title: 'Espanhol', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
+        { course: 'ingles', img: 'slides/Inglês.png', title: 'Inglês', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
+        { course: 'japones-ingles', img: 'slides/Japanese (for English Speakers).png', title: 'Japanese (for English Speakers)', desc: 'Complete Japanese course from zero to intermediate for English speakers' },
+        { course: 'japones', img: 'slides/Japonês.png', title: 'Japonês', desc: 'Curso completo de japonês do zero com Hiragana, Katakana e prática com animes' },
+        { course: 'espanhol-ingles', img: 'slides/Spanish (for English Speakers).png', title: 'Spanish (for English Speakers)', desc: 'Complete Spanish course from A1 to C2 for English speakers' }
+    ];
+
+    let sliderCurrentIndex = 0;   // Índice visual (0 = clone do último, 1..5 originais, 6 = clone do primeiro)
+    let sliderInterval = null;
+    const SLIDER_AUTO_PLAY_DELAY = 5000;
+    const SLIDER_PEEK = 10;
+    const SLIDER_SLIDE_WIDTH = 100 - 2 * SLIDER_PEEK;
+
+    function getRandomSlides(count = 5) {
+        const shuffled = [...ALL_SLIDES];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled.slice(0, count);
+    }
+
+    function createSlideElement(slide, index) {
+        const slideDiv = document.createElement('div');
+        slideDiv.className = 'home-slide';
+        slideDiv.dataset.course = slide.course;
+        const link = document.createElement('a');
+        link.href = '#';
+        link.className = 'home-slide-link';
+        link.dataset.course = slide.course;
+        const img = document.createElement('img');
+        img.src = slide.img;
+        img.alt = `${slide.title} - Universidade Livre`;
+        img.loading = 'lazy';
+        const overlay = document.createElement('div');
+        overlay.className = 'home-slide-overlay';
+        overlay.innerHTML = `<h3>${slide.title}</h3><p>${slide.desc}</p>`;
+        link.appendChild(img);
+        link.appendChild(overlay);
+        slideDiv.appendChild(link);
+        return slideDiv;
+    }
+
+    function renderRandomSlides() {
+        const track = document.querySelector('.home-slider-track');
+        if (!track) return;
+
+        const originals = getRandomSlides(5);
+        if (originals.length === 0) return;
+
+        // Cria clones: último original (índice 0), originais (1..5), primeiro original (índice 6)
+        const slidesWithClones = [
+            { ...originals[originals.length - 1], isClone: true, originalIndex: originals.length - 1 },
+            ...originals.map((s, i) => ({ ...s, isClone: false, originalIndex: i })),
+            { ...originals[0], isClone: true, originalIndex: 0 }
+        ];
+
+        track.innerHTML = '';
+        slidesWithClones.forEach((slide, idx) => {
+            const slideDiv = createSlideElement(slide, idx);
+            if (slide.isClone) {
+                // Adiciona classe para identificar clones (opcional)
+                slideDiv.classList.add('clone');
+            }
+            track.appendChild(slideDiv);
+        });
+
+        // Guarda referência para uso posterior (opcional)
+        window._sliderClones = slidesWithClones;
+
+        setupSlider();
+        setupSliderLinks();
+        // Iniciar no primeiro slide original (índice 1)
+        goToSlide(1, true);
+    }
+
+    function goToSlide(index, instant = false) {
+        const track = document.querySelector('.home-slider-track');
+        if (!track) return;
+        const slides = track.querySelectorAll('.home-slide');
+        const totalVisual = slides.length; // 7
+        if (totalVisual === 0) return;
+
+        // Limita o índice ao intervalo [0, totalVisual-1]
+        if (index < 0) index = totalVisual - 1;
+        if (index >= totalVisual) index = 0;
+
+        // Aplica a transição
+        const translate = SLIDER_PEEK - index * SLIDER_SLIDE_WIDTH;
+        track.style.transition = instant ? 'none' : 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        track.style.transform = `translateX(${translate}%)`;
+
+        // Atualiza dots (somente os 5 originais)
+        const realIndex = index - 1; // pois índice 0 é clone do último, 1 é primeiro original
+        const dots = document.querySelectorAll('.home-slider-dots .dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === realIndex));
+
+        // Se estiver no clone do último (índice 0), redireciona para o último original (índice totalVisual - 2)
+        if (index === 0) {
+            setTimeout(() => goToSlide(totalVisual - 2, true), 500);
+        }
+        // Se estiver no clone do primeiro (índice totalVisual - 1), redireciona para o primeiro original (índice 1)
+        else if (index === totalVisual - 1) {
+            setTimeout(() => goToSlide(1, true), 500);
+        }
+
+        sliderCurrentIndex = index;
+    }
+
+    function nextSlide() {
+        goToSlide(sliderCurrentIndex + 1);
+    }
+
+    function prevSlide() {
+        goToSlide(sliderCurrentIndex - 1);
+    }
+
+    function startSliderAutoPlay() {
+        if (sliderInterval) stopSliderAutoPlay();
+        sliderInterval = setInterval(nextSlide, SLIDER_AUTO_PLAY_DELAY);
+    }
+
+    function stopSliderAutoPlay() {
+        if (sliderInterval) {
+            clearInterval(sliderInterval);
+            sliderInterval = null;
+        }
+    }
+
+    function setupSlider() {
+        const track = document.querySelector('.home-slider-track');
+        if (!track) return;
+        const slides = track.querySelectorAll('.home-slide');
+        if (slides.length === 0) return;
+
+        // Configurar dots (apenas para os 5 originais, ignorando clones)
+        const dotsContainer = document.querySelector('.home-slider-dots');
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            // Número de dots = 5 (originais)
+            const totalOriginals = slides.length - 2;
+            for (let i = 0; i < totalOriginals; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.dataset.index = i;
+                dot.addEventListener('click', () => {
+                    // Índice visual = i + 1 (porque o índice 0 é clone)
+                    goToSlide(i + 1);
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // Configurar botões
+        const prevBtn = document.querySelector('.home-slider-prev');
+        const nextBtn = document.querySelector('.home-slider-next');
+        if (prevBtn) {
+            const newPrev = prevBtn.cloneNode(true);
+            prevBtn.parentNode.replaceChild(newPrev, prevBtn);
+            newPrev.addEventListener('click', prevSlide);
+        }
+        if (nextBtn) {
+            const newNext = nextBtn.cloneNode(true);
+            nextBtn.parentNode.replaceChild(newNext, nextBtn);
+            newNext.addEventListener('click', nextSlide);
+        }
+
+        // Posicionar no primeiro slide original
+        goToSlide(1, true);
+
+        // Auto-play
+        startSliderAutoPlay();
+
+        // Pausar ao passar o mouse
+        const container = document.querySelector('.home-slider-container');
+        if (container) {
+            container.removeEventListener('mouseenter', stopSliderAutoPlay);
+            container.removeEventListener('mouseleave', startSliderAutoPlay);
+            container.addEventListener('mouseenter', stopSliderAutoPlay);
+            container.addEventListener('mouseleave', startSliderAutoPlay);
+        }
+    }
+
+    function setupSliderLinks() {
+        const links = document.querySelectorAll('.home-slide-link');
+        links.forEach(link => {
+            link.removeEventListener('click', handleSlideClick);
+            link.addEventListener('click', handleSlideClick);
+        });
+    }
+
+    function handleSlideClick(e) {
+        e.preventDefault();
+        const courseId = this.dataset.course;
+        if (courseId && typeof window.openCourse === 'function') {
+            window.openCourse(courseId);
+        } else {
+            console.warn('[Slider] Curso não encontrado.');
+        }
     }
 
     // ========== ANIMAÇÕES ==========
@@ -2120,7 +2275,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentLevelFilter = 'all';
     let currentSearchTermHome = '';
 
-    // ========== ORDENAÇÃO DOS CARDS POR NÍVEL ==========
     const LEVEL_ORDER = {
         'ensino-medio': 0,
         'graduacao': 1,
@@ -2128,7 +2282,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         'idiomas': 3
     };
 
-    // ========== RENDERIZAÇÃO DE CURSOS (CORRIGIDA + ORDENADA) ==========
+    // ========== MÚLTIPLOS CARROSSÉIS ==========
+    const carousels = {};
+
+    function getCarouselId(level) {
+        return `carousel-${level}`;
+    }
+
+    // ========== RENDERIZAÇÃO DOS CARROSSÉIS / GRADE ==========
     async function renderCourseCards() {
         if (_renderingCourses) {
             console.log('[Main] renderCourseCards já em execução, ignorando chamada.');
@@ -2136,14 +2297,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         _renderingCourses = true;
 
-        const homeScreen = document.getElementById('homeScreen');
-        if (!homeScreen) {
+        const container = document.getElementById('carouselContainer');
+        if (!container) {
             _renderingCourses = false;
             return;
         }
 
-        // Limpa o container para evitar duplicação
-        homeScreen.innerHTML = '';
+        container.innerHTML = '';
 
         if (allCourses.length === 0) {
             try {
@@ -2152,7 +2312,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 allCourses = await response.json();
             } catch (error) {
                 console.error('Erro ao carregar cursos:', error);
-                homeScreen.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
+                container.innerHTML = `<p class="error">${t('error_load_courses')}</p>`;
                 _renderingCourses = false;
                 return;
             }
@@ -2171,115 +2331,282 @@ document.addEventListener('DOMContentLoaded', async () => {
             return true;
         });
 
-        // ===== ORDENAÇÃO POR NÍVEL (Ensino Médio → Graduação → Pós‑Graduação → Idiomas) =====
-        filteredCourses.sort((a, b) => {
-            const orderA = LEVEL_ORDER[a.courseLevel] ?? 99;
-            const orderB = LEVEL_ORDER[b.courseLevel] ?? 99;
-            if (orderA !== orderB) return orderA - orderB;
-            // Ordem alfabética dentro do mesmo nível
-            return (a.name || '').localeCompare(b.name || '');
+        const levels = ['ensino-medio', 'graduacao', 'pos-graduacao', 'idiomas'];
+        const grouped = {};
+        levels.forEach(level => { grouped[level] = []; });
+        filteredCourses.forEach(course => {
+            if (grouped[course.courseLevel]) {
+                grouped[course.courseLevel].push(course);
+            }
         });
 
-        if (filteredCourses.length === 0) {
-            homeScreen.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
-            applyTranslations();
-            observeAnimateElements();
-            _renderingCourses = false;
-            return;
+        for (const level in grouped) {
+            grouped[level].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
         }
 
-        // Usar DocumentFragment para melhor performance
-        const fragment = document.createDocumentFragment();
+        const activeLevels = currentLevelFilter === 'all' ? levels : [currentLevelFilter];
 
-        for (const course of filteredCourses) {
-            const card = document.createElement('div');
-            card.className = 'course-card animate-in';
-            card.dataset.course = course.id;
+        let hasCourses = false;
 
-            const imageUrl = await getCourseImageUrl(course.id);
+        for (const level of activeLevels) {
+            const courses = grouped[level] || [];
+            if (courses.length === 0) continue;
+            hasCourses = true;
 
-            let levelText = '';
-            let typeText = '';
-            if (course.courseLevel === 'graduacao') levelText = t('graduacao');
-            else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
-            else if (course.courseLevel === 'ensino-medio') levelText = t('ensino_medio');
-            else if (course.courseLevel === 'idiomas') levelText = t('idiomas');
+            const useCarousel = (currentLevelFilter === 'all' || level === 'graduacao' || level === 'ensino-medio');
 
-            if (course.courseType === 'bacharelado') typeText = t('bacharelado');
-            else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
-            else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
-
-            const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
-            const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
-
-            const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
-            const descHtml = `<p class="course-description">${escapeHtml(course.description)}</p>`;
-
-            let progressPercent = 0;
-            const key = `ulivre_course_${course.id}`;
-            const saved = localStorage.getItem(key);
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    const watchedMap = data.watchedMap || [];
-                    const total = watchedMap.length;
-                    const watched = watchedMap.filter(v => v === true).length;
-                    progressPercent = total ? Math.floor((watched / total) * 100) : 0;
-                } catch (e) {}
-            }
-            const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
-
-            const totalMinutes = await computeCourseTotalMinutes(course.id);
-            const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
-
-            card.innerHTML = `
-                <div class="course-image-wrapper">
-                    <img class="course-image" src="${imageUrl}" alt="${escapeHtml(course.name)}" 
-                         onerror="this.src='${await getCourseImageUrl(course.id)}'">
-                </div>
-                <h2>${escapeHtml(course.name)}</h2>
-                <div class="course-badges">${levelBadge}${typeBadge}</div>
-                ${roomHtml}${descHtml}
-                ${durationText}
-                <div class="course-progress-bar">
-                    <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
-                </div>
-                <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
-                <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>
-            `;
-
-            card.addEventListener('click', (e) => {
-                console.log('[Course Card] Clique detectado no card:', course.id);
-                if (!e.target.classList.contains('continue-btn')) {
-                    openCourse(course.id);
-                }
-            });
-            const btn = card.querySelector('.continue-btn');
-            if (btn) {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    console.log('[Course Card] Clique no botão:', course.id);
-                    openCourse(course.id);
+            if (level === 'graduacao' && currentLevelFilter === 'graduacao') {
+                const tipos = ['bacharelado', 'licenciatura', 'tecnologo'];
+                const tipoMap = {
+                    'bacharelado': 'Bacharelado',
+                    'licenciatura': 'Licenciatura',
+                    'tecnologo': 'Tecnólogo'
+                };
+                const groupedByType = {};
+                tipos.forEach(t => groupedByType[t] = []);
+                courses.forEach(course => {
+                    const type = course.courseType || 'bacharelado';
+                    if (groupedByType[type]) {
+                        groupedByType[type].push(course);
+                    } else {
+                        groupedByType['bacharelado'].push(course);
+                    }
                 });
+
+                for (const type of tipos) {
+                    const typeCourses = groupedByType[type] || [];
+                    if (typeCourses.length === 0) continue;
+                    const typeLabel = tipoMap[type] || type;
+
+                    const carouselWrapper = document.createElement('div');
+                    carouselWrapper.className = 'carousel-wrapper';
+
+                    const title = document.createElement('h3');
+                    title.className = 'carousel-title';
+                    title.textContent = typeLabel;
+                    carouselWrapper.appendChild(title);
+
+                    const carouselContainer = document.createElement('div');
+                    carouselContainer.className = 'carousel-container';
+                    carouselContainer.id = getCarouselId(level + '_' + type);
+
+                    const track = document.createElement('div');
+                    track.className = 'carousel-track';
+
+                    const cards = [];
+                    for (const course of typeCourses) {
+                        const card = await createCourseCard(course);
+                        if (card) cards.push(card);
+                    }
+
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    for (const card of cards) {
+                        slide.appendChild(card);
+                    }
+                    track.appendChild(slide);
+
+                    carouselContainer.appendChild(track);
+
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'carousel-btn prev';
+                    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'carousel-btn next';
+                    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    carouselContainer.appendChild(prevBtn);
+                    carouselContainer.appendChild(nextBtn);
+
+                    const dotsContainer = document.createElement('div');
+                    dotsContainer.className = 'carousel-dots';
+                    const dot = document.createElement('span');
+                    dot.className = 'carousel-dot active';
+                    dot.dataset.index = 0;
+                    dotsContainer.appendChild(dot);
+                    carouselContainer.appendChild(dotsContainer);
+
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                    dotsContainer.style.display = 'none';
+
+                    carouselWrapper.appendChild(carouselContainer);
+                    container.appendChild(carouselWrapper);
+                }
+                continue;
             }
-            fragment.appendChild(card);
+
+            if (useCarousel) {
+                const carouselWrapper = document.createElement('div');
+                carouselWrapper.className = 'carousel-wrapper';
+
+                const title = document.createElement('h3');
+                title.className = 'carousel-title';
+                const levelName = {
+                    'ensino-medio': t('ensino_medio'),
+                    'graduacao': t('graduacao'),
+                    'pos-graduacao': t('pos_graduacao'),
+                    'idiomas': t('idiomas')
+                }[level] || level;
+                title.textContent = levelName;
+                carouselWrapper.appendChild(title);
+
+                const carouselContainer = document.createElement('div');
+                carouselContainer.className = 'carousel-container';
+                carouselContainer.id = getCarouselId(level);
+
+                const track = document.createElement('div');
+                track.className = 'carousel-track';
+
+                const cards = [];
+                for (const course of courses) {
+                    const card = await createCourseCard(course);
+                    if (card) cards.push(card);
+                }
+
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                for (const card of cards) {
+                    slide.appendChild(card);
+                }
+                track.appendChild(slide);
+
+                carouselContainer.appendChild(track);
+
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'carousel-btn prev';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'carousel-btn next';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                carouselContainer.appendChild(prevBtn);
+                carouselContainer.appendChild(nextBtn);
+
+                const dotsContainer = document.createElement('div');
+                dotsContainer.className = 'carousel-dots';
+                const dot = document.createElement('span');
+                dot.className = 'carousel-dot active';
+                dot.dataset.index = 0;
+                dotsContainer.appendChild(dot);
+                carouselContainer.appendChild(dotsContainer);
+
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                dotsContainer.style.display = 'none';
+
+                carouselWrapper.appendChild(carouselContainer);
+                container.appendChild(carouselWrapper);
+
+            } else {
+                const sectionTitle = document.createElement('h3');
+                sectionTitle.className = 'section-title';
+                const levelName = {
+                    'ensino-medio': t('ensino_medio'),
+                    'graduacao': t('graduacao'),
+                    'pos-graduacao': t('pos_graduacao'),
+                    'idiomas': t('idiomas')
+                }[level] || level;
+                sectionTitle.textContent = levelName;
+                container.appendChild(sectionTitle);
+
+                const gridWrapper = document.createElement('div');
+                gridWrapper.className = 'simple-grid';
+                gridWrapper.style.marginBottom = '2rem';
+
+                for (const course of courses) {
+                    const card = await createCourseCard(course);
+                    if (card) {
+                        card.classList.remove('animate-in');
+                        card.style.opacity = '1';
+                        card.style.transform = 'none';
+                        gridWrapper.appendChild(card);
+                    }
+                }
+
+                container.appendChild(gridWrapper);
+            }
         }
 
-        homeScreen.appendChild(fragment);
-
-        // Aplica animações com um pequeno delay para garantir que os elementos estejam no DOM
-        requestAnimationFrame(() => {
-            document.querySelectorAll('.course-card.animate-in').forEach((card, index) => {
-                card.style.transitionDelay = (index * 50) + 'ms';
-                card.classList.add('visible');
-            });
-        });
+        if (!hasCourses) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>${t('no_courses_found')}</p></div>`;
+        }
 
         applyTranslations();
         observeAnimateElements();
         initParallaxCards();
         _renderingCourses = false;
     }
+
+    async function createCourseCard(course) {
+        const card = document.createElement('div');
+        card.className = 'course-card animate-in';
+        card.dataset.course = course.id;
+
+        const imageUrl = await getCourseImageUrl(course.id);
+        const totalMinutes = await computeCourseTotalMinutes(course.id);
+        const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
+
+        let progressPercent = 0;
+        const key = `ulivre_course_${course.id}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                const watchedMap = data.watchedMap || [];
+                const total = watchedMap.length;
+                const watched = watchedMap.filter(v => v === true).length;
+                progressPercent = total ? Math.floor((watched / total) * 100) : 0;
+            } catch (e) {}
+        }
+        const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
+
+        let levelText = '';
+        let typeText = '';
+        if (course.courseLevel === 'graduacao') levelText = t('graduacao');
+        else if (course.courseLevel === 'pos-graduacao') levelText = t('pos_graduacao');
+        else if (course.courseLevel === 'ensino-medio') levelText = t('ensino_medio');
+        else if (course.courseLevel === 'idiomas') levelText = t('idiomas');
+
+        if (course.courseType === 'bacharelado') typeText = t('bacharelado');
+        else if (course.courseType === 'licenciatura') typeText = t('licenciatura');
+        else if (course.courseType === 'tecnologo') typeText = t('tecnologo');
+
+        const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
+        const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
+        const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
+
+        card.innerHTML = `
+            <div class="course-image-wrapper">
+                <img class="course-image" src="${imageUrl}" alt="${escapeHtml(course.name)}" 
+                     onerror="this.src='${await getCourseImageUrl(course.id)}'">
+            </div>
+            <h2>${escapeHtml(course.name)}</h2>
+            <div class="course-badges">${levelBadge}${typeBadge}</div>
+            ${roomHtml}
+            <p class="course-description" style="overflow: visible; -webkit-line-clamp: unset;">${escapeHtml(course.description)}</p>
+            ${durationText}
+            <div class="course-progress-bar">
+                <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+            </div>
+            <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
+            <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>
+        `;
+
+        card.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('continue-btn')) {
+                openCourse(course.id);
+            }
+        });
+        const btn = card.querySelector('.continue-btn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openCourse(course.id);
+            });
+        }
+        return card;
+    }
+
+    const debouncedRenderCourseCards = debounce(renderCourseCards, 200);
 
     function initHomeFilters() {
         const searchInput = document.getElementById('courseSearchInput');
@@ -2288,7 +2615,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
                 currentSearchTermHome = searchInput.value;
-                renderCourseCards();
+                debouncedRenderCourseCards();
             }, 300));
         }
 
@@ -2299,7 +2626,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     currentLevelFilter = level;
                     levelChips.forEach(c => c.classList.remove('active'));
                     chip.classList.add('active');
-                    renderCourseCards();
+                    debouncedRenderCourseCards();
                 });
             });
         }
@@ -2360,6 +2687,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.warn('[i18n] Traduções não carregadas, tentando novamente...');
         await setLanguage(initialLang);
     }
+
+    // Renderizar slider aleatório e configurar
+    renderRandomSlides();
+    setupSlider();
+    setupSliderLinks();
 
     await renderCourseCards();
     initHomeFilters();
@@ -2447,10 +2779,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    console.log('[Main] Inicialização concluída com animações modernas, imagens nos cards e sistema de perfil');
+    console.log('[Main] Inicialização concluída com slider loop infinito e preview lateral.');
+    console.log('[Main] Slider com loop infinito e auto-play funcionando.');
 
     window.addEventListener('languageChanged', function() {
-        applyAllModuleTranslations();
+        if (typeof applyAllModuleTranslations === 'function') applyAllModuleTranslations();
         if (typeof currentCourse !== 'undefined' && currentCourse) {
             renderCurrentLessonPanel();
             renderUnifiedCourseContent();
@@ -2472,6 +2805,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const homeScreen = document.getElementById('homeScreen');
         if (homeScreen && homeScreen.style.display !== 'none' && !_renderingCourses) {
             renderCourseCards();
+        }
+        setupSliderLinks();
+        const slider = document.getElementById('homeSlider');
+        if (slider && slider.style.display !== 'none') {
+            // Recarregar slides aleatórios ao mudar idioma
+            renderRandomSlides();
+            goToSlide(1, true);
+            startSliderAutoPlay();
         }
     });
 });
