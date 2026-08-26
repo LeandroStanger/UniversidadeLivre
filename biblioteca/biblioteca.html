@@ -71,15 +71,21 @@
         <div class="search-bar">
             <input type="text" id="audiobookSearchInput" data-i18n="search_audiobooks_placeholder" placeholder="Buscar audiobooks por título ou autor...">
         </div>
-        <div class="filter-bar" id="audioLanguageFilterContainer" style="display: none;">
-            <span data-i18n="filter_by_language">Filtrar por idioma:</span>
-            <div class="chips-container" id="audioLanguageChips"></div>
+
+        <!-- Player de audiobooks (embutido) -->
+        <div id="audiobookPlayerContainer" class="audiobook-player-container" style="display: none;">
+            <div class="audiobook-player-wrapper">
+                <div id="audiobookYouTubePlayer"></div>
+                <button id="closeAudiobookPlayer" class="close-audiobook-player" aria-label="Fechar player">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="audiobook-player-info">
+                <h3 id="audiobookPlayerTitle"></h3>
+                <p id="audiobookPlayerDescription"></p>
+            </div>
         </div>
-        <div id="continueListeningSection" class="continue-listening-section" style="display: none;">
-            <h3 class="section-subtitle"><i class="fas fa-history"></i> <span data-i18n="continue_listening">Continuar ouvindo</span></h3>
-            <div id="continueListeningContainer" class="continue-listening-container"></div>
-        </div>
-        <h3 class="section-subtitle"><i class="fas fa-search"></i> <span data-i18n="search_results">Resultados da busca</span></h3>
+
         <div id="audiobooksGrid" class="audiobooks-grid"></div>
     </div>
 
@@ -97,10 +103,7 @@
     </div>
 </div>
 
-<!-- ========== CONTAINER PARA PLAYER DE ÁUDIO ========== -->
-<div id="multiAudioPlayerContainer" class="multi-audio-player-container" style="display: none;"></div>
-
-<!-- ========== MODAL DE PERFIL (COM GÊNERO, SENHA, IMPORTAÇÃO/EXPORTAÇÃO) ========== -->
+<!-- ========== MODAL DE PERFIL ========== -->
 <div id="profileModal" class="profile-modal" style="display: none;" aria-hidden="true">
     <div class="profile-modal-content">
         <div class="profile-modal-header">
@@ -157,7 +160,6 @@
                 <div class="stat-item"><i class="fas fa-check-circle"></i> <span data-i18n="profile_completed_lessons">Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                 <div class="stat-item"><i class="fas fa-award"></i> <span data-i18n="profile_completed_disciplines">Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
                 <div class="stat-item profile-points"><i class="fas fa-star"></i> <span data-i18n="profile_total_points">Pontuação total</span> <span id="profileTotalPoints">0</span></div>
-                <!-- ===== HORAS NO AUDITÓRIO ===== -->
                 <div class="stat-item"><i class="fas fa-headphones"></i> <span data-i18n="profile_auditorio_hours">Horas no Auditório</span> <span id="profileAuditorioTime">0</span></div>
             </div>
 
@@ -187,7 +189,7 @@
     </div>
 </div>
 
-<!-- ========== MODAL DE ONBOARDING (TRILHA DE BOAS-VINDAS) ========== -->
+<!-- ========== MODAL DE ONBOARDING ========== -->
 <div id="onboardingModal" class="onboarding-modal" style="display: none;" aria-hidden="true">
     <div class="onboarding-modal-content">
         <div id="onboardingSteps">
@@ -308,8 +310,7 @@
 </div>
 
 <!-- ========== SCRIPTS ========== -->
-<!-- O módulo audiobook.js não está mais sendo usado, mantido apenas para compatibilidade -->
-<script src="audiobook.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="biblioteca.js"></script>
 <script src="../perfil/profile.js"></script>
 <script src="../onboarding/onboarding.js"></script>

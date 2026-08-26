@@ -1,1253 +1,1595 @@
-// auditorio/auditorio.js – Versão 7.0 – CORREÇÃO DE TRADUÇÃO EM TEMPO REAL
-// Player YouTube + YouTube Data API v3
-// Com Shorts, categorias temáticas, prioridade de idioma, lives e podcasts
-// Filtro por canais via canais.json (fallback se não encontrado)
-// Tratamento de cota excedida e cache de 24h
-// Tradução completa via i18n com escuta do evento languageChanged
-// CORREÇÃO: Ordem dos caminhos para carregar traduções (prioriza ../lang/)
-// CORREÇÃO: Logs para depuração do carregamento
-// CORREÇÃO: Fallback inline completo para pt-br e en
-// CORREÇÃO: Função applyFullTranslation que recria todos os chips em tempo real
-// CORREÇÃO: Garantia de que os chips são recriados após cada mudança de idioma
+// biblioteca.js – Versão 5.1 – COMPLETO COM SUPORTE A AUDIOBOOKS E FALLBACK DE PATHS
+// Busca de livros com loading estável, enriquecimento de metadados e APIs externas
+// Suporte a Audiobooks via YouTube, integração com player do Auditório
+// CORREÇÃO: Múltiplos caminhos para carregar audiobooks.json (fallback)
+// CORREÇÃO: Tratamento de erro silencioso caso o arquivo não exista
+// CORREÇÃO: Extração automática de videoId da URL
 
-// ========== VARIÁVEIS GLOBAIS ==========
-let allVideos = [];
-let allItems = [];
-let currentTypeFilter = 'all';
-let currentSubjectFilter = 'all';
-let currentLanguageFilter = 'all';
-let currentSearchTerm = '';
-let currentLang = 'pt-br';
-let translations = {};
+document.addEventListener('DOMContentLoaded', async () => {
+    'use strict';
 
-let player = null;
-let playerReady = false;
-let currentVideoId = null;
-let updateTimer = null;
-let videoProgress = {};
-let audioMode = false;
+    // ========== CONFIGURAÇÕES GLOBAIS ==========
+    let translations = {};
+    let currentLang = 'pt-br';
+    let grid, searchInput, modal, modalBody, closeModalBtn;
+    let localBooksCache = [];
+    let currentSearchTerm = '';
+    let currentAbortController = null;
+    let currentSearchId = 0;
+    let activeTab = 'book';
+    let activeMainTab = 'library';
+    let externalLibrariesData = [];
 
-let pendingVideo = null;
-let apiLoadAttempts = 0;
-const MAX_API_ATTEMPTS = 8;
-const API_RETRY_DELAY = 250;
-const metadataCache = new Map();
-const languageCache = new Map();
+    let searchCache = new Map();
+    let apiCache = new Map();
+    let metadataCache = new Map();
 
-// ========== CONTROLE DE COTA ==========
-let apiQuotaExceeded = false;
+    const SEARCH_CACHE_TTL = 5 * 60 * 1000;
+    const API_CACHE_TTL = 10 * 60 * 1000;
+    const METADATA_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const GLOBAL_TIMEOUT = 20000;
+    const MIN_SEARCH_LENGTH = 2;
+    const MAX_EXTERNAL_RESULTS = 20;
 
-// ========== CONTADOR DE HORAS ASSISTIDAS ==========
-const AUDITORIO_TIME_KEY = 'auditorio_total_time';
-let totalWatchTime = 0;
-let watchInterval = null;
-let isWatching = false;
-
-function loadWatchTime() {
-    const saved = localStorage.getItem(AUDITORIO_TIME_KEY);
-    if (saved) {
-        totalWatchTime = parseInt(saved, 10) || 0;
-    }
-    return totalWatchTime;
-}
-
-function saveWatchTime() {
-    localStorage.setItem(AUDITORIO_TIME_KEY, totalWatchTime.toString());
-    try {
-        const event = new CustomEvent('auditorioTimeUpdated', {
-            detail: { seconds: totalWatchTime }
-        });
-        window.dispatchEvent(event);
-    } catch (e) {}
-    try {
-        const storageEvent = new StorageEvent('storage', {
-            key: AUDITORIO_TIME_KEY,
-            newValue: totalWatchTime.toString()
-        });
-        window.dispatchEvent(storageEvent);
-    } catch (e) {}
-}
-
-function startWatchTimer() {
-    if (watchInterval) return;
-    isWatching = true;
-    watchInterval = setInterval(() => {
-        if (isWatching && player && playerReady && player.getPlayerState) {
-            const state = player.getPlayerState();
-            if (state === YT.PlayerState.PLAYING) {
-                totalWatchTime += 1;
-                if (totalWatchTime % 10 === 0) saveWatchTime();
-            }
-        }
-    }, 1000);
-}
-
-function stopWatchTimer() {
-    isWatching = false;
-    if (watchInterval) {
-        clearInterval(watchInterval);
-        watchInterval = null;
-    }
-    saveWatchTime();
-}
-
-// ========== CONFIGURAÇÕES DE APIs ==========
-const YOUTUBE_CONFIG = {
-    apiKey: 'YOUR_YOUTUBE_API_KEY'
-};
-
-const cache = new Map();
-const CACHE_TTL = 24 * 60 * 60 * 1000;
-
-let channelFilters = { video: [], podcast: [], live: [], shorts: [] };
-
-// ========== SUPRESSÃO DE LOGS ESPECÍFICOS DO YOUTUBE ==========
-const originalConsoleError = console.error;
-const originalConsoleWarn = console.warn;
-
-console.error = function(...args) {
-    const msg = args[0]?.toString() || '';
-    if (msg.includes('postMessage') || msg.includes('web-share') || msg.includes('Unrecognized feature')) {
-        return;
-    }
-    originalConsoleError.apply(console, args);
-};
-
-console.warn = function(...args) {
-    const msg = args[0]?.toString() || '';
-    if (msg.includes('postMessage') || msg.includes('web-share') || msg.includes('Unrecognized feature')) {
-        return;
-    }
-    originalConsoleWarn.apply(console, args);
-};
-
-// ========== UTILITÁRIOS ==========
-function normalizeText(text) { return (text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
-function escapeHtml(s){return s?String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])):'';}
-function getCachedOrFetch(cacheKey, fetchFn, ttl = CACHE_TTL) {
-    if (cache.has(cacheKey)) {
-        const cached = cache.get(cacheKey);
-        if (Date.now() - cached.timestamp < ttl) return Promise.resolve(cached.data);
-    }
-    return fetchFn().then(data => { cache.set(cacheKey, { data, timestamp: Date.now() }); return data; });
-}
-
-// ========== I18N COM FALLBACK INLINE ==========
-// Definição dos fallbacks completos para pt-br e en
-const FALLBACK_PT = {
-    "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
-    "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
-    "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
-    "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
-    "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
-    "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
-    "subject_shorts": "Shorts", "subject_outros": "Outros",
-    "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
-    "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
-    "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
-    "lang_undefined": "Indefinido",
-    "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
-    "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
-    "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
-    "filter_by_language": "Filtrar por idioma:", 
-    "auditorio_page_title": "Auditório · Universidade Livre",
-    "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
-    "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "itens",
-    "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
-    "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado.",
-    "profile": "Perfil", "notas_heading": "Notas"
-};
-
-const FALLBACK_EN = {
-    "subject_tecnologia": "Technology", "subject_ciencia": "Science", "subject_matematica": "Mathematics",
-    "subject_historia": "History", "subject_literatura": "Literature", "subject_filosofia": "Philosophy",
-    "subject_psicologia": "Psychology", "subject_economia": "Economics", "subject_politica": "Politics",
-    "subject_saude": "Health", "subject_educacao": "Education", "subject_arte": "Art",
-    "subject_esportes": "Sports", "subject_negocios": "Business", "subject_viagem": "Travel",
-    "subject_religiao": "Religion", "subject_autoajuda": "Self-help", "subject_culinaria": "Cooking",
-    "subject_shorts": "Shorts", "subject_outros": "Others",
-    "lang_pt": "Portuguese", "lang_en": "English", "lang_es": "Spanish", "lang_fr": "French",
-    "lang_de": "German", "lang_it": "Italian", "lang_ja": "Japanese", "lang_zh": "Chinese",
-    "lang_ko": "Korean", "lang_ru": "Russian", "lang_ar": "Arabic", "lang_hi": "Hindi",
-    "lang_undefined": "Undefined",
-    "badge_live": "LIVE", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Educational videos selected by the community.",
-    "no_videos": "No items found.", "search_videos_placeholder": "Search videos or podcasts...",
-    "random_btn": "Random", "filter_by_type": "Filter by type:", "filter_by_subject": "Filter by subject:",
-    "filter_by_language": "Filter by language:",
-    "auditorio_page_title": "Auditorium · Open University",
-    "player_fallback_active": "⚠️ Simplified player active.", "retry_player": "Try full player",
-    "loading": "Loading...", "all": "All", "type_video": "Videos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "items",
-    "player_error_generic": "Player error.", "player_error_removed": "Video removed.",
-    "player_error_issue": "Player issue.", "player_error_not_found": "Video not found.",
-    "profile": "Profile", "notas_heading": "Notes"
-};
-
-async function loadTranslations(lang) {
-    // Prioriza caminho relativo (sobe um nível) que funciona com a estrutura do projeto
-    const paths = [
-        `../lang/${lang}.json`,   // sobe um nível (raiz do projeto) - MAIS PROVÁVEL
-        `./lang/${lang}.json`,    // dentro da pasta auditorio (caso tenha cópia)
-        `lang/${lang}.json`       // relativo sem ./
-        // Removido o caminho absoluto para evitar 404 desnecessário
+    const CORS_PROXIES = [
+        'https://corsproxy.io/?',
+        'https://api.allorigins.win/raw?url=',
+        'https://proxy.cors.sh/'
     ];
-    for (const path of paths) {
-        try {
-            console.log(`[Auditório] Tentando carregar traduções de: ${path}`);
-            const response = await fetch(path);
-            if (response.ok) {
-                translations = await response.json();
-                console.log(`[Auditório] Traduções carregadas com sucesso de ${path}`);
-                return true;
-            } else {
-                console.warn(`[Auditório] Falha ao carregar ${path}: HTTP ${response.status}`);
-            }
-        } catch (e) {
-            console.warn(`[Auditório] Erro ao tentar ${path}:`, e.message);
+
+    const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
+    const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
+
+    const HATHITRUST_API_KEY = 'YOUR_HATHITRUST_API_KEY';
+    const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+
+    // ========== FUNÇÃO DE TRADUÇÃO ==========
+    function t(key, replacements = {}) {
+        let text = translations[key] || key;
+        if (text === key) {
+            const hardcoded = {
+                'mark_as_read': 'Marcar como lido',
+                'marked_as_read': 'Marcado como lido',
+                'profile': 'Perfil',
+                'download_book': 'Baixar Livro',
+                'access_online': 'Acessar Online',
+                'book_author': 'Autor',
+                'book_year': 'Ano',
+                'book_publisher': 'Editora',
+                'book_language': 'Idioma',
+                'repository_prefix': 'Repositório:',
+                'type_book': 'Livro',
+                'no_description': 'Sem descrição.',
+                'unknown_author': 'Autor desconhecido',
+                'unknown_publisher': 'Editora desconhecida',
+                'year_not_informed': 'Ano não informado',
+                'unavailable': 'Indisponível',
+                'no_link_available': 'Nenhum link disponível.',
+                'close': 'Fechar',
+                'search_library_placeholder': 'Buscar por título, autor, idioma ou assunto...',
+                'search_audiobooks_placeholder': 'Buscar audiobooks por título ou autor...',
+                'loading': 'Carregando...',
+                'no_results': 'Nenhum resultado encontrado.',
+                'error_loading': 'Erro ao carregar resultados.',
+                'library_title': 'Biblioteca · Universidade Livre',
+                'library_subtitle': 'Biblioteca Digital',
+                'library_book_count': 'itens',
+                'filter_books': 'Livros',
+                'filter_articles': 'Artigos',
+                'filter_papers': 'Papers',
+                'filter_tcc': 'TCC',
+                'filter_dissertation': 'Dissertações',
+                'filter_thesis': 'Teses',
+                'tab_library': 'Biblioteca',
+                'tab_audiobooks': 'Audiobooks',
+                'tab_recommended': 'Bibliotecas Recomendadas',
+                'back_to_courses': 'Voltar para cursos',
+                'donate_button': 'Doar',
+                'donate_text': 'Doar',
+                'price_free': 'Grátis',
+                'price_paid': 'Pago',
+                'unavailable': 'Indisponível',
+                'profile': 'Perfil',
+                'listen_button': 'Ouvir',
+                'no_audiobooks': 'Nenhum audiobook disponível no momento.',
+                'audiobooks_title': 'Audiobooks'
+            };
+            if (hardcoded[key]) text = hardcoded[key];
         }
-    }
-    // Fallback inline caso o JSON não seja encontrado
-    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
-    translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
-    return false;
-}
-
-function t(key, fallback = '') {
-    return translations[key] || fallback || key;
-}
-
-function getSubjectName(subject) { return t(`subject_${subject}`, subject); }
-function getLanguageName(langCode) { return t(`lang_${langCode}`, langCode?.toUpperCase() || 'Indefinido'); }
-
-function updateLanguageSelector(lang) {
-    const ptBtn = document.getElementById('langPtBtn');
-    const enBtn = document.getElementById('langEnBtn');
-    if (ptBtn && enBtn) {
-        ptBtn.classList.toggle('active', lang === 'pt-br');
-        enBtn.classList.toggle('active', lang === 'en');
-    }
-}
-
-function applyTranslationsToUI() {
-    // Atualiza elementos com data-i18n
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[key]) {
-            if (el.tagName === 'INPUT') {
-                el.placeholder = translations[key];
-            } else {
-                el.innerText = translations[key];
-            }
+        for (const [k, v] of Object.entries(replacements)) {
+            text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
         }
-    });
-    // Título da página
-    document.title = t('auditorio_page_title');
-    // Barra de pesquisa
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.placeholder = t('search_videos_placeholder');
-    // Botão aleatório
-    const randomBtn = document.querySelector('#randomVideoBtn span');
-    if (randomBtn) randomBtn.innerText = t('random_btn');
-    // Rótulos dos filtros
-    const typeFilterSpan = document.querySelector('.type-filter span');
-    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type');
-    const subjectFilterSpan = document.querySelector('.subject-filter span');
-    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject');
-    const languageFilterSpan = document.querySelector('.language-filter span');
-    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language');
-    // Perfil
-    const profileBtn = document.getElementById('profileBtn');
-    if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
-    }
-    // Notas
-    const notasLink = document.querySelector('a[href="../notas/notas.html"]');
-    if (notasLink) {
-        const span = notasLink.querySelector('span');
-        if (span) span.innerText = t('notas_heading');
-        else {
-            const icon = notasLink.querySelector('i');
-            notasLink.innerHTML = '';
-            if (icon) notasLink.appendChild(icon);
-            const newSpan = document.createElement('span');
-            newSpan.setAttribute('data-i18n', 'notas_heading');
-            newSpan.innerText = t('notas_heading');
-            notasLink.appendChild(newSpan);
-        }
-    }
-    console.log('[Auditório] Traduções aplicadas.');
-}
-
-// ========== SISTEMA DE DECISÃO AUTOMÁTICA PARA SHORTS ==========
-function isShortVideo(item) {
-    if (item.type === 'shorts') return true;
-    if (item.url && item.url.includes('/shorts/')) return true;
-    if (item.categoryId && (item.categoryId === '42' || item.categoryId === '43')) return true;
-
-    let score = 0;
-    if (item.duration !== undefined && item.duration <= 60) score += 40;
-
-    const title = (item.title || '').toLowerCase();
-    const desc = (item.description || '').toLowerCase();
-
-    if (title.includes('#shorts') || title.includes('#short')) score += 35;
-    if (desc.includes('#shorts') || desc.includes('#short')) score += 15;
-    if (title.includes('shorts') || title.includes('short')) score += 25;
-    if (desc.includes('shorts') || desc.includes('short')) score += 10;
-
-    const shortKeywords = ['curto', 'curta', 'rápido', 'rapido', 'shorts', 'short'];
-    if (shortKeywords.some(kw => title.includes(kw))) score += 10;
-    if (shortKeywords.some(kw => desc.includes(kw))) score += 5;
-
-    if (/#shorts/i.test(title)) score += 20;
-    if (/short/i.test(title) && !/long|extended|full/i.test(title)) score += 10;
-
-    if (item.duration !== undefined && item.duration <= 30 && !title.includes('podcast') && !title.includes('live')) {
-        score += 30;
+        return text;
     }
 
-    return score >= 40;
-}
-
-// ========== MAPEAMENTO DE CATEGORIAS ==========
-const categoryToSubject = {
-    '1': 'arte', '2': 'automotive', '10': 'arte', '15': 'ciencia', '17': 'esportes',
-    '18': 'shorts', '19': 'viagem', '20': 'games', '21': 'cinema', '22': 'tecnologia',
-    '23': 'humor', '24': 'entretenimento', '25': 'noticias', '26': 'autoajuda',
-    '27': 'educacao', '28': 'ciencia', '29': 'tecnologia', '30': 'cinema',
-    '31': 'games', '32': 'cinema', '33': 'cinema', '34': 'humor', '35': 'cinema',
-    '36': 'cinema', '37': 'cinema', '38': 'cinema', '39': 'cinema', '40': 'cinema',
-    '41': 'cinema', '42': 'shorts', '43': 'shorts', '44': 'cinema'
-};
-
-const categoryNameMap = {
-    'education': 'educacao', 'science & technology': 'ciencia', 'science': 'ciencia',
-    'technology': 'tecnologia', 'music': 'arte', 'film & animation': 'arte',
-    'sports': 'esportes', 'gaming': 'games', 'people & blogs': 'outros',
-    'entertainment': 'entretenimento', 'news & politics': 'noticias',
-    'howto & style': 'autoajuda', 'travel & events': 'viagem', 'comedy': 'humor',
-    'autos & vehicles': 'automotive', 'pets & animals': 'ciencia',
-    'nonprofits & activism': 'tecnologia', 'movies': 'cinema', 'shorts': 'shorts'
-};
-
-function mapCategoryToSubject(categoryId, categoryTitle) {
-    if (categoryId && categoryToSubject[categoryId]) return categoryToSubject[categoryId];
-    if (categoryTitle) {
-        const lower = categoryTitle.toLowerCase();
-        for (const [key, subject] of Object.entries(categoryNameMap)) {
-            if (lower.includes(key)) return subject;
-        }
-    }
-    return 'outros';
-}
-
-function detectSubjectLocal(title, description) {
-    const categoryKeywords = {
-        tecnologia: ['programação','software','hardware','código','algoritmo','inteligência artificial','machine learning','dados','cloud','computação','python','javascript','java','c++','react','node','api','devops','segurança','hacker','cyber','blockchain','web','mobile','aplicativo','framework','backend','frontend','banco de dados','sql','nosql','docker','kubernetes','linux','windows','mac','android','ios','tecnologia','inovação','digital','internet','rede','servidor'],
-        ciencia: ['ciência','pesquisa','laboratório','experimento','física','química','biologia','astronomia','cosmologia','genética','evolução','ecologia','neurociência','robótica','nanotecnologia','biotecnologia','sustentabilidade','meio ambiente','clima','planeta','universo','galáxia','buraco negro','partícula','átomo','molécula','science','research','experiment','physics','chemistry','biology','astronomy'],
-        matematica: ['matemática','álgebra','geometria','cálculo','trigonometria','estatística','probabilidade','equação','função','gráfico','número','frações','aritmética','teorema','math','algebra','calculus','geometry','statistics'],
-        filosofia: ['filosofia','pensamento','ética','moral','existencialismo','metafísica','epistemologia','lógica','aristóteles','platão','sócrates','nietzsche','kant','hegel','philosophy'],
-        literatura: ['literatura','livro','escritor','poesia','romance','conto','crônica','ensaio','biblioteca','ler','autor','clássico','ficção','fantasia','aventura','drama','literary','book','writer','poem','novel','fiction'],
-        psicologia: ['psicologia','comportamento','mente','cognitivo','emoções','freud','jung','psicanálise','terapia','transtorno','ansiedade','depressão','psychology'],
-        economia: ['economia','mercado','finanças','investimento','capitalismo','socialismo','inflação','juros','pib','desemprego','economy','finance'],
-        politica: ['política','governo','democracia','ditadura','eleições','partido','congresso','senado','presidente','diplomacia','politics'],
-        saude: ['saúde','medicina','doença','tratamento','cura','vacina','hospital','clínica','nutrição','exercício','bem-estar','health','medicine'],
-        educacao: ['educação','ensino','aprendizagem','escola','universidade','professor','aluno','pedagogia','didática','education','learning'],
-        arte: ['arte','pintura','escultura','música','dança','teatro','cinema','fotografia','arquitetura','design','art','music'],
-        esportes: ['esporte','futebol','basquete','vôlei','tênis','corrida','natação','olimpíadas','esportes','sports'],
-        negocios: ['negócios','empreendedorismo','startup','empresa','gestão','liderança','marketing','vendas','business','entrepreneurship'],
-        viagem: ['viagem','turismo','destino','aventura','exploração','travel','tourism'],
-        religiao: ['religião','deus','bíblia','cristianismo','islamismo','budismo','hinduísmo','espiritualidade','fé','religion'],
-        autoajuda: ['autoajuda','desenvolvimento pessoal','motivação','produtividade','sucesso','hábitos','self-help'],
-        culinaria: ['culinária','receita','gastronomia','cozinha','chef','comida','bebida','cooking','food']
-    };
-    const fullText = normalizeText(title + ' ' + description);
-    const scores = {};
-    for (const cat in categoryKeywords) scores[cat] = 0;
-    for (const [cat, keywords] of Object.entries(categoryKeywords)) {
-        for (const kw of keywords) if (fullText.includes(normalizeText(kw))) scores[cat] += 1;
-    }
-    let best = 'outros', max = 0;
-    for (const [cat, score] of Object.entries(scores)) if (score > max) { max = score; best = cat; }
-    return best;
-}
-
-// ========== YOUTUBE API ==========
-async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
-    const { apiKey } = YOUTUBE_CONFIG;
-    if (!apiKey) return [];
-    
-    let searchTerm = query;
-    if (podcastMode) searchTerm = `${query} podcast`;
-    else if (liveMode) searchTerm = query;
-    else if (shortsMode) searchTerm = `${query} shorts`;
-    
-    const cacheKey = `yt_${normalizeText(searchTerm)}_${type}_${podcastMode}_${liveMode}_${shortsMode}_${maxResults}_${channelId || 'none'}`;
-    
-    return getCachedOrFetch(cacheKey, async () => {
-        try {
-            const url = new URL('https://www.googleapis.com/youtube/v3/search');
-            url.searchParams.append('part', 'snippet');
-            url.searchParams.append('q', searchTerm);
-            url.searchParams.append('type', type);
-            url.searchParams.append('maxResults', maxResults);
-            url.searchParams.append('key', apiKey);
-            url.searchParams.append('videoEmbeddable', 'true');
-            if (channelId) {
-                url.searchParams.append('channelId', channelId);
-            }
-            if (liveMode) {
-                url.searchParams.append('eventType', 'live');
-                url.searchParams.append('type', 'video');
-            }
-            if (podcastMode) {
-                url.searchParams.append('videoDuration', 'long');
-            }
-            if (shortsMode) {
-                url.searchParams.append('videoDuration', 'short');
-            }
-            if (currentLanguageFilter !== 'all') {
-                url.searchParams.append('relevanceLanguage', currentLanguageFilter);
-            }
-            
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
-            const response = await fetch(url.toString(), { signal: controller.signal });
-            clearTimeout(timeoutId);
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                if (errorData.error?.message?.includes('quota')) {
-                    apiQuotaExceeded = true;
+    // ========== I18N ==========
+    async function loadTranslations(lang) {
+        const paths = [
+            `../lang/${lang}.json`,
+            `lang/${lang}.json`,
+            `/lang/${lang}.json`,
+            `./lang/${lang}.json`
+        ];
+        for (const path of paths) {
+            try {
+                const response = await fetch(path);
+                if (response.ok) {
+                    translations = await response.json();
+                    console.log(`[Biblioteca] Traduções carregadas de ${path}`);
+                    return true;
                 }
-                return [];
-            }
-            const data = await response.json();
-            const videoIds = data.items.map(item => item.id.videoId).filter(Boolean);
-            const details = await fetchVideoDetails(videoIds);
-            
-            return data.items.map(item => {
-                const snippet = item.snippet;
-                const videoId = item.id.videoId;
-                const detail = details[videoId] || {};
-                let itemType = 'video';
-                if (liveMode) itemType = 'live';
-                else if (podcastMode) itemType = 'podcast';
-                else if (shortsMode) itemType = 'shorts';
-                
-                const tempItem = { title: snippet.title, description: snippet.description, url: `https://www.youtube.com/watch?v=${videoId}` };
-                if (isShortVideo(tempItem)) {
-                    itemType = 'shorts';
+            } catch (e) { /* continua */ }
+        }
+        console.warn('[Biblioteca] Nenhum arquivo de tradução encontrado. Usando fallback.');
+        translations = {};
+        return false;
+    }
+
+    function updateLanguageSelector(lang) {
+        const ptBtn = document.getElementById('langPtBtn');
+        const enBtn = document.getElementById('langEnBtn');
+        if (ptBtn && enBtn) {
+            ptBtn.classList.toggle('active', lang === 'pt-br');
+            enBtn.classList.toggle('active', lang === 'en');
+        }
+    }
+
+    function applyAllTranslations() {
+        if (!translations || Object.keys(translations).length === 0) {
+            console.warn('[Biblioteca] applyAllTranslations: traduções vazias, ignorando.');
+            return;
+        }
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[key]) {
+                if (el.tagName === 'INPUT') {
+                    el.placeholder = translations[key];
+                } else {
+                    el.innerText = translations[key];
                 }
-                const language = detail.language || detectLanguageLocal(snippet.title, snippet.description);
-                const subject = detail.categoryId ? mapCategoryToSubject(detail.categoryId, detail.categoryTitle) : detectSubjectLocal(snippet.title, snippet.description);
-                return {
-                    id: `yt_${videoId}`,
-                    videoId,
-                    title: snippet.title,
-                    description: snippet.description,
-                    thumbnail: snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url,
-                    type: itemType,
-                    subject,
-                    language,
-                    url: `https://www.youtube.com/watch?v=${videoId}`,
-                    source: 'YouTube',
-                    publishedAt: snippet.publishedAt,
-                    channelTitle: snippet.channelTitle,
-                    duration: detail.duration,
-                    categoryId: detail.categoryId,
-                    isLive: liveMode || snippet.liveBroadcastContent === 'live',
-                    isPlaylist: false
-                };
-            });
+            }
+        });
+        if (searchInput) searchInput.placeholder = t('search_library_placeholder');
+        const audiobookInput = document.getElementById('audiobookSearchInput');
+        if (audiobookInput) audiobookInput.placeholder = t('search_audiobooks_placeholder');
+        document.title = t('library_title');
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            const tab = btn.dataset.tab;
+            const span = btn.querySelector('span');
+            if (span) {
+                if (tab === 'book') span.innerText = t('filter_books');
+                else if (tab === 'article') span.innerText = t('filter_articles');
+                else if (tab === 'paper') span.innerText = t('filter_papers');
+                else if (tab === 'tcc') span.innerText = t('filter_tcc');
+                else if (tab === 'dissertation') span.innerText = t('filter_dissertation');
+                else if (tab === 'thesis') span.innerText = t('filter_thesis');
+            }
+        });
+        const bookCountSpan = document.getElementById('bookCount');
+        if (bookCountSpan) {
+            const count = bookCountSpan.innerText;
+            bookCountSpan.nextSibling.nodeValue = ' ' + t('library_book_count');
+        }
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true') {
+            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        }
+        updateReadButtonTranslation();
+        // Atualiza também o título da aba de audiobooks
+        const audiobooksTabBtn = document.querySelector('.main-tab-btn[data-main-tab="audiobooks"] span');
+        if (audiobooksTabBtn) audiobooksTabBtn.innerText = t('audiobooks_title');
+    }
+
+    // ========== FUNÇÕES AUXILIARES ==========
+    function normalizeText(text) {
+        if (!text || typeof text !== 'string') return '';
+        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    }
+
+    function escapeHtml(str) {
+        return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : '';
+    }
+
+    function generateId() {
+        return 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function formatAuthor(authorString) {
+        if (!authorString) return t('unknown_author');
+        let authorStr = Array.isArray(authorString) ? authorString.join(', ') : String(authorString);
+        let authors = authorStr.split(/[,&eE]+\s*/).filter(a => a.trim());
+        if (authors.length === 0) return authorStr;
+        return authors.length <= 3 ? authorStr : authors.slice(0, 3).join(', ') + '...';
+    }
+
+    function detectDownloadLabelFromUrl(url) {
+        if (!url) return t('access_online');
+        try {
+            const urlObj = new URL(url);
+            const pathname = urlObj.pathname.toLowerCase();
+            if (DOWNLOAD_EXTENSIONS.some(ext => pathname.endsWith(ext))) return t('download_book');
+            if (urlObj.hostname.includes('docs.google.com') || urlObj.hostname.includes('drive.google.com')) return t('access_online');
+            return t('access_online');
+        } catch { return t('access_online'); }
+    }
+
+    function isAudiobook(book) {
+        if (book.type === 'audiobook') return true;
+        const title = (book.title || '').toLowerCase();
+        if (title.includes('audiobook') || title.includes('audio book') || title.includes('narrado') || title.includes('audiolivro')) return true;
+        const url = book.download || book.audioUrl || '';
+        if (AUDIO_EXTENSIONS.some(ext => url.toLowerCase().endsWith(ext))) return true;
+        const source = (book.source || '').toLowerCase();
+        if (source.includes('librivox') || source.includes('audible')) return true;
+        return false;
+    }
+
+    async function forceDownload(url, filename, fallbackUrl = null) {
+        try {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            await new Promise(r => setTimeout(r, 500));
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Fetch falhou');
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const a2 = document.createElement('a');
+            a2.href = blobUrl;
+            a2.download = filename || url.split('/').pop() || 'download';
+            document.body.appendChild(a2);
+            a2.click();
+            document.body.removeChild(a2);
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.warn('[Download] Falha, tentando fallback:', error);
+            if (fallbackUrl) {
+                if (confirm(t('download_fallback_confirm'))) window.open(fallbackUrl, '_blank');
+            } else window.open(url, '_blank');
+        }
+    }
+
+    function inferBookType(book) {
+        if (book.type) return book.type;
+        const title = (book.title || '').toLowerCase();
+        const shelf = (book.shelf || '').toLowerCase();
+        const description = (book.description || '').toLowerCase();
+        if (title.includes('tcc') || shelf.includes('tcc') || description.includes('trabalho de conclusão')) return 'tcc';
+        if (title.includes('dissertação') || shelf.includes('dissertation') || description.includes('dissertação')) return 'dissertation';
+        if (title.includes('tese') || shelf.includes('thesis') || description.includes('tese')) return 'thesis';
+        if (title.includes('artigo') || shelf.includes('article') || description.includes('artigo científico')) return 'article';
+        if (title.includes('paper') || shelf.includes('paper') || description.includes('conferência')) return 'paper';
+        return 'book';
+    }
+
+    // ========== SISTEMA DE "MARCAR COMO LIDO" ==========
+    function getReadBooks() {
+        try {
+            const stored = localStorage.getItem('ulivre_livros_lidos');
+            return stored ? JSON.parse(stored) : [];
         } catch (e) {
             return [];
         }
-    }, CACHE_TTL);
-}
+    }
 
-async function searchYouTube(query, maxResults = 30, options = {}) {
-    if (apiQuotaExceeded) return [];
-    const { apiKey } = YOUTUBE_CONFIG;
-    if (!apiKey) return [];
-    const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
-    
-    if (channelIds.length === 0) {
-        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: null });
+    function saveReadBooks(books) {
+        localStorage.setItem('ulivre_livros_lidos', JSON.stringify(books));
     }
-    
-    if (channelIds.length === 1) {
-        return await performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId: channelIds[0] });
-    }
-    
-    const resultsPerChannel = Math.ceil(maxResults / channelIds.length);
-    const allPromises = channelIds.map(channelId => 
-        performYouTubeSearch(query, resultsPerChannel, { type, podcastMode, liveMode, shortsMode, channelId })
-    );
-    
-    const allResponses = await Promise.allSettled(allPromises);
-    let combined = [];
-    for (const res of allResponses) {
-        if (res.status === 'fulfilled' && Array.isArray(res.value)) {
-            combined = combined.concat(res.value);
-        }
-    }
-    const seen = new Set();
-    const unique = combined.filter(item => {
-        if (seen.has(item.videoId)) return false;
-        seen.add(item.videoId);
-        return true;
-    });
-    return unique.slice(0, maxResults);
-}
 
-async function fetchVideoDetails(videoIds) {
-    if (!videoIds.length || apiQuotaExceeded) return {};
-    const { apiKey } = YOUTUBE_CONFIG;
-    const cacheKey = `details_${videoIds.sort().join(',')}`;
-    return getCachedOrFetch(cacheKey, async () => {
-        try {
-            const url = new URL('https://www.googleapis.com/youtube/v3/videos');
-            url.searchParams.append('part', 'snippet,contentDetails');
-            url.searchParams.append('id', videoIds.join(','));
-            url.searchParams.append('key', apiKey);
-            const response = await fetch(url.toString());
-            if (!response.ok) {
-                const errorData = await response.json();
-                if (errorData.error?.message?.includes('quota')) apiQuotaExceeded = true;
-                return {};
-            }
-            const data = await response.json();
-            const details = {};
-            data.items.forEach(item => {
-                const videoId = item.id;
-                const snippet = item.snippet;
-                const contentDetails = item.contentDetails;
-                let language = snippet.defaultAudioLanguage || snippet.defaultLanguage;
-                if (!language) language = detectLanguageLocal(snippet.title, snippet.description);
-                languageCache.set(videoId, language);
-                let durationSec = 0;
-                const durationStr = contentDetails?.duration || '';
-                const match = durationStr.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-                if (match) {
-                    const hours = parseInt(match[1] || '0');
-                    const minutes = parseInt(match[2] || '0');
-                    const seconds = parseInt(match[3] || '0');
-                    durationSec = hours * 3600 + minutes * 60 + seconds;
-                }
-                details[videoId] = { language, duration: durationSec, categoryId: snippet.categoryId, categoryTitle: snippet.categoryTitle || '' };
+    function isBookRead(bookId) {
+        const read = getReadBooks();
+        return read.some(b => b.id === bookId);
+    }
+
+    function toggleBookRead(book) {
+        let read = getReadBooks();
+        const index = read.findIndex(b => b.id === book.id);
+        if (index > -1) {
+            read.splice(index, 1);
+        } else {
+            read.push({
+                id: book.id,
+                title: book.title,
+                author: book.author,
+                cover: book.cover,
+                timestamp: new Date().toISOString()
             });
-            return details;
-        } catch (e) { return {}; }
-    }, CACHE_TTL * 2);
-}
+        }
+        saveReadBooks(read);
+        return index === -1;
+    }
 
-// ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA ==========
-const LANG_STOPWORDS = {
-    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer dar ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
-    en: 'the and for with you this are have from they know your can more about just like people time year good work life world english will was were been has had their them would could should make get see use tion sion ment ness'.split(' '),
-    es: 'el la de y que en por con para como su sobre este esta usted años vida trabajo personas español los las se ha han está están era eran muy bien gracias hola ser tener hacer decir ir ver dar ción dad mente'.split(' '),
-    fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont étaient étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
-    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurde wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
-    it: 'il la di e che per con come su questo questa lei più anni vita lavoro persone italiano sono era erano stato stata essere avere fare dire andare vedere dare zione mento ità'.split(' '),
-    ru: 'и в не на я что с по а он как его но из они за русский год жизнь это было были быть сказать мочь хотеть знать думать ность ение овать'.split(' '),
-    zh: '的 了 是 我 不 在 人 有 他 这 中 大 来 上 国 为 子 你 说 中文 也 个 们 到 去 看 好 什么 没有 可以 自己 因为 所以'.split(' '),
-    ja: 'です ます た ない れる よう から まで て が を に の は 日本語 これ それ あれ 私 あなた する いる ある なる こと もの'.split(' '),
-    ko: '은 는 이 가 을 를 에 에서 으로 로 한국어 그 저 이것 저것 사람 년 일 하다 있다 않다 없다 그리고 또한 습니다'.split(' '),
-    ar: 'في من أن على هذا هذه الذي التي عن مع بعد قبل عند خلال العربية كان كانت يكون لي لك له لها ما لا إلى حتى قد'.split(' '),
-    hi: 'है हैं और के में से पर यह वह इस उस हिंदी कर करना होना जाना देना लेना का की को ने तक बाद पहले'.split(' '),
-    nl: 'de het een van in op voor met dat dit deze nederlands zijn hebben worden kunnen moeten niet wel maar ook nog al veel mensen'.split(' '),
-    sv: 'och att det som en på för med av den detta svenska vara ha kunna skola vilja inte men eller om när där här han hon'.split(' '),
-    pl: 'i w na z do po przez dla ten ta to polski być mieć móc chcieć nie tak jak co który jego jej ich się już'.split(' '),
-    tr: 've bir bu şu o için ile gibi kadar sonra türkçe olmak etmek yapmak gelmek gitmek değil mi da de ya ki çok daha en'.split(' '),
-    cs: 'a být je v na s z do od pro za po pri jako i ale které který že se si svůj tento tato toto český'.split(' '),
-    el: 'και η το ο να δεν είναι σε για από με που τα της του τους τις ένα μια αυτό αυτή αυτές ελληνικ'.split(' '),
-    fi: 'ja on se ei että oli ovat kuin kun kanssa mutta myös kuin hän me hän te he tämä tässä suomi suomen'.split(' '),
-    he: 'את של על לא זה עם גם אם כי או היא הוא אבל אשר עד בין כמו כל עוד כך אחת אחד ישראל עברית'.split(' '),
-    hu: 'és hogy a az egy ez azt is nem van de ha már mint még csak el meg mit ki be le fel magyar'.split(' '),
-    id: 'dan yang di untuk dengan pada adalah itu dalam ini saya kamu dia kita mereka apa bisa ada tidak akan juga indonesia'.split(' '),
-    no: 'og det å er jeg ikke du en den vi de at som skal har til med for av norsk'.split(' '),
-    ro: 'și de la cu în pe care din ce ca sau dar pentru acest această română este sunt ați au fost'.split(' '),
-    sk: 'a byť je v na s z do od pre po pri ako i ale ktorý ktorá ktoré že sa si svoj tento slovensk'.split(' '),
-    th: 'ที่ เป็น ไม่ ได้ และ ใน มี ว่า ไป มา ต้อง จะ ของ โดย กับ สำหรับ เรา คุณ เขา มัน นี้ ภาษาไทย'.split(' '),
-    vi: 'và của một là không có trong cho với những được khi từ bởi nếu nhưng mà tôi anh chúng ta nó họ tiếng việt'.split(' '),
-    bg: 'и на за да не се от в със по като или че след до при а но български това тази тези'.split(' '),
-    ca: 'i de que el la en per amb un una aquest aquesta nosaltres vosaltres ells elles català'.split(' '),
-    da: 'og at det er jeg du den en de vi at som skal har til med for af dansk'.split(' '),
-    et: 'ja see on et ei kui siis ka ning aga või ette eest eesti'.split(' '),
-    hr: 'i je u na za od s do iz po pri jer ali ili da ne bi će hrvatski'.split(' '),
-    lt: 'ir yra su į iš per nuo po prie bet arba kad kaip šis ši šitas šita lietuvių'.split(' '),
-    lv: 'un ir uz no ar pa pēc pie bet vai ka kā šis šī latviešu'.split(' '),
-    ms: 'dan yang di untuk pada dengan itu ini saya kamu dia kita mereka apa bisa ada tidak akan juga malaysia'.split(' '),
-    sl: 'in je v na z s do od za po pri ker ali če da ne bi slovenski'.split(' '),
-    sr: 'и је у на за од са из по при јер или ако да не би ће српски'.split(' '),
-    uk: 'і в на з до для по при про як що це цей ця ці український'.split(' '),
-    fa: 'و در به از با که این آن برای است را که تا از اما یا اگر چون فارسی'.split(' '),
-    bn: 'এবং এর মধ্যে যে জন্য সঙ্গে হয় না কর এই ওই আমি তুমি সে আমরা তারা বাংলা'.split(' '),
-    ta: 'மற்றும் இந்த ஒரு என்று உள்ளது நான் நீங்கள் அவர் அவள் அது நாங்கள் நீங்கள் அவர்கள் தமிழ்'.split(' '),
-    te: 'మరియు ఈ ఒక అని ఉంది నేను నువ్వు అతను ఆమె అది మేము మీరు వారు తెలుగు'.split(' '),
-    ml: 'ഒപ്പം ഈ ഒരു എന്ന് ഉണ്ട് ഞാൻ നീ അവൻ അവൾ അത് ഞങ്ങൾ നിങ്ങൾ അവർ മലയാളം'.split(' '),
-    kn: 'ಮತ್ತು ಈ ಒಂದು ಎಂದು ಇದೆ ನಾನು ನೀನು ಅವನು ಅವಳು ಅದು ನಾವು ನೀವು ಅವರು ಕನ್ನಡ'.split(' '),
-    mr: 'आणि हे एक की आहे मी तू तो ती ते आम्ही तुम्ही ते मराठी'.split(' '),
-    gu: 'અને આ એક કે છે હું તું તે તેણી તે અમે તમે તેઓ ગુજરાતી'.split(' '),
-    pa: 'ਅਤੇ ਇਹ ਇੱਕ ਕਿ ਹੈ ਮੈਂ ਤੂੰ ਉਹ ਉਹ ਇਹ ਅਸੀਂ ਤੁਸੀਂ ਉਹ ਪੰਜਾਬੀ'.split(' ')
-};
-
-function detectScript(text) {
-    if (!text) return null;
-    if (/[\u4E00-\u9FFF]/.test(text)) return 'zh';
-    if (/[\u3040-\u309F]/.test(text)) return 'ja';
-    if (/[\u30A0-\u30FF]/.test(text)) return 'ja';
-    if (/[\uAC00-\uD7AF]/.test(text)) return 'ko';
-    if (/[\u0900-\u097F]/.test(text)) return 'hi';
-    if (/[\u0980-\u09FF]/.test(text)) return 'bn';
-    if (/[\u0A00-\u0A7F]/.test(text)) return 'pa';
-    if (/[\u0A80-\u0AFF]/.test(text)) return 'gu';
-    if (/[\u0B00-\u0B7F]/.test(text)) return 'or';
-    if (/[\u0B80-\u0BFF]/.test(text)) return 'ta';
-    if (/[\u0C00-\u0C7F]/.test(text)) return 'te';
-    if (/[\u0C80-\u0CFF]/.test(text)) return 'kn';
-    if (/[\u0D00-\u0D7F]/.test(text)) return 'ml';
-    if (/[\u0D80-\u0DFF]/.test(text)) return 'si';
-    if (/[\u0E00-\u0E7F]/.test(text)) return 'th';
-    if (/[\u0E80-\u0EFF]/.test(text)) return 'lo';
-    if (/[\u0F00-\u0FFF]/.test(text)) return 'bo';
-    if (/[\u1000-\u109F]/.test(text)) return 'my';
-    if (/[\u1780-\u17FF]/.test(text)) return 'km';
-    if (/[\u0600-\u06FF]/.test(text)) return 'ar';
-    if (/[\u0750-\u077F]/.test(text)) return 'ar';
-    if (/[\uFB50-\uFDFF]/.test(text)) return 'ar';
-    if (/[\uFE70-\uFEFF]/.test(text)) return 'ar';
-    if (/[\u0590-\u05FF]/.test(text)) return 'he';
-    if (/[\uFB1D-\uFB4F]/.test(text)) return 'he';
-    if (/[\u0400-\u04FF]/.test(text)) return 'ru';
-    if (/[\u0500-\u052F]/.test(text)) return 'ru';
-    if (/[\u2DE0-\u2DFF]/.test(text)) return 'ru';
-    if (/[\uA640-\uA69F]/.test(text)) return 'ru';
-    if (/[\u0370-\u03FF]/.test(text)) return 'el';
-    if (/[\u10A0-\u10FF]/.test(text)) return 'ka';
-    if (/[\u0530-\u058F]/.test(text)) return 'hy';
-    if (/[\u1200-\u137F]/.test(text)) return 'am';
-    if (/[\u2D30-\u2D7F]/.test(text)) return 'ber';
-    return null;
-}
-
-function detectLanguageLocal(title, description = '') {
-    const text = (title + ' ' + description).trim();
-    if (!text) return 'en';
-    const scriptLang = detectScript(text);
-    if (scriptLang) return scriptLang;
-    const words = text.toLowerCase().split(/[\s,.;!?()\[\]{}"':-]+/).filter(w => w.length > 1);
-    const scores = {};
-    for (const lang in LANG_STOPWORDS) scores[lang] = 0;
-    for (const word of words) {
-        for (const lang in LANG_STOPWORDS) {
-            if (LANG_STOPWORDS[lang].includes(word)) {
-                scores[lang] += 1;
-            }
+    function updateReadButtonTranslation() {
+        const toggleBtn = document.getElementById('toggleReadBtn');
+        if (!toggleBtn) return;
+        const isRead = toggleBtn.classList.contains('read-btn');
+        const key = isRead ? 'marked_as_read' : 'mark_as_read';
+        const icon = toggleBtn.querySelector('i');
+        if (icon) {
+            const iconClone = icon.cloneNode(true);
+            toggleBtn.innerHTML = '';
+            toggleBtn.appendChild(iconClone);
+            toggleBtn.appendChild(document.createTextNode(' ' + t(key)));
+        } else {
+            toggleBtn.textContent = t(key);
         }
     }
-    const normalized = text.toLowerCase();
-    if (normalized.match(/[áàâãéêíóôõúüç]/i)) scores.pt = (scores.pt || 0) + 10;
-    if (normalized.match(/[áéíóúüñ¿¡]/i)) scores.es = (scores.es || 0) + 10;
-    if (normalized.match(/[àâçéèêëîïôœùûüÿ]/i)) scores.fr = (scores.fr || 0) + 10;
-    if (normalized.match(/[äöüß]/i)) scores.de = (scores.de || 0) + 10;
-    if (normalized.match(/[àèéìíîòóùú]/i)) scores.it = (scores.it || 0) + 8;
-    if (normalized.match(/[áéíóúýðþæö]/i)) scores.en = (scores.en || 0) + 2;
-    if (normalized.match(/[åäö]/i)) scores.sv = (scores.sv || 0) + 5;
-    if (normalized.match(/[æøå]/i)) scores.no = (scores.no || 0) + 5;
-    if (normalized.match(/[ěščřžýáíé]/i)) scores.cs = (scores.cs || 0) + 5;
-    if (normalized.match(/[ąčęėįšųūž]/i)) scores.lt = (scores.lt || 0) + 5;
-    let bestLang = 'en';
-    let maxScore = 0;
-    for (const lang in scores) {
-        if (scores[lang] > maxScore) {
-            maxScore = scores[lang];
-            bestLang = lang;
+
+    // ========== ENRIQUECIMENTO DE METADADOS ==========
+    async function enrichWithGoogleBooks(book) {
+        if (!book.title) return book;
+        const cacheKey = `google_enrich_${normalizeText(book.title)}_${normalizeText(book.rawAuthor || '')}`;
+        if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < METADATA_CACHE_TTL) {
+            const cached = metadataCache.get(cacheKey).data;
+            if (cached) return { ...book, ...cached };
+        }
+        try {
+            let query = `intitle:${encodeURIComponent(book.title)}`;
+            if (book.rawAuthor) query += `+inauthor:${encodeURIComponent(book.rawAuthor)}`;
+            let url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
+            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const response = await fetch(url);
+            if (!response.ok) return book;
+            const data = await response.json();
+            if (!data.items || data.items.length === 0) return book;
+            const volume = data.items[0].volumeInfo;
+            const enriched = {};
+            if (!book.cover && volume.imageLinks) {
+                enriched.cover = volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null;
+            }
+            if (!book.description && volume.description) {
+                enriched.description = volume.description;
+            }
+            if (!book.year && volume.publishedDate) {
+                enriched.year = volume.publishedDate.substring(0, 4);
+            }
+            if (!book.publisher && volume.publisher) {
+                enriched.publisher = volume.publisher;
+            }
+            if (!book.language && volume.language) {
+                enriched.language = volume.language;
+            }
+            if (Object.keys(enriched).length > 0) {
+                metadataCache.set(cacheKey, { data: enriched, timestamp: Date.now() });
+                return { ...book, ...enriched };
+            }
+            return book;
+        } catch (error) {
+            return book;
         }
     }
-    if (maxScore < 2) return 'en';
-    return bestLang;
-}
 
-// ========== BUSCA UNIFICADA ==========
-const languagePriority = { 'pt':1, 'en':2, 'es':3, 'zh':4, 'fr':5, 'de':6, 'it':7, 'ja':8, 'ru':9, 'ar':10, 'hi':11, 'ko':12 };
-
-async function searchAllContent(query, filterType = 'all') {
-    let results = [];
-    let channelIds = [];
-    if (filterType === 'podcast') channelIds = channelFilters.podcast || [];
-    else if (filterType === 'live') channelIds = channelFilters.live || [];
-    else if (filterType === 'shorts') channelIds = channelFilters.shorts || [];
-    else if (filterType === 'video') channelIds = channelFilters.video || [];
-    else channelIds = channelFilters.video || [];
-    if (filterType === 'podcast') results = await searchYouTube(query, 30, { podcastMode: true, channelIds });
-    else if (filterType === 'live') results = await searchYouTube(query, 30, { liveMode: true, channelIds });
-    else if (filterType === 'shorts') results = await searchYouTube(query, 30, { shortsMode: true, channelIds });
-    else if (filterType === 'video') results = await searchYouTube(query, 30, { channelIds });
-    else {
-        const [videos, podcasts, lives, shorts] = await Promise.all([
-            searchYouTube(query, 12, { channelIds: channelFilters.video || [] }),
-            searchYouTube(query, 12, { podcastMode: true, channelIds: channelFilters.podcast || [] }),
-            searchYouTube(query, 8, { liveMode: true, channelIds: channelFilters.live || [] }),
-            searchYouTube(query, 8, { shortsMode: true, channelIds: channelFilters.shorts || [] })
-        ]);
-        results = [...videos, ...podcasts, ...lives, ...shorts];
+    async function enrichWithOpenLibrary(book) {
+        if (!book.title) return book;
+        const cacheKey = `openlib_enrich_${normalizeText(book.title)}_${normalizeText(book.rawAuthor || '')}`;
+        if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < METADATA_CACHE_TTL) {
+            const cached = metadataCache.get(cacheKey).data;
+            if (cached) return { ...book, ...cached };
+        }
+        try {
+            let query = `title:${encodeURIComponent(book.title)}`;
+            if (book.rawAuthor) query += `&author:${encodeURIComponent(book.rawAuthor)}`;
+            const url = `https://openlibrary.org/search.json?q=${query}&limit=1`;
+            const response = await fetch(url);
+            if (!response.ok) return book;
+            const data = await response.json();
+            if (!data.docs || data.docs.length === 0) return book;
+            const doc = data.docs[0];
+            const enriched = {};
+            if (!book.cover && doc.cover_i) {
+                enriched.cover = `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`;
+            }
+            if (!book.description && doc.first_sentence) {
+                enriched.description = doc.first_sentence[0];
+            }
+            if (!book.year && doc.first_publish_year) {
+                enriched.year = doc.first_publish_year;
+            }
+            if (!book.publisher && doc.publisher) {
+                enriched.publisher = doc.publisher[0];
+            }
+            if (!book.language && doc.language) {
+                enriched.language = doc.language[0];
+            }
+            if (Object.keys(enriched).length > 0) {
+                metadataCache.set(cacheKey, { data: enriched, timestamp: Date.now() });
+                return { ...book, ...enriched };
+            }
+            return book;
+        } catch (error) {
+            return book;
+        }
     }
-    results.sort((a, b) => {
-        const langA = a.language?.slice(0,2) || 'en';
-        const langB = b.language?.slice(0,2) || 'en';
-        const priorityA = languagePriority[langA] || 99;
-        const priorityB = languagePriority[langB] || 99;
-        if (priorityA !== priorityB) return priorityA - priorityB;
-        if (a.isLive && !b.isLive) return -1;
-        if (!a.isLive && b.isLive) return 1;
-        return 0;
-    });
-    return results;
-}
 
-// ========== VÍDEOS LOCAIS ==========
-async function loadVideosFromJSON() {
-    try {
-        const r = await fetch('videos.json');
-        if (!r.ok) return [];
-        const data = await r.json();
-        console.log('[Videos] Arquivo videos.json carregado. Itens:', data.length);
+    async function enrichBookMetadata(book) {
+        if (!book.title) return book;
+        let enriched = await enrichWithGoogleBooks(book);
+        if (!enriched.cover || !enriched.description) {
+            enriched = await enrichWithOpenLibrary(enriched);
+        }
+        return enriched;
+    }
 
-        const result = data.map((item, idx) => {
-            const isPlaylist = item.url && (item.url.includes('playlist?list=') || item.url.includes('&list='));
-            
-            let videoId = null;
-            if (!isPlaylist) {
-                videoId = extractVideoId(item.url);
+    // ========== APIS EXTERNAS ==========
+    async function searchGoogleBooks(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `google_books_free_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${MAX_EXTERNAL_RESULTS}&printType=books&filter=free-ebooks`;
+            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return (data.items || []).map(book => {
+                const volume = book.volumeInfo || {};
+                const imageLinks = volume.imageLinks || {};
+                const cover = imageLinks.thumbnail || imageLinks.smallThumbnail || null;
+                const downloadLink = book.accessInfo?.webReaderLink || volume.previewLink || null;
+                return {
+                    id: `google_${book.id}`,
+                    title: volume.title || 'Sem título',
+                    author: formatAuthor(volume.authors?.join(', ') || t('unknown_author')),
+                    rawAuthor: volume.authors?.join(', ') || t('unknown_author'),
+                    description: volume.description || '',
+                    cover: cover,
+                    download: downloadLink,
+                    downloadLabel: t('download_book'),
+                    language: volume.language || 'en',
+                    publisher: volume.publisher || 'Google Books',
+                    source: 'Google Books',
+                    type: 'book',
+                    year: volume.publishedDate ? volume.publishedDate.substring(0, 4) : null
+                };
+            });
+        } catch (error) { console.warn('[Google Books] Erro:', error); return []; }
+    }
+
+    // ========== UTILITÁRIOS DE REDE ==========
+    async function fetchWithRetry(url, options = {}, maxRetries = 3, baseDelay = 1000) {
+        for (let i = 0; i <= maxRetries; i++) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (response.status === 429) {
+                    const delay = baseDelay * Math.pow(2, i);
+                    await new Promise(r => setTimeout(r, delay));
+                    continue;
+                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response;
+            } catch (error) {
+                if (i === maxRetries) throw error;
+                const delay = baseDelay * Math.pow(2, i);
+                await new Promise(r => setTimeout(r, delay));
             }
+        }
+        throw new Error(`Falha após ${maxRetries} tentativas`);
+    }
 
-            if (!isPlaylist && !videoId) {
-                console.warn('[Videos] ID não extraído para:', item.title);
-                return null;
+    async function fetchWithProxy(url, timeout = 15000, retries = 2) {
+        try {
+            const response = await fetchWithRetry(url, {}, retries, 1000);
+            if (response.ok) return response;
+        } catch (e) { /* fallback */ }
+        for (let i = 0; i < retries; i++) {
+            for (const proxy of CORS_PROXIES) {
+                try {
+                    const proxyUrl = proxy + encodeURIComponent(url);
+                    const response = await fetchWithRetry(proxyUrl, {}, 1, 1000);
+                    if (response.ok) return response;
+                } catch (e) { /* continua */ }
             }
+            await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+        }
+        throw new Error(`Falha ao acessar ${url}`);
+    }
 
-            let itemType = item.type || 'video';
-            if (itemType === 'story' || itemType === 'short') {
-                itemType = 'shorts';
-            }
-
-            const finalVideoId = isPlaylist ? `playlist_${idx}` : videoId;
-
-            let language = item.language;
-            if (!language) {
-                language = detectLanguageLocal(item.title, item.description || '');
-            }
-
-            let subject = item.subject;
-            if (!subject) {
-                subject = detectSubjectLocal(item.title, item.description || '');
-            }
-
-            const thumbnail = isPlaylist 
-                ? (item.thumbnail || 'https://placehold.co/120x90/1F2933/9CA3AF?text=Playlist')
-                : (item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
-
-            const videoObj = {
-                id: `local_${idx}`,
-                videoId: finalVideoId,
-                title: item.title,
-                description: item.description || '',
-                thumbnail: thumbnail,
-                type: itemType,
-                subject: subject,
-                language: language,
-                url: item.url,
-                source: 'Local',
-                isLive: itemType === 'live',
-                isPlaylist: isPlaylist,
-                originalUrl: item.url
-            };
-
-            if (idx < 5) {
-                console.log(`[Videos] Item ${idx}:`, {
-                    title: item.title,
-                    type: itemType,
-                    language: language,
-                    subject: subject,
-                    isPlaylist: isPlaylist
+    // ========== APIS EXTERNAS (simplificadas) ==========
+    async function searchArxiv(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `arxiv_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=0&max_results=${MAX_EXTERNAL_RESULTS}`;
+            const response = await fetchWithProxy(url, 15000);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, "text/xml");
+            const entries = xmlDoc.querySelectorAll('entry');
+            const results = [];
+            entries.forEach(entry => {
+                const title = entry.querySelector('title')?.textContent?.trim() || 'Sem título';
+                const authors = Array.from(entry.querySelectorAll('author name')).map(n => n.textContent).join(', ');
+                const summary = entry.querySelector('summary')?.textContent || '';
+                const id = entry.querySelector('id')?.textContent || '';
+                const pdfLink = id.replace('abs', 'pdf') + '.pdf';
+                results.push({
+                    id: `arxiv_${id.split('/').pop()}`,
+                    title,
+                    author: formatAuthor(authors),
+                    rawAuthor: authors,
+                    description: summary,
+                    cover: null,
+                    download: pdfLink,
+                    downloadLabel: t('download_book'),
+                    language: 'en',
+                    publisher: 'arXiv',
+                    source: 'arXiv',
+                    type: 'paper',
+                    year: null
                 });
+            });
+            apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
+            return results;
+        } catch (error) { console.warn('[arXiv] Erro:', error); return []; }
+    }
+
+    async function searchGutenberg(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `gutenberg_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = `https://gutendex.com/books?search=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return (data.results || []).map(book => ({
+                id: `gutenberg_${book.id}`,
+                title: book.title,
+                author: formatAuthor(book.authors?.map(a => a.name).join(', ') || t('unknown_author')),
+                rawAuthor: book.authors?.map(a => a.name).join(', ') || t('unknown_author'),
+                description: book.subjects?.join(', ') || '',
+                cover: book.formats?.['image/jpeg'] || null,
+                download: book.formats?.['text/plain'] || book.formats?.['application/pdf'] || book.formats?.['application/epub+zip'],
+                downloadLabel: t('download_book'),
+                language: book.languages?.[0] || 'en',
+                publisher: 'Project Gutenberg',
+                source: 'Gutenberg',
+                type: 'book',
+                year: null
+            }));
+        } catch (error) { console.warn('[Gutenberg] Erro:', error); return []; }
+    }
+
+    async function searchInternetArchive(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `ia_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}+AND+mediatype:texts&fl[]=title&fl[]=creator&fl[]=description&fl[]=identifier&fl[]=language&fl[]=publisher&fl[]=year&rows=${MAX_EXTERNAL_RESULTS}&output=json`;
+            const response = await fetchWithProxy(url);
+            const data = await response.json();
+            const docs = data.response?.docs || [];
+            return docs.map(doc => ({
+                id: `ia_${doc.identifier}`,
+                title: doc.title || 'Sem título',
+                author: formatAuthor(doc.creator),
+                rawAuthor: doc.creator,
+                description: doc.description || '',
+                cover: `https://archive.org/services/img/${doc.identifier}`,
+                download: `https://archive.org/download/${doc.identifier}/${doc.identifier}.pdf`,
+                downloadLabel: t('download_book'),
+                language: doc.language?.[0] || 'en',
+                publisher: doc.publisher?.[0] || 'Internet Archive',
+                source: 'Internet Archive',
+                type: 'book',
+                year: doc.year || null
+            }));
+        } catch (error) { console.warn('[Internet Archive] Erro:', error); return []; }
+    }
+
+    async function searchStandardEbooks(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `standard_ebooks_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = 'https://standardebooks.org/ebooks.json';
+            const response = await fetchWithProxy(url);
+            const contentType = response.headers.get('content-type');
+            if (!response.ok || !contentType || !contentType.includes('application/json')) return [];
+            const text = await response.text();
+            if (!text || text.trim().startsWith('<!DOCTYPE')) return [];
+            const data = JSON.parse(text);
+            const filtered = data.filter(book =>
+                book.title.toLowerCase().includes(query.toLowerCase()) ||
+                (book.author && book.author.toLowerCase().includes(query.toLowerCase()))
+            ).slice(0, MAX_EXTERNAL_RESULTS);
+            return filtered.map(book => ({
+                id: `standard_${book.id}`,
+                title: book.title,
+                author: formatAuthor(book.author),
+                rawAuthor: book.author,
+                description: book.description || '',
+                cover: `https://standardebooks.org${book.cover}`,
+                download: `https://standardebooks.org/ebooks/${book.id}/downloads`,
+                downloadLabel: t('access_online'),
+                language: book.language || 'en',
+                publisher: 'Standard Ebooks',
+                source: 'Standard Ebooks',
+                type: 'book',
+                year: null
+            }));
+        } catch (error) {
+            console.warn('[Standard Ebooks] Erro:', error);
+            return [];
+        }
+    }
+
+    async function searchDOAB(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `doab_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = `https://directory.doabooks.org/rest/search?query=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
+            const response = await fetchWithProxy(url);
+            const data = await response.json();
+            return (data.results || []).map(book => ({
+                id: `doab_${book.id}`,
+                title: book.title,
+                author: formatAuthor(book.author),
+                rawAuthor: book.author,
+                description: book.description || '',
+                cover: book.coverUrl || null,
+                download: book.downloadUrl,
+                downloadLabel: t('download_book'),
+                language: book.language || 'en',
+                publisher: book.publisher,
+                source: 'DOAB',
+                type: 'book',
+                year: book.year || null
+            }));
+        } catch (error) { console.warn('[DOAB] Erro:', error); return []; }
+    }
+
+    async function searchOpenLibrary(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        const cacheKey = `openlib_${normalizeText(query)}`;
+        if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
+        try {
+            const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return (data.docs || []).map(doc => {
+                let coverId = doc.cover_i;
+                let coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : null;
+                let downloadUrl = `https://openlibrary.org${doc.key}`;
+                return {
+                    id: `openlib_${doc.key.replace('/works/', '')}`,
+                    title: doc.title,
+                    author: formatAuthor(doc.author_name?.join(', ') || t('unknown_author')),
+                    rawAuthor: doc.author_name?.join(', ') || t('unknown_author'),
+                    description: doc.first_sentence?.[0] || '',
+                    cover: coverUrl,
+                    download: downloadUrl,
+                    downloadLabel: t('access_online'),
+                    language: doc.language?.[0] || 'en',
+                    publisher: doc.publisher?.[0] || 'Open Library',
+                    source: 'Open Library',
+                    type: 'book',
+                    year: doc.first_publish_year || null
+                };
+            });
+        } catch (error) { console.warn('[Open Library] Erro:', error); return []; }
+    }
+
+    // Placeholders para outras APIs
+    async function searchCORE(query) { return []; }
+    async function searchSemanticScholar(query) { return []; }
+    async function searchOpenAlex(query) { return []; }
+    async function searchNDLTD(query) { return []; }
+    async function searchOATD(query) { return []; }
+    async function searchPaperity(query) { return []; }
+    async function searchSSRN(query) { return []; }
+    async function searchBASE(query) { return []; }
+    async function searchHolyBooks(query) { return []; }
+    async function searchObooko(query) { return []; }
+    async function searchInfoBooks(query) { return []; }
+
+    async function searchExternalBooks(query) {
+        const promises = [
+            searchArxiv(query),
+            searchGutenberg(query),
+            searchInternetArchive(query),
+            searchStandardEbooks(query),
+            searchDOAB(query),
+            searchOpenLibrary(query),
+            searchGoogleBooks(query),
+            searchCORE(query), searchSemanticScholar(query), searchOpenAlex(query),
+            searchNDLTD(query), searchOATD(query), searchPaperity(query), searchSSRN(query),
+            searchBASE(query), searchHolyBooks(query), searchObooko(query), searchInfoBooks(query)
+        ];
+        const results = await Promise.allSettled(promises);
+        const all = [];
+        for (const res of results) {
+            if (res.status === 'fulfilled' && Array.isArray(res.value)) {
+                all.push(...res.value);
             }
-
-            return videoObj;
-        }).filter(v => v !== null);
-
-        console.log(`[Videos] ${result.length} itens (vídeos + playlists) carregados com sucesso.`);
-        return result;
-    } catch (e) {
-        console.error('[Videos] Erro ao carregar videos.json:', e);
-        return [];
-    }
-}
-
-function extractVideoId(url) {
-    if (!url) return null;
-    const patterns = [
-        /youtube\.com\/shorts\/([^?#]+)/i,
-        /youtube\.com\/watch\?v=([^&?#]+)/i,
-        /youtu\.be\/([^?#]+)/i,
-        /youtube\.com\/embed\/([^?#]+)/i,
-        /youtube\.com\/v\/([^?#]+)/i,
-        /youtube\.com\/e\/([^?#]+)/i
-    ];
-    for (const p of patterns) {
-        const match = url.match(p);
-        if (match && match[1]) {
-            return match[1].split('?')[0].split('&')[0];
         }
-    }
-    return null;
-}
-
-// ========== ATUALIZAÇÃO PRINCIPAL ==========
-async function refreshAllItems(term = '') {
-    showLoading();
-    try {
-        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve([]), 15000));
-        const [localVideos, onlineContent] = await Promise.allSettled([
-            loadVideosFromJSON(),
-            apiQuotaExceeded ? Promise.resolve([]) : Promise.race([
-                term.length >= 2 ? searchAllContent(term, currentTypeFilter) : searchAllContent('popular', currentTypeFilter),
-                timeoutPromise
-            ])
-        ]);
-        const localItems = (localVideos.status === 'fulfilled' ? localVideos.value : []);
-        const onlineItems = (onlineContent.status === 'fulfilled' ? onlineContent.value : []);
-        const seen = new Set();
-        const merged = [...localItems, ...onlineItems].filter(item => {
-            const key = `${item.videoId}|${item.source}`;
-            if (seen.has(key)) return false;
-            seen.add(key);
-            return true;
-        });
-        allItems = merged;
-        console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
-        // Reconstruir chips após atualização
-        buildSubjectChips();
-        buildLanguageChips(allItems);
-        updateAllContent();
-        // Aplicar traduções novamente para garantir
-        applyTranslationsToUI();
-    } catch (e) { console.error('Erro ao carregar itens:', e); }
-    finally { hideLoading(); }
-}
-
-// ========== PLAYER YOUTUBE ==========
-function isYouTubeAPIReady() { return typeof YT !== 'undefined' && YT.Player && YT.loaded; }
-function waitForYouTubeAPI(callback) {
-    if (isYouTubeAPIReady()) { callback(); return; }
-    if (apiLoadAttempts++ < MAX_API_ATTEMPTS) { setTimeout(() => waitForYouTubeAPI(callback), API_RETRY_DELAY); }
-    else { useFallbackPlayer(); }
-}
-function useFallbackPlayer() {
-    const wrapper = document.querySelector('.player-wrapper');
-    if (!wrapper) return;
-    const videoId = currentVideoId || (pendingVideo && pendingVideo.videoId);
-    if (!videoId) return;
-    wrapper.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>`;
-    if (pendingVideo) {
-        document.getElementById('playerTitle').textContent = pendingVideo.title;
-        document.getElementById('playerDescription').textContent = pendingVideo.description;
-        pendingVideo = null;
-    }
-    document.getElementById('playPauseBtn').style.display = 'none';
-    document.querySelector('.progress-container').style.display = 'none';
-    document.querySelector('.volume-control').style.display = 'none';
-    const existingMsg = document.querySelector('.fallback-message');
-    if (!existingMsg) {
-        const msgDiv = document.createElement('div'); msgDiv.className = 'fallback-message';
-        msgDiv.style.cssText = 'padding:0.5rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);';
-        msgDiv.innerHTML = `${t('player_fallback_active')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player')}</button>`;
-        wrapper.parentNode.insertBefore(msgDiv, wrapper.nextSibling);
-        document.getElementById('retryPlayerBtn').addEventListener('click', () => {
-            apiLoadAttempts = 0;
-            const title = document.getElementById('playerTitle').textContent;
-            const desc = document.getElementById('playerDescription').textContent;
-            closePlayer();
-            playVideo(currentVideoId, title, desc);
-        });
-    }
-    document.getElementById('playerContainer').style.display = 'block';
-}
-function onYouTubeIframeAPIReady() {
-    if (pendingVideo) { const p = pendingVideo; pendingVideo = null; playVideo(p.videoId, p.title, p.description); }
-}
-function createPlayer(videoId, startSeconds = 0) {
-    if (!isYouTubeAPIReady()) return false;
-    const wrapper = document.querySelector('.player-wrapper'); if (!wrapper) return false;
-    let el = document.getElementById('youtubePlayer'); if (!el) { el = document.createElement('div'); el.id = 'youtubePlayer'; wrapper.appendChild(el); }
-    if (player) { try { player.destroy(); } catch(e) {} player = null; }
-    try {
-        player = new YT.Player('youtubePlayer', {
-            videoId,
-            playerVars: {
-                autoplay: 1, controls: 0, modestbranding: 1, rel: 0,
-                start: Math.floor(startSeconds),
-                origin: window.location.origin,
-                host: window.location.host
-            },
-            events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: onPlayerError }
-        });
-        currentVideoId = videoId;
-        document.getElementById('playerContainer').style.display = 'block';
-        document.getElementById('playPauseBtn').style.display = 'flex';
-        document.querySelector('.progress-container').style.display = 'flex';
-        document.querySelector('.volume-control').style.display = 'flex';
-        return true;
-    } catch (e) { showPlayerError(t('player_error_generic')); return false; }
-}
-function onPlayerReady(event) {
-    playerReady = true;
-    const duration = player.getDuration();
-    document.getElementById('durationDisplay').textContent = formatTime(duration);
-    document.getElementById('progressBar').max = duration;
-    const savedVolume = localStorage.getItem('yt_player_volume');
-    const volSlider = document.getElementById('volumeSlider');
-    if (savedVolume !== null && volSlider) { player.setVolume(parseInt(savedVolume)); volSlider.value = savedVolume; }
-    startProgressUpdate();
-}
-function onPlayerStateChange(event) {
-    const btn = document.getElementById('playPauseBtn');
-    if (event.data === YT.PlayerState.PLAYING) {
-        btn.innerHTML = '<i class="fas fa-pause"></i>';
-        startProgressUpdate();
-        startWatchTimer();
-    } else if (event.data === YT.PlayerState.PAUSED) {
-        btn.innerHTML = '<i class="fas fa-play"></i>';
-        stopProgressUpdate();
-        saveVideoProgress();
-        stopWatchTimer();
-    } else if (event.data === YT.PlayerState.ENDED) {
-        btn.innerHTML = '<i class="fas fa-play"></i>';
-        stopProgressUpdate();
-        stopWatchTimer();
-    }
-    saveAllProgress();
-}
-function onPlayerError(e) {
-    let msg = t('player_error_generic');
-    if (e.data === 2) msg = t('player_error_removed');
-    else if (e.data === 5) msg = t('player_error_issue');
-    else if (e.data === 100) msg = t('player_error_not_found');
-    showPlayerError(msg);
-    stopWatchTimer();
-}
-function showPlayerError(msg) {
-    const w = document.querySelector('.player-wrapper'); if (w) w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i> ${msg}</div>`;
-    document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
-}
-function startProgressUpdate() {
-    if (updateTimer) clearInterval(updateTimer);
-    updateTimer = setInterval(() => {
-        if (playerReady && player && player.getCurrentTime) {
-            const ct = player.getCurrentTime();
-            document.getElementById('currentTimeDisplay').textContent = formatTime(ct);
-            document.getElementById('progressBar').value = ct;
-            if (Math.floor(ct) % 5 === 0) saveVideoProgress();
-        }
-    }, 500);
-}
-function stopProgressUpdate() { if (updateTimer) { clearInterval(updateTimer); updateTimer = null; } }
-function saveVideoProgress() { if (currentVideoId && playerReady) { videoProgress[currentVideoId] = player.getCurrentTime(); localStorage.setItem('yt_video_progress', JSON.stringify(videoProgress)); } }
-function loadVideoProgress(id) { const s = localStorage.getItem('yt_video_progress'); if (s) try { return JSON.parse(s)[id] || 0; } catch(e) {} return 0; }
-function formatTime(s) { const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = Math.floor(s%60); return h>0 ? `${h}:${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}` : `${m}:${sec.toString().padStart(2,'0')}`; }
-function toggleAudioMode() {
-    audioMode = !audioMode;
-    const c = document.getElementById('playerContainer'), b = document.getElementById('audioModeBtn');
-    if (!c || !b) return;
-    c.classList.toggle('audio-mode', audioMode); b.classList.toggle('audio-active', audioMode);
-    b.innerHTML = audioMode ? '<i class="fas fa-video"></i>' : '<i class="fas fa-headphones"></i>';
-}
-function setupPlayerControls() {
-    const playBtn = document.getElementById('playPauseBtn'), muteBtn = document.getElementById('muteUnmuteBtn'), volSlider = document.getElementById('volumeSlider'), progBar = document.getElementById('progressBar'), audioBtn = document.getElementById('audioModeBtn'), closeBtn = document.getElementById('closePlayerBtn');
-    if (playBtn) playBtn.addEventListener('click', () => { if (!playerReady) return; player.getPlayerState()===YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); });
-    if (muteBtn) muteBtn.addEventListener('click', () => { if (!playerReady) return; player.isMuted() ? (player.unMute(), muteBtn.innerHTML='<i class="fas fa-volume-up"></i>') : (player.mute(), muteBtn.innerHTML='<i class="fas fa-volume-mute"></i>'); });
-    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
-    if (progBar) progBar.addEventListener('input', e => { if (!playerReady) return; player.seekTo(+e.target.value, true); });
-    if (audioBtn) audioBtn.addEventListener('click', toggleAudioMode);
-    if (closeBtn) closeBtn.addEventListener('click', closePlayer);
-}
-function closePlayer() {
-    document.getElementById('playerContainer').style.display = 'none';
-    if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
-    stopProgressUpdate(); currentVideoId = null; audioMode = false;
-    stopWatchTimer();
-    document.getElementById('playerContainer').classList.remove('audio-mode');
-    document.getElementById('audioModeBtn')?.classList.remove('audio-active');
-    document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
-}
-function playVideo(videoId, title, description) {
-    document.getElementById('playerTitle').textContent = title;
-    document.getElementById('playerDescription').textContent = description;
-    const container = document.getElementById('playerContainer'); container.style.display = 'block';
-    container.classList.toggle('audio-mode', audioMode);
-    document.getElementById('audioModeBtn')?.classList.toggle('audio-active', audioMode);
-    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    currentVideoId = videoId;
-    document.querySelector('.fallback-message')?.remove();
-    document.getElementById('playPauseBtn').style.display = 'flex';
-    document.querySelector('.progress-container').style.display = 'flex';
-    document.querySelector('.volume-control').style.display = 'flex';
-    if (!isYouTubeAPIReady()) {
-        pendingVideo = { videoId, title, description };
-        waitForYouTubeAPI(() => { if (pendingVideo) { const p = pendingVideo; pendingVideo = null; playVideo(p.videoId, p.title, p.description); } });
-        return;
-    }
-    const start = loadVideoProgress(videoId);
-    if (!createPlayer(videoId, start)) useFallbackPlayer();
-}
-
-// ========== RENDERIZAÇÃO ==========
-function getSubjectIcon(s){
-    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','outros':'fa-tag'};
-    return i[s]||'fa-tag';
-}
-function formatDuration(sec) {
-    if (!sec) return '';
-    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
-}
-function createVideoCardHTML(v) {
-    let badge = '';
-    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
-    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
-    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts')}</span>`;
-    if (v.isPlaylist) {
-        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
+        console.log(`[Busca Externa] Total de ${all.length} livros encontrados`);
+        const enriched = await Promise.all(all.map(async book => await enrichBookMetadata(book)));
+        return enriched;
     }
 
-    const subjectName = getSubjectName(v.subject);
-    const subjectIcon = getSubjectIcon(v.subject);
-    const categoryBadge = `<span class="category-badge"><i class="fas ${subjectIcon}"></i> ${subjectName}</span>`;
+    // ========== UI DE CARREGAMENTO ==========
+    let loadingTimer = null;
+    let loadingMinTimer = null;
+    let uiState = { isLoading: false, hasResults: false, hasError: false };
 
-    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
-        <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
-        <div class="video-info">
-            <div class="video-title">${escapeHtml(v.title)}</div>
-            <div class="video-description">${escapeHtml(v.description)}</div>
-            <div class="video-meta">
-                <span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(v.language)}</span>
-                ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
-                ${categoryBadge}
+    function showLoading() {
+        if (loadingTimer) clearTimeout(loadingTimer);
+        if (loadingMinTimer) clearTimeout(loadingMinTimer);
+        uiState.isLoading = true;
+        if (!grid) return;
+        grid.innerHTML = '';
+        const skeleton = document.createElement('div');
+        skeleton.className = 'loading-skeleton';
+        skeleton.innerHTML = `
+            <div class="spinner"></div>
+            <div class="loading-progress-container">
+                <div class="loading-progress-bar"></div>
             </div>
-        </div>
-    </div>`;
-}
-function renderUnifiedGrid(items) {
-    const container = document.getElementById('videosContainer');
-    if (!container) return;
-    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos')}</p></div>`; return; }
-    let subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
-    let html = '';
-    for (const subj of subjects) {
-        let subjItems = items.filter(i => i.subject === subj);
-        if (currentSubjectFilter === 'all') subjItems = subjItems.slice(0, 10);
-        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items')}</div></div><div class="category-grid unified-grid">`;
-        subjItems.forEach(item => html += createVideoCardHTML(item));
-        html += `</div></div>`;
+            <p class="loading-text">${t('loading')}</p>
+        `;
+        grid.appendChild(skeleton);
+        const progressBar = skeleton.querySelector('.loading-progress-bar');
+        if (progressBar) {
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 90) clearInterval(interval);
+                else width += 10;
+                progressBar.style.width = width + '%';
+            }, 200);
+            skeleton._loadingInterval = interval;
+        }
+        loadingMinTimer = setTimeout(() => {}, 400);
     }
-    container.innerHTML = html;
-    container.querySelectorAll('.video-card').forEach(c => {
-        c.addEventListener('click', () => {
-            const isPlaylist = c.dataset.isPlaylist === 'true';
-            if (isPlaylist) {
-                const url = c.dataset.url;
-                if (url) window.open(url, '_blank');
+
+    function hideLoading() {
+        if (loadingTimer) clearTimeout(loadingTimer);
+        const minTimePromise = new Promise(resolve => {
+            if (loadingMinTimer) {
+                clearTimeout(loadingMinTimer);
+                loadingMinTimer = null;
+                resolve();
             } else {
-                playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description);
+                setTimeout(resolve, 400);
             }
         });
-    });
-}
-async function handleSearch() {
-    const term = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
-    currentSearchTerm = term;
-    await refreshAllItems(term);
-}
-function updateAllContent() {
-    let filtered = allItems.filter(item => {
-        if (currentSearchTerm && !item.title.toLowerCase().includes(currentSearchTerm) && !(item.description||'').toLowerCase().includes(currentSearchTerm)) return false;
-        if (currentTypeFilter !== 'all' && item.type !== currentTypeFilter) return false;
-        if (currentSubjectFilter !== 'all' && item.subject !== currentSubjectFilter) return false;
-        if (currentLanguageFilter !== 'all' && item.language !== currentLanguageFilter) return false;
-        return true;
-    });
-    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Assunto: ${currentSubjectFilter}, Idioma: ${currentLanguageFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
-    renderUnifiedGrid(filtered);
-    buildLanguageChips(filtered);
-    // Garantir que as traduções sejam aplicadas aos chips
-    applyTranslationsToUI();
-}
-function buildTypeChips() {
-    const c = document.getElementById('typeChips'); if (!c) return;
-    const types = [
-        {value:'all',label:t('all'),icon:'fa-globe'},
-        {value:'video',label:t('type_video'),icon:'fa-play-circle'},
-        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},
-        {value:'live',label:t('type_live'),icon:'fa-circle'},
-        {value:'shorts',label:t('type_shorts'),icon:'fa-film'}
-    ];
-    c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
-        currentTypeFilter = ch.dataset.type;
-        buildTypeChips();
-        await refreshAllItems(currentSearchTerm);
-        // Reaplicar traduções para garantir
-        applyTranslationsToUI();
-    }));
-}
-function buildSubjectChips() {
-    const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
-    const c = document.getElementById('subjectChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentSubjectFilter = ch.dataset.subject;
-        buildSubjectChips();
-        updateAllContent();
-        applyTranslationsToUI();
-    }));
-}
-function buildLanguageChips(items = allItems) {
-    const langs = [...new Set(items.map(i => i.language).filter(l => l))];
-    const c = document.getElementById('languageChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentLanguageFilter = ch.dataset.lang;
-        buildLanguageChips();
-        updateAllContent();
-        applyTranslationsToUI();
-    }));
-}
-function playRandomItem() {
-    if (!allItems.length) return;
-    const item = allItems[Math.floor(Math.random()*allItems.length)];
-    if (item.isPlaylist) {
-        if (item.url) window.open(item.url, '_blank');
-    } else {
-        playVideo(item.videoId, item.title, item.description);
+        minTimePromise.then(() => {
+            uiState.isLoading = false;
+            const skeleton = document.querySelector('.loading-skeleton');
+            if (skeleton) {
+                if (skeleton._loadingInterval) clearInterval(skeleton._loadingInterval);
+                skeleton.remove();
+            }
+        });
     }
-}
-function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`; }
-function hideLoading() {}
 
-// ========== CARREGAR FILTRO DE CANAIS ==========
-async function loadChannelFilters() {
-    try {
-        const response = await fetch('canais.json');
-        if (!response.ok) {
-            console.warn('[Auditório] canais.json não encontrado, usando fallback vazio.');
-            channelFilters = { video: [], podcast: [], live: [], shorts: [] };
+    function showEmptyState() {
+        if (uiState.isLoading || uiState.hasResults || uiState.hasError) return;
+        if (!grid) return;
+        grid.innerHTML = '';
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty-state';
+        emptyDiv.innerHTML = `<i class="fas fa-book-open"></i> ${t('no_results')}`;
+        grid.appendChild(emptyDiv);
+        document.getElementById('bookCount').innerText = '0';
+    }
+
+    function showErrorState() {
+        uiState.hasError = true;
+        if (!grid) return;
+        grid.innerHTML = '';
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-state';
+        errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${t('error_loading')}`;
+        grid.appendChild(errorDiv);
+        document.getElementById('bookCount').innerText = '0';
+    }
+
+    async function renderResultsIncrementally(items, targetContainer) {
+        if (!targetContainer) return;
+        targetContainer.innerHTML = '';
+        for (let i = 0; i < items.length; i++) {
+            const card = await createBookCard(items[i]);
+            if (card) {
+                targetContainer.appendChild(card);
+                if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
+            }
+        }
+        document.getElementById('bookCount').innerText = items.length;
+        applyAllTranslations();
+    }
+
+    function getLanguagePriority(langCode) {
+        if (!langCode) return 5;
+        const code = langCode.toLowerCase().slice(0, 2);
+        if (code === 'pt') return 1;
+        if (code === 'en') return 2;
+        if (code === 'es') return 3;
+        if (code === 'fr') return 4;
+        return 5;
+    }
+
+    function sortBooksByPriority(books) {
+        return [...books].sort((a, b) => {
+            if (a.sourceType === 'local' && b.sourceType !== 'local') return -1;
+            if (b.sourceType === 'local' && a.sourceType !== 'local') return 1;
+            const langA = getLanguagePriority(a.language);
+            const langB = getLanguagePriority(b.language);
+            if (langA !== langB) return langA - langB;
+            return (a.title || '').toLowerCase().localeCompare((b.title || '').toLowerCase());
+        });
+    }
+
+    function deduplicateBooks(books) {
+        const seen = new Map();
+        const unique = [];
+        for (const book of books) {
+            if (!book.title) continue;
+            const key = `${normalizeText(book.title)}|${normalizeText(book.rawAuthor || book.author)}|${book.repositoryName || book.source || ''}`;
+            const existing = seen.get(key);
+            if (!existing) {
+                seen.set(key, book);
+                unique.push(book);
+            } else {
+                if (!existing.download && book.download) {
+                    seen.set(key, book);
+                    unique[unique.indexOf(existing)] = book;
+                } else if (!existing.cover && book.cover) {
+                    seen.set(key, book);
+                    unique[unique.indexOf(existing)] = book;
+                }
+            }
+        }
+        return unique;
+    }
+
+    function filterByActiveTab(items) {
+        return items.filter(item => item.type === activeTab);
+    }
+
+    async function showResults(items) {
+        const filteredByType = items.filter(book => !isAudiobook(book));
+        const tabFiltered = filterByActiveTab(filteredByType);
+        const unique = deduplicateBooks(tabFiltered);
+        if (!grid) return;
+        uiState.hasResults = true;
+        uiState.hasError = false;
+        hideLoading();
+        if (!unique || unique.length === 0) {
+            showEmptyState();
             return;
         }
-        const data = await response.json();
-        if (data.video) channelFilters.video = data.video;
-        if (data.podcast) channelFilters.podcast = data.podcast;
-        if (data.live) channelFilters.live = data.live;
-        if (data.shorts) channelFilters.shorts = data.shorts;
-    } catch (e) {
-        console.warn('[Auditório] Erro ao carregar canais.json:', e);
-        channelFilters = { video: [], podcast: [], live: [], shorts: [] };
-    }
-}
-
-// ========== INICIALIZAÇÃO ==========
-document.addEventListener('DOMContentLoaded', async () => {
-    loadWatchTime();
-    console.log('[Auditório] Horas assistidas carregadas:', totalWatchTime);
-
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-    if (!window.YT) { 
-        const s = document.createElement('script'); 
-        s.src = 'https://www.youtube.com/iframe_api'; 
-        document.head.appendChild(s); 
-    }
-    
-    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
-    currentLang = savedLang;
-    await loadTranslations(currentLang);
-    applyTranslationsToUI();
-    updateLanguageSelector(currentLang);
-    
-    const langPtBtn = document.getElementById('langPtBtn');
-    const langEnBtn = document.getElementById('langEnBtn');
-
-    // Função auxiliar para aplicar tradução completa
-    async function applyFullTranslation(lang) {
-        console.log(`[Auditório] Aplicando tradução para ${lang}...`);
-        await loadTranslations(lang);
-        currentLang = lang;
-        localStorage.setItem('selectedLanguage', lang);
-        applyTranslationsToUI();       // Atualiza elementos estáticos
-        updateLanguageSelector(lang);
-        // Recria todos os chips (eles usam t() para os textos)
-        buildTypeChips();
-        buildSubjectChips();
-        buildLanguageChips(allItems);
-        // Atualiza o grid (os textos dos cards não mudam, mas os badges sim)
-        updateAllContent();
-        // Dispara evento global para outros módulos
-        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
-        console.log(`[Auditório] Tradução para ${lang} aplicada com sucesso.`);
+        const sorted = sortBooksByPriority(unique);
+        await renderResultsIncrementally(sorted, grid);
     }
 
-    if (langPtBtn) {
-        langPtBtn.addEventListener('click', async () => {
-            await applyFullTranslation('pt-br');
+    // ========== CRIAÇÃO DE CARD E MODAL ==========
+    async function createBookCard(item) {
+        if (!item || !item.title) return null;
+        let normalized = normalizeBookFields(item);
+        const coverUrl = normalized.cover || generateEnhancedColorCover(normalized.title);
+        normalized.cover = coverUrl;
+        let typeTagHtml = '';
+        const typeKey = `type_${normalized.type}`;
+        const typeText = t(typeKey, normalized.type);
+        let iconClass = '';
+        switch (normalized.type) {
+            case 'book': iconClass = 'fas fa-book';
+            break;
+            case 'article': iconClass = 'fas fa-file-alt';
+            break;
+            case 'paper': iconClass = 'fas fa-file-pdf';
+            break;
+            case 'tcc': iconClass = 'fas fa-graduation-cap';
+            break;
+            case 'dissertation': iconClass = 'fas fa-tasks';
+            break;
+            case 'thesis': iconClass = 'fas fa-award';
+            break;
+            default: iconClass = 'fas fa-file';
+        }
+        typeTagHtml = `<div class="mini-type-tag"><i class="${iconClass}"></i> ${typeText}</div>`;
+
+        const isRead = isBookRead(normalized.id);
+        const readBadge = isRead ? `<span class="read-badge"><i class="fas fa-check-circle"></i> ${t('marked_as_read')}</span>` : '';
+
+        const card = document.createElement('div');
+        card.className = 'book-mini-card';
+        card.style.cursor = 'pointer';
+        card.dataset.id = normalized.id;
+        card.innerHTML = `
+            <img class="mini-cover" src="${coverUrl}" alt="${escapeHtml(normalized.title)}" onerror="this.src='${generateEnhancedColorCover(normalized.title)}'">
+            <div class="mini-title">${escapeHtml(normalized.title)}</div>
+            <div class="mini-author">${escapeHtml(normalized.author)}</div>
+            <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
+            ${normalized.publisher ? `<div class="mini-publisher">${escapeHtml(normalized.publisher)}</div>` : ''}
+            ${typeTagHtml}
+            ${readBadge}
+        `;
+        card.addEventListener('click', () => showModal(normalized));
+        return card;
+    }
+
+    async function showModal(item) {
+        if (!item) return;
+        const enriched = await enrichBookMetadata(item);
+        const coverUrl = enriched.cover || generateEnhancedColorCover(enriched.title);
+        const fullAuthor = enriched.rawAuthor || enriched.author;
+        const isRead = isBookRead(enriched.id);
+
+        modal._currentItem = enriched;
+
+        modalBody.innerHTML = `
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <img class="modal-cover" src="${coverUrl}" alt="${escapeHtml(enriched.title)}" onerror="this.src='${generateEnhancedColorCover(enriched.title)}'">
+                <div class="modal-details">
+                    <h2>${escapeHtml(enriched.title)}</h2>
+                    <p><strong>${t('book_author')}:</strong> ${escapeHtml(fullAuthor)}</p>
+                    <p><strong>${t('book_year')}:</strong> ${escapeHtml(enriched.year || t('year_not_informed'))}</p>
+                    <p><strong>${t('book_publisher')}:</strong> ${escapeHtml(enriched.publisher || t('unknown_publisher'))}</p>
+                    <p><strong>${t('book_language')}:</strong> ${escapeHtml(enriched.language ? enriched.language.toUpperCase() : 'EN')}</p>
+                    ${enriched.repositoryName ? `<p><strong>${t('repository_prefix')}:</strong> ${escapeHtml(enriched.repositoryName)}</p>` : ''}
+                    <p><strong>Fonte:</strong> ${escapeHtml(enriched.source)}</p>
+                    ${enriched.type ? `<p><strong>Tipo:</strong> ${t('type_' + enriched.type, enriched.type)}</p>` : ''}
+                    <div class="modal-description">${escapeHtml(enriched.description || t('no_description'))}</div>
+                    <div id="actionButtons" class="modal-actions"></div>
+                    <div class="modal-read-actions">
+                        <button id="toggleReadBtn" class="action-btn ${isRead ? 'read-btn' : 'unread-btn'}">
+                            <i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}"></i>
+                            ${isRead ? t('marked_as_read') : t('mark_as_read')}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        renderActionButtons(enriched);
+
+        const toggleBtn = document.getElementById('toggleReadBtn');
+        if (toggleBtn) {
+            const newToggleBtn = toggleBtn.cloneNode(true);
+            toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+
+            newToggleBtn.addEventListener('click', function() {
+                const nowRead = toggleBookRead(enriched);
+                const key = nowRead ? 'marked_as_read' : 'mark_as_read';
+                const icon = this.querySelector('i');
+                if (icon) {
+                    const iconClone = icon.cloneNode(true);
+                    this.innerHTML = '';
+                    this.appendChild(iconClone);
+                    this.appendChild(document.createTextNode(' ' + t(key)));
+                } else {
+                    this.textContent = t(key);
+                }
+                this.className = `action-btn ${nowRead ? 'read-btn' : 'unread-btn'}`;
+                const card = document.querySelector(`.book-mini-card[data-id="${enriched.id}"]`);
+                if (card) {
+                    const existingBadge = card.querySelector('.read-badge');
+                    if (nowRead) {
+                        if (!existingBadge) {
+                            const badge = document.createElement('span');
+                            badge.className = 'read-badge';
+                            badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
+                            card.appendChild(badge);
+                        }
+                    } else {
+                        if (existingBadge) existingBadge.remove();
+                    }
+                }
+                modal._currentItem = enriched;
+            });
+            document.getElementById('toggleReadBtn');
+        }
+
+        modal.style.display = 'flex';
+        updateReadButtonTranslation();
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        modalBody.innerHTML = '';
+        modal._currentItem = null;
+    }
+
+    function generateEnhancedColorCover(title) {
+        if (!title) title = 'Sem título';
+        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
+        const colorIndex = Math.abs(title.length * 7) % colors.length;
+        const bgColor = colors[colorIndex];
+        const canvas = document.createElement('canvas');
+        canvas.width = 300;
+        canvas.height = 450;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        grad.addColorStop(0, bgColor);
+        grad.addColorStop(1, bgColor + 'cc');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const words = title.split(' ').filter(w => w.length > 0);
+        let initials = words.map(w => w[0].toUpperCase()).join('');
+        if (initials.length > 3) initials = initials.slice(0, 3);
+        if (initials.length === 0) initials = '?';
+        ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
+        return canvas.toDataURL('image/png');
+    }
+
+    function normalizeBookFields(book) {
+        const inferredType = inferBookType(book);
+        let finalLabel = book.download_label;
+        if (!finalLabel && book.download) finalLabel = detectDownloadLabelFromUrl(book.download);
+        return {
+            id: book.id || generateId(),
+            title: book.title || 'Sem título',
+            author: formatAuthor(book.author || t('unknown_author')),
+            rawAuthor: book.author || t('unknown_author'),
+            publisher: book.publisher || '',
+            year: book.year || null,
+            description: book.description || '',
+            cover: book.cover || null,
+            download: book.download || book.download_url || null,
+            downloadLabel: finalLabel || t('access_online'),
+            repositoryName: book.repositoryName || book.repository_name || null,
+            repositoryLink: book.repositoryLink || book.repository_link || null,
+            language: book.language || null,
+            isbn: book.isbn || null,
+            identifier: book.identifier || null,
+            type: inferredType,
+            sourceType: book.sourceType || 'local',
+            source: book.source || 'Local'
+        };
+    }
+
+    function createActionButton(book) {
+        const label = book.downloadLabel;
+        const url = book.download;
+        const repoLink = book.repositoryLink;
+        if (!url && !repoLink) {
+            const disabled = document.createElement('span');
+            disabled.textContent = label || t('unavailable');
+            disabled.className = 'action-btn disabled-btn';
+            return disabled;
+        }
+        const btn = document.createElement('a');
+        btn.textContent = label;
+        btn.className = 'action-btn download-btn';
+        btn.href = '#';
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (label === t('download_book') && url) {
+                await forceDownload(url, (book.title || 'documento').replace(/[^a-z0-9]/gi, '_') + '.pdf', repoLink);
+            } else if (url) {
+                window.open(url, '_blank');
+            } else if (repoLink) {
+                window.open(repoLink, '_blank');
+            } else {
+                alert(t('no_link_available'));
+            }
+        });
+        return btn;
+    }
+
+    function renderActionButtons(book) {
+        const container = document.getElementById('actionButtons');
+        if (!container) return;
+        container.innerHTML = '';
+        const mainBtn = createActionButton(book);
+        container.appendChild(mainBtn);
+        if (book.repositoryLink && book.download !== book.repositoryLink) {
+            const repoBtn = document.createElement('a');
+            repoBtn.textContent = book.repositoryName ? `${t('repository_prefix')} ${book.repositoryName}` : t('repository');
+            repoBtn.href = book.repositoryLink;
+            repoBtn.target = '_blank';
+            repoBtn.rel = 'noopener noreferrer';
+            repoBtn.className = 'action-btn repo-btn';
+            container.appendChild(repoBtn);
+        }
+    }
+
+    // ========== BIBLIOTECAS RECOMENDADAS ==========
+    async function loadExternalLibraries() {
+        try {
+            const response = await fetch('bibliotecas.json');
+            if (!response.ok) throw new Error('Erro ao carregar bibliotecas.json');
+            externalLibrariesData = await response.json();
+            renderExternalLibraries();
+        } catch (error) {
+            console.error('Erro ao carregar bibliotecas recomendadas:', error);
+            const container = document.getElementById('externalLibrariesGrid');
+            if (container) container.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-triangle"></i> ${t('error_loading')}</div>`;
+        }
+    }
+
+    function renderExternalLibraries() {
+        const container = document.getElementById('externalLibrariesGrid');
+        if (!container) return;
+        if (!externalLibrariesData || externalLibrariesData.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-globe"></i> ${t('no_results')}</div>`;
+            return;
+        }
+        let html = '';
+        externalLibrariesData.forEach(lib => {
+            const title = typeof lib.title === 'object'
+                ? (lib.title[currentLang] || lib.title['pt-br'] || '')
+                : lib.title || '';
+            const description = typeof lib.description === 'object'
+                ? (lib.description[currentLang] || lib.description['pt-br'] || '')
+                : lib.description || '';
+
+            const priceTag = lib.price === 'free' ? t('price_free') : (lib.price === 'paid' ? t('price_paid') : '');
+            const priceClass = lib.price === 'free' ? 'free' : 'paid';
+            const typeText = lib.type === 'digital' ? 'Digital' : (lib.type === 'physical' ? 'Físico' : 'Físico/Digital');
+
+            html += `
+                <div class="library-card" data-url="${escapeHtml(lib.url)}">
+                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=${encodeURIComponent(title.substring(0,2))}'">
+                    <div class="library-info">
+                        <div class="library-title">
+                            ${escapeHtml(title)}
+                            ${priceTag ? `<span class="library-price-tag ${priceClass}">${priceTag}</span>` : ''}
+                        </div>
+                        <div class="library-description">${escapeHtml(description)}</div>
+                        <span class="library-type-tag">${typeText}</span>
+                        <a href="${escapeHtml(lib.url)}" target="_blank" rel="noopener noreferrer" class="library-link">Acessar</a>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.library-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') return;
+                const url = card.dataset.url;
+                if (url) window.open(url, '_blank');
+            });
+        });
+        applyAllTranslations();
+    }
+
+    // ========== BUSCAS PRINCIPAIS ==========
+    async function performSearchWithFilters(query) {
+        if (activeMainTab !== 'library') return;
+        const trimmed = normalizeText(query);
+        const thisSearchId = ++currentSearchId;
+        uiState.currentSearchId = thisSearchId;
+        if (currentAbortController) currentAbortController.abort();
+        currentAbortController = new AbortController();
+
+        const cacheKey = `search_${trimmed}_${activeTab}`;
+        if (searchCache.has(cacheKey) && Date.now() - searchCache.get(cacheKey).timestamp < SEARCH_CACHE_TTL) {
+            showResults(searchCache.get(cacheKey).data);
+            return;
+        }
+
+        showLoading();
+
+        let localRaw = searchLocalBooks(trimmed);
+        const localResults = await Promise.all(localRaw.map(async book => enrichBookMetadata(book)));
+        if (thisSearchId !== currentSearchId) return;
+
+        let currentResults = [...localResults];
+        showResults(currentResults);
+
+        const globalTimeoutId = setTimeout(() => {
+            if (uiState.isLoading && thisSearchId === currentSearchId) {
+                if (currentResults.length === 0) showErrorState();
+                else hideLoading();
+            }
+        }, GLOBAL_TIMEOUT);
+
+        try {
+            if (trimmed.length >= MIN_SEARCH_LENGTH) {
+                const externalResults = await searchExternalBooks(trimmed);
+                const merged = [...currentResults, ...externalResults];
+                const unique = deduplicateBooks(merged);
+                searchCache.set(cacheKey, { data: unique, timestamp: Date.now() });
+                showResults(unique);
+            }
+        } catch (error) {
+            console.error('[Search] erro:', error);
+            if (thisSearchId === currentSearchId && currentResults.length === 0) showErrorState();
+        } finally {
+            clearTimeout(globalTimeoutId);
+            hideLoading();
+        }
+    }
+
+    const debouncedPerformSearch = debounce(performSearchWithFilters, 400);
+
+    function debounce(func, delay) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // ========== CARREGAMENTO LOCAL ==========
+    async function loadLocalBooks() {
+        const paths = ['books.json', './books.json', '../books.json', 'data/books.json'];
+        for (const path of paths) {
+            try {
+                const response = await fetch(path, { cache: 'no-store' });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        console.log(`[Biblioteca] ${data.length} livros carregados de ${path}`);
+                        return data.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
+                    }
+                }
+            } catch (e) { /* tenta próximo */ }
+        }
+        console.warn('[Biblioteca] Nenhum arquivo books.json encontrado. A biblioteca local estará vazia.');
+        return [];
+    }
+
+    function searchLocalBooks(query) {
+        if (!localBooksCache.length) return [];
+        if (!query || query.length < MIN_SEARCH_LENGTH) return localBooksCache.slice(0, 30);
+        const normalizedQuery = normalizeText(query);
+        const results = localBooksCache.map(book => {
+            let score = 0;
+            const title = normalizeText(book.title || '');
+            const author = normalizeText(book.author || '');
+            const description = normalizeText(book.description || '');
+            if (title === normalizedQuery) score += 100;
+            else if (title.includes(normalizedQuery)) score += 50;
+            if (author.includes(normalizedQuery)) score += 30;
+            if (description.includes(normalizedQuery)) score += 10;
+            return { book, score };
+        });
+        return results.filter(item => item.score > 0).sort((a, b) => b.score - a.score).map(item => item.book);
+    }
+
+    // ========== AUDIOBOOKS ==========
+    // Função para extrair o ID do vídeo do YouTube a partir da URL
+    function extractVideoId(url) {
+        if (!url) return null;
+        const patterns = [
+            /youtube\.com\/shorts\/([^?#]+)/i,
+            /youtube\.com\/watch\?v=([^&?#]+)/i,
+            /youtu\.be\/([^?#]+)/i,
+            /youtube\.com\/embed\/([^?#]+)/i,
+            /youtube\.com\/v\/([^?#]+)/i,
+            /youtube\.com\/e\/([^?#]+)/i
+        ];
+        for (const p of patterns) {
+            const match = url.match(p);
+            if (match && match[1]) {
+                return match[1].split('?')[0].split('&')[0];
+            }
+        }
+        return null;
+    }
+
+    // Carregar audiobooks com fallback de múltiplos caminhos
+    async function loadAudiobooks() {
+        const paths = [
+            'biblioteca/audiobooks.json',
+            'audiobooks.json',
+            './audiobooks.json',
+            '../audiobooks.json',
+            '/biblioteca/audiobooks.json'
+        ];
+        for (const path of paths) {
+            try {
+                console.log(`[Biblioteca] Tentando carregar audiobooks de: ${path}`);
+                const response = await fetch(path);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(`[Biblioteca] Audiobooks carregados de ${path}: ${data.length} itens`);
+                    return data.map(item => {
+                        const videoId = item.videoId || extractVideoId(item.url);
+                        return {
+                            ...item,
+                            type: 'audiobook',
+                            source: 'YouTube',
+                            videoId: videoId,
+                            cover: item.cover || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+                        };
+                    });
+                }
+            } catch (e) {
+                console.warn(`[Biblioteca] Falha ao carregar ${path}:`, e.message);
+            }
+        }
+        // Se não encontrar em nenhum caminho, retorna array vazio e loga aviso
+        console.warn('[Biblioteca] Nenhum arquivo audiobooks.json encontrado. A aba de audiobooks ficará vazia.');
+        return [];
+    }
+
+    // Renderizar audiobooks
+    function renderAudiobooks(audiobooks) {
+        const container = document.getElementById('audiobooksGrid');
+        if (!container) return;
+
+        if (!audiobooks || audiobooks.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-headphones"></i><p>${t('no_audiobooks')}</p></div>`;
+            return;
+        }
+
+        let html = '';
+        audiobooks.forEach(book => {
+            const cover = book.cover || `https://i.ytimg.com/vi/${book.videoId}/hqdefault.jpg`;
+            const duration = book.duration || '';
+            const year = book.year || '';
+
+            html += `
+                <div class="audiobook-card" data-video-id="${book.videoId}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}">
+                    <img class="audiobook-cover" src="${cover}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/120x90/1F2933/6C8CFF?text=Audiobook'">
+                    <div class="audiobook-info">
+                        <div class="audiobook-title">${escapeHtml(book.title)}</div>
+                        <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
+                        ${duration ? `<div class="audiobook-duration"><i class="fas fa-clock"></i> ${duration}</div>` : ''}
+                        ${year ? `<div class="audiobook-year">${year}</div>` : ''}
+                        <div class="audiobook-description">${escapeHtml(book.description)}</div>
+                        <button class="listen-btn" data-video-id="${book.videoId}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}">
+                            <i class="fas fa-play"></i> ${t('listen_button')}
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+        // Clique no card ou no botão "Ouvir"
+        container.querySelectorAll('.audiobook-card').forEach(card => {
+            const btn = card.querySelector('.listen-btn');
+            // Clique no card aciona o botão
+            card.addEventListener('click', function(e) {
+                if (e.target.closest('.listen-btn')) return;
+                if (btn) btn.click();
+            });
+        });
+
+        container.querySelectorAll('.listen-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const videoId = this.dataset.videoId;
+                const title = this.dataset.title;
+                const description = this.dataset.description;
+                playAudiobook(videoId, title, description);
+            });
         });
     }
-    if (langEnBtn) {
-        langEnBtn.addEventListener('click', async () => {
-            await applyFullTranslation('en');
+
+    // Reproduzir audiobook reutilizando o player do Auditório
+    function playAudiobook(videoId, title, description) {
+        // Verifica se o módulo do Auditório está disponível
+        if (window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
+            window.Auditorio.playVideo(videoId, title, description);
+            return;
+        }
+        // Fallback: tenta usar o player global do auditório (caso o objeto não esteja exposto)
+        if (window.playVideo && typeof window.playVideo === 'function') {
+            window.playVideo(videoId, title, description);
+            return;
+        }
+        // Último recurso: abre em nova guia
+        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+    }
+
+    // Carregar e exibir a aba de audiobooks
+    async function loadAudiobooksTab() {
+        const container = document.getElementById('audiobooksTabContent');
+        if (!container) return;
+
+        // Mostra indicador de carregamento
+        container.innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`;
+
+        const audiobooks = await loadAudiobooks();
+
+        // Limpa o container e renderiza
+        container.innerHTML = `
+            <div class="search-bar">
+                <input type="text" id="audiobookSearchInput" placeholder="${t('search_audiobooks_placeholder')}">
+            </div>
+            <div id="audiobooksGrid" class="audiobooks-grid"></div>
+        `;
+
+        renderAudiobooks(audiobooks);
+
+        // Configura busca
+        const searchInput = document.getElementById('audiobookSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(function() {
+                const term = this.value.trim().toLowerCase();
+                const filtered = audiobooks.filter(book =>
+                    book.title.toLowerCase().includes(term) ||
+                    (book.author && book.author.toLowerCase().includes(term))
+                );
+                renderAudiobooks(filtered);
+            }, 300));
+        }
+
+        applyAllTranslations();
+    }
+
+    // ========== ABAS E FILTROS ==========
+    function setupTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                if (tabId === activeTab) return;
+                activeTab = tabId;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                performSearchWithFilters(currentSearchTerm);
+            });
         });
     }
 
-    // Se o idioma atual for pt, ativa o botão PT
-    if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
-    else langEnBtn?.classList.add('active');
-    
-    await loadChannelFilters();
-    setupPlayerControls();
-    document.getElementById('searchInput').addEventListener('input', handleSearch);
-    document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
-    await refreshAllItems('');
-    buildTypeChips();
-    buildSubjectChips();
-    buildLanguageChips(allItems);
-    updateAllContent();
-});
+    function setupMainTabs() {
+        const mainTabs = document.querySelectorAll('.main-tab-btn');
+        const libraryContent = document.getElementById('libraryTabContent');
+        const audiobooksContent = document.getElementById('audiobooksTabContent');
+        const recommendedContent = document.getElementById('recommendedTabContent');
 
-// ========== REAGIR A MUDANÇAS DE IDIOMA ==========
-window.addEventListener('languageChanged', async function(e) {
-    const lang = e.detail.lang || 'pt-br';
-    if (lang !== currentLang) {
-        console.log(`[Auditório] Evento languageChanged recebido: ${lang}`);
-        await loadTranslations(lang);
-        currentLang = lang;
-        applyTranslationsToUI();
-        updateLanguageSelector(lang);
-        // Recria os chips e atualiza o grid
-        buildTypeChips();
-        buildSubjectChips();
-        buildLanguageChips(allItems);
-        updateAllContent();
-        // Atualiza botão de perfil e notas
+        mainTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.mainTab;
+                if (tabId === activeMainTab) return;
+                activeMainTab = tabId;
+                mainTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                libraryContent.classList.remove('active');
+                audiobooksContent.classList.remove('active');
+                recommendedContent.classList.remove('active');
+
+                if (tabId === 'library') {
+                    libraryContent.classList.add('active');
+                    performSearchWithFilters(currentSearchTerm);
+                } else if (tabId === 'audiobooks') {
+                    audiobooksContent.classList.add('active');
+                    loadAudiobooksTab();
+                } else if (tabId === 'recommended') {
+                    recommendedContent.classList.add('active');
+                    if (externalLibrariesData.length === 0) loadExternalLibraries();
+                    else renderExternalLibraries();
+                }
+            });
+        });
+    }
+
+    // ========== PERFIL ==========
+    function initProfile() {
         const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
-        }
-        const notasLink = document.querySelector('a[href="../notas/notas.html"]');
-        if (notasLink) {
-            const span = notasLink.querySelector('span');
-            if (span) span.innerText = t('notas_heading');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', () => {
+                if (window.openProfileModal) {
+                    window.openProfileModal();
+                } else {
+                    const modal = document.getElementById('profileModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        if (window.updateProfileModal) window.updateProfileModal();
+                    }
+                }
+            });
         }
     }
+
+    // ========== INICIALIZAÇÃO ==========
+    async function init() {
+        grid = document.getElementById('booksGrid');
+        searchInput = document.getElementById('searchInput');
+        modal = document.getElementById('bookModal');
+        modalBody = document.getElementById('modalBody');
+        closeModalBtn = document.querySelector('.close-modal');
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
+
+        // Carregar idioma
+        const savedLang = localStorage.getItem('selectedLanguage');
+        let initialLang = savedLang;
+        if (!initialLang) {
+            const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
+            initialLang = browserLang.startsWith('pt') ? 'pt-br' : 'en';
+        }
+        currentLang = initialLang;
+        await loadTranslations(currentLang);
+        applyAllTranslations();
+        updateLanguageSelector(currentLang);
+
+        // Configurar botões de idioma
+        const langPtBtn = document.getElementById('langPtBtn');
+        const langEnBtn = document.getElementById('langEnBtn');
+        if (langPtBtn) langPtBtn.addEventListener('click', async () => {
+            await loadTranslations('pt-br');
+            currentLang = 'pt-br';
+            localStorage.setItem('selectedLanguage', 'pt-br');
+            applyAllTranslations();
+            updateLanguageSelector('pt-br');
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+            else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
+            langPtBtn.classList.add('active');
+            langEnBtn.classList.remove('active');
+        });
+        if (langEnBtn) langEnBtn.addEventListener('click', async () => {
+            await loadTranslations('en');
+            currentLang = 'en';
+            localStorage.setItem('selectedLanguage', 'en');
+            applyAllTranslations();
+            updateLanguageSelector('en');
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+            else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
+            langEnBtn.classList.add('active');
+            langPtBtn.classList.remove('active');
+        });
+
+        setupMainTabs();
+        setupTabs();
+        await loadExternalLibraries();
+
+        localBooksCache = await loadLocalBooks();
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                debouncedPerformSearch(currentSearchTerm);
+            });
+        }
+
+        initProfile();
+
+        if (activeMainTab === 'library') {
+            await performSearchWithFilters('');
+        }
+    }
+
+    // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
+    window.addEventListener('languageChanged', function(e) {
+        const lang = e.detail.lang || currentLang;
+        currentLang = lang;
+        console.log(`[Biblioteca] Idioma alterado para: ${lang}, recarregando traduções...`);
+
+        loadTranslations(lang).then(() => {
+            applyAllTranslations();
+            updateLanguageSelector(lang);
+
+            const profileBtn = document.getElementById('profileBtn');
+            if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true') {
+                profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+            }
+            updateReadButtonTranslation();
+
+            if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) {
+                renderExternalLibraries();
+            }
+
+            if (modal && modal.style.display === 'flex' && modal._currentItem) {
+                setTimeout(() => {
+                    showModal(modal._currentItem);
+                }, 50);
+            }
+
+            if (activeMainTab === 'library') {
+                performSearchWithFilters(currentSearchTerm);
+            } else if (activeMainTab === 'audiobooks') {
+                loadAudiobooksTab();
+            }
+        });
+    });
+
+    init();
 });
