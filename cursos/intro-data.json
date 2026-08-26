@@ -1,6 +1,13 @@
 {
   "administracao": {
     "imageUrl": "cursos/graduacao/administracao/imagen-card.png",
+    "slides": [
+      {
+        "image": "slides/Administração.png",
+        "link": "#",
+        "alt": "Administração - Universidade Livre"
+      }
+    ],
     "socialLinks": [
       {
         "name": "Programação Dinâmica",
@@ -16,146 +23,12 @@
         "name": "Paulo R. Bonfá",
         "url": "https://www.youtube.com/@engenhariadereceita",
         "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/administracao",
-        "url": "https://github.com/Universidade-Livre/administracao",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>Administração</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para liderar e transformar organizações em um mundo em constante mudança.</p><p>O Curso de Administração da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão</strong>, combinando fundamentos teóricos com as práticas mais atuais do mercado. Desenvolvido para formar líderes capazes de tomar decisões estratégicas, gerir pessoas e processos, e impulsionar a inovação em diferentes tipos de organizações.</p><p>Este curso não é focado em uma área específica, mas sim em desenvolver uma visão sistêmica e habilidades multifuncionais, preparando você para atuar em finanças, marketing, operações, gestão de pessoas, estratégia, empreendedorismo e transformação digital.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de administração, economia e contabilidade</li><li>Gestão de pessoas, liderança e comportamento organizacional</li><li>Estratégia, governança e planejamento de negócios</li><li>Marketing, vendas e relacionamento com clientes</li><li>Finanças, análise de investimentos e controladoria</li><li>Gestão da produção, logística e cadeia de suprimentos</li><li>Empreendedorismo, inovação e startups</li><li>Transformação digital, Indústria 4.0 e economia digital</li><li>Tomada de decisão baseada em dados e Business Intelligence</li><li>Gestão de projetos, metodologias ágeis e governança corporativa</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas, distribuídas em 8 níveis de formação:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo e hábitos de aprendizagem)</li><li><strong>1ª Etapa:</strong> Bases da Administração (pensamento computacional, leitura crítica, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Fundamentos de Gestão (economia, estudos organizacionais, matemática financeira, comportamento humano, contabilidade, estatística)</li><li><strong>3ª Etapa:</strong> Gestão de Pessoas e Processos (gestão de pessoas, indicadores de desempenho, metodologias ágeis, sociologia, empreendedorismo, RH digital)</li><li><strong>4ª Etapa:</strong> Estratégia e Operações (direito, estratégia, produção, marketing)</li><li><strong>5ª Etapa:</strong> Finanças e Marketing Digital (estratégias financeiras, gestão do conhecimento, marketing digital, sistemas de informação)</li><li><strong>6ª Etapa:</strong> Inovação e Tecnologia (Indústria 4.0, organizações digitais, BI, planejamento tributário)</li><li><strong>7ª Etapa:</strong> Projetos e Cadeia de Suprimentos (gestão de projetos, supply chain, estudos organizacionais avançados, políticas públicas)</li><li><strong>8ª Etapa:</strong> Carreira e Inovação (gestão de carreira, impactos da IA, economia digital, cultura e startups)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e de negócios</li><li>Alinhados com as diretrizes curriculares de Administração</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com os exercícios e estudos de caso recomendados</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Construa seus próprios projetos e planos de negócio para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Administração!</p>"
+    "readmeContent": "<h1>Administração</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para liderar e transformar organizações em um mundo em constante mudança.</p><p>O Curso de Administração da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão</strong>, combinando fundamentos teóricos com as práticas mais atuais do mercado. Desenvolvido para formar líderes capazes de tomar decisões estratégicas, gerir pessoas e processos, e impulsionar a inovação em diferentes tipos de organizações.</p><p>Este curso não é focado em uma área específica, mas sim em desenvolver uma visão sistêmica e habilidades multifuncionais, preparando você para atuar em finanças, marketing, operações, gestão de pessoas, estratégia, empreendedorismo e transformação digital.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de administração, economia e contabilidade</li><li>Gestão de pessoas, liderança e comportamento organizacional</li><li>Estratégia, governança e planejamento de negócios</li><li>Marketing, vendas e relacionamento com clientes</li><li>Finanças, análise de investimentos e controladoria</li><li>Gestão da produção, logística e cadeia de suprimentos</li><li>Empreendedorismo, inovação e startups</li><li>Transformação digital, Indústria 4.0 e economia digital</li><li>Tomada de decisão baseada em dados e Business Intelligence</li><li>Gestão de projetos, metodologias ágeis e governança corporativa</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas, distribuídas em 8 níveis de formação.</p><p>Bem-vindo à jornada de aprendizado em Administração!</p>"
   },
-  "ciencia_computacao": {
-    "imageUrl": "cursos/graduacao/ciencia-computacao/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/ciencia-da-computacao",
-        "url": "https://github.com/Universidade-Livre/ciencia-da-computacao",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
-      }
-    ],
-    "readmeContent": "<h1>Ciência da Computação</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Ciência da Computação!</p><p>O Curso de Ciência da Computação oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Ciência da Computação</strong> usando materiais on-line e em Português do Brasil. Este Curso não é pensado para treinamento em tecnologias específicas ou focado em habilidades profissionais direcionadas ao mercado, e sim para aqueles que desejam uma educação própria, <strong>com qualidade</strong>, fundada nos conceitos fundamentais da computação e é planejada para alunos com disciplina, comprometimento e (o mais importante) bons hábitos de estudo majoritariamente independentes, mas que buscam o suporte de uma comunidade de outros estudantes no Brasil todo.</p><p>Este curso contém conteúdos que seriam vistos em um curso de Ciência da Computação organizados de forma estruturada. Os cursos em si são selecionados primariamente do conteúdo aberto de diversas Universidades e Institutos de Educação do Brasil. Entretanto, os cursos presentes na grade seguem os seguintes critérios:</p><p><strong>Bases para a criação do Currículo (Guidelines):</strong></p><p>Levamos em consideração - apesar de não termos implementado completamente conforme sugerido - os seguintes documentos sobre a formação de um currículo em Ciência da Computação. Continuaremos constantemente trabalhando e aceitando sugestões de melhorias para cada vez mais oferecer uma experiência melhor para todos os estudantes que seguem nosso guia aberto de conteúdos. Além das referências abaixo, também utilizamos como referência as grades curriculares de outras instituições de ensino superior brasileiras.</p><ul><li><a href=\"https://books-sol.sbc.org.br/index.php/sbc/catalog/view/134/586/904\">Referenciais de Formação para os Cursos de Graduação em Computação 2017 (SBC)</a></li><li><a href=\"https://www.inf.ufrgs.br/site/wp-content/uploads/2016/05/diretrizes_curriculares.pdf\">Diretrizes Curriculares de Cursos da Área de Computação e Informática (UFRGS)</a></li></ul><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que se espera do Currículo de Ciências da Computação</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada. Note que os livros, em sua maioria, não são gratuitos.</p>"
-  },
-  "computer-science": {
-    "imageUrl": "cursos/graduacao/computer-science/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "OSSU",
-        "url": "https://github.com/ossu/computer-science",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "Discord",
-        "url": "https://discord.com/channels/744385009028431943/744682430853808178",
-        "icon": "fa-brands fa-discord"
-      }
-    ],
-    "readmeContent": "<h1>Computer Science</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in computer science using online materials. It's not merely for career training or professional development. It's for those who want a proper, well-rounded grounding in concepts fundamental to all computing disciplines, and for those who have the discipline, will, and (most importantly!) good habits to obtain this education largely on their own, but with support from a worldwide community of fellow learners.</p><p>It is designed according to the degree requirements of undergraduate computer science majors, minus general education (non-CS) requirements, as it is assumed most of the people following this curriculum are already educated outside the field of CS. The courses themselves are among the very best in the world, often coming from Harvard, Princeton, MIT, etc., but specifically chosen to meet the following criteria.</p>"
-  },
-  "engenharia_computacao": {
-    "imageUrl": "cursos/graduacao/engenharia-computacao/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "Willian Justen",
-        "url": "https://www.youtube.com/@WillianJustenCursos",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/engenharia-computacao",
-        "url": "https://github.com/Universidade-Livre/engenharia-computacao",
-        "icon": "fa-brands fa-github"
-      }
-    ],
-    "readmeContent": "<h1>Engenharia de Computação</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação abrangente que integra hardware, software, sistemas embarcados, redes, automação e inteligência computacional.</p><p>O Curso de Engenharia de Computação da Universidade Livre Brasileira oferece <strong>uma educação completa</strong> que conecta os fundamentos da computação com a física, a eletrônica e a matemática aplicada. Este curso é ideal para quem deseja atuar na interseção entre o hardware e o software, projetando desde sistemas embarcados até infraestruturas de computação escalável.</p><p>Todo o conteúdo é gratuito e organizado em 8 etapas progressivas, com videoaulas selecionadas do YouTube e materiais complementares. O curso não é focado em uma tecnologia específica, mas sim em formar engenheiros com uma base sólida para resolver problemas reais, com pensamento crítico e capacidade de inovação.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada (cálculo, álgebra linear, estatística)</li><li>Circuitos digitais e sistemas embarcados</li><li>Engenharia de software e metodologias ágeis</li><li>Redes de computadores, IoT e protocolos de comunicação</li><li>Processamento digital de sinais e controle</li><li>Desenvolvimento web e para dispositivos móveis</li><li>Computação escalável, cidades inteligentes e impactos sociais</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 8 etapas, cada uma com disciplinas que abordam tópicos essenciais. As etapas são:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo, Git e GitHub)</li><li><strong>1ª Etapa:</strong> Bases da Computação (pensamento computacional, matemática básica, inglês, ética)</li><li><strong>2ª Etapa:</strong> Programação e Matemática (algoritmos, cálculo I, conceitos de computação, internet)</li><li><strong>3ª Etapa:</strong> Estruturas e Sistemas (sistemas computacionais, estruturas de dados, POO, bancos de dados, física, circuitos digitais)</li><li><strong>4ª Etapa:</strong> Engenharia de Software e Embarcados (engenharia de software, sistemas embarcados, IoT, álgebra linear)</li><li><strong>5ª Etapa:</strong> Infraestrutura e Web (infraestrutura de software, análise de dados, desenvolvimento web, IHC)</li><li><strong>6ª Etapa:</strong> Algoritmos e Sinais (mecânica, projeto de algoritmos, processamento de sinais, dispositivos móveis)</li><li><strong>7ª Etapa:</strong> Química, Controle e Estratégia (química tecnológica, controle e automação, planejamento de negócios, computação escalável)</li><li><strong>8ª Etapa:</strong> Sociedade e Legislação (impactos sociais, compiladores, cidades inteligentes, legislação profissional)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica</li><li>Alinhados com as diretrizes curriculares de Engenharia de Computação</li></ul><p>Todas as disciplinas possuem videoaulas e, quando disponível, bibliografia complementar. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com os exercícios e projetos recomendados</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Construa seus próprios projetos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Engenharia de Computação!</p>"
-  },
-  "engenharia-producao": {
-    "imageUrl": "cursos/graduacao/engenharia-producao/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/engenharia-producao",
-        "url": "https://github.com/Universidade-Livre/engenharia-producao",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
-      }
-    ],
-    "readmeContent": "<h1>Engenharia de Produção</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para projetar, implementar e gerenciar sistemas produtivos com eficiência e sustentabilidade.</p><p>O Curso de Engenharia de Produção da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão de operações</strong>, combinando fundamentos matemáticos, estatísticos e econômicos com as práticas mais atuais da engenharia de produção. Desenvolvido para formar engenheiros capazes de otimizar processos, reduzir desperdícios, melhorar a qualidade e aumentar a competitividade de organizações em diversos setores.</p><p>Este curso integra conhecimentos de engenharia, administração, economia e sustentabilidade, preparando você para atuar em áreas como: planejamento e controle da produção, logística, gestão da qualidade, pesquisa operacional, simulação, engenharia econômica, manufatura enxuta e gestão estratégica.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de engenharia, matemática e estatística</li><li>Gestão de operações e processos produtivos</li><li>Logística, cadeia de suprimentos e armazenagem</li><li>Controle estatístico de processo e gestão da qualidade</li><li>Pesquisa operacional e otimização de sistemas</li><li>Engenharia econômica e análise de investimentos</li><li>Manufatura enxuta e sistemas de produção</li><li>Gestão estratégica da produção e marketing</li><li>Indústria 4.0, inovação e sustentabilidade</li><li>Comportamento organizacional e gestão de projetos</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 10 etapas (0 a 9), distribuídas em:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo e hábitos de aprendizagem)</li><li><strong>1ª Etapa:</strong> Bases da Engenharia (pensamento computacional, leitura, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Fundamentos de Gestão e Economia (teoria econômica, estudos organizacionais, matemática financeira, contabilidade, estatística)</li><li><strong>3ª Etapa:</strong> Engenharia e Processos (algoritmos, indicadores, introdução à produção, cálculo I, empreendedorismo, materiais)</li><li><strong>4ª Etapa:</strong> Matemática, Desenho e Qualidade (cálculo II, desenho técnico, física, controle estatístico, gestão da qualidade)</li><li><strong>5ª Etapa:</strong> Projetos e Pesquisa Operacional (gestão de projetos, PO I e II, geometria analítica)</li><li><strong>6ª Etapa:</strong> Inovação e Sustentabilidade (indústria 4.0, ciências do ambiente, projeto de produto, simulação)</li><li><strong>7ª Etapa:</strong> Energia, Cadeia e Organização (química, cadeia de suprimentos, geração de energia, organização do trabalho)</li><li><strong>8ª Etapa:</strong> Logística, Economia e Custos (logística, engenharia econômica, sistemas de custeio)</li><li><strong>9ª Etapa:</strong> Estratégia e Marketing (manufatura enxuta, gestão estratégica da produção, marketing)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e industrial</li><li>Alinhados com as diretrizes curriculares de Engenharia de Produção</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com exercícios e estudos de caso</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos práticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Engenharia de Produção!</p>"
-  },
-  "gestao-publica": {
-    "imageUrl": "cursos/graduacao/gestao-publica/imagen-card.png",
+  "biologia": {
+    "imageUrl": "cursos/graduacao/biologia/imagen-card.png",
     "socialLinks": [
       {
         "name": "Programação Dinâmica",
@@ -168,178 +41,7 @@
         "icon": "fa-brands fa-youtube"
       }
     ],
-    "readmeContent": "<h1>Gestão Pública</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar na administração pública com eficiência, ética e transparência.</p><p>O Curso de Gestão Pública da Universidade Livre Brasileira oferece <strong>uma educação abrangente em administração pública</strong>, combinando fundamentos teóricos com as práticas mais atuais da gestão governamental. Desenvolvido para formar profissionais capazes de planejar, executar e avaliar políticas públicas, gerir recursos e pessoas, e promover a modernização da máquina pública.</p><p>Este curso integra conhecimentos de direito, economia, administração, finanças, logística, tecnologia da informação e sustentabilidade, preparando você para atuar em órgãos públicos, organizações sociais, entidades do terceiro setor e empresas que prestam serviços ao governo.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da administração pública e gestão governamental</li><li>Políticas públicas, planejamento e avaliação</li><li>Direito constitucional e administrativo</li><li>Gestão financeira, orçamentária e contabilidade pública</li><li>Gestão de pessoas, ética e legalidade no serviço público</li><li>Licitações, contratos e convênios públicos</li><li>Logística e gestão de materiais no setor público</li><li>Tecnologia da informação e inovação na gestão pública</li><li>Gestão ambiental e sustentabilidade</li><li>Comunicação, expressão e redação oficial</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6), organizadas em:</p><ul><li><strong>0ª Etapa:</strong> Técnicas de estudo e aprendizagem</li><li><strong>1ª Etapa:</strong> Fundamentos da Gestão Pública (sociedade, estado, governo, administração pública, comunicação, matemática, inglês)</li><li><strong>2ª Etapa:</strong> Políticas e Economia no Setor Público (políticas públicas, economia, metodologia da pesquisa, matemática financeira, inglês)</li><li><strong>3ª Etapa:</strong> Direito, Gestão de Pessoas e Tecnologia (direito constitucional, gestão de pessoas, TI, estatística, inglês)</li><li><strong>4ª Etapa:</strong> Ética, Projetos, Logística e Meio Ambiente (ética, gestão de projetos, logística, gestão ambiental, espanhol)</li><li><strong>5ª Etapa:</strong> Gestão Financeira, Processos e Licitações (finanças, processos, contratos, licitações)</li><li><strong>6ª Etapa:</strong> Planejamento, Qualidade, Contabilidade e Documentação (orçamento, qualidade, contabilidade, gestão documental)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e profissional</li><li>Alinhados com as diretrizes curriculares de Gestão Pública</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com exercícios e estudos de caso</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos práticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Gestão Pública!</p>"
-  },
-  "letras-portugues": {
-    "imageUrl": "cursos/graduacao/letras-portugues/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/letras-portugues",
-        "url": "https://github.com/Universidade-Livre/letras-portugues",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
-      }
-    ],
-    "readmeContent": "<h1>Letras – Habilitação em Língua Portuguesa</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Língua Portuguesa com excelência e paixão.</p><p>O Curso de Letras da Universidade Livre Brasileira oferece <strong>uma formação sólida em linguística, literatura e gramática</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Língua Portuguesa na Educação Básica. Este curso foi desenvolvido para formar educadores capazes de mediar o conhecimento linguístico e literário de forma significativa, crítica e transformadora.</p><p>Este curso integra fundamentos teóricos da linguagem com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação linguística na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da linguística e da gramática da língua portuguesa</li><li>Teoria e crítica literária</li><li>Literatura brasileira e portuguesa</li><li>Produção textual e análise do discurso</li><li>Didática e metodologias para o ensino de língua e literatura</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e LIBRAS</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8):</p><ul><li><strong>0ª Etapa:</strong> Técnicas de estudo e aprendizagem</li><li><strong>1ª Etapa:</strong> Bases da Educação e Linguagem</li><li><strong>2ª Etapa:</strong> Fundamentos Pedagógicos</li><li><strong>3ª Etapa:</strong> Currículo e Fundamentos Linguísticos</li><li><strong>4ª Etapa:</strong> Produção Textual e Fonética</li><li><strong>5ª Etapa:</strong> Aquisição e Literatura Brasileira</li><li><strong>6ª Etapa:</strong> Estudos Literários e Semântica</li><li><strong>7ª Etapa:</strong> Organização do Trabalho e Ensino</li><li><strong>8ª Etapa:</strong> Variação e Design Educacional</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica</li><li>Alinhados com as Diretrizes Curriculares Nacionais para a Licenciatura em Letras</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique a produção textual e a análise linguística</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva planos de aula e materiais didáticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Letras!</p>"
-  },
-  "matematica": {
-    "imageUrl": "cursos/graduacao/matematica/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/matematica",
-        "url": "https://github.com/Universidade-Livre/matematica",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
-      }
-    ],
-    "readmeContent": "<h1>Matemática</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Matemática!</p><p>O Curso oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Matemática</strong> usando materiais on-line e em Português do Brasil. Esse Curso é pensado para aqueles que desejam uma educação própria, <em>com qualidade</em>, fundada nos conceitos fundamentais da matemática e é planejada para alunos com disciplina, comprometimento e (o mais importante) bons hábitos de estudo majoritariamente independentes, mas que buscam o suporte de uma comunidade de outros estudantes no Brasil todo.</p><p>Esse curso contém conteúdos que seriam vistos em um curso de Matemática organizados de forma estruturada e que contêm disciplinas relacionadas ao campo de estudo e também disciplinas de formação geral. Os cursos em si são selecionados primariamente do conteúdo aberto de diversas Universidades e Institutos de Educação do Brasil, mas no geral os cursos presentes na grade seguem os seguintes critérios:</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que espera-se do Currículo de Matemática</li></ul>"
-  },
-  "matematica-licenciatura": {
-    "imageUrl": "cursos/graduacao/matematica-licenciatura/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/matematica-licenciatura",
-        "url": "https://github.com/Universidade-Livre/matematica-licenciatura",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "X",
-        "url": "https://twitter.com/UBLivre",
-        "icon": "fa-brands fa-x-twitter"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
-        "icon": "fab fa-linkedin"
-      },
-      {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/universidade_livre",
-        "icon": "fab fa-twitch"
-      }
-    ],
-    "readmeContent": "<h1>Matemática (Licenciatura)</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Matemática com excelência e paixão.</p><p>O Curso de Licenciatura em Matemática da Universidade Livre Brasileira oferece <strong>uma formação sólida em conteúdos matemáticos</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Matemática na Educação Básica. Este curso foi desenvolvido para formar educadores capazes de mediar o conhecimento matemático de forma significativa, crítica e transformadora.</p><p>Este curso integra fundamentos teóricos da matemática com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação matemática na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de matemática (álgebra, geometria, cálculo, estatística, lógica)</li><li>História e filosofia da matemática</li><li>Didática e metodologias para o ensino de matemática</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e especial</li><li>Uso de tecnologias e materiais didáticos no ensino de matemática</li><li>Práticas de ensino e estágio supervisionado</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8), organizadas em:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo e hábitos de aprendizagem)</li><li><strong>1ª Etapa:</strong> Bases da Educação (pensamento computacional, leitura, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Fundamentos Pedagógicos (história da educação, didática, psicologia, avaliação, políticas educacionais)</li><li><strong>3ª Etapa:</strong> Currículo e Matemática Elementar (teorias do currículo, fundamentos da matemática, geometria analítica, história da matemática)</li><li><strong>4ª Etapa:</strong> Inclusão e Geometria (educação especial, geometria euclidiana, LIBRAS, planejamento para ensino de matemática)</li><li><strong>5ª Etapa:</strong> Tecnologias e Cálculo I (educação mediada por tecnologias, cálculo I, álgebra linear, didática da matemática)</li><li><strong>6ª Etapa:</strong> Materiais e Cálculo II (materiais didáticos, cálculo II, geometria espacial, lógica e matemática discreta)</li><li><strong>7ª Etapa:</strong> Física e Cálculo III (física geral, cálculo III, estatística, educação de jovens e adultos)</li><li><strong>8ª Etapa:</strong> Cálculo IV e Práticas (cálculo IV, design educacional, álgebra, práticas para o ensino de matemática)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica</li><li>Alinhados com as Diretrizes Curriculares Nacionais para a Licenciatura em Matemática</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique os exercícios e resolva problemas</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva planos de aula e materiais didáticos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Matemática (Licenciatura)!</p>"
-  },
-  "math": {
-    "imageUrl": "cursos/graduacao/math/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "OSSU",
-        "url": "https://github.com/ossu/math",
-        "icon": "fa-brands fa-github"
-      },
-      {
-        "name": "Discord",
-        "url": "https://discord.com/channels/744385009028431943/870780483347292221",
-        "icon": "fa-brands fa-discord"
-      }
-    ],
-    "readmeContent": "<h1>Mathematics</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in mathematics using online materials. It's for those who want a proper grounding in concepts fundamental to all math disciplines, and for those who have the discipline, will, and good habits to obtain this education largely on their own, but with support from a worldwide community of fellow learners.</p><p>It is designed according to the degree requirements of undergraduate math majors, minus general education (non-math) requirements, as it is assumed most of the people following this curriculum are already educated outside the field of math. The courses themselves are among the very best in the world, often coming from Harvard, MIT, Stanford, etc., but specifically chosen to meet the following criteria.</p>"
-  },
-  "pedagogia": {
-    "imageUrl": "cursos/graduacao/pedagogia/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/pedagogia",
-        "url": "https://github.com/Universidade-Livre/pedagogia",
-        "icon": "fa-brands fa-github"
-      }
-    ],
-    "readmeContent": "<h1>Pedagogia</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja atuar na educação com excelência, sensibilidade e compromisso social.</p><p>O Curso de Pedagogia da Universidade Livre Brasileira oferece <strong>uma formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar e desenvolvimento infantil</strong>, preparando você para atuar na Educação Infantil, nos anos iniciais do Ensino Fundamental, na gestão educacional e em espaços não formais de educação.</p><p>Este curso foi desenvolvido para formar educadores capazes de mediar o conhecimento de forma significativa, crítica e transformadora, promovendo o desenvolvimento integral dos alunos e contribuindo para a construção de uma sociedade mais justa e democrática.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos históricos, filosóficos e sociológicos da educação</li><li>Didática e metodologias de ensino</li><li>Psicologia da educação e desenvolvimento infantil</li><li>Alfabetização e letramento</li><li>Educação especial e inclusiva</li><li>Gestão escolar e organização do trabalho pedagógico</li><li>Currículo e avaliação educacional</li><li>Educação de Jovens e Adultos (EJA)</li><li>Educação mediada por tecnologias</li><li>Literatura infanto-juvenil e arte na educação</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8):</p><ul><li><strong>0ª Etapa:</strong> Técnicas de estudo e aprendizagem</li><li><strong>1ª Etapa:</strong> Bases da Educação</li><li><strong>2ª Etapa:</strong> Fundamentos Pedagógicos</li><li><strong>3ª Etapa:</strong> Currículo e Fundamentos da Educação</li><li><strong>4ª Etapa:</strong> Educação Infantil e Inclusão</li><li><strong>5ª Etapa:</strong> Alfabetização e Tecnologias</li><li><strong>6ª Etapa:</strong> Fundamentos do Ensino</li><li><strong>7ª Etapa:</strong> Organização e Práticas</li><li><strong>8ª Etapa:</strong> Gestão e Design Educacional</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica</li><li>Alinhados com as Diretrizes Curriculares Nacionais para o curso de Pedagogia</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique a produção de planos de aula e materiais didáticos</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos pedagógicos para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Pedagogia!</p>"
-  },
-  "tecnologia-informacao": {
-    "imageUrl": "cursos/graduacao/tecnologia-informacao/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "Willian Justen",
-        "url": "https://www.youtube.com/@WillianJustenCursos",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UBL/tecnologia-informacao",
-        "url": "https://github.com/Universidade-Livre/tecnologia-informacao",
-        "icon": "fa-brands fa-github"
-      }
-    ],
-    "readmeContent": "<h1>Tecnologia da Informação</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar no desenvolvimento e gerenciamento de soluções tecnológicas.</p><p>O Curso de Tecnologia da Informação da Universidade Livre Brasileira oferece <strong>uma educação abrangente</strong> em programação, sistemas, redes, segurança, gestão e inovação, preparando você para os desafios do mercado de TI.</p><p>Este curso aborda desde os fundamentos da computação até tópicos avançados como engenharia de software, inteligência artificial e computação escalável, com ênfase em habilidades práticas e teóricas.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada à computação (cálculo, estatística, matemática discreta)</li><li>Bancos de dados, redes e segurança da informação</li><li>Desenvolvimento web e para dispositivos móveis</li><li>Engenharia de software e gestão de projetos</li><li>Sistemas de informação e computação escalável</li><li>Gestão da inovação e planejamento estratégico de negócios</li><li>Interface humano-computador e usabilidade</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6):</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo, Git e GitHub)</li><li><strong>1ª Etapa:</strong> Bases da Computação (pensamento computacional, leitura, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Programação e Matemática (algoritmos, cálculo, introdução à computação, internet)</li><li><strong>3ª Etapa:</strong> Sistemas e Estruturas (sistemas computacionais, estruturas de dados, POO, estatística, inovação)</li><li><strong>4ª Etapa:</strong> Banco de Dados e Desenvolvimento Web (banco de dados, infraestrutura, web, IHC)</li><li><strong>5ª Etapa:</strong> Engenharia, Segurança e Mobilidade (engenharia de software, segurança, machine learning, dispositivos móveis)</li><li><strong>6ª Etapa:</strong> Gestão e Estratégia (gerência e qualidade de software, sistemas de informação, computação escalável, planejamento estratégico)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e profissional</li><li>Alinhados com as diretrizes curriculares de Tecnologia da Informação</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com exercícios e projetos práticos</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos próprios para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Tecnologia da Informação!</p>"
+    "readmeContent": "<h1>Biologia</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Ciências e Biologia com excelência, paixão e compromisso com a vida.</p><p>O Curso de Licenciatura em Biologia da Universidade Livre Brasileira oferece <strong>uma formação sólida em fundamentos biológicos</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Ciências e Biologia na Educação Básica.</p><p>Este curso integra fundamentos teóricos da biologia com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação científica na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de biologia celular, molecular, genética, ecologia e evolução</li><li>Anatomia e fisiologia humana e comparada</li><li>Botânica e zoologia</li><li>Microbiologia, parasitologia e imunologia</li><li>Bioquímica e fisiologia vegetal</li><li>Didática e metodologias para o ensino de ciências e biologia</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e sustentabilidade</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8), organizadas de forma progressiva.</p><p>Bem-vindo à jornada de aprendizado em Biologia!</p>"
   },
   "ciencia-de-dados-bacharelado": {
     "imageUrl": "cursos/graduacao/ciencia-de-dados/imagen-card.png",
@@ -360,23 +62,7 @@
         "icon": "fa-brands fa-youtube"
       }
     ],
-    "readmeContent": "<h1>Ciência de Dados</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para extrair conhecimento e valor dos dados, combinando fundamentos de programação, matemática, estatística e aprendizado de máquina.</p><p>O Curso de Bacharelado em Ciência de Dados da Universidade Livre Brasileira oferece <strong>uma educação abrangente</strong> que integra os fundamentos da computação, matemática, estatística e técnicas avançadas de análise de dados. Este curso é ideal para quem deseja atuar na interseção entre tecnologia e negócios, transformando dados em insights estratégicos.</p><p>Todo o conteúdo é gratuito e organizado em 8 etapas progressivas, com videoaulas selecionadas do YouTube e materiais complementares. O curso não é focado em uma ferramenta específica, mas sim em formar profissionais com uma base sólida para resolver problemas reais usando dados.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada (cálculo, álgebra linear, estatística)</li><li>Bancos de dados e infraestrutura para análise de dados</li><li>Mineração de dados e aprendizado de máquina</li><li>Redes neurais, deep learning e visão computacional</li><li>Processamento de linguagem natural e IA</li><li>Visualização computacional e storytelling com dados</li><li>Computação escalável e big data</li><li>Ética, segurança e governança de dados</li><li>Planejamento estratégico e aplicação de dados em negócios</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 8 etapas (0 a 7), organizadas de forma progressiva:</p><ul><li><strong>0ª Etapa:</strong> Fundamentos (técnicas de estudo, Git e GitHub)</li><li><strong>1ª Etapa:</strong> Bases da Computação (pensamento computacional, leitura, ética, matemática básica, inglês)</li><li><strong>2ª Etapa:</strong> Programação e Matemática (algoritmos, cálculo, conceitos de computação, internet)</li><li><strong>3ª Etapa:</strong> Sistemas e Estruturas (sistemas computacionais, estruturas de dados, POO, estatística, inovação)</li><li><strong>4ª Etapa:</strong> Banco de Dados e Desenvolvimento Web (banco de dados, desenvolvimento web, introdução à ciência de dados)</li><li><strong>5ª Etapa:</strong> Engenharia e Modelagem (engenharia de software, modelagem estatística, geometria analítica, mineração de dados)</li><li><strong>6ª Etapa:</strong> Infraestrutura e Aprendizado (infraestrutura para sistemas, visualização, computação escalável, aprendizado de máquinas)</li><li><strong>7ª Etapa:</strong> Redes Neurais, Visão e Linguagem (redes neurais, visão computacional, aprendizado profundo)</li><li><strong>8ª Etapa:</strong> Segurança e Processamento de Linguagem (segurança da informação, processamento de linguagem natural, planejamento estratégico)</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e profissional</li><li>Alinhados com as diretrizes curriculares de Ciência de Dados</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com exercícios e projetos práticos</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Desenvolva projetos próprios de análise de dados para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Ciência de Dados!</p>"
-  },
-  "processos-gerenciais": {
-    "imageUrl": "cursos/graduacao/processos-gerenciais/imagen-card.png",
-    "socialLinks": [
-      {
-        "name": "Programação Dinâmica",
-        "url": "https://www.youtube.com/@pgdinamica",
-        "icon": "fa-brands fa-youtube"
-      },
-      {
-        "name": "UNIVESP",
-        "url": "https://www.youtube.com/@univesptv",
-        "icon": "fa-brands fa-youtube"
-      }
-    ],
-    "readmeContent": "<h1>Processos Gerenciais</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar na gestão de organizações com foco em processos, pessoas e resultados.</p><p>O Curso de Tecnologia em Processos Gerenciais da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão</strong>, combinando fundamentos teóricos com as práticas mais atuais do mercado. Desenvolvido para formar profissionais capazes de analisar, planejar e implementar melhorias em processos organizacionais, liderar equipes e tomar decisões baseadas em dados.</p><p>Este curso integra conhecimentos de administração, economia, finanças, marketing, gestão de pessoas, logística e tecnologia da informação, preparando você para atuar em diferentes setores da economia.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de administração, economia e contabilidade</li><li>Gestão de pessoas e comportamento organizacional</li><li>Estratégia, governança e planejamento de negócios</li><li>Marketing e relacionamento com clientes</li><li>Finanças e análise de investimentos</li><li>Gestão da produção, logística e cadeia de suprimentos</li><li>Empreendedorismo, inovação e startups</li><li>Análise e modelagem de processos</li><li>Ferramentas de Business Intelligence e tomada de decisão</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6):</p><ul><li><strong>0ª Etapa:</strong> Técnicas de estudo e aprendizagem</li><li><strong>1ª Etapa:</strong> Bases da Computação e Comunicação</li><li><strong>2ª Etapa:</strong> Fundamentos de Economia e Gestão</li><li><strong>3ª Etapa:</strong> Gestão de Pessoas e Processos</li><li><strong>4ª Etapa:</strong> Estratégia, Operações e Marketing</li><li><strong>5ª Etapa:</strong> Finanças, Processos e Sistemas</li><li><strong>6ª Etapa:</strong> Estratégia, Inovação e Ferramentas Gerenciais</li></ul><p><strong>Critérios de Seleção dos Conteúdos:</strong></p><ul><li>Gratuitos e de acesso aberto</li><li>Com método pedagógico claro</li><li>Reconhecidos pela comunidade acadêmica e de negócios</li><li>Alinhados com as diretrizes curriculares de Gestão e Processos Gerenciais</li></ul><p>Todas as disciplinas possuem videoaulas e materiais complementares. Você pode escolher seu próprio ritmo e aprofundar nos tópicos que mais lhe interessam.</p><p><strong>Como aproveitar ao máximo:</strong></p><ul><li>Assista às aulas na ordem sugerida para uma progressão lógica</li><li>Pratique com os exercícios e estudos de caso recomendados</li><li>Participe da comunidade para tirar dúvidas e trocar experiências</li><li>Utilize a biblioteca para consultar livros e materiais adicionais</li><li>Construa seus próprios projetos e planos de negócio para consolidar o conhecimento</li></ul><p>Bem-vindo à jornada de aprendizado em Processos Gerenciais!</p>"
+    "readmeContent": "<h1>Ciência de Dados (Bacharelado)</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para extrair conhecimento e valor dos dados, combinando fundamentos de programação, matemática, estatística e aprendizado de máquina.</p><p>O Curso de Bacharelado em Ciência de Dados da Universidade Livre Brasileira oferece <strong>uma educação abrangente</strong> que integra os fundamentos da computação, matemática, estatística e técnicas avançadas de análise de dados.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada (cálculo, álgebra linear, estatística)</li><li>Bancos de dados e infraestrutura para análise de dados</li><li>Mineração de dados e aprendizado de máquina</li><li>Redes neurais, deep learning e visão computacional</li><li>Processamento de linguagem natural e IA</li><li>Visualização computacional e storytelling com dados</li><li>Computação escalável e big data</li><li>Ética, segurança e governança de dados</li><li>Planejamento estratégico e aplicação de dados em negócios</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 8 etapas (0 a 7), organizadas de forma progressiva.</p><p>Bem-vindo à jornada de aprendizado em Ciência de Dados!</p>"
   },
   "ciencia_de_dados": {
     "imageUrl": "cursos/pos-graduacao/ciencia-de-dados/imagen-card.png",
@@ -402,7 +88,23 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>Ciência de Dados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em ciência de dados, desde os fundamentos até a aplicação prática em projetos, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Ciência de Dados</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>Ciência de Dados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em ciência de dados, desde os fundamentos até a aplicação prática em projetos, utilizando materiais gratuitos e de alta qualidade.</p><p>Bem-vindo à jornada de aprendizado em Ciência de Dados!</p>"
+  },
+  "computacao": {
+    "imageUrl": "cursos/graduacao/ciencia-computacao/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Ciência da Computação</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Ciência da Computação!</p><p>O Curso de Ciência da Computação oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Ciência da Computação</strong> usando materiais on-line e em Português do Brasil.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que se espera do Currículo de Ciências da Computação</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
   },
   "computacao_grafica": {
     "imageUrl": "cursos/pos-graduacao/computacao-grafica/imagen-card.png",
@@ -428,7 +130,23 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>Computação Gráfica</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação em Computação Gráfica: fundamentos e técnicas avançadas de renderização, modelagem, visualização, pipeline gráfico, GPU, OpenGL, shaders e ray tracing.</p><p>Este curso é voltado para profissionais e estudantes que desejam aprofundar seus conhecimentos na área de computação gráfica, utilizando materiais de alta qualidade e integração com plataformas externas.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós-graduação em Computação Gráfica</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>Computação Gráfica</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação em Computação Gráfica: fundamentos e técnicas avançadas de renderização, modelagem, visualização, pipeline gráfico, GPU, OpenGL, shaders e ray tracing.</p><p>Este curso é voltado para profissionais e estudantes que desejam aprofundar seus conhecimentos na área de computação gráfica, utilizando materiais de alta qualidade e integração com plataformas externas.</p><p>Bem-vindo à jornada de aprendizado em Computação Gráfica!</p>"
+  },
+  "computer-science": {
+    "imageUrl": "cursos/graduacao/computer-science/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "OSSU",
+        "url": "https://github.com/ossu/computer-science",
+        "icon": "fa-brands fa-github"
+      },
+      {
+        "name": "Discord",
+        "url": "https://discord.com/channels/744385009028431943/744682430853808178",
+        "icon": "fa-brands fa-discord"
+      }
+    ],
+    "readmeContent": "<h1>Computer Science</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in computer science using online materials. It's not merely for career training or professional development. It's for those who want a proper, well-rounded grounding in concepts fundamental to all computing disciplines.</p>"
   },
   "cybersecurity": {
     "imageUrl": "cursos/pos-graduacao/cybersecurity/imagen-card.png",
@@ -454,7 +172,7 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>CyberSecurity</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em segurança digital, desde os fundamentos até técnicas avançadas de proteção e resposta a incidentes, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em CyberSecurity</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>CyberSecurity</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em segurança digital, desde os fundamentos até técnicas avançadas de proteção e resposta a incidentes.</p><p>Bem-vindo à jornada de aprendizado em CyberSecurity!</p>"
   },
   "desenvolvimento_web": {
     "imageUrl": "cursos/pos-graduacao/desenvolvimento-web/imagen-card.png",
@@ -480,7 +198,7 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>Desenvolvimento Web</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em desenvolvimento web, desde os fundamentos até a criação de aplicações completas, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Desenvolvimento Web</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>Desenvolvimento Web</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em desenvolvimento web, desde os fundamentos até a criação de aplicações completas.</p><p>Bem-vindo à jornada de aprendizado em Desenvolvimento Web!</p>"
   },
   "devops": {
     "imageUrl": "cursos/pos-graduacao/devops/imagen-card.png",
@@ -506,7 +224,7 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>DevOps</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em DevOps, desde os fundamentos até a implementação de pipelines completos, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em DevOps</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>DevOps</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em DevOps, desde os fundamentos até a implementação de pipelines completos.</p><p>Bem-vindo à jornada de aprendizado em DevOps!</p>"
   },
   "embarcados": {
     "imageUrl": "cursos/pos-graduacao/embarcados/imagen-card.png",
@@ -532,10 +250,17 @@
         "icon": "fab fa-twitch"
       }
     ],
-    "readmeContent": "<h1>Embarcados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria e prática com plataformas externas.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em sistemas embarcados, desde o hardware básico até o firmware complexo, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o currículo de Pós‑graduação em Embarcados</li></ul><p>Todas as disciplinas possuem uma lista de leituras recomendadas. É de sua responsabilidade escolher a metodologia mais adequada.</p>"
+    "readmeContent": "<h1>Embarcados</h1><h3>Universidade Brasileira Livre</h3><p>Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria e prática com plataformas externas.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em sistemas embarcados, desde o hardware básico até o firmware complexo.</p><p>Bem-vindo à jornada de aprendizado em Embarcados!</p>"
   },
   "enem": {
     "imageUrl": "cursos/ensino-medio/enem/imagen-card.png",
+    "slides": [
+      {
+        "image": "slides/ENEM.png",
+        "link": "#",
+        "alt": "ENEM - Universidade Livre"
+      }
+    ],
     "socialLinks": [
       {
         "name": "LeandroStanger/UniversidadeLivre",
@@ -545,32 +270,56 @@
     ],
     "readmeContent": "<h1>ENEM</h1><h3>Universidade Livre</h3><p>Preparação completa para o Exame Nacional do Ensino Médio.</p><p>Este curso reúne videoaulas organizadas por área de conhecimento, seguindo a matriz de referência do ENEM. Todo o conteúdo é gratuito e foi selecionado para cobrir os tópicos mais recorrentes nas provas.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida ou foque nas áreas que você tem mais dificuldade.</li><li>Utilize os materiais complementares e livros recomendados na bibliografia de cada disciplina.</li><li>Ao final, realize o simulado disponível na última etapa para avaliar seu desempenho.</li></ul><p>Bons estudos e sucesso no ENEM!</p>"
   },
-  "espcex": {
-    "imageUrl": "cursos/ensino-medio/espcex/imagen-card.png",
-    "socialLinks": [
+  "engenharia-producao": {
+    "imageUrl": "cursos/graduacao/engenharia-producao/imagen-card.png",
+    "slides": [
       {
-        "name": "LeandroStanger/UniversidadeLivre",
-        "url": "https://github.com/LeandroStanger/UniversidadeLivre",
-        "icon": "fa-brands fa-github"
+        "image": "slides/Engenharia de Produção.png",
+        "link": "#",
+        "alt": "Engenharia de Produção - Universidade Livre"
       }
     ],
-    "readmeContent": "<h1>EsPCEx</h1><h3>Universidade Livre</h3><p>Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx).</p><p>Este curso foi estruturado para cobrir todo o conteúdo programático do exame, com videoaulas gratuitas organizadas por disciplina. Você encontrará aulas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, além de uma etapa dedicada a provas anteriores.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Siga a ordem das etapas ou priorize as disciplinas em que tem mais dificuldade.</li><li>Complemente os estudos com livros e apostilas específicos da EsPCEx.</li><li>Acesse a última etapa para praticar com provas anteriores e familiarize-se com o estilo da banca.</li></ul><p>Bons estudos e sucesso na EsPCEx!</p>"
-  },
-  "ingles": {
-    "imageUrl": "cursos/idiomas/ingles/imagen-card.png",
     "socialLinks": [
       {
-        "name": "Teacher Lory",
-        "url": "https://www.youtube.com/@TeacherLory",
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
         "icon": "fa-brands fa-youtube"
       },
       {
-        "name": "Learn English Lab",
-        "url": "https://www.youtube.com/@LearnEnglishLabYT",
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
         "icon": "fa-brands fa-youtube"
       }
     ],
-    "readmeContent": "<h1>Inglês</h1><h3>Universidade Livre</h3><p>Curso completo de Inglês do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do inglês!</p>"
+    "readmeContent": "<h1>Engenharia de Produção</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para projetar, implementar e gerenciar sistemas produtivos com eficiência e sustentabilidade.</p><p>O Curso de Engenharia de Produção da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão de operações</strong>, combinando fundamentos matemáticos, estatísticos e econômicos com as práticas mais atuais da engenharia de produção.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de engenharia, matemática e estatística</li><li>Gestão de operações e processos produtivos</li><li>Logística, cadeia de suprimentos e armazenagem</li><li>Controle estatístico de processo e gestão da qualidade</li><li>Pesquisa operacional e otimização de sistemas</li><li>Engenharia econômica e análise de investimentos</li><li>Manufatura enxuta e sistemas de produção</li><li>Gestão estratégica da produção e marketing</li><li>Indústria 4.0, inovação e sustentabilidade</li><li>Comportamento organizacional e gestão de projetos</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 10 etapas (0 a 9).</p><p>Bem-vindo à jornada de aprendizado em Engenharia de Produção!</p>"
+  },
+  "engenharia_computacao": {
+    "imageUrl": "cursos/graduacao/engenharia-computacao/imagen-card.png",
+    "slides": [
+      {
+        "image": "slides/Engenharia de Computação.png",
+        "link": "#",
+        "alt": "Engenharia de Computação - Universidade Livre"
+      }
+    ],
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Willian Justen",
+        "url": "https://www.youtube.com/@WillianJustenCursos",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Engenharia de Computação</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação abrangente que integra hardware, software, sistemas embarcados, redes, automação e inteligência computacional.</p><p>O Curso de Engenharia de Computação da Universidade Livre Brasileira oferece <strong>uma educação completa</strong> que conecta os fundamentos da computação com a física, a eletrônica e a matemática aplicada.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada (cálculo, álgebra linear, estatística)</li><li>Circuitos digitais e sistemas embarcados</li><li>Engenharia de software e metodologias ágeis</li><li>Redes de computadores, IoT e protocolos de comunicação</li><li>Processamento digital de sinais e controle</li><li>Desenvolvimento web e para dispositivos móveis</li><li>Computação escalável, cidades inteligentes e impactos sociais</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 8 etapas.</p><p>Bem-vindo à jornada de aprendizado em Engenharia de Computação!</p>"
   },
   "espanhol": {
     "imageUrl": "cursos/idiomas/espanhol/imagen-card.png",
@@ -602,7 +351,73 @@
         "icon": "fa-solid fa-book"
       }
     ],
-    "readmeContent": "<h1>Spanish (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Spanish course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo and Babbel.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 2 hours per stage</li><li><a href=\"https://www.babbel.com/?locale=en\" target=\"_blank\">Babbel</a> - 2 hours per stage</li></ul><p>Good luck and enjoy your journey learning Spanish!</p><p>¡Buena suerte y disfruta tu viaje aprendiendo español!</p>"
+    "readmeContent": "<h1>Spanish (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Spanish course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo and Babbel.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p>Good luck and enjoy your journey learning Spanish!</p><p>¡Buena suerte y disfruta tu viaje aprendiendo español!</p>"
+  },
+  "espcex": {
+    "imageUrl": "cursos/ensino-medio/espcex/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "LeandroStanger/UniversidadeLivre",
+        "url": "https://github.com/LeandroStanger/UniversidadeLivre",
+        "icon": "fa-brands fa-github"
+      }
+    ],
+    "readmeContent": "<h1>EsPCEx</h1><h3>Universidade Livre</h3><p>Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx).</p><p>Este curso foi estruturado para cobrir todo o conteúdo programático do exame, com videoaulas gratuitas organizadas por disciplina. Você encontrará aulas de Matemática, Português, Física, Química, História, Geografia, Inglês e Redação, além de uma etapa dedicada a provas anteriores.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Siga a ordem das etapas ou priorize as disciplinas em que tem mais dificuldade.</li><li>Complemente os estudos com livros e apostilas específicos da EsPCEx.</li><li>Acesse a última etapa para praticar com provas anteriores e familiarize-se com o estilo da banca.</li></ul><p>Bons estudos e sucesso na EsPCEx!</p>"
+  },
+  "fisica": {
+    "imageUrl": "cursos/graduacao/fisica/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Física</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Física com excelência, rigor científico e paixão pela ciência.</p><p>O Curso de Licenciatura em Física da Universidade Livre Brasileira oferece <strong>uma formação sólida em fundamentos físicos</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Física na Educação Básica.</p><p>Este curso integra fundamentos teóricos da física com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação científica na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de mecânica, termodinâmica, óptica, eletromagnetismo e física moderna</li><li>Matemática aplicada à física (cálculo, geometria analítica, equações diferenciais)</li><li>Mecânica clássica e avançada</li><li>Oscilações, ondas e acústica</li><li>Física quântica, relatividade e estrutura da matéria</li><li>Eletromagnetismo e suas aplicações</li><li>Didática e metodologias para o ensino de física</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 14 etapas (0 a 13), organizadas de forma progressiva, cobrindo desde técnicas de estudo até tópicos avançados em física.</p><p>Bem-vindo à jornada de aprendizado em Física!</p>"
+  },
+  "gestao-publica": {
+    "imageUrl": "cursos/graduacao/gestao-publica/imagen-card.png",
+    "slides": [
+      {
+        "image": "slides/Gestão Pública.png",
+        "link": "#",
+        "alt": "Gestão Pública - Universidade Livre"
+      }
+    ],
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Gestão Pública</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar na administração pública com eficiência, ética e transparência.</p><p>O Curso de Gestão Pública da Universidade Livre Brasileira oferece <strong>uma educação abrangente em administração pública</strong>, combinando fundamentos teóricos com as práticas mais atuais da gestão governamental.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da administração pública e gestão governamental</li><li>Políticas públicas, planejamento e avaliação</li><li>Direito constitucional e administrativo</li><li>Gestão financeira, orçamentária e contabilidade pública</li><li>Gestão de pessoas, ética e legalidade no serviço público</li><li>Licitações, contratos e convênios públicos</li><li>Logística e gestão de materiais no setor público</li><li>Tecnologia da informação e inovação na gestão pública</li><li>Gestão ambiental e sustentabilidade</li><li>Comunicação, expressão e redação oficial</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6).</p><p>Bem-vindo à jornada de aprendizado em Gestão Pública!</p>"
+  },
+  "ingles": {
+    "imageUrl": "cursos/idiomas/ingles/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Teacher Lory",
+        "url": "https://www.youtube.com/@TeacherLory",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Learn English Lab",
+        "url": "https://www.youtube.com/@LearnEnglishLabYT",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Inglês</h1><h3>Universidade Livre</h3><p>Curso completo de Inglês do nível A1 ao C2, organizado por etapas de proficiência.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo gramática, vocabulário, pronúncia, leitura e compreensão auditiva. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Assista às aulas na ordem sugerida, começando pelo nível A1.</li><li>Pratique diariamente e utilize os recursos complementares, como o MEC Idiomas.</li><li>Ao final de cada etapa, revise os conteúdos e prossiga para o próximo nível.</li></ul><p>Bons estudos e boa jornada no aprendizado do inglês!</p>"
   },
   "japones": {
     "imageUrl": "cursos/idiomas/japones/imagen-card.png",
@@ -638,7 +453,7 @@
         "icon": "fa-solid fa-brain"
       }
     ],
-    "readmeContent": "<h1>Japonês</h1><h3>Universidade Livre</h3><p>Curso completo de Japonês do zero, organizado por etapas de aprendizado.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo os sistemas de escrita (Hiragana e Katakana), vocabulário básico, gramática essencial e prática com animes. Todo o conteúdo foi selecionado para proporcionar uma progressão natural do aprendizado.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Comece pela 0ª Etapa para aprender Hiragana e Katakana.</li><li>Pratique diariamente com as plataformas HeyJapan, Duolingo e Memrise.</li><li>Assista às aulas básicas para construir seu vocabulário e gramática.</li><li>Na 2ª Etapa, pratique com animes para melhorar sua compreensão auditiva.</li></ul><p><strong>Plataformas de prática externas:</strong></p><ul><li><a href=\"https://japanese.heylearning.net/lessons?hl=pt\" target=\"_blank\">HeyJapan</a> - 5 horas (Etapa 0)</li><li><a href=\"https://pt.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 horas por etapa (Etapas 1 e 2)</li><li><a href=\"https://app.memrise.com/bienvenue?source=pt-br&target=jp-full\" target=\"_blank\">Memrise</a> - 25 horas por etapa (Etapas 1 e 2)</li></ul><p>Bons estudos e boa jornada no aprendizado do japonês!</p><p>がんばってください！</p>"
+    "readmeContent": "<h1>Japonês</h1><h3>Universidade Livre</h3><p>Curso completo de Japonês do zero, organizado por etapas de aprendizado.</p><p>Este curso reúne videoaulas gratuitas do YouTube, cobrindo os sistemas de escrita (Hiragana e Katakana), vocabulário básico, gramática essencial e prática com animes.</p><p><strong>Como utilizar este guia:</strong></p><ul><li>Comece pela 0ª Etapa para aprender Hiragana e Katakana.</li><li>Pratique diariamente com as plataformas HeyJapan, Duolingo e Memrise.</li><li>Assista às aulas básicas para construir seu vocabulário e gramática.</li><li>Na 2ª Etapa, pratique com animes para melhorar sua compreensão auditiva.</li></ul><p>Bons estudos e boa jornada no aprendizado do japonês!</p><p>がんばってください！</p>"
   },
   "japones-ingles": {
     "imageUrl": "cursos/idiomas/japones-ingles/imagen-card.png",
@@ -679,7 +494,130 @@
         "icon": "fa-brands fa-discord"
       }
     ],
-    "readmeContent": "<h1>Japanese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Japanese course from zero to intermediate level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering Hiragana, Katakana, Kanji, grammar, vocabulary, listening and reading comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Start with Stage 0 to learn Hiragana and Katakana.</li><li>Practice daily with HeyJapan, Duolingo, and Memrise.</li><li>Watch basic lessons to build vocabulary and grammar.</li><li>In Stage 4, practice with anime and Kanji lessons.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://japanese.heylearning.net/lessons?hl=en\" target=\"_blank\">HeyJapan</a> - 6 hours (Stage 0) / 25 hours (Stages 1-5)</li><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 hours per stage</li></ul><p>Good luck and enjoy your journey learning Japanese!</p><p>がんばってください！</p>"
+    "readmeContent": "<h1>Japanese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Japanese course from zero to intermediate level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering Hiragana, Katakana, Kanji, grammar, vocabulary, listening and reading comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Start with Stage 0 to learn Hiragana and Katakana.</li><li>Practice daily with HeyJapan, Duolingo, and Memrise.</li><li>Watch basic lessons to build vocabulary and grammar.</li><li>In Stage 4, practice with anime and Kanji lessons.</li></ul><p>Good luck and enjoy your journey learning Japanese!</p><p>がんばってください！</p>"
+  },
+  "letras": {
+    "imageUrl": "cursos/graduacao/letras/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Letras</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa em língua, literatura e linguística, preparando você para o ensino de língua portuguesa e literatura na Educação Básica.</p><p>O Curso de Licenciatura em Letras da Universidade Livre Brasileira oferece <strong>uma formação ampla e consistente</strong> que integra conhecimentos linguísticos, literários e pedagógicos.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da linguística e da gramática da língua portuguesa</li><li>Teoria e crítica literária</li><li>Literatura brasileira e portuguesa</li><li>Produção textual e análise do discurso</li><li>Didática e metodologias para o ensino de língua e literatura</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e LIBRAS</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6).</p><p>Bem-vindo à jornada de aprendizado em Letras!</p>"
+  },
+  "letras-portugues": {
+    "imageUrl": "cursos/graduacao/letras-portugues/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Letras – Habilitação em Língua Portuguesa</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Língua Portuguesa com excelência e paixão.</p><p>O Curso de Letras da Universidade Livre Brasileira oferece <strong>uma formação sólida em linguística, literatura e gramática</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Língua Portuguesa na Educação Básica.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos da linguística e da gramática da língua portuguesa</li><li>Teoria e crítica literária</li><li>Literatura brasileira e portuguesa</li><li>Produção textual e análise do discurso</li><li>Didática e metodologias para o ensino de língua e literatura</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e LIBRAS</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8).</p><p>Bem-vindo à jornada de aprendizado em Letras!</p>"
+  },
+  "matematica": {
+    "imageUrl": "cursos/graduacao/matematica/imagen-card.png",
+    "slides": [
+      {
+        "image": "slides/Matemática.png",
+        "link": "#",
+        "alt": "Matemática - Universidade Livre"
+      }
+    ],
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UBL/matematica",
+        "url": "https://github.com/Universidade-Livre/matematica",
+        "icon": "fa-brands fa-github"
+      },
+      {
+        "name": "X",
+        "url": "https://twitter.com/UBLivre",
+        "icon": "fa-brands fa-x-twitter"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/school/universidade-brasileira-livre/",
+        "icon": "fab fa-linkedin"
+      },
+      {
+        "name": "Twitch",
+        "url": "https://www.twitch.tv/universidade_livre",
+        "icon": "fab fa-twitch"
+      }
+    ],
+    "readmeContent": "<h1>Matemática</h1><h3>Universidade Brasileira Livre</h3><p>Um caminho para a educação autodidata em Matemática!</p><p>O Curso oferecido pela Universidade Livre Brasileira é <strong>uma educação completa em Matemática</strong> usando materiais on-line e em Português do Brasil.</p><p><strong>Os Cursos devem</strong>:</p><ul><li>Ser gratuitos ou de conteúdo que possa ser assistido de forma aberta</li><li>Possuir método pedagógico</li><li>Ter reconhecimento de qualidade da Comunidade sobre o tema</li><li>Estar de acordo com o que espera-se do Currículo de Matemática</li></ul><p>Bem-vindo à jornada de aprendizado em Matemática!</p>"
+  },
+  "matematica-licenciatura": {
+    "imageUrl": "cursos/graduacao/matematica-licenciatura/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Matemática (Licenciatura)</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Matemática com excelência e paixão.</p><p>O Curso de Licenciatura em Matemática da Universidade Livre Brasileira oferece <strong>uma formação sólida em conteúdos matemáticos</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Matemática na Educação Básica.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de matemática (álgebra, geometria, cálculo, estatística, lógica)</li><li>História e filosofia da matemática</li><li>Didática e metodologias para o ensino de matemática</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e especial</li><li>Uso de tecnologias e materiais didáticos no ensino de matemática</li><li>Práticas de ensino e estágio supervisionado</li><li>Educação de Jovens e Adultos (EJA)</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8).</p><p>Bem-vindo à jornada de aprendizado em Matemática (Licenciatura)!</p>"
+  },
+  "math": {
+    "imageUrl": "cursos/graduacao/math/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "OSSU",
+        "url": "https://github.com/ossu/math",
+        "icon": "fa-brands fa-github"
+      },
+      {
+        "name": "Discord",
+        "url": "https://discord.com/channels/744385009028431943/870780483347292221",
+        "icon": "fa-brands fa-discord"
+      }
+    ],
+    "readmeContent": "<h1>Mathematics</h1><h3>Open Source Society University</h3><p>The OSSU curriculum is a complete education in mathematics using online materials. It's for those who want a proper grounding in concepts fundamental to all math disciplines.</p>"
+  },
+  "pedagogia": {
+    "imageUrl": "cursos/graduacao/pedagogia/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Pedagogia</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja atuar na educação com excelência, sensibilidade e compromisso social.</p><p>O Curso de Pedagogia da Universidade Livre Brasileira oferece <strong>uma formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar e desenvolvimento infantil</strong>, preparando você para atuar na Educação Infantil, nos anos iniciais do Ensino Fundamental, na gestão educacional e em espaços não formais de educação.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos históricos, filosóficos e sociológicos da educação</li><li>Didática e metodologias de ensino</li><li>Psicologia da educação e desenvolvimento infantil</li><li>Alfabetização e letramento</li><li>Educação especial e inclusiva</li><li>Gestão escolar e organização do trabalho pedagógico</li><li>Currículo e avaliação educacional</li><li>Educação de Jovens e Adultos (EJA)</li><li>Educação mediada por tecnologias</li><li>Literatura infanto-juvenil e arte na educação</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 9 etapas (0 a 8).</p><p>Bem-vindo à jornada de aprendizado em Pedagogia!</p>"
   },
   "portugues-brasileiro": {
     "imageUrl": "cursos/idiomas/portugues-brasileiro/imagen-card.png",
@@ -695,6 +633,59 @@
         "icon": "fa-solid fa-language"
       }
     ],
-    "readmeContent": "<h1>Brazilian Portuguese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p><strong>External Practice Platforms:</strong></p><ul><li><a href=\"https://en.duolingo.com/\" target=\"_blank\">Duolingo</a> - 15 hours per stage</li></ul><p>Good luck and enjoy your journey learning Brazilian Portuguese!</p><p>Boa sorte e aproveite sua jornada aprendendo português brasileiro!</p>"
+    "readmeContent": "<h1>Brazilian Portuguese (for English Speakers)</h1><h3>Universidade Livre</h3><p>Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers.</p><p>This course brings together free YouTube video lessons covering grammar, vocabulary, pronunciation, reading and listening comprehension. All content was selected to provide a natural learning progression.</p><p><strong>How to use this guide:</strong></p><ul><li>Watch the lessons in the suggested order, starting from A1 level.</li><li>Practice daily and use complementary resources like Duolingo.</li><li>At the end of each stage, review the content and proceed to the next level.</li></ul><p>Good luck and enjoy your journey learning Brazilian Portuguese!</p><p>Boa sorte e aproveite sua jornada aprendendo português brasileiro!</p>"
+  },
+  "processos-gerenciais": {
+    "imageUrl": "cursos/graduacao/processos-gerenciais/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Processos Gerenciais</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar na gestão de organizações com foco em processos, pessoas e resultados.</p><p>O Curso de Tecnologia em Processos Gerenciais da Universidade Livre Brasileira oferece <strong>uma educação abrangente em gestão</strong>, combinando fundamentos teóricos com as práticas mais atuais do mercado.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de administração, economia e contabilidade</li><li>Gestão de pessoas e comportamento organizacional</li><li>Estratégia, governança e planejamento de negócios</li><li>Marketing e relacionamento com clientes</li><li>Finanças e análise de investimentos</li><li>Gestão da produção, logística e cadeia de suprimentos</li><li>Empreendedorismo, inovação e startups</li><li>Análise e modelagem de processos</li><li>Ferramentas de Business Intelligence e tomada de decisão</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6).</p><p>Bem-vindo à jornada de aprendizado em Processos Gerenciais!</p>"
+  },
+  "quimica": {
+    "imageUrl": "cursos/graduacao/quimica/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Química</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para quem deseja ensinar Química com excelência, paixão pela ciência e compromisso com a transformação social.</p><p>O Curso de Licenciatura em Química da Universidade Livre Brasileira oferece <strong>uma formação sólida em fundamentos químicos</strong> aliada a uma <strong>base pedagógica consistente</strong>, preparando você para atuar como professor de Química na Educação Básica.</p><p>Este curso integra fundamentos teóricos da química com práticas de ensino, metodologias ativas e reflexão sobre o papel da educação científica na formação cidadã.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de química geral, inorgânica, orgânica e físico-química</li><li>Química analítica e análise instrumental</li><li>Bioquímica e química quântica</li><li>Didática e metodologias para o ensino de química</li><li>Psicologia da educação e desenvolvimento cognitivo</li><li>Avaliação educacional e da aprendizagem</li><li>Currículo e políticas educacionais</li><li>Educação inclusiva e sustentabilidade</li><li>Práticas experimentais e laboratórios de química</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 17 etapas (0 a 16), organizadas de forma progressiva, cobrindo desde técnicas de estudo até tópicos avançados em química e ensino.</p><p>Bem-vindo à jornada de aprendizado em Química!</p>"
+  },
+  "tecnologia-informacao": {
+    "imageUrl": "cursos/graduacao/tecnologia-informacao/imagen-card.png",
+    "socialLinks": [
+      {
+        "name": "Programação Dinâmica",
+        "url": "https://www.youtube.com/@pgdinamica",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "Willian Justen",
+        "url": "https://www.youtube.com/@WillianJustenCursos",
+        "icon": "fa-brands fa-youtube"
+      },
+      {
+        "name": "UNIVESP",
+        "url": "https://www.youtube.com/@univesptv",
+        "icon": "fa-brands fa-youtube"
+      }
+    ],
+    "readmeContent": "<h1>Tecnologia da Informação</h1><h3>Universidade Brasileira Livre</h3><p>Uma formação completa para atuar no desenvolvimento e gerenciamento de soluções tecnológicas.</p><p>O Curso de Tecnologia da Informação da Universidade Livre Brasileira oferece <strong>uma educação abrangente</strong> em programação, sistemas, redes, segurança, gestão e inovação.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Fundamentos de programação, algoritmos e estruturas de dados</li><li>Matemática aplicada à computação (cálculo, estatística, matemática discreta)</li><li>Bancos de dados, redes e segurança da informação</li><li>Desenvolvimento web e para dispositivos móveis</li><li>Engenharia de software e gestão de projetos</li><li>Sistemas de informação e computação escalável</li><li>Gestão da inovação e planejamento estratégico de negócios</li><li>Interface humano-computador e usabilidade</li></ul><p><strong>Estrutura do Curso:</strong></p><p>O curso é composto por 7 etapas (0 a 6).</p><p>Bem-vindo à jornada de aprendizado em Tecnologia da Informação!</p>"
   }
 }

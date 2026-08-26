@@ -1,113 +1,73 @@
 {
   "administracao": {
-    "text": "Parabéns por concluir o curso de Administração! Você agora possui uma visão estratégica e sistêmica das organizações, com competências para liderar, inovar e transformar negócios. Sua jornada acadêmica está apenas começando!",
+    "text": "🎓 Parabéns por concluir o curso de Administração! Você agora possui uma visão estratégica e sistêmica das organizações, com competências para liderar, inovar e transformar negócios. Sua jornada acadêmica está apenas começando!",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Administra%C3%A7%C3%A3o",
     "level": "graduacao"
   },
-  "computacao": {
-    "text": "Parabéns por concluir o curso de Ciência da Computação! Você domina os fundamentos da computação, desde algoritmos até sistemas complexos. Agora você está preparado para enfrentar os desafios da tecnologia com uma base sólida e crítica.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+da+Computa%C3%A7%C3%A3o",
-    "level": "graduacao"
-  },
-  "computer-science": {
-    "text": "Congratulations on completing the Computer Science course! You have mastered the fundamentals of computing, from algorithms to complex systems. You are now ready to tackle the challenges of technology with a solid and critical foundation.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Computer+Science",
-    "level": "graduacao"
-  },
-  "engenharia_computacao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Computação! Você integra hardware, software e sistemas embarcados com maestria. Sua formação sólida em engenharia o capacita a projetar e construir o futuro da tecnologia.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Computa%C3%A7%C3%A3o",
-    "level": "graduacao"
-  },
-  "engenharia-producao": {
-    "text": "Parabéns por concluir o curso de Engenharia de Produção! Você aprendeu a otimizar processos, gerenciar operações e liderar com eficiência. Sua visão integrada da produção e da gestão é um diferencial para o mercado.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Produ%C3%A7%C3%A3o",
-    "level": "graduacao"
-  },
-  "gestao-publica": {
-    "text": "Parabéns por concluir o curso de Gestão Pública! Você está preparado para atuar com ética, transparência e eficiência no setor público. Sua formação contribuirá para a construção de uma administração mais justa e cidadã.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Gest%C3%A3o+P%C3%BAblica",
-    "level": "graduacao"
-  },
-  "letras-portugues": {
-    "text": "Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa! Você dominou a língua, a literatura e a linguística, e está pronto para ensinar com paixão e conhecimento. Sua jornada como educador começa agora!",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Letras",
-    "level": "graduacao"
-  },
-  "matematica": {
-    "text": "Parabéns por concluir o curso de Matemática! Você desenvolveu o raciocínio lógico e abstrato necessário para explorar os fundamentos da ciência. Sua base matemática é a chave para desvendar os mistérios do universo.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica",
-    "level": "graduacao"
-  },
-  "matematica-licenciatura": {
-    "text": "Parabéns por concluir o curso de Matemática (Licenciatura)! Você une o rigor matemático à paixão pelo ensino. Agora você está preparado para inspirar novas gerações de estudantes e transformar vidas pela educação.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica+%28Licenciatura%29",
-    "level": "graduacao"
-  },
-  "math": {
-    "text": "Congratulations on completing the Mathematics course! You have developed the logical and abstract reasoning necessary to explore the foundations of science. Your mathematical background is the key to unraveling the mysteries of the universe.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Mathematics",
-    "level": "graduacao"
-  },
-  "pedagogia": {
-    "text": "Parabéns por concluir o curso de Pedagogia! Você se tornou um educador completo, capaz de transformar a realidade através do ensino. Sua dedicação e sensibilidade farão a diferença na vida de muitos alunos.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Pedagogia",
-    "level": "graduacao"
-  },
-  "tecnologia-informacao": {
-    "text": "Parabéns por concluir o curso de Tecnologia da Informação! Você é um profissional capacitado para desenvolver, gerenciar e inovar em soluções tecnológicas. O mundo digital está em suas mãos!",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Tecnologia+da+Informa%C3%A7%C3%A3o",
+  "biologia": {
+    "text": "🧬 Parabéns por concluir o curso de Licenciatura em Biologia! Você dominou os fundamentos da vida em todas as suas escalas, desde a molécula até o ecossistema. Agora você está preparado para ensinar Ciências e Biologia com excelência, inspirando novas gerações a compreender e preservar o mundo vivo.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Biologia",
     "level": "graduacao"
   },
   "ciencia-de-dados-bacharelado": {
-    "text": "Parabéns por concluir o curso de Ciência de Dados! Você domina a arte de extrair conhecimento e valor dos dados. Sua capacidade de transformar dados em decisões estratégicas é um diferencial competitivo em qualquer organização.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+de+Dados",
-    "level": "graduacao"
-  },
-  "processos-gerenciais": {
-    "text": "Parabéns por concluir o curso de Processos Gerenciais! Você está preparado para analisar, planejar e otimizar processos organizacionais com visão estratégica. Sua capacidade de gestão e liderança é um ativo valioso para qualquer equipe.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Processos+Gerenciais",
+    "text": "📊 Parabéns por concluir o curso de Bacharelado em Ciência de Dados! Você domina a arte de extrair conhecimento e valor dos dados, combinando programação, matemática e estatística. Sua capacidade de transformar dados em decisões estratégicas é um diferencial competitivo em qualquer organização.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+de+Dados+Bacharelado",
     "level": "graduacao"
   },
   "ciencia_de_dados": {
-    "text": "Parabéns por concluir a Pós‑graduação em Ciência de Dados! Você aprofundou seus conhecimentos em análise, estatística e exploração de dados. Sua expertise é essencial para a tomada de decisão baseada em evidências.",
+    "text": "📈 Parabéns por concluir a Pós‑graduação em Ciência de Dados! Você aprofundou seus conhecimentos em análise, estatística, limpeza e exploração de dados. Sua expertise é essencial para a tomada de decisão baseada em evidências e para a reprodução de pesquisas científicas.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Ci%C3%AAncia+de+Dados",
     "level": "pos-graduacao"
   },
+  "computacao": {
+    "text": "💻 Parabéns por concluir o curso de Ciência da Computação! Você domina os fundamentos da computação, desde algoritmos até sistemas complexos. Agora você está preparado para enfrentar os desafios da tecnologia com uma base sólida e crítica, contribuindo para a inovação digital.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Ci%C3%AAncia+da+Computa%C3%A7%C3%A3o",
+    "level": "graduacao"
+  },
   "computacao_grafica": {
-    "text": "Parabéns por concluir a Pós‑graduação em Computação Gráfica! Você domina as técnicas avançadas de renderização, modelagem e visualização. Sua criatividade e conhecimento técnico abrem portas para o mundo da arte digital e da simulação.",
+    "text": "🎨 Parabéns por concluir a Pós‑graduação em Computação Gráfica! Você domina as técnicas avançadas de renderização, modelagem e visualização. Sua criatividade e conhecimento técnico abrem portas para o mundo da arte digital, animação, jogos e simulação.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Computa%C3%A7%C3%A3o+Gr%C3%A1fica",
     "level": "pos-graduacao"
   },
+  "computer-science": {
+    "text": "🎓 Congratulations on completing the Computer Science course! You have mastered the fundamentals of computing, from algorithms to complex systems. You are now ready to tackle the challenges of technology with a solid and critical foundation.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Computer+Science",
+    "level": "graduacao"
+  },
   "cybersecurity": {
-    "text": "Parabéns por concluir a Pós‑graduação em CyberSecurity! Você é um guardião da informação, capacitado para proteger sistemas, analisar vulnerabilidades e responder a incidentes. Sua atuação é fundamental para a segurança digital.",
+    "text": "🔒 Parabéns por concluir a Pós‑graduação em CyberSecurity! Você é um guardião da informação, capacitado para proteger sistemas, analisar vulnerabilidades e responder a incidentes. Sua atuação é fundamental para a segurança digital em um mundo cada vez mais conectado.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-CyberSecurity",
     "level": "pos-graduacao"
   },
   "desenvolvimento_web": {
-    "text": "Parabéns por concluir a Pós‑graduação em Desenvolvimento Web! Você construiu uma base sólida em HTML, CSS, JavaScript, React e Node.js. Sua capacidade de criar aplicações web modernas e escaláveis é um diferencial no mercado.",
+    "text": "🌐 Parabéns por concluir a Pós‑graduação em Desenvolvimento Web! Você construiu uma base sólida em HTML, CSS, JavaScript, React e Node.js. Sua capacidade de criar aplicações web modernas, escaláveis e com boa experiência de usuário é um diferencial no mercado.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Desenvolvimento+Web",
     "level": "pos-graduacao"
   },
   "devops": {
-    "text": "Parabéns por concluir a Pós‑graduação em DevOps! Você domina automação, infraestrutura como código, containers e CI/CD. Sua habilidade de integrar desenvolvimento e operações torna você um profissional essencial para times ágeis.",
+    "text": "⚙️ Parabéns por concluir a Pós‑graduação em DevOps! Você domina automação, infraestrutura como código, containers, orquestração e CI/CD. Sua habilidade de integrar desenvolvimento e operações torna você um profissional essencial para times ágeis e para a entrega contínua de software.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-DevOps",
     "level": "pos-graduacao"
   },
   "embarcados": {
-    "text": "Parabéns por concluir a Pós‑graduação em Embarcados! Você compreende microeletrônica, sistemas em tempo real e IoT. Sua expertise em hardware e software embarcado é a base para a inovação tecnológica.",
+    "text": "🔌 Parabéns por concluir a Pós‑graduação em Embarcados! Você compreende microeletrônica, sistemas em tempo real, FPGA e IoT. Sua expertise em hardware e software embarcado é a base para a inovação tecnológica em automação, robótica e dispositivos inteligentes.",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=P%C3%B3s-Embarcados",
     "level": "pos-graduacao"
   },
   "enem": {
-    "text": "Parabéns por concluir o curso preparatório para o ENEM! Você revisou os conteúdos essenciais e está pronto para encarar o exame com confiança. Sua dedicação e esforço serão recompensados. Boa sorte!",
+    "text": "📝 Parabéns por concluir o curso preparatório para o ENEM! Você revisou os conteúdos essenciais e está pronto para encarar o exame com confiança. Sua dedicação e esforço serão recompensados. Boa sorte na prova e na conquista da sua vaga!",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=ENEM",
     "level": "ensino-medio"
   },
-  "espcex": {
-    "text": "Parabéns por concluir o curso preparatório para a EsPCEx! Você está pronto para encarar os desafios do concurso com disciplina e determinação. Seu esforço e dedicação abrirão caminho para a carreira militar.",
-    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=EsPCEx",
-    "level": "ensino-medio"
+  "engenharia-producao": {
+    "text": "🏭 Parabéns por concluir o curso de Engenharia de Produção! Você aprendeu a otimizar processos, gerenciar operações e liderar com eficiência. Sua visão integrada da produção, logística, qualidade e sustentabilidade é um diferencial para o mercado e para a indústria 4.0.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Produ%C3%A7%C3%A3o",
+    "level": "graduacao"
+  },
+  "engenharia_computacao": {
+    "text": "⚡ Parabéns por concluir o curso de Engenharia de Computação! Você integra hardware, software e sistemas embarcados com maestria, dominando desde circuitos digitais até arquitetura de computadores. Sua formação sólida em engenharia o capacita a projetar e construir o futuro da tecnologia.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Engenharia+de+Computa%C3%A7%C3%A3o",
+    "level": "graduacao"
   },
   "espanhol": {
     "text": "¡Felicidades por completar el curso de español! Has alcanzado un nuevo nivel de fluidez y comprensión del idioma. Sigue practicando y explorando la riqueza cultural hispanohablante. ¡Buen trabajo!",
@@ -118,6 +78,21 @@
     "text": "Congratulations on completing the Spanish course! You have reached a new level of fluency and understanding of the language. Keep practicing and exploring the richness of Spanish-speaking cultures. Great job!",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Spanish",
     "level": "idiomas"
+  },
+  "espcex": {
+    "text": "🎖️ Parabéns por concluir o curso preparatório para a EsPCEx! Você está pronto para encarar os desafios do concurso com disciplina e determinação. Seu esforço e dedicação abrirão caminho para a carreira militar. Boa sorte!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=EsPCEx",
+    "level": "ensino-medio"
+  },
+  "fisica": {
+    "text": "⚛️ Parabéns por concluir o curso de Licenciatura em Física! Você desenvolveu o raciocínio lógico e a capacidade de compreender os fenômenos naturais em sua essência. Agora você está preparado para ensinar Física com rigor científico e paixão pela ciência, inspirando novas gerações a explorar o universo.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=F%C3%ADsica",
+    "level": "graduacao"
+  },
+  "gestao-publica": {
+    "text": "🏛️ Parabéns por concluir o curso de Gestão Pública! Você está preparado para atuar com ética, transparência e eficiência no setor público, contribuindo para a construção de uma administração mais justa e cidadã. Sua formação é fundamental para o fortalecimento da democracia e do serviço público.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Gest%C3%A3o+P%C3%BAblica",
+    "level": "graduacao"
   },
   "ingles": {
     "text": "Parabéns por concluir o curso de Inglês! Você alcançou um novo nível de fluência e compreensão do idioma. Continue praticando e explorando a cultura de língua inglesa. Ótimo trabalho!",
@@ -134,9 +109,54 @@
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Japanese",
     "level": "idiomas"
   },
+  "letras": {
+    "text": "📚 Parabéns por concluir o curso de Licenciatura em Letras! Você desenvolveu uma compreensão profunda da língua, da literatura e da linguística, tornando-se um educador capaz de transformar vidas através da palavra. Sua jornada como professor de língua portuguesa e literatura começa agora!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Letras",
+    "level": "graduacao"
+  },
+  "letras-portugues": {
+    "text": "📖 Parabéns por concluir o curso de Letras – Habilitação em Língua Portuguesa! Você dominou a língua, a literatura e a linguística, e está pronto para ensinar com paixão e conhecimento. Sua jornada como educador começa agora, inspirando novos leitores e escritores!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Letras+-+L%C3%ADngua+Portuguesa",
+    "level": "graduacao"
+  },
+  "matematica": {
+    "text": "🧮 Parabéns por concluir o curso de Matemática! Você desenvolveu o raciocínio lógico e abstrato necessário para explorar os fundamentos da ciência. Sua base matemática é a chave para desvendar os mistérios do universo e para impulsionar a inovação tecnológica.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica",
+    "level": "graduacao"
+  },
+  "matematica-licenciatura": {
+    "text": "📐 Parabéns por concluir o curso de Licenciatura em Matemática! Você une o rigor matemático à paixão pelo ensino, dominando conteúdos e metodologias para inspirar novas gerações. Agora você está preparado para transformar vidas pela educação matemática.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1tica+%28Licenciatura%29",
+    "level": "graduacao"
+  },
+  "math": {
+    "text": "Congratulations on completing the Mathematics course! You have developed the logical and abstract reasoning necessary to explore the foundations of science. Your mathematical background is the key to unraveling the mysteries of the universe.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Mathematics",
+    "level": "graduacao"
+  },
+  "pedagogia": {
+    "text": "🍎 Parabéns por concluir o curso de Licenciatura em Pedagogia! Você se tornou um educador completo, capaz de transformar a realidade através do ensino, da gestão escolar e da educação inclusiva. Sua dedicação e sensibilidade farão a diferença na vida de muitos alunos.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Pedagogia",
+    "level": "graduacao"
+  },
   "portugues-brasileiro": {
     "text": "Congratulations on completing the Brazilian Portuguese course! You have developed fluency and cultural understanding of this vibrant language. Keep practicing and enjoy your journey with Portuguese!",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Brazilian+Portuguese",
     "level": "idiomas"
+  },
+  "processos-gerenciais": {
+    "text": "📊 Parabéns por concluir o curso de Processos Gerenciais! Você está preparado para analisar, planejar e otimizar processos organizacionais com visão estratégica. Sua capacidade de gestão, liderança e tomada de decisão é um ativo valioso para qualquer equipe ou organização.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Processos+Gerenciais",
+    "level": "graduacao"
+  },
+  "quimica": {
+    "text": "🧪 Parabéns por concluir o curso de Licenciatura em Química! Você dominou os fundamentos da química e as metodologias de ensino, tornando-se um educador capaz de transformar o aprendizado da ciência. Sua paixão pela química e pela docência inspirará novas gerações de cientistas e cidadãos.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Qu%C3%ADmica",
+    "level": "graduacao"
+  },
+  "tecnologia-informacao": {
+    "text": "💻 Parabéns por concluir o curso de Tecnologia da Informação! Você é um profissional capacitado para desenvolver, gerenciar e inovar em soluções tecnológicas, dominando programação, redes, segurança e gestão de sistemas. O mundo digital está em suas mãos!",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Tecnologia+da+Informa%C3%A7%C3%A3o",
+    "level": "graduacao"
   }
 }

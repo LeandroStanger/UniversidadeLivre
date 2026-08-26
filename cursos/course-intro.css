@@ -1,4 +1,13 @@
-/* course-intro.css – estilo do modal de introdução (sem vídeo) - Paleta modernizada */
+/* course-intro.css – Versão 8.0 – COMPLETO
+   Estilo do modal de introdução com barra de busca e slider de imagens
+   Tema escuro premium com glassmorphism e animações modernas
+   Universidade Livre · Todos os módulos
+   ============================================================ */
+
+/* ========== IMPORTAÇÃO DE FONTES ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap');
+
+/* ========== MODAL PRINCIPAL ========== */
 .course-intro-modal {
     display: none;
     position: fixed;
@@ -6,7 +15,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 2200;
     justify-content: center;
     align-items: center;
@@ -16,9 +25,11 @@
 }
 
 .course-intro-modal.show {
+    display: flex !important;
     opacity: 1;
 }
 
+/* ========== CONTEÚDO DO MODAL ========== */
 .intro-modal-content {
     background: var(--bg-secondary, #121826);
     border-radius: 24px;
@@ -31,26 +42,199 @@
     transform: scale(0.95) translateY(8px);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
     border: 1px solid var(--border, #2A3550);
+    position: relative;
+    overflow: hidden;
 }
 
 .course-intro-modal.show .intro-modal-content {
     transform: scale(1) translateY(0);
 }
 
-/* ========== IMAGEM DE TOPO ========== */
-.intro-logo-large {
-    display: block;
-    margin: 0 auto 0 auto;
-    width: 100%;
-    border-radius: 24px 24px 0 0;
-    box-shadow: inset 0 -2px 0 var(--border, #2A3550);
-    background: var(--bg-primary, #0A0E17);
+/* ========== BARRA DE BUSCA E SLIDER ========== */
+.intro-search-slider {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    background: var(--bg-secondary, #121826);
     border-bottom: 1px solid var(--border, #2A3550);
-    object-fit: revert-rule;
-    max-height: 200px;
+    flex-shrink: 0;
 }
 
-/* ========== CONTEÚDO ========== */
+/* ---- Barra de busca ---- */
+.intro-search-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.intro-search-bar input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border, #2A3550);
+    background: var(--bg-tertiary, #1A2236);
+    color: var(--text-primary, #F0F4FA);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.intro-search-bar input::placeholder {
+    color: var(--text-tertiary, #7A94B8);
+    opacity: 0.7;
+}
+
+.intro-search-bar input:focus {
+    border-color: var(--accent-blue, #5B7BFA);
+    box-shadow: 0 0 0 3px rgba(91, 123, 250, 0.2);
+}
+
+.intro-search-bar button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    border: none;
+    background: var(--gradient-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.intro-search-bar button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.3);
+}
+
+.intro-search-bar button:active {
+    transform: scale(0.95);
+}
+
+/* ---- Slider ---- */
+.intro-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-top: 0.25rem;
+    background: var(--bg-primary, #0A0E17);
+}
+
+.intro-slider-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+}
+
+.intro-slide {
+    min-width: 100%;
+    flex-shrink: 0;
+}
+
+.intro-slide a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.intro-slide img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    background: var(--bg-primary, #0A0E17);
+}
+
+/* Botões de navegação do slider */
+.intro-slider-prev,
+.intro-slider-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, transform 0.2s, opacity 0.3s;
+    backdrop-filter: blur(4px);
+    font-size: 1rem;
+}
+
+.intro-slider-prev:hover,
+.intro-slider-next:hover {
+    background: rgba(91, 123, 250, 0.85);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.intro-slider-prev:active,
+.intro-slider-next:active {
+    transform: translateY(-50%) scale(0.92);
+}
+
+.intro-slider-prev {
+    left: 12px;
+}
+.intro-slider-next {
+    right: 12px;
+}
+
+/* Indicadores (dots) */
+.intro-slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0 0.25rem 0;
+}
+
+.intro-slider-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-tertiary, #1A2236);
+    border: 1px solid var(--border, #2A3550);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, border-color 0.3s;
+}
+
+.intro-slider-dots .dot.active {
+    background: var(--accent-blue, #5B7BFA);
+    transform: scale(1.25);
+    border-color: var(--accent-blue, #5B7BFA);
+    box-shadow: 0 0 12px rgba(91, 123, 250, 0.3);
+}
+
+.intro-slider-dots .dot:hover {
+    transform: scale(1.15);
+}
+
+/* ========== IMAGEM DE TOPO (LOGO) ========== */
+.intro-logo-large {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0;
+    background: var(--bg-primary, #0A0E17);
+    border-bottom: 1px solid var(--border, #2A3550);
+    padding: 0;
+    max-height: none;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* ========== CONTEÚDO MARKDOWN ========== */
 #introContent {
     padding: 0 1.5rem 1rem 1.5rem;
     overflow-y: auto;
@@ -75,6 +259,10 @@
 #introContent::-webkit-scrollbar-thumb {
     background: var(--accent-blue, #5B7BFA);
     border-radius: 4px;
+}
+
+#introContent::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue-hover, #4A6AE0);
 }
 
 /* ========== TÍTULOS ========== */
@@ -131,6 +319,7 @@
 #introContent ul,
 #introContent ol {
     margin: 0.5rem 0 1rem 1.5rem;
+    padding: 0;
 }
 
 #introContent li {
@@ -141,6 +330,15 @@
 
 #introContent li strong {
     color: var(--text-primary, #F0F4FA);
+}
+
+#introContent ul li::marker {
+    color: var(--accent-blue, #5B7BFA);
+}
+
+#introContent ol li::marker {
+    color: var(--accent-teal, #38BDF8);
+    font-weight: 600;
 }
 
 /* ========== LINKS ========== */
@@ -208,6 +406,31 @@
     color: var(--text-secondary, #9AAEC2);
 }
 
+/* ========== TABELAS ========== */
+#introContent table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+#introContent table th,
+#introContent table td {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border, #2A3550);
+    text-align: left;
+}
+
+#introContent table th {
+    background: var(--bg-tertiary, #1A2236);
+    color: var(--text-primary, #F0F4FA);
+    font-weight: 600;
+}
+
+#introContent table td {
+    color: var(--text-secondary, #9AAEC2);
+}
+
 /* ========== ÍCONES SOCIAIS ========== */
 .social-icons {
     display: flex;
@@ -216,6 +439,7 @@
     justify-content: center;
     margin: 0.5rem 0 0.5rem 0;
     padding: 0 1.5rem;
+    flex-shrink: 0;
 }
 
 .social-icons a {
@@ -231,6 +455,7 @@
     gap: 0.5rem;
     border: 1px solid var(--border, #2A3550);
     font-weight: 500;
+    font-family: 'Inter', sans-serif;
 }
 
 .social-icons a i {
@@ -272,6 +497,7 @@
     font-size: 0.85rem;
     color: var(--text-secondary, #9AAEC2);
     cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
 .dont-show-again input[type="checkbox"] {
@@ -283,6 +509,10 @@
     border: 1px solid var(--border, #2A3550);
     background: var(--bg-primary, #0A0E17);
     flex-shrink: 0;
+}
+
+.dont-show-again input[type="checkbox"]:checked {
+    background: var(--accent-blue, #5B7BFA);
 }
 
 .start-lesson-btn {
@@ -298,6 +528,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 4px 12px rgba(91, 123, 250, 0.2);
 }
 
 .start-lesson-btn::after {
@@ -318,7 +550,7 @@
 }
 
 .start-lesson-btn:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.97);
 }
 
 /* ========== BOTÃO FECHAR ========== */
@@ -340,6 +572,7 @@
     transition: var(--transition, all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
     backdrop-filter: blur(4px);
     z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .close-intro:hover {
@@ -348,23 +581,86 @@
     transform: rotate(90deg) scale(1.1);
 }
 
+.close-intro:active {
+    transform: rotate(90deg) scale(0.9);
+}
+
+/* ========== ANIMAÇÕES ========== */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ========== RESPONSIVIDADE ========== */
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
     .intro-modal-content {
         max-width: 95%;
-        max-height: 85vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-modal-content {
+        max-width: 98%;
+        max-height: 92vh;
         border-radius: 20px;
     }
 
+    .intro-search-slider {
+        padding: 0.8rem 1rem 0.4rem 1rem;
+    }
+
+    .intro-search-bar input {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .intro-search-bar button {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .intro-slider-prev,
+    .intro-slider-next {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .intro-slider-prev {
+        left: 8px;
+    }
+    .intro-slider-next {
+        right: 8px;
+    }
+
+    .intro-slider-dots .dot {
+        width: 8px;
+        height: 8px;
+    }
+
     .intro-logo-large {
-        max-width: 100%;
-        padding: 1rem 1rem 0.5rem 1rem;
-        border-radius: 20px 20px 0 0;
-        max-height: 140px;
+        height: 140px;
     }
 
     #introContent {
-        padding: 0 1rem 1rem 1rem;
+        padding: 0 1rem 0.8rem 1rem;
         font-size: 0.9rem;
     }
 
@@ -381,7 +677,6 @@
     }
 
     .social-icons {
-        flex-wrap: wrap;
         gap: 0.5rem;
         padding: 0 1rem;
     }
@@ -395,8 +690,9 @@
     .intro-footer {
         flex-direction: column;
         align-items: stretch;
-        padding: 1rem;
+        padding: 0.8rem 1rem;
         border-radius: 0 0 20px 20px;
+        gap: 0.8rem;
     }
 
     .dont-show-again {
@@ -407,8 +703,8 @@
     .start-lesson-btn {
         text-align: center;
         justify-content: center;
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
     }
 
     .close-intro {
@@ -420,29 +716,249 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     .intro-modal-content {
         max-width: 98%;
-        max-height: 90vh;
+        max-height: 95vh;
         border-radius: 16px;
     }
 
+    .intro-search-slider {
+        padding: 0.6rem 0.8rem 0.3rem 0.8rem;
+    }
+
+    .intro-search-bar {
+        flex-direction: row;
+        gap: 0.3rem;
+    }
+
+    .intro-search-bar input {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 1.5rem;
+    }
+
+    .intro-search-bar button {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 1.5rem;
+    }
+
+    .intro-slider-prev,
+    .intro-slider-next {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+
+    .intro-slider-dots .dot {
+        width: 7px;
+        height: 7px;
+        gap: 0.3rem;
+    }
+
+    .intro-logo-large {
+        height: 100px;
+    }
+
     #introContent {
+        padding: 0 0.8rem 0.6rem 0.8rem;
         font-size: 0.85rem;
-        padding: 0 0.8rem 0.8rem 0.8rem;
     }
 
     #introContent h1 {
         font-size: 1.2rem;
     }
 
+    #introContent h2 {
+        font-size: 1.05rem;
+    }
+
+    #introContent h3 {
+        font-size: 0.95rem;
+    }
+
+    #introContent ul,
+    #introContent ol {
+        margin-left: 1rem;
+    }
+
     .social-icons a {
         font-size: 0.7rem;
         padding: 0.3rem 0.7rem;
+        gap: 0.2rem;
+    }
+
+    .social-icons a i {
+        font-size: 0.8rem;
     }
 
     .start-lesson-btn {
         font-size: 0.8rem;
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .start-lesson-btn::after {
+        font-size: 0.65rem;
+    }
+
+    .close-intro {
+        top: 8px;
+        right: 10px;
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .intro-modal-content {
+        max-width: 100%;
+        max-height: 98vh;
+        border-radius: 12px;
+        border: none;
+    }
+
+    .intro-search-slider {
+        padding: 0.4rem 0.5rem 0.2rem 0.5rem;
+    }
+
+    .intro-search-bar input {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .intro-search-bar button {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .intro-slider-prev,
+    .intro-slider-next {
+        width: 24px;
+        height: 24px;
+        font-size: 0.6rem;
+    }
+
+    .intro-slider-dots .dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .intro-logo-large {
+        height: 80px;
+    }
+
+    #introContent {
+        font-size: 0.8rem;
+        padding: 0 0.5rem 0.4rem 0.5rem;
+    }
+
+    #introContent h1 {
+        font-size: 1.05rem;
+    }
+
+    #introContent h2 {
+        font-size: 0.95rem;
+    }
+
+    #introContent h3 {
+        font-size: 0.85rem;
+    }
+
+    #introContent p {
+        font-size: 0.8rem;
+    }
+
+    #introContent li {
+        font-size: 0.8rem;
+    }
+
+    .social-icons a {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+        gap: 0.2rem;
+    }
+
+    .social-icons a i {
+        font-size: 0.7rem;
+    }
+
+    .intro-footer {
+        padding: 0.5rem 0.8rem;
+        gap: 0.5rem;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .dont-show-again {
+        font-size: 0.7rem;
+    }
+
+    .dont-show-again input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+    }
+
+    .start-lesson-btn {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
+        border-radius: 2rem;
+    }
+
+    .start-lesson-btn::after {
+        font-size: 0.55rem;
+    }
+
+    .close-intro {
+        top: 6px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+    }
+}
+
+/* ========== PREFERS-REDUCED-MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+    .course-intro-modal,
+    .intro-modal-content,
+    .intro-slider-track,
+    .intro-slider-prev,
+    .intro-slider-next,
+    .intro-slider-dots .dot,
+    .start-lesson-btn,
+    .close-intro,
+    .social-icons a,
+    #introContent a,
+    .intro-search-bar input,
+    .intro-search-bar button {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+    .course-intro-modal.show .intro-modal-content {
+        transform: none !important;
+    }
+
+    .intro-slider-prev:hover,
+    .intro-slider-next:hover {
+        transform: translateY(-50%) scale(1) !important;
+    }
+
+    .start-lesson-btn:hover {
+        transform: none !important;
+    }
+
+    .close-intro:hover {
+        transform: none !important;
+    }
+
+    .social-icons a:hover {
+        transform: none !important;
+    }
+
+    .animate-in {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
