@@ -217,7 +217,8 @@
             this.updateQuillPlaceholder();
             // Botão de perfil (se não tiver imagem ou iniciais personalizadas)
             const profileBtn = document.getElementById('profileBtn');
-            if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+            if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true' &&
+                !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
                 const icon = profileBtn.querySelector('i');
                 if (icon) {
                     const iconClone = icon.cloneNode(true);

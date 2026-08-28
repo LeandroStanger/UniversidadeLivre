@@ -1,5 +1,47 @@
 [
   {
+    "title": "The Essentials of NOSTALGIA (Mircea Cărtărescu)",
+    "url": "https://www.youtube.com/watch?v=NZc0EfxtliM",
+    "thumbnail": "https://i.ytimg.com/vi/NZc0EfxtliM/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "The Count of Monte Cristo - Lesson 08 (Thick Books 2026)",
+    "url": "https://www.youtube.com/watch?v=juAHr-CRs3E",
+    "thumbnail": "https://i.ytimg.com/vi/juAHr-CRs3E/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "The academic revolt against AI",
+    "url": "https://www.youtube.com/watch?v=SspWAZdb-CY",
+    "thumbnail": "https://i.ytimg.com/vi/SspWAZdb-CY/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "The Count of Monte Cristo - Lesson 07 (Thick Books 2026)",
+    "url": "https://www.youtube.com/watch?v=OH5F8zjIHYo",
+    "thumbnail": "https://i.ytimg.com/vi/OH5F8zjIHYo/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Discord BANNED - Those who read are not surprised",
+    "url": "https://www.youtube.com/watch?v=YBYNwohgJvw",
+    "thumbnail": "https://i.ytimg.com/vi/YBYNwohgJvw/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "First contact with Nostalgia (Mircea Cărtărescu)",
+    "url": "https://www.youtube.com/watch?v=Te91RW2iC5Q",
+    "thumbnail": "https://i.ytimg.com/vi/Te91RW2iC5Q/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
     "title": "The Essentials for Reading The Slum (O Cortiço)",
     "url": "https://www.youtube.com/watch?v=DfA92TegcN8",
     "thumbnail": "https://i.ytimg.com/vi/DfA92TegcN8/hqdefault.jpg",
@@ -163,7 +205,7 @@
     "language": "pt"
   },
   {
-    "title": "O essencial de PEDRA BONITA (José Lins do Rego)",
+    "title": "The essentials of PEDRA BONITA (José Lins do Rego)",
     "url": "https://www.youtube.com/watch?v=VAdWMnQTrsY",
     "thumbnail": "https://i.ytimg.com/vi/VAdWMnQTrsY/hqdefault.jpg",
     "type": "video",
@@ -1424,12 +1466,11 @@
     "subject": "tecnologia"
   },
   {
-    "title": "O futuro da escola é o seu próprio fim? (Sociedade sem escolas, Ivan Illich)",
+    "title": "Is the future of school its own end? (Deschooling Society, Ivan Illich)",
     "url": "https://www.youtube.com/watch?v=BAT13BQ-O0k",
     "thumbnail": "https://i.ytimg.com/vi/BAT13BQ-O0k/hqdefault.jpg",
     "type": "video",
-    "subject": "educacao",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "An aesthetics class (Introduction to aesthetics, Ariano Suassuna).",
@@ -1706,12 +1747,11 @@
     "language": "pt"
   },
   {
-    "title": "EPIDEMIA DE TRANSTORNOS - Como o livro A GERAÇÃO ANSIOSA, de Jonathan Haidt, explica o fenômeno",
+    "title": "THE MENTAL DISORDER EPIDEMIC - How Jonathan Haidt's book THE ANXIOUS GENERATION explains the phen...",
     "url": "https://www.youtube.com/watch?v=yKPZSELF_pc",
     "thumbnail": "https://i.ytimg.com/vi/yKPZSELF_pc/hqdefault.jpg",
     "type": "video",
-    "subject": "literatura",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "A COUNTRY THAT DOESN'T READ - commenting on the Pró-Livro survey and Black Friday purchases",
@@ -1766,7 +1806,7 @@
     "subject": "outros"
   },
   {
-    "title": "Narrativas contemporâneas e educação moral!",
+    "title": "Frieren: animes, cultura pop e educação moral",
     "url": "https://www.youtube.com/watch?v=1QtLISdW62Q",
     "thumbnail": "https://i.ytimg.com/vi/1QtLISdW62Q/hqdefault.jpg",
     "type": "video",
@@ -2848,6 +2888,83 @@
     "subject": "outros"
   },
   {
+    "title": "GNOME Shell icon grid loading | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=ERTSn8zr6_Q",
+    "thumbnail": "https://i.ytimg.com/vi/ERTSn8zr6_Q/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Object-Oriented Programming in GNOME | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=gj7Y2tSh6qc",
+    "thumbnail": "https://i.ytimg.com/vi/gj7Y2tSh6qc/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "My music production workflow | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=GaR4ZAHrNqA",
+    "thumbnail": "https://i.ytimg.com/vi/GaR4ZAHrNqA/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "PackageKit, GNOME Software, and Flatpak | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=_rwqqvSYYF0",
+    "thumbnail": "https://i.ytimg.com/vi/_rwqqvSYYF0/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "What are the criteria for contributing to GNOME? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=b31d9Rvwy-A",
+    "thumbnail": "https://i.ytimg.com/vi/b31d9Rvwy-A/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Does GNOME disapprove of contributing to multiple projects simultaneously? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=ks5-pcQkMpU",
+    "thumbnail": "https://i.ytimg.com/vi/ks5-pcQkMpU/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Vibe coding in GNOME? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=1SeGoW-tnzk",
+    "thumbnail": "https://i.ytimg.com/vi/1SeGoW-tnzk/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "GNOME Shell Design Dreams | Friday Night Clips",
+    "url": "https://www.youtube.com/watch?v=PlZO6OPEJsc",
+    "thumbnail": "https://i.ytimg.com/vi/PlZO6OPEJsc/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "GNOME Foundation, donations, and their impact on the project | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=fS2lh_oN0kI",
+    "thumbnail": "https://i.ytimg.com/vi/fS2lh_oN0kI/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "HDR in GNOME Shell in 2026 | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=x4Q8GKDy5KQ",
+    "thumbnail": "https://i.ytimg.com/vi/x4Q8GKDy5KQ/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "GUADEC 2026 Talks | Sextando Highlights",
+    "url": "https://www.youtube.com/watch?v=x9bOcGWqRgQ",
+    "thumbnail": "https://i.ytimg.com/vi/x9bOcGWqRgQ/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
     "title": "Filtering by marks on Sysprof",
     "url": "https://www.youtube.com/watch?v=HcqGCKDOZ9c",
     "thumbnail": "https://i.ytimg.com/vi/HcqGCKDOZ9c/hqdefault.jpg",
@@ -2884,12 +3001,11 @@
     "language": "pt"
   },
   {
-    "title": "Entenda toda história do OBS Studio Flatpak no Fedora | Cortes do Sextando",
+    "title": "Understanding the whole story of the OBS Studio Flatpak on Fedora | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=WmeOH_ehsEM",
     "thumbnail": "https://i.ytimg.com/vi/WmeOH_ehsEM/hqdefault.jpg",
     "type": "video",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Triple Buffering arrives in GNOME 48 | Sextando Cuts",
@@ -3300,19 +3416,18 @@
     "language": "pt"
   },
   {
-    "title": "Xorg (X11) vai ser removido do GNOME 48? Saiba a verdade! | Cortes do Sextando",
+    "title": "Will Xorg (X11) be removed from GNOME 48? Get the facts! | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=-S_8Rcw-f2c",
     "thumbnail": "https://i.ytimg.com/vi/-S_8Rcw-f2c/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
   {
-    "title": "GNOME OS para usuário final (comum) em breve? | Cortes do Sextando",
+    "title": "Will GNOME OS be for end-users soon? | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=hvjrrha3S4I",
     "thumbnail": "https://i.ytimg.com/vi/hvjrrha3S4I/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Trabalho no painel de notificações do GNOME em andamento | Cortes do Sextando",
@@ -3563,12 +3678,11 @@
     "language": "pt"
   },
   {
-    "title": "Wayland é mais seguro que X11 ao compartilhar telas | Cortes do Sextando",
+    "title": "Wayland is more secure than X11 when screen sharing | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=cmXHzP940zU",
     "thumbnail": "https://i.ytimg.com/vi/cmXHzP940zU/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "É possível contribuir com código para o GNOME sem utilizar o GNOME Builder? | Cortes do Sextando",
@@ -3610,12 +3724,11 @@
     "subject": "outros"
   },
   {
-    "title": "Contribuições - O GNOME é nosso! | Cortes do Sextando",
+    "title": "Contributions - The GNOME is ours! | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=cmZC2rRT68o",
     "thumbnail": "https://i.ytimg.com/vi/cmZC2rRT68o/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Por quê Javascript? O que levou essa escolha do GNOME? | Cortes do Sextando",
@@ -3634,19 +3747,18 @@
     "language": "pt"
   },
   {
-    "title": "Discord Wayland chegando? Melhorias no portal de compartilhamento de tela? | Cortes do Sextando",
+    "title": "Discord on Wayland coming soon? Screen sharing portal improvements? | Sextando Highlights",
     "url": "https://www.youtube.com/watch?v=IIncUjd45yk",
     "thumbnail": "https://i.ytimg.com/vi/IIncUjd45yk/hqdefault.jpg",
     "type": "video",
-    "subject": "tecnologia"
+    "subject": "outros"
   },
   {
-    "title": "Flathub é centralizado, mas e o Flatpak? | Cortes do Sextando",
+    "title": "Is Flathub centralized, but what about Flatpak? | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=UzQn6Ti2ol8",
     "thumbnail": "https://i.ytimg.com/vi/UzQn6Ti2ol8/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "O GNOME é single thread? Usa apenas um núcleo do processador? | Cortes do Sextando",
@@ -3665,12 +3777,11 @@
     "language": "pt"
   },
   {
-    "title": "O GNOME não é um produto nem uma empresa | Cortes do Sextando",
+    "title": "GNOME is neither a product nor a company | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=V8_7Jiz-b38",
     "thumbnail": "https://i.ytimg.com/vi/V8_7Jiz-b38/hqdefault.jpg",
     "type": "video",
-    "subject": "negocios",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Por que o GNOME não absorve as extensões mais populares | Cortes do Sextando",
@@ -3681,12 +3792,11 @@
     "language": "pt"
   },
   {
-    "title": "O que testes de usabilidade mostraram sobre o GNOME, e quais os próximos passos | Cortes do Sextando",
+    "title": "What usability tests showed about GNOME, and what’s next | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=TuA9BKZs24I",
     "thumbnail": "https://i.ytimg.com/vi/TuA9BKZs24I/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Tutoriais para começar a desenvolver e contribuir com o GNOME | Cortes do Sextando",
@@ -4354,7 +4464,28 @@
     "language": "pt"
   },
   {
-    "title": "They tried to trade an IPHONE for a PIG?! (The worst offer!)",
+    "title": "How the COMMUNITY SAVES your hardware on Linux",
+    "url": "https://www.youtube.com/watch?v=QeYPNjYyJ4w",
+    "thumbnail": "https://i.ytimg.com/vi/QeYPNjYyJ4w/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "The Linux command that sees right into your PC's SOUL",
+    "url": "https://www.youtube.com/watch?v=PA3PeECEq7s",
+    "thumbnail": "https://i.ytimg.com/vi/PA3PeECEq7s/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Are they deleting the games you already paid for?",
+    "url": "https://www.youtube.com/watch?v=4EGZRW3_kNc",
+    "thumbnail": "https://i.ytimg.com/vi/4EGZRW3_kNc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "games"
+  },
+  {
+    "title": "Do you KEEP the BOXES of the PRODUCTS you BUY?",
     "url": "https://www.youtube.com/watch?v=CAdAiugXGYU",
     "thumbnail": "https://i.ytimg.com/vi/CAdAiugXGYU/hqdefault.jpg",
     "type": "podcast",
@@ -5061,12 +5192,11 @@
     "subject": "tecnologia"
   },
   {
-    "title": "GUI ou ambiente gráfico? Entenda a diferença",
+    "title": "GUI or desktop environment? Understand the difference",
     "url": "https://www.youtube.com/watch?v=aBHEGf8Ouf4",
     "thumbnail": "https://i.ytimg.com/vi/aBHEGf8Ouf4/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "É raro, mas acontece sempre...",
@@ -5488,12 +5618,11 @@
     "subject": "tecnologia"
   },
   {
-    "title": "A escolha do navegador é MUITO importante pra sua segurança",
+    "title": "Choosing the right browser is CRUCIAL for your security",
     "url": "https://www.youtube.com/watch?v=3MlSklVwjo8",
     "thumbnail": "https://i.ytimg.com/vi/3MlSklVwjo8/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
     "title": "Cuidado quando um software é tão bom que parece até mentira...",
@@ -5584,12 +5713,11 @@
     "subject": "outros"
   },
   {
-    "title": "Evite dores de cabeça na atualização do seu KDE NEON",
+    "title": "Avoid headaches when updating your KDE NEON",
     "url": "https://www.youtube.com/watch?v=69CGCjl_xqA",
     "thumbnail": "https://i.ytimg.com/vi/69CGCjl_xqA/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "O Linux Mint pode ser um tanto quanto polêmico...",
@@ -5608,12 +5736,11 @@
     "language": "pt"
   },
   {
-    "title": "Não imaginávamos que falar do Steam OS daria treta...",
+    "title": "We didn't expect talking about SteamOS would cause such a stir...",
     "url": "https://www.youtube.com/watch?v=_l2uxuJkuFM",
     "thumbnail": "https://i.ytimg.com/vi/_l2uxuJkuFM/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Qual distro Linux você utilizaria?",
@@ -5639,12 +5766,11 @@
     "language": "pt"
   },
   {
-    "title": "Dicas para rodar jogos no Linux (Guia Prático para Iniciantes)",
+    "title": "Tips for Gaming on Linux (A Practical Beginner's Guide)",
     "url": "https://www.youtube.com/watch?v=Ikhi7Gmh_eY",
     "thumbnail": "https://i.ytimg.com/vi/Ikhi7Gmh_eY/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
     "title": "These Tricks Can Keep You Safer on Linux (and Other Systems)",
@@ -5776,12 +5902,11 @@
     "language": "pt"
   },
   {
-    "title": "Existe alguma diferença entre SysAdmin e DevOps?",
+    "title": "Is there any difference between SysAdmin and DevOps?",
     "url": "https://www.youtube.com/watch?v=TrVgFaNx_QY",
     "thumbnail": "https://i.ytimg.com/vi/TrVgFaNx_QY/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Certificação não supera a experiência (exceto nesse caso)",
@@ -6291,7 +6416,7 @@
     "subject": "outros"
   },
   {
-    "title": "Qual o melhor hardware pra fazer Hackintosh? 🍎",
+    "title": "What is the best hardware for a Hackintosh? 🍎",
     "url": "https://www.youtube.com/watch?v=IRZ1DYL7Ywg",
     "thumbnail": "https://i.ytimg.com/vi/IRZ1DYL7Ywg/hqdefault.jpg",
     "type": "podcast",
@@ -6633,7 +6758,7 @@
     "language": "pt"
   },
   {
-    "title": "Salve o seu smartphone antigo com Linux - Cortes do DioCast",
+    "title": "Save your old smartphone with Linux - DioCast Clips",
     "url": "https://www.youtube.com/watch?v=EgFtQc-WotI",
     "thumbnail": "https://i.ytimg.com/vi/EgFtQc-WotI/hqdefault.jpg",
     "type": "podcast",
@@ -6844,6 +6969,13 @@
     "subject": "games"
   },
   {
+    "title": "Did Linux CRASH your DRIVER? You don't understand the REAL PROBLEM! - Diocast with PsyGreg",
+    "url": "https://www.youtube.com/watch?v=icCUDpZZ2t0",
+    "thumbnail": "https://i.ytimg.com/vi/icCUDpZZ2t0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
     "title": "Are Subscriptions DESTROYING Everything? - Diocast",
     "url": "https://www.youtube.com/watch?v=ajczq5owpIs",
     "thumbnail": "https://i.ytimg.com/vi/ajczq5owpIs/hqdefault.jpg",
@@ -6960,12 +7092,11 @@
     "subject": "outros"
   },
   {
-    "title": "Código RUIM é SUPER comum, mas VOCÊ sabe identificar? - Diocast com @FilipeDeschamps",
+    "title": "BAD code is SUPER common, but can YOU spot it? - Diocast with @FilipeDeschamps",
     "url": "https://www.youtube.com/watch?v=Ca5bk1lc69Q",
     "thumbnail": "https://i.ytimg.com/vi/Ca5bk1lc69Q/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "3D Printing from Hobby to Professional - Diocast with @3DGeekShow",
@@ -7265,7 +7396,7 @@
     "subject": "tecnologia"
   },
   {
-    "title": "Como o KDE Mudou a Cara do Linux! - Diocast",
+    "title": "How KDE Changed the Face of Linux! - Diocast",
     "url": "https://www.youtube.com/watch?v=w2J3GZy3nB4",
     "thumbnail": "https://i.ytimg.com/vi/w2J3GZy3nB4/hqdefault.jpg",
     "type": "podcast",
@@ -7468,414 +7599,9 @@
     "language": "pt"
   },
   {
-    "title": "Lives no Discord SUSPENSAS no Brasil! E agora? #SemManual 47",
-    "url": "https://www.youtube.com/watch?v=iEOd3PYTjP0",
-    "thumbnail": "https://i.ytimg.com/vi/iEOd3PYTjP0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Quick update on today's show + AIs taking over everything #NoManual 46",
-    "url": "https://www.youtube.com/watch?v=FqUiXtTVRsg",
-    "thumbnail": "https://i.ytimg.com/vi/FqUiXtTVRsg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Can't afford an iPhone, Mac, iPad, or Apple Watch? Apple wants you to rent them! #SemManual 45",
-    "url": "https://www.youtube.com/watch?v=WyynFvKI0Cw",
-    "thumbnail": "https://i.ytimg.com/vi/WyynFvKI0Cw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "PERGUNTE O QUE QUISER! TecMundo responde todas suas dúvidas de tecnologia e além #SemManual 44",
-    "url": "https://www.youtube.com/watch?v=8mjkgZPGz-w",
-    "thumbnail": "https://i.ytimg.com/vi/8mjkgZPGz-w/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "WHAT WE ALREADY KNOW about the Galaxy Z Fold 8, Ultra, Flip 8 and + news from Unpacked #NoManual 43",
-    "url": "https://www.youtube.com/watch?v=Czz8nVXMD7o",
-    "thumbnail": "https://i.ytimg.com/vi/Czz8nVXMD7o/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "THE GRAND FINALE! TecMundo Quiz on Sem Manual!",
-    "url": "https://www.youtube.com/watch?v=zV7ydiXsu6A",
-    "thumbnail": "https://i.ytimg.com/vi/zV7ydiXsu6A/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "PAYWALL nos óculos Meta, Samsung confirma Fold 8 \"achatado\" e fim dos dicos de PS5 #SemManual 42",
-    "url": "https://www.youtube.com/watch?v=Jg8ugsmQZ2c",
-    "thumbnail": "https://i.ytimg.com/vi/Jg8ugsmQZ2c/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "GTA 6 PRE-ORDER normalizes R$550, Steam Machine is a PARADOX and Apple is (still) more expensive ...",
-    "url": "https://www.youtube.com/watch?v=TCtOygxw4b8",
-    "thumbnail": "https://i.ytimg.com/vi/TCtOygxw4b8/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "ALEXA+ in BRAZIL, MILLION-DOLLAR gamer lawsuit, Google glasses with Xreal on PRE-ORDER #SemManual 40",
-    "url": "https://www.youtube.com/watch?v=Na3R_kRV_HM",
-    "thumbnail": "https://i.ytimg.com/vi/Na3R_kRV_HM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "FOUR species of ETs on EARTH? Bowie Knife99 TERRORIZES gamers, POCO with 8,500 mAh #NoManual 39",
-    "url": "https://www.youtube.com/watch?v=wmRR6LwGq8c",
-    "thumbnail": "https://i.ytimg.com/vi/wmRR6LwGq8c/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "SpaceX na Bolsa; Intel combate Macbook Neo; TUDO SOBRE óculos Samsung + Google #SemManual 38",
-    "url": "https://www.youtube.com/watch?v=_k8wMefjjow",
-    "thumbnail": "https://i.ytimg.com/vi/_k8wMefjjow/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "USA promoting ETs, MUSK vs ALTMAN, YOUTUBE raises AGE RATING #NoManual 37",
-    "url": "https://www.youtube.com/watch?v=xoDVVJsy3wI",
-    "thumbnail": "https://i.ytimg.com/vi/xoDVVJsy3wI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Tim Cook leaves Apple, big changes at Xbox, was the Mythos AI hacked? #NoManual 36",
-    "url": "https://www.youtube.com/watch?v=m1k2btVKSWI",
-    "thumbnail": "https://i.ytimg.com/vi/m1k2btVKSWI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Is 2026 the YEAR of FOLDABLES? AI WORRIES GENERATION Z, END OF THE SHOW MONOPOLY #NoManual 35",
-    "url": "https://www.youtube.com/watch?v=pkg5VndTLDA",
-    "thumbnail": "https://i.ytimg.com/vi/pkg5VndTLDA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "ARTEMIS and SPACE EXPLORATION, 50 years of APPLE, GEMINI exhibits USER #NoManual 34",
-    "url": "https://www.youtube.com/watch?v=KJhlE53Ogn4",
-    "thumbnail": "https://i.ytimg.com/vi/KJhlE53Ogn4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "arte"
-  },
-  {
-    "title": "META perde processo MILIONÁRIO,  iOS 26.4 com ECA DIGITAL, Gemini e novidade GIGANTE #SemManual 33",
-    "url": "https://www.youtube.com/watch?v=WMhVz4bk20A",
-    "thumbnail": "https://i.ytimg.com/vi/WMhVz4bk20A/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "META retreats from its biggest metaverse project, minimum fee on iFood, DLSS 5 #NoManual 32",
-    "url": "https://www.youtube.com/watch?v=09-LRbOI9l0",
-    "thumbnail": "https://i.ytimg.com/vi/09-LRbOI9l0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Motorola pode acabar com a Apple? Fim de mais TVs Piratas, bilionários da tecnologia #SemManual 31",
-    "url": "https://www.youtube.com/watch?v=a-rBXsjpe1Q",
-    "thumbnail": "https://i.ytimg.com/vi/a-rBXsjpe1Q/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Macbook Neo, iPhone 17e e mais da Apple! Tiro no pé do ChatGPT! Caminhão de novidades Android e MWC",
-    "url": "https://www.youtube.com/watch?v=cmiuxEcZeZY",
-    "thumbnail": "https://i.ytimg.com/vi/cmiuxEcZeZY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Mais imposto para eletrônicos importados! CAOS no XBOX! Multar Apple por carregadores não adianta!",
-    "url": "https://www.youtube.com/watch?v=MNRL9EPMPpg",
-    "thumbnail": "https://i.ytimg.com/vi/MNRL9EPMPpg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "GALAXY UNPACKED 2026 VEM AÍ! CRISE GLOBAL DOS CHIPS! ROBÔS KUNG FU VIRALIZAM!",
-    "url": "https://www.youtube.com/watch?v=qVDlBmOUAY8",
-    "thumbnail": "https://i.ytimg.com/vi/qVDlBmOUAY8/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "IMPASSE entre TAIWAN e EUA, SEEDANCE 2.0, RAYBAN META e seus PERIGOS - #SemManual 027",
-    "url": "https://www.youtube.com/watch?v=2xFM43-TKto",
-    "thumbnail": "https://i.ytimg.com/vi/2xFM43-TKto/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "REDE SOCIAL de IAs, Ifood AMEAÇADO? FIM das GAMBIARRAS no FIRE TV e YOUTUBE - #SemManual 026",
-    "url": "https://www.youtube.com/watch?v=HLZlNl4B_H4",
-    "thumbnail": "https://i.ytimg.com/vi/HLZlNl4B_H4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "WhatsApp, Instagram, and Facebook will have PAID VERSIONS! WINDOWS and the CRISIS OF TRUST - #NoM...",
-    "url": "https://www.youtube.com/watch?v=7qNfqDdK_8Y",
-    "thumbnail": "https://i.ytimg.com/vi/7qNfqDdK_8Y/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "VAZOU! IPHONE 18 PRO, SAMSUNG GALAXY S26, BIXBY, EXPLOSÃO NA ROCKSTAR e mais! - #SemManual 024",
-    "url": "https://www.youtube.com/watch?v=pvWjreZhsNU",
-    "thumbnail": "https://i.ytimg.com/vi/pvWjreZhsNU/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "BIG TECHS desejam a GROENLÂNDIA? Grok BANIDO do Brasil, PROTESTOS no ROBLOX - #SemManual 023",
-    "url": "https://www.youtube.com/watch?v=cahUNvHJ55Y",
-    "thumbnail": "https://i.ytimg.com/vi/cahUNvHJ55Y/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "FINAL SECRETO de Stranger Things, CHAT GPT de SAÚDE, NOVIDADES da CES 2026 - #SemManual 022",
-    "url": "https://www.youtube.com/watch?v=KVygLpG5mKY",
-    "thumbnail": "https://i.ytimg.com/vi/KVygLpG5mKY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "saude",
-    "language": "pt"
-  },
-  {
-    "title": "The WORST and BEST tech news of 2025 - #NoManual 021",
-    "url": "https://www.youtube.com/watch?v=e6KItf6L8y0",
-    "thumbnail": "https://i.ytimg.com/vi/e6KItf6L8y0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "TECQUIZ: Who here KNOWS MORE about TECHNOLOGY? - #NoManual 020",
-    "url": "https://www.youtube.com/watch?v=fmsxmeqXQog",
-    "thumbnail": "https://i.ytimg.com/vi/fmsxmeqXQog/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "As PIORES e as MELHORES notícias de TECNOLOGIA de 2025 - #SemManual 021 (Sem filtros, para membros)",
-    "url": "https://www.youtube.com/watch?v=P8IBfBdE6fg",
-    "thumbnail": "https://i.ytimg.com/vi/P8IBfBdE6fg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "TECQUIZ: who here KNOWS MORE about TECHNOLOGY? - (UNFILTERED, FOR MEMBERS)",
-    "url": "https://www.youtube.com/watch?v=vqgYdc2yH4U",
-    "thumbnail": "https://i.ytimg.com/vi/vqgYdc2yH4U/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "🚨ALERTA: PREÇO da MEMÓRIA vai AUMENTAR, DATACENTERS no ESPAÇO? FIREFOX focará em IA - #SemManual 019",
-    "url": "https://www.youtube.com/watch?v=5h4iS79RDgU",
-    "thumbnail": "https://i.ytimg.com/vi/5h4iS79RDgU/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Driving lessons on the app, 99 and Uber more expensive, Google returns with smart glasses - #NoMa...",
-    "url": "https://www.youtube.com/watch?v=7eZUtWXk530",
-    "thumbnail": "https://i.ytimg.com/vi/7eZUtWXk530/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "APAGÃO DE TV BOXES! TRIFOLD da SAMSUNG, data centers causam CÂNCER? - #SemManual 017",
-    "url": "https://www.youtube.com/watch?v=izYs272Kh8g",
-    "thumbnail": "https://i.ytimg.com/vi/izYs272Kh8g/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "XIAOMI: celulares terão AUMENTO no preço, NOVA ONDA de IAS, FALHA no CLOUDFLARE - #SemManual 016",
-    "url": "https://www.youtube.com/watch?v=If3AOb-UNGE",
-    "thumbnail": "https://i.ytimg.com/vi/If3AOb-UNGE/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "1º LANÇAMENTO COMERCIAL BR DE FOGUETE , META faturando com golpes, CONSOLE DA STEAM - #SemManual 015",
-    "url": "https://www.youtube.com/watch?v=cOXTyx64JgM",
-    "thumbnail": "https://i.ytimg.com/vi/cOXTyx64JgM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "My Family Cinema vs JUSTIÇA, APPLE admite DERROTA pro Gemini, FIM da ADOBE?  - #SemManual 014",
-    "url": "https://www.youtube.com/watch?v=vSjVwtqMPmA",
-    "thumbnail": "https://i.ytimg.com/vi/vSjVwtqMPmA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "cinema",
-    "language": "pt"
-  },
-  {
-    "title": "AMAZON DEMITE funcionários para INVESTIR em IA, ROBÔ DOMÉSTICO vem aí mas CUIDADO - #SemManual 013",
-    "url": "https://www.youtube.com/watch?v=xfrQAqYo_fk",
-    "thumbnail": "https://i.ytimg.com/vi/xfrQAqYo_fk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "PANE na NUVEM da AMAZON, GALAXY XR, NAVEGADOR da OPEN AI vai matar o CHROME? - #SemManual 012",
-    "url": "https://www.youtube.com/watch?v=6lKMS3lmJ18",
-    "thumbnail": "https://i.ytimg.com/vi/6lKMS3lmJ18/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "CHAT GPT não quer LADO POLÍTICO, KEETA vs IFOOD, FIM do SUPORTE ao WINDOWS 10 - #SemManual 011",
-    "url": "https://www.youtube.com/watch?v=a3U4R7yDRBk",
-    "thumbnail": "https://i.ytimg.com/vi/a3U4R7yDRBk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "BRASIL precisa de uma BOMBA NUCLEAR? MICROSOFT vs PROCON, SORA passando dos LIMITES - #SemManual 010",
-    "url": "https://www.youtube.com/watch?v=BO4koUV0y6s",
-    "thumbnail": "https://i.ytimg.com/vi/BO4koUV0y6s/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "META usará suas CONVERSAS para ANÚNCIOS, AUMENTO do GAMEPASS, GEMINI no GOOGLE NEST - #SemManual 009",
-    "url": "https://www.youtube.com/watch?v=pBwkJ17ZrgU",
-    "thumbnail": "https://i.ytimg.com/vi/pBwkJ17ZrgU/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "MICROSOFT vs EXÉRCITO DE ISRAEL, YOUTUBE culpa ADBLOCKS por AUDIÊNCIA, XIAOMI 17 - #SemManual 008",
-    "url": "https://www.youtube.com/watch?v=BnAyu5LA6UA",
-    "thumbnail": "https://i.ytimg.com/vi/BnAyu5LA6UA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "RAY-BAN META DISPLAY e o futuro dos CELULARES, Spotify agora vai ficar BOM?  - Sem Manual #007",
-    "url": "https://www.youtube.com/watch?v=skqWE3QHkTM",
-    "thumbnail": "https://i.ytimg.com/vi/skqWE3QHkTM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "DEMISSÕES no ITAÚ, grande FIREWALL da CHINA sendo VENDIDO, META CONNECT vindo aí - Sem Manual #006",
-    "url": "https://www.youtube.com/watch?v=XksNrPAkkOo",
-    "thumbnail": "https://i.ytimg.com/vi/XksNrPAkkOo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "FALHA GRAVE no WHATSAPP pode te ESPIONAR, S25 FE é MAIS DO MESMO? IFA 2025  - Sem Manual #005",
-    "url": "https://www.youtube.com/watch?v=JNXrnl59E2E",
-    "thumbnail": "https://i.ytimg.com/vi/JNXrnl59E2E/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "TV 3.0 irá MUDAR como ASSISTIMOS, desdobramentos da LEI FELCA, reviews da NVIDIA  - Sem Manual #004",
-    "url": "https://www.youtube.com/watch?v=WyDps6KE_w0",
-    "thumbnail": "https://i.ytimg.com/vi/WyDps6KE_w0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "GOOGLE ALFINETA APPLE, Apple vai deixar BARATO? Tudo que rolou na GAMESCOM  - Sem Manual #003",
-    "url": "https://www.youtube.com/watch?v=jJrGJGEWKuI",
-    "thumbnail": "https://i.ytimg.com/vi/jJrGJGEWKuI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "games"
-  },
-  {
-    "title": "PÓS-FELCA, quais os PRÓXIMOS PASSOS? CENSURA na STEAM, Google está PERDIDA? - Sem Manual #002",
-    "url": "https://www.youtube.com/watch?v=ZVn6XoXGYiY",
-    "thumbnail": "https://i.ytimg.com/vi/ZVn6XoXGYiY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Trump's rate on 100% semiconductors, BYD vs. automakers, Google's immersive AI - No Manual 001",
-    "url": "https://www.youtube.com/watch?v=8vc_LVwYdVg",
-    "thumbnail": "https://i.ytimg.com/vi/8vc_LVwYdVg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Celulares finos PRA QUE? Entenda a nova aposta de Samsung e Apple",
-    "url": "https://www.youtube.com/watch?v=bcohNzOVjDc",
-    "thumbnail": "https://i.ytimg.com/vi/bcohNzOVjDc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Drone Deliveries: Why Amazon and Google Failed — and Zipline is Winning the Game",
-    "url": "https://www.youtube.com/watch?v=svioOSsfrbQ",
-    "thumbnail": "https://i.ytimg.com/vi/svioOSsfrbQ/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Is the solution to go back to cable TV? Streaming is GETTING MUCH WORSE!",
-    "url": "https://www.youtube.com/watch?v=sthgrHLTsbQ",
-    "thumbnail": "https://i.ytimg.com/vi/sthgrHLTsbQ/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Guerra das tarifas EUA x mundo: o que vai acontecer com os preços de tecnologia no Brasil?",
-    "url": "https://www.youtube.com/watch?v=GqfP0WpJaHM",
-    "thumbnail": "https://i.ytimg.com/vi/GqfP0WpJaHM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "The iPhone 16e is the LAZIEST iPhone Apple has ever made",
-    "url": "https://www.youtube.com/watch?v=51gKT4WprgY",
-    "thumbnail": "https://i.ytimg.com/vi/51gKT4WprgY/hqdefault.jpg",
+    "title": "Behind the Scenes of ALEXA IN BRAZIL (ft. Talita Bruzzi Taliberti) - TecInverso",
+    "url": "https://www.youtube.com/watch?v=cpXBWeE4Wno",
+    "thumbnail": "https://i.ytimg.com/vi/cpXBWeE4Wno/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros"
   },
@@ -8284,6 +8010,424 @@
     "subject": "tecnologia"
   },
   {
+    "title": "AirPods with cameras and Xiaomi (and maybe Samsung) COPYING Apple AGAIN #SemManual 48",
+    "url": "https://www.youtube.com/watch?v=IwXfM8PM9jg",
+    "thumbnail": "https://i.ytimg.com/vi/IwXfM8PM9jg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Discord Live Streams SUSPENDED in Brazil! What now? #NoManual 47",
+    "url": "https://www.youtube.com/watch?v=iEOd3PYTjP0",
+    "thumbnail": "https://i.ytimg.com/vi/iEOd3PYTjP0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Quick update on today's show + AIs taking over everything #NoManual 46",
+    "url": "https://www.youtube.com/watch?v=FqUiXtTVRsg",
+    "thumbnail": "https://i.ytimg.com/vi/FqUiXtTVRsg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Can't afford an iPhone, Mac, iPad, or Apple Watch? Apple wants you to rent them! #SemManual 45",
+    "url": "https://www.youtube.com/watch?v=WyynFvKI0Cw",
+    "thumbnail": "https://i.ytimg.com/vi/WyynFvKI0Cw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "PERGUNTE O QUE QUISER! TecMundo responde todas suas dúvidas de tecnologia e além #SemManual 44",
+    "url": "https://www.youtube.com/watch?v=8mjkgZPGz-w",
+    "thumbnail": "https://i.ytimg.com/vi/8mjkgZPGz-w/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "WHAT WE ALREADY KNOW about the Galaxy Z Fold 8, Ultra, Flip 8 and + news from Unpacked #NoManual 43",
+    "url": "https://www.youtube.com/watch?v=Czz8nVXMD7o",
+    "thumbnail": "https://i.ytimg.com/vi/Czz8nVXMD7o/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "THE GRAND FINALE! TecMundo Quiz on Sem Manual!",
+    "url": "https://www.youtube.com/watch?v=zV7ydiXsu6A",
+    "thumbnail": "https://i.ytimg.com/vi/zV7ydiXsu6A/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "PAYWALL nos óculos Meta, Samsung confirma Fold 8 \"achatado\" e fim dos dicos de PS5 #SemManual 42",
+    "url": "https://www.youtube.com/watch?v=Jg8ugsmQZ2c",
+    "thumbnail": "https://i.ytimg.com/vi/Jg8ugsmQZ2c/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "GTA 6 PRE-ORDER normalizes R$550, Steam Machine is a PARADOX and Apple is (still) more expensive ...",
+    "url": "https://www.youtube.com/watch?v=TCtOygxw4b8",
+    "thumbnail": "https://i.ytimg.com/vi/TCtOygxw4b8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "ALEXA+ in BRAZIL, MILLION-DOLLAR gamer lawsuit, Google glasses with Xreal on PRE-ORDER #SemManual 40",
+    "url": "https://www.youtube.com/watch?v=Na3R_kRV_HM",
+    "thumbnail": "https://i.ytimg.com/vi/Na3R_kRV_HM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "FOUR species of ETs on EARTH? Bowie Knife99 TERRORIZES gamers, POCO with 8,500 mAh #NoManual 39",
+    "url": "https://www.youtube.com/watch?v=wmRR6LwGq8c",
+    "thumbnail": "https://i.ytimg.com/vi/wmRR6LwGq8c/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "SpaceX na Bolsa; Intel combate Macbook Neo; TUDO SOBRE óculos Samsung + Google #SemManual 38",
+    "url": "https://www.youtube.com/watch?v=_k8wMefjjow",
+    "thumbnail": "https://i.ytimg.com/vi/_k8wMefjjow/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "USA promoting ETs, MUSK vs ALTMAN, YOUTUBE raises AGE RATING #NoManual 37",
+    "url": "https://www.youtube.com/watch?v=xoDVVJsy3wI",
+    "thumbnail": "https://i.ytimg.com/vi/xoDVVJsy3wI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Tim Cook leaves Apple, big changes at Xbox, was the Mythos AI hacked? #NoManual 36",
+    "url": "https://www.youtube.com/watch?v=m1k2btVKSWI",
+    "thumbnail": "https://i.ytimg.com/vi/m1k2btVKSWI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Is 2026 the YEAR of FOLDABLES? AI WORRIES GENERATION Z, END OF THE SHOW MONOPOLY #NoManual 35",
+    "url": "https://www.youtube.com/watch?v=pkg5VndTLDA",
+    "thumbnail": "https://i.ytimg.com/vi/pkg5VndTLDA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "ARTEMIS and SPACE EXPLORATION, 50 years of APPLE, GEMINI exhibits USER #NoManual 34",
+    "url": "https://www.youtube.com/watch?v=KJhlE53Ogn4",
+    "thumbnail": "https://i.ytimg.com/vi/KJhlE53Ogn4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "arte"
+  },
+  {
+    "title": "META perde processo MILIONÁRIO,  iOS 26.4 com ECA DIGITAL, Gemini e novidade GIGANTE #SemManual 33",
+    "url": "https://www.youtube.com/watch?v=WMhVz4bk20A",
+    "thumbnail": "https://i.ytimg.com/vi/WMhVz4bk20A/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "META retreats from its biggest metaverse project, minimum fee on iFood, DLSS 5 #NoManual 32",
+    "url": "https://www.youtube.com/watch?v=09-LRbOI9l0",
+    "thumbnail": "https://i.ytimg.com/vi/09-LRbOI9l0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Could Motorola take down Apple? End of more pirate TV boxes, tech billionaires #NoManual 31",
+    "url": "https://www.youtube.com/watch?v=a-rBXsjpe1Q",
+    "thumbnail": "https://i.ytimg.com/vi/a-rBXsjpe1Q/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Macbook Neo, iPhone 17e e mais da Apple! Tiro no pé do ChatGPT! Caminhão de novidades Android e MWC",
+    "url": "https://www.youtube.com/watch?v=cmiuxEcZeZY",
+    "thumbnail": "https://i.ytimg.com/vi/cmiuxEcZeZY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Mais imposto para eletrônicos importados! CAOS no XBOX! Multar Apple por carregadores não adianta!",
+    "url": "https://www.youtube.com/watch?v=MNRL9EPMPpg",
+    "thumbnail": "https://i.ytimg.com/vi/MNRL9EPMPpg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "GALAXY UNPACKED 2026 VEM AÍ! CRISE GLOBAL DOS CHIPS! ROBÔS KUNG FU VIRALIZAM!",
+    "url": "https://www.youtube.com/watch?v=qVDlBmOUAY8",
+    "thumbnail": "https://i.ytimg.com/vi/qVDlBmOUAY8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "IMPASSE entre TAIWAN e EUA, SEEDANCE 2.0, RAYBAN META e seus PERIGOS - #SemManual 027",
+    "url": "https://www.youtube.com/watch?v=2xFM43-TKto",
+    "thumbnail": "https://i.ytimg.com/vi/2xFM43-TKto/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "REDE SOCIAL de IAs, Ifood AMEAÇADO? FIM das GAMBIARRAS no FIRE TV e YOUTUBE - #SemManual 026",
+    "url": "https://www.youtube.com/watch?v=HLZlNl4B_H4",
+    "thumbnail": "https://i.ytimg.com/vi/HLZlNl4B_H4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "WhatsApp, Instagram, and Facebook will have PAID VERSIONS! WINDOWS and the CRISIS OF TRUST - #NoM...",
+    "url": "https://www.youtube.com/watch?v=7qNfqDdK_8Y",
+    "thumbnail": "https://i.ytimg.com/vi/7qNfqDdK_8Y/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "VAZOU! IPHONE 18 PRO, SAMSUNG GALAXY S26, BIXBY, EXPLOSÃO NA ROCKSTAR e mais! - #SemManual 024",
+    "url": "https://www.youtube.com/watch?v=pvWjreZhsNU",
+    "thumbnail": "https://i.ytimg.com/vi/pvWjreZhsNU/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "BIG TECHS desejam a GROENLÂNDIA? Grok BANIDO do Brasil, PROTESTOS no ROBLOX - #SemManual 023",
+    "url": "https://www.youtube.com/watch?v=cahUNvHJ55Y",
+    "thumbnail": "https://i.ytimg.com/vi/cahUNvHJ55Y/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "FINAL SECRETO de Stranger Things, CHAT GPT de SAÚDE, NOVIDADES da CES 2026 - #SemManual 022",
+    "url": "https://www.youtube.com/watch?v=KVygLpG5mKY",
+    "thumbnail": "https://i.ytimg.com/vi/KVygLpG5mKY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "saude",
+    "language": "pt"
+  },
+  {
+    "title": "The WORST and BEST tech news of 2025 - #NoManual 021",
+    "url": "https://www.youtube.com/watch?v=e6KItf6L8y0",
+    "thumbnail": "https://i.ytimg.com/vi/e6KItf6L8y0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "TECQUIZ: Who here KNOWS MORE about TECHNOLOGY? - #NoManual 020",
+    "url": "https://www.youtube.com/watch?v=fmsxmeqXQog",
+    "thumbnail": "https://i.ytimg.com/vi/fmsxmeqXQog/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "As PIORES e as MELHORES notícias de TECNOLOGIA de 2025 - #SemManual 021 (Sem filtros, para membros)",
+    "url": "https://www.youtube.com/watch?v=P8IBfBdE6fg",
+    "thumbnail": "https://i.ytimg.com/vi/P8IBfBdE6fg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "TECQUIZ: who here KNOWS MORE about TECHNOLOGY? - (UNFILTERED, FOR MEMBERS)",
+    "url": "https://www.youtube.com/watch?v=vqgYdc2yH4U",
+    "thumbnail": "https://i.ytimg.com/vi/vqgYdc2yH4U/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "🚨ALERTA: PREÇO da MEMÓRIA vai AUMENTAR, DATACENTERS no ESPAÇO? FIREFOX focará em IA - #SemManual 019",
+    "url": "https://www.youtube.com/watch?v=5h4iS79RDgU",
+    "thumbnail": "https://i.ytimg.com/vi/5h4iS79RDgU/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Driving lessons on the app, 99 and Uber more expensive, Google returns with smart glasses - #NoMa...",
+    "url": "https://www.youtube.com/watch?v=7eZUtWXk530",
+    "thumbnail": "https://i.ytimg.com/vi/7eZUtWXk530/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "APAGÃO DE TV BOXES! TRIFOLD da SAMSUNG, data centers causam CÂNCER? - #SemManual 017",
+    "url": "https://www.youtube.com/watch?v=izYs272Kh8g",
+    "thumbnail": "https://i.ytimg.com/vi/izYs272Kh8g/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "XIAOMI: celulares terão AUMENTO no preço, NOVA ONDA de IAS, FALHA no CLOUDFLARE - #SemManual 016",
+    "url": "https://www.youtube.com/watch?v=If3AOb-UNGE",
+    "thumbnail": "https://i.ytimg.com/vi/If3AOb-UNGE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "1º LANÇAMENTO COMERCIAL BR DE FOGUETE , META faturando com golpes, CONSOLE DA STEAM - #SemManual 015",
+    "url": "https://www.youtube.com/watch?v=cOXTyx64JgM",
+    "thumbnail": "https://i.ytimg.com/vi/cOXTyx64JgM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "My Family Cinema vs JUSTIÇA, APPLE admite DERROTA pro Gemini, FIM da ADOBE?  - #SemManual 014",
+    "url": "https://www.youtube.com/watch?v=vSjVwtqMPmA",
+    "thumbnail": "https://i.ytimg.com/vi/vSjVwtqMPmA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "cinema",
+    "language": "pt"
+  },
+  {
+    "title": "AMAZON DEMITE funcionários para INVESTIR em IA, ROBÔ DOMÉSTICO vem aí mas CUIDADO - #SemManual 013",
+    "url": "https://www.youtube.com/watch?v=xfrQAqYo_fk",
+    "thumbnail": "https://i.ytimg.com/vi/xfrQAqYo_fk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "PANE na NUVEM da AMAZON, GALAXY XR, NAVEGADOR da OPEN AI vai matar o CHROME? - #SemManual 012",
+    "url": "https://www.youtube.com/watch?v=6lKMS3lmJ18",
+    "thumbnail": "https://i.ytimg.com/vi/6lKMS3lmJ18/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "CHAT GPT não quer LADO POLÍTICO, KEETA vs IFOOD, FIM do SUPORTE ao WINDOWS 10 - #SemManual 011",
+    "url": "https://www.youtube.com/watch?v=a3U4R7yDRBk",
+    "thumbnail": "https://i.ytimg.com/vi/a3U4R7yDRBk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "BRASIL precisa de uma BOMBA NUCLEAR? MICROSOFT vs PROCON, SORA passando dos LIMITES - #SemManual 010",
+    "url": "https://www.youtube.com/watch?v=BO4koUV0y6s",
+    "thumbnail": "https://i.ytimg.com/vi/BO4koUV0y6s/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "META usará suas CONVERSAS para ANÚNCIOS, AUMENTO do GAMEPASS, GEMINI no GOOGLE NEST - #SemManual 009",
+    "url": "https://www.youtube.com/watch?v=pBwkJ17ZrgU",
+    "thumbnail": "https://i.ytimg.com/vi/pBwkJ17ZrgU/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "MICROSOFT vs EXÉRCITO DE ISRAEL, YOUTUBE culpa ADBLOCKS por AUDIÊNCIA, XIAOMI 17 - #SemManual 008",
+    "url": "https://www.youtube.com/watch?v=BnAyu5LA6UA",
+    "thumbnail": "https://i.ytimg.com/vi/BnAyu5LA6UA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "RAY-BAN META DISPLAY e o futuro dos CELULARES, Spotify agora vai ficar BOM?  - Sem Manual #007",
+    "url": "https://www.youtube.com/watch?v=skqWE3QHkTM",
+    "thumbnail": "https://i.ytimg.com/vi/skqWE3QHkTM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "DEMISSÕES no ITAÚ, grande FIREWALL da CHINA sendo VENDIDO, META CONNECT vindo aí - Sem Manual #006",
+    "url": "https://www.youtube.com/watch?v=XksNrPAkkOo",
+    "thumbnail": "https://i.ytimg.com/vi/XksNrPAkkOo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "FALHA GRAVE no WHATSAPP pode te ESPIONAR, S25 FE é MAIS DO MESMO? IFA 2025  - Sem Manual #005",
+    "url": "https://www.youtube.com/watch?v=JNXrnl59E2E",
+    "thumbnail": "https://i.ytimg.com/vi/JNXrnl59E2E/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "TV 3.0 irá MUDAR como ASSISTIMOS, desdobramentos da LEI FELCA, reviews da NVIDIA  - Sem Manual #004",
+    "url": "https://www.youtube.com/watch?v=WyDps6KE_w0",
+    "thumbnail": "https://i.ytimg.com/vi/WyDps6KE_w0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "GOOGLE ALFINETA APPLE, Apple vai deixar BARATO? Tudo que rolou na GAMESCOM  - Sem Manual #003",
+    "url": "https://www.youtube.com/watch?v=jJrGJGEWKuI",
+    "thumbnail": "https://i.ytimg.com/vi/jJrGJGEWKuI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "games"
+  },
+  {
+    "title": "PÓS-FELCA, quais os PRÓXIMOS PASSOS? CENSURA na STEAM, Google está PERDIDA? - Sem Manual #002",
+    "url": "https://www.youtube.com/watch?v=ZVn6XoXGYiY",
+    "thumbnail": "https://i.ytimg.com/vi/ZVn6XoXGYiY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Trump's rate on 100% semiconductors, BYD vs. automakers, Google's immersive AI - No Manual 001",
+    "url": "https://www.youtube.com/watch?v=8vc_LVwYdVg",
+    "thumbnail": "https://i.ytimg.com/vi/8vc_LVwYdVg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Celulares finos PRA QUE? Entenda a nova aposta de Samsung e Apple",
+    "url": "https://www.youtube.com/watch?v=bcohNzOVjDc",
+    "thumbnail": "https://i.ytimg.com/vi/bcohNzOVjDc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Drone Deliveries: Why Amazon and Google Failed — and Zipline is Winning the Game",
+    "url": "https://www.youtube.com/watch?v=svioOSsfrbQ",
+    "thumbnail": "https://i.ytimg.com/vi/svioOSsfrbQ/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Is the solution to go back to cable TV? Streaming is GETTING MUCH WORSE!",
+    "url": "https://www.youtube.com/watch?v=sthgrHLTsbQ",
+    "thumbnail": "https://i.ytimg.com/vi/sthgrHLTsbQ/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Guerra das tarifas EUA x mundo: o que vai acontecer com os preços de tecnologia no Brasil?",
+    "url": "https://www.youtube.com/watch?v=GqfP0WpJaHM",
+    "thumbnail": "https://i.ytimg.com/vi/GqfP0WpJaHM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "The iPhone 16e is the LAZIEST iPhone Apple has ever made",
+    "url": "https://www.youtube.com/watch?v=51gKT4WprgY",
+    "thumbnail": "https://i.ytimg.com/vi/51gKT4WprgY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
     "title": "Entendendo o Básico de IA e Redes Neurais - IAs vão te substituir??",
     "url": "https://www.youtube.com/watch?v=UDrDg6uUOVs",
     "thumbnail": "https://i.ytimg.com/vi/UDrDg6uUOVs/hqdefault.jpg",
@@ -8313,6 +8457,51 @@
     "type": "live",
     "subject": "outros",
     "language": "pt"
+  },
+  {
+    "title": "Sextando com GNOME (PT-BR)",
+    "url": "https://www.youtube.com/watch?v=qoxPrAFbLuA",
+    "thumbnail": "https://i.ytimg.com/vi/qoxPrAFbLuA/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros"
+  },
+  {
+    "title": "GNOME Live Coding | Calendar (EN)",
+    "url": "https://www.youtube.com/watch?v=nBL7dkdDEmg",
+    "thumbnail": "https://i.ytimg.com/vi/nBL7dkdDEmg/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros",
+    "language": "en"
+  },
+  {
+    "title": "Fri-nally with GNOME",
+    "url": "https://www.youtube.com/watch?v=lykprdmjt74",
+    "thumbnail": "https://i.ytimg.com/vi/lykprdmjt74/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros"
+  },
+  {
+    "title": "GNOME Live Coding | Shell (EN)",
+    "url": "https://www.youtube.com/watch?v=IkIvjPEIzzY",
+    "thumbnail": "https://i.ytimg.com/vi/IkIvjPEIzzY/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros",
+    "language": "en"
+  },
+  {
+    "title": "Friday Fun with GNOME",
+    "url": "https://www.youtube.com/watch?v=wEjMJXox2Aw",
+    "thumbnail": "https://i.ytimg.com/vi/wEjMJXox2Aw/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros"
+  },
+  {
+    "title": "GNOME Live Coding | Calendar (EN)",
+    "url": "https://www.youtube.com/watch?v=AR_AoBRAdSE",
+    "thumbnail": "https://i.ytimg.com/vi/AR_AoBRAdSE/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros",
+    "language": "en"
   },
   {
     "title": "GNOME Live Coding | Calendar (EN)",
@@ -9577,12 +9766,19 @@
     "subject": "outros"
   },
   {
-    "title": "EVENTO da Google AO VIVO – PT-BR Tradução simultânea – Made by Google 2026: linha Pixel 11 e mais!",
-    "url": "https://www.youtube.com/watch?v=rxiVzFgzo5Y",
-    "thumbnail": "https://i.ytimg.com/vi/rxiVzFgzo5Y/hqdefault.jpg",
+    "title": "GTA 6: GAMEPLAY COM IMAGENS GRÁTIS! Acompanhe o Olhar Estendido AO VIVO",
+    "url": "https://www.youtube.com/watch?v=1YM9Lx0E55A",
+    "thumbnail": "https://i.ytimg.com/vi/1YM9Lx0E55A/hqdefault.jpg",
     "type": "live",
     "subject": "outros",
     "language": "pt"
+  },
+  {
+    "title": "Google Event LIVE – Simultaneous Translation – Made by Google 2026: Pixel 11 lineup and more!",
+    "url": "https://www.youtube.com/watch?v=rxiVzFgzo5Y",
+    "thumbnail": "https://i.ytimg.com/vi/rxiVzFgzo5Y/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros"
   },
   {
     "title": "LANÇAMENTO da Samsung AO VIVO – PT-BR Tradução simultânea – Galaxy Unpacked: Z Fold 8, Ultra, Flip",

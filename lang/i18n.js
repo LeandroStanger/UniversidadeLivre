@@ -1,12 +1,17 @@
-// i18n.js – Versão 2.0 – Módulo Centralizado de Internacionalização
-// Carrega e gerencia as traduções para toda a aplicação
-// Suporte a pt-br e en (expansível para outros idiomas)
-// Fornece função t() global e dispara evento 'languageChanged'
-// Armazena traduções em window.__translations para acesso global
-// Fallback mínimo: exibe a chave se não encontrada (para facilitar depuração)
+// lang/i18n.js – Versão 3.4 – Módulo Central de Internacionalização
+// ================================================================
+// - CORREÇÃO: Ordem de busca prioriza ./ e ../lang/ para evitar 404
+// - CORREÇÃO: Não sobrescreve funções se já definidas (preserva window.t)
+// - CORREÇÃO: Logs detalhados para depuração
+// - Persiste idioma em localStorage
+// - Aplica traduções via data-i18n, data-i18n-placeholder, data-i18n-title
+// - Suporte a placeholders {{var}}
+// - Dispara evento 'languageChanged' ao trocar idioma
 
 (function() {
     'use strict';
+
+    console.log('[i18n] Inicializando módulo central v3.4...');
 
     // ========== ESTADO INTERNO ==========
     let currentLang = 'pt-br';
@@ -14,6 +19,7 @@
     let isLoaded = false;
     let loadingPromise = null;
     const listeners = [];
+    let initialized = false;
 
     // ========== DETECTAR IDIOMA DO SISTEMA ==========
     function detectSystemLanguage() {
@@ -23,50 +29,62 @@
         return 'en';
     }
 
+    // O caminho é calculado a partir do próprio script para funcionar tanto
+    // na página inicial quanto nas páginas que ficam em subpastas.
+    const translationBaseUrl = (() => {
+        const script = document.currentScript;
+        if (script && script.src) return new URL('.', script.src).href;
+        return new URL('lang/', document.baseURI).href;
+    })();
+
     // ========== CARREGAR TRADUÇÕES ==========
     async function loadTranslations(lang) {
+        // Evita carregamento concorrente
         if (loadingPromise) {
             await loadingPromise;
-            // Se o idioma já foi carregado e é o mesmo, retorna
             if (lang === currentLang && isLoaded) return;
         }
 
         loadingPromise = (async () => {
             const paths = [
-                `/lang/${lang}.json`,
-                `lang/${lang}.json`,
-                `../lang/${lang}.json`,
-                `./lang/${lang}.json`
+                new URL(`${lang}.json`, translationBaseUrl).href
             ];
 
             let data = null;
+            let loadedPath = '';
+
             for (const path of paths) {
                 try {
+                    console.log(`[i18n] Tentando carregar: ${path}`);
                     const response = await fetch(path);
                     if (response.ok) {
                         data = await response.json();
+                        loadedPath = path;
                         console.log(`[i18n] Traduções carregadas de: ${path}`);
                         break;
                     }
                 } catch (e) {
-                    // Continua tentando outros caminhos
+                    console.warn(`[i18n] Falha ao carregar ${path}:`, e.message);
                 }
             }
 
             if (!data) {
                 console.warn(`[i18n] Nenhum arquivo de tradução encontrado para "${lang}". Usando fallback vazio.`);
                 data = {};
+                loadedPath = '(fallback vazio)';
             }
 
             translations = data;
             currentLang = lang;
             isLoaded = true;
 
-            // Expor traduções globalmente para outros módulos
+            // Expor traduções globalmente
             window.__translations = translations;
 
             // Salvar preferência
-            localStorage.setItem('selectedLanguage', lang);
+            try {
+                localStorage.setItem('selectedLanguage', lang);
+            } catch (_) { /* ignora */ }
 
             // Disparar evento para sincronizar outros módulos
             window.dispatchEvent(new CustomEvent('languageChanged', {
@@ -88,7 +106,7 @@
 
         let text = translations[key];
         if (text === undefined) {
-            // Fallback mínimo: exibe a chave para facilitar a identificação de faltas
+            // Fallback: exibe a chave para facilitar a identificação de faltas
             text = key;
         }
 
@@ -105,13 +123,14 @@
     // ========== ALTERAR IDIOMA ==========
     async function setLanguage(lang) {
         if (lang === currentLang && isLoaded) {
-            // Mesmo idioma, apenas reaplica as traduções (útil após recarregar)
+            // Mesmo idioma, apenas reaplica as traduções
             applyTranslationsToDOM();
             return;
         }
 
         await loadTranslations(lang);
         applyTranslationsToDOM();
+        updateLanguageSelector(lang);
     }
 
     // ========== OBTER IDIOMA ATUAL ==========
@@ -131,11 +150,13 @@
             return;
         }
 
-        // Atributos data-i18n para elementos com texto
+        console.log('[i18n] Aplicando traduções ao DOM...');
+
+        // Elementos com data-i18n (texto)
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[key]) {
-                // Verifica se o elemento tem ícone para preservá-lo
+                // Preserva ícone se existir
                 const icon = el.querySelector('i');
                 if (icon) {
                     const iconClone = icon.cloneNode(true);
@@ -147,6 +168,8 @@
                 } else {
                     el.innerText = translations[key];
                 }
+            } else {
+                console.warn(`[i18n] Chave não encontrada: ${key}`);
             }
         });
 
@@ -170,6 +193,16 @@
         console.log(`[i18n] Traduções aplicadas ao DOM (${currentLang}).`);
     }
 
+    // ========== ATUALIZAR SELETOR DE IDIOMA ==========
+    function updateLanguageSelector(lang) {
+        const ptBtn = document.getElementById('langPtBtn');
+        const enBtn = document.getElementById('langEnBtn');
+        if (ptBtn && enBtn) {
+            ptBtn.classList.toggle('active', lang === 'pt-br');
+            enBtn.classList.toggle('active', lang === 'en');
+        }
+    }
+
     // ========== ADICIONAR OUVINTE DE MUDANÇA ==========
     function onLanguageChanged(callback) {
         if (typeof callback === 'function') {
@@ -179,15 +212,17 @@
 
     // ========== INICIALIZAÇÃO ==========
     async function initI18n() {
-        // Verificar se já foi inicializado
         if (window.__i18n_initialized) {
             console.log('[i18n] Já inicializado.');
             return;
         }
 
         // Detectar idioma salvo ou do sistema
-        const savedLang = localStorage.getItem('selectedLanguage');
-        let initialLang = savedLang;
+        let initialLang = null;
+        try {
+            initialLang = localStorage.getItem('selectedLanguage');
+        } catch (_) { /* ignora */ }
+
         if (!initialLang) {
             initialLang = detectSystemLanguage();
         }
@@ -195,43 +230,91 @@
         // Carregar traduções
         await loadTranslations(initialLang);
 
-        // Aplicar ao DOM
-        applyTranslationsToDOM();
+        // Aguardar DOM pronto para aplicar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                applyTranslationsToDOM();
+                setupLanguageButtons();
+            });
+        } else {
+            applyTranslationsToDOM();
+            setupLanguageButtons();
+        }
 
         // Marcar como inicializado
         window.__i18n_initialized = true;
         console.log(`[i18n] Inicializado com sucesso. Idioma: ${currentLang}`);
     }
 
+    // ========== CONFIGURAR BOTÕES DE IDIOMA ==========
+    function setupLanguageButtons() {
+        const ptBtn = document.getElementById('langPtBtn');
+        const enBtn = document.getElementById('langEnBtn');
+
+        if (ptBtn) {
+            // Remove listeners antigos para evitar duplicação
+            const newPtBtn = ptBtn.cloneNode(true);
+            ptBtn.parentNode.replaceChild(newPtBtn, ptBtn);
+            newPtBtn.addEventListener('click', function() {
+                setLanguage('pt-br');
+            });
+        }
+
+        if (enBtn) {
+            const newEnBtn = enBtn.cloneNode(true);
+            enBtn.parentNode.replaceChild(newEnBtn, enBtn);
+            newEnBtn.addEventListener('click', function() {
+                setLanguage('en');
+            });
+        }
+
+        console.log('[i18n] Listeners dos botões de idioma configurados.');
+    }
+
     // ========== EXPOSIÇÃO GLOBAL ==========
-    window.i18n = {
-        init: initI18n,
-        loadTranslations,
-        setLanguage,
-        getCurrentLanguage,
-        getTranslations,
-        t,
-        applyTranslations: applyTranslationsToDOM,
-        onLanguageChanged,
-        // Atalho para compatibilidade com módulos antigos
-        setLanguage,
-        getLanguage: getCurrentLanguage,
-        translate: t,
-        apply: applyTranslationsToDOM
-    };
+    // Apenas define se ainda não existirem, para evitar sobrescrita
+    if (!window.i18n) {
+        window.i18n = {
+            init: initI18n,
+            loadTranslations,
+            setLanguage,
+            getCurrentLanguage,
+            getTranslations,
+            t,
+            applyTranslations: applyTranslationsToDOM,
+            onLanguageChanged
+        };
+    }
 
-    // Para compatibilidade com o sistema antigo, expõe também funções globais
-    window.__translations = translations;
-    window.t = t;
-    window.setLanguage = setLanguage;
-    window.getCurrentLanguage = getCurrentLanguage;
-    window.applyTranslations = applyTranslationsToDOM;
+    // Funções globais (não sobrescrever se já existirem)
+    if (typeof window.t !== 'function') {
+        window.t = t;
+    }
+    if (typeof window.setLanguage !== 'function') {
+        window.setLanguage = setLanguage;
+    }
+    if (typeof window.getCurrentLanguage !== 'function') {
+        window.getCurrentLanguage = getCurrentLanguage;
+    }
+    if (typeof window.applyTranslations !== 'function') {
+        window.applyTranslations = applyTranslationsToDOM;
+    }
 
-    // ========== AUTOINICIALIZAÇÃO SEGURA ==========
+    // Expor traduções brutas (read-only)
+    Object.defineProperty(window, '__translations', {
+        get: function() { return translations; },
+        set: function() { /* read-only */ }
+    });
+
+    // ========== AUTOINICIALIZAÇÃO ==========
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initI18n);
+        window.i18nReady = new Promise((resolve, reject) => {
+            document.addEventListener('DOMContentLoaded', () => {
+                initI18n().then(resolve).catch(reject);
+            }, { once: true });
+        });
     } else {
-        initI18n();
+        window.i18nReady = initI18n();
     }
 
     console.log('[i18n] Módulo carregado.');

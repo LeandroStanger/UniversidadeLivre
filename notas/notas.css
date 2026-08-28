@@ -263,7 +263,6 @@ a:hover {
 }
 
 .btn-back:hover {
-    background: var(--accent-green-hover);
     transform: scale(1.05) translateY(-2px);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
 }

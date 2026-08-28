@@ -1,4 +1,4 @@
-// onboarding/onboarding.js – Versão 21.0 – COMPLETO E INTEGRADO AO i18n CENTRAL
+// onboarding/onboarding.js – Versão 22.0 – COMPLETO E INTEGRADO AO i18n CENTRAL
 // Trilha de boas-vindas (Onboarding) com Login, Cadastro, Importação de progresso
 // Suporte a verificação de senha para importação (incluindo arquivos criptografados)
 // Restauração completa do perfil (nome, gênero, avatar, matrícula, tempo, cursos, etc.)
@@ -9,9 +9,13 @@
 // CORREÇÃO: Traduções carregadas exclusivamente do módulo central i18n (window.t)
 // CORREÇÃO: MutationObserver desconectado ao fechar modal
 // CORREÇÃO: Removidos fallbacks hardcoded enormes – usa window.t ou chave como fallback
+// CORREÇÃO: Verificação de nome de usuário (username) opcional
+// CORREÇÃO: Suporte a avatar personalizado via upload
 
 (function() {
     'use strict';
+
+    console.log('[Onboarding] Inicializando módulo v22.0...');
 
     // ========== CONSTANTES ==========
     const ONBOARDING_COMPLETE_KEY = 'ulivre_onboarding_complete';
@@ -69,7 +73,7 @@
             result.set(new Uint8Array(encrypted), salt.length + iv.length);
             return btoa(String.fromCharCode.apply(null, result));
         } catch (error) {
-            console.error('Erro na criptografia:', error);
+            console.error('[Onboarding] Erro na criptografia:', error);
             throw new Error('Falha ao criptografar dados: ' + error.message);
         }
     }
@@ -89,7 +93,7 @@
             const decoder = new TextDecoder();
             return JSON.parse(decoder.decode(decrypted));
         } catch (error) {
-            console.error('Erro na descriptografia:', error);
+            console.error('[Onboarding] Erro na descriptografia:', error);
             throw new Error('Falha ao descriptografar dados: ' + error.message);
         }
     }
@@ -213,6 +217,18 @@
     // ========== INICIALIZAR ELEMENTOS ==========
     function initElements() {
         modal = document.getElementById('onboardingModal');
+        if (modal && !document.getElementById('onboardingSteps')) {
+            modal.innerHTML = `
+                <div class="onboarding-modal-content">
+                    <div id="onboardingSteps" class="onboarding-steps"></div>
+                    <div class="onboarding-footer">
+                        <button id="onboardingPrev" class="btn-secondary" style="display:none;"></button>
+                        <button id="onboardingNext" class="btn-primary"></button>
+                        <button id="onboardingFinish" class="btn-primary" style="display:none;"></button>
+                    </div>
+                </div>
+            `;
+        }
         stepsContainer = document.getElementById('onboardingSteps');
         prevBtn = document.getElementById('onboardingPrev');
         nextBtn = document.getElementById('onboardingNext');
@@ -475,6 +491,20 @@
         }
         if (importedData.data && importedData.data.tags) {
             localStorage.setItem('ulivre_notas_tags', JSON.stringify(importedData.data.tags));
+        }
+        if (importedData.data && importedData.data.community && typeof importedData.data.community === 'object') {
+            Object.entries(importedData.data.community).forEach(([key, value]) => {
+                if (key.startsWith('comunidade_posts_') || key.startsWith('comunidade_chat_')) {
+                    localStorage.setItem(key, JSON.stringify(value));
+                }
+            });
+        }
+        if (importedData.data && importedData.data.cursorTimeset && typeof importedData.data.cursorTimeset === 'object') {
+            Object.entries(importedData.data.cursorTimeset).forEach(([key, value]) => {
+                if (key.startsWith('cursor_timeset')) {
+                    localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+                }
+            });
         }
 
         // === MARCAR ONBOARDING COMO COMPLETO ===
