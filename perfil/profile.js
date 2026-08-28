@@ -1,19 +1,24 @@
-// perfil/profile.js – Versão 29.0 – COMPLETO E OTIMIZADO
-// Módulo de Perfil com Avatar, Nome, Gênero, Senha, Exportação/Importação
+// perfil/profile.js – Versão 31.0 – COMPLETO E OTIMIZADO
+// =========================================================
+// CORREÇÃO: Não sobrescreve window.t (usa i18n central)
+// CORREÇÃO: Verificações de nulidade em TODOS os elementos DOM
+// CORREÇÃO: Prioriza caminho relativo `../perfil/img/` para avatares
 // CORREÇÃO: Validação robusta de estrutura de dados na importação
+// CORREÇÃO: Integração total com i18n central (usa window.t)
 // CORREÇÃO: Logs detalhados para depuração
-// CORREÇÃO: Suporte a todos os cursos (incluindo Física, Letras e Química)
+// CORREÇÃO: Suporte a todos os cursos
 // CORREÇÃO: Fallback para estruturas antigas de arquivos
-// CORREÇÃO: Tratamento de exceções individuais (avatar, cursos, etc.)
+// CORREÇÃO: Tratamento de exceções individuais
 // CORREÇÃO: Sincronização com módulo de Onboarding
-// CORREÇÃO: Exportação de dados do perfil com checksum e senha
-// CORREÇÃO: Importação com verificação de integridade e estrutura
-// CORREÇÃO: Usa módulo central i18n (window.t) com fallback próprio
+// CORREÇÃO: Exportação criptografada com checksum
+// CORREÇÃO: Importação com verificação de integridade
+// CORREÇÃO: Fechamento do modal com clique no overlay e tecla ESC
+// CORREÇÃO: Scroll do modal funcionando (overflow-y: auto no body)
 
 (function() {
     'use strict';
 
-    console.log('[Profile] Inicializando módulo...');
+    console.log('[Profile] Inicializando módulo v31.0...');
 
     // ========== CONSTANTES ==========
     const STORAGE_KEYS = {
@@ -98,92 +103,44 @@
         'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
-    // ========== TRADUÇÃO (com fallback mínimo) ==========
-    let translations = {};
-    let currentLang = 'pt-br';
-    let translationsLoaded = false;
-
-    // Função t() que usa window.t se disponível
+    // ========== TRADUÇÃO (usa window.t com fallback) ==========
     function t(key, replacements = {}) {
-        // Tenta usar o módulo central i18n
         if (window.t && typeof window.t === 'function') {
             try {
                 return window.t(key, replacements);
             } catch (e) { /* fallback */ }
         }
-
-        // Fallback próprio
-        let text = translations[key] || key;
-        for (var k in replacements) {
-            if (replacements.hasOwnProperty(k)) {
-                text = text.replace(new RegExp('{{' + k + '}}', 'g'), replacements[k]);
-            }
+        let text = key;
+        for (const [k, v] of Object.entries(replacements)) {
+            text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
         }
         return text;
     }
 
     function getCourseName(courseId) {
-        var nameObj = COURSE_NAMES[courseId];
+        const nameObj = COURSE_NAMES[courseId];
         if (!nameObj) return courseId;
-        return nameObj[currentLang] || nameObj.pt || courseId;
+        const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
+        return nameObj[lang] || nameObj.pt || courseId;
     }
 
-    // ========== I18N ==========
-    async function loadTranslations(lang) {
-        // Tenta usar o módulo central i18n
-        if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
-            try {
-                await window.i18n.loadTranslations(lang);
-                translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
-                if (Object.keys(translations).length > 0) {
-                    translationsLoaded = true;
-                    console.log('[Profile] Traduções carregadas do módulo central i18n');
-                    return true;
-                }
-            } catch (e) {
-                console.warn('[Profile] Falha ao carregar do módulo central:', e);
-            }
-        }
-
-        // Fallback: tenta carregar o arquivo JSON diretamente
-        var paths = [
-            '../lang/' + lang + '.json',
-            'lang/' + lang + '.json',
-            '/lang/' + lang + '.json',
-            './lang/' + lang + '.json'
-        ];
-        for (var i = 0; i < paths.length; i++) {
-            try {
-                var response = await fetch(paths[i]);
-                if (response.ok) {
-                    translations = await response.json();
-                    translationsLoaded = true;
-                    console.log('[Profile] Traduções carregadas de ' + paths[i]);
-                    return true;
-                }
-            } catch (e) { /* continua */ }
-        }
-        console.warn('[Profile] Nenhum arquivo de tradução encontrado para ' + lang + '. Usando fallback mínimo.');
-        translations = {};
-        translationsLoaded = false;
-        return false;
-    }
-
-    // ========== FUNÇÕES AUXILIARES ==========
+    // ========================================================================
+    // FUNÇÕES AUXILIARES
+    // ========================================================================
     function generateMatricula() {
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = String(now.getMonth() + 1).padStart(2, '0');
-        var day = String(now.getDate()).padStart(2, '0');
-        var hour = String(now.getHours()).padStart(2, '0');
-        var minute = String(now.getMinutes()).padStart(2, '0');
-        var second = String(now.getSeconds()).padStart(2, '0');
-        var millisecond = String(now.getMilliseconds()).padStart(3, '0');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hour = String(now.getHours()).padStart(2, '0');
+        const minute = String(now.getMinutes()).padStart(2, '0');
+        const second = String(now.getSeconds()).padStart(2, '0');
+        const millisecond = String(now.getMilliseconds()).padStart(3, '0');
         return year + month + day + hour + minute + second + millisecond;
     }
 
     function getMatricula() {
-        var matricula = localStorage.getItem(STORAGE_KEYS.MATRICULA);
+        let matricula = localStorage.getItem(STORAGE_KEYS.MATRICULA);
         if (!matricula) {
             matricula = generateMatricula();
             localStorage.setItem(STORAGE_KEYS.MATRICULA, matricula);
@@ -192,9 +149,9 @@
     }
 
     function getAuditorioHours() {
-        var timeInSeconds = parseInt(localStorage.getItem(AUDITORIO_TIME_KEY) || '0', 10);
-        var hours = Math.floor(timeInSeconds / 3600);
-        var minutes = Math.floor((timeInSeconds % 3600) / 60);
+        const timeInSeconds = parseInt(localStorage.getItem(AUDITORIO_TIME_KEY) || '0', 10);
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
         return {
             seconds: timeInSeconds,
             hours: hours,
@@ -204,21 +161,20 @@
     }
 
     function updateAuditorioTimeDisplay() {
-        var auditTime = getAuditorioHours();
-        var el = document.getElementById('profileAuditorioTime');
+        const auditTime = getAuditorioHours();
+        const el = document.getElementById('profileAuditorioTime');
         if (el) el.textContent = auditTime.formatted;
     }
 
     // ========== SISTEMA DE NOTIFICAÇÕES ==========
-    function showToast(message, type) {
-        type = type || 'info';
+    function showToast(message, type = 'info') {
         if (window.queueNotification && typeof window.queueNotification === 'function') {
             window.queueNotification(message, type);
             return;
         }
-        var existing = document.getElementById('customToast');
+        const existing = document.getElementById('customToast');
         if (existing) existing.remove();
-        var toast = document.createElement('div');
+        const toast = document.createElement('div');
         toast.id = 'customToast';
         toast.style.cssText =
             'position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);' +
@@ -235,22 +191,21 @@
         else if (type === 'error') toast.style.borderLeft = '4px solid #ef4444';
         else toast.style.borderLeft = '4px solid #6C8CFF';
         document.body.appendChild(toast);
-        requestAnimationFrame(function() {
+        requestAnimationFrame(() => {
             toast.style.opacity = '1';
             toast.style.transform = 'translateX(-50%) translateY(0)';
         });
-        setTimeout(function() {
+        setTimeout(() => {
             toast.style.opacity = '0';
             toast.style.transform = 'translateX(-50%) translateY(20px)';
-            setTimeout(function() { toast.remove(); }, 300);
+            setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
 
     // ========== LIMPEZA DE OBJETOS ==========
-    function cleanObject(obj, maxDepth) {
-        maxDepth = maxDepth || 15;
-        var seen = new WeakSet();
-        var depth = 0;
+    function cleanObject(obj, maxDepth = 15) {
+        const seen = new WeakSet();
+        let depth = 0;
 
         function clean(value) {
             if (typeof value !== 'object' || value === null) return value;
@@ -259,32 +214,31 @@
             seen.add(value);
             depth++;
             if (Array.isArray(value)) {
-                var arr = value.map(clean);
+                const arr = value.map(clean);
                 depth--;
                 return arr;
             }
-            var result = {};
-            for (var key in value) {
+            const result = {};
+            for (const key in value) {
                 if (value.hasOwnProperty(key)) {
-                    try { result[key] = clean(value[key]); } catch (e) { result[key] = '[Error]'; }
+                    try { result[key] = clean(value[key]); } catch (_) { result[key] = '[Error]'; }
                 }
             }
             depth--;
             return result;
         }
-        try { return clean(obj); } catch (e) { return { error: 'Não foi possível limpar os dados' }; }
+        try { return clean(obj); } catch (_) { return { error: 'Não foi possível limpar os dados' }; }
     }
 
-    function safeStringify(obj, maxDepth) {
-        maxDepth = maxDepth || 15;
-        var cleaned = cleanObject(obj, maxDepth);
-        try { return JSON.stringify(cleaned); } catch (e) { return '{"error":"Serialization failed"}'; }
+    function safeStringify(obj, maxDepth = 15) {
+        const cleaned = cleanObject(obj, maxDepth);
+        try { return JSON.stringify(cleaned); } catch (_) { return '{"error":"Serialization failed"}'; }
     }
 
-    // ========== CRIPTOGRAFIA (com fallback) ==========
+    // ========== CRIPTOGRAFIA ==========
     async function deriveKey(password, salt) {
-        var encoder = new TextEncoder();
-        var keyMaterial = await crypto.subtle.importKey(
+        const encoder = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
             'raw',
             encoder.encode(password),
             'PBKDF2',
@@ -307,17 +261,17 @@
 
     async function encryptData(data, password) {
         try {
-            var encoder = new TextEncoder();
-            var salt = crypto.getRandomValues(new Uint8Array(16));
-            var iv = crypto.getRandomValues(new Uint8Array(12));
-            var key = await deriveKey(password, salt);
-            var jsonString = safeStringify(data, 15);
-            var encrypted = await crypto.subtle.encrypt(
+            const encoder = new TextEncoder();
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const key = await deriveKey(password, salt);
+            const jsonString = safeStringify(data, 15);
+            const encrypted = await crypto.subtle.encrypt(
                 { name: 'AES-GCM', iv: iv },
                 key,
                 encoder.encode(jsonString)
             );
-            var result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
             result.set(salt, 0);
             result.set(iv, salt.length);
             result.set(new Uint8Array(encrypted), salt.length + iv.length);
@@ -330,17 +284,17 @@
 
     async function decryptData(encryptedBase64, password) {
         try {
-            var encrypted = Uint8Array.from(atob(encryptedBase64), function(c) { return c.charCodeAt(0); });
-            var salt = encrypted.slice(0, 16);
-            var iv = encrypted.slice(16, 28);
-            var data = encrypted.slice(28);
-            var key = await deriveKey(password, salt);
-            var decrypted = await crypto.subtle.decrypt(
+            const encrypted = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+            const salt = encrypted.slice(0, 16);
+            const iv = encrypted.slice(16, 28);
+            const data = encrypted.slice(28);
+            const key = await deriveKey(password, salt);
+            const decrypted = await crypto.subtle.decrypt(
                 { name: 'AES-GCM', iv: iv },
                 key,
                 data
             );
-            var decoder = new TextDecoder();
+            const decoder = new TextDecoder();
             return JSON.parse(decoder.decode(decrypted));
         } catch (error) {
             console.error('Erro na descriptografia:', error);
@@ -351,10 +305,10 @@
     async function verifyPassword(inputPassword, storedHash) {
         if (!storedHash) return false;
         try {
-            var encoder = new TextEncoder();
-            var data = encoder.encode(inputPassword);
-            var hash = await crypto.subtle.digest('SHA-256', data);
-            var hashBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+            const encoder = new TextEncoder();
+            const data = encoder.encode(inputPassword);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            const hashBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
             return hashBase64 === storedHash;
         } catch (e) {
             console.error('[Profile] Erro ao verificar senha:', e);
@@ -364,9 +318,9 @@
 
     async function hashPassword(password) {
         try {
-            var encoder = new TextEncoder();
-            var data = encoder.encode(password);
-            var hash = await crypto.subtle.digest('SHA-256', data);
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
             return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
         } catch (e) {
             console.error('[Profile] Erro ao gerar hash:', e);
@@ -376,29 +330,29 @@
 
     // ========== VALIDAÇÃO DE SENHA ==========
     function checkPasswordStrength(password) {
-        var checks = {
+        const checks = {
             minLength: password.length >= PASSWORD_MIN_LENGTH,
             hasUpper: PASSWORD_REQUIREMENTS.hasUpper.test(password),
             hasLower: PASSWORD_REQUIREMENTS.hasLower.test(password),
             hasNumber: PASSWORD_REQUIREMENTS.hasNumber.test(password),
             hasSpecial: PASSWORD_REQUIREMENTS.hasSpecial.test(password)
         };
-        var passed = 0;
-        for (var key in checks) {
+        let passed = 0;
+        for (const key in checks) {
             if (checks.hasOwnProperty(key) && checks[key]) passed++;
         }
-        var strength = 'Fraca';
-        var color = '#ef4444';
+        let strength = 'Fraca';
+        let color = '#ef4444';
         if (passed === 5) { strength = 'Forte'; color = '#22c55e'; }
         else if (passed >= 4) { strength = 'Boa'; color = '#eab308'; }
         else if (passed >= 3) { strength = 'Média'; color = '#f59e0b'; }
         else if (passed >= 2) { strength = 'Fraca'; color = '#ef4444'; }
         else { strength = 'Muito fraca'; color = '#dc2626'; }
-        return { checks: checks, passed: passed, strength: strength, color: color, total: 5 };
+        return { checks, passed, strength, color, total: 5 };
     }
 
     function getPasswordFeedback(checks) {
-        var messages = [];
+        const messages = [];
         if (!checks.minLength) messages.push('Mínimo de ' + PASSWORD_MIN_LENGTH + ' caracteres');
         if (!checks.hasUpper) messages.push('Pelo menos uma letra maiúscula');
         if (!checks.hasLower) messages.push('Pelo menos uma letra minúscula');
@@ -430,13 +384,13 @@
             showToast(t('profile_password_min'), 'error');
             return false;
         }
-        var strength = checkPasswordStrength(password);
+        const strength = checkPasswordStrength(password);
         if (strength.passed < 3) {
-            var feedback = getPasswordFeedback(strength.checks);
+            const feedback = getPasswordFeedback(strength.checks);
             showToast(t('profile_password_weak') + feedback.join(', '), 'error');
             return false;
         }
-        var hash = await hashPassword(password);
+        const hash = await hashPassword(password);
         if (!hash) {
             showToast('Erro ao salvar senha. Tente novamente.', 'error');
             return false;
@@ -451,17 +405,14 @@
     function hasStoredPassword() { return !!localStorage.getItem(STORAGE_KEYS.PASSWORD); }
 
     // ========== REDIMENSIONAR IMAGEM ==========
-    function resizeImage(file, maxWidth, maxHeight, quality) {
-        maxWidth = maxWidth || 150;
-        maxHeight = maxHeight || 150;
-        quality = quality || 0.7;
-        return new Promise(function(resolve, reject) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var img = new Image();
-                img.onload = function() {
-                    var width = img.width;
-                    var height = img.height;
+    function resizeImage(file, maxWidth = 150, maxHeight = 150, quality = 0.7) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
                     if (width > height) {
                         if (width > maxWidth) {
                             height = Math.round((height * maxWidth) / width);
@@ -473,14 +424,14 @@
                             height = maxHeight;
                         }
                     }
-                    var canvas = document.createElement('canvas');
+                    const canvas = document.createElement('canvas');
                     canvas.width = width;
                     canvas.height = height;
-                    var ctx = canvas.getContext('2d');
+                    const ctx = canvas.getContext('2d');
                     ctx.imageSmoothingEnabled = true;
                     ctx.imageSmoothingQuality = 'high';
                     ctx.drawImage(img, 0, 0, width, height);
-                    var dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
                     resolve(dataUrl);
                 };
                 img.onerror = reject;
@@ -495,7 +446,7 @@
     function getUserAvatar() { return localStorage.getItem(STORAGE_KEYS.AVATAR) || null; }
 
     function saveUserAvatar(base64) {
-        var sizeInBytes = base64.length * 0.75;
+        const sizeInBytes = base64.length * 0.75;
         if (sizeInBytes > 500 * 1024) {
             showToast(t('profile_avatar_too_big'), 'error');
             return false;
@@ -517,49 +468,51 @@
     }
 
     function loadAvatarToModal() {
-        var img = document.getElementById('profileAvatar');
+        const img = document.getElementById('profileAvatar');
         if (!img) {
             console.warn('[Profile] #profileAvatar não encontrado');
             return;
         }
-        var avatar = getUserAvatar();
+        const avatar = getUserAvatar();
         if (avatar) {
             img.src = avatar;
             console.log('[Profile] Avatar carregado do localStorage');
         } else {
-            var name = loadProfileName() || 'Usuario';
+            const name = loadProfileName() || 'Usuario';
             img.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=6C8CFF&color=fff&size=80';
             console.log('[Profile] Avatar gerado via API');
         }
     }
 
     // ========== DETECÇÃO AUTOMÁTICA DO CAMINHO DAS IMAGENS ==========
+    let imageBasePath = null;
+
     async function detectImageBasePath() {
         if (imageBasePath) return imageBasePath;
 
-        var testFile = 'Aguia.png';
-        var paths = [
-            '/perfil/img/',
-            'perfil/img/',
+        // Prioriza o caminho relativo `../perfil/img/` (subindo um nível)
+        const paths = [
             '../perfil/img/',
             './perfil/img/',
+            '/perfil/img/',
+            'perfil/img/',
             window.location.origin + '/perfil/img/',
             window.location.origin + '/universidade/perfil/img/'
         ];
 
-        for (var i = 0; i < paths.length; i++) {
-            var testUrl = paths[i] + testFile;
+        for (const path of paths) {
+            const testUrl = path + 'Aguia.png';
             try {
-                var response = await fetch(testUrl, { method: 'HEAD' });
+                const response = await fetch(testUrl, { method: 'HEAD' });
                 if (response.ok) {
-                    imageBasePath = paths[i];
+                    imageBasePath = path;
                     console.log('[Profile] Caminho das imagens detectado: ' + imageBasePath);
                     return imageBasePath;
                 }
-            } catch (e) { /* ignora */ }
+            } catch (_) { /* ignora */ }
         }
 
-        imageBasePath = '/perfil/img/';
+        imageBasePath = '../perfil/img/';
         console.warn('[Profile] Nenhum caminho válido encontrado, usando fallback: ' + imageBasePath);
         return imageBasePath;
     }
@@ -567,14 +520,14 @@
     async function setDefaultAvatar() {
         if (getUserAvatar()) return;
         try {
-            var basePath = await detectImageBasePath();
-            var firstAvatar = DEFAULT_AVATARS[0];
-            var imgSrc = basePath + firstAvatar.file;
-            var response = await fetch(imgSrc);
+            const basePath = await detectImageBasePath();
+            const firstAvatar = DEFAULT_AVATARS[0];
+            const imgSrc = basePath + firstAvatar.file;
+            const response = await fetch(imgSrc);
             if (!response.ok) throw new Error('Falha ao carregar imagem padrão');
-            var blob = await response.blob();
-            var fileObj = new File([blob], firstAvatar.file, { type: blob.type });
-            var resizedBase64 = await resizeImage(fileObj, 150, 150, 0.7);
+            const blob = await response.blob();
+            const fileObj = new File([blob], firstAvatar.file, { type: blob.type });
+            const resizedBase64 = await resizeImage(fileObj, 150, 150, 0.7);
             saveUserAvatar(resizedBase64);
         } catch (error) {
             console.warn('[Profile] Erro ao definir avatar padrão:', error);
@@ -584,33 +537,32 @@
     // ========== SELETOR DE AVATAR ==========
     async function showAvatarSelector() {
         console.log('[Profile] showAvatarSelector chamado');
-        var existing = document.getElementById('avatarSelectorModal');
+        const existing = document.getElementById('avatarSelectorModal');
         if (existing) {
             existing.remove();
             console.log('[Profile] Modal de avatar já existia, removido');
         }
 
-        var basePath = await detectImageBasePath();
+        const basePath = await detectImageBasePath();
 
-        var overlay = document.createElement('div');
+        const overlay = document.createElement('div');
         overlay.id = 'avatarSelectorModal';
         overlay.style.cssText =
             'position:fixed;top:0;left:0;width:100%;height:100%;' +
             'background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);' +
             'z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
 
-        var modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.style.cssText =
             'background:var(--bg-secondary);border-radius:24px;padding:1.5rem;' +
             'max-width:780px;width:100%;max-height:90vh;overflow-y:auto;' +
             'border:1px solid var(--border);box-shadow:0 20px 40px rgba(0,0,0,0.7);' +
             'animation:scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);';
 
-        var avatarOptionsHtml = '';
-        for (var i = 0; i < DEFAULT_AVATARS.length; i++) {
-            var av = DEFAULT_AVATARS[i];
-            var imgSrc = basePath + av.file;
-            var avatarName = t(av.key);
+        let avatarOptionsHtml = '';
+        for (const av of DEFAULT_AVATARS) {
+            const imgSrc = basePath + av.file;
+            const avatarName = t(av.key);
             avatarOptionsHtml += `
                 <div class="avatar-option" data-file="${av.file}" style="
                     cursor:pointer;border-radius:12px;overflow:hidden;
@@ -662,96 +614,87 @@
         document.body.appendChild(overlay);
         console.log('[Profile] Modal de avatar adicionado ao DOM');
 
-        var closeBtn = document.getElementById('closeAvatarSelector');
+        const closeBtn = document.getElementById('closeAvatarSelector');
         if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
-                overlay.remove();
-                console.log('[Profile] Modal de avatar fechado pelo botão X');
-            });
+            closeBtn.addEventListener('click', () => overlay.remove());
         }
 
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                overlay.remove();
-                console.log('[Profile] Modal de avatar fechado pelo overlay');
-            }
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
         });
 
-        var licenseBtn = document.getElementById('licenseAvatarBtn');
+        const licenseBtn = document.getElementById('licenseAvatarBtn');
         if (licenseBtn) {
-            licenseBtn.addEventListener('click', function(e) {
+            licenseBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 window.open('https://pixabay.com/service/license-summary/', '_blank');
             });
         }
 
-        var options = document.querySelectorAll('.avatar-option');
+        const options = document.querySelectorAll('.avatar-option');
         console.log('[Profile] Encontradas ' + options.length + ' opções de avatar');
-        for (var j = 0; j < options.length; j++) {
-            (function(opt) {
-                var label = opt.querySelector('div:last-child');
-                opt.addEventListener('mouseenter', function() {
-                    if (label) label.style.opacity = '1';
-                    this.style.borderColor = 'var(--accent-blue)';
-                    this.style.transform = 'scale(1.04)';
-                });
-                opt.addEventListener('mouseleave', function() {
-                    if (label) label.style.opacity = '0';
-                    this.style.borderColor = 'var(--border)';
-                    this.style.transform = 'scale(1)';
-                });
-                opt.addEventListener('click', function() {
-                    var file = this.dataset.file;
-                    console.log('[Profile] Avatar selecionado: ' + file);
-                    var imgSrc = basePath + file;
-                    fetch(imgSrc)
-                        .then(function(res) { return res.blob(); })
-                        .then(function(blob) {
-                            var fileObj = new File([blob], file, { type: blob.type });
-                            return resizeImage(fileObj, 150, 150, 0.7);
-                        })
-                        .then(function(resizedBase64) {
-                            saveUserAvatar(resizedBase64);
-                            overlay.remove();
-                            console.log('[Profile] Avatar salvo com sucesso');
-                        })
-                        .catch(function(err) {
-                            console.error('Erro ao carregar imagem padrão:', err);
-                            showToast(t('profile_avatar_upload_error'), 'error');
-                        });
-                });
-            })(options[j]);
-        }
-
-        var uploadBtn = document.getElementById('uploadAvatarBtn');
-        var fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.style.display = 'none';
-        document.body.appendChild(fileInput);
-
-        if (uploadBtn) {
-            uploadBtn.addEventListener('click', function() {
-                fileInput.click();
-                console.log('[Profile] Clique em upload, abrindo seletor de arquivos');
+        for (const opt of options) {
+            const label = opt.querySelector('div:last-child');
+            opt.addEventListener('mouseenter', () => {
+                if (label) label.style.opacity = '1';
+                opt.style.borderColor = 'var(--accent-blue)';
+                opt.style.transform = 'scale(1.04)';
+            });
+            opt.addEventListener('mouseleave', () => {
+                if (label) label.style.opacity = '0';
+                opt.style.borderColor = 'var(--border)';
+                opt.style.transform = 'scale(1)';
+            });
+            opt.addEventListener('click', () => {
+                const file = opt.dataset.file;
+                console.log('[Profile] Avatar selecionado: ' + file);
+                const imgSrc = basePath + file;
+                fetch(imgSrc)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const fileObj = new File([blob], file, { type: blob.type });
+                        return resizeImage(fileObj, 150, 150, 0.7);
+                    })
+                    .then(resizedBase64 => {
+                        saveUserAvatar(resizedBase64);
+                        overlay.remove();
+                        console.log('[Profile] Avatar salvo com sucesso');
+                    })
+                    .catch(err => {
+                        console.error('Erro ao carregar imagem padrão:', err);
+                        showToast(t('profile_avatar_upload_error'), 'error');
+                    });
             });
         }
 
-        fileInput.addEventListener('change', function(e) {
+        const uploadBtn = document.getElementById('uploadAvatarBtn');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.id = 'profileAvatarFileInput';
+        fileInput.style.display = 'none';
+        overlay.appendChild(fileInput);
+
+        if (uploadBtn) {
+            uploadBtn.type = 'button';
+            uploadBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                fileInput.click();
+            });
+        }
+
+        fileInput.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
-                var file = e.target.files[0];
+                const file = e.target.files[0];
                 console.log('[Profile] Arquivo selecionado: ' + file.name);
-                handleAvatarUpload(file, function() {
-                    overlay.remove();
-                    console.log('[Profile] Upload concluído, modal fechado');
-                });
+                handleAvatarUpload(file, () => overlay.remove());
             }
             fileInput.value = '';
         });
 
-        var removeBtn = document.getElementById('removeAvatarBtn');
+        const removeBtn = document.getElementById('removeAvatarBtn');
         if (removeBtn) {
-            removeBtn.addEventListener('click', function() {
+            removeBtn.addEventListener('click', () => {
                 if (confirm(t('profile_remove_confirm'))) {
                     localStorage.removeItem(STORAGE_KEYS.AVATAR);
                     updateProfileButton();
@@ -763,7 +706,7 @@
             });
         }
 
-        var escHandler = function(e) {
+        const escHandler = (e) => {
             if (e.key === 'Escape') {
                 overlay.remove();
                 document.removeEventListener('keydown', escHandler);
@@ -772,7 +715,7 @@
         };
         document.addEventListener('keydown', escHandler);
 
-        var observer = new MutationObserver(function() {
+        const observer = new MutationObserver(() => {
             if (!document.getElementById('avatarSelectorModal')) {
                 document.removeEventListener('keydown', escHandler);
                 if (fileInput.parentNode) fileInput.remove();
@@ -795,11 +738,11 @@
         }
         showToast(t('profile_processing'), 'info');
         resizeImage(file, 150, 150, 0.7)
-            .then(function(resizedBase64) {
+            .then(resizedBase64 => {
                 saveUserAvatar(resizedBase64);
                 if (typeof callback === 'function') callback();
             })
-            .catch(function(err) {
+            .catch(err => {
                 console.error('Erro ao redimensionar imagem:', err);
                 showToast(t('profile_avatar_upload_error'), 'error');
             });
@@ -807,37 +750,50 @@
 
     // ========== ATUALIZAR BOTÃO DE PERFIL ==========
     function updateProfileButton() {
-        var btn = document.getElementById('profileBtn');
+        const btn = document.getElementById('profileBtn');
         if (!btn) {
             console.warn('[Profile] Botão #profileBtn não encontrado');
             return;
         }
-        var avatar = getUserAvatar();
-        var name = loadProfileName() || 'Usuário';
-        var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+        const isLoggedIn = Boolean(loadProfileName());
+        if (!isLoggedIn) {
+            btn.setAttribute('data-profile-custom', 'true');
+            btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${t('onboarding_login_button')}`;
+            btn.style.cssText =
+                'display: inline-flex; align-items: center; gap: 0.4rem;' +
+                'padding: 6px 16px; background: var(--accent-purple, var(--com-accent-purple));' +
+                'color: #fff !important; border-radius: 8px; font-weight: 600;' +
+                'font-size: 0.85rem; cursor: pointer; border: none;' +
+                'transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);' +
+                'text-decoration: none; white-space: nowrap; box-shadow: none; min-height: 44px;';
+            return;
+        }
+        const avatar = getUserAvatar();
+        const name = loadProfileName();
+        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
         btn.setAttribute('data-profile-custom', 'true');
         btn.innerHTML = '';
 
         if (avatar) {
-            var img = document.createElement('img');
+            const img = document.createElement('img');
             img.src = avatar;
             img.alt = 'Perfil';
             img.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;';
             btn.appendChild(img);
         } else {
-            var span = document.createElement('span');
+            const span = document.createElement('span');
             span.textContent = initials;
             span.className = 'profile-initials';
             span.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:0.85rem;font-weight:600;margin-right:8px;';
             btn.appendChild(span);
         }
 
-        var textNode = document.createTextNode(' ' + t('profile'));
+        const textNode = document.createTextNode(' ' + t('profile'));
         btn.appendChild(textNode);
         btn.style.cssText =
             'display: inline-flex; align-items: center; gap: 0.4rem;' +
-            'padding: 6px 16px 6px 10px; background: var(--accent-purple);' +
+            'padding: 6px 16px 6px 10px; background: var(--accent-purple, var(--com-accent-purple));' +
             'color: #fff !important; border-radius: 8px; font-weight: 600;' +
             'font-size: 0.85rem; cursor: pointer; border: none;' +
             'transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);' +
@@ -848,11 +804,11 @@
 
     // ========== INDICADOR DE SENHA ==========
     function showPasswordSavedIndicator(saved) {
-        var container = document.getElementById('profilePassword');
+        const container = document.getElementById('profilePassword');
         if (!container) return;
-        var parent = container.closest('.profile-user-section');
+        const parent = container.closest('.profile-user-section');
         if (!parent) return;
-        var indicator = parent.querySelector('.password-saved-indicator');
+        let indicator = parent.querySelector('.password-saved-indicator');
         if (!indicator) {
             indicator = document.createElement('div');
             indicator.className = 'password-saved-indicator';
@@ -870,35 +826,35 @@
 
     // ========== ESTATÍSTICAS DOS CURSOS ==========
     function calculateCourseStats(watchedMap) {
-        var totalVideos = watchedMap.length;
-        var watchedVideos = watchedMap.filter(function(v) { return v === true; }).length;
-        var completedLessons = Math.floor(watchedVideos / 5);
-        var completedDisciplines = Math.floor(watchedVideos / 25);
-        var points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
+        const totalVideos = watchedMap.length;
+        const watchedVideos = watchedMap.filter(v => v === true).length;
+        const completedLessons = Math.floor(watchedVideos / 5);
+        const completedDisciplines = Math.floor(watchedVideos / 25);
+        const points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
         return {
-            totalVideos: totalVideos,
-            watchedVideos: watchedVideos,
-            completedLessons: completedLessons,
-            completedDisciplines: completedDisciplines,
-            points: points,
+            totalVideos,
+            watchedVideos,
+            completedLessons,
+            completedDisciplines,
+            points,
             progressPercent: totalVideos ? Math.round((watchedVideos / totalVideos) * 100) : 0
         };
     }
 
     function getAllCoursesProgress() {
-        var courses = [];
-        for (var i = 0; i < localStorage.length; i++) {
-            var key = localStorage.key(i);
+        const courses = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
             if (key && key.startsWith('ulivre_course_')) {
-                var courseId = key.replace('ulivre_course_', '');
+                const courseId = key.replace('ulivre_course_', '');
                 try {
-                    var data = JSON.parse(localStorage.getItem(key));
+                    const data = JSON.parse(localStorage.getItem(key));
                     if (data && data.watchedMap) {
-                        var stats = calculateCourseStats(data.watchedMap);
-                        var name = getCourseName(courseId);
-                        courses.push({ id: courseId, name: name, stats: stats, data: data });
+                        const stats = calculateCourseStats(data.watchedMap);
+                        const name = getCourseName(courseId);
+                        courses.push({ id: courseId, name, stats, data });
                     }
-                } catch (e) {}
+                } catch (_) {}
             }
         }
         return courses;
@@ -906,27 +862,47 @@
 
     // ========== EXPORTAÇÃO/IMPORTAÇÃO ==========
     function getVideosProgress() {
-        var progress = localStorage.getItem('yt_video_progress');
-        try { return progress ? JSON.parse(progress) : {}; } catch (e) { return {}; }
+        const progress = localStorage.getItem('yt_video_progress');
+        try { return progress ? JSON.parse(progress) : {}; } catch (_) { return {}; }
     }
 
     function getBooksRead() {
-        var books = localStorage.getItem('ulivre_livros_lidos');
-        try { return books ? JSON.parse(books) : []; } catch (e) { return []; }
+        const books = localStorage.getItem('ulivre_livros_lidos');
+        try { return books ? JSON.parse(books) : []; } catch (_) { return []; }
     }
 
     function getNotes() {
-        var notes = localStorage.getItem('ulivre_notas_estudo');
-        try { return notes ? JSON.parse(notes) : []; } catch (e) { return []; }
+        const notes = localStorage.getItem('ulivre_notas_estudo');
+        try { return notes ? JSON.parse(notes) : []; } catch (_) { return []; }
     }
 
     function getTags() {
-        var tags = localStorage.getItem('ulivre_notas_tags');
-        try { return tags ? JSON.parse(tags) : []; } catch (e) { return []; }
+        const tags = localStorage.getItem('ulivre_notas_tags');
+        try { return tags ? JSON.parse(tags) : []; } catch (_) { return []; }
+    }
+
+    function getProgressStorageEntries(prefixes) {
+        const entries = {};
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            if (!key || !prefixes.some(prefix => key.startsWith(prefix))) continue;
+            const value = localStorage.getItem(key);
+            if (value === null) continue;
+            try {
+                entries[key] = JSON.parse(value);
+            } catch (_) {
+                entries[key] = value;
+            }
+        }
+        return entries;
+    }
+
+    function getCommunityProgress() {
+        return getProgressStorageEntries(['comunidade_posts_', 'comunidade_chat_']);
     }
 
     function generateExportData(includeCourses, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
-        var exportData = {
+        const exportData = {
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
             timestamp: new Date().toISOString(),
@@ -937,35 +913,29 @@
             data: {}
         };
 
-        // ===== INCLUSÃO DA SENHA (HASH) PARA VERIFICAÇÃO NA IMPORTAÇÃO =====
-        var passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
+        const passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
         exportData.password = passwordHash;
 
-        // ===== CHECKSUM PARA VALIDAÇÃO DE INTEGRIDADE =====
         try {
-            var tempJson = JSON.stringify(exportData);
-            var hash = 0;
-            for (var idx = 0; idx < tempJson.length; idx++) {
+            const tempJson = JSON.stringify(exportData);
+            let hash = 0;
+            for (let idx = 0; idx < tempJson.length; idx++) {
                 hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
                 hash |= 0;
             }
             exportData.checksum = hash.toString(16);
-        } catch (e) {
-            console.warn('[Profile] Erro ao gerar checksum:', e);
-        }
+        } catch (_) { /* ignora */ }
 
         if (includeCourses) {
-            var courses = getAllCoursesProgress();
-            exportData.data.courses = courses.map(function(c) {
-                return {
-                    id: c.id,
-                    name: c.name,
-                    stats: c.stats,
-                    progressPercent: c.stats.progressPercent,
-                    rawData: cleanObject(c.data, 15)
-                };
-            });
-            exportData.data.totalStats = courses.reduce(function(acc, c) {
+            const courses = getAllCoursesProgress();
+            exportData.data.courses = courses.map(c => ({
+                id: c.id,
+                name: c.name,
+                stats: c.stats,
+                progressPercent: c.stats.progressPercent,
+                rawData: cleanObject(c.data, 15)
+            }));
+            exportData.data.totalStats = courses.reduce((acc, c) => {
                 acc.watchedVideos += c.stats.watchedVideos;
                 acc.totalVideos += c.stats.totalVideos;
                 acc.points += c.stats.points;
@@ -975,11 +945,13 @@
         if (includeVideos) exportData.data.videos = getVideosProgress();
         if (includeBooks) exportData.data.booksRead = getBooksRead();
         if (includeNotes) {
-            var allNotes = getNotes();
+            const allNotes = getNotes();
             exportData.data.notes = (selectedNoteIds && selectedNoteIds.length > 0) ?
-                allNotes.filter(function(n) { return selectedNoteIds.indexOf(n.id) !== -1; }) : allNotes;
+                allNotes.filter(n => selectedNoteIds.indexOf(n.id) !== -1) : allNotes;
             exportData.data.tags = getTags();
         }
+        exportData.data.community = getCommunityProgress();
+        exportData.data.cursorTimeset = getProgressStorageEntries(['cursor_timeset']);
         return exportData;
     }
 
@@ -992,7 +964,6 @@
             throw new Error('Dados inválidos: objeto vazio ou malformado.');
         }
 
-        // Verifica se há pelo menos um campo obrigatório
         const hasUser = !!data.user;
         const hasData = !!data.data && typeof data.data === 'object';
         const hasCourses = data.data && Array.isArray(data.data.courses);
@@ -1002,7 +973,6 @@
             throw new Error('Arquivo inválido: estrutura de dados não reconhecida.');
         }
 
-        // Se não tiver data, tenta construir a partir dos dados antigos (fallback)
         if (!hasData) {
             console.warn('[Profile] Propriedade "data" ausente. Tentando adaptar estrutura antiga...');
             if (Array.isArray(data.courses)) {
@@ -1020,15 +990,15 @@
 
     // ========== MODAL DE SENHA ==========
     function createPasswordModal(title, message, callback) {
-        var existing = document.getElementById('customPasswordModal');
+        const existing = document.getElementById('customPasswordModal');
         if (existing) existing.remove();
-        var overlay = document.createElement('div');
+        const overlay = document.createElement('div');
         overlay.id = 'customPasswordModal';
         overlay.style.cssText =
             'position:fixed;top:0;left:0;width:100%;height:100%;' +
             'background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;' +
             'z-index:9999;backdrop-filter:blur(8px);';
-        var modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.style.cssText =
             'background:var(--bg-secondary);border-radius:24px;padding:2rem;' +
             'max-width:420px;width:90%;border:1px solid var(--border);' +
@@ -1065,30 +1035,30 @@
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
 
-        var input = document.getElementById('passwordModalInput');
-        var errorDiv = document.getElementById('passwordModalError');
-        var confirmBtn = document.getElementById('passwordModalConfirm');
-        var cancelBtn = document.getElementById('passwordModalCancel');
-        var toggleBtn = document.getElementById('togglePasswordVisibility');
-        var closeModal = function() { overlay.remove(); };
+        const input = document.getElementById('passwordModalInput');
+        const errorDiv = document.getElementById('passwordModalError');
+        const confirmBtn = document.getElementById('passwordModalConfirm');
+        const cancelBtn = document.getElementById('passwordModalCancel');
+        const toggleBtn = document.getElementById('togglePasswordVisibility');
+        const closeModal = () => overlay.remove();
 
-        toggleBtn.addEventListener('click', function() {
-            var type = input.type === 'password' ? 'text' : 'password';
+        toggleBtn.addEventListener('click', () => {
+            const type = input.type === 'password' ? 'text' : 'password';
             input.type = type;
             toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
 
-        confirmBtn.addEventListener('click', async function() {
-            var password = input.value;
+        confirmBtn.addEventListener('click', async () => {
+            const password = input.value;
             if (!password) {
                 errorDiv.textContent = t('profile_password_required');
                 errorDiv.style.display = 'block';
                 return;
             }
             try {
-                var storedHash = localStorage.getItem(STORAGE_KEYS.PASSWORD);
+                const storedHash = localStorage.getItem(STORAGE_KEYS.PASSWORD);
                 if (storedHash) {
-                    var isValid = await verifyPassword(password, storedHash);
+                    const isValid = await verifyPassword(password, storedHash);
                     if (!isValid) {
                         errorDiv.textContent = t('profile_password_incorrect');
                         errorDiv.style.display = 'block';
@@ -1105,7 +1075,7 @@
             }
         });
         cancelBtn.addEventListener('click', closeModal);
-        input.addEventListener('keydown', function(e) {
+        input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') confirmBtn.click();
             if (e.key === 'Escape') closeModal();
         });
@@ -1115,38 +1085,36 @@
 
     // ========== EXPORTAÇÃO ==========
     async function handleExport() {
-        var includeCourses = document.getElementById('exportCourses');
-        var includeVideos = document.getElementById('exportVideos');
-        var includeBooks = document.getElementById('exportBooks');
-        var includeNotes = document.getElementById('exportNotes');
+        const includeCourses = document.getElementById('exportCourses');
+        const includeVideos = document.getElementById('exportVideos');
+        const includeBooks = document.getElementById('exportBooks');
+        const includeNotes = document.getElementById('exportNotes');
 
         if (!includeCourses || !includeVideos || !includeBooks || !includeNotes) {
             showToast('Erro ao carregar opções de exportação.', 'error');
             return;
         }
 
-        var includeCoursesChecked = includeCourses.checked;
-        var includeVideosChecked = includeVideos.checked;
-        var includeBooksChecked = includeBooks.checked;
-        var includeNotesChecked = includeNotes.checked;
+        const includeCoursesChecked = includeCourses.checked;
+        const includeVideosChecked = includeVideos.checked;
+        const includeBooksChecked = includeBooks.checked;
+        const includeNotesChecked = includeNotes.checked;
 
-        var selectedNoteIds = [];
+        const selectedNoteIds = [];
         if (includeNotesChecked) {
-            var checkboxes = document.querySelectorAll('#notesCheckboxes input[type="checkbox"]:checked');
-            for (var i = 0; i < checkboxes.length; i++) {
-                selectedNoteIds.push(checkboxes[i].value);
-            }
+            const checkboxes = document.querySelectorAll('#notesCheckboxes input[type="checkbox"]:checked');
+            checkboxes.forEach(cb => selectedNoteIds.push(cb.value));
         }
-        var hasPassword = hasStoredPassword();
+        const hasPassword = hasStoredPassword();
 
-        var exportAction = async function(password) {
+        const exportAction = async (password) => {
             try {
-                var data = generateExportData(includeCoursesChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
-                var finalData = data;
-                var isEncrypted = false;
+                const data = generateExportData(includeCoursesChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
+                let finalData = data;
+                let isEncrypted = false;
                 if (password && password.length > 0) {
                     try {
-                        var encrypted = await encryptData(data, password);
+                        const encrypted = await encryptData(data, password);
                         finalData = {
                             encrypted: true,
                             data: encrypted,
@@ -1161,12 +1129,12 @@
                         return;
                     }
                 }
-                var json = JSON.stringify(finalData, null, 2);
-                var blob = new Blob([json], { type: 'application/json' });
-                var url = URL.createObjectURL(blob);
-                var a = document.createElement('a');
+                const json = JSON.stringify(finalData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
                 a.href = url;
-                var suffix = isEncrypted ? '_criptografado' : '';
+                const suffix = isEncrypted ? '_criptografado' : '';
                 a.download = 'dados_completos_' + data.user + '_' + new Date().toISOString().slice(0,10) + suffix + '.json';
                 document.body.appendChild(a);
                 a.click();
@@ -1180,7 +1148,7 @@
         };
 
         if (hasPassword) {
-            createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
+            createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
                 await exportAction(password);
             });
         } else {
@@ -1196,48 +1164,41 @@
         }
         console.log('[Import] Arquivo selecionado:', file.name, file.size, file.type);
 
-        var reader = new FileReader();
-        reader.onload = async function(e) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
             try {
                 console.log('[Import] Leitura do arquivo concluída. Tamanho:', e.target.result.length);
-                var importedData = JSON.parse(e.target.result);
+                const importedData = JSON.parse(e.target.result);
                 console.log('[Import] JSON parseado com sucesso. Chaves:', Object.keys(importedData));
 
-                // Validação inicial
                 if (!importedData || typeof importedData !== 'object') {
                     throw new Error('Arquivo inválido: dados não encontrados.');
                 }
 
-                // Verifica checksum se presente
                 if (importedData.checksum) {
                     try {
-                        var tempJson = JSON.stringify(importedData);
-                        var hash = 0;
-                        for (var idx = 0; idx < tempJson.length; idx++) {
+                        const tempJson = JSON.stringify(importedData);
+                        let hash = 0;
+                        for (let idx = 0; idx < tempJson.length; idx++) {
                             hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
                             hash |= 0;
                         }
-                        var computedChecksum = hash.toString(16);
+                        const computedChecksum = hash.toString(16);
                         if (computedChecksum !== importedData.checksum) {
                             console.warn('[Import] Checksum inválido. O arquivo pode estar corrompido.');
-                            // Não interrompe a importação, apenas avisa
                         } else {
                             console.log('[Import] Checksum verificado com sucesso.');
                         }
-                    } catch (e) {
-                        console.warn('[Import] Erro ao verificar checksum:', e);
-                    }
+                    } catch (_) {}
                 }
 
-                // === ARQUIVO CRIPTOGRAFADO ===
                 if (importedData.encrypted === true) {
                     console.log('[Import] Arquivo criptografado detectado.');
-                    createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
+                    createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
                         try {
                             console.log('[Import] Iniciando descriptografia...');
-                            var decrypted = await decryptData(importedData.data, password);
+                            const decrypted = await decryptData(importedData.data, password);
                             console.log('[Import] Descriptografia bem-sucedida. Chaves:', Object.keys(decrypted));
-                            // Valida a estrutura antes de aplicar
                             validateImportedData(decrypted);
                             await applyImportedData(decrypted);
                         } catch (err) {
@@ -1248,16 +1209,14 @@
                     return;
                 }
 
-                // === ARQUIVO NÃO CRIPTOGRAFADO ===
                 console.log('[Import] Arquivo não criptografado.');
 
-                // Verifica se há campo de senha
                 if (importedData.password) {
                     console.log('[Import] Arquivo com hash de senha detectado.');
-                    createPasswordModal(t('profile_export_import'), t('profile_password'), async function(password) {
+                    createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
                         try {
                             console.log('[Import] Verificando senha...');
-                            var match = await verifyPassword(password, importedData.password);
+                            const match = await verifyPassword(password, importedData.password);
                             if (match) {
                                 console.log('[Import] Senha correta.');
                                 validateImportedData(importedData);
@@ -1283,7 +1242,7 @@
             }
         };
 
-        reader.onerror = function() {
+        reader.onerror = () => {
             console.error('[Import] Erro ao ler o arquivo.');
             showToast('Erro ao ler o arquivo. Tente novamente.', 'error');
         };
@@ -1295,13 +1254,11 @@
     async function applyImportedData(importedData) {
         console.log('[Import] Aplicando dados importados...');
 
-        // Verificação robusta
         if (!importedData) {
             showToast('Dados importados inválidos.', 'error');
             return;
         }
 
-        // Se não houver data, tenta construir com dados antigos
         if (!importedData.data) {
             console.warn('[Import] Propriedade "data" ausente. Tentando adaptar...');
             if (Array.isArray(importedData.courses)) {
@@ -1312,22 +1269,17 @@
             }
         }
 
-        var data = importedData.data;
-        var importedCount = 0;
+        const data = importedData.data;
+        let importedCount = 0;
 
-        // Confirmação do usuário
         if (!confirm(t('profile_import_confirm'))) return;
 
         try {
-            // === DADOS DO PERFIL ===
             if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
             if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
             if (importedData.avatar) {
                 try {
                     localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
-                    if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
-                        window.saveUserAvatar(importedData.avatar);
-                    }
                 } catch (e) {
                     console.warn('[Import] Erro ao salvar avatar:', e);
                 }
@@ -1335,9 +1287,8 @@
             if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
             if (importedData.auditorioTime) localStorage.setItem(AUDITORIO_TIME_KEY, importedData.auditorioTime);
 
-            // === CURSOS ===
             if (data.courses && Array.isArray(data.courses)) {
-                for (var course of data.courses) {
+                for (const course of data.courses) {
                     if (course.id && course.rawData) {
                         try {
                             localStorage.setItem('ulivre_course_' + course.id, JSON.stringify(course.rawData));
@@ -1349,21 +1300,32 @@
                 }
             }
 
-            // === OUTROS DADOS ===
             if (data.videos) localStorage.setItem('yt_video_progress', JSON.stringify(data.videos));
             if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
             if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
             if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
+            if (data.community && typeof data.community === 'object') {
+                Object.entries(data.community).forEach(([key, value]) => {
+                    if (key.startsWith('comunidade_posts_') || key.startsWith('comunidade_chat_')) {
+                        localStorage.setItem(key, JSON.stringify(value));
+                    }
+                });
+            }
+            if (data.cursorTimeset && typeof data.cursorTimeset === 'object') {
+                Object.entries(data.cursorTimeset).forEach(([key, value]) => {
+                    if (key.startsWith('cursor_timeset')) {
+                        localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+                    }
+                });
+            }
 
-            // === ATUALIZAR INTERFACE ===
             showToast(t('profile_import_success', { count: importedCount }), 'success');
             if (window.updateProfileModal) window.updateProfileModal();
             if (window.updateProfileButton) window.updateProfileButton();
             if (window.loadAvatarToModal) window.loadAvatarToModal();
 
-            // Recarregar a página se estiver na home, senão apenas atualiza os componentes
             if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-                setTimeout(function() { location.reload(); }, 1000);
+                setTimeout(() => location.reload(), 1000);
             } else {
                 if (window.renderCourseCards) window.renderCourseCards();
             }
@@ -1377,54 +1339,53 @@
 
     // ========== ATUALIZAR TRADUÇÕES DO MODAL ==========
     function updateProfileTranslations() {
-        var modalHeader = document.querySelector('.profile-modal-header h2');
+        const modalHeader = document.querySelector('.profile-modal-header h2');
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
 
-        var avatarOverlay = document.querySelector('.avatar-overlay span');
+        const avatarOverlay = document.querySelector('.avatar-overlay span');
         if (avatarOverlay) avatarOverlay.textContent = t('profile_change_photo');
 
-        var nameLabel = document.querySelector('label[for="profileNameInput"]');
+        const nameLabel = document.querySelector('label[for="profileNameInput"]');
         if (nameLabel) nameLabel.innerHTML = '<i class="fas fa-user"></i> ' + t('profile_name');
 
-        var nameInput = document.getElementById('profileNameInput');
+        const nameInput = document.getElementById('profileNameInput');
         if (nameInput) nameInput.placeholder = t('profile_name_placeholder');
 
-        var genderLabel = document.querySelector('label[for="profileGender"]');
+        const genderLabel = document.querySelector('label[for="profileGender"]');
         if (genderLabel) genderLabel.innerHTML = '<i class="fas fa-venus-mars"></i> ' + t('profile_gender');
 
-        var passwordLabel = document.querySelector('label[for="profilePassword"]');
+        const passwordLabel = document.querySelector('label[for="profilePassword"]');
         if (passwordLabel) passwordLabel.innerHTML = '<i class="fas fa-lock"></i> ' + t('profile_password');
 
-        var passwordInput = document.getElementById('profilePassword');
+        const passwordInput = document.getElementById('profilePassword');
         if (passwordInput) passwordInput.placeholder = t('profile_password_placeholder');
 
-        var saveNameBtn = document.getElementById('profileSaveNameBtn');
+        const saveNameBtn = document.getElementById('profileSaveNameBtn');
         if (saveNameBtn) saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
 
-        var saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
         if (saveGenderBtn) saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
 
-        var savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
 
-        var genderSelect = document.getElementById('profileGender');
+        const genderSelect = document.getElementById('profileGender');
         if (genderSelect) {
-            var options = genderSelect.querySelectorAll('option');
-            var genderMap = {
+            const options = genderSelect.querySelectorAll('option');
+            const genderMap = {
                 '': t('profile_gender_not_informed'),
                 'masculino': t('profile_gender_masculine'),
                 'feminino': t('profile_gender_feminine'),
                 'outro': t('profile_gender_other')
             };
-            for (var i = 0; i < options.length; i++) {
-                var opt = options[i];
+            options.forEach(opt => {
                 if (genderMap[opt.value] !== undefined) opt.textContent = genderMap[opt.value];
-            }
+            });
         }
 
-        var statItems = document.querySelectorAll('.profile-stats .stat-item');
+        const statItems = document.querySelectorAll('.profile-stats .stat-item');
         if (statItems.length >= 6) {
-            var texts = [
+            const texts = [
                 t('profile_watched_videos'),
                 t('profile_total_videos'),
                 t('profile_completed_lessons'),
@@ -1432,31 +1393,32 @@
                 t('profile_total_points'),
                 t('profile_auditorio_hours')
             ];
-            for (var j = 0; j < statItems.length && j < texts.length; j++) {
-                var labelSpan = statItems[j].querySelector('span:first-child');
-                if (labelSpan) labelSpan.textContent = texts[j];
-            }
+            statItems.forEach((item, idx) => {
+                if (idx < texts.length) {
+                    const labelSpan = item.querySelector('span:first-child');
+                    if (labelSpan) labelSpan.textContent = texts[idx];
+                }
+            });
         }
 
-        var exportItems = [
+        const exportItems = [
             { id: 'exportCourses', key: 'profile_export_courses' },
             { id: 'exportVideos', key: 'profile_export_videos' },
             { id: 'exportBooks', key: 'profile_export_books' },
             { id: 'exportNotes', key: 'profile_export_notes' }
         ];
-        for (var k = 0; k < exportItems.length; k++) {
-            var item = exportItems[k];
-            var input = document.getElementById(item.id);
+        for (const item of exportItems) {
+            const input = document.getElementById(item.id);
             if (input) {
-                var label = input.closest('label');
+                const label = input.closest('label');
                 if (label) {
-                    var icon = label.querySelector('i');
+                    const icon = label.querySelector('i');
                     if (icon) {
-                        var inputClone = input.cloneNode(true);
+                        const inputClone = input.cloneNode(true);
                         label.innerHTML = '';
                         label.appendChild(inputClone);
                         label.appendChild(document.createTextNode(' '));
-                        var iconClone = icon.cloneNode(true);
+                        const iconClone = icon.cloneNode(true);
                         label.appendChild(iconClone);
                         label.appendChild(document.createTextNode(' ' + t(item.key)));
                     } else {
@@ -1466,39 +1428,35 @@
             }
         }
 
-        var coursesTitle = document.querySelector('#profileCoursesList h4');
+        const coursesTitle = document.querySelector('#profileCoursesList h4');
         if (coursesTitle) coursesTitle.innerHTML = '<i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses');
 
-        var exportTitle = document.querySelector('.profile-modal-body hr + h4');
+        const exportTitle = document.querySelector('.profile-modal-body hr + h4');
         if (exportTitle) exportTitle.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_export_import');
 
-        var selectNotesLabel = document.querySelector('#notesSelectionContainer p');
+        const selectNotesLabel = document.querySelector('#notesSelectionContainer p');
         if (selectNotesLabel) selectNotesLabel.textContent = t('profile_select_notes');
 
-        var exportBtn = document.getElementById('generateExportBtn');
+        const exportBtn = document.getElementById('generateExportBtn');
         if (exportBtn) exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
 
-        var importBtn = document.getElementById('importProgressBtn');
+        const importBtn = document.getElementById('importProgressBtn');
         if (importBtn) importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
 
-        var profileNote = document.querySelector('.profile-note');
+        const profileNote = document.querySelector('.profile-note');
         if (profileNote) profileNote.innerHTML = '<i class="fas fa-database"></i> ' + t('profile_data_note');
 
-        var matriculaLabel = document.querySelector('.profile-matricula span:first-child');
+        const matriculaLabel = document.querySelector('.profile-matricula span:first-child');
         if (matriculaLabel) matriculaLabel.textContent = t('profile_matricula');
 
-        var ongoingBadges = document.querySelectorAll('.profile-course-item .progress-badge.ongoing');
-        for (var m = 0; m < ongoingBadges.length; m++) {
-            ongoingBadges[m].textContent = t('profile_in_progress');
-        }
-        var completedBadges = document.querySelectorAll('.profile-course-item .progress-badge.completed');
-        for (var n = 0; n < completedBadges.length; n++) {
-            completedBadges[n].textContent = t('profile_completed');
-        }
+        const ongoingBadges = document.querySelectorAll('.profile-course-item .progress-badge.ongoing');
+        ongoingBadges.forEach(badge => badge.textContent = t('profile_in_progress'));
+        const completedBadges = document.querySelectorAll('.profile-course-item .progress-badge.completed');
+        completedBadges.forEach(badge => badge.textContent = t('profile_completed'));
 
-        var ongoingText = document.querySelector('.ongoing-courses-summary span');
+        const ongoingText = document.querySelector('.ongoing-courses-summary span');
         if (ongoingText) {
-            var ongoingCount = document.querySelectorAll('.profile-course-item .progress-badge.ongoing').length;
+            const ongoingCount = document.querySelectorAll('.profile-course-item .progress-badge.ongoing').length;
             if (ongoingCount > 0) {
                 ongoingText.innerHTML = '<strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase();
             }
@@ -1507,91 +1465,68 @@
 
     // ========== UI DO MODAL ==========
     function updateProfileModal() {
-        if (!translationsLoaded && Object.keys(translations).length === 0) {
-            loadTranslations(currentLang).then(function() { _updateProfileModal(); });
-        } else {
-            _updateProfileModal();
-        }
-    }
+        const allCourses = getAllCoursesProgress();
+        const totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
+        let ongoingCount = 0;
 
-    function _updateProfileModal() {
-        var allCourses = getAllCoursesProgress();
-        var totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
-        var ongoingCount = 0;
-
-        var nameInput = document.getElementById('profileNameInput');
+        const nameInput = document.getElementById('profileNameInput');
         if (nameInput) {
             nameInput.value = loadProfileName();
             nameInput.placeholder = t('profile_name_placeholder');
         }
 
-        var genderSelect = document.getElementById('profileGender');
+        const genderSelect = document.getElementById('profileGender');
         if (genderSelect) genderSelect.value = getProfileGender();
 
-        var passwordInput = document.getElementById('profilePassword');
+        const passwordInput = document.getElementById('profilePassword');
         if (passwordInput) {
             passwordInput.value = '';
             passwordInput.placeholder = t('profile_password_placeholder');
             showPasswordSavedIndicator(hasStoredPassword());
-        }
-        if (passwordInput) {
             passwordInput.removeEventListener('input', updatePasswordStrengthIndicator);
             passwordInput.addEventListener('input', updatePasswordStrengthIndicator);
             if (passwordInput.value.length > 0) updatePasswordStrengthIndicator.call(passwordInput);
         }
 
-        var matricula = getMatricula();
-        var avatarSection = document.querySelector('.profile-avatar-section');
-        if (avatarSection) {
-            avatarSection.style.display = 'flex';
-            avatarSection.style.flexDirection = 'column';
-            avatarSection.style.alignItems = 'center';
-            var oldMatricula = avatarSection.querySelector('.profile-matricula');
-            if (oldMatricula) oldMatricula.remove();
-            var matriculaEl = document.createElement('div');
-            matriculaEl.className = 'profile-matricula';
-            matriculaEl.style.cssText =
-                'text-align:center;margin-top:0.3rem;font-size:0.7rem;' +
-                'color:var(--text-tertiary);font-family:monospace;letter-spacing:0.3px;' +
-                'border-top:1px solid var(--border-light);padding-top:0.3rem;padding-bottom:0.1rem;width:100%;';
-            matriculaEl.innerHTML = '<span style="color:var(--text-secondary);font-weight:500;">' + t('profile_matricula') + '</span> <span style="font-weight:600;color:var(--text-secondary);margin-left:0.3rem;">' + matricula + '</span>';
-            avatarSection.appendChild(matriculaEl);
-        }
+        const matricula = getMatricula();
+        const matriculaDisplay = document.getElementById('profileMatriculaDisplay');
+        if (matriculaDisplay) matriculaDisplay.textContent = matricula;
 
-        var listContainer = document.getElementById('profileCoursesList');
-        var listHtml = '<h4 style="margin:0.5rem 0;color:var(--text-secondary);"><i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses') + '</h4>';
-        if (allCourses.length === 0) {
-            listHtml += '<p style="color:var(--text-tertiary);font-size:0.9rem;">' + t('profile_no_courses') + '</p>';
-        } else {
-            for (var i = 0; i < allCourses.length; i++) {
-                var course = allCourses[i];
-                var stats = course.stats;
-                var isOngoing = stats.progressPercent > 0 && stats.progressPercent < 100;
-                var isCompleted = stats.progressPercent >= 100;
-                var badge = '';
-                if (isOngoing) { badge = '<span class="progress-badge ongoing">' + t('profile_in_progress') + '</span>'; ongoingCount++; }
-                else if (isCompleted) badge = '<span class="progress-badge completed">' + t('profile_completed') + '</span>';
-                totalStats.watchedVideos += stats.watchedVideos;
-                totalStats.totalVideos += stats.totalVideos;
-                totalStats.completedLessons += stats.completedLessons;
-                totalStats.completedDisciplines += stats.completedDisciplines;
-                totalStats.points += stats.points;
-                var iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
-                listHtml +=
-                    '<div class="profile-course-item">' +
-                    '<div class="profile-course-name">' +
-                    '<i class="fas fa-' + iconClass + '"></i> ' + escapeHtml(course.name) + ' ' + badge +
-                    '</div>' +
-                    '<div class="profile-course-progress">' +
-                    '<span>' + stats.progressPercent + '%</span>' +
-                    '<span class="points">' + stats.points + ' pts</span>' +
-                    '</div>' +
-                    '</div>';
+        const listContainer = document.getElementById('profileCoursesList');
+        if (listContainer) {
+            let listHtml = '<h4 style="margin:0.5rem 0;color:var(--text-secondary);"><i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses') + '</h4>';
+            if (allCourses.length === 0) {
+                listHtml += '<p style="color:var(--text-tertiary);font-size:0.9rem;">' + t('profile_no_courses') + '</p>';
+            } else {
+                for (const course of allCourses) {
+                    const stats = course.stats;
+                    const isOngoing = stats.progressPercent > 0 && stats.progressPercent < 100;
+                    const isCompleted = stats.progressPercent >= 100;
+                    let badge = '';
+                    if (isOngoing) { badge = '<span class="progress-badge ongoing">' + t('profile_in_progress') + '</span>'; ongoingCount++; }
+                    else if (isCompleted) badge = '<span class="progress-badge completed">' + t('profile_completed') + '</span>';
+                    totalStats.watchedVideos += stats.watchedVideos;
+                    totalStats.totalVideos += stats.totalVideos;
+                    totalStats.completedLessons += stats.completedLessons;
+                    totalStats.completedDisciplines += stats.completedDisciplines;
+                    totalStats.points += stats.points;
+                    const iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
+                    listHtml +=
+                        '<div class="profile-course-item">' +
+                        '<div class="profile-course-name">' +
+                        '<i class="fas fa-' + iconClass + '"></i> ' + escapeHtml(course.name) + ' ' + badge +
+                        '</div>' +
+                        '<div class="profile-course-progress">' +
+                        '<span>' + stats.progressPercent + '%</span>' +
+                        '<span class="points">' + stats.points + ' pts</span>' +
+                        '</div>' +
+                        '</div>';
+                }
             }
+            listContainer.innerHTML = listHtml;
         }
-        if (listContainer) listContainer.innerHTML = listHtml;
 
-        var ongoingContainer = document.getElementById('ongoingCoursesContainer');
+        const ongoingContainer = document.getElementById('ongoingCoursesContainer');
         if (ongoingContainer) {
             if (ongoingCount > 0) {
                 ongoingContainer.innerHTML = '<div class="ongoing-courses-summary"><i class="fas fa-play-circle"></i> <span><strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase() + '</span></div>';
@@ -1600,11 +1535,16 @@
             }
         }
 
-        document.getElementById('profileWatchedVideos').textContent = totalStats.watchedVideos;
-        document.getElementById('profileTotalVideos').textContent = totalStats.totalVideos;
-        document.getElementById('profileCompletedLessons').textContent = totalStats.completedLessons;
-        document.getElementById('profileCompletedDisciplines').textContent = totalStats.completedDisciplines;
-        document.getElementById('profileTotalPoints').textContent = totalStats.points;
+        const watchedEl = document.getElementById('profileWatchedVideos');
+        if (watchedEl) watchedEl.textContent = totalStats.watchedVideos;
+        const totalEl = document.getElementById('profileTotalVideos');
+        if (totalEl) totalEl.textContent = totalStats.totalVideos;
+        const lessonsEl = document.getElementById('profileCompletedLessons');
+        if (lessonsEl) lessonsEl.textContent = totalStats.completedLessons;
+        const disciplinesEl = document.getElementById('profileCompletedDisciplines');
+        if (disciplinesEl) disciplinesEl.textContent = totalStats.completedDisciplines;
+        const pointsEl = document.getElementById('profileTotalPoints');
+        if (pointsEl) pointsEl.textContent = totalStats.points;
 
         updateAuditorioTimeDisplay();
         loadAvatarToModal();
@@ -1615,49 +1555,44 @@
     // ========== ESCAPE HTML ==========
     function escapeHtml(str) {
         if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
+        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
     }
 
     // ========== INDICADOR DE FORÇA DA SENHA ==========
     function updatePasswordStrengthIndicator() {
-        var input = document.getElementById('profilePassword');
+        const input = document.getElementById('profilePassword');
         if (!input) return;
-        var password = input.value;
-        var container = input.closest('.profile-user-section');
+        const password = input.value;
+        const container = input.closest('.profile-user-section');
         if (!container) return;
-        var oldIndicator = container.querySelector('.password-strength-indicator');
+        const oldIndicator = container.querySelector('.password-strength-indicator');
         if (oldIndicator) oldIndicator.remove();
         if (password.length === 0) return;
-        var strength = checkPasswordStrength(password);
-        var feedback = getPasswordFeedback(strength.checks);
-        var indicator = document.createElement('div');
+        const strength = checkPasswordStrength(password);
+        const feedback = getPasswordFeedback(strength.checks);
+        const indicator = document.createElement('div');
         indicator.className = 'password-strength-indicator';
         indicator.style.cssText = 'margin-top:0.5rem;width:100%;background:var(--bg-tertiary);border-radius:8px;padding:0.6rem 1rem;border:1px solid var(--border);';
-        var barContainer = document.createElement('div');
+        const barContainer = document.createElement('div');
         barContainer.style.cssText = 'width:100%;height:6px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;margin-bottom:0.3rem;';
-        var bar = document.createElement('div');
-        var percent = (strength.passed / strength.total) * 100;
+        const bar = document.createElement('div');
+        const percent = (strength.passed / strength.total) * 100;
         bar.style.cssText = 'width:' + percent + '%;height:100%;background:' + strength.color + ';transition:width 0.3s;border-radius:4px;';
         barContainer.appendChild(bar);
         indicator.appendChild(barContainer);
-        var textRow = document.createElement('div');
+        const textRow = document.createElement('div');
         textRow.style.cssText = 'display:flex;justify-content:space-between;color:var(--text-secondary);font-size:0.8rem;';
-        var strengthText = document.createElement('span');
+        const strengthText = document.createElement('span');
         strengthText.textContent = 'Força: ' + strength.strength;
         strengthText.style.color = strength.color;
         strengthText.style.fontWeight = '600';
         textRow.appendChild(strengthText);
-        var reqsText = document.createElement('span');
+        const reqsText = document.createElement('span');
         reqsText.textContent = strength.passed + '/' + strength.total + ' requisitos';
         textRow.appendChild(reqsText);
         indicator.appendChild(textRow);
         if (feedback.length > 0) {
-            var feedbackDiv = document.createElement('div');
+            const feedbackDiv = document.createElement('div');
             feedbackDiv.style.cssText = 'margin-top:0.3rem;font-size:0.75rem;color:var(--text-tertiary);';
             feedbackDiv.textContent = 'Falta: ' + feedback.join(', ');
             indicator.appendChild(feedbackDiv);
@@ -1666,16 +1601,15 @@
     }
 
     function updateNotesCheckboxes() {
-        var container = document.getElementById('notesCheckboxes');
+        const container = document.getElementById('notesCheckboxes');
         if (!container) return;
-        var notes = getNotes();
+        const notes = getNotes();
         if (notes.length === 0) {
             container.innerHTML = '<p style="color:var(--text-tertiary);">' + t('profile_no_notes') + '</p>';
             return;
         }
-        var html = '';
-        for (var i = 0; i < notes.length; i++) {
-            var note = notes[i];
+        let html = '';
+        for (const note of notes) {
             html += '<label style="display:block;margin:0.2rem 0;"><input type="checkbox" class="note-select" value="' + note.id + '" checked> ' + escapeHtml(note.titulo || 'Sem título') + '</label>';
         }
         container.innerHTML = html;
@@ -1684,36 +1618,44 @@
     // ========== ABRIR/FECHAR MODAL ==========
     function openProfileModal() {
         console.log('[Profile] openProfileModal chamado');
-        var modal = document.getElementById('profileModal');
+        if (!loadProfileName()) {
+            if (typeof window.startOnboarding === 'function') {
+                window.startOnboarding();
+            } else {
+                console.warn('[Profile] Janela de login ainda não está disponível.');
+            }
+            return;
+        }
+        const modal = document.getElementById('profileModal');
         if (!modal) {
             console.warn('[Profile] Modal #profileModal não encontrado no DOM');
             return;
         }
-        if (translationsLoaded && Object.keys(translations).length > 0) {
-            _updateProfileModal();
-            modal.classList.add('show');
-            modal.style.display = 'flex';
-            console.log('[Profile] Modal aberto com sucesso');
-        } else {
-            loadTranslations(currentLang).then(function() {
-                _updateProfileModal();
-                modal.classList.add('show');
-                modal.style.display = 'flex';
-                console.log('[Profile] Modal aberto com sucesso (após carregar traduções)');
-            });
+        try {
+            updateProfileModal();
+        } catch (e) {
+            console.warn('[Profile] Erro ao atualizar modal, mas abrindo mesmo assim:', e);
         }
+        modal.classList.add('show');
+        modal.style.display = 'flex';
+        modal.removeAttribute('inert');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        console.log('[Profile] Modal aberto com sucesso');
     }
 
     function closeProfileModal() {
-        var modal = document.getElementById('profileModal');
+        const modal = document.getElementById('profileModal');
         if (!modal) return;
         modal.classList.remove('show');
         modal.style.display = 'none';
+        modal.setAttribute('inert', '');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
         console.log('[Profile] Modal fechado');
     }
 
     // ========== INICIALIZAÇÃO ==========
-    let imageBasePath = null;
     let _initialized = false;
 
     async function initProfileSystem() {
@@ -1724,22 +1666,20 @@
         _initialized = true;
 
         console.log('[Profile] initProfileSystem iniciado');
-        var savedLang = localStorage.getItem('selectedLanguage') || (navigator.language && navigator.language.startsWith('pt') ? 'pt-br' : 'en');
-        currentLang = savedLang;
-        await loadTranslations(currentLang);
-
+        // O modal é montado dinamicamente; aguarde o JSON antes de chamar t().
+        if (window.i18nReady && typeof window.i18nReady.then === 'function') {
+            await window.i18nReady;
+        }
         await detectImageBasePath();
 
         // ===== ATUALIZAR BOTÃO DE PERFIL =====
-        var profileBtn = document.getElementById('profileBtn');
+        const profileBtn = document.getElementById('profileBtn');
         console.log('[Profile] Botão #profileBtn encontrado?', !!profileBtn);
 
         if (profileBtn) {
-            // Remove listeners antigos para evitar duplicação
             profileBtn.removeEventListener('click', openProfileModal);
             profileBtn.addEventListener('click', openProfileModal);
             console.log('[Profile] Listener de clique adicionado ao botão #profileBtn');
-            // Atualiza imediatamente a aparência do botão
             setTimeout(updateProfileButton, 50);
             setTimeout(updateProfileButton, 300);
         } else {
@@ -1747,96 +1687,125 @@
         }
 
         // ===== AVATAR WRAPPER =====
-        var avatarWrapper = document.getElementById('avatarWrapper');
-        console.log('[Profile] #avatarWrapper encontrado?', !!avatarWrapper);
-        if (avatarWrapper) {
-            // Remove listeners antigos
-            avatarWrapper.removeEventListener('click', showAvatarSelector);
-            avatarWrapper.addEventListener('click', function(e) {
+        const avatarContainer = document.querySelector('#avatarWrapper .avatar-container');
+        console.log('[Profile] Área do avatar encontrada?', !!avatarContainer);
+        if (avatarContainer) {
+            avatarContainer.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('[Profile] Clique no avatarWrapper – abrindo seletor');
                 showAvatarSelector();
             });
-            console.log('[Profile] Listener de clique adicionado ao #avatarWrapper');
+            console.log('[Profile] Listener de clique adicionado à imagem do perfil');
         } else {
-            console.warn('[Profile] #avatarWrapper não encontrado. O seletor de avatar não funcionará.');
+            console.warn('[Profile] Área do avatar não encontrada. O seletor de avatar não funcionará.');
         }
 
         // ===== FECHAR MODAL DE PERFIL =====
-        var closeBtn = document.getElementById('closeProfileModal');
+        const closeBtn = document.getElementById('closeProfileModal');
         if (closeBtn) {
+            closeBtn.removeEventListener('click', closeProfileModal);
             closeBtn.addEventListener('click', closeProfileModal);
         }
 
         // ===== MODAL DE PERFIL =====
-        var modal = document.getElementById('profileModal');
+        const modal = document.getElementById('profileModal');
         if (modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) closeProfileModal();
-            });
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.style.display === 'flex') closeProfileModal();
+            const overlay = modal.querySelector('.modal-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        closeProfileModal();
+                    }
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                    closeProfileModal();
+                }
             });
         }
 
         // ===== BOTÕES DE SALVAR =====
-        var saveNameBtn = document.getElementById('profileSaveNameBtn');
+        const saveNameBtn = document.getElementById('profileSaveNameBtn');
         if (saveNameBtn) {
             saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
-            saveNameBtn.addEventListener('click', function() {
-                var name = document.getElementById('profileNameInput').value.trim();
-                if (!name) { showToast(t('profile_name_required'), 'error'); return; }
-                saveProfileName(name);
-            });
+            saveNameBtn.removeEventListener('click', handleSaveName);
+            saveNameBtn.addEventListener('click', handleSaveName);
         }
 
-        var saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
         if (saveGenderBtn) {
             saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
-            saveGenderBtn.addEventListener('click', function() {
-                var gender = document.getElementById('profileGender').value;
-                saveProfileGender(gender);
-            });
+            saveGenderBtn.removeEventListener('click', handleSaveGender);
+            saveGenderBtn.addEventListener('click', handleSaveGender);
         }
 
-        var savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) {
             savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
-            savePasswordBtn.addEventListener('click', async function() {
-                var password = document.getElementById('profilePassword').value;
-                var saved = await saveProfilePassword(password);
-                if (saved) {
-                    document.getElementById('profilePassword').value = '';
-                    showPasswordSavedIndicator(true);
-                }
-            });
+            savePasswordBtn.removeEventListener('click', handleSavePassword);
+            savePasswordBtn.addEventListener('click', handleSavePassword);
+        }
+
+        // Handlers separados
+        function handleSaveName() {
+            const nameInput = document.getElementById('profileNameInput');
+            if (!nameInput) return;
+            const name = nameInput.value.trim();
+            if (!name) { showToast(t('profile_name_required'), 'error'); return; }
+            saveProfileName(name);
+        }
+
+        function handleSaveGender() {
+            const genderSelect = document.getElementById('profileGender');
+            if (!genderSelect) return;
+            const gender = genderSelect.value || '';
+            saveProfileGender(gender);
+        }
+
+        async function handleSavePassword() {
+            const passwordInput = document.getElementById('profilePassword');
+            if (!passwordInput) return;
+            const password = passwordInput.value;
+            const saved = await saveProfilePassword(password);
+            if (saved) {
+                passwordInput.value = '';
+                showPasswordSavedIndicator(true);
+            }
         }
 
         // ===== EXPORTAÇÃO E IMPORTAÇÃO =====
-        var exportBtn = document.getElementById('generateExportBtn');
+        const exportBtn = document.getElementById('generateExportBtn');
         if (exportBtn) {
             exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
+            exportBtn.removeEventListener('click', handleExport);
             exportBtn.addEventListener('click', handleExport);
         }
 
-        var importBtn = document.getElementById('importProgressBtn');
+        const importBtn = document.getElementById('importProgressBtn');
         if (importBtn) {
             importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
-            importBtn.addEventListener('click', function() {
-                var importInput = document.getElementById('importFileInput');
-                if (importInput) importInput.click();
-            });
+            importBtn.removeEventListener('click', handleImportClick);
+            importBtn.addEventListener('click', handleImportClick);
         }
 
-        var importInput = document.getElementById('importFileInput');
+        function handleImportClick() {
+            const importInput = document.getElementById('importFileInput');
+            if (importInput) importInput.click();
+        }
+
+        const importInput = document.getElementById('importFileInput');
         if (importInput) {
-            importInput.addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    handleImport(e.target.files[0]);
-                }
-                e.target.value = '';
-            });
+            importInput.removeEventListener('change', handleImportChange);
+            importInput.addEventListener('change', handleImportChange);
+        }
+
+        function handleImportChange(e) {
+            if (e.target.files && e.target.files[0]) {
+                handleImport(e.target.files[0]);
+            }
+            e.target.value = '';
         }
 
         // ===== AVATAR INICIAL =====
@@ -1846,16 +1815,16 @@
 
         // ===== CARREGAR DADOS NO MODAL =====
         loadAvatarToModal();
-        var nameInputField = document.getElementById('profileNameInput');
+        const nameInputField = document.getElementById('profileNameInput');
         if (nameInputField) {
             nameInputField.value = loadProfileName();
             nameInputField.placeholder = t('profile_name_placeholder');
         }
-        var genderSelectField = document.getElementById('profileGender');
+        const genderSelectField = document.getElementById('profileGender');
         if (genderSelectField) {
             genderSelectField.value = getProfileGender();
         }
-        var passwordInputField = document.getElementById('profilePassword');
+        const passwordInputField = document.getElementById('profilePassword');
         if (passwordInputField) {
             passwordInputField.placeholder = t('profile_password_placeholder');
             showPasswordSavedIndicator(hasStoredPassword());
@@ -1879,8 +1848,6 @@
     window.loadAvatarToModal = loadAvatarToModal;
     window.updateProfileButton = updateProfileButton;
     window.showAvatarSelector = showAvatarSelector;
-    window.t = t;
-    window.getCurrentLanguage = function() { return currentLang; };
     window.saveProfileName = saveProfileName;
     window.saveProfileGender = saveProfileGender;
     window.saveProfilePassword = saveProfilePassword;
@@ -1897,7 +1864,7 @@
     // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
     function autoInit() {
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', () => {
                 console.log('[Profile] DOMContentLoaded – iniciando profile');
                 if (!window._profileInitialized) {
                     window._profileInitialized = true;
@@ -1916,39 +1883,36 @@
     autoInit();
 
     // ========== EVENTOS DE HORAS DO AUDITÓRIO ==========
-    window.addEventListener('auditorioTimeUpdated', function(e) {
-        var seconds = e.detail.seconds;
-        var hours = Math.floor(seconds / 3600);
-        var minutes = Math.floor((seconds % 3600) / 60);
-        var formatted = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
-        var el = document.getElementById('profileAuditorioTime');
+    window.addEventListener('auditorioTimeUpdated', (e) => {
+        const seconds = e.detail.seconds;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const formatted = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
+        const el = document.getElementById('profileAuditorioTime');
         if (el) el.textContent = formatted;
     });
 
-    window.addEventListener('storage', function(e) {
+    window.addEventListener('storage', (e) => {
         if (e.key === AUDITORIO_TIME_KEY) {
-            var el = document.getElementById('profileAuditorioTime');
-            if (el && document.getElementById('profileModal').style.display === 'flex') {
-                var seconds = parseInt(e.newValue || '0', 10);
-                var hours = Math.floor(seconds / 3600);
-                var minutes = Math.floor((seconds % 3600) / 60);
+            const el = document.getElementById('profileAuditorioTime');
+            if (el && document.getElementById('profileModal')?.style?.display === 'flex') {
+                const seconds = parseInt(e.newValue || '0', 10);
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
                 el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
             }
         }
     });
 
     // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
-    window.addEventListener('languageChanged', async function(e) {
-        var lang = e.detail.lang || 'pt-br';
-        if (lang !== currentLang) {
-            currentLang = lang;
-            await loadTranslations(lang);
-        }
+    window.addEventListener('languageChanged', async (e) => {
+        const lang = e.detail.lang || 'pt-br';
+        console.log('[Profile] Idioma alterado para:', lang);
         updateProfileButton();
-        var modal = document.getElementById('profileModal');
+        const modal = document.getElementById('profileModal');
         if (modal && modal.style.display === 'flex') {
             updateProfileTranslations();
-            _updateProfileModal();
+            updateProfileModal();
         }
     });
 
