@@ -1,5 +1,5 @@
 /* ============================================================
-   onboarding.css – Versão 5.1 – COMPLETO E CORRIGIDO
+   onboarding.css – Versão 5.2 – COMPLETO E CORRIGIDO
    Estilos para a Trilha de Boas-vindas (Onboarding)
    Tema escuro premium com glassmorphism e animações modernas
    Inclui: Login como passo principal, Cadastro, Importação de progresso
@@ -7,6 +7,7 @@
    Indicador de força de senha com barras coloridas
    CORREÇÃO: pointer-events e z-index para interação
    CORREÇÃO: Suporte ao atributo inert para desabilitar interações
+   CORREÇÃO: Botão de importação com estados claro (habilitado/desabilitado)
    Universidade Livre · Todos os módulos
    ============================================================ */
 
@@ -458,6 +459,7 @@
     transform: scale(0.97);
 }
 
+/* ========== BOTÃO DE IMPORTAÇÃO – CORRIGIDO ========== */
 #onboardingImportProgressBtn {
     background: var(--accent-green, #10b981);
     color: #070B14;
@@ -473,15 +475,27 @@
     gap: 0.5rem;
     flex: 1;
     justify-content: center;
+    opacity: 1; /* valor padrão */
 }
 
-#onboardingImportProgressBtn:hover {
+/* Estado desabilitado – visual claro e informativo */
+#onboardingImportProgressBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.3);
+    background: var(--bg-tertiary, #1A2638);
+    color: var(--text-tertiary, #7A94B8);
+    box-shadow: none;
+}
+
+/* Estado habilitado – verde vibrante */
+#onboardingImportProgressBtn:not(:disabled):hover {
     background: var(--accent-green-hover, #0ea575);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
 }
 
-#onboardingImportProgressBtn:active {
+#onboardingImportProgressBtn:not(:disabled):active {
     transform: scale(0.97);
 }
 
@@ -890,5 +904,12 @@
     }
     .step .logo-large {
         transition: none !important;
+    }
+    #onboardingImportProgressBtn:not(:disabled):hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+    #onboardingImportProgressBtn:not(:disabled):active {
+        transform: none !important;
     }
 }
