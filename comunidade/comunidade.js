@@ -59,6 +59,9 @@
     const BLOCK_DURATION = 300;
     const MAX_CONTENT_WORDS = 5;
     const COURSE_REFRESH_INTERVAL = 30000;
+    const PRESENCE_STORAGE_KEY = 'comunidade_presence';
+    const PRESENCE_INTERVAL = 15000;
+    const PRESENCE_TIMEOUT = 45000;
 
     const IMG_URL_REGEX = /(https?:\/\/[^\s]+\.(?:gif|png|jpg|jpeg|webp|bmp|svg)(?:\?[^\s]*)?)/gi;
     const EMOJIS = [
@@ -223,6 +226,68 @@
         const name = localStorage.getItem('userProfileName') || 'Anônimo';
         const avatar = localStorage.getItem('userAvatar') || null;
         return { name, avatar };
+    }
+
+    const presenceId = sessionStorage.getItem('comunidade_presence_id') || generateId();
+    sessionStorage.setItem('comunidade_presence_id', presenceId);
+    let presenceInterval = null;
+
+    function readPresence() {
+        const raw = localStorage.getItem(PRESENCE_STORAGE_KEY);
+        if (!raw) return {};
+        try {
+            const presence = JSON.parse(raw);
+            return presence && typeof presence === 'object' ? presence : {};
+        } catch (error) {
+            console.warn('[Comunidade] Presença inválida no armazenamento local:', error);
+            return {};
+        }
+    }
+
+    function updateOnlineCount() {
+        const now = Date.now();
+        const presence = readPresence();
+        const active = Object.entries(presence).filter(([, entry]) => entry && now - entry.timestamp < PRESENCE_TIMEOUT);
+        const users = new Set(active.map(([, entry]) => entry.name).filter(Boolean));
+        const count = document.getElementById('communityOnlineCount');
+        if (count) {
+            const key = users.size === 1 ? 'community_online_count_one' : 'community_online_count_many';
+            const translated = t(key, { count: users.size });
+            const fallback = users.size === 1
+                ? `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'person online' : 'pessoa online'}`
+                : `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'people online' : 'pessoas online'}`;
+            count.textContent = translated === key ? fallback : translated;
+        }
+    }
+
+    function refreshPresence() {
+        const presence = readPresence();
+        presence[presenceId] = {
+            name: state.currentUser.name,
+            timestamp: Date.now()
+        };
+        Object.keys(presence).forEach(id => {
+            if (Date.now() - presence[id].timestamp >= PRESENCE_TIMEOUT) delete presence[id];
+        });
+        localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(presence));
+        updateOnlineCount();
+    }
+
+    function startPresence() {
+        if (presenceInterval) clearInterval(presenceInterval);
+        refreshPresence();
+        presenceInterval = setInterval(refreshPresence, PRESENCE_INTERVAL);
+        window.addEventListener('storage', updateOnlineCount);
+        if (window.i18nReady && typeof window.i18nReady.then === 'function') {
+            window.i18nReady.then(updateOnlineCount).catch(error => {
+                console.warn('[Comunidade] Não foi possível sincronizar a tradução da presença:', error);
+            });
+        }
+        window.addEventListener('pagehide', () => {
+            const presence = readPresence();
+            delete presence[presenceId];
+            localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(presence));
+        }, { once: true });
     }
 
     function getCourseColor(courseId) {
@@ -2340,6 +2405,7 @@
             return;
         }
 
+        startPresence();
         const success = await loadCoursesAndDisciplines();
         if (!success) {
             elements.courseList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${t('error_load_courses')}</p></div>`;
@@ -2510,6 +2576,7 @@
             const charCountSpan = document.getElementById('charCount');
             const charMaxSpan = document.getElementById('charMax');
             if (charMaxSpan) charMaxSpan.textContent = MAX_CHAT_MESSAGE_LENGTH;
+            updateOnlineCount();
         });
 
         // ====================================================================

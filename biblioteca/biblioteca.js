@@ -3,7 +3,7 @@
 // Player de audiobooks com controles completos: progresso, volume, legendas, modo áudio/vídeo
 // Salvamento automático de progresso no localStorage (individual por vídeo/parte)
 // Suporte a múltiplas partes (parte 1, 2, 3...) e links para PDF
-// Capinhas via Google Books API + OpenLibrary + fallback para thumbnails do YouTube
+// Capas bibliográficas para livros e miniaturas do YouTube para audiobooks
 // CORREÇÃO: Usa módulo central i18n se disponível, com fallback próprio
 // CORREÇÃO: Progresso salvo individualmente para cada audiobook/vídeo
 // CORREÇÃO: Scroll automático para o player ao clicar em "Ouvir"
@@ -72,6 +72,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
 
     const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+    const hasGoogleBooksApiKey = typeof GOOGLE_BOOKS_API_KEY === 'string'
+        && GOOGLE_BOOKS_API_KEY.trim() !== ''
+        && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY';
     const PROGRESS_STORAGE_PREFIX = 'audiobook_progress_';
 
     // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
@@ -418,11 +421,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         (async function processNext() {
             while (googleBooksQueue.length > 0) {
                 const { book, resolve, reject, attempt = 0 } = googleBooksQueue.shift();
+                if (googleBooksDisabled) {
+                    resolve(book);
+                    continue;
+                }
                 try {
                     const result = await _enrichWithGoogleBooks(book, attempt);
                     resolve(result);
                     googleBooksFailedAttempts = 0;
                 } catch (error) {
+                    if (error.message === 'Too Many Requests') {
+                        googleBooksDisabled = true;
+                        console.warn('[Google Books] Limite de requisições atingido. Consultas desativadas nesta sessão.');
+                        resolve(book);
+                        continue;
+                    }
                     if (attempt < GOOGLE_BOOKS_MAX_RETRIES) {
                         const delay = GOOGLE_BOOKS_DELAY_MS * Math.pow(GOOGLE_BOOKS_BACKOFF_MULTIPLIER, attempt);
                         console.warn(`[Google Books] Falha (tentativa ${attempt+1}), agendando retry em ${delay}ms:`, error.message);
@@ -435,7 +448,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         googleBooksFailedAttempts++;
                         if (googleBooksFailedAttempts >= GOOGLE_BOOKS_DISABLE_AFTER_FAILURES) {
                             googleBooksDisabled = true;
-                            console.warn('[Google Books] Desativado devido a múltiplas falhas. Usando OpenLibrary como fallback.');
+                            console.warn('[Google Books] Desativado devido a múltiplas falhas. Usando capas locais como fallback.');
                         }
                         reject(error);
                     }
@@ -448,7 +461,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function enrichWithGoogleBooks(book) {
         return new Promise((resolve, reject) => {
-            if (googleBooksDisabled) return resolve(book);
+            if (googleBooksDisabled || !hasGoogleBooksApiKey) return resolve(book);
             googleBooksQueue.push({ book, resolve, reject, attempt: 0 });
             processGoogleBooksQueue();
         });
@@ -566,25 +579,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function enrichBookMetadata(book) {
         if (!book.title) return book;
-        let enriched = await enrichWithOpenLibrary(book);
-        if (!enriched.cover || !enriched.description) {
-            if (!googleBooksDisabled) {
-                try {
-                    enriched = await enrichWithGoogleBooks(enriched);
-                } catch (e) {
-                    console.debug('[Enrich] Google Books falhou, mantendo dados atuais.');
-                }
+        const isYouTubeCover = typeof book.cover === 'string' && book.cover.includes('ytimg.com');
+        let enriched = isYouTubeCover ? { ...book, cover: '' } : book;
+        if (!googleBooksDisabled && hasGoogleBooksApiKey) {
+            try {
+                enriched = await enrichWithGoogleBooks(enriched);
+            } catch (e) {
+                console.debug('[Enrich] Google Books falhou; usando capa local como fallback.');
             }
-        }
-        if (!enriched.cover && enriched.videoId) {
-            enriched.cover = `https://i.ytimg.com/vi/${enriched.videoId}/hqdefault.jpg`;
         }
         return enriched;
     }
 
     // ========== APIS EXTERNAS ==========
     async function searchGoogleBooks(query) {
-        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        if (!hasGoogleBooksApiKey || !query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `google_books_free_${normalizeText(query)}`;
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
@@ -594,13 +603,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
             const response = await fetch(url, { signal: controller.signal });
             clearTimeout(timeoutId);
-            if (response.status === 429) {
-                await new Promise(r => setTimeout(r, 10000));
-                const retryResponse = await fetch(url, { signal: controller.signal });
-                if (!retryResponse.ok) return [];
-                const data = await retryResponse.json();
-                return processGoogleBooksSearch(data);
-            }
+            if (response.status === 429) return [];
             if (!response.ok) return [];
             const data = await response.json();
             return processGoogleBooksSearch(data);
@@ -1479,9 +1482,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadAudiobooks() {
         const paths = [
-            'biblioteca/audiobooks.json',
             'audiobooks.json',
-            './audiobooks.json',
             '../audiobooks.json',
             '/biblioteca/audiobooks.json'
         ];
@@ -1511,15 +1512,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                             ...item,
                             type: 'audiobook',
                             source: 'YouTube',
-                            cover: item.cover || (parts.length && parts[0].videoId ? `https://i.ytimg.com/vi/${parts[0].videoId}/hqdefault.jpg` : ''),
+                            cover: item.cover || (parts[0]?.videoId
+                                ? `https://i.ytimg.com/vi/${parts[0].videoId}/hqdefault.jpg`
+                                : ''),
                             parts: parts
                         };
-                        if (book.title) {
-                            const enrichedBook = await enrichBookMetadata(book);
-                            if (enrichedBook.cover && enrichedBook.cover !== book.cover) {
-                                book.cover = enrichedBook.cover;
-                            }
-                        }
                         return book;
                     }));
                     return enriched;
@@ -2252,14 +2249,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let html = '';
         audiobooks.forEach(book => {
-            const cover = book.cover || `https://i.ytimg.com/vi/${book.parts && book.parts.length ? book.parts[0].videoId || '' : ''}/hqdefault.jpg`;
+            const cover = book.cover || 'https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro';
             const duration = book.duration || '';
             const year = book.year || '';
             const partsCount = book.parts ? book.parts.length : 1;
 
             html += `
                 <div class="audiobook-card" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}">
-                    <img class="audiobook-cover" src="${cover}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/120x90/1F2933/6C8CFF?text=Audiobook'">
+                    <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro'">
                     <div class="audiobook-info">
                         <div class="audiobook-title">${escapeHtml(book.title)}</div>
                         <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>

@@ -787,6 +787,12 @@ body {
     background: #ef4444;
 }
 
+.online-count {
+    margin-left: 0.35rem;
+    color: var(--com-text-secondary);
+    font-weight: 600;
+}
+
 /* ========== PREVIEW DE ARTIGO NO CHAT ========== */
 .chat-article-preview {
     background: var(--com-bg-card);

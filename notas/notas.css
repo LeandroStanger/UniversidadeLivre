@@ -277,6 +277,55 @@ a:hover {
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
 }
 
+.community-resource-button {
+    background: var(--accent-teal);
+    color: #000;
+}
+
+.community-resource-button:hover,
+.community-resource-button:focus-visible {
+    background: var(--accent-teal);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+}
+
+.notes-navigation-button {
+    color: #000;
+}
+
+.notes-navigation-button span {
+    color: #000;
+}
+
+.notes-navigation-button[style*="accent-blue"],
+.notes-navigation-button[style*="accent-blue"] span {
+    color: #000;
+}
+
+.notes-navigation-button:hover,
+.notes-navigation-button:focus-visible {
+    color: #fff;
+}
+
+.notes-navigation-button:hover span,
+.notes-navigation-button:focus-visible span {
+    color: #fff;
+}
+
+.notes-navigation-button[style*="accent-blue"]:hover,
+.notes-navigation-button[style*="accent-blue"]:focus-visible,
+.notes-navigation-button[style*="accent-blue"]:hover span,
+.notes-navigation-button[style*="accent-blue"]:focus-visible span {
+    color: #fff;
+}
+
+.back-to-courses-button:hover,
+.back-to-courses-button:focus-visible {
+    background: var(--accent-blue);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+}
+
 /* ========== CABEÇALHO DA PÁGINA ========== */
 .page-header {
     text-align: center;
