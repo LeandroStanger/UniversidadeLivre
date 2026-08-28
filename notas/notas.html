@@ -38,6 +38,9 @@
             <a href="../auditorio/auditorio.html" class="btn-back" style="background: var(--accent-blue); margin-right: 0.5rem;" data-i18n="auditorio_title">
                 <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span>
             </a>
+            <a href="../comunidade/comunidade.html" class="btn-back" target="_blank" rel="noopener noreferrer" style="background: var(--accent-teal);" data-i18n="comunidade_title">
+                <i class="fas fa-users" aria-hidden="true"></i><span data-i18n="comunidade_title">Comunidade</span>
+            </a>
             <a href="../index.html" class="btn-back" data-i18n="back_to_courses" aria-label="Voltar para cursos">
                 <i class="fas fa-arrow-left" aria-hidden="true"></i><span data-i18n="back_to_courses">Voltar para cursos</span>
             </a>
@@ -347,23 +350,9 @@
 
 <!-- ========== SCRIPTS ========== -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="../lang/i18n.js"></script>
 <script src="notas.js"></script>
 <script src="../perfil/profile.js"></script>
 <script src="../onboarding/onboarding.js"></script>
-<script>
-    (function() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                if (typeof window.startOnboarding === 'function') {
-                    window.startOnboarding();
-                }
-            });
-        } else {
-            if (typeof window.startOnboarding === 'function') {
-                window.startOnboarding();
-            }
-        }
-    })();
-</script>
 </body>
 </html>
