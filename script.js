@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const imageUrl = imagePath || `https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(course.name)}`;
 
         const totalMinutes = await computeCourseTotalMinutes(course.id);
-        const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours')}: ${formatDuration(totalMinutes)}</div>` : '';
+        const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours_estimated')}: ${formatDuration(totalMinutes)}</div>` : '';
 
         let progressPercent = 0;
         const key = `ulivre_course_${course.id}`;
@@ -474,7 +474,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.error('[loadCourses] HTTP error:', response.status);
                 throw new Error(`Erro HTTP ${response.status}`);
             }
-            allCourses = await response.json();
+            const parsedCourses = await response.json();
+            if (!Array.isArray(parsedCourses) ||
+                !parsedCourses.every(course => course && typeof course.id === 'string' && course.id.trim() &&
+                    typeof course.name === 'string' && course.name.trim())) {
+                throw new Error('Estrutura inválida em courses.json');
+            }
+            allCourses = parsedCourses;
             console.log('[loadCourses] Cursos carregados:', allCourses.length);
             return true;
         } catch (error) {
@@ -814,7 +820,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         img.loading = 'lazy';
         const overlay = document.createElement('div');
         overlay.className = 'home-slide-overlay';
-        overlay.innerHTML = `<h3>${slide.title}</h3><p>${slide.desc}</p>`;
+        overlay.innerHTML = `<h3>${escapeHtml(slide.title)}</h3><p>${escapeHtml(slide.desc)}</p>`;
         link.appendChild(img);
         link.appendChild(overlay);
         slideDiv.appendChild(link);
@@ -1579,13 +1585,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             let isCurrent = idx === currentVideoInLesson;
             let watchedClass = v.watched ? 'watched' : '';
             html += `<div class="current-video-item ${watchedClass}" data-video-index="${idx}">
-                        <i class="fas ${isCurrent ? 'fa-play-circle' : (v.watched ? 'fa-check-circle' : 'fa-circle')}"></i> ${v.title}
+                        <i class="fas ${isCurrent ? 'fa-play-circle' : (v.watched ? 'fa-check-circle' : 'fa-circle')}"></i> ${escapeHtml(v.title)}
                     </div>`;
         });
         html += `</div>`;
         container.innerHTML = html;
         container.querySelectorAll('.current-video-item').forEach(el => {
-            let idx = parseInt(el.dataset.videoIndex);
+            let idx = parseInt(el.dataset.videoIndex, 10);
             if (!isNaN(idx) && lessons[currentLessonId].unlocked) el.addEventListener('click', () => { currentVideoInLesson = idx; loadCurrentLesson(); });
         });
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
@@ -1602,7 +1608,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             let stagePercent = totalVids ? Math.floor((watchedVids / totalVids) * 100) : 0;
             let stageDiv = document.createElement("div");
             stageDiv.className = "stage-group-unified animate-in visible";
-            stageDiv.innerHTML = `<div class="stage-header"><span>${stage.name}</span><span class="stage-progress">${stagePercent}%</span></div><div class="disciplines-list"></div>`;
+            stageDiv.innerHTML = `<div class="stage-header"><span>${escapeHtml(stage.name)}</span><span class="stage-progress">${stagePercent}%</span></div><div class="disciplines-list"></div>`;
             let discList = stageDiv.querySelector('.disciplines-list');
             stage.disciplines.forEach(discipline => {
                 let lessonsIndices = disciplineLessonsMap.get(discipline.name) || [];
@@ -1612,7 +1618,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let discPercent = totalV ? Math.round((watchedV / totalV) * 100) : 0;
                 let card = document.createElement("div");
                 card.className = "discipline-card";
-                card.innerHTML = `<div class="discipline-header"><span><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>${discipline.name}</span><span class="discipline-progress">${discPercent}%</span></div><div class="weeks-container"></div>`;
+                card.innerHTML = `<div class="discipline-header"><span><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>${escapeHtml(discipline.name)}</span><span class="discipline-progress">${discPercent}%</span></div><div class="weeks-container"></div>`;
                 let weeksContainer = card.querySelector('.weeks-container');
                 let weeks = [];
                 for (let i = 0; i < lessonsForDisc.length; i += 5) weeks.push(lessonsForDisc.slice(i, i + 5));

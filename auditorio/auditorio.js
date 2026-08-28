@@ -94,6 +94,9 @@ function stopWatchTimer() {
 const YOUTUBE_CONFIG = {
     apiKey: 'YOUR_YOUTUBE_API_KEY'
 };
+const hasYouTubeApiKey = typeof YOUTUBE_CONFIG.apiKey === 'string'
+    && YOUTUBE_CONFIG.apiKey.trim() !== ''
+    && YOUTUBE_CONFIG.apiKey !== 'YOUR_YOUTUBE_API_KEY';
 
 const cache = new Map();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
@@ -353,7 +356,7 @@ function detectSubjectLocal(title, description) {
 // ========== YOUTUBE API ==========
 async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
     const { apiKey } = YOUTUBE_CONFIG;
-    if (!apiKey) return [];
+    if (!hasYouTubeApiKey) return [];
     
     let searchTerm = query;
     if (podcastMode) searchTerm = `${query} podcast`;
@@ -445,9 +448,8 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
 }
 
 async function searchYouTube(query, maxResults = 30, options = {}) {
-    if (apiQuotaExceeded) return [];
-    const { apiKey } = YOUTUBE_CONFIG;
-    if (!apiKey) return [];
+    if (apiQuotaExceeded || !hasYouTubeApiKey) return [];
+    if (!hasYouTubeApiKey) return [];
     const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
     
     if (channelIds.length === 0) {
@@ -480,7 +482,7 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
 }
 
 async function fetchVideoDetails(videoIds) {
-    if (!videoIds.length || apiQuotaExceeded) return {};
+    if (!videoIds.length || apiQuotaExceeded || !hasYouTubeApiKey) return {};
     const { apiKey } = YOUTUBE_CONFIG;
     const cacheKey = `details_${videoIds.sort().join(',')}`;
     return getCachedOrFetch(cacheKey, async () => {
