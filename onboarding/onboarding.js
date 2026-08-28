@@ -1,21 +1,15 @@
-// onboarding/onboarding.js – Versão 22.0 – COMPLETO E INTEGRADO AO i18n CENTRAL
+// onboarding/onboarding.js – Versão 22.1 – CORREÇÃO DE INERT E INTERAÇÃO
 // Trilha de boas-vindas (Onboarding) com Login, Cadastro, Importação de progresso
 // Suporte a verificação de senha para importação (incluindo arquivos criptografados)
 // Restauração completa do perfil (nome, gênero, avatar, matrícula, tempo, cursos, etc.)
-// Não pode ser fechado clicando fora ou com ESC
-// CORREÇÃO: Funções de criptografia embutidas no próprio módulo (não depende de profile.js)
-// CORREÇÃO: Suporte a arquivos criptografados e não criptografados
-// CORREÇÃO: Mensagens de erro claras e botão para recarregar a página
-// CORREÇÃO: Traduções carregadas exclusivamente do módulo central i18n (window.t)
-// CORREÇÃO: MutationObserver desconectado ao fechar modal
-// CORREÇÃO: Removidos fallbacks hardcoded enormes – usa window.t ou chave como fallback
-// CORREÇÃO: Verificação de nome de usuário (username) opcional
-// CORREÇÃO: Suporte a avatar personalizado via upload
+// CORREÇÃO: Remoção do atributo inert ao abrir o modal e recolocação ao fechar
+// CORREÇÃO: Garantia de pointer-events e z-index para interação
+// CORREÇÃO: Inicialização robusta mesmo quando o DOM não está pronto
 
 (function() {
     'use strict';
 
-    console.log('[Onboarding] Inicializando módulo v22.0...');
+    console.log('[Onboarding] Inicializando módulo v22.1...');
 
     // ========== CONSTANTES ==========
     const ONBOARDING_COMPLETE_KEY = 'ulivre_onboarding_complete';
@@ -39,8 +33,6 @@
     };
 
     // ========== FUNÇÕES DE CRIPTOGRAFIA EMBUTIDAS ==========
-    // (Cópia das funções do profile.js para não depender do carregamento externo)
-
     async function deriveKey(password, salt) {
         const encoder = new TextEncoder();
         const keyMaterial = await crypto.subtle.importKey(
@@ -116,13 +108,11 @@
 
     // ========== TRADUÇÃO (INTEGRAÇÃO COM i18n CENTRAL) ==========
     function t(key, replacements = {}) {
-        // Usa o sistema central de tradução (window.t)
         if (window.t && typeof window.t === 'function') {
             try {
                 return window.t(key, replacements);
             } catch (e) { /* fallback */ }
         }
-        // Fallback: usa traduções carregadas localmente (window.__translations)
         let text = (window.__translations && window.__translations[key]) || key;
         for (const k in replacements) {
             if (replacements.hasOwnProperty(k)) {
@@ -132,13 +122,11 @@
         return text;
     }
 
-    // ========== CARREGAR TRADUÇÕES (usa i18n central se disponível) ==========
+    // ========== CARREGAR TRADUÇÕES ==========
     async function loadTranslations(lang) {
-        // Tenta usar o módulo central i18n
         if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
             try {
                 await window.i18n.loadTranslations(lang);
-                // Garante que window.__translations esteja atualizado
                 if (window.i18n.getTranslations) {
                     window.__translations = window.i18n.getTranslations();
                 }
@@ -148,7 +136,6 @@
             }
         }
 
-        // Fallback: tenta carregar JSON diretamente
         const paths = [
             `../lang/${lang}.json`,
             `lang/${lang}.json`,
@@ -171,7 +158,6 @@
 
     // ========== APLICAR TRADUÇÕES NO DOM ==========
     function applyTranslations() {
-        // Tenta usar o sistema central
         if (window.applyTranslations && typeof window.applyTranslations === 'function') {
             try {
                 window.applyTranslations();
@@ -181,7 +167,6 @@
             }
         }
 
-        // Fallback: aplica localmente
         const translations = window.__translations || {};
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
@@ -283,12 +268,10 @@
             nextBtn.style.cursor = 'pointer';
         }
 
-        // Atualiza textos dos botões
         prevBtn.textContent = t('onboarding_button_prev');
         nextBtn.textContent = t('onboarding_button_next');
         finishBtn.textContent = t('onboarding_button_finish');
 
-        // Atualiza elementos específicos
         if (index === 3) {
             updateModeUI();
             if (!loginMode) {
@@ -299,7 +282,6 @@
             }
         }
 
-        // Foco automático
         if (index === 3) {
             if (loginMode) {
                 const loginPass = document.getElementById('onboardingLoginPassword');
@@ -310,7 +292,6 @@
             }
         }
 
-        // Reaplicar traduções no passo atual
         applyTranslations();
     }
 
@@ -328,7 +309,6 @@
         const errorDiv = document.getElementById('onboardingLangError');
         if (errorDiv) errorDiv.style.display = 'none';
 
-        // Dispara evento de mudança de idioma
         if (window.setLanguage && typeof window.setLanguage === 'function') {
             window.setLanguage(lang);
         } else {
@@ -405,7 +385,6 @@
             try {
                 let importedData = JSON.parse(ev.target.result);
 
-                // Verifica se o arquivo está criptografado
                 if (importedData.encrypted === true) {
                     if (!password) {
                         showToast(t('onboarding_error_password_required'), 'error');
@@ -422,7 +401,6 @@
                     return;
                 }
 
-                // Arquivo não criptografado: verifica senha
                 if (importedData.password) {
                     const storedPassword = importedData.password;
 
@@ -437,7 +415,6 @@
                         showToast(t('onboarding_error_login_failed'), 'error');
                     }
                 } else {
-                    // Arquivo sem senha: importa diretamente
                     applyImportedData(importedData);
                 }
             } catch (err) {
@@ -456,7 +433,6 @@
             return;
         }
 
-        // === RESTAURAR DADOS DO PERFIL ===
         if (importedData.user) localStorage.setItem('userProfileName', importedData.user);
         if (importedData.gender) localStorage.setItem('userGender', importedData.gender);
         if (importedData.avatar) {
@@ -468,7 +444,6 @@
         if (importedData.matricula) localStorage.setItem('userMatricula', importedData.matricula);
         if (importedData.auditorioTime) localStorage.setItem('auditorio_total_time', importedData.auditorioTime);
 
-        // === RESTAURAR CURSOS ===
         let importedCount = 0;
         if (importedData.data && importedData.data.courses) {
             importedData.data.courses.forEach(c => {
@@ -479,7 +454,6 @@
             });
         }
 
-        // === RESTAURAR OUTROS DADOS ===
         if (importedData.data && importedData.data.videos) {
             localStorage.setItem('yt_video_progress', JSON.stringify(importedData.data.videos));
         }
@@ -507,10 +481,8 @@
             });
         }
 
-        // === MARCAR ONBOARDING COMO COMPLETO ===
         localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
 
-        // === FECHAR MODAL E ATUALIZAR INTERFACE ===
         closeOnboarding();
 
         if (window.updateProfileButton) window.updateProfileButton();
@@ -520,7 +492,6 @@
 
         showToast(t('profile_import_success', { count: importedCount }), 'success');
 
-        // Recarregar a página para garantir que todos os módulos sejam atualizados
         setTimeout(() => {
             if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
                 window.location.reload();
@@ -644,7 +615,6 @@
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
                     </div>
 
-                    <!-- Botão Criar conta -->
                     <div style="margin-top: 1.5rem; text-align: center; border-top: 1px solid var(--border); padding-top: 1.5rem;">
                         <button type="button" id="onboardingToggleModeBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
                             ${t('onboarding_create_account')}
@@ -652,7 +622,6 @@
                     </div>
                 </div>
 
-                <!-- Modo Cadastro -->
                 <div id="onboardingSignupMode" style="display: none;">
                     <div class="form-group">
                         <label for="onboardingName">${t('onboarding_form_name_label')}</label>
@@ -717,7 +686,6 @@
         `;
         stepsContainer.innerHTML = stepsHtml;
 
-        // Inicializar eventos de idioma
         const ptBtn = document.getElementById('onboardingLangPt');
         const enBtn = document.getElementById('onboardingLangEn');
         if (ptBtn) {
@@ -731,18 +699,14 @@
             });
         }
 
-        // Inicializar componentes
         initAvatarSelector();
         initPasswordToggle();
         initAvatarUpload();
         initAvatarRemove();
         initAvatarLicense();
         initToggleEvents();
-
-        // Inicializar eventos de importação
         initImportEvents();
 
-        // Selecionar idioma salvo
         const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
         if (savedLang) {
             selectedLang = savedLang;
@@ -759,13 +723,9 @@
             }
         }
 
-        // Aplicar traduções após construir os passos
         applyTranslations();
-
         updateImportButtonState();
         updateModeUI();
-
-        // Iniciar MutationObserver para detectar o campo de senha
         startPasswordObserver();
     }
 
@@ -883,7 +843,6 @@
         });
     }
 
-    // ========== SENHA ==========
     function initPasswordToggle() {
         const toggleBtn = document.getElementById('onboardingTogglePassword');
         const passwordInput = document.getElementById('onboardingPassword');
@@ -948,7 +907,6 @@
         indicator.dataset.passed = passed;
     }
 
-    // ========== AVATAR: UPLOAD, REMOVER, LICENÇA ==========
     function initAvatarUpload() {
         const uploadBtn = document.getElementById('onboardingUploadAvatar');
         const fileInput = document.getElementById('onboardingAvatarInput');
@@ -1084,7 +1042,6 @@
         });
     }
 
-    // ========== EVENTOS DE TOGGLE ==========
     function initToggleEvents() {
         const toggleBtn = document.getElementById('onboardingToggleModeBtn');
         const toggleBackBtn = document.getElementById('onboardingToggleModeBackBtn');
@@ -1110,7 +1067,6 @@
         }
     }
 
-    // ========== EVENTOS DE IMPORTAÇÃO ==========
     function initImportEvents() {
         const importBtn = document.getElementById('onboardingImportProgressBtn');
         const fileInput = document.getElementById('onboardingImportFileInput');
@@ -1328,10 +1284,10 @@
         if (!modal) return;
         modal.classList.remove('show');
         modal.style.display = 'none';
+        modal.setAttribute('inert', '');        // ← CORREÇÃO: bloqueia interações quando fechado
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
 
-        // Desconectar o MutationObserver para evitar vazamento de memória
         if (passwordObserver) {
             passwordObserver.disconnect();
             passwordObserver = null;
@@ -1349,7 +1305,6 @@
             }
         }
 
-        // Carregar traduções antes de construir os passos
         const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
         selectedLang = savedLang;
         await loadTranslations(savedLang);
@@ -1379,8 +1334,11 @@
 
         if (!modal) return;
         modal.style.display = 'flex';
+        modal.style.pointerEvents = 'auto';   // ← CORREÇÃO: garante que receba cliques
+        modal.style.zIndex = '9999';           // ← CORREÇÃO: prioridade máxima
         modal.offsetHeight;
         modal.classList.add('show');
+        modal.removeAttribute('inert');        // ← CORREÇÃO: permite interação
         modal.removeAttribute('aria-hidden');
         document.body.style.overflow = 'hidden';
 
@@ -1391,7 +1349,6 @@
     function initEvents() {
         if (!prevBtn || !nextBtn || !finishBtn) return;
 
-        // Clona os botões para remover listeners antigos
         const newPrev = prevBtn.cloneNode(true);
         const newNext = nextBtn.cloneNode(true);
         const newFinish = finishBtn.cloneNode(true);
@@ -1424,7 +1381,6 @@
             }
         });
 
-        // Reagir a mudanças de idioma globais
         window.addEventListener('languageChanged', () => {
             if (modal && modal.classList.contains('show')) {
                 const nameInput = document.getElementById('onboardingName');

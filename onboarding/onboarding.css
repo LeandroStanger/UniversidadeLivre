@@ -1,10 +1,12 @@
 /* ============================================================
-   onboarding.css – Versão 5.0 – COMPLETO
+   onboarding.css – Versão 5.1 – COMPLETO E CORRIGIDO
    Estilos para a Trilha de Boas-vindas (Onboarding)
    Tema escuro premium com glassmorphism e animações modernas
    Inclui: Login como passo principal, Cadastro, Importação de progresso
    Avatares em grade com scroll vertical (sem rolagem horizontal)
    Indicador de força de senha com barras coloridas
+   CORREÇÃO: pointer-events e z-index para interação
+   CORREÇÃO: Suporte ao atributo inert para desabilitar interações
    Universidade Livre · Todos os módulos
    ============================================================ */
 
@@ -22,15 +24,25 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 3000;
+    z-index: 9999; /* Garante que fique acima de tudo */
     padding: 1rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     animation: onboardingFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none; /* Desabilitado por padrão, ativado no .show */
 }
 
 .onboarding-modal.show {
-    display: flex;
+    display: flex !important; /* Força a exibição */
+    pointer-events: auto !important; /* Permite interação quando visível */
+}
+
+/* Quando o modal está com inert, desabilitamos interações */
+.onboarding-modal[inert] {
+    pointer-events: none !important;
+}
+.onboarding-modal[inert] .onboarding-modal-content {
+    pointer-events: none !important;
 }
 
 @keyframes onboardingFadeIn {
@@ -52,6 +64,7 @@
     animation: onboardingScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
     position: relative;
+    pointer-events: auto; /* O conteúdo pode receber eventos */
 }
 
 @keyframes onboardingScaleIn {
@@ -223,7 +236,7 @@
     75% { transform: translateX(4px); }
 }
 
-/* ========== INDICADOR DE FORÇA DA SENHA (MODERNIZADO) ========== */
+/* ========== INDICADOR DE FORÇA DA SENHA ========== */
 #passwordStrengthIndicator {
     margin-top: 0.3rem;
     font-size: 0.8rem;

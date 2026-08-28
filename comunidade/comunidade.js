@@ -1,2622 +1,1850 @@
-// comunidade.js – Versão 12.1 – COMPLETO E INTEGRADO AO i18n CENTRAL
-// ================================================================
-// - CORREÇÃO: Remove sistema próprio de tradução, usa window.t()
-// - CORREÇÃO: Botões de idioma gerenciados pelo i18n.js
-// - CORREÇÃO: Integração total com i18n central
-// - CORREÇÃO: Perfil funcionando corretamente (listener robusto)
-// - Filtro de palavras ofensivas em português e inglês
-// - Substitui por # mantendo a primeira letra
-// - Bloqueio automático do chat após 3 ofensas em 30 segundos
-// - Bloqueio automático de postagem de artigos após 2 ofensas
-// - Bloqueio automático de comentários após 2 ofensas
-// - Chat com textarea (3 linhas), contador de caracteres
-// - Compartilhamento de artigo com preview
-// - Abas: Todos / Meus Artigos
-// - Anexo de notas
-// - GIF com preview e botões para sites
-// - Edição/exclusão de comentários e mensagens do chat
-// - Likes em posts, comentários e mensagens
-// - Sincronização entre abas (storage event)
-// - Armazenamento local de posts, chat, notas
-// - Interface responsiva e acessível
+// perfil/profile.js – Versão 30.3 – COMPLETO E OTIMIZADO
+// =========================================================
+// CORREÇÃO: Não sobrescreve window.t (usa i18n central)
+// CORREÇÃO: Verificações de nulidade em TODOS os elementos DOM
+// CORREÇÃO: Prioriza caminho relativo `../perfil/img/` para avatares
+// CORREÇÃO: Validação robusta de estrutura de dados na importação
+// CORREÇÃO: Integração total com i18n central (usa window.t)
+// CORREÇÃO: Logs detalhados para depuração
+// CORREÇÃO: Suporte a todos os cursos
+// CORREÇÃO: Fallback para estruturas antigas de arquivos
+// CORREÇÃO: Tratamento de exceções individuais
+// CORREÇÃO: Sincronização com módulo de Onboarding
+// CORREÇÃO: Exportação criptografada com checksum
+// CORREÇÃO: Importação com verificação de integridade
+// CORREÇÃO: Fechamento do modal com clique no overlay e tecla ESC
+// CORREÇÃO: Scroll do modal funcionando (overflow-y: auto no body)
 
 (function() {
     'use strict';
 
-    // ========================================================================
-    // DEPENDÊNCIA DO i18n CENTRAL
-    // ========================================================================
-    if (typeof window.t !== 'function') {
-        console.error('[Comunidade] window.t não está disponível. Verifique se i18n.js foi carregado.');
-        // Fallback mínimo para não quebrar
-        window.t = function(key) { return key; };
-    }
+    console.log('[Profile] Inicializando módulo v30.3...');
 
-    // ========================================================================
-    // CONSTANTES
-    // ========================================================================
-    const STORAGE_KEY_POSTS = 'comunidade_posts_';
-    const STORAGE_KEY_CHAT = 'comunidade_chat_';
-    const STORAGE_KEY_NOTES = 'ulivre_notas_estudo';
-    const COURSES_JSON = '../cursos/courses.json';
-    const COURSE_DATA_BASE = '../cursos/';
-    const COURSE_PATH_ALIASES = {
-        'ciencia-de-dados-bacharelado': {
-            directory: 'ciencia-de-dados',
-            file: 'ciencia-de-dados-bacharelado'
-        },
-        'computacao': {
-            directory: 'ciencia-computacao',
-            file: 'ciencia-computacao'
-        }
+    // ========== CONSTANTES ==========
+    const STORAGE_KEYS = {
+        NAME: 'userProfileName',
+        AVATAR: 'userAvatar',
+        GENDER: 'userGender',
+        PASSWORD: 'userPasswordHash',
+        MATRICULA: 'userMatricula'
     };
-    const MAX_CHAT_MESSAGES = 100;
-    const MAX_CHAT_MESSAGE_LENGTH = 500;
-    const OFFENSE_LIMIT_CHAT = 3;
-    const OFFENSE_LIMIT_POST = 2;
-    const OFFENSE_LIMIT_COMMENT = 2;
-    const OFFENSE_WINDOW = 30000;
-    const BLOCK_DURATION = 300;
-    const MAX_CONTENT_WORDS = 5;
-    const COURSE_REFRESH_INTERVAL = 30000;
-    const PRESENCE_STORAGE_KEY = 'comunidade_presence';
-    const PRESENCE_INTERVAL = 15000;
-    const PRESENCE_TIMEOUT = 45000;
 
-    const IMG_URL_REGEX = /(https?:\/\/[^\s]+\.(?:gif|png|jpg|jpeg|webp|bmp|svg)(?:\?[^\s]*)?)/gi;
-    const EMOJIS = [
-        '😊', '😂', '❤️', '🔥', '👍', '👏', '🎉', '💪',
-        '🤔', '😢', '😡', '🥳', '🙌', '✨', '💡', '📚',
-        '🤝', '💯', '😎', '🤗', '😇', '🥰', '😍', '🤩'
+    const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+    const PASSWORD_MIN_LENGTH = 8;
+    const PASSWORD_REQUIREMENTS = {
+        minLength: PASSWORD_MIN_LENGTH,
+        hasUpper: /[A-Z]/,
+        hasLower: /[a-z]/,
+        hasNumber: /[0-9]/,
+        hasSpecial: /[^A-Za-z0-9]/
+    };
+
+    // ========== LISTA DE AVATARES PADRÃO ==========
+    const DEFAULT_AVATARS = [
+        { key: 'avatar_aguia', file: 'Aguia.png' },
+        { key: 'avatar_guepardo', file: 'Guepardo.png' },
+        { key: 'avatar_gato', file: 'Gato.png' },
+        { key: 'avatar_cachorro', file: 'Cachorro.png' },
+        { key: 'avatar_passaro', file: 'Passaro.png' },
+        { key: 'avatar_papagaio_do_mar', file: 'Paragaio-do-mar.png' },
+        { key: 'avatar_pato', file: 'Pato.png' },
+        { key: 'avatar_galo', file: 'Galo.png' },
+        { key: 'avatar_flamingo', file: 'Flamingo.png' },
+        { key: 'avatar_cavalo', file: 'Cavalo.png' },
+        { key: 'avatar_dragao_barbudo', file: 'Dragao-barbudo.png' },
+        { key: 'avatar_leao', file: 'Leao.png' },
+        { key: 'avatar_urso', file: 'Urso.png' },
+        { key: 'avatar_columba_livia', file: 'Columba-livia.png' },
+        { key: 'avatar_coruja', file: 'Coruja.png' },
+        { key: 'avatar_pastor_alemao', file: 'Pastor-alemao.png' },
+        { key: 'avatar_papagaio_verdadeiro', file: 'Papagaio-verdadeiro.png' },
+        { key: 'avatar_arara_azul_grande', file: 'Arara-azul-grande.png' },
+        { key: 'avatar_arara_caninde', file: 'Arara-caninde.png' },
+        { key: 'avatar_capivara', file: 'Capivara.png' },
+        { key: 'avatar_lobo', file: 'Lobo.png' },
+        { key: 'avatar_esquilo', file: 'Esquilo.png' },
+        { key: 'avatar_zebra', file: 'Zebra.png' },
+        { key: 'avatar_beija_flor', file: 'Beija-flor.png' }
     ];
 
-    // ========================================================================
-    // LISTA DE PALAVRAS OFENSIVAS (em minúsculo, sem acentos)
-    // ========================================================================
-    const OFFENSIVE_WORDS = [
-        // Português
-        'buceta', 'caralho', 'foda', 'foder', 'fuder', 'merda', 'porra',
-        'puta', 'putaria', 'xota', 'arrombado', 'babaca', 'bosta', 'cacete',
-        'cu', 'desgraca', 'escroto', 'filhadaputa', 'fudido', 'otario',
-        'pau', 'pica', 'viado', 'cuzão', 'pentelho', 'tarado', 'piranha',
-        'vagabunda', 'prostituta', 'corno', 'chifrudo', 'imbecil', 'idiota',
-        'retardado', 'mongol', 'analfabeto', 'burro', 'ignorante',
-        'preconceituoso', 'racista', 'homofobico', 'machista', 'misogino',
-        'foda-se', 'filho da puta',
-        // Inglês
-        'fuck', 'shit', 'bitch', 'asshole', 'bastard', 'cunt', 'dick',
-        'pussy', 'whore', 'slut', 'motherfucker', 'cocksucker',
-        'douchebag', 'prick', 'twat', 'wanker', 'bugger', 'bloody',
-        'damn', 'hell', 'crap', 'arse', 'arsehole', 'fanny', 'knob',
-        'tosser', 'pillock', 'plonker', 'git', 'muppet', 'numpty',
-        'prat', 'berk', 'chav', 'scally', 'gobshite', 'bollocks',
-        'cack', 'ass', 'dickhead', 'fag', 'faggot', 'nigger', 'spic',
-        'kike', 'chink', 'gook', 'wetback', 'retard', 'mong', 'spastic',
-        'piss', 'pissed', 'pissing', 'piss off', 'sod off', 'fuck off',
-        'god damn', 'goddamn', 'bullshit'
-    ];
+    // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
+    const COURSE_NAMES = {
+        'administracao': { pt: 'Administração', en: 'Administration' },
+        'biologia': { pt: 'Biologia', en: 'Biology' },
+        'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
+        'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
+        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
+        'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
+        'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
+        'desenvolvimento_web': { pt: 'Desenvolvimento Web', en: 'Web Development' },
+        'devops': { pt: 'DevOps', en: 'DevOps' },
+        'embarcados': { pt: 'Embarcados', en: 'Embedded Systems' },
+        'enem': { pt: 'ENEM', en: 'ENEM' },
+        'engenharia_computacao': { pt: 'Engenharia de Computação', en: 'Computer Engineering' },
+        'engenharia-producao': { pt: 'Engenharia de Produção', en: 'Production Engineering' },
+        'espanhol': { pt: 'Espanhol', en: 'Spanish' },
+        'espanhol-ingles': { pt: 'Espanhol (para falantes de inglês)', en: 'Spanish (for English Speakers)' },
+        'espcex': { pt: 'EsPCEx', en: 'EsPCEx' },
+        'fisica': { pt: 'Física', en: 'Physics' },
+        'gestao-publica': { pt: 'Gestão Pública', en: 'Public Management' },
+        'ingles': { pt: 'Inglês', en: 'English' },
+        'japones': { pt: 'Japonês', en: 'Japanese' },
+        'japones-ingles': { pt: 'Japonês (para falantes de inglês)', en: 'Japanese (for English Speakers)' },
+        'letras': { pt: 'Letras', en: 'Letters' },
+        'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
+        'math': { pt: 'Math', en: 'Math' },
+        'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
+        'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
+        'processos-gerenciais': { pt: 'Processos Gerenciais', en: 'Management Processes' },
+        'quimica': { pt: 'Química', en: 'Chemistry' },
+        'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
+    };
 
-    // ========================================================================
-    // FUNÇÃO DE NORMALIZAÇÃO (remove acentos)
-    // ========================================================================
-    function normalizeText(text) {
-        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    }
-
-    // ========================================================================
-    // FILTRO DE PALAVRAS OFENSIVAS
-    // ========================================================================
-    function censorText(text) {
-        if (!text) return text;
-        const words = text.split(/\b/);
-        let result = '';
-        for (const word of words) {
-            const normalizedWord = normalizeText(word.toLowerCase());
-            if (OFFENSIVE_WORDS.includes(normalizedWord)) {
-                result += word.charAt(0) + '#'.repeat(word.length - 1);
-            } else {
-                result += word;
-            }
-        }
-        return result;
-    }
-
-    function maskDigits(text) {
-        return typeof text === 'string' ? text.replace(/\d/g, '*') : text;
-    }
-
-    function maskHtmlDigits(html) {
-        if (!html) return html;
-        const container = document.createElement('div');
-        container.innerHTML = html;
-        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
-        let node;
-        while ((node = walker.nextNode())) {
-            node.textContent = maskDigits(node.textContent);
-        }
-        return container.innerHTML;
-    }
-
-    function countWords(text) {
-        const normalized = String(text || '').trim();
-        return normalized ? normalized.split(/\s+/u).length : 0;
-    }
-
-    function hasExcessiveWords(text) {
-        return countWords(text) > MAX_CONTENT_WORDS;
-    }
-
-    function hasOffensiveContent(text) {
-        if (!text) return false;
-        const words = text.split(/\b/);
-        for (const word of words) {
-            const normalizedWord = normalizeText(word.toLowerCase());
-            if (OFFENSIVE_WORDS.includes(normalizedWord)) return true;
-        }
-        return false;
-    }
-
-    // ========================================================================
-    // FUNÇÃO DE TRADUÇÃO (wrapper do window.t)
-    // ========================================================================
+    // ========== TRADUÇÃO (usa window.t com fallback) ==========
     function t(key, replacements = {}) {
-        return window.t(key, replacements);
+        if (window.t && typeof window.t === 'function') {
+            try {
+                return window.t(key, replacements);
+            } catch (e) { /* fallback */ }
+        }
+        let text = key;
+        for (const [k, v] of Object.entries(replacements)) {
+            text = text.replace(new RegExp(`{{${k}}}`, 'g'), v);
+        }
+        return text;
     }
 
-    // ========================================================================
-    // ESTADO GLOBAL
-    // ========================================================================
-    const state = {
-        courses: [],
-        disciplines: {},
-        currentCourseId: null,
-        currentDiscipline: null,
-        posts: [],
-        editingPostId: null,
-        editingCommentId: null,
-        editingChatMessageId: null,
-        currentUser: { name: 'Anônimo', avatar: null },
-        chatMessages: [],
-        activeTab: 'all',
-        notes: [],
-        selectedNoteId: null,
-        chatBlocked: false,
-        chatBlockTimer: null,
-        chatBlockRemaining: 0,
-        chatOffenseCount: 0,
-        chatOffenseTimer: null,
-        postBlocked: false,
-        postBlockTimer: null,
-        postBlockRemaining: 0,
-        postOffenseCount: 0,
-        postOffenseTimer: null,
-        commentBlocked: false,
-        commentBlockTimer: null,
-        commentBlockRemaining: 0,
-        commentOffenseCount: 0,
-        commentOffenseTimer: null
-    };
-
-    const elements = {};
-    let coursesRefreshTimer = null;
+    function getCourseName(courseId) {
+        const nameObj = COURSE_NAMES[courseId];
+        if (!nameObj) return courseId;
+        const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
+        return nameObj[lang] || nameObj.pt || courseId;
+    }
 
     // ========================================================================
     // FUNÇÕES AUXILIARES
     // ========================================================================
-    function generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+    function generateMatricula() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hour = String(now.getHours()).padStart(2, '0');
+        const minute = String(now.getMinutes()).padStart(2, '0');
+        const second = String(now.getSeconds()).padStart(2, '0');
+        const millisecond = String(now.getMilliseconds()).padStart(3, '0');
+        return year + month + day + hour + minute + second + millisecond;
     }
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
-    }
-
-    function formatDate(iso) {
-        try {
-            const d = new Date(iso);
-            if (isNaN(d)) return '';
-            const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
-            const locale = lang === 'en' ? 'en-US' : 'pt-BR';
-            return d.toLocaleString(locale, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-        } catch (_) { return ''; }
-    }
-
-    function getCurrentUser() {
-        const name = localStorage.getItem('userProfileName') || 'Anônimo';
-        const avatar = localStorage.getItem('userAvatar') || null;
-        return { name, avatar };
-    }
-
-    const presenceId = sessionStorage.getItem('comunidade_presence_id') || generateId();
-    sessionStorage.setItem('comunidade_presence_id', presenceId);
-    let presenceInterval = null;
-
-    function readPresence() {
-        const raw = localStorage.getItem(PRESENCE_STORAGE_KEY);
-        if (!raw) return {};
-        try {
-            const presence = JSON.parse(raw);
-            return presence && typeof presence === 'object' ? presence : {};
-        } catch (error) {
-            console.warn('[Comunidade] Presença inválida no armazenamento local:', error);
-            return {};
+    function getMatricula() {
+        let matricula = localStorage.getItem(STORAGE_KEYS.MATRICULA);
+        if (!matricula) {
+            matricula = generateMatricula();
+            localStorage.setItem(STORAGE_KEYS.MATRICULA, matricula);
         }
+        return matricula;
     }
 
-    function updateOnlineCount() {
-        const now = Date.now();
-        const presence = readPresence();
-        const active = Object.entries(presence).filter(([, entry]) => entry && now - entry.timestamp < PRESENCE_TIMEOUT);
-        const users = new Set(active.map(([, entry]) => entry.name).filter(Boolean));
-        const count = document.getElementById('communityOnlineCount');
-        if (count) {
-            const key = users.size === 1 ? 'community_online_count_one' : 'community_online_count_many';
-            const translated = t(key, { count: users.size });
-            const fallback = users.size === 1
-                ? `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'person online' : 'pessoa online'}`
-                : `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'people online' : 'pessoas online'}`;
-            count.textContent = translated === key ? fallback : translated;
-        }
-    }
-
-    function refreshPresence() {
-        const presence = readPresence();
-        presence[presenceId] = {
-            name: state.currentUser.name,
-            timestamp: Date.now()
+    function getAuditorioHours() {
+        const timeInSeconds = parseInt(localStorage.getItem(AUDITORIO_TIME_KEY) || '0', 10);
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds % 3600) / 60);
+        return {
+            seconds: timeInSeconds,
+            hours: hours,
+            minutes: minutes,
+            formatted: hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min'
         };
-        Object.keys(presence).forEach(id => {
-            if (Date.now() - presence[id].timestamp >= PRESENCE_TIMEOUT) delete presence[id];
-        });
-        localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(presence));
-        updateOnlineCount();
     }
 
-    function startPresence() {
-        if (presenceInterval) clearInterval(presenceInterval);
-        refreshPresence();
-        presenceInterval = setInterval(refreshPresence, PRESENCE_INTERVAL);
-        window.addEventListener('storage', updateOnlineCount);
-        if (window.i18nReady && typeof window.i18nReady.then === 'function') {
-            window.i18nReady.then(updateOnlineCount).catch(error => {
-                console.warn('[Comunidade] Não foi possível sincronizar a tradução da presença:', error);
-            });
-        }
-        window.addEventListener('pagehide', () => {
-            const presence = readPresence();
-            delete presence[presenceId];
-            localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(presence));
-        }, { once: true });
+    function updateAuditorioTimeDisplay() {
+        const auditTime = getAuditorioHours();
+        const el = document.getElementById('profileAuditorioTime');
+        if (el) el.textContent = auditTime.formatted;
     }
 
-    function getCourseColor(courseId) {
-        const colors = ['#6C8CFF', '#10b981', '#FBBF24', '#A78BFA', '#38BDF8', '#ef4444', '#ec4899', '#f59e0b'];
-        let hash = 0;
-        for (let i = 0; i < courseId.length; i++) {
-            hash = courseId.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        return colors[Math.abs(hash) % colors.length];
-    }
-
-    function getCourseInitial(courseName) {
-        if (!courseName) return '?';
-        return courseName.charAt(0).toUpperCase();
-    }
-
-    function getCourseImageUrl(courseId) {
-        const course = state.courses.find(c => c.id === courseId);
-        if (!course) return '';
-        const alias = COURSE_PATH_ALIASES[courseId];
-        const directory = alias ? alias.directory : courseId.replace(/_/g, '-');
-        let basePath = '';
-        if (course.courseLevel === 'graduacao') basePath = `../cursos/graduacao/${directory}/`;
-        else if (course.courseLevel === 'pos-graduacao') basePath = `../cursos/pos-graduacao/${directory}/`;
-        else if (course.courseLevel === 'ensino-medio') basePath = `../cursos/ensino-medio/${directory}/`;
-        else if (course.courseLevel === 'idiomas') basePath = `../cursos/idiomas/${directory}/`;
-        return basePath ? basePath + 'imagen-card.png' : '';
-    }
-
-    // ========================================================================
-    // CARREGAR NOTAS (para anexar)
-    // ========================================================================
-    function loadNotes() {
-        try {
-            const stored = localStorage.getItem(STORAGE_KEY_NOTES);
-            state.notes = stored ? JSON.parse(stored) : [];
-        } catch (_) {
-            state.notes = [];
-        }
-    }
-
-    function populateNoteSelector() {
-        const select = document.getElementById('noteAttachmentSelect');
-        if (!select) return;
-        loadNotes();
-        select.innerHTML = '<option value="">' + t('no_note') + '</option>';
-        state.notes.forEach(note => {
-            const opt = document.createElement('option');
-            opt.value = note.id;
-            opt.textContent = note.titulo || 'Nota sem título';
-            select.appendChild(opt);
-        });
-    }
-
-    // ========================================================================
-    // CARREGAR CURSOS E DISCIPLINAS (com fallback silencioso)
-    // ========================================================================
-    async function loadCoursesAndDisciplines() {
-        try {
-            const resp = await fetch(COURSES_JSON);
-            if (!resp.ok) throw new Error('Erro ao carregar courses.json');
-            const courses = await resp.json();
-
-            const courseMap = {};
-            const disciplinesMap = {};
-
-            for (const course of courses) {
-                const id = course.id;
-                courseMap[id] = course;
-
-                let dataPath = '';
-                const level = course.courseLevel;
-                const alias = COURSE_PATH_ALIASES[id];
-                const directory = alias ? alias.directory : id.replace(/_/g, '-');
-                const file = alias ? alias.file : directory;
-                if (level === 'graduacao') dataPath = `graduacao/${directory}/${file}-data.json`;
-                else if (level === 'pos-graduacao') dataPath = `pos-graduacao/${directory}/${file}-data.json`;
-                else if (level === 'ensino-medio') dataPath = `ensino-medio/${directory}/${file}-data.json`;
-                else if (level === 'idiomas') dataPath = `idiomas/${directory}/${file}-data.json`;
-                else continue;
-
-                try {
-                    const fullPath = COURSE_DATA_BASE + dataPath;
-                    const dResp = await fetch(fullPath);
-                    if (dResp.ok) {
-                        const data = await dResp.json();
-                        const discSet = new Set();
-                        if (data.stages && Array.isArray(data.stages)) {
-                            for (const stage of data.stages) {
-                                if (stage.disciplines && Array.isArray(stage.disciplines)) {
-                                    for (const disc of stage.disciplines) {
-                                        if (disc.name) discSet.add(disc.name);
-                                    }
-
-                                }
-                            }
-                        }
-                        disciplinesMap[id] = [...discSet];
-                    } else {
-                        disciplinesMap[id] = [];
-                    }
-                } catch (_) {
-                    disciplinesMap[id] = [];
-                }
-            }
-
-            state.courses = Object.values(courseMap);
-            state.disciplines = disciplinesMap;
-            return true;
-        } catch (error) {
-            console.error('[Comunidade] Erro ao carregar cursos:', error);
-            return false;
-        }
-    }
-
-    async function refreshCourses() {
-        const success = await loadCoursesAndDisciplines();
-        if (!success) return;
-        renderSidebar();
-        if (state.currentCourseId && state.currentDiscipline) {
-            selectDiscipline(state.currentCourseId, state.currentDiscipline);
-        } else if (state.courses.length > 0) {
-            const first = state.courses[0];
-            const disciplines = state.disciplines[first.id] || [];
-            selectDiscipline(first.id, disciplines.length > 0 ? disciplines[0] : null);
-        }
-    }
-
-    // ========================================================================
-    // BLOQUEIO POR OFENSAS - CHAT
-    // ========================================================================
-    function blockChat() {
-        if (state.chatBlocked) return;
-        state.chatBlocked = true;
-        state.chatOffenseCount = 0;
-        state.chatBlockRemaining = BLOCK_DURATION;
-        updateChatBlockUI();
-        updateChatStatus(false);
-        const input = document.getElementById('p2pInput');
-        const sendBtn = document.getElementById('p2pSendBtn');
-        if (input) input.disabled = true;
-        if (sendBtn) sendBtn.disabled = true;
-        if (state.chatBlockTimer) clearInterval(state.chatBlockTimer);
-        state.chatBlockTimer = setInterval(() => {
-            state.chatBlockRemaining--;
-            updateChatBlockUI();
-            if (state.chatBlockRemaining <= 0) {
-                unblockChat();
-            }
-        }, 1000);
-        showToast(t('chat_blocked', { time: BLOCK_DURATION + 's' }), 'error');
-    }
-
-    function unblockChat() {
-        state.chatBlocked = false;
-        state.chatBlockRemaining = 0;
-        if (state.chatBlockTimer) {
-            clearInterval(state.chatBlockTimer);
-            state.chatBlockTimer = null;
-        }
-        updateChatBlockUI();
-        updateChatStatus(true);
-        const input = document.getElementById('p2pInput');
-        const sendBtn = document.getElementById('p2pSendBtn');
-        if (input) input.disabled = false;
-        if (sendBtn) sendBtn.disabled = false;
-        showToast(t('chat_unblocked'), 'success');
-    }
-
-    function updateChatBlockUI() {
-        const statusEl = document.getElementById('chatBlockStatus');
-        if (!statusEl) return;
-        if (state.chatBlocked && state.chatBlockRemaining > 0) {
-            const mins = Math.floor(state.chatBlockRemaining / 60);
-            const secs = state.chatBlockRemaining % 60;
-            let timeStr = '';
-            if (mins > 0) timeStr += mins + 'm ';
-            timeStr += secs + 's';
-            statusEl.textContent = t('chat_blocked', { time: timeStr });
-            statusEl.classList.add('show');
-        } else {
-            statusEl.classList.remove('show');
-        }
-    }
-
-    function resetChatOffenseTimer() {
-        if (state.chatOffenseTimer) {
-            clearTimeout(state.chatOffenseTimer);
-            state.chatOffenseTimer = null;
-        }
-        state.chatOffenseCount = 0;
-    }
-
-    function checkChatOffenses() {
-        if (state.chatOffenseTimer) clearTimeout(state.chatOffenseTimer);
-        state.chatOffenseTimer = setTimeout(() => {
-            resetChatOffenseTimer();
-        }, OFFENSE_WINDOW);
-    }
-
-    // ========================================================================
-    // BLOQUEIO POR OFENSAS - POSTS
-    // ========================================================================
-    function blockPostCreation() {
-        if (state.postBlocked) return;
-        state.postBlocked = true;
-        state.postOffenseCount = 0;
-        state.postBlockRemaining = BLOCK_DURATION;
-        updatePostBlockUI();
-        if (state.postBlockTimer) clearInterval(state.postBlockTimer);
-        state.postBlockTimer = setInterval(() => {
-            state.postBlockRemaining--;
-            updatePostBlockUI();
-            if (state.postBlockRemaining <= 0) {
-                unblockPostCreation();
-            }
-        }, 1000);
-        showToast(t('post_blocked', { time: BLOCK_DURATION + 's' }), 'error');
-    }
-
-    function unblockPostCreation() {
-        state.postBlocked = false;
-        state.postBlockRemaining = 0;
-        if (state.postBlockTimer) {
-            clearInterval(state.postBlockTimer);
-            state.postBlockTimer = null;
-        }
-        updatePostBlockUI();
-        showToast(t('post_unblocked'), 'success');
-    }
-
-    function updatePostBlockUI() {
-        // Pode ser exibido em algum lugar, mas por enquanto apenas toast
-    }
-
-    function resetPostOffenseTimer() {
-        if (state.postOffenseTimer) {
-            clearTimeout(state.postOffenseTimer);
-            state.postOffenseTimer = null;
-        }
-        state.postOffenseCount = 0;
-    }
-
-    function checkPostOffenses() {
-        if (state.postOffenseTimer) clearTimeout(state.postOffenseTimer);
-        state.postOffenseTimer = setTimeout(() => {
-            resetPostOffenseTimer();
-        }, OFFENSE_WINDOW);
-    }
-
-    // ========================================================================
-    // BLOQUEIO POR OFENSAS - COMENTÁRIOS
-    // ========================================================================
-    function blockCommentCreation() {
-        if (state.commentBlocked) return;
-        state.commentBlocked = true;
-        state.commentOffenseCount = 0;
-        state.commentBlockRemaining = BLOCK_DURATION;
-        updateCommentBlockUI();
-        if (state.commentBlockTimer) clearInterval(state.commentBlockTimer);
-        state.commentBlockTimer = setInterval(() => {
-            state.commentBlockRemaining--;
-            updateCommentBlockUI();
-            if (state.commentBlockRemaining <= 0) {
-                unblockCommentCreation();
-            }
-        }, 1000);
-        showToast(t('comment_blocked', { time: BLOCK_DURATION + 's' }), 'error');
-    }
-
-    function unblockCommentCreation() {
-        state.commentBlocked = false;
-        state.commentBlockRemaining = 0;
-        if (state.commentBlockTimer) {
-            clearInterval(state.commentBlockTimer);
-            state.commentBlockTimer = null;
-        }
-        updateCommentBlockUI();
-        showToast(t('comment_unblocked'), 'success');
-    }
-
-    function updateCommentBlockUI() {
-        // Pode ser exibido em algum lugar, mas por enquanto apenas toast
-    }
-
-    function resetCommentOffenseTimer() {
-        if (state.commentOffenseTimer) {
-            clearTimeout(state.commentOffenseTimer);
-            state.commentOffenseTimer = null;
-        }
-        state.commentOffenseCount = 0;
-    }
-
-    function checkCommentOffenses() {
-        if (state.commentOffenseTimer) clearTimeout(state.commentOffenseTimer);
-        state.commentOffenseTimer = setTimeout(() => {
-            resetCommentOffenseTimer();
-        }, OFFENSE_WINDOW);
-    }
-
-    // ========================================================================
-    // GERENCIAR POSTS
-    // ========================================================================
-    function getStorageKey(courseId, discipline) {
-        return `${STORAGE_KEY_POSTS}${courseId}_${discipline}`;
-    }
-
-    function loadPosts(courseId, discipline) {
-        const key = getStorageKey(courseId, discipline);
-        try {
-            const stored = localStorage.getItem(key);
-            return stored ? JSON.parse(stored) : [];
-        } catch (_) { return []; }
-    }
-
-    function savePosts(courseId, discipline, posts) {
-        const key = getStorageKey(courseId, discipline);
-        localStorage.setItem(key, JSON.stringify(posts));
-        localStorage.setItem('comunidade_sync_' + Date.now(), 'updated');
-    }
-
-    function addPost(courseId, discipline, title, contentHtml, noteId) {
-        if (state.postBlocked) {
-            showToast(t('post_blocked_msg'), 'error');
-            return null;
-        }
-
-        const plainText = contentHtml.replace(/<[^>]*>/g, '');
-        if (hasExcessiveWords(`${title} ${plainText}`)) {
-            blockPostCreation();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return null;
-        }
-        let censored = false;
-        if (hasOffensiveContent(plainText) || hasOffensiveContent(title)) {
-            state.postOffenseCount++;
-            checkPostOffenses();
-            if (state.postOffenseCount >= OFFENSE_LIMIT_POST) {
-                blockPostCreation();
-            }
-            title = censorText(title);
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = contentHtml;
-            const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            while (node = walker.nextNode()) {
-                node.textContent = censorText(node.textContent);
-            }
-            contentHtml = tempDiv.innerHTML;
-            censored = true;
-        }
-        title = maskDigits(title);
-        contentHtml = maskHtmlDigits(contentHtml);
-
-        const posts = loadPosts(courseId, discipline);
-        let attachedNote = null;
-        if (noteId) {
-            const note = state.notes.find(n => n.id === noteId);
-            if (note) {
-                attachedNote = {
-                    id: note.id,
-                    title: maskDigits(note.titulo),
-                    preview: maskDigits(note.conteudo ? note.conteudo.substring(0, 100) : '')
-                };
-            }
-        }
-        const newPost = {
-            id: generateId(),
-            author: state.currentUser.name,
-            avatar: state.currentUser.avatar || null,
-            title: title.trim(),
-            content: contentHtml,
-            timestamp: new Date().toISOString(),
-            likes: [],
-            comments: [],
-            note: attachedNote,
-            censored: censored
-        };
-        posts.unshift(newPost);
-        savePosts(courseId, discipline, posts);
-        return newPost;
-    }
-
-    function addPoll(courseId, discipline, question, options) {
-        if (state.postBlocked) { showToast(t('post_blocked_msg'), 'error'); return null; }
-        if (hasExcessiveWords(`${question} ${options.join(' ')}`)) {
-            blockPostCreation();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return null;
-        }
-        question = maskDigits(censorText(question.trim()));
-        options = options.map(o => maskDigits(censorText(o.trim())));
-        const posts = loadPosts(courseId, discipline);
-        const poll = { id: generateId(), type: 'poll', author: state.currentUser.name,
-            avatar: state.currentUser.avatar || null, title: question, question, options,
-            votes: options.map(() => 0), voters: {}, timestamp: new Date().toISOString(),
-            likes: [], comments: [], censored: false };
-        posts.unshift(poll); savePosts(courseId, discipline, posts); return poll;
-    }
-
-    function editPost(courseId, discipline, postId, title, contentHtml, noteId) {
-        const posts = loadPosts(courseId, discipline);
-        const idx = posts.findIndex(p => p.id === postId);
-        if (idx === -1 || posts[idx].author !== state.currentUser.name) return false;
-
-        const plainText = contentHtml.replace(/<[^>]*>/g, '');
-        if (hasExcessiveWords(`${title} ${plainText}`)) {
-            deletePost(courseId, discipline, postId);
-            blockPostCreation();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return false;
-        }
-        let censored = false;
-        if (hasOffensiveContent(plainText) || hasOffensiveContent(title)) {
-            state.postOffenseCount++;
-            checkPostOffenses();
-            if (state.postOffenseCount >= OFFENSE_LIMIT_POST) {
-                blockPostCreation();
-            }
-            title = censorText(title);
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = contentHtml;
-            const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            while (node = walker.nextNode()) {
-                node.textContent = censorText(node.textContent);
-            }
-            contentHtml = tempDiv.innerHTML;
-            censored = true;
-        }
-        title = maskDigits(title);
-        contentHtml = maskHtmlDigits(contentHtml);
-
-        posts[idx].title = title.trim();
-        posts[idx].content = contentHtml;
-        posts[idx].edited = true;
-        posts[idx].censored = censored;
-        if (noteId) {
-            const note = state.notes.find(n => n.id === noteId);
-            if (note) {
-                posts[idx].note = {
-                    id: note.id,
-                    title: maskDigits(note.titulo),
-                    preview: maskDigits(note.conteudo ? note.conteudo.substring(0, 100) : '')
-                };
-            } else {
-                posts[idx].note = null;
-            }
-        } else {
-            posts[idx].note = null;
-        }
-        savePosts(courseId, discipline, posts);
-        return true;
-    }
-
-    function deletePost(courseId, discipline, postId) {
-        const posts = loadPosts(courseId, discipline);
-        const idx = posts.findIndex(p => p.id === postId);
-        if (idx === -1 || posts[idx].author !== state.currentUser.name) return false;
-        posts.splice(idx, 1);
-        savePosts(courseId, discipline, posts);
-        return true;
-    }
-
-    function refreshPostsAfterDeletion() {
-        state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
-        renderPosts();
-    }
-
-    function toggleLike(courseId, discipline, postId) {
-        const posts = loadPosts(courseId, discipline);
-        const post = posts.find(p => p.id === postId);
-        if (!post) return;
-        const idx = post.likes.indexOf(state.currentUser.name);
-        if (idx > -1) post.likes.splice(idx, 1);
-        else post.likes.push(state.currentUser.name);
-        savePosts(courseId, discipline, posts);
-    }
-
-    function addComment(courseId, discipline, postId, text) {
-        if (state.commentBlocked) {
-            showToast(t('comment_blocked_msg'), 'error');
-            return null;
-        }
-
-        if (hasExcessiveWords(text)) {
-            blockCommentCreation();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return null;
-        }
-
-        let censored = false;
-        if (hasOffensiveContent(text)) {
-            state.commentOffenseCount++;
-            checkCommentOffenses();
-            if (state.commentOffenseCount >= OFFENSE_LIMIT_COMMENT) {
-                blockCommentCreation();
-            }
-            text = censorText(text);
-            censored = true;
-        }
-
-        const posts = loadPosts(courseId, discipline);
-        const post = posts.find(p => p.id === postId);
-        if (!post) return null;
-
-        const comment = {
-            id: generateId(),
-            author: state.currentUser.name,
-            avatar: state.currentUser.avatar || null,
-            text: maskDigits(text.trim()),
-            timestamp: new Date().toISOString(),
-            likes: [],
-            censored: censored
-        };
-        post.comments.push(comment);
-        savePosts(courseId, discipline, posts);
-        return comment;
-    }
-
-    function editComment(courseId, discipline, postId, commentId, newText) {
-        const posts = loadPosts(courseId, discipline);
-        const post = posts.find(p => p.id === postId);
-        if (!post) return false;
-        const comment = post.comments.find(c => c.id === commentId);
-        if (!comment || comment.author !== state.currentUser.name) return false;
-
-        if (hasExcessiveWords(newText)) {
-            deleteComment(courseId, discipline, postId, commentId);
-            blockCommentCreation();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return false;
-        }
-
-        let censored = false;
-        if (hasOffensiveContent(newText)) {
-            state.commentOffenseCount++;
-            checkCommentOffenses();
-            if (state.commentOffenseCount >= OFFENSE_LIMIT_COMMENT) {
-                blockCommentCreation();
-            }
-            newText = censorText(newText);
-            censored = true;
-        }
-
-        comment.text = maskDigits(newText.trim());
-        comment.edited = true;
-        comment.censored = censored;
-        savePosts(courseId, discipline, posts);
-        return true;
-    }
-
-    function deleteComment(courseId, discipline, postId, commentId) {
-        const posts = loadPosts(courseId, discipline);
-        const post = posts.find(p => p.id === postId);
-        if (!post) return false;
-        const idx = post.comments.findIndex(c => c.id === commentId);
-        if (idx === -1 || post.comments[idx].author !== state.currentUser.name) return false;
-        post.comments.splice(idx, 1);
-        savePosts(courseId, discipline, posts);
-        return true;
-    }
-
-    function toggleCommentLike(courseId, discipline, postId, commentId) {
-        const posts = loadPosts(courseId, discipline);
-        const post = posts.find(p => p.id === postId);
-        if (!post) return;
-        const comment = post.comments.find(c => c.id === commentId);
-        if (!comment) return;
-        const idx = comment.likes.indexOf(state.currentUser.name);
-        if (idx > -1) comment.likes.splice(idx, 1);
-        else comment.likes.push(state.currentUser.name);
-        savePosts(courseId, discipline, posts);
-    }
-
-    // ========================================================================
-    // CHAT
-    // ========================================================================
-    function getChatKey(courseId, discipline) {
-        return `${STORAGE_KEY_CHAT}${courseId}_${discipline}`;
-    }
-
-    function loadChatMessages(courseId, discipline) {
-        const key = getChatKey(courseId, discipline);
-        try {
-            const stored = localStorage.getItem(key);
-            return stored ? JSON.parse(stored) : [];
-        } catch (_) { return []; }
-    }
-
-    function saveChatMessages(courseId, discipline, messages) {
-        const key = getChatKey(courseId, discipline);
-        localStorage.setItem(key, JSON.stringify(messages));
-        localStorage.setItem('comunidade_sync_' + Date.now(), 'chat_updated');
-    }
-
-    function addChatMessage(courseId, discipline, user, text, type = 'text', articleData = null) {
-        if (state.chatBlocked) {
-            showToast(t('chat_blocked_msg'), 'error');
-            return null;
-        }
-
-        let finalText = text.trim();
-        let censored = false;
-        if (type === 'text') {
-            if (hasExcessiveWords(finalText)) {
-                blockChat();
-                showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-                return null;
-            }
-            if (hasOffensiveContent(finalText)) {
-                state.chatOffenseCount++;
-                checkChatOffenses();
-                if (state.chatOffenseCount >= OFFENSE_LIMIT_CHAT) {
-                    blockChat();
-                }
-                finalText = censorText(finalText);
-                censored = true;
-            }
-            if (finalText.length > MAX_CHAT_MESSAGE_LENGTH) {
-                finalText = finalText.substring(0, MAX_CHAT_MESSAGE_LENGTH);
-            }
-            finalText = maskDigits(finalText);
-        } else if (articleData) {
-            articleData = {
-                ...articleData,
-                title: maskDigits(articleData.title),
-                preview: maskDigits(articleData.preview),
-                question: maskDigits(articleData.question),
-                options: articleData.options ? articleData.options.map(maskDigits) : articleData.options
-            };
-        }
-
-        const messages = loadChatMessages(courseId, discipline);
-        const msg = {
-            id: generateId(),
-            user: user,
-            text: finalText,
-            timestamp: new Date().toISOString(),
-            likes: [],
-            local: true,
-            type: type,
-            articleData: articleData,
-            censored: censored
-        };
-        messages.push(msg);
-        if (messages.length > MAX_CHAT_MESSAGES) messages.splice(0, messages.length - MAX_CHAT_MESSAGES);
-        saveChatMessages(courseId, discipline, messages);
-        return msg;
-    }
-
-    function editChatMessage(courseId, discipline, msgId, newText) {
-        const messages = loadChatMessages(courseId, discipline);
-        const msg = messages.find(m => m.id === msgId);
-        if (!msg || msg.user !== state.currentUser.name) return false;
-
-        let finalText = newText.trim();
-        let censored = false;
-        if (hasExcessiveWords(finalText)) {
-            deleteChatMessage(courseId, discipline, msgId);
-            blockChat();
-            showToast(t('content_removed_too_many_words', { limit: MAX_CONTENT_WORDS }), 'error');
-            return false;
-        }
-        if (msg.type === 'text') {
-            if (hasOffensiveContent(finalText)) {
-                state.chatOffenseCount++;
-                checkChatOffenses();
-                if (state.chatOffenseCount >= OFFENSE_LIMIT_CHAT) {
-                    blockChat();
-                }
-                finalText = censorText(finalText);
-                censored = true;
-            }
-            if (finalText.length > MAX_CHAT_MESSAGE_LENGTH) {
-                finalText = finalText.substring(0, MAX_CHAT_MESSAGE_LENGTH);
-            }
-            finalText = maskDigits(finalText);
-        }
-
-        if (msg.type === 'article') {
-            msg.type = 'text';
-            msg.text = finalText;
-            msg.articleData = null;
-            msg.censored = censored;
-        } else {
-            msg.text = finalText;
-            msg.censored = censored;
-        }
-        msg.edited = true;
-        saveChatMessages(courseId, discipline, messages);
-        return true;
-    }
-
-    function deleteChatMessage(courseId, discipline, msgId) {
-        const messages = loadChatMessages(courseId, discipline);
-        const idx = messages.findIndex(m => m.id === msgId);
-        if (idx === -1 || messages[idx].user !== state.currentUser.name) return false;
-        messages.splice(idx, 1);
-        saveChatMessages(courseId, discipline, messages);
-        return true;
-    }
-
-    function toggleChatLike(courseId, discipline, msgId) {
-        const messages = loadChatMessages(courseId, discipline);
-        const msg = messages.find(m => m.id === msgId);
-        if (!msg) return;
-        const idx = msg.likes.indexOf(state.currentUser.name);
-        if (idx > -1) msg.likes.splice(idx, 1);
-        else msg.likes.push(state.currentUser.name);
-        saveChatMessages(courseId, discipline, messages);
-    }
-
-    // ========================================================================
-    // COMPARTILHAR ARTIGO NO CHAT
-    // ========================================================================
-    function shareArticleInChat(post) {
-        if (!state.currentCourseId || !state.currentDiscipline) {
-            showToast(t('select_discipline_first'), 'error');
-            return;
-        }
-        if (state.chatBlocked) {
-            showToast(t('chat_blocked_msg'), 'error');
-            return;
-        }
-
-        const course = state.courses.find(c => c.id === state.currentCourseId);
-        const courseName = course ? course.name : 'Curso';
-        const disciplineName = state.currentDiscipline || 'Disciplina';
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = post.content || post.question || '';
-        const plainText = tempDiv.textContent || tempDiv.innerText || '';
-        const preview = plainText.length > 100 ? plainText.substring(0, 100) + '…' : plainText;
-
-        const articleData = {
-            id: post.id,
-            title: post.title,
-            author: post.author,
-            course: courseName,
-            discipline: disciplineName,
-            preview: preview,
-            timestamp: post.timestamp
-        };
-        if (post.type === 'poll') {
-            articleData.question = post.question;
-            articleData.options = post.options;
-            articleData.votes = post.votes;
-        }
-
-        const user = state.currentUser.name || 'Anônimo';
-        addChatMessage(state.currentCourseId, state.currentDiscipline, user, '', post.type === 'poll' ? 'poll' : 'article', articleData);
-        renderChatMessages();
-        showToast(t('article_shared'), 'success');
-        closeShareArticleModal();
-    }
-
-    // ========================================================================
-    // MODAL DE COMPARTILHAR ARTIGO
-    // ========================================================================
-    function openShareArticleModal() {
-        const modal = document.getElementById('shareArticleModal');
-        if (!modal) return;
-        modal.style.display = 'flex';
-        modal.removeAttribute('aria-hidden');
-        modal.removeAttribute('inert');
-        renderShareArticleList();
-    }
-
-    function closeShareArticleModal() {
-        const modal = document.getElementById('shareArticleModal');
-        if (!modal) return;
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        modal.setAttribute('inert', '');
-    }
-
-    function renderShareArticleList() {
-        const container = document.getElementById('shareArticleList');
-        if (!container) return;
-
-        const allPosts = [];
-        const shareType = document.querySelector('.share-tab.active')?.dataset.shareType || 'article';
-        for (const course of state.courses) {
-            const disciplines = state.disciplines[course.id] || [];
-            for (const disc of disciplines) {
-                const posts = loadPosts(course.id, disc);
-                const userPosts = posts.filter(p => p.author === state.currentUser.name && (shareType === 'poll' ? p.type === 'poll' : p.type !== 'poll'));
-                if (userPosts.length > 0) {
-                    allPosts.push({
-                        course: course,
-                        discipline: disc,
-                        posts: userPosts
-                    });
-                }
-            }
-        }
-
-        if (allPosts.length === 0) {
-            container.innerHTML = `
-                <div class="share-empty">
-                    <i class="fas fa-file-alt" style="font-size:2rem;opacity:0.4;margin-bottom:0.5rem;"></i>
-                    <p>${t(shareType === 'poll' ? 'no_polls_to_share' : 'no_articles_to_share')}</p>
-                </div>
-            `;
-            return;
-        }
-
-        let html = '';
-        for (const group of allPosts) {
-            const course = group.course;
-            const color = getCourseColor(course.id);
-            html += `
-                <div class="share-course-group">
-                    <div class="share-course-title" style="border-left: 3px solid ${color};">
-                        <i class="fas fa-graduation-cap" style="color:${color};"></i>
-                        ${escapeHtml(course.name)}
-                    </div>
-                    <div class="share-discipline-group">
-                        <div class="share-discipline-title">
-                            <i class="fas fa-book-open"></i> ${escapeHtml(group.discipline)}
-                        </div>
-            `;
-            for (const post of group.posts) {
-                const time = formatDate(post.timestamp);
-                html += `
-                    <div class="share-article-item">
-                        <span class="share-article-title">${escapeHtml(maskDigits(post.question || post.title))}</span>
-                        <span class="share-article-meta">${time}</span>
-                        <button class="share-article-btn" data-post-id="${post.id}" data-course-id="${course.id}" data-discipline="${escapeHtml(group.discipline)}">
-                            <i class="fas fa-share"></i> ${t('share')}
-                        </button>
-                    </div>
-                `;
-            }
-            html += `
-                    </div>
-                </div>
-            `;
-        }
-        container.innerHTML = html;
-
-        container.querySelectorAll('.share-article-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const courseId = this.dataset.courseId;
-                const discipline = this.dataset.discipline;
-                const posts = loadPosts(courseId, discipline);
-                const post = posts.find(p => p.id === postId);
-                if (post) shareArticleInChat(post);
-            });
-        });
-    }
-
-    // ========================================================================
-    // RENDERIZAÇÃO DO CHAT
-    // ========================================================================
-    function renderChatMessages() {
-        const container = document.getElementById('p2pMessages');
-        if (!container) return;
-
-        const messages = loadChatMessages(state.currentCourseId, state.currentDiscipline);
-        if (messages.length === 0) {
-            container.innerHTML = `<div class="msg" style="color:var(--com-text-tertiary);font-style:italic;">${t('connect_to_chat')}</div>`;
-            return;
-        }
-
-        let html = '';
-        for (const msg of messages) {
-            const user = msg.user || 'Anônimo';
-            const time = formatDate(msg.timestamp);
-            const likes = msg.likes || [];
-            const isLiked = likes.includes(state.currentUser.name);
-            const likeCount = likes.length;
-            const isOwner = user === state.currentUser.name;
-            const isEditing = state.editingChatMessageId === msg.id;
-
-            let textContent = '';
-            let articlePreviewHtml = '';
-
-            if ((msg.type === 'article' || msg.type === 'poll') && msg.articleData) {
-                const data = msg.articleData;
-                const pollOptions = msg.type === 'poll' ? (data.options || []).map((option, index) =>
-                    `<div class="chat-poll-option">${escapeHtml(maskDigits(option))} <span>${(data.votes || [])[index] || 0}</span></div>`).join('') : '';
-                articlePreviewHtml = `
-                    <div class="chat-article-preview ${msg.type === 'poll' ? 'chat-poll-preview' : ''}">
-                        <div class="chat-article-header">
-                            <span class="chat-article-title">${msg.type === 'poll' ? '📊 ' : ''}${escapeHtml(maskDigits(data.question || data.title))}</span>
-                            <span class="chat-article-author">por ${escapeHtml(data.author)}</span>
-                        </div>
-                        <div class="chat-article-meta">
-                            <span>📚 ${escapeHtml(data.course)} · ${escapeHtml(data.discipline)}</span>
-                        </div>
-                        <div class="chat-article-preview-text">${escapeHtml(maskDigits(data.preview))}</div>
-                        ${pollOptions}
-                        <button class="chat-article-view-btn" data-post-id="${data.id}" data-course-id="${state.currentCourseId}" data-discipline="${state.currentDiscipline}">
-                            <i class="fas fa-eye"></i> ${t('view_article')}
-                        </button>
-                    </div>
-                `;
-                textContent = articlePreviewHtml;
-            } else {
-                let rawText = escapeHtml(maskDigits(msg.text));
-                rawText = rawText.replace(IMG_URL_REGEX, (url) => `<img src="${url}" alt="GIF" />`);
-                rawText = rawText.replace(/\n/g, '<br>');
-                if (msg.censored) {
-                    rawText += ` <span style="font-size:0.6rem;color:var(--com-accent-orange);">(${t('censored')})</span>`;
-                }
-                textContent = rawText;
-            }
-
-            html += `
-                <div class="msg" data-msg-id="${msg.id}">
-                    <div class="msg-header">
-                        <span class="user">${escapeHtml(user)}</span>
-                        <span class="time">${time}</span>
-                    </div>
-                    <div class="msg-body">
-                        ${isEditing ? `
-                            <div class="msg-edit-area">
-                                <input type="text" class="chat-edit-input" data-msg-id="${msg.id}" value="${escapeHtml(maskDigits(msg.text))}" />
-                                <button class="chat-edit-save" data-msg-id="${msg.id}"><i class="fas fa-check"></i></button>
-                                <button class="chat-edit-cancel" data-msg-id="${msg.id}"><i class="fas fa-times"></i></button>
-                            </div>
-                        ` : `
-                            <div class="msg-text">${textContent}</div>
-                            <div class="msg-actions">
-                                <button class="msg-like ${isLiked ? 'liked' : ''}" data-msg-id="${msg.id}" title="${t('like')}">
-                                    <i class="fas fa-heart"></i> ${likeCount > 0 ? likeCount : ''}
-                                </button>
-                                ${isOwner ? `
-                                    <button class="chat-edit-btn" data-msg-id="${msg.id}" title="${t('edit')}"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="chat-delete-btn" data-msg-id="${msg.id}" title="${t('delete')}"><i class="fas fa-trash-alt"></i></button>
-                                ` : ''}
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `;
-        }
-        container.innerHTML = html;
-        container.scrollTop = container.scrollHeight;
-
-        // Event listeners
-        container.querySelectorAll('.chat-edit-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const msgId = this.dataset.msgId;
-                state.editingChatMessageId = msgId;
-                renderChatMessages();
-                const input = container.querySelector(`.chat-edit-input[data-msg-id="${msgId}"]`);
-                if (input) input.focus();
-            });
-        });
-
-        container.querySelectorAll('.chat-edit-save').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const msgId = this.dataset.msgId;
-                const input = container.querySelector(`.chat-edit-input[data-msg-id="${msgId}"]`);
-                if (!input) return;
-                const newText = input.value.trim();
-                if (!newText) return;
-                editChatMessage(state.currentCourseId, state.currentDiscipline, msgId, newText);
-                state.editingChatMessageId = null;
-                renderChatMessages();
-            });
-        });
-
-        container.querySelectorAll('.chat-edit-cancel').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                state.editingChatMessageId = null;
-                renderChatMessages();
-            });
-        });
-
-        container.querySelectorAll('.chat-delete-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const msgId = this.dataset.msgId;
-                if (confirm(t('comunidade_confirm_delete'))) {
-                    deleteChatMessage(state.currentCourseId, state.currentDiscipline, msgId);
-                    renderChatMessages();
-                }
-            });
-        });
-
-        container.querySelectorAll('.msg-like').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const msgId = this.dataset.msgId;
-                toggleChatLike(state.currentCourseId, state.currentDiscipline, msgId);
-                renderChatMessages();
-            });
-        });
-
-        container.querySelectorAll('.chat-article-view-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const postId = this.dataset.postId;
-                const courseId = this.dataset.courseId;
-                const discipline = this.dataset.discipline;
-                if (courseId && discipline) {
-                    if (state.currentCourseId === courseId && state.currentDiscipline === discipline) {
-                        scrollToPost(postId);
-                    } else {
-                        selectDiscipline(courseId, discipline, postId);
-                    }
-                }
-            });
-        });
-
-        container.querySelectorAll('.chat-edit-input').forEach(input => {
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    const msgId = this.dataset.msgId;
-                    const saveBtn = container.querySelector(`.chat-edit-save[data-msg-id="${msgId}"]`);
-                    if (saveBtn) saveBtn.click();
-                }
-                if (e.key === 'Escape') {
-                    const msgId = this.dataset.msgId;
-                    const cancelBtn = container.querySelector(`.chat-edit-cancel[data-msg-id="${msgId}"]`);
-                    if (cancelBtn) cancelBtn.click();
-                }
-            });
-        });
-    }
-
-    // ========================================================================
-    // FUNÇÃO DE ENVIO DE MENSAGEM
-    // ========================================================================
-    function sendLocalChatMessage() {
-        if (state.chatBlocked) {
-            showToast(t('chat_blocked_msg'), 'error');
-            return;
-        }
-
-        const input = document.getElementById('p2pInput');
-        if (!input) return;
-        const text = input.value;
-        if (!state.currentCourseId || !state.currentDiscipline) {
-            showToast(t('select_discipline_first'), 'error');
-            return;
-        }
-        if (!text.trim()) return;
-
-        const user = state.currentUser.name || 'Anônimo';
-        const message = addChatMessage(state.currentCourseId, state.currentDiscipline, user, text);
-        if (message) {
-            renderChatMessages();
-            input.value = '';
-            input.dispatchEvent(new Event('input'));
-            input.focus();
-        }
-    }
-
-    // ========================================================================
-    // SCROLL PARA POST
-    // ========================================================================
-    function scrollToPost(postId) {
-        const postElement = document.querySelector(`.post-card[data-post-id="${postId}"]`);
-        if (postElement) {
-            postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            postElement.style.transition = 'border-color 0.5s, box-shadow 0.5s';
-            postElement.style.borderColor = 'var(--com-accent-orange)';
-            postElement.style.boxShadow = '0 0 20px rgba(251, 191, 36, 0.3)';
-            setTimeout(() => {
-                postElement.style.borderColor = '';
-                postElement.style.boxShadow = '';
-            }, 3000);
-        } else {
-            showToast(t('article_not_found'), 'error');
-        }
-    }
-
-    // ========================================================================
-    // EMOJI PICKER (chat)
-    // ========================================================================
-    function initEmojiPicker() {
-        const picker = document.getElementById('emojiPicker');
-        if (!picker) return;
-        picker.innerHTML = '';
-        EMOJIS.forEach(emoji => {
-            const btn = document.createElement('button');
-            btn.className = 'emoji-option';
-            btn.textContent = emoji;
-            btn.addEventListener('click', function() {
-                const input = document.getElementById('p2pInput');
-                if (input) {
-                    const cursorPos = input.selectionStart;
-                    const text = input.value;
-                    input.value = text.slice(0, cursorPos) + emoji + text.slice(cursorPos);
-                    input.focus();
-                    input.selectionStart = input.selectionEnd = cursorPos + emoji.length;
-                    input.dispatchEvent(new Event('input'));
-                }
-                picker.classList.remove('open');
-            });
-            picker.appendChild(btn);
-        });
-
-        const toggle = document.getElementById('emojiToggle');
-        const positionPicker = () => {
-            const rect = toggle.getBoundingClientRect();
-            const left = Math.min(
-                Math.max(8, rect.left + (rect.width - picker.offsetWidth) / 2),
-                window.innerWidth - picker.offsetWidth - 8
-            );
-            picker.style.left = `${left}px`;
-            const above = rect.top - picker.offsetHeight - 8;
-            const below = rect.bottom + 8;
-            picker.style.top = `${Math.max(8, above >= 8 ? above : Math.min(below, window.innerHeight - picker.offsetHeight - 8))}px`;
-        };
-        if (toggle) {
-            toggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const shouldOpen = !picker.classList.contains('open');
-                picker.classList.toggle('open', shouldOpen);
-                if (shouldOpen) {
-                    positionPicker();
-                } else {
-                    picker.style.left = '';
-                    picker.style.top = '';
-                }
-            });
-        }
-
-        window.addEventListener('resize', () => {
-            if (!picker.classList.contains('open') || !toggle) return;
-            positionPicker();
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!picker.contains(e.target) && e.target !== toggle) {
-                picker.classList.remove('open');
-            }
-        });
-    }
-
-    // ========================================================================
-    // EMOJI PICKER (comentários)
-    // ========================================================================
-    function initCommentEmojiPickers() {
-        const closePicker = (picker) => {
-            const originalWrapper = picker.__commentWrapper;
-            if (originalWrapper) {
-                originalWrapper.appendChild(picker);
-                delete originalWrapper.__commentPicker;
-                delete picker.__commentWrapper;
-            }
-            picker.classList.remove('open');
-            picker.style.left = '';
-            picker.style.top = '';
-        };
-
-        const positionPicker = (toggle, picker) => {
-            const rect = toggle.getBoundingClientRect();
-            const pickerWidth = picker.offsetWidth || 220;
-            const pickerHeight = picker.offsetHeight || 150;
-            const left = Math.min(
-                Math.max(8, rect.left + (rect.width - pickerWidth) / 2),
-                window.innerWidth - pickerWidth - 8
-            );
-            const above = rect.top - pickerHeight - 8;
-            const below = rect.bottom + 8;
-            const top = above >= 8 ? above : Math.min(below, window.innerHeight - pickerHeight - 8);
-            picker.style.left = `${left}px`;
-            picker.style.top = `${top}px`;
-        };
-
-        document.addEventListener('click', function(e) {
-            const toggle = e.target.closest('.comment-emoji-toggle');
-            if (toggle) {
-                e.stopPropagation();
-                const wrapper = toggle.closest('.input-wrapper');
-                if (!wrapper) return;
-                const picker = wrapper.__commentPicker || wrapper.querySelector('.comment-emoji-picker');
-                if (picker) {
-                    const shouldOpen = !picker.classList.contains('open');
-                    if (!shouldOpen) {
-                        closePicker(picker);
-                        return;
-                    }
-                    picker.__commentWrapper = wrapper;
-                    wrapper.__commentPicker = picker;
-                    document.body.appendChild(picker);
-                    picker.classList.toggle('open', shouldOpen);
-                    requestAnimationFrame(() => positionPicker(toggle, picker));
-                }
-            }
-        });
-
-        document.addEventListener('click', function(e) {
-            const pickers = document.querySelectorAll('.comment-emoji-picker');
-            pickers.forEach(picker => {
-                if (!picker.contains(e.target) && !e.target.closest('.comment-emoji-toggle')) {
-                    closePicker(picker);
-                }
-            });
-        });
-
-        window.addEventListener('resize', function() {
-            document.querySelectorAll('.comment-emoji-picker.open').forEach(picker => {
-                const toggle = picker.closest('.input-wrapper')?.querySelector('.comment-emoji-toggle');
-                const originalWrapper = picker.__commentWrapper;
-                const pickerToggle = originalWrapper?.querySelector('.comment-emoji-toggle');
-                if (pickerToggle) {
-                    positionPicker(pickerToggle, picker);
-                    return;
-                }
-                if (!toggle) return;
-                positionPicker(toggle, picker);
-            });
-        });
-
-        document.addEventListener('click', function(e) {
-            const emojiBtn = e.target.closest('.comment-emoji-option');
-            if (!emojiBtn) return;
-            const picker = emojiBtn.closest('.comment-emoji-picker');
-            const wrapper = picker?.__commentWrapper || emojiBtn.closest('.input-wrapper');
-            if (!wrapper) return;
-            const input = wrapper.querySelector('.comment-input');
-            if (!input) return;
-            const emoji = emojiBtn.textContent;
-            const cursorPos = input.selectionStart;
-            const text = input.value;
-            input.value = text.slice(0, cursorPos) + emoji + text.slice(cursorPos);
-            input.focus();
-            input.selectionStart = input.selectionEnd = cursorPos + emoji.length;
-            if (picker) closePicker(picker);
-        });
-    }
-
-    // ========================================================================
-    // GIF MODAL
-    // ========================================================================
-    let gifTargetInput = null;
-
-    function openGifModal(targetInput) {
-        gifTargetInput = targetInput;
-        const modal = document.getElementById('gifModal');
-        if (!modal) return;
-        modal.style.display = 'flex';
-        const urlInput = document.getElementById('gifUrlInput');
-        const previewContainer = document.getElementById('gifPreview');
-        if (urlInput) {
-            urlInput.value = '';
-            urlInput.placeholder = 'Cole a URL de um GIF (ex: https://i.imgur.com/abc.gif)';
-            urlInput.focus();
-        }
-        if (previewContainer) {
-            previewContainer.innerHTML = '<span class="gif-preview-placeholder">Cole uma URL para ver a prévia</span>';
-        }
-        const resultsContainer = document.getElementById('gifResults');
-        if (resultsContainer) {
-            resultsContainer.innerHTML = '';
-        }
-    }
-
-    function closeGifModal() {
-        const modal = document.getElementById('gifModal');
-        if (modal) modal.style.display = 'none';
-        gifTargetInput = null;
-        const previewContainer = document.getElementById('gifPreview');
-        if (previewContainer) previewContainer.innerHTML = '<span class="gif-preview-placeholder">Cole uma URL para ver a prévia</span>';
-    }
-
-    function insertGifUrl(url) {
-        if (gifTargetInput) {
-            const input = gifTargetInput;
-            const cursorPos = input.selectionStart;
-            const text = input.value;
-            input.value = text.slice(0, cursorPos) + ' ' + url + ' ' + text.slice(cursorPos);
-            input.focus();
-            input.selectionStart = input.selectionEnd = cursorPos + url.length + 2;
-            closeGifModal();
-            input.dispatchEvent(new Event('input'));
-        }
-    }
-
-    function previewGifUrl(url) {
-        const previewContainer = document.getElementById('gifPreview');
-        if (!previewContainer) return;
-        if (!url || !url.match(/https?:\/\/[^\s]+\.(?:gif|png|jpg|jpeg|webp|bmp|svg)(?:\?[^\s]*)?/i)) {
-            previewContainer.innerHTML = '<span class="gif-preview-placeholder">Cole uma URL para ver a prévia</span>';
-            return;
-        }
-        previewContainer.innerHTML = `
-            <img src="${url}" alt="Prévia GIF" onclick="window.Comunidade.insertGifUrl('${url}')" />
-            <br>
-            <small style="color:var(--text-tertiary);">Clique na imagem para inserir</small>
-        `;
-    }
-
-    function initGifModal() {
-        const modal = document.getElementById('gifModal');
-        if (!modal) return;
-        const closeBtn = document.getElementById('closeGifModal');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeGifModal);
-        }
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) closeGifModal();
-        });
-
-        const urlInput = document.getElementById('gifUrlInput');
-        if (urlInput) {
-            let debounceTimer;
-            urlInput.addEventListener('input', function() {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    previewGifUrl(this.value);
-                }, 300);
-            });
-            urlInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    document.getElementById('insertGifUrlBtn')?.click();
-                }
-            });
-        }
-
-        const insertBtn = document.getElementById('insertGifUrlBtn');
-        if (insertBtn) {
-            insertBtn.addEventListener('click', function() {
-                const urlInput = document.getElementById('gifUrlInput');
-                if (urlInput && urlInput.value.trim()) {
-                    insertGifUrl(urlInput.value.trim());
-                } else {
-                    showToast('Por favor, cole uma URL de GIF válida.', 'error');
-                }
-            });
-        }
-
-        document.querySelectorAll('.gif-site-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const site = this.dataset.site;
-                const urls = {
-                    giphy: 'https://giphy.com/',
-                    tenor: 'https://tenor.com/',
-                    imgur: 'https://imgur.com/',
-                    reddit: 'https://www.reddit.com/r/gifs/'
-                };
-                window.open(urls[site] || urls.giphy, '_blank');
-            });
-        });
-
-        const chatGifBtn = document.getElementById('chatGifBtn');
-        if (chatGifBtn) {
-            chatGifBtn.addEventListener('click', function() {
-                const input = document.getElementById('p2pInput');
-                if (input) {
-                    openGifModal(input);
-                }
-            });
-        }
-
-        document.addEventListener('click', function(e) {
-            const gifBtn = e.target.closest('.comment-gif-btn');
-            if (gifBtn) {
-                const wrapper = gifBtn.closest('.input-wrapper');
-                if (!wrapper) return;
-                const input = wrapper.querySelector('.comment-input');
-                if (input) {
-                    openGifModal(input);
-                }
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('gifModal').style.display === 'flex') {
-                closeGifModal();
-            }
-        });
-    }
-
-    // ========================================================================
-    // SANITIZAÇÃO
-    // ========================================================================
-    function sanitizeHtml(html) {
-        if (!html) return '';
-        if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
-            return window.DOMPurify.sanitize(html, {
-                FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed'],
-                FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover']
-            });
-        }
-        const temp = document.createElement('div');
-        temp.textContent = html;
-        return temp.innerHTML;
-    }
-
-    // ========================================================================
-    // RENDERIZAÇÃO (sidebar e posts)
-    // ========================================================================
-    function renderSidebar() {
-        const container = elements.courseList;
-        if (!container) return;
-
-        if (state.courses.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${t('no_courses_found')}</p></div>`;
-            return;
-        }
-
-        let html = '';
-        for (const course of state.courses) {
-            const disciplines = state.disciplines[course.id] || [];
-            const isActive = state.currentCourseId === course.id;
-            const initial = getCourseInitial(course.name);
-            const color = getCourseColor(course.id);
-            const levelLabel = course.courseLevel === 'graduacao' ? t('graduacao') :
-                               course.courseLevel === 'pos-graduacao' ? t('pos_graduacao') :
-                               course.courseLevel === 'ensino-medio' ? t('ensino_medio') : t('idiomas');
-
-            const imgUrl = getCourseImageUrl(course.id);
-            const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
-            const iconContent = imgUrl ? `<img src="${imgUrl}" alt="${escapeHtml(course.name)}" onerror="${safeOnError}" />` : initial;
-
-            html += `
-                <div class="course-entry">
-                  <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}">
-                    <div class="course-icon" style="background:${color}">${iconContent}</div>
-                    <div class="course-info">
-                        <div class="course-name">${escapeHtml(course.name)}</div>
-                        <div class="course-level">${levelLabel}</div>
-                    </div>
-                  </div>
-                  <div class="discipline-list ${isActive ? 'open' : ''}" data-course-id="${course.id}">
-            `;
-            if (disciplines.length === 0) {
-                html += `<div class="discipline-item" style="color:var(--com-text-tertiary);font-size:0.75rem;">${t('no_courses_found')}</div>`;
-            } else {
-                for (const disc of disciplines) {
-                    const activeDisc = isActive && state.currentDiscipline === disc;
-                    html += `<div class="discipline-item ${activeDisc ? 'active' : ''}" data-course-id="${course.id}" data-discipline="${escapeHtml(disc)}">${escapeHtml(disc)}</div>`;
-                }
-            }
-            html += `</div></div>`;
-        }
-        container.innerHTML = html;
-
-        container.querySelectorAll('.course-item').forEach(el => {
-            el.addEventListener('click', function() {
-                const courseId = this.dataset.courseId;
-                toggleCourse(courseId);
-            });
-        });
-
-        container.querySelectorAll('.discipline-item').forEach(el => {
-            el.addEventListener('click', function() {
-                const courseId = this.dataset.courseId;
-                const discipline = this.dataset.discipline;
-                selectDiscipline(courseId, discipline);
-            });
-        });
-    }
-
-    function toggleCourse(courseId) {
-        const list = document.querySelector(`.discipline-list[data-course-id="${courseId}"]`);
-        if (list) list.classList.toggle('open');
-        document.querySelectorAll('.course-item').forEach(el => {
-            el.classList.toggle('active', el.dataset.courseId === courseId);
-        });
-        const disciplines = state.disciplines[courseId] || [];
-        selectDiscipline(courseId, disciplines.length > 0 ? disciplines[0] : null);
-    }
-
-    function selectDiscipline(courseId, discipline, scrollToPostId) {
-        state.currentCourseId = courseId;
-        state.currentDiscipline = discipline;
-
-        document.querySelectorAll('.course-item').forEach(el => {
-            el.classList.toggle('active', el.dataset.courseId === courseId);
-        });
-        document.querySelectorAll('.discipline-item').forEach(el => {
-            const isActive = el.dataset.courseId === courseId && el.dataset.discipline === discipline;
-            el.classList.toggle('active', isActive);
-        });
-        const list = document.querySelector(`.discipline-list[data-course-id="${courseId}"]`);
-        if (list) list.classList.add('open');
-
-        renderDisciplineHeader(courseId, discipline);
-
-        if (courseId && discipline) {
-            state.posts = loadPosts(courseId, discipline);
-            renderPosts();
-            renderChatMessages();
-            updateChatStatus(true);
-            loadNotes();
-            if (scrollToPostId) {
-                setTimeout(() => {
-                    scrollToPost(scrollToPostId);
-                }, 300);
-            }
-        } else {
-            state.posts = [];
-            renderPosts();
-            const container = document.getElementById('p2pMessages');
-            if (container) {
-                container.innerHTML = `<div class="msg" style="color:var(--com-text-tertiary);font-style:italic;">${t('select_discipline')}</div>`;
-            }
-            updateChatStatus(false);
-        }
-        populateNoteSelector();
-    }
-
-    function renderDisciplineHeader(courseId, discipline) {
-        const course = state.courses.find(c => c.id === courseId);
-        const color = course ? getCourseColor(courseId) : '#6C8CFF';
-        const initial = course ? getCourseInitial(course.name) : '?';
-        const courseName = course ? course.name : '';
-
-        const imgEl = document.getElementById('disciplineCourseImage');
-        if (imgEl) {
-            const imgUrl = course ? getCourseImageUrl(courseId) : '';
-            if (imgUrl) {
-                const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
-                imgEl.innerHTML = `<img src="${imgUrl}" alt="${escapeHtml(courseName)}" onerror="${safeOnError}" />`;
-                imgEl.style.background = 'transparent';
-            } else {
-                imgEl.textContent = initial;
-                imgEl.style.background = color;
-            }
-        }
-        if (elements.disciplineName) {
-            elements.disciplineName.textContent = discipline || t('select_discipline');
-        }
-        if (elements.disciplineCourseName) {
-            elements.disciplineCourseName.textContent = courseName ? `${t('course')}: ${courseName}` : '';
-        }
-    }
-
-    function renderPosts() {
-        const feed = elements.postsFeed;
-        if (!feed) return;
-
-        let filteredPosts = state.posts;
-
-        if (state.activeTab === 'my') {
-            filteredPosts = filteredPosts.filter(p => p.author === state.currentUser.name && p.type !== 'poll');
-        } else if (state.activeTab === 'polls') {
-            filteredPosts = filteredPosts.filter(p => p.type === 'poll' && p.author === state.currentUser.name);
-        }
-
-        if (filteredPosts.length === 0) {
-            const msg = state.activeTab === 'my' 
-                ? t('no_my_articles')
-                : state.activeTab === 'polls'
-                    ? t('no_my_polls')
-                : (state.currentDiscipline ? t('comunidade_no_posts') : t('select_discipline_to_see_posts'));
-            feed.innerHTML = `<div class="empty-state"><i class="fas fa-pen-fancy"></i><p>${msg}</p></div>`;
-            return;
-        }
-
-        let html = '';
-        for (const post of filteredPosts) {
-            const isLiked = (post.likes || []).includes(state.currentUser.name);
-            const likeCount = post.likes.length;
-            const commentCount = post.comments.length;
-            const isOwner = post.author === state.currentUser.name;
-            const avatar = post.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=6C8CFF&color=fff&size=40`;
-            const time = formatDate(post.timestamp);
-
-            html += `
-                <div class="post-card pop-in" data-post-id="${post.id}">
-                    <div class="post-header">
-                        <img class="post-avatar" src="${avatar}" alt="${escapeHtml(post.author)}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=6C8CFF&color=fff&size=40'">
-                        <span class="post-author">${escapeHtml(post.author)}</span>
-                        <span class="post-time">${time}</span>
-                        ${post.edited ? `<span class="post-edited">(${t('edited')})</span>` : ''}
-                        ${post.censored ? `<span class="post-edited" style="color:var(--com-accent-orange);">(${t('censored')})</span>` : ''}
-                        ${isOwner ? `<button class="delete-post-btn" data-post-id="${post.id}" style="margin-left:auto;background:none;border:none;color:var(--com-text-tertiary);cursor:pointer;" aria-label="${t('delete')}"><i class="fas fa-trash-alt"></i></button>` : ''}
-                    </div>
-                    <div class="post-title">${escapeHtml(maskDigits(post.title))}</div>
-                    ${post.type === 'poll' ? `
-                        <div class="poll-card">
-                            <div class="poll-question">${escapeHtml(maskDigits(post.question || post.title))}</div>
-                            ${(post.options || []).map((option, index) => {
-                                const votes = (post.votes && post.votes[index]) || 0;
-                                const total = (post.votes || []).reduce((a, b) => a + b, 0);
-                                const selected = (post.voters || {})[state.currentUser.name] === index;
-                                return `<button class="poll-option poll-vote ${selected ? 'selected' : ''}" data-post-id="${post.id}" data-option="${index}"><span>${escapeHtml(maskDigits(option))}</span><span>${votes}${total ? ` (${Math.round(votes / total * 100)}%)` : ''}</span></button>`;
-                            }).join('')}
-                        </div>
-                    ` : `<div class="post-content">${sanitizeHtml(maskHtmlDigits(post.content || ''))}</div>`}
-                    ${post.note ? `
-                        <div class="note-attachment">
-                            <i class="fas fa-paperclip"></i>
-                            <span class="note-title">${escapeHtml(maskDigits(post.note.title))}</span>
-                            <span class="note-preview">${escapeHtml(maskDigits(post.note.preview))}</span>
-                        </div>
-                    ` : ''}
-                    <div class="post-actions">
-                        <button class="like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" aria-label="${t('like')}">
-                            <i class="fas fa-heart"></i> <span>${likeCount}</span>
-                        </button>
-                        <button class="comment-toggle" data-post-id="${post.id}" aria-label="${t('comment')}">
-                            <i class="fas fa-comment"></i> <span>${commentCount}</span>
-                        </button>
-                        ${isOwner && post.type !== 'poll' ? `<button class="edit-post-btn" data-post-id="${post.id}" aria-label="${t('edit')}"><i class="fas fa-pencil-alt"></i></button>` : ''}
-                    </div>
-                    <div class="comments-section" id="comments-${post.id}" style="display:${commentCount > 0 ? 'block' : 'none'};">
-                        ${post.comments.map(c => {
-                            const isCommentLiked = c.likes && c.likes.includes(state.currentUser.name);
-                            const commentLikeCount = (c.likes && c.likes.length) || 0;
-                            const isCommentOwner = c.author === state.currentUser.name;
-                            const isEditing = state.editingCommentId && state.editingCommentId.postId === post.id && state.editingCommentId.commentId === c.id;
-
-                            let commentText = escapeHtml(maskDigits(c.text));
-                            commentText = commentText.replace(IMG_URL_REGEX, (url) => `<img src="${url}" alt="GIF" />`);
-                            if (c.censored) {
-                                commentText += ` <span style="font-size:0.6rem;color:var(--com-accent-orange);">(${t('censored')})</span>`;
-                            }
-
-                            return `
-                                <div class="comment-item" data-comment-id="${c.id}">
-                                    <img class="comment-avatar" src="${c.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.author)}&background=6C8CFF&color=fff&size=28`}" alt="">
-                                    <div class="comment-body">
-                                        <div>
-                                            <span class="comment-author">${escapeHtml(c.author)}</span>
-                                            <span class="comment-time">${formatDate(c.timestamp)}</span>
-                                            ${c.edited ? `<span style="font-size:0.6rem;color:var(--com-text-tertiary);">(${t('edited')})</span>` : ''}
-                                        </div>
-                                        ${isEditing ? `
-                                            <div style="display:flex;gap:0.3rem;align-items:center;margin-top:0.2rem;">
-                                                <input type="text" class="comment-edit-input" value="${escapeHtml(maskDigits(c.text))}" style="flex:1;padding:0.2rem 0.5rem;background:var(--com-bg-tertiary);border:1px solid var(--com-border);border-radius:4px;color:var(--com-text-primary);" />
-                                                <button class="comment-edit-save" data-post-id="${post.id}" data-comment-id="${c.id}" style="background:var(--com-accent-blue);color:white;border:none;padding:0.2rem 0.6rem;border-radius:4px;cursor:pointer;"><i class="fas fa-check"></i></button>
-                                                <button class="comment-edit-cancel" data-post-id="${post.id}" data-comment-id="${c.id}" style="background:var(--com-bg-tertiary);color:var(--com-text-secondary);border:1px solid var(--com-border);padding:0.2rem 0.6rem;border-radius:4px;cursor:pointer;"><i class="fas fa-times"></i></button>
-                                            </div>
-                                        ` : `
-                                            <div class="comment-text">${commentText}</div>
-                                            <div class="comment-actions">
-                                                <button class="comment-like-btn ${isCommentLiked ? 'liked' : ''}" data-post-id="${post.id}" data-comment-id="${c.id}" aria-label="Curtir comentário">
-                                                    <i class="fas fa-heart"></i> ${commentLikeCount > 0 ? commentLikeCount : ''}
-                                                </button>
-                                                ${isCommentOwner ? `
-                                                    <button class="comment-edit-btn" data-post-id="${post.id}" data-comment-id="${c.id}" aria-label="Editar comentário"><i class="fas fa-pencil-alt"></i></button>
-                                                    <button class="delete-comment-btn" data-post-id="${post.id}" data-comment-id="${c.id}" aria-label="${t('delete')}"><i class="fas fa-times"></i></button>
-                                                ` : ''}
-                                            </div>
-                                        `}
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                        <div class="comment-input-area">
-                            <div class="input-wrapper">
-                                <input type="text" class="comment-input" placeholder="${t('write_comment')} (ou cole URL de GIF)" data-post-id="${post.id}" />
-                                <button class="comment-emoji-toggle emoji-btn" title="Emojis"><i class="far fa-smile"></i></button>
-                                <button class="comment-gif-btn gif-btn" title="Inserir GIF"><i class="fas fa-film"></i></button>
-                                <div class="comment-emoji-picker">
-                                    ${EMOJIS.map(emoji => `<button class="emoji-option comment-emoji-option">${emoji}</button>`).join('')}
-                                </div>
-                            </div>
-                            <button class="comment-submit" data-post-id="${post.id}" aria-label="${t('send')}"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        feed.innerHTML = html;
-
-        // Eventos
-        feed.querySelectorAll('.like-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                toggleLike(state.currentCourseId, state.currentDiscipline, postId);
-                renderPosts();
-            });
-            feed.querySelectorAll('.poll-vote').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const posts = loadPosts(state.currentCourseId, state.currentDiscipline);
-                    const post = posts.find(p => p.id === this.dataset.postId);
-                    if (!post || !post.votes) return;
-                    post.voters = post.voters || {};
-                    const previous = post.voters[state.currentUser.name];
-                    if (previous !== undefined) post.votes[previous] = Math.max(0, post.votes[previous] - 1);
-                    const option = Number(this.dataset.option);
-                    if (previous === option) delete post.voters[state.currentUser.name];
-                    else { post.votes[option]++; post.voters[state.currentUser.name] = option; }
-                    savePosts(state.currentCourseId, state.currentDiscipline, posts);
-                    state.posts = posts;
-                    renderPosts();
-                });
-            });
-        });
-
-        feed.querySelectorAll('.comment-toggle').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const section = document.getElementById(`comments-${postId}`);
-                if (section) section.style.display = section.style.display === 'none' ? 'block' : 'none';
-            });
-        });
-
-        feed.querySelectorAll('.comment-submit').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const wrapper = this.closest('.comment-input-area').querySelector('.input-wrapper');
-                const input = wrapper ? wrapper.querySelector('.comment-input') : null;
-                if (!input || !input.value.trim()) return;
-                addComment(state.currentCourseId, state.currentDiscipline, postId, input.value.trim());
-                input.value = '';
-                renderPosts();
-            });
-        });
-
-        feed.querySelectorAll('.comment-input').forEach(input => {
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    const postId = this.dataset.postId;
-                    const btn = document.querySelector(`.comment-submit[data-post-id="${postId}"]`);
-                    if (btn) btn.click();
-                }
-            });
-        });
-
-        feed.querySelectorAll('.comment-like-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const commentId = this.dataset.commentId;
-                toggleCommentLike(state.currentCourseId, state.currentDiscipline, postId, commentId);
-                renderPosts();
-            });
-        });
-
-        feed.querySelectorAll('.comment-edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const commentId = this.dataset.commentId;
-                state.editingCommentId = { postId, commentId };
-                renderPosts();
-                const input = feed.querySelector(`.comment-edit-input`);
-                if (input) input.focus();
-            });
-        });
-
-        feed.querySelectorAll('.comment-edit-save').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const commentId = this.dataset.commentId;
-                const input = feed.querySelector(`.comment-edit-input`);
-                if (!input) return;
-                const newText = input.value.trim();
-                if (!newText) return;
-                editComment(state.currentCourseId, state.currentDiscipline, postId, commentId, newText);
-                state.editingCommentId = null;
-                renderPosts();
-            });
-        });
-
-        feed.querySelectorAll('.comment-edit-cancel').forEach(btn => {
-            btn.addEventListener('click', function() {
-                state.editingCommentId = null;
-                renderPosts();
-            });
-        });
-
-        feed.querySelectorAll('.comment-edit-input').forEach(input => {
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    const postId = this.closest('.comment-item')?.dataset?.postId;
-                    const commentId = this.closest('.comment-item')?.dataset?.commentId;
-                    if (postId && commentId) {
-                        const saveBtn = feed.querySelector(`.comment-edit-save[data-post-id="${postId}"][data-comment-id="${commentId}"]`);
-                        if (saveBtn) saveBtn.click();
-                    }
-                }
-                if (e.key === 'Escape') {
-                    state.editingCommentId = null;
-                    renderPosts();
-                }
-            });
-        });
-
-        feed.querySelectorAll('.delete-post-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                if (confirm(t('comunidade_confirm_delete'))) {
-                    if (deletePost(state.currentCourseId, state.currentDiscipline, postId)) {
-                        refreshPostsAfterDeletion();
-                    }
-                }
-            });
-        });
-
-        feed.querySelectorAll('.edit-post-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const post = state.posts.find(p => p.id === postId);
-                if (post) openEditModal(post);
-            });
-        });
-
-        feed.querySelectorAll('.delete-comment-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const postId = this.dataset.postId;
-                const commentId = this.dataset.commentId;
-                if (confirm(t('delete_comment_confirm'))) {
-                    deleteComment(state.currentCourseId, state.currentDiscipline, postId, commentId);
-                    renderPosts();
-                }
-            });
-        });
-    }
-
-    // ========================================================================
-    // MODAL DE POST
-    // ========================================================================
-    let quill = null;
-    let quillInitialized = false;
-
-    function openNewPostModal() {
-        if (!state.currentCourseId || !state.currentDiscipline) {
-            alert(t('select_discipline_first'));
-            return;
-        }
-        if (state.postBlocked) {
-            alert(t('post_blocked_msg'));
-            return;
-        }
-        document.getElementById('postModalTitle').innerHTML = `<i class="fas fa-pen"></i> ${t('comunidade_new_post')}`;
-        document.getElementById('postTitleInput').value = '';
-        if (quill) {
-            quill.setContents([]);
-            quill.root.dataset.placeholder = t('write_post_content');
-        }
-        state.editingPostId = null;
-        const select = document.getElementById('noteAttachmentSelect');
-        if (select) select.value = '';
-        populateNoteSelector();
-
-        const modal = document.getElementById('postModal');
-        modal.style.display = 'flex';
-        modal.removeAttribute('aria-hidden');
-        modal.removeAttribute('inert');
-        document.getElementById('postTitleInput').focus();
-    }
-
-    function openEditModal(post) {
-        document.getElementById('postModalTitle').innerHTML = `<i class="fas fa-edit"></i> ${t('comunidade_edit')}`;
-        document.getElementById('postTitleInput').value = maskDigits(post.title);
-        if (quill) quill.root.innerHTML = maskHtmlDigits(post.content);
-        state.editingPostId = post.id;
-        const select = document.getElementById('noteAttachmentSelect');
-        if (select) {
-            populateNoteSelector();
-            if (post.note) {
-                select.value = post.note.id || '';
-            } else {
-                select.value = '';
-            }
-        }
-        const modal = document.getElementById('postModal');
-        modal.style.display = 'flex';
-        modal.removeAttribute('aria-hidden');
-        modal.removeAttribute('inert');
-        document.getElementById('postTitleInput').focus();
-    }
-
-    function closePostModal() {
-        const modal = document.getElementById('postModal');
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        modal.setAttribute('inert', '');
-        state.editingPostId = null;
-        if (elements.newPostBtn) elements.newPostBtn.focus();
-    }
-
-    function savePost() {
-        if (state.postBlocked) {
-            alert(t('post_blocked_msg'));
-            return;
-        }
-        const title = document.getElementById('postTitleInput').value.trim();
-        const content = quill ? quill.root.innerHTML : '';
-        if (!title || !content || content === '<p><br></p>') {
-            alert(t('fill_title_content'));
-            return;
-        }
-        const noteSelect = document.getElementById('noteAttachmentSelect');
-        const noteId = noteSelect ? noteSelect.value : null;
-
-        if (state.editingPostId) {
-            if (editPost(state.currentCourseId, state.currentDiscipline, state.editingPostId, title, content, noteId)) {
-                closePostModal();
-                renderPosts();
-            } else {
-                alert(t('edit_post_error'));
-            }
-        } else {
-            const newPost = addPost(state.currentCourseId, state.currentDiscipline, title, content, noteId);
-            if (newPost) {
-                state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
-                closePostModal();
-                renderPosts();
-            }
-        }
-    }
-
-    function openPollModal() {
-        if (!state.currentCourseId || !state.currentDiscipline) { alert(t('select_discipline_first')); return; }
-        const modal = document.getElementById('pollModal');
-        document.getElementById('pollQuestionInput').value = '';
-        document.getElementById('pollOptions').innerHTML = '<input type="text" class="poll-option-input" placeholder="Opção 1"><input type="text" class="poll-option-input" placeholder="Opção 2">';
-        modal.style.display = 'flex'; modal.removeAttribute('aria-hidden'); modal.removeAttribute('inert');
-        document.getElementById('pollQuestionInput').focus();
-    }
-    function closePollModal() {
-        const modal = document.getElementById('pollModal');
-        if (modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden', 'true'); modal.setAttribute('inert', ''); }
-    }
-    function savePoll() {
-        const question = document.getElementById('pollQuestionInput').value.trim();
-        const options = [...document.querySelectorAll('.poll-option-input')].map(i => i.value.trim()).filter(Boolean);
-        if (!question || options.length < 2) { alert('Informe a pergunta e pelo menos duas opções.'); return; }
-        const newPoll = addPoll(state.currentCourseId, state.currentDiscipline, question, options);
-        if (newPoll) {
-            closePollModal();
-            state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
-            renderPosts();
-        }
-    }
-
-    // ========================================================================
-    // QUILL EDITOR
-    // ========================================================================
-    function initQuill() {
-        if (typeof Quill === 'undefined') {
-            console.warn('[Comunidade] Quill não carregado.');
-            return;
-        }
-        const container = document.getElementById('postEditor');
-        if (!container) return;
-        if (quillInitialized) return;
-
-        quill = new Quill(container, {
-            theme: 'snow',
-            placeholder: t('write_post_content'),
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'align': [] }],
-                    ['link', 'image', 'video'],
-                    ['clean']
-                ],
-                clipboard: { matchVisual: false }
-            }
-        });
-        quillInitialized = true;
-        console.log('[Comunidade] Quill inicializado.');
-    }
-
-    // ========================================================================
-    // CHAT STATUS
-    // ========================================================================
-    function updateChatStatus(active) {
-        const dot = document.getElementById('p2pStatusDot');
-        const text = document.getElementById('p2pStatusText');
-        const input = document.getElementById('p2pInput');
-        const sendBtn = document.getElementById('p2pSendBtn');
-
-        if (active && !state.chatBlocked) {
-            dot.className = 'dot online';
-            text.textContent = t('connected');
-            if (input) input.disabled = false;
-            if (sendBtn) sendBtn.disabled = false;
-        } else {
-            dot.className = 'dot offline';
-            text.textContent = state.chatBlocked ? t('chat_blocked_msg') : t('disconnected');
-            if (input) input.disabled = true;
-            if (sendBtn) sendBtn.disabled = true;
-        }
-    }
-
-    // ========================================================================
-    // TOAST
-    // ========================================================================
+    // ========== SISTEMA DE NOTIFICAÇÕES ==========
     function showToast(message, type = 'info') {
-        if (window.showNotification && typeof window.showNotification === 'function') {
-            window.showNotification(message, type);
+        if (window.queueNotification && typeof window.queueNotification === 'function') {
+            window.queueNotification(message, type);
             return;
         }
         const existing = document.getElementById('customToast');
         if (existing) existing.remove();
         const toast = document.createElement('div');
         toast.id = 'customToast';
-        toast.style.cssText = `
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--bg-card, #1A2638); backdrop-filter: blur(12px);
-            padding: 12px 24px; border-radius: 16px;
-            border: 1px solid var(--border, rgba(42,58,90,0.4));
-            box-shadow: var(--modal-shadow, 0 8px 32px rgba(0,0,0,0.5));
-            color: var(--text-primary, #F5F9FF);
-            font-size: 0.9rem;
-            z-index: 99999;
-            max-width: 90%;
-            text-align: center;
-            transition: opacity 0.3s ease;
-        `;
+        toast.style.cssText =
+            'position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);' +
+            'background: var(--bg-card); backdrop-filter: blur(12px);' +
+            'padding: 16px 32px; border-radius: 16px;' +
+            'border: 1px solid var(--border);' +
+            'box-shadow: var(--modal-shadow);' +
+            'color: var(--text-primary);' +
+            'font-size: 1rem; font-weight: 500; z-index: 9999;' +
+            'transition: opacity 0.3s ease, transform 0.3s ease;' +
+            'max-width: 90%; text-align: center;';
+        toast.textContent = message;
         if (type === 'success') toast.style.borderLeft = '4px solid #22c55e';
         else if (type === 'error') toast.style.borderLeft = '4px solid #ef4444';
         else toast.style.borderLeft = '4px solid #6C8CFF';
-        toast.textContent = message;
         document.body.appendChild(toast);
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+        });
         setTimeout(() => {
             toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(20px)';
             setTimeout(() => toast.remove(), 300);
-        }, 3500);
+        }, 3000);
     }
 
-    // ========================================================================
-    // SINCRONIZAÇÃO ENTRE ABAS
-    // ========================================================================
-    function setupSync() {
-        window.addEventListener('storage', function(e) {
-            if (e.key && e.key.startsWith('comunidade_sync_')) {
-                if (state.currentCourseId && state.currentDiscipline) {
-                    state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
-                    renderPosts();
-                    renderChatMessages();
+    // ========== LIMPEZA DE OBJETOS ==========
+    function cleanObject(obj, maxDepth = 15) {
+        const seen = new WeakSet();
+        let depth = 0;
+
+        function clean(value) {
+            if (typeof value !== 'object' || value === null) return value;
+            if (seen.has(value)) return '[Circular]';
+            if (depth > maxDepth) return '[MaxDepth]';
+            seen.add(value);
+            depth++;
+            if (Array.isArray(value)) {
+                const arr = value.map(clean);
+                depth--;
+                return arr;
+            }
+            const result = {};
+            for (const key in value) {
+                if (value.hasOwnProperty(key)) {
+                    try { result[key] = clean(value[key]); } catch (_) { result[key] = '[Error]'; }
                 }
             }
-            if (e.key === STORAGE_KEY_NOTES) {
-                loadNotes();
-                populateNoteSelector();
+            depth--;
+            return result;
+        }
+        try { return clean(obj); } catch (_) { return { error: 'Não foi possível limpar os dados' }; }
+    }
+
+    function safeStringify(obj, maxDepth = 15) {
+        const cleaned = cleanObject(obj, maxDepth);
+        try { return JSON.stringify(cleaned); } catch (_) { return '{"error":"Serialization failed"}'; }
+    }
+
+    // ========== CRIPTOGRAFIA ==========
+    async function deriveKey(password, salt) {
+        const encoder = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+            'raw',
+            encoder.encode(password),
+            'PBKDF2',
+            false,
+            ['deriveKey']
+        );
+        return crypto.subtle.deriveKey(
+            {
+                name: 'PBKDF2',
+                salt: encoder.encode(salt),
+                iterations: 100000,
+                hash: 'SHA-256'
+            },
+            keyMaterial,
+            { name: 'AES-GCM', length: 256 },
+            false,
+            ['encrypt', 'decrypt']
+        );
+    }
+
+    async function encryptData(data, password) {
+        try {
+            const encoder = new TextEncoder();
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const key = await deriveKey(password, salt);
+            const jsonString = safeStringify(data, 15);
+            const encrypted = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encoder.encode(jsonString)
+            );
+            const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            result.set(salt, 0);
+            result.set(iv, salt.length);
+            result.set(new Uint8Array(encrypted), salt.length + iv.length);
+            return btoa(String.fromCharCode.apply(null, result));
+        } catch (error) {
+            console.error('Erro na criptografia:', error);
+            throw new Error('Falha ao criptografar dados: ' + error.message);
+        }
+    }
+
+    async function decryptData(encryptedBase64, password) {
+        try {
+            const encrypted = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+            const salt = encrypted.slice(0, 16);
+            const iv = encrypted.slice(16, 28);
+            const data = encrypted.slice(28);
+            const key = await deriveKey(password, salt);
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                data
+            );
+            const decoder = new TextDecoder();
+            return JSON.parse(decoder.decode(decrypted));
+        } catch (error) {
+            console.error('Erro na descriptografia:', error);
+            throw new Error('Falha ao descriptografar dados: ' + error.message);
+        }
+    }
+
+    async function verifyPassword(inputPassword, storedHash) {
+        if (!storedHash) return false;
+        try {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(inputPassword);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            const hashBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+            return hashBase64 === storedHash;
+        } catch (e) {
+            console.error('[Profile] Erro ao verificar senha:', e);
+            return false;
+        }
+    }
+
+    async function hashPassword(password) {
+        try {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
+        } catch (e) {
+            console.error('[Profile] Erro ao gerar hash:', e);
+            return null;
+        }
+    }
+
+    // ========== VALIDAÇÃO DE SENHA ==========
+    function checkPasswordStrength(password) {
+        const checks = {
+            minLength: password.length >= PASSWORD_MIN_LENGTH,
+            hasUpper: PASSWORD_REQUIREMENTS.hasUpper.test(password),
+            hasLower: PASSWORD_REQUIREMENTS.hasLower.test(password),
+            hasNumber: PASSWORD_REQUIREMENTS.hasNumber.test(password),
+            hasSpecial: PASSWORD_REQUIREMENTS.hasSpecial.test(password)
+        };
+        let passed = 0;
+        for (const key in checks) {
+            if (checks.hasOwnProperty(key) && checks[key]) passed++;
+        }
+        let strength = 'Fraca';
+        let color = '#ef4444';
+        if (passed === 5) { strength = 'Forte'; color = '#22c55e'; }
+        else if (passed >= 4) { strength = 'Boa'; color = '#eab308'; }
+        else if (passed >= 3) { strength = 'Média'; color = '#f59e0b'; }
+        else if (passed >= 2) { strength = 'Fraca'; color = '#ef4444'; }
+        else { strength = 'Muito fraca'; color = '#dc2626'; }
+        return { checks, passed, strength, color, total: 5 };
+    }
+
+    function getPasswordFeedback(checks) {
+        const messages = [];
+        if (!checks.minLength) messages.push('Mínimo de ' + PASSWORD_MIN_LENGTH + ' caracteres');
+        if (!checks.hasUpper) messages.push('Pelo menos uma letra maiúscula');
+        if (!checks.hasLower) messages.push('Pelo menos uma letra minúscula');
+        if (!checks.hasNumber) messages.push('Pelo menos um número');
+        if (!checks.hasSpecial) messages.push('Pelo menos um caractere especial (!@#$% etc.)');
+        return messages;
+    }
+
+    // ========== FUNÇÕES DE PERFIL ==========
+    function loadProfileName() { return localStorage.getItem(STORAGE_KEYS.NAME) || ''; }
+
+    function saveProfileName(name) {
+        localStorage.setItem(STORAGE_KEYS.NAME, name.trim());
+        updateProfileModal();
+        updateProfileButton();
+        showToast(t('profile_name_saved'), 'success');
+    }
+
+    function getProfileGender() { return localStorage.getItem(STORAGE_KEYS.GENDER) || ''; }
+
+    function saveProfileGender(gender) {
+        localStorage.setItem(STORAGE_KEYS.GENDER, gender);
+        updateProfileModal();
+        showToast(t('profile_gender_saved'), 'success');
+    }
+
+    async function saveProfilePassword(password) {
+        if (!password || password.length < PASSWORD_MIN_LENGTH) {
+            showToast(t('profile_password_min'), 'error');
+            return false;
+        }
+        const strength = checkPasswordStrength(password);
+        if (strength.passed < 3) {
+            const feedback = getPasswordFeedback(strength.checks);
+            showToast(t('profile_password_weak') + feedback.join(', '), 'error');
+            return false;
+        }
+        const hash = await hashPassword(password);
+        if (!hash) {
+            showToast('Erro ao salvar senha. Tente novamente.', 'error');
+            return false;
+        }
+        localStorage.setItem(STORAGE_KEYS.PASSWORD, hash);
+        updateProfileModal();
+        showPasswordSavedIndicator(true);
+        showToast(t('profile_password_saved'), 'success');
+        return true;
+    }
+
+    function hasStoredPassword() { return !!localStorage.getItem(STORAGE_KEYS.PASSWORD); }
+
+    // ========== REDIMENSIONAR IMAGEM ==========
+    function resizeImage(file, maxWidth = 150, maxHeight = 150, quality = 0.7) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                };
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // ========== FUNÇÕES DE AVATAR ==========
+    function getUserAvatar() { return localStorage.getItem(STORAGE_KEYS.AVATAR) || null; }
+
+    function saveUserAvatar(base64) {
+        const sizeInBytes = base64.length * 0.75;
+        if (sizeInBytes > 500 * 1024) {
+            showToast(t('profile_avatar_too_big'), 'error');
+            return false;
+        }
+        try {
+            localStorage.setItem(STORAGE_KEYS.AVATAR, base64);
+            updateProfileButton();
+            loadAvatarToModal();
+            showToast(t('profile_avatar_updated'), 'success');
+            return true;
+        } catch (e) {
+            if (e.name === 'QuotaExceededError' || e.code === 22) {
+                showToast(t('profile_avatar_storage_error'), 'error');
+            } else {
+                showToast(t('profile_avatar_save_error'), 'error');
+            }
+            return false;
+        }
+    }
+
+    function loadAvatarToModal() {
+        const img = document.getElementById('profileAvatar');
+        if (!img) {
+            console.warn('[Profile] #profileAvatar não encontrado');
+            return;
+        }
+        const avatar = getUserAvatar();
+        if (avatar) {
+            img.src = avatar;
+            console.log('[Profile] Avatar carregado do localStorage');
+        } else {
+            const name = loadProfileName() || 'Usuario';
+            img.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=6C8CFF&color=fff&size=80';
+            console.log('[Profile] Avatar gerado via API');
+        }
+    }
+
+    // ========== DETECÇÃO AUTOMÁTICA DO CAMINHO DAS IMAGENS ==========
+    let imageBasePath = null;
+
+    async function detectImageBasePath() {
+        if (imageBasePath) return imageBasePath;
+
+        // Prioriza o caminho relativo `../perfil/img/` (subindo um nível)
+        const paths = [
+            '../perfil/img/',
+            './perfil/img/',
+            '/perfil/img/',
+            'perfil/img/',
+            window.location.origin + '/perfil/img/',
+            window.location.origin + '/universidade/perfil/img/'
+        ];
+
+        for (const path of paths) {
+            const testUrl = path + 'Aguia.png';
+            try {
+                const response = await fetch(testUrl, { method: 'HEAD' });
+                if (response.ok) {
+                    imageBasePath = path;
+                    console.log('[Profile] Caminho das imagens detectado: ' + imageBasePath);
+                    return imageBasePath;
+                }
+            } catch (_) { /* ignora */ }
+        }
+
+        imageBasePath = '../perfil/img/';
+        console.warn('[Profile] Nenhum caminho válido encontrado, usando fallback: ' + imageBasePath);
+        return imageBasePath;
+    }
+
+    async function setDefaultAvatar() {
+        if (getUserAvatar()) return;
+        try {
+            const basePath = await detectImageBasePath();
+            const firstAvatar = DEFAULT_AVATARS[0];
+            const imgSrc = basePath + firstAvatar.file;
+            const response = await fetch(imgSrc);
+            if (!response.ok) throw new Error('Falha ao carregar imagem padrão');
+            const blob = await response.blob();
+            const fileObj = new File([blob], firstAvatar.file, { type: blob.type });
+            const resizedBase64 = await resizeImage(fileObj, 150, 150, 0.7);
+            saveUserAvatar(resizedBase64);
+        } catch (error) {
+            console.warn('[Profile] Erro ao definir avatar padrão:', error);
+        }
+    }
+
+    // ========== SELETOR DE AVATAR ==========
+    async function showAvatarSelector() {
+        console.log('[Profile] showAvatarSelector chamado');
+        const existing = document.getElementById('avatarSelectorModal');
+        if (existing) {
+            existing.remove();
+            console.log('[Profile] Modal de avatar já existia, removido');
+        }
+
+        const basePath = await detectImageBasePath();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'avatarSelectorModal';
+        overlay.style.cssText =
+            'position:fixed;top:0;left:0;width:100%;height:100%;' +
+            'background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);' +
+            'z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+
+        const modal = document.createElement('div');
+        modal.style.cssText =
+            'background:var(--bg-secondary);border-radius:24px;padding:1.5rem;' +
+            'max-width:780px;width:100%;max-height:90vh;overflow-y:auto;' +
+            'border:1px solid var(--border);box-shadow:0 20px 40px rgba(0,0,0,0.7);' +
+            'animation:scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);';
+
+        let avatarOptionsHtml = '';
+        for (const av of DEFAULT_AVATARS) {
+            const imgSrc = basePath + av.file;
+            const avatarName = t(av.key);
+            avatarOptionsHtml += `
+                <div class="avatar-option" data-file="${av.file}" style="
+                    cursor:pointer;border-radius:12px;overflow:hidden;
+                    border:2px solid var(--border);aspect-ratio:1/1;
+                    background:var(--bg-tertiary);display:flex;align-items:center;
+                    justify-content:center;position:relative;
+                    transition:border-color 0.3s, transform 0.2s;
+                ">
+                    <img src="${imgSrc}" alt="${avatarName}" style="
+                        width:100%;height:100%;object-fit:cover;display:block;
+                    " onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'color:var(--text-secondary);font-size:1.1rem;font-weight:600;text-align:center;padding:0.5rem;\\'>${avatarName}</span>'">
+                    <div style="
+                        position:absolute;bottom:0;left:0;right:0;
+                        background:linear-gradient(transparent,rgba(0,0,0,0.8));
+                        padding:0.4rem 0.3rem;text-align:center;font-size:0.75rem;
+                        color:white;opacity:0;transition:opacity 0.3s;
+                        pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+                        font-weight:500;letter-spacing:0.3px;
+                    ">${avatarName}</div>
+                </div>
+            `;
+        }
+
+        modal.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+                <h3 style="color:var(--text-primary);font-size:1.3rem;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-camera" style="color:var(--accent-teal);"></i> ${t('profile_choose_avatar')}
+                </h3>
+                <button id="closeAvatarSelector" style="background:none;border:none;color:var(--text-secondary);font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">${t('profile_avatar_description')}</p>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin-bottom:1.2rem;">
+                ${avatarOptionsHtml}
+            </div>
+            <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;align-items:center;">
+                <button id="uploadAvatarBtn" style="padding:0.6rem 1.5rem;background:var(--gradient-primary);border:none;border-radius:2rem;color:white;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-upload"></i> ${t('profile_upload')}
+                </button>
+                <button id="removeAvatarBtn" style="padding:0.6rem 1.5rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:2rem;color:var(--text-secondary);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-trash-alt"></i> ${t('profile_remove_photo')}
+                </button>
+                <button id="licenseAvatarBtn" style="padding:0.4rem 1rem;background:transparent;border:1px solid var(--border);border-radius:2rem;color:var(--text-tertiary);font-size:0.7rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;">
+                    <i class="fas fa-balance-scale"></i> ${t('profile_license')}
+                </button>
+            </div>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        console.log('[Profile] Modal de avatar adicionado ao DOM');
+
+        const closeBtn = document.getElementById('closeAvatarSelector');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => overlay.remove());
+        }
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+
+        const licenseBtn = document.getElementById('licenseAvatarBtn');
+        if (licenseBtn) {
+            licenseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                window.open('https://pixabay.com/service/license-summary/', '_blank');
+            });
+        }
+
+        const options = document.querySelectorAll('.avatar-option');
+        console.log('[Profile] Encontradas ' + options.length + ' opções de avatar');
+        for (const opt of options) {
+            const label = opt.querySelector('div:last-child');
+            opt.addEventListener('mouseenter', () => {
+                if (label) label.style.opacity = '1';
+                opt.style.borderColor = 'var(--accent-blue)';
+                opt.style.transform = 'scale(1.04)';
+            });
+            opt.addEventListener('mouseleave', () => {
+                if (label) label.style.opacity = '0';
+                opt.style.borderColor = 'var(--border)';
+                opt.style.transform = 'scale(1)';
+            });
+            opt.addEventListener('click', () => {
+                const file = opt.dataset.file;
+                console.log('[Profile] Avatar selecionado: ' + file);
+                const imgSrc = basePath + file;
+                fetch(imgSrc)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const fileObj = new File([blob], file, { type: blob.type });
+                        return resizeImage(fileObj, 150, 150, 0.7);
+                    })
+                    .then(resizedBase64 => {
+                        saveUserAvatar(resizedBase64);
+                        overlay.remove();
+                        console.log('[Profile] Avatar salvo com sucesso');
+                    })
+                    .catch(err => {
+                        console.error('Erro ao carregar imagem padrão:', err);
+                        showToast(t('profile_avatar_upload_error'), 'error');
+                    });
+            });
+        }
+
+        const uploadBtn = document.getElementById('uploadAvatarBtn');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', () => fileInput.click());
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                console.log('[Profile] Arquivo selecionado: ' + file.name);
+                handleAvatarUpload(file, () => overlay.remove());
+            }
+            fileInput.value = '';
+        });
+
+        const removeBtn = document.getElementById('removeAvatarBtn');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => {
+                if (confirm(t('profile_remove_confirm'))) {
+                    localStorage.removeItem(STORAGE_KEYS.AVATAR);
+                    updateProfileButton();
+                    loadAvatarToModal();
+                    showToast(t('profile_avatar_removed'), 'info');
+                    overlay.remove();
+                    console.log('[Profile] Avatar removido');
+                }
+            });
+        }
+
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                overlay.remove();
+                document.removeEventListener('keydown', escHandler);
+                console.log('[Profile] Modal de avatar fechado com ESC');
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+
+        const observer = new MutationObserver(() => {
+            if (!document.getElementById('avatarSelectorModal')) {
+                document.removeEventListener('keydown', escHandler);
+                if (fileInput.parentNode) fileInput.remove();
+                observer.disconnect();
+                console.log('[Profile] Observer desconectado');
             }
         });
+        observer.observe(document.body, { childList: true });
     }
 
-    // ========================================================================
-    // ABAS DE FILTRO
-    // ========================================================================
-    function initTabs() {
-        const tabs = document.querySelectorAll('.feed-tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                state.activeTab = this.dataset.tab;
-                renderPosts();
+    function handleAvatarUpload(file, callback) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            showToast(t('profile_select_image'), 'error');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            showToast(t('profile_image_too_big'), 'error');
+            return;
+        }
+        showToast(t('profile_processing'), 'info');
+        resizeImage(file, 150, 150, 0.7)
+            .then(resizedBase64 => {
+                saveUserAvatar(resizedBase64);
+                if (typeof callback === 'function') callback();
+            })
+            .catch(err => {
+                console.error('Erro ao redimensionar imagem:', err);
+                showToast(t('profile_avatar_upload_error'), 'error');
             });
-        });
     }
 
-    // ========================================================================
-    // GARANTIR QUE O PERFIL FUNCIONE NA COMUNIDADE
-    // ========================================================================
-    function setupProfileButton() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (!profileBtn) return;
+    // ========== ATUALIZAR BOTÃO DE PERFIL ==========
+    function updateProfileButton() {
+        const btn = document.getElementById('profileBtn');
+        if (!btn) {
+            console.warn('[Profile] Botão #profileBtn não encontrado');
+            return;
+        }
+        const avatar = getUserAvatar();
+        const name = loadProfileName() || 'Usuário';
+        const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
-        // Remove listeners antigos para evitar duplicação
-        const newBtn = profileBtn.cloneNode(true);
-        profileBtn.parentNode.replaceChild(newBtn, profileBtn);
+        btn.setAttribute('data-profile-custom', 'true');
+        btn.innerHTML = '';
 
-        newBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('[Comunidade] Botão de perfil clicado.');
-            if (typeof window.openProfileModal === 'function') {
-                window.openProfileModal();
+        if (avatar) {
+            const img = document.createElement('img');
+            img.src = avatar;
+            img.alt = 'Perfil';
+            img.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:8px;';
+            btn.appendChild(img);
+        } else {
+            const span = document.createElement('span');
+            span.textContent = initials;
+            span.className = 'profile-initials';
+            span.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:0.85rem;font-weight:600;margin-right:8px;';
+            btn.appendChild(span);
+        }
+
+        const textNode = document.createTextNode(' ' + t('profile'));
+        btn.appendChild(textNode);
+        btn.style.cssText =
+            'display: inline-flex; align-items: center; gap: 0.4rem;' +
+            'padding: 6px 16px 6px 10px; background: var(--accent-purple);' +
+            'color: #fff !important; border-radius: 8px; font-weight: 600;' +
+            'font-size: 0.85rem; cursor: pointer; border: none;' +
+            'transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);' +
+            'text-decoration: none; white-space: nowrap; box-shadow: none; min-height: 44px;';
+
+        console.log('[Profile] Botão de perfil atualizado');
+    }
+
+    // ========== INDICADOR DE SENHA ==========
+    function showPasswordSavedIndicator(saved) {
+        const container = document.getElementById('profilePassword');
+        if (!container) return;
+        const parent = container.closest('.profile-user-section');
+        if (!parent) return;
+        let indicator = parent.querySelector('.password-saved-indicator');
+        if (!indicator) {
+            indicator = document.createElement('div');
+            indicator.className = 'password-saved-indicator';
+            indicator.style.cssText = 'margin-top:0.3rem;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem;';
+            parent.appendChild(indicator);
+        }
+        if (saved) {
+            indicator.innerHTML = '<i class="fas fa-check-circle" style="color:#22c55e;"></i> <span style="color:var(--text-secondary);">' + t('profile_password_saved_indicator') + '</span>';
+            indicator.style.display = 'flex';
+        } else {
+            indicator.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#f59e0b;"></i> <span style="color:var(--text-secondary);">' + t('profile_no_password_saved') + '</span>';
+            indicator.style.display = 'flex';
+        }
+    }
+
+    // ========== ESTATÍSTICAS DOS CURSOS ==========
+    function calculateCourseStats(watchedMap) {
+        const totalVideos = watchedMap.length;
+        const watchedVideos = watchedMap.filter(v => v === true).length;
+        const completedLessons = Math.floor(watchedVideos / 5);
+        const completedDisciplines = Math.floor(watchedVideos / 25);
+        const points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
+        return {
+            totalVideos,
+            watchedVideos,
+            completedLessons,
+            completedDisciplines,
+            points,
+            progressPercent: totalVideos ? Math.round((watchedVideos / totalVideos) * 100) : 0
+        };
+    }
+
+    function getAllCoursesProgress() {
+        const courses = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('ulivre_course_')) {
+                const courseId = key.replace('ulivre_course_', '');
+                try {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    if (data && data.watchedMap) {
+                        const stats = calculateCourseStats(data.watchedMap);
+                        const name = getCourseName(courseId);
+                        courses.push({ id: courseId, name, stats, data });
+                    }
+                } catch (_) {}
+            }
+        }
+        return courses;
+    }
+
+    // ========== EXPORTAÇÃO/IMPORTAÇÃO ==========
+    function getVideosProgress() {
+        const progress = localStorage.getItem('yt_video_progress');
+        try { return progress ? JSON.parse(progress) : {}; } catch (_) { return {}; }
+    }
+
+    function getBooksRead() {
+        const books = localStorage.getItem('ulivre_livros_lidos');
+        try { return books ? JSON.parse(books) : []; } catch (_) { return []; }
+    }
+
+    function getNotes() {
+        const notes = localStorage.getItem('ulivre_notas_estudo');
+        try { return notes ? JSON.parse(notes) : []; } catch (_) { return []; }
+    }
+
+    function getTags() {
+        const tags = localStorage.getItem('ulivre_notas_tags');
+        try { return tags ? JSON.parse(tags) : []; } catch (_) { return []; }
+    }
+
+    function generateExportData(includeCourses, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
+        const exportData = {
+            user: loadProfileName() || 'Anônimo',
+            gender: getProfileGender() || '',
+            timestamp: new Date().toISOString(),
+            avatar: getUserAvatar() || null,
+            matricula: getMatricula(),
+            auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
+            version: '2.1',
+            data: {}
+        };
+
+        const passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
+        exportData.password = passwordHash;
+
+        try {
+            const tempJson = JSON.stringify(exportData);
+            let hash = 0;
+            for (let idx = 0; idx < tempJson.length; idx++) {
+                hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
+                hash |= 0;
+            }
+            exportData.checksum = hash.toString(16);
+        } catch (_) { /* ignora */ }
+
+        if (includeCourses) {
+            const courses = getAllCoursesProgress();
+            exportData.data.courses = courses.map(c => ({
+                id: c.id,
+                name: c.name,
+                stats: c.stats,
+                progressPercent: c.stats.progressPercent,
+                rawData: cleanObject(c.data, 15)
+            }));
+            exportData.data.totalStats = courses.reduce((acc, c) => {
+                acc.watchedVideos += c.stats.watchedVideos;
+                acc.totalVideos += c.stats.totalVideos;
+                acc.points += c.stats.points;
+                return acc;
+            }, { watchedVideos: 0, totalVideos: 0, points: 0 });
+        }
+        if (includeVideos) exportData.data.videos = getVideosProgress();
+        if (includeBooks) exportData.data.booksRead = getBooksRead();
+        if (includeNotes) {
+            const allNotes = getNotes();
+            exportData.data.notes = (selectedNoteIds && selectedNoteIds.length > 0) ?
+                allNotes.filter(n => selectedNoteIds.indexOf(n.id) !== -1) : allNotes;
+            exportData.data.tags = getTags();
+        }
+        return exportData;
+    }
+
+    // ========== VALIDAÇÃO DE ESTRUTURA DE DADOS ==========
+    function validateImportedData(data) {
+        console.log('[Profile] Validando estrutura dos dados importados...');
+        
+        if (!data || typeof data !== 'object') {
+            console.error('[Profile] Dados inválidos: objeto vazio ou malformado.');
+            throw new Error('Dados inválidos: objeto vazio ou malformado.');
+        }
+
+        const hasUser = !!data.user;
+        const hasData = !!data.data && typeof data.data === 'object';
+        const hasCourses = data.data && Array.isArray(data.data.courses);
+        
+        if (!hasUser && !hasData) {
+            console.error('[Profile] Estrutura de dados não reconhecida.');
+            throw new Error('Arquivo inválido: estrutura de dados não reconhecida.');
+        }
+
+        if (!hasData) {
+            console.warn('[Profile] Propriedade "data" ausente. Tentando adaptar estrutura antiga...');
+            if (Array.isArray(data.courses)) {
+                data.data = { courses: data.courses };
+                console.log('[Profile] Estrutura adaptada: data.courses criado a partir de courses raiz.');
             } else {
-                console.warn('[Comunidade] window.openProfileModal não disponível.');
-                // Fallback: tenta abrir o modal manualmente
-                const modal = document.getElementById('profileModal');
-                if (modal) {
-                    modal.style.display = 'flex';
-                    modal.classList.add('show');
-                    modal.removeAttribute('inert');
-                    modal.setAttribute('aria-hidden', 'false');
-                    if (typeof window.updateProfileModal === 'function') {
-                        window.updateProfileModal();
+                console.error('[Profile] Não foi possível adaptar: courses não encontrado na raiz.');
+                throw new Error('Estrutura de dados não suportada.');
+            }
+        }
+
+        console.log('[Profile] Validação concluída com sucesso.');
+        return true;
+    }
+
+    // ========== MODAL DE SENHA ==========
+    function createPasswordModal(title, message, callback) {
+        const existing = document.getElementById('customPasswordModal');
+        if (existing) existing.remove();
+        const overlay = document.createElement('div');
+        overlay.id = 'customPasswordModal';
+        overlay.style.cssText =
+            'position:fixed;top:0;left:0;width:100%;height:100%;' +
+            'background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;' +
+            'z-index:9999;backdrop-filter:blur(8px);';
+        const modal = document.createElement('div');
+        modal.style.cssText =
+            'background:var(--bg-secondary);border-radius:24px;padding:2rem;' +
+            'max-width:420px;width:90%;border:1px solid var(--border);' +
+            'box-shadow:var(--modal-shadow);';
+        modal.innerHTML = `
+            <h3 style="color:var(--text-primary);margin-bottom:0.5rem;font-size:1.3rem;display:flex;align-items:center;gap:0.6rem;">
+                <i class="fas fa-lock" style="color:var(--accent-teal);"></i> ${title}
+            </h3>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">${message}</p>
+            <div style="position:relative;">
+                <input type="password" id="passwordModalInput" placeholder="${t('profile_password')}..." style="
+                    width:100%;padding:0.8rem 2.5rem 0.8rem 1rem;
+                    background:var(--bg-tertiary);border:1px solid var(--border);
+                    border-radius:12px;color:var(--text-primary);font-size:1rem;margin-bottom:1rem;
+                ">
+                <button id="togglePasswordVisibility" style="
+                    position:absolute;right:12px;top:50%;transform:translateY(-50%);
+                    background:none;border:none;color:var(--text-secondary);
+                    cursor:pointer;font-size:1.1rem;padding:4px;
+                ">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div id="passwordModalError" style="color:#ef4444;font-size:0.85rem;margin-bottom:0.5rem;display:none;"></div>
+            <div style="display:flex;gap:0.8rem;justify-content:flex-end;">
+                <button id="passwordModalCancel" style="padding:0.6rem 1.2rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);cursor:pointer;">
+                    ${t('notas_cancel') || 'Cancelar'}
+                </button>
+                <button id="passwordModalConfirm" style="padding:0.6rem 1.2rem;background:var(--gradient-primary);border:none;border-radius:12px;color:white;cursor:pointer;font-weight:600;">
+                    ${t('profile_save')}
+                </button>
+            </div>
+        `;
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const input = document.getElementById('passwordModalInput');
+        const errorDiv = document.getElementById('passwordModalError');
+        const confirmBtn = document.getElementById('passwordModalConfirm');
+        const cancelBtn = document.getElementById('passwordModalCancel');
+        const toggleBtn = document.getElementById('togglePasswordVisibility');
+        const closeModal = () => overlay.remove();
+
+        toggleBtn.addEventListener('click', () => {
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+            toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        confirmBtn.addEventListener('click', async () => {
+            const password = input.value;
+            if (!password) {
+                errorDiv.textContent = t('profile_password_required');
+                errorDiv.style.display = 'block';
+                return;
+            }
+            try {
+                const storedHash = localStorage.getItem(STORAGE_KEYS.PASSWORD);
+                if (storedHash) {
+                    const isValid = await verifyPassword(password, storedHash);
+                    if (!isValid) {
+                        errorDiv.textContent = t('profile_password_incorrect');
+                        errorDiv.style.display = 'block';
+                        input.value = '';
+                        input.focus();
+                        return;
                     }
                 }
+                closeModal();
+                callback(password);
+            } catch (e) {
+                errorDiv.textContent = t('profile_password_incorrect');
+                errorDiv.style.display = 'block';
             }
         });
-
-        console.log('[Comunidade] Listener do perfil configurado.');
+        cancelBtn.addEventListener('click', closeModal);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') confirmBtn.click();
+            if (e.key === 'Escape') closeModal();
+        });
+        input.focus();
+        return overlay;
     }
 
-    // ========================================================================
-    // INICIALIZAÇÃO
-    // ========================================================================
-    async function init() {
-        elements.courseList = document.getElementById('courseList');
-        elements.postsFeed = document.getElementById('postsFeed');
-        elements.disciplineName = document.getElementById('disciplineName');
-        elements.disciplineCourseName = document.getElementById('disciplineCourseName');
-        elements.newPostBtn = document.getElementById('newPostBtn');
-        elements.newPollBtn = document.getElementById('newPollBtn');
-        elements.closePostModal = document.getElementById('closePostModal');
-        elements.cancelPostBtn = document.getElementById('cancelPostBtn');
-        elements.savePostBtn = document.getElementById('savePostBtn');
-        elements.refreshCoursesBtn = document.getElementById('refreshCoursesBtn');
+    // ========== EXPORTAÇÃO ==========
+    async function handleExport() {
+        const includeCourses = document.getElementById('exportCourses');
+        const includeVideos = document.getElementById('exportVideos');
+        const includeBooks = document.getElementById('exportBooks');
+        const includeNotes = document.getElementById('exportNotes');
 
-        state.currentUser = getCurrentUser();
-        setupProfileButton();
-        if (!localStorage.getItem('userProfileName')) {
-            if (typeof window.startOnboarding === 'function') {
-                window.startOnboarding();
-            } else {
-                console.error('[Comunidade] Janela de login não está disponível.');
-            }
-            window.addEventListener('onboardingComplete', () => {
-                if (localStorage.getItem('userProfileName')) {
-                    init();
-                }
-            }, { once: true });
+        if (!includeCourses || !includeVideos || !includeBooks || !includeNotes) {
+            showToast('Erro ao carregar opções de exportação.', 'error');
             return;
         }
 
-        startPresence();
-        const success = await loadCoursesAndDisciplines();
-        if (!success) {
-            elements.courseList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${t('error_load_courses')}</p></div>`;
+        const includeCoursesChecked = includeCourses.checked;
+        const includeVideosChecked = includeVideos.checked;
+        const includeBooksChecked = includeBooks.checked;
+        const includeNotesChecked = includeNotes.checked;
+
+        const selectedNoteIds = [];
+        if (includeNotesChecked) {
+            const checkboxes = document.querySelectorAll('#notesCheckboxes input[type="checkbox"]:checked');
+            checkboxes.forEach(cb => selectedNoteIds.push(cb.value));
+        }
+        const hasPassword = hasStoredPassword();
+
+        const exportAction = async (password) => {
+            try {
+                const data = generateExportData(includeCoursesChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
+                let finalData = data;
+                let isEncrypted = false;
+                if (password && password.length > 0) {
+                    try {
+                        const encrypted = await encryptData(data, password);
+                        finalData = {
+                            encrypted: true,
+                            data: encrypted,
+                            version: '2.1-encrypted',
+                            user: data.user,
+                            timestamp: data.timestamp,
+                            checksum: data.checksum
+                        };
+                        isEncrypted = true;
+                    } catch (e) {
+                        showToast(t('profile_encrypt_error'), 'error');
+                        return;
+                    }
+                }
+                const json = JSON.stringify(finalData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const suffix = isEncrypted ? '_criptografado' : '';
+                a.download = 'dados_completos_' + data.user + '_' + new Date().toISOString().slice(0,10) + suffix + '.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast(t('profile_export_success'), 'success');
+            } catch (error) {
+                console.error('[Profile] Erro na exportação:', error);
+                showToast(t('profile_export_error'), 'error');
+            }
+        };
+
+        if (hasPassword) {
+            createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
+                await exportAction(password);
+            });
+        } else {
+            if (confirm(t('profile_no_password_confirm'))) await exportAction('');
+        }
+    }
+
+    // ========== IMPORTAÇÃO ==========
+    async function handleImport(file) {
+        if (!file) {
+            showToast('Nenhum arquivo selecionado.', 'error');
             return;
         }
+        console.log('[Import] Arquivo selecionado:', file.name, file.size, file.type);
 
-        renderSidebar();
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            try {
+                console.log('[Import] Leitura do arquivo concluída. Tamanho:', e.target.result.length);
+                const importedData = JSON.parse(e.target.result);
+                console.log('[Import] JSON parseado com sucesso. Chaves:', Object.keys(importedData));
 
-        if (state.courses.length > 0) {
-            const first = state.courses[0];
-            const disciplines = state.disciplines[first.id] || [];
-            selectDiscipline(first.id, disciplines.length > 0 ? disciplines[0] : null);
-        }
-
-        const chatInput = document.getElementById('p2pInput');
-        const charCountSpan = document.getElementById('charCount');
-        const charMaxSpan = document.getElementById('charMax');
-        if (chatInput && charCountSpan && charMaxSpan) {
-            charMaxSpan.textContent = MAX_CHAT_MESSAGE_LENGTH;
-            chatInput.addEventListener('input', function() {
-                const len = this.value.length;
-                charCountSpan.textContent = len;
-                charCountSpan.classList.toggle('exceed', len > MAX_CHAT_MESSAGE_LENGTH);
-                this.style.height = 'auto';
-                this.style.height = Math.max(this.scrollHeight, 3.2 * parseFloat(getComputedStyle(this).lineHeight)) + 'px';
-                if (this.scrollHeight > 120) {
-                    this.style.height = '120px';
+                if (!importedData || typeof importedData !== 'object') {
+                    throw new Error('Arquivo inválido: dados não encontrados.');
                 }
-            });
-            chatInput.dispatchEvent(new Event('input'));
-        }
 
-        if (chatInput) {
-            chatInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
-                    e.preventDefault();
-                    sendLocalChatMessage();
-                }
-            });
-        }
-
-        setTimeout(initQuill, 200);
-        initEmojiPicker();
-        initCommentEmojiPickers();
-        initGifModal();
-        initTabs();
-        elements.newPollBtn?.addEventListener('click', openPollModal);
-        document.getElementById('closePollModal')?.addEventListener('click', closePollModal);
-        document.getElementById('cancelPollBtn')?.addEventListener('click', closePollModal);
-        document.getElementById('savePollBtn')?.addEventListener('click', savePoll);
-        document.getElementById('addPollOptionBtn')?.addEventListener('click', function() {
-            const count = document.querySelectorAll('.poll-option-input').length + 1;
-            if (count <= 8) {
-                const input = document.createElement('input');
-                input.type = 'text'; input.className = 'poll-option-input'; input.placeholder = t('poll_option_placeholder', { number: count });
-                document.getElementById('pollOptions').appendChild(input);
-            }
-        });
-
-        const shareBtn = document.getElementById('shareArticleBtn');
-        if (shareBtn) {
-            shareBtn.addEventListener('click', openShareArticleModal);
-        }
-        document.querySelectorAll('.share-tab').forEach(tab => tab.addEventListener('click', function() {
-            document.querySelectorAll('.share-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active'); renderShareArticleList();
-        }));
-
-        const closeShareBtn = document.getElementById('closeShareArticleModal');
-        if (closeShareBtn) {
-            closeShareBtn.addEventListener('click', closeShareArticleModal);
-        }
-        document.getElementById('shareArticleModal')?.addEventListener('click', function(e) {
-            if (e.target === this) closeShareArticleModal();
-        });
-
-        elements.newPostBtn?.addEventListener('click', openNewPostModal);
-        elements.closePostModal?.addEventListener('click', closePostModal);
-        elements.cancelPostBtn?.addEventListener('click', closePostModal);
-        elements.savePostBtn?.addEventListener('click', savePost);
-
-        elements.refreshCoursesBtn?.addEventListener('click', refreshCourses);
-        if (coursesRefreshTimer) clearInterval(coursesRefreshTimer);
-        coursesRefreshTimer = setInterval(refreshCourses, COURSE_REFRESH_INTERVAL);
-
-        document.getElementById('postModal')?.addEventListener('click', function(e) {
-            if (e.target === this) closePostModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('postModal');
-                if (modal && modal.style.display === 'flex') closePostModal();
-                if (document.getElementById('gifModal').style.display === 'flex') closeGifModal();
-                if (document.getElementById('shareArticleModal').style.display === 'flex') closeShareArticleModal();
-                if (document.getElementById('pollModal').style.display === 'flex') closePollModal();
-            }
-        });
-
-        document.getElementById('p2pSendBtn')?.addEventListener('click', sendLocalChatMessage);
-
-        setupSync();
-        loadNotes();
-        populateNoteSelector();
-
-        setInterval(() => {
-            if (!state.chatBlocked) {
-                state.chatOffenseCount = Math.max(0, state.chatOffenseCount - 1);
-            }
-            if (!state.postBlocked) {
-                state.postOffenseCount = Math.max(0, state.postOffenseCount - 1);
-            }
-            if (!state.commentBlocked) {
-                state.commentOffenseCount = Math.max(0, state.commentOffenseCount - 1);
-            }
-        }, OFFENSE_WINDOW);
-
-        // ====================================================================
-        // REAGIR A MUDANÇAS DE IDIOMA (via i18n central)
-        // ====================================================================
-        window.addEventListener('languageChanged', function(e) {
-            const lang = e.detail.lang || 'pt-br';
-            console.log('[Comunidade] Idioma alterado para:', lang);
-            
-            // Atualizar textos estáticos
-            renderSidebar();
-            renderDisciplineHeader(state.currentCourseId, state.currentDiscipline);
-            renderPosts();
-            renderChatMessages();
-            
-            // Atualizar placeholder do Quill
-            if (quill) {
-                quill.root.dataset.placeholder = t('write_post_content');
-            }
-            
-            // Atualizar elementos com data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (key) {
-                    const translated = t(key);
-                    if (translated && translated !== key) {
-                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                            el.placeholder = translated;
+                if (importedData.checksum) {
+                    try {
+                        const tempJson = JSON.stringify(importedData);
+                        let hash = 0;
+                        for (let idx = 0; idx < tempJson.length; idx++) {
+                            hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
+                            hash |= 0;
+                        }
+                        const computedChecksum = hash.toString(16);
+                        if (computedChecksum !== importedData.checksum) {
+                            console.warn('[Import] Checksum inválido. O arquivo pode estar corrompido.');
                         } else {
-                            const icon = el.querySelector('i');
-                            if (icon) {
-                                const clone = icon.cloneNode(true);
-                                el.innerHTML = '';
-                                el.appendChild(clone);
-                                el.appendChild(document.createTextNode(' ' + translated));
+                            console.log('[Import] Checksum verificado com sucesso.');
+                        }
+                    } catch (_) {}
+                }
+
+                if (importedData.encrypted === true) {
+                    console.log('[Import] Arquivo criptografado detectado.');
+                    createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
+                        try {
+                            console.log('[Import] Iniciando descriptografia...');
+                            const decrypted = await decryptData(importedData.data, password);
+                            console.log('[Import] Descriptografia bem-sucedida. Chaves:', Object.keys(decrypted));
+                            validateImportedData(decrypted);
+                            await applyImportedData(decrypted);
+                        } catch (err) {
+                            console.error('[Import] Erro na descriptografia:', err);
+                            showToast(t('profile_password_incorrect') || 'Senha incorreta ou arquivo corrompido.', 'error');
+                        }
+                    });
+                    return;
+                }
+
+                console.log('[Import] Arquivo não criptografado.');
+
+                if (importedData.password) {
+                    console.log('[Import] Arquivo com hash de senha detectado.');
+                    createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
+                        try {
+                            console.log('[Import] Verificando senha...');
+                            const match = await verifyPassword(password, importedData.password);
+                            if (match) {
+                                console.log('[Import] Senha correta.');
+                                validateImportedData(importedData);
+                                await applyImportedData(importedData);
                             } else {
-                                el.innerText = translated;
+                                console.warn('[Import] Senha incorreta.');
+                                showToast(t('profile_password_incorrect'), 'error');
                             }
+                        } catch (err) {
+                            console.error('[Import] Erro na verificação de senha:', err);
+                            showToast(t('profile_password_incorrect'), 'error');
+                        }
+                    });
+                } else {
+                    console.log('[Import] Arquivo sem senha. Aplicando diretamente.');
+                    validateImportedData(importedData);
+                    await applyImportedData(importedData);
+                }
+
+            } catch (error) {
+                console.error('[Import] Erro crítico:', error);
+                showToast(t('profile_import_error') || 'Erro ao processar o arquivo. Verifique se é um arquivo válido.', 'error');
+            }
+        };
+
+        reader.onerror = () => {
+            console.error('[Import] Erro ao ler o arquivo.');
+            showToast('Erro ao ler o arquivo. Tente novamente.', 'error');
+        };
+
+        reader.readAsText(file);
+    }
+
+    // ========== APLICAR DADOS IMPORTADOS ==========
+    async function applyImportedData(importedData) {
+        console.log('[Import] Aplicando dados importados...');
+
+        if (!importedData) {
+            showToast('Dados importados inválidos.', 'error');
+            return;
+        }
+
+        if (!importedData.data) {
+            console.warn('[Import] Propriedade "data" ausente. Tentando adaptar...');
+            if (Array.isArray(importedData.courses)) {
+                importedData.data = { courses: importedData.courses };
+            } else {
+                showToast(t('profile_invalid_file'), 'error');
+                return;
+            }
+        }
+
+        const data = importedData.data;
+        let importedCount = 0;
+
+        if (!confirm(t('profile_import_confirm'))) return;
+
+        try {
+            if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
+            if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
+            if (importedData.avatar) {
+                try {
+                    localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
+                } catch (e) {
+                    console.warn('[Import] Erro ao salvar avatar:', e);
+                }
+            }
+            if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
+            if (importedData.auditorioTime) localStorage.setItem(AUDITORIO_TIME_KEY, importedData.auditorioTime);
+
+            if (data.courses && Array.isArray(data.courses)) {
+                for (const course of data.courses) {
+                    if (course.id && course.rawData) {
+                        try {
+                            localStorage.setItem('ulivre_course_' + course.id, JSON.stringify(course.rawData));
+                            importedCount++;
+                        } catch (e) {
+                            console.warn('[Import] Erro ao salvar curso ' + course.id + ':', e);
                         }
                     }
                 }
+            }
+
+            if (data.videos) localStorage.setItem('yt_video_progress', JSON.stringify(data.videos));
+            if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
+            if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
+            if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
+
+            showToast(t('profile_import_success', { count: importedCount }), 'success');
+            if (window.updateProfileModal) window.updateProfileModal();
+            if (window.updateProfileButton) window.updateProfileButton();
+            if (window.loadAvatarToModal) window.loadAvatarToModal();
+
+            if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                if (window.renderCourseCards) window.renderCourseCards();
+            }
+
+            console.log('[Import] Importação concluída. ' + importedCount + ' cursos importados.');
+        } catch (error) {
+            console.error('[Import] Erro ao aplicar dados:', error);
+            showToast('Erro ao aplicar os dados importados. Tente novamente.', 'error');
+        }
+    }
+
+    // ========== ATUALIZAR TRADUÇÕES DO MODAL ==========
+    function updateProfileTranslations() {
+        const modalHeader = document.querySelector('.profile-modal-header h2');
+        if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
+
+        const avatarOverlay = document.querySelector('.avatar-overlay span');
+        if (avatarOverlay) avatarOverlay.textContent = t('profile_change_photo');
+
+        const nameLabel = document.querySelector('label[for="profileNameInput"]');
+        if (nameLabel) nameLabel.innerHTML = '<i class="fas fa-user"></i> ' + t('profile_name');
+
+        const nameInput = document.getElementById('profileNameInput');
+        if (nameInput) nameInput.placeholder = t('profile_name_placeholder');
+
+        const genderLabel = document.querySelector('label[for="profileGender"]');
+        if (genderLabel) genderLabel.innerHTML = '<i class="fas fa-venus-mars"></i> ' + t('profile_gender');
+
+        const passwordLabel = document.querySelector('label[for="profilePassword"]');
+        if (passwordLabel) passwordLabel.innerHTML = '<i class="fas fa-lock"></i> ' + t('profile_password');
+
+        const passwordInput = document.getElementById('profilePassword');
+        if (passwordInput) passwordInput.placeholder = t('profile_password_placeholder');
+
+        const saveNameBtn = document.getElementById('profileSaveNameBtn');
+        if (saveNameBtn) saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
+
+        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        if (saveGenderBtn) saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
+
+        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        if (savePasswordBtn) savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
+
+        const genderSelect = document.getElementById('profileGender');
+        if (genderSelect) {
+            const options = genderSelect.querySelectorAll('option');
+            const genderMap = {
+                '': t('profile_gender_not_informed'),
+                'masculino': t('profile_gender_masculine'),
+                'feminino': t('profile_gender_feminine'),
+                'outro': t('profile_gender_other')
+            };
+            options.forEach(opt => {
+                if (genderMap[opt.value] !== undefined) opt.textContent = genderMap[opt.value];
             });
-            
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (key) {
-                    const translated = t(key);
-                    if (translated) el.placeholder = translated;
+        }
+
+        const statItems = document.querySelectorAll('.profile-stats .stat-item');
+        if (statItems.length >= 6) {
+            const texts = [
+                t('profile_watched_videos'),
+                t('profile_total_videos'),
+                t('profile_completed_lessons'),
+                t('profile_completed_disciplines'),
+                t('profile_total_points'),
+                t('profile_auditorio_hours')
+            ];
+            statItems.forEach((item, idx) => {
+                if (idx < texts.length) {
+                    const labelSpan = item.querySelector('span:first-child');
+                    if (labelSpan) labelSpan.textContent = texts[idx];
                 }
             });
+        }
 
-            // Atualizar contador de caracteres do chat
-            const charCountSpan = document.getElementById('charCount');
-            const charMaxSpan = document.getElementById('charMax');
-            if (charMaxSpan) charMaxSpan.textContent = MAX_CHAT_MESSAGE_LENGTH;
-            updateOnlineCount();
-        });
-
-        // ====================================================================
-        // CONFIGURAR BOTÃO DE PERFIL (CORREÇÃO)
-        // ====================================================================
-        console.log('[Comunidade] Inicializado com sucesso (v12.1).');
-    }
-
-    // ========================================================================
-    // EXPOSIÇÃO GLOBAL
-    // ========================================================================
-    window.Comunidade = {
-        init,
-        state: () => state,
-        refresh: async () => {
-            await loadCoursesAndDisciplines();
-            renderSidebar();
-            if (state.currentCourseId && state.currentDiscipline) {
-                selectDiscipline(state.currentCourseId, state.currentDiscipline);
+        const exportItems = [
+            { id: 'exportCourses', key: 'profile_export_courses' },
+            { id: 'exportVideos', key: 'profile_export_videos' },
+            { id: 'exportBooks', key: 'profile_export_books' },
+            { id: 'exportNotes', key: 'profile_export_notes' }
+        ];
+        for (const item of exportItems) {
+            const input = document.getElementById(item.id);
+            if (input) {
+                const label = input.closest('label');
+                if (label) {
+                    const icon = label.querySelector('i');
+                    if (icon) {
+                        const inputClone = input.cloneNode(true);
+                        label.innerHTML = '';
+                        label.appendChild(inputClone);
+                        label.appendChild(document.createTextNode(' '));
+                        const iconClone = icon.cloneNode(true);
+                        label.appendChild(iconClone);
+                        label.appendChild(document.createTextNode(' ' + t(item.key)));
+                    } else {
+                        label.textContent = t(item.key);
+                    }
+                }
             }
-        },
-        sendLocalChatMessage,
-        renderChatMessages,
-        selectDiscipline,
-        renderPosts,
-        insertGifUrl,
-        openShareArticleModal,
-        closeShareArticleModal,
-        shareArticleInChat,
-        scrollToPost,
-        censorText
-    };
+        }
 
-    // ========================================================================
-    // AUTOINICIALIZAÇÃO
-    // ========================================================================
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
+        const coursesTitle = document.querySelector('#profileCoursesList h4');
+        if (coursesTitle) coursesTitle.innerHTML = '<i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses');
+
+        const exportTitle = document.querySelector('.profile-modal-body hr + h4');
+        if (exportTitle) exportTitle.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_export_import');
+
+        const selectNotesLabel = document.querySelector('#notesSelectionContainer p');
+        if (selectNotesLabel) selectNotesLabel.textContent = t('profile_select_notes');
+
+        const exportBtn = document.getElementById('generateExportBtn');
+        if (exportBtn) exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
+
+        const importBtn = document.getElementById('importProgressBtn');
+        if (importBtn) importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
+
+        const profileNote = document.querySelector('.profile-note');
+        if (profileNote) profileNote.innerHTML = '<i class="fas fa-database"></i> ' + t('profile_data_note');
+
+        const matriculaLabel = document.querySelector('.profile-matricula span:first-child');
+        if (matriculaLabel) matriculaLabel.textContent = t('profile_matricula');
+
+        const ongoingBadges = document.querySelectorAll('.profile-course-item .progress-badge.ongoing');
+        ongoingBadges.forEach(badge => badge.textContent = t('profile_in_progress'));
+        const completedBadges = document.querySelectorAll('.profile-course-item .progress-badge.completed');
+        completedBadges.forEach(badge => badge.textContent = t('profile_completed'));
+
+        const ongoingText = document.querySelector('.ongoing-courses-summary span');
+        if (ongoingText) {
+            const ongoingCount = document.querySelectorAll('.profile-course-item .progress-badge.ongoing').length;
+            if (ongoingCount > 0) {
+                ongoingText.innerHTML = '<strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase();
+            }
+        }
     }
+
+    // ========== UI DO MODAL ==========
+    function updateProfileModal() {
+        const allCourses = getAllCoursesProgress();
+        const totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
+        let ongoingCount = 0;
+
+        const nameInput = document.getElementById('profileNameInput');
+        if (nameInput) {
+            nameInput.value = loadProfileName();
+            nameInput.placeholder = t('profile_name_placeholder');
+        }
+
+        const genderSelect = document.getElementById('profileGender');
+        if (genderSelect) genderSelect.value = getProfileGender();
+
+        const passwordInput = document.getElementById('profilePassword');
+        if (passwordInput) {
+            passwordInput.value = '';
+            passwordInput.placeholder = t('profile_password_placeholder');
+            showPasswordSavedIndicator(hasStoredPassword());
+            passwordInput.removeEventListener('input', updatePasswordStrengthIndicator);
+            passwordInput.addEventListener('input', updatePasswordStrengthIndicator);
+            if (passwordInput.value.length > 0) updatePasswordStrengthIndicator.call(passwordInput);
+        }
+
+        const matricula = getMatricula();
+        const matriculaDisplay = document.getElementById('profileMatriculaDisplay');
+        if (matriculaDisplay) matriculaDisplay.textContent = matricula;
+
+        const listContainer = document.getElementById('profileCoursesList');
+        if (listContainer) {
+            let listHtml = '<h4 style="margin:0.5rem 0;color:var(--text-secondary);"><i class="fas fa-graduation-cap"></i> ' + t('profile_saved_courses') + '</h4>';
+            if (allCourses.length === 0) {
+                listHtml += '<p style="color:var(--text-tertiary);font-size:0.9rem;">' + t('profile_no_courses') + '</p>';
+            } else {
+                for (const course of allCourses) {
+                    const stats = course.stats;
+                    const isOngoing = stats.progressPercent > 0 && stats.progressPercent < 100;
+                    const isCompleted = stats.progressPercent >= 100;
+                    let badge = '';
+                    if (isOngoing) { badge = '<span class="progress-badge ongoing">' + t('profile_in_progress') + '</span>'; ongoingCount++; }
+                    else if (isCompleted) badge = '<span class="progress-badge completed">' + t('profile_completed') + '</span>';
+                    totalStats.watchedVideos += stats.watchedVideos;
+                    totalStats.totalVideos += stats.totalVideos;
+                    totalStats.completedLessons += stats.completedLessons;
+                    totalStats.completedDisciplines += stats.completedDisciplines;
+                    totalStats.points += stats.points;
+                    const iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
+                    listHtml +=
+                        '<div class="profile-course-item">' +
+                        '<div class="profile-course-name">' +
+                        '<i class="fas fa-' + iconClass + '"></i> ' + escapeHtml(course.name) + ' ' + badge +
+                        '</div>' +
+                        '<div class="profile-course-progress">' +
+                        '<span>' + stats.progressPercent + '%</span>' +
+                        '<span class="points">' + stats.points + ' pts</span>' +
+                        '</div>' +
+                        '</div>';
+                }
+            }
+            listContainer.innerHTML = listHtml;
+        }
+
+        const ongoingContainer = document.getElementById('ongoingCoursesContainer');
+        if (ongoingContainer) {
+            if (ongoingCount > 0) {
+                ongoingContainer.innerHTML = '<div class="ongoing-courses-summary"><i class="fas fa-play-circle"></i> <span><strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase() + '</span></div>';
+            } else {
+                ongoingContainer.innerHTML = '';
+            }
+        }
+
+        const watchedEl = document.getElementById('profileWatchedVideos');
+        if (watchedEl) watchedEl.textContent = totalStats.watchedVideos;
+        const totalEl = document.getElementById('profileTotalVideos');
+        if (totalEl) totalEl.textContent = totalStats.totalVideos;
+        const lessonsEl = document.getElementById('profileCompletedLessons');
+        if (lessonsEl) lessonsEl.textContent = totalStats.completedLessons;
+        const disciplinesEl = document.getElementById('profileCompletedDisciplines');
+        if (disciplinesEl) disciplinesEl.textContent = totalStats.completedDisciplines;
+        const pointsEl = document.getElementById('profileTotalPoints');
+        if (pointsEl) pointsEl.textContent = totalStats.points;
+
+        updateAuditorioTimeDisplay();
+        loadAvatarToModal();
+        updateNotesCheckboxes();
+        updateProfileTranslations();
+    }
+
+    // ========== ESCAPE HTML ==========
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    }
+
+    // ========== INDICADOR DE FORÇA DA SENHA ==========
+    function updatePasswordStrengthIndicator() {
+        const input = document.getElementById('profilePassword');
+        if (!input) return;
+        const password = input.value;
+        const container = input.closest('.profile-user-section');
+        if (!container) return;
+        const oldIndicator = container.querySelector('.password-strength-indicator');
+        if (oldIndicator) oldIndicator.remove();
+        if (password.length === 0) return;
+        const strength = checkPasswordStrength(password);
+        const feedback = getPasswordFeedback(strength.checks);
+        const indicator = document.createElement('div');
+        indicator.className = 'password-strength-indicator';
+        indicator.style.cssText = 'margin-top:0.5rem;width:100%;background:var(--bg-tertiary);border-radius:8px;padding:0.6rem 1rem;border:1px solid var(--border);';
+        const barContainer = document.createElement('div');
+        barContainer.style.cssText = 'width:100%;height:6px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;margin-bottom:0.3rem;';
+        const bar = document.createElement('div');
+        const percent = (strength.passed / strength.total) * 100;
+        bar.style.cssText = 'width:' + percent + '%;height:100%;background:' + strength.color + ';transition:width 0.3s;border-radius:4px;';
+        barContainer.appendChild(bar);
+        indicator.appendChild(barContainer);
+        const textRow = document.createElement('div');
+        textRow.style.cssText = 'display:flex;justify-content:space-between;color:var(--text-secondary);font-size:0.8rem;';
+        const strengthText = document.createElement('span');
+        strengthText.textContent = 'Força: ' + strength.strength;
+        strengthText.style.color = strength.color;
+        strengthText.style.fontWeight = '600';
+        textRow.appendChild(strengthText);
+        const reqsText = document.createElement('span');
+        reqsText.textContent = strength.passed + '/' + strength.total + ' requisitos';
+        textRow.appendChild(reqsText);
+        indicator.appendChild(textRow);
+        if (feedback.length > 0) {
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.style.cssText = 'margin-top:0.3rem;font-size:0.75rem;color:var(--text-tertiary);';
+            feedbackDiv.textContent = 'Falta: ' + feedback.join(', ');
+            indicator.appendChild(feedbackDiv);
+        }
+        container.appendChild(indicator);
+    }
+
+    function updateNotesCheckboxes() {
+        const container = document.getElementById('notesCheckboxes');
+        if (!container) return;
+        const notes = getNotes();
+        if (notes.length === 0) {
+            container.innerHTML = '<p style="color:var(--text-tertiary);">' + t('profile_no_notes') + '</p>';
+            return;
+        }
+        let html = '';
+        for (const note of notes) {
+            html += '<label style="display:block;margin:0.2rem 0;"><input type="checkbox" class="note-select" value="' + note.id + '" checked> ' + escapeHtml(note.titulo || 'Sem título') + '</label>';
+        }
+        container.innerHTML = html;
+    }
+
+    // ========== ABRIR/FECHAR MODAL ==========
+    function openProfileModal() {
+        console.log('[Profile] openProfileModal chamado');
+        const modal = document.getElementById('profileModal');
+        if (!modal) {
+            console.warn('[Profile] Modal #profileModal não encontrado no DOM');
+            return;
+        }
+        try {
+            updateProfileModal();
+        } catch (e) {
+            console.warn('[Profile] Erro ao atualizar modal, mas abrindo mesmo assim:', e);
+        }
+        modal.classList.add('show');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        console.log('[Profile] Modal aberto com sucesso');
+    }
+
+    function closeProfileModal() {
+        const modal = document.getElementById('profileModal');
+        if (!modal) return;
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        console.log('[Profile] Modal fechado');
+    }
+
+    // ========== INICIALIZAÇÃO ==========
+    let _initialized = false;
+
+    async function initProfileSystem() {
+        if (_initialized) {
+            console.log('[Profile] Sistema já inicializado.');
+            return;
+        }
+        _initialized = true;
+
+        console.log('[Profile] initProfileSystem iniciado');
+        await detectImageBasePath();
+
+        // ===== ATUALIZAR BOTÃO DE PERFIL =====
+        const profileBtn = document.getElementById('profileBtn');
+        console.log('[Profile] Botão #profileBtn encontrado?', !!profileBtn);
+
+        if (profileBtn) {
+            profileBtn.removeEventListener('click', openProfileModal);
+            profileBtn.addEventListener('click', openProfileModal);
+            console.log('[Profile] Listener de clique adicionado ao botão #profileBtn');
+            setTimeout(updateProfileButton, 50);
+            setTimeout(updateProfileButton, 300);
+        } else {
+            console.warn('[Profile] Botão #profileBtn NÃO encontrado. Verifique o HTML.');
+        }
+
+        // ===== AVATAR WRAPPER =====
+        const avatarWrapper = document.getElementById('avatarWrapper');
+        console.log('[Profile] #avatarWrapper encontrado?', !!avatarWrapper);
+        if (avatarWrapper) {
+            avatarWrapper.removeEventListener('click', showAvatarSelector);
+            avatarWrapper.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[Profile] Clique no avatarWrapper – abrindo seletor');
+                showAvatarSelector();
+            });
+            console.log('[Profile] Listener de clique adicionado ao #avatarWrapper');
+        } else {
+            console.warn('[Profile] #avatarWrapper não encontrado. O seletor de avatar não funcionará.');
+        }
+
+        // ===== FECHAR MODAL DE PERFIL =====
+        const closeBtn = document.getElementById('closeProfileModal');
+        if (closeBtn) {
+            closeBtn.removeEventListener('click', closeProfileModal);
+            closeBtn.addEventListener('click', closeProfileModal);
+        }
+
+        // ===== MODAL DE PERFIL =====
+        const modal = document.getElementById('profileModal');
+        if (modal) {
+            const overlay = modal.querySelector('.modal-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        closeProfileModal();
+                    }
+                });
+            }
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                    closeProfileModal();
+                }
+            });
+        }
+
+        // ===== BOTÕES DE SALVAR =====
+        const saveNameBtn = document.getElementById('profileSaveNameBtn');
+        if (saveNameBtn) {
+            saveNameBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save_name');
+            saveNameBtn.removeEventListener('click', handleSaveName);
+            saveNameBtn.addEventListener('click', handleSaveName);
+        }
+
+        const saveGenderBtn = document.getElementById('profileSaveGenderBtn');
+        if (saveGenderBtn) {
+            saveGenderBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
+            saveGenderBtn.removeEventListener('click', handleSaveGender);
+            saveGenderBtn.addEventListener('click', handleSaveGender);
+        }
+
+        const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
+        if (savePasswordBtn) {
+            savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
+            savePasswordBtn.removeEventListener('click', handleSavePassword);
+            savePasswordBtn.addEventListener('click', handleSavePassword);
+        }
+
+        // Handlers separados
+        function handleSaveName() {
+            const nameInput = document.getElementById('profileNameInput');
+            if (!nameInput) return;
+            const name = nameInput.value.trim();
+            if (!name) { showToast(t('profile_name_required'), 'error'); return; }
+            saveProfileName(name);
+        }
+
+        function handleSaveGender() {
+            const genderSelect = document.getElementById('profileGender');
+            if (!genderSelect) return;
+            const gender = genderSelect.value || '';
+            saveProfileGender(gender);
+        }
+
+        async function handleSavePassword() {
+            const passwordInput = document.getElementById('profilePassword');
+            if (!passwordInput) return;
+            const password = passwordInput.value;
+            const saved = await saveProfilePassword(password);
+            if (saved) {
+                passwordInput.value = '';
+                showPasswordSavedIndicator(true);
+            }
+        }
+
+        // ===== EXPORTAÇÃO E IMPORTAÇÃO =====
+        const exportBtn = document.getElementById('generateExportBtn');
+        if (exportBtn) {
+            exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
+            exportBtn.removeEventListener('click', handleExport);
+            exportBtn.addEventListener('click', handleExport);
+        }
+
+        const importBtn = document.getElementById('importProgressBtn');
+        if (importBtn) {
+            importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
+            importBtn.removeEventListener('click', handleImportClick);
+            importBtn.addEventListener('click', handleImportClick);
+        }
+
+        function handleImportClick() {
+            const importInput = document.getElementById('importFileInput');
+            if (importInput) importInput.click();
+        }
+
+        const importInput = document.getElementById('importFileInput');
+        if (importInput) {
+            importInput.removeEventListener('change', handleImportChange);
+            importInput.addEventListener('change', handleImportChange);
+        }
+
+        function handleImportChange(e) {
+            if (e.target.files && e.target.files[0]) {
+                handleImport(e.target.files[0]);
+            }
+            e.target.value = '';
+        }
+
+        // ===== AVATAR INICIAL =====
+        if (!getUserAvatar()) {
+            setDefaultAvatar();
+        }
+
+        // ===== CARREGAR DADOS NO MODAL =====
+        loadAvatarToModal();
+        const nameInputField = document.getElementById('profileNameInput');
+        if (nameInputField) {
+            nameInputField.value = loadProfileName();
+            nameInputField.placeholder = t('profile_name_placeholder');
+        }
+        const genderSelectField = document.getElementById('profileGender');
+        if (genderSelectField) {
+            genderSelectField.value = getProfileGender();
+        }
+        const passwordInputField = document.getElementById('profilePassword');
+        if (passwordInputField) {
+            passwordInputField.placeholder = t('profile_password_placeholder');
+            showPasswordSavedIndicator(hasStoredPassword());
+        }
+
+        updateProfileButton();
+        updateProfileTranslations();
+
+        console.log('[Profile] Sistema de perfil inicializado com sucesso');
+    }
+
+    // ========== EXPOSIÇÃO GLOBAL ==========
+    window.initProfileSystem = initProfileSystem;
+    window.openProfileModal = openProfileModal;
+    window.closeProfileModal = closeProfileModal;
+    window.updateProfileModal = updateProfileModal;
+    window.updateProfileTranslations = updateProfileTranslations;
+    window.handleExport = handleExport;
+    window.handleImport = handleImport;
+    window.getUserAvatar = getUserAvatar;
+    window.loadAvatarToModal = loadAvatarToModal;
+    window.updateProfileButton = updateProfileButton;
+    window.showAvatarSelector = showAvatarSelector;
+    window.saveProfileName = saveProfileName;
+    window.saveProfileGender = saveProfileGender;
+    window.saveProfilePassword = saveProfilePassword;
+    window.saveUserAvatar = saveUserAvatar;
+    window.setDefaultAvatar = setDefaultAvatar;
+    window.verifyPassword = verifyPassword;
+    window.hashPassword = hashPassword;
+    window.resizeImage = resizeImage;
+    window.checkPasswordStrength = checkPasswordStrength;
+    window.getPasswordFeedback = getPasswordFeedback;
+    window.getCourseName = getCourseName;
+    window.validateImportedData = validateImportedData;
+
+    // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
+    function autoInit() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('[Profile] DOMContentLoaded – iniciando profile');
+                if (!window._profileInitialized) {
+                    window._profileInitialized = true;
+                    initProfileSystem();
+                }
+            });
+        } else {
+            console.log('[Profile] DOM já carregado – iniciando profile imediatamente');
+            if (!window._profileInitialized) {
+                window._profileInitialized = true;
+                initProfileSystem();
+            }
+        }
+    }
+
+    autoInit();
+
+    // ========== EVENTOS DE HORAS DO AUDITÓRIO ==========
+    window.addEventListener('auditorioTimeUpdated', (e) => {
+        const seconds = e.detail.seconds;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const formatted = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
+        const el = document.getElementById('profileAuditorioTime');
+        if (el) el.textContent = formatted;
+    });
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === AUDITORIO_TIME_KEY) {
+            const el = document.getElementById('profileAuditorioTime');
+            if (el && document.getElementById('profileModal')?.style?.display === 'flex') {
+                const seconds = parseInt(e.newValue || '0', 10);
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
+            }
+        }
+    });
+
+    // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
+    window.addEventListener('languageChanged', async (e) => {
+        const lang = e.detail.lang || 'pt-br';
+        console.log('[Profile] Idioma alterado para:', lang);
+        updateProfileButton();
+        const modal = document.getElementById('profileModal');
+        if (modal && modal.style.display === 'flex') {
+            updateProfileTranslations();
+            updateProfileModal();
+        }
+    });
 
 })();
