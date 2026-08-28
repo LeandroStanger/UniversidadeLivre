@@ -1,15 +1,17 @@
-// onboarding/onboarding.js – Versão 22.1 – CORREÇÃO DE INERT E INTERAÇÃO
+// onboarding/onboarding.js – Versão 22.2 – COMPLETO E INTEGRADO AO i18n CENTRAL
 // Trilha de boas-vindas (Onboarding) com Login, Cadastro, Importação de progresso
 // Suporte a verificação de senha para importação (incluindo arquivos criptografados)
 // Restauração completa do perfil (nome, gênero, avatar, matrícula, tempo, cursos, etc.)
 // CORREÇÃO: Remoção do atributo inert ao abrir o modal e recolocação ao fechar
 // CORREÇÃO: Garantia de pointer-events e z-index para interação
 // CORREÇÃO: Inicialização robusta mesmo quando o DOM não está pronto
+// CORREÇÃO: Botão de importação com estados claro (habilitado/desabilitado) via CSS
+// CORREÇÃO: Remoção de estilos inline conflitantes no botão de importação
 
 (function() {
     'use strict';
 
-    console.log('[Onboarding] Inicializando módulo v22.1...');
+    console.log('[Onboarding] Inicializando módulo v22.2...');
 
     // ========== CONSTANTES ==========
     const ONBOARDING_COMPLETE_KEY = 'ulivre_onboarding_complete';
@@ -415,6 +417,7 @@
                         showToast(t('onboarding_error_login_failed'), 'error');
                     }
                 } else {
+                    // Arquivo sem senha: importa diretamente
                     applyImportedData(importedData);
                 }
             } catch (err) {
@@ -509,8 +512,7 @@
 
         const hasPassword = passwordInput.value.trim().length > 0;
         importBtn.disabled = !hasPassword;
-        importBtn.style.opacity = hasPassword ? '1' : '0.5';
-        importBtn.style.cursor = hasPassword ? 'pointer' : 'not-allowed';
+        // Removido estilo inline de opacity e cursor – agora gerenciado pelo CSS
     }
 
     // ========== MUTATION OBSERVER PARA DETECTAR CAMPO DE SENHA ==========
@@ -611,7 +613,9 @@
                         <div id="onboardingLoginError" class="form-error" style="display:none;">${t('onboarding_error_login_failed')}</div>
                     </div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> ${t('profile_import_progress')}</button>
+                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" disabled>
+                            <i class="fas fa-file-import"></i> ${t('profile_import_progress')}
+                        </button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
                     </div>
 
