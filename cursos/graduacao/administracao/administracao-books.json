@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Administração: uma Abordagem Contemporânea",
+    "author": "Stephen P. Robbins; David A. DeCenzo",
+    "discipline": "Administração Geral",
+    "edition": "14ª edição",
+    "isbn": "9788582603536",
+    "description": "Visão contemporânea da administração com foco em planejamento, liderança, tomada de decisão, gestão de pessoas e desempenho organizacional.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Administração",
+    "year": "2020",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Administração-uma-Abordagem-Contemporânea-Robbins/dp/8582603538"
+  },
+  {
+    "title": "Administração de Recursos Humanos",
+    "author": "Idalberto Chiavenato",
+    "discipline": "Gestão de Pessoas",
+    "edition": "15ª edição",
+    "isbn": "9788582606216",
+    "description": "Base essencial para recrutamento, seleção, desenvolvimento, motivação, clima organizacional e relações de trabalho.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Gestão+Pessoas",
+    "year": "2023",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Administração-Recursos-Humanos-Idalberto-Chiavenato/dp/8582606219"
+  },
+  {
+    "title": "Matemática Financeira",
+    "author": "José Dutra Vieira Sobrinho",
+    "discipline": "Matemática Financeira",
+    "edition": "9ª edição",
+    "isbn": "9788582605792",
+    "description": "Fundamentos de juros, descontos, rendimentos, fluxo de caixa e tomada de decisão financeira em negócios.",
+    "cover": "https://placehold.co/300x420/1f2937/a5f3fc?text=Financeira",
+    "year": "2021",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Matemática-Financeira-José-Dutra-Vieira/dp/8582605797"
+  },
+  {
+    "title": "Marketing: Gestão e Estratégia",
+    "author": "Philip Kotler; Kevin Lane Keller",
+    "discipline": "Marketing",
+    "edition": "15ª edição",
+    "isbn": "9788543004667",
+    "description": "Estratégia de mercado, posicionamento, inovação, relacionamento com clientes e políticas de comunicação.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Marketing",
+    "year": "2020",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Marketing-Gestão-Estratégia-Kotler-Keller/dp/8543004666"
+  }
+]

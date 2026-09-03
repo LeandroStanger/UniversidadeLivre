@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Biologia",
+    "author": "Neil A. Campbell; Jane B. Reece; Lisa A. Urry; Michael L. Cain; Steven A. Wasserman; Peter V. Minorsky; Robert B. Jackson",
+    "discipline": "Biologia Celular e Molecular",
+    "edition": "12ª edição",
+    "isbn": "9788582604588",
+    "description": "Tratamento amplo e didático dos fundamentos da biologia, incluindo genética, evolução, fisiologia e ecologia.",
+    "cover": "https://placehold.co/300x420/052e16/86efac?text=Biologia",
+    "year": "2021",
+    "publisher": "Artmed",
+    "link": "https://www.amazon.com.br/Biologia-12ª-edição-Campbell-Reece/dp/8582604586"
+  },
+  {
+    "title": "Genética",
+    "author": "Benjamin A. Pierce",
+    "discipline": "Genética",
+    "edition": "7ª edição",
+    "isbn": "9788581438001",
+    "description": "Base da genética mendeliana, molecular e aplicada em biotecnologia, hereditariedade e evolução.",
+    "cover": "https://placehold.co/300x420/166534/86efac?text=Genética",
+    "year": "2020",
+    "publisher": "Artmed",
+    "link": "https://www.amazon.com.br/Genética-Benjamin-Pierce/dp/8581438004"
+  },
+  {
+    "title": "Biologia das Plantas",
+    "author": "Raven; Evert; Eichhorn",
+    "discipline": "Botânica",
+    "edition": "8ª edição",
+    "isbn": "9788521633771",
+    "description": "Introdução a estrutura, reprodução, fisiologia e ecologia das plantas com abordagem ilustrada.",
+    "cover": "https://placehold.co/300x420/14532d/a7f3d0?text=Botânica",
+    "year": "2014",
+    "publisher": "Guanabara Koogan",
+    "link": "https://www.amazon.com.br/Biologia-das-Plantas-Raven/dp/8521633770"
+  },
+  {
+    "title": "Ecologia",
+    "author": "Odum; Barrett",
+    "discipline": "Ecologia",
+    "edition": "5ª edição",
+    "isbn": "9788521201018",
+    "description": "Estudo de populações, comunidades, ecossistemas e relações entre organismos e ambiente.",
+    "cover": "https://placehold.co/300x420/14532d/f0fdf4?text=Ecologia",
+    "year": "2018",
+    "publisher": "Thomson",
+    "link": "https://www.amazon.com.br/Ecologia-Odum-Barrett/dp/8521201015"
+  }
+]
