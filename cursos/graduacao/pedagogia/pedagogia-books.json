@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Didática Geral",
+    "author": "José Carlos Libâneo",
+    "discipline": "Didática",
+    "edition": "3ª edição",
+    "isbn": "9788582605493",
+    "description": "Estrutura da prática docente, planejamento, mediação e avaliação em sala de aula.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Didática",
+    "year": "2020",
+    "publisher": "Almedina",
+    "link": "https://www.amazon.com.br/Didática-Geral-Libâneo/dp/8582605490"
+  },
+  {
+    "title": "Pedagogia e Educação",
+    "author": "Antônio Flávio Barbosa Moreira",
+    "discipline": "Fundamentos da Educação",
+    "edition": "1ª edição",
+    "isbn": "9788578740228",
+    "description": "Vertentes históricas, filosóficas e sociológicas da educação e da formação docente.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Pedagogia",
+    "year": "2018",
+    "publisher": "Cortez",
+    "link": "https://www.amazon.com.br/Pedagogia-Educação-Antônio-Flávio-Moreira/dp/8578740220"
+  },
+  {
+    "title": "Avaliação e Educação",
+    "author": "José Carlos Libâneo",
+    "discipline": "Avaliação Escolar",
+    "edition": "2ª edição",
+    "isbn": "9788582601228",
+    "description": "Critérios de avaliação diagnóstica, formativa e somativa em processos de aprendizagem.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Avaliação",
+    "year": "2018",
+    "publisher": "Editora Almedina",
+    "link": "https://www.amazon.com.br/Avaliação-Educação-Libâneo/dp/8582601227"
+  },
+  {
+    "title": "Educação Inclusiva",
+    "author": "Marta Kohl de Oliveira",
+    "discipline": "Inclusão e Diversidade",
+    "edition": "1ª edição",
+    "isbn": "9788523210211",
+    "description": "Políticas e práticas para a inclusão escolar e a atenção às diferenças na educação.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Inclusão",
+    "year": "2017",
+    "publisher": "Editora Vozes",
+    "link": "https://www.amazon.com.br/Educação-Inclusiva-Marta-Kohl-Oliveira/dp/8523210212"
+  }
+]

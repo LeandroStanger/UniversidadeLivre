@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Química Geral",
+    "author": "Raymond Chang; Kenneth Goldsby",
+    "discipline": "Química Geral",
+    "edition": "12ª edição",
+    "isbn": "9788522116407",
+    "description": "Estrutura dos princípios fundamentais da química, incluindo reações, equilibrios e propriedades.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Química",
+    "year": "2017",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Química-Geral-Raymond-Chang/dp/8522116409"
+  },
+  {
+    "title": "Química Orgânica",
+    "author": "Clayden; Greeves; Warren",
+    "discipline": "Química Orgânica",
+    "edition": "2ª edição",
+    "isbn": "9788576054001",
+    "description": "Estruturas, mecanismos e reações orgânicas em contexto científico e aplicado.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Orgânica",
+    "year": "2015",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Química-Orgânica-Clayden-Greeves/dp/8576054009"
+  },
+  {
+    "title": "Química Analítica",
+    "author": "Douglas A. Skoog; Donald M. West; F. James Holler",
+    "discipline": "Química Analítica",
+    "edition": "8ª edição",
+    "isbn": "9788521202077",
+    "description": "Fundamentos de análise química e técnicas instrumentais para laboratório e indústria.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Analítica",
+    "year": "2013",
+    "publisher": "Thomson",
+    "link": "https://www.amazon.com.br/Química-Analítica-Skoog-West-Holler/dp/8521202070"
+  },
+  {
+    "title": "Química Inorgânica",
+    "author": "Gary L. Miessler; Paul J. Fischer; Donald A. Tarr",
+    "discipline": "Química Inorgânica",
+    "edition": "5ª edição",
+    "isbn": "9788576053479",
+    "description": "Estrutura, comportamento e propriedades de compostos inorgânicos e suas aplicações.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Inorgânica",
+    "year": "2014",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Química-Inorgânica-Miessler-Fischer/dp/8576053474"
+  }
+]

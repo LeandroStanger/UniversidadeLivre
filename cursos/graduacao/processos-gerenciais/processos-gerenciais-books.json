@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Gestão de Processos",
+    "author": "Michael Hammer; James Champy",
+    "discipline": "Reengenharia e Processos",
+    "edition": "1ª edição",
+    "isbn": "9788574528244",
+    "description": "Fundamentos da melhoria de processos e reengenharia organizacional.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Processos",
+    "year": "2006",
+    "publisher": "Campus",
+    "link": "https://www.amazon.com.br/Reengenharia-Companhia-Michael-Hammer/dp/8574528248"
+  },
+  {
+    "title": "Lean Thinking",
+    "author": "James P. Womack; Daniel T. Jones",
+    "discipline": "Lean e Produção",
+    "edition": "1ª edição",
+    "isbn": "9780684810355",
+    "description": "Metodologia lean, redução de desperdícios e melhoria contínua em processos.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Lean",
+    "year": "2003",
+    "publisher": "Free Press",
+    "link": "https://www.amazon.com.br/Lean-Thinking-Transform-Create-Worth/dp/0684810352"
+  },
+  {
+    "title": "Administração de Produção e Operações",
+    "author": "Corrêa; Gianesi; Caon",
+    "discipline": "Operações",
+    "edition": "2ª edição",
+    "isbn": "9788522108044",
+    "description": "Planejamento, capacidade, logística, qualidade e gestão de operações em organizações.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Operações",
+    "year": "2014",
+    "publisher": "Atlas",
+    "link": "https://www.amazon.com.br/Administração-Produção-Operações-Corrêa/dp/8522108042"
+  },
+  {
+    "title": "Mapa de Processos e Indicadores de Desempenho",
+    "author": "Célia C. de Almeida",
+    "discipline": "Indicadores e Acompanhamento",
+    "edition": "1ª edição",
+    "isbn": "9788543102006",
+    "description": "Desenho de indicadores de desempenho, benchmarking e controle gerencial.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Indicadores",
+    "year": "2018",
+    "publisher": "Páginas & Letras",
+    "link": "https://www.amazon.com.br/Mapa-Processos-Indicadores-Desempenho/dp/8543102004"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "title": "A First Course in Abstract Algebra",
+    "author": "John B. Fraleigh",
+    "discipline": "Abstract Algebra",
+    "edition": "7ª edição",
+    "isbn": "9780201763904",
+    "description": "Grupos, anéis, corpos e fundamentos da álgebra abstrata.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Álgebra",
+    "year": "2002",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/First-Course-Abstract-Algebra-Fraleigh/dp/0201763907"
+  },
+  {
+    "title": "Discrete Mathematics and Its Applications",
+    "author": "Kenneth H. Rosen",
+    "discipline": "Discrete Mathematics",
+    "edition": "8ª edição",
+    "isbn": "9780073383095",
+    "description": "Lógica, combinatória, grafos e matemática discreta aplicada.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Discrete+Math",
+    "year": "2018",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Discrete-Mathematics-Its-Applications-Rosen/dp/0073383090"
+  },
+  {
+    "title": "Calculus",
+    "author": "Michael Spivak",
+    "discipline": "Calculus",
+    "edition": "4ª edição",
+    "isbn": "9780914098911",
+    "description": "Introdução elegante e rigorosa ao cálculo diferencial e integral.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Calculus",
+    "year": "2008",
+    "publisher": "Publish or Perish",
+    "link": "https://www.amazon.com.br/Calculus-Michael-Spivak/dp/0914098918"
+  },
+  {
+    "title": "Linear Algebra Done Right",
+    "author": "Sheldon Axler",
+    "discipline": "Linear Algebra",
+    "edition": "3ª edição",
+    "isbn": "9783319110790",
+    "description": "Abordagem moderna e teórica da álgebra linear em nível universitário.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Linear+Algebra",
+    "year": "2015",
+    "publisher": "Springer",
+    "link": "https://www.amazon.com.br/Linear-Algebra-Done-Right-Axler/dp/3319110798"
+  }
+]
