@@ -1,0 +1,50 @@
+[
+  {
+    "title": "The DevOps Handbook",
+    "author": "Gene Kim; Patrick Debois; John Willis; Jez Humble",
+    "discipline": "DevOps e Entrega Contínua",
+    "edition": "2ª edição",
+    "isbn": "9781942788003",
+    "description": "Princípios de cultura DevOps, automação e melhora contínua de valor para software.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=DevOps",
+    "year": "2016",
+    "publisher": "IT Revolution",
+    "link": "https://www.amazon.com.br/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002"
+  },
+  {
+    "title": "Docker Deep Dive",
+    "author": "Nigel Poulton",
+    "discipline": "Containers e Docker",
+    "edition": "1ª edição",
+    "isbn": "9781910749091",
+    "description": "Fundamentos de containers, imagens, volumes, redes e implantação prática.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Docker",
+    "year": "2018",
+    "publisher": "Leanpub",
+    "link": "https://www.amazon.com.br/Docker-Deep-Dive-Nigel-Poulton/dp/1910749094"
+  },
+  {
+    "title": "Site Reliability Engineering",
+    "author": "Betsy Beyer; Chris Jones; Jennifer Petoff; Niall Murphy",
+    "discipline": "Operação e Confiabilidade",
+    "edition": "1ª edição",
+    "isbn": "9781491929124",
+    "description": "Práticas de confiabilidade, monitoramento, escalabilidade e operação de sistemas modernos.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=SRE",
+    "year": "2016",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/Site-Reliability-Engineering-Betsy-Beyer/dp/149192912X"
+  },
+  {
+    "title": "Terraform Up & Running",
+    "author": "Yevgeniy Brikman",
+    "discipline": "Infraestrutura como Código",
+    "edition": "3ª edição",
+    "isbn": "9781098116747",
+    "description": "Provisionamento automatizado de infraestrutura com Terraform e práticas de cloud.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Terraform",
+    "year": "2022",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/Terraform-Running-Yevgeniy-Brikman/dp/1098116745"
+  }
+]

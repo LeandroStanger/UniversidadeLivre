@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Embedded Systems: Introduction to ARM Cortex-M Microcontrollers",
+    "author": "Jonathan Valvano",
+    "discipline": "Microcontroladores ARM",
+    "edition": "5ª edição",
+    "isbn": "9781477508992",
+    "description": "Introdução a microcontroladores ARM Cortex-M e sistemas embarcados.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=ARM",
+    "year": "2017",
+    "publisher": "CreateSpace",
+    "link": "https://www.amazon.com.br/Embedded-Systems-Introduction-Cortex-M-Microcontrollers/dp/1477508993"
+  },
+  {
+    "title": "The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors",
+    "author": "Joseph Yiu",
+    "discipline": "Arquitetura de Processadores",
+    "edition": "3ª edição",
+    "isbn": "9780124080829",
+    "description": "Arquitetura, periféricos, memória e técnicas de depuração em processadores ARM.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=ARM+M3",
+    "year": "2014",
+    "publisher": "Newnes",
+    "link": "https://www.amazon.com.br/Definitive-Guide-Cortex-M3-Cortex-M4/dp/0124080824"
+  },
+  {
+    "title": "Programming Embedded Systems",
+    "author": "Michael Barr; Anthony Massa",
+    "discipline": "Firmware e Sistemas Embarcados",
+    "edition": "2ª edição",
+    "isbn": "9780596009832",
+    "description": "Estrutura, desenvolvimento e manutenção de firmware e sistemas embarcados.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Firmware",
+    "year": "2006",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/Programming-Embedded-Systems-Michael-Barr/dp/0596009836"
+  },
+  {
+    "title": "Digital Design and Computer Architecture",
+    "author": "David Harris; Sarah Harris",
+    "discipline": "Lógica Digital e Hardware",
+    "edition": "2ª edição",
+    "isbn": "9780123944245",
+    "description": "Fundamentos de design digital e arquitetura de computadores para sistemas embarcados.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Hardware",
+    "year": "2012",
+    "publisher": "Morgan Kaufmann",
+    "link": "https://www.amazon.com.br/Digital-Design-Computer-Architecture-Harris/dp/0123944244"
+  }
+]

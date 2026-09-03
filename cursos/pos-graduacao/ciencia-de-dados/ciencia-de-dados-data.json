@@ -10,12 +10,32 @@
         {
           "name": "Como estudar do jeito certo",
           "videoIds": [
-            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
-            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
-            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
-            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
-            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
-          ]
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4",
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0"
+          ],
+          "bio": "A disciplina Como estudar do jeito certo é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     },
@@ -28,7 +48,8 @@
           "time": "39 min",
           "externalUrl": "https://www.coursera.org/learn/data-scientists-tools?specialization=data-science-foundations-r",
           "platformName": "Coursera",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina The Data Scientist’s Toolbox é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Análise de Dados em Linguagem R",
@@ -36,23 +57,43 @@
           "time": "75 min",
           "externalUrl": "https://www.escolavirtual.gov.br/curso/325",
           "platformName": "Escola Virtual Gov",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina Análise de Dados em Linguagem R é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Estatística Descritiva Básica",
           "videoIds": [
-            "hHkYlMIEBFU", "NafuRFU7fwM", "4ABBnMUOSb4", "dR549rr3RH4", "7zzQAPuATK8",
-            "qMVALuutgU0", "nW4yMYf8YDg"
-          ]
+            "hHkYlMIEBFU",
+            "NafuRFU7fwM",
+            "4ABBnMUOSb4",
+            "dR549rr3RH4",
+            "7zzQAPuATK8",
+            "qMVALuutgU0",
+            "nW4yMYf8YDg"
+          ],
+          "bio": "A disciplina Estatística Descritiva Básica é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Essence of Linear Algebra",
           "videoIds": [
-            "fNk_zzaMoSs", "k7RM-ot2NWY", "kYB8IZa5AuE", "XkY2DOUCWMU", "rHLEWRxRGiM",
-            "Ip3X9LOh2dk", "uQhTuRlWMxw", "v8VSDg_WQlA", "LyGKycYT2v0", "eu6i7WJeinw",
-            "BaM7OCEm3G0", "jBsC34PxzoM", "P2LTAUO1TdA", "PFDu9oVAE-g", "e50Bj7jn9IQ",
+            "fNk_zzaMoSs",
+            "k7RM-ot2NWY",
+            "kYB8IZa5AuE",
+            "XkY2DOUCWMU",
+            "rHLEWRxRGiM",
+            "Ip3X9LOh2dk",
+            "uQhTuRlWMxw",
+            "v8VSDg_WQlA",
+            "LyGKycYT2v0",
+            "eu6i7WJeinw",
+            "BaM7OCEm3G0",
+            "jBsC34PxzoM",
+            "P2LTAUO1TdA",
+            "PFDu9oVAE-g",
+            "e50Bj7jn9IQ",
             "TgKwz5Ikpc8"
-          ]
+          ],
+          "bio": "A disciplina Essence of Linear Algebra é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Getting and Cleaning Data",
@@ -60,7 +101,8 @@
           "time": "47 min",
           "externalUrl": "https://www.coursera.org/learn/data-cleaning?specialization=data-science-foundations-r",
           "platformName": "Coursera",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina Getting and Cleaning Data é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     },
@@ -73,7 +115,8 @@
           "time": "73 min",
           "externalUrl": "https://www.coursera.org/learn/exploratory-data-analysis?specialization=data-science-foundations-r",
           "platformName": "Coursera",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina Exploratory Data Analysis é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Reproducible Research",
@@ -81,20 +124,44 @@
           "time": "75 min",
           "externalUrl": "https://www.coursera.org/learn/reproducible-research?specialization=data-science-foundations-r",
           "platformName": "Coursera",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina Reproducible Research é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Estatística computacional",
           "videoIds": [
-            "LfsxuRkuWL8", "nL0hNX1SCSE", "dpNuchHSVL0", "VO90I-7tdyQ", "eTymFZEQjGY",
-            "GmRfigcjm3E", "j2pZ-grYzAo", "XmbWAQj9-2o", "XYIHj2hwwG4", "34Sx7qMUW54",
-            "ZHMrkkKZ52U", "He1hrCuDDNA", "jJ5QJ7UUCrU", "V8vARWehxY8", "rIGBpx-D2HE",
-            "E3eus5jp0do", "q8-Zo64NVsg", "scQTG4g9OSw", "xa7J1DNsKp8", "XK3VmgxQWKE",
-            "4rVgvGDjnks", "mXvdd2kbhfk", "ZhzPOAxW9SQ", "qoJaqTPlAk0", "RT4i2gZyrjE",
-            "t4G2y__eVyI", "N7dOfZvGy68"
-          ]
+            "LfsxuRkuWL8",
+            "nL0hNX1SCSE",
+            "dpNuchHSVL0",
+            "VO90I-7tdyQ",
+            "eTymFZEQjGY",
+            "GmRfigcjm3E",
+            "j2pZ-grYzAo",
+            "XmbWAQj9-2o",
+            "XYIHj2hwwG4",
+            "34Sx7qMUW54",
+            "ZHMrkkKZ52U",
+            "He1hrCuDDNA",
+            "jJ5QJ7UUCrU",
+            "V8vARWehxY8",
+            "rIGBpx-D2HE",
+            "E3eus5jp0do",
+            "q8-Zo64NVsg",
+            "scQTG4g9OSw",
+            "xa7J1DNsKp8",
+            "XK3VmgxQWKE",
+            "4rVgvGDjnks",
+            "mXvdd2kbhfk",
+            "ZhzPOAxW9SQ",
+            "qoJaqTPlAk0",
+            "RT4i2gZyrjE",
+            "t4G2y__eVyI",
+            "N7dOfZvGy68"
+          ],
+          "bio": "A disciplina Estatística computacional é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     }
-  ]
+  ],
+  "bio": "Ciência de Dados é uma formação em pós-graduação estruturada para desenvolver competência teórica, prática e profissional ao longo do percurso acadêmico. Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
 }

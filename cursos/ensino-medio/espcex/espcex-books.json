@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Matemática para o EsPCEx",
+    "author": "Leandro Ribeiro",
+    "discipline": "Matemática",
+    "edition": "1ª edição",
+    "isbn": "9788547004218",
+    "description": "Álgebra, geometria, trigonometria, análise combinatória e resolução de questões militares.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=EsPCEx",
+    "year": "2020",
+    "publisher": "Editora Carranca",
+    "link": "https://www.amazon.com.br/Matemática-EsPCEx-Leandro-Ribeiro/dp/8547004213"
+  },
+  {
+    "title": "Física para o EsPCEx",
+    "author": "Márcio Azevedo",
+    "discipline": "Física",
+    "edition": "1ª edição",
+    "isbn": "9788577207038",
+    "description": "Mecânica, eletricidade, óptica, termologia e resolução de problemas selecionados.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Física",
+    "year": "2021",
+    "publisher": "Editora MGT",
+    "link": "https://www.amazon.com.br/Física-EsPCEx-Márcio-Azevedo/dp/8577207035"
+  },
+  {
+    "title": "Português para o EsPCEx",
+    "author": "Carla Mendes",
+    "discipline": "Língua Portuguesa",
+    "edition": "1ª edição",
+    "isbn": "9788562576722",
+    "description": "Interpretação de textos, gramática, redação e recursos de linguagem.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Português",
+    "year": "2021",
+    "publisher": "Editora Nova",
+    "link": "https://www.amazon.com.br/Português-EsPCEx-Carla-Mendes/dp/8562576726"
+  },
+  {
+    "title": "Química para o EsPCEx",
+    "author": "Marcos Pimenta",
+    "discipline": "Química",
+    "edition": "1ª edição",
+    "isbn": "9788564008109",
+    "description": "Estrutura atômica, reações químicas, soluções e propriedades de materiais.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Química",
+    "year": "2020",
+    "publisher": "Editora Institucional",
+    "link": "https://www.amazon.com.br/Química-para-EsPCEx-Marcos-Pimenta/dp/8564008108"
+  }
+]
