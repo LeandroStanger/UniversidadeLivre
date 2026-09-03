@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Spanish Grammar in Context",
+    "author": "Juan Kattán-Ibarra",
+    "discipline": "Gramática e Contexto",
+    "edition": "2ª edição",
+    "isbn": "9780415488203",
+    "description": "Aprenda espanhol com foco em uso real, exemplos e explicações aplicadas ao contexto.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Español",
+    "year": "2018",
+    "publisher": "Routledge",
+    "link": "https://www.amazon.com.br/Spanish-Grammar-Context-Juan-Kattan-Ibarra/dp/0415488209"
+  },
+  {
+    "title": "Practice Makes Perfect: Spanish Verb Tenses",
+    "author": "Dorothy Richmond",
+    "discipline": "Verbos e Tempo Verbal",
+    "edition": "2ª edição",
+    "isbn": "9781260019441",
+    "description": "Tense, conjugação, uso verbal e prática de exercícios para aprender espanhol de forma sólida.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Verbos",
+    "year": "2016",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Practice-Makes-Perfect-Spanish-Verb/dp/1260019443"
+  },
+  {
+    "title": "Spanish for Dummies",
+    "author": "Susana Wald",
+    "discipline": "Iniciante e Conversação",
+    "edition": "2ª edição",
+    "isbn": "9781119296994",
+    "description": "Introdução acessível ao espanhol, vocabulário e conversação para iniciantes.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Spanish",
+    "year": "2017",
+    "publisher": "For Dummies",
+    "link": "https://www.amazon.com.br/Spanish-Dummies-Susana-Wald/dp/1119296998"
+  },
+  {
+    "title": "A New Reference Grammar of Modern Spanish",
+    "author": "John Butt; Carmen Benjamin",
+    "discipline": "Gramática Referencial",
+    "edition": "3ª edição",
+    "isbn": "9780340572806",
+    "description": "Referência completa em gramática espanhola para estudo formal e aprofundado.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Grammar",
+    "year": "2011",
+    "publisher": "Hodder Education",
+    "link": "https://www.amazon.com.br/New-Reference-Grammar-Modern-Spanish/dp/0340572805"
+  }
+]

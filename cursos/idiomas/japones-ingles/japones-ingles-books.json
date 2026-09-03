@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Genki: An Integrated Course in Elementary Japanese",
+    "author": "Eri Banno; Yoko Ikeda; Yutaka Ohno",
+    "discipline": "Japonês para Iniciantes",
+    "edition": "3ª edição",
+    "isbn": "9784789014403",
+    "description": "Estrutura, gramática, vocabulário e prática de leitura e escrita em japonês.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Genki",
+    "year": "2020",
+    "publisher": "The Japan Times",
+    "link": "https://www.amazon.com.br/Genki-Integrated-Elementary-Japanese/dp/4789014401"
+  },
+  {
+    "title": "Japanese from Zero!",
+    "author": "George Trombley",
+    "discipline": "Prática Progressiva",
+    "edition": "1ª edição",
+    "isbn": "9781935476018",
+    "description": "Aprendizado gradual em alem de vocábulos, gramática e uso cotidiano.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=From+Zero",
+    "year": "2013",
+    "publisher": "Learn From Zero",
+    "link": "https://www.amazon.com.br/Japanese-Zero-Orange-Volume-1/dp/1935476017"
+  },
+  {
+    "title": "Japanese for Busy People",
+    "author": "AJALT",
+    "discipline": "Conversação Rápida",
+    "edition": "4ª edição",
+    "isbn": "9784872173701",
+    "description": "Material direto e prático para comunicação básica e imersão inicial.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Busy+People",
+    "year": "2018",
+    "publisher": "AJALT",
+    "link": "https://www.amazon.com.br/Japanese-Busy-People-Book-1/dp/4872173703"
+  },
+  {
+    "title": "Japanese Hiragana and Katakana for Beginners",
+    "author": "Kenneth G. Henshall",
+    "discipline": "Escrita e Leitura",
+    "edition": "2ª edição",
+    "isbn": "9784805311402",
+    "description": "Leitura e escrita dos alfabetos japoneses em progressão didática.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Kana",
+    "year": "2017",
+    "publisher": "Tuttle Publishing",
+    "link": "https://www.amazon.com.br/Japanese-Hiragana-Katakana-Beginners-Henshall/dp/4805311403"
+  }
+]

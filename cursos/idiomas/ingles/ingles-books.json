@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "title": "English Grammar in Use",
+    "author": "Raymond Murphy",
+    "discipline": "Gramática",
+    "edition": "5ª edição",
+    "isbn": "9781108457651",
+    "description": "Referência e prática de inglês para estudantes intermediários e avançados, com explicações e exercícios.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=English+Grammar",
+    "year": "2019",
+    "publisher": "Cambridge University Press",
+    "link": "https://www.amazon.com.br/English-Grammar-Use-Raymond-Murphy/dp/1108457655"
+  },
+  {
+    "title": "Vocabulary in Use",
+    "author": "Michael McCarthy; Felicity O'Dell",
+    "discipline": "Vocabulário",
+    "edition": "2ª edição",
+    "isbn": "9781108459594",
+    "description": "Ampliação de vocabulário com foco em contexto, uso e compreensão real do inglês.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Vocabulary",
+    "year": "2017",
+    "publisher": "Cambridge University Press",
+    "link": "https://www.amazon.com.br/Vocabulary-Use-Michael-McCarthy/dp/1108459593"
+  },
+  {
+    "title": "Business English",
+    "author": "Nick Brieger",
+    "discipline": "Inglês Profissional",
+    "edition": "2ª edição",
+    "isbn": "9781408208752",
+    "description": "Comunicação profissional, e-mails, reuniões, apresentações e vocabulário corporativo.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Business+English",
+    "year": "2014",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Business-English-Professional-Communication-Writing/dp/1408208755"
+  },
+  {
+    "title": "Cambridge English for Job-Hunting",
+    "author": "Colm Downes",
+    "discipline": "Comunicação Profissional",
+    "edition": "1ª edição",
+    "isbn": "9780521766541",
+    "description": "Prática de inglês para entrevistas, currículo, networking e linguagem profissional.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Job+Hunting",
+    "year": "2015",
+    "publisher": "Cambridge University Press",
+    "link": "https://www.amazon.com.br/Cambridge-English-Job-Hunting-Colm-Downes/dp/0521766543"
+  }
+]
