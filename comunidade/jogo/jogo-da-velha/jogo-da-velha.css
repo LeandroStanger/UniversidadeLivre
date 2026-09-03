@@ -1,0 +1,37 @@
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    width: min(420px, 100%);
+    margin: 0 auto;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--com-border);
+    border-radius: 1rem;
+    padding: 0.65rem;
+    aspect-ratio: 1;
+}
+
+.ttt-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--com-border);
+    border-radius: 0.9rem;
+    background: rgba(26, 38, 56, 0.9);
+    color: var(--com-text-primary);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--com-transition);
+    min-height: 72px;
+}
+
+.ttt-cell:hover {
+    border-color: rgba(108, 140, 255, 0.7);
+    transform: translateY(-1px);
+}
+
+.ttt-cell:disabled {
+    cursor: not-allowed;
+    opacity: 0.9;
+}

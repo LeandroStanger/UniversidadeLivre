@@ -38,6 +38,8 @@
     const STORAGE_KEY_POSTS = 'comunidade_posts_';
     const STORAGE_KEY_CHAT = 'comunidade_chat_';
     const STORAGE_KEY_NOTES = 'ulivre_notas_estudo';
+    const PEERJS_REGISTRY_KEY = 'comunidade_upeerjs_registry';
+    const PEERJS_MESSAGE_KEY = 'comunidade_upeerjs_message';
     const COURSES_JSON = '../cursos/courses.json';
     const COURSE_DATA_BASE = '../cursos/';
     const COURSE_PATH_ALIASES = {
@@ -163,6 +165,188 @@
         return window.t(key, replacements);
     }
 
+    function updatePeerStatus(isOnline, customText) {
+        const dot = document.getElementById('p2pStatusDot');
+        const text = document.getElementById('p2pStatusText');
+        if (dot) {
+            dot.classList.toggle('online', !!isOnline);
+            dot.classList.toggle('offline', !isOnline);
+        }
+        if (text) {
+            text.textContent = customText || (isOnline ? `${t('connected')}` : t('disconnected'));
+        }
+    }
+
+    function readPeerRegistry() {
+        try {
+            const raw = localStorage.getItem(PEERJS_REGISTRY_KEY);
+            const parsed = raw ? JSON.parse(raw) : {};
+            return parsed && typeof parsed === 'object' ? parsed : {};
+        } catch (_) {
+            return {};
+        }
+    }
+
+    function writePeerRegistry(registry) {
+        localStorage.setItem(PEERJS_REGISTRY_KEY, JSON.stringify(registry || {}));
+    }
+
+    function prunePeerRegistry() {
+        const registry = readPeerRegistry();
+        const now = Date.now();
+        const pruned = {};
+        Object.entries(registry).forEach(([peerId, meta]) => {
+            if (!peerId || typeof peerId !== 'string') return;
+            const lastSeen = Number(meta && typeof meta === 'object' ? meta.lastSeen : 0) || 0;
+            const isFresh = lastSeen && now - lastSeen <= 30 * 60 * 1000;
+            if (isFresh || !lastSeen) {
+                pruned[peerId] = meta;
+            }
+        });
+        if (Object.keys(pruned).length !== Object.keys(registry).length) {
+            writePeerRegistry(pruned);
+        }
+        return pruned;
+    }
+
+    function attachPeerConnection(conn) {
+        if (!conn || !state.peerNetwork.peer) return;
+        state.peerNetwork.connections.set(conn.peer, conn);
+
+        conn.on('open', () => {
+            const registry = readPeerRegistry();
+            registry[conn.peer] = { lastSeen: Date.now() };
+            writePeerRegistry(registry);
+            updatePeerStatus(true, t('connected'));
+        });
+
+        conn.on('data', (payload) => {
+            if (!payload || typeof payload !== 'object') return;
+            if (payload.type === 'pong' || payload.type === 'ping') return;
+            if (payload.type !== 'community-chat-message') return;
+
+            const { courseId, discipline, message } = payload;
+            if (!courseId || !discipline || !message || !message.id) return;
+
+            const existingMessages = loadChatMessages(courseId, discipline);
+            const alreadyExists = existingMessages.some(item => item.id === message.id);
+            if (alreadyExists) return;
+
+            existingMessages.push(message);
+            if (existingMessages.length > MAX_CHAT_MESSAGES) {
+                existingMessages.splice(0, existingMessages.length - MAX_CHAT_MESSAGES);
+            }
+            saveChatMessages(courseId, discipline, existingMessages);
+
+            if (state.currentCourseId === courseId && state.currentDiscipline === discipline) {
+                renderChatMessages();
+            }
+        });
+
+        conn.on('close', () => {
+            state.peerNetwork.connections.delete(conn.peer);
+            if (state.peerNetwork.connections.size === 0) {
+                updatePeerStatus(false, t('disconnected'));
+            }
+        });
+
+        conn.on('error', (error) => {
+            console.warn('[Comunidade] Erro de conexão uPeerJS:', error);
+        });
+    }
+
+    function connectToKnownPeers() {
+        if (!state.peerNetwork.peer || !state.peerNetwork.ready) return;
+        const registry = prunePeerRegistry();
+        Object.keys(registry).forEach((remotePeerId) => {
+            if (!remotePeerId || remotePeerId === state.peerNetwork.peerId) return;
+            if (state.peerNetwork.connections.has(remotePeerId)) return;
+
+            try {
+                const connection = state.peerNetwork.peer.connect(remotePeerId);
+                attachPeerConnection(connection);
+            } catch (_) {
+                // fallback silencioso
+            }
+        });
+    }
+
+    function broadcastPeerChatMessage(courseId, discipline, message) {
+        if (!state.peerNetwork.peer || !state.peerNetwork.ready || !message || !courseId || !discipline) {
+            return;
+        }
+
+        const payload = {
+            type: 'community-chat-message',
+            courseId,
+            discipline,
+            message
+        };
+
+        state.peerNetwork.connections.forEach((connection) => {
+            try {
+                connection.send(payload);
+            } catch (_) {}
+        });
+
+        const registry = readPeerRegistry();
+        Object.keys(registry).forEach((remotePeerId) => {
+            if (remotePeerId === state.peerNetwork.peerId || state.peerNetwork.connections.has(remotePeerId)) return;
+            try {
+                const connection = state.peerNetwork.peer.connect(remotePeerId);
+                attachPeerConnection(connection);
+                connection.on('open', () => connection.send(payload));
+            } catch (_) {}
+        });
+    }
+
+    function initializePeerNetwork() {
+        if (!window.Peer || typeof window.Peer !== 'function') {
+            updatePeerStatus(false, t('disconnected'));
+            return;
+        }
+
+        const storedPeerId = sessionStorage.getItem('comunidade_upeerjs_id') || `ulivre-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+        sessionStorage.setItem('comunidade_upeerjs_id', storedPeerId);
+
+        const peer = new window.Peer(storedPeerId, {
+            host: '0.peerjs.com',
+            port: 443,
+            secure: true,
+            debug: 0
+        });
+
+        state.peerNetwork.peer = peer;
+        peer.on('open', (id) => {
+            state.peerNetwork.peerId = id;
+            state.peerNetwork.ready = true;
+
+            const registry = readPeerRegistry();
+            registry[id] = { lastSeen: Date.now() };
+            writePeerRegistry(registry);
+            updatePeerStatus(true, `${t('connected')}`);
+            connectToKnownPeers();
+        });
+
+        peer.on('connection', (connection) => {
+            attachPeerConnection(connection);
+        });
+
+        peer.on('disconnected', () => {
+            updatePeerStatus(false, `${t('disconnected')}`);
+            peer.reconnect();
+        });
+
+        peer.on('error', (error) => {
+            const message = error && (error.message || error.type || String(error));
+            const shouldIgnore = /peer-unavailable|could not connect to peer|disconnected|network|server/i.test(message);
+            if (!shouldIgnore) {
+                console.warn('[Comunidade] uPeerJS error:', error);
+            }
+            updatePeerStatus(false, t('disconnected'));
+        });
+    }
+
     // ========================================================================
     // ESTADO GLOBAL
     // ========================================================================
@@ -194,7 +378,13 @@
         commentBlockTimer: null,
         commentBlockRemaining: 0,
         commentOffenseCount: 0,
-        commentOffenseTimer: null
+        commentOffenseTimer: null,
+        peerNetwork: {
+            peer: null,
+            peerId: null,
+            ready: false,
+            connections: new Map()
+        }
     };
 
     const elements = {};
@@ -1338,6 +1528,7 @@
         const user = state.currentUser.name || 'Anônimo';
         const message = addChatMessage(state.currentCourseId, state.currentDiscipline, user, text);
         if (message) {
+            broadcastPeerChatMessage(state.currentCourseId, state.currentDiscipline, message);
             renderChatMessages();
             input.value = '';
             input.dispatchEvent(new Event('input'));
@@ -2305,9 +2496,81 @@
         }, 3500);
     }
 
+    function slugify(value) {
+        return String(value || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 60) || 'disciplina';
+    }
+
+    function openJitsiModal(roomUrl) {
+        const modal = document.getElementById('jitsiModal');
+        const frame = document.getElementById('jitsiFrame');
+        if (!modal || !frame) return;
+
+        frame.src = roomUrl;
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+        modal.removeAttribute('inert');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeJitsiModal() {
+        const modal = document.getElementById('jitsiModal');
+        const frame = document.getElementById('jitsiFrame');
+        if (!modal) return;
+
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('inert', 'true');
+        if (frame) frame.src = '';
+    }
+
+    function openJitsiRoom() {
+        if (!state.currentCourseId || !state.currentDiscipline) {
+            showToast('Selecione uma disciplina antes de abrir a sala de vídeo.', 'error');
+            return;
+        }
+
+        const currentCourse = (state.courses || []).find(course => course.id === state.currentCourseId);
+        const courseName = (currentCourse?.name || state.currentCourseId || 'curso').replace(/[^\w\s-]/g, '');
+        const disciplineName = String(state.currentDiscipline || 'disciplina').replace(/[^\w\s-]/g, '');
+        const roomName = `ulivre-${slugify(courseName)}-${slugify(disciplineName)}`;
+        const displayName = (localStorage.getItem('userProfileName') || state.currentUser?.name || 'Aluno').trim() || 'Aluno';
+        const roomUrl = new URL(`https://meet.jit.si/${roomName}`);
+        roomUrl.searchParams.set('userInfo.displayName', displayName);
+        roomUrl.hash = `userInfo.displayName=${encodeURIComponent(displayName)}`;
+
+        openJitsiModal(roomUrl.toString());
+    }
+
     // ========================================================================
     // SINCRONIZAÇÃO ENTRE ABAS
     // ========================================================================
+    function updateGameScoreboard() {
+        const output = document.getElementById('tttScoreboardText');
+        if (!output) return;
+        let scores = {};
+        try {
+            scores = JSON.parse(localStorage.getItem('ulivre_ttt_scores') || '{}');
+        } catch (_) {
+            scores = {};
+        }
+        const user = window.currentUserName || localStorage.getItem('userProfileName') || 'Jogador';
+        const score = scores[user];
+        const labels = typeof window.t === 'function'
+            ? [t('games_score_points'), t('games_score_wins'), t('games_score_draws'), t('games_score_losses')]
+            : ['pts', 'vitórias', 'empates', 'derrotas'];
+        output.textContent = score
+            ? `${score.points} ${labels[0]} · ${score.wins} ${labels[1]} · ${score.draws} ${labels[2]} · ${score.losses} ${labels[3]}`
+            : (typeof window.t === 'function' ? t('games_score_empty') : 'Nenhuma partida registrada.');
+    }
+
     function setupSync() {
         window.addEventListener('storage', function(e) {
             if (e.key && e.key.startsWith('comunidade_sync_')) {
@@ -2316,7 +2579,9 @@
                     renderPosts();
                     renderChatMessages();
                 }
+
             }
+            if (e.key === 'ulivre_ttt_scores') updateGameScoreboard();
             if (e.key === STORAGE_KEY_NOTES) {
                 loadNotes();
                 populateNoteSelector();
@@ -2469,6 +2734,7 @@
         // Atualiza o usuário (pode ter mudado)
         state.currentUser = getCurrentUser();
 
+        initializePeerNetwork();
         startPresence();
         const success = await loadCoursesAndDisciplines();
         if (!success) {
@@ -2533,6 +2799,12 @@
         if (shareBtn) {
             shareBtn.addEventListener('click', openShareArticleModal);
         }
+        document.getElementById('openJitsiBtn')?.addEventListener('click', openJitsiRoom);
+        document.getElementById('closeJitsiBtn')?.addEventListener('click', closeJitsiModal);
+
+        document.getElementById('jitsiModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeJitsiModal();
+        });
         document.querySelectorAll('.share-tab').forEach(tab => tab.addEventListener('click', function() {
             document.querySelectorAll('.share-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active'); renderShareArticleList();
@@ -2566,12 +2838,15 @@
                 if (document.getElementById('gifModal').style.display === 'flex') closeGifModal();
                 if (document.getElementById('shareArticleModal').style.display === 'flex') closeShareArticleModal();
                 if (document.getElementById('pollModal').style.display === 'flex') closePollModal();
+                if (document.getElementById('jitsiModal').style.display === 'flex') closeJitsiModal();
             }
         });
 
         document.getElementById('p2pSendBtn')?.addEventListener('click', sendLocalChatMessage);
 
         setupSync();
+        updateGameScoreboard();
+        window.addEventListener('tttScoreUpdated', updateGameScoreboard);
         loadNotes();
         populateNoteSelector();
 
@@ -2641,6 +2916,7 @@
             const charMaxSpan = document.getElementById('charMax');
             if (charMaxSpan) charMaxSpan.textContent = MAX_CHAT_MESSAGE_LENGTH;
             updateOnlineCount();
+            updateGameScoreboard();
         });
 
         console.log('[Comunidade] Inicializado com sucesso (v12.2).');
@@ -2667,6 +2943,8 @@
         openShareArticleModal,
         closeShareArticleModal,
         shareArticleInChat,
+        openJitsiRoom,
+        closeJitsiModal,
         scrollToPost,
         censorText
     };
