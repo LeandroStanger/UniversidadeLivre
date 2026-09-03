@@ -123,6 +123,12 @@ console.log('[Main] Inicializando script.js v28.0...');
     let practiceTabContent = document.getElementById('pratica-tab');
     let currentPracticeData = null;
     let practiceSearchInput = null;
+    let courseNoteQuill = null;
+    const courseNotePalette = [
+        '#F5F9FF', '#B0C4DE', '#7A94B8', '#38BDF8',
+        '#6C8CFF', '#10B981', '#14B8A6', '#FBBF24',
+        '#FB7185', '#F97316', '#A78BFA', '#070B14'
+    ];
 
     // ========== CONTROLE DE VOLUME ==========
     let playerVolume = 80;
@@ -1704,6 +1710,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (bibliografiaTab && bibliografiaTab.classList.contains('active')) {
                 renderBooksFilteredByDiscipline(currentDiscipline);
             }
+            if (activeTab === 'notas') renderCourseNotes();
         }
     }
 
@@ -2516,6 +2523,8 @@ console.log('[Main] Inicializando script.js v28.0...');
                     window.CursorTimeset.registerDisciplineEntry(currentCourse, currentDiscipline, 'practice');
                 }
             }
+        } else if (tabId === 'notas') {
+            renderCourseNotes();
         } else if (tabId === 'team') {
             const teamGrid = document.getElementById('team-grid');
             if (teamGrid && teamGrid.innerHTML === '') loadTeamAndContributors(currentCourse);
@@ -2645,6 +2654,100 @@ console.log('[Main] Inicializando script.js v28.0...');
         if (!html) html = `<p>${t('license_no_info')}</p>`;
         container.innerHTML = html;
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
+    }
+
+    // ========== NOTAS DO CURSO ==========
+    function getCourseNotes() {
+        try {
+            const stored = localStorage.getItem('ulivre_notas_estudo');
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function getCurrentCourseDiscipline() {
+        return (stagesData || []).flatMap(stage => stage.disciplines || [])
+            .find(discipline => discipline.name === currentDiscipline);
+    }
+
+    function getCourseNoteLessonNumber() {
+        const discipline = getCurrentCourseDiscipline();
+        const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
+        if (!discipline || !currentVideo) return '';
+        const videoIndex = discipline.videos.findIndex(video => video.id === currentVideo.id);
+        return videoIndex >= 0 ? videoIndex + 1 : '';
+    }
+
+    function renderCourseNotes() {
+        const container = document.getElementById('courseNotesContent');
+        if (!container) return;
+        const notes = getCourseNotes().filter(note =>
+            note.courseId === currentCourse && note.disciplineName === currentDiscipline
+        );
+        const lessonNumber = getCourseNoteLessonNumber();
+        const lessonOptions = (getCurrentCourseDiscipline()?.videos || []).map((video, index) =>
+            `<option value="${index + 1}"${String(lessonNumber) === String(index + 1) ? ' selected' : ''}>${escapeHtml(video.title)}</option>`
+        ).join('');
+
+        container.innerHTML = `
+            <div class="course-notes-header">
+                <div>
+                    <h3><i class="fas fa-note-sticky"></i> ${t('course_notes_title')}</h3>
+                    <p>${escapeHtml(currentDiscipline || t('select_discipline'))}</p>
+                </div>
+                <a class="course-notes-link" href="notas/notas.html" target="_blank" rel="noopener noreferrer"><i class="fas fa-up-right-from-square"></i> ${t('course_notes_open')}</a>
+            </div>
+            <form id="courseNoteForm" class="course-note-form">
+                <input id="courseNoteTitle" type="text" placeholder="${escapeHtml(t('course_notes_title_placeholder'))}" aria-label="${escapeHtml(t('course_notes_title_placeholder'))}" required>
+                <select id="courseNoteLesson" aria-label="${escapeHtml(t('lesson_label'))}"><option value="">${t('course_notes_select_lesson')}</option>${lessonOptions}</select>
+                <div id="courseNoteBody" class="course-note-editor" aria-label="${escapeHtml(t('course_notes_body_placeholder'))}"></div>
+                <button class="btn-primary" type="submit"><i class="fas fa-save"></i> ${t('course_notes_save')}</button>
+            </form>
+            <div class="course-notes-list">
+                ${notes.length ? notes.map(note => `
+                    <article class="course-note-card">
+                        <h4>${escapeHtml(note.titulo || t('course_notes_untitled'))}</h4>
+                        <small><i class="fas fa-book-open"></i> ${escapeHtml(note.disciplineName || '')}${note.lessonNumber ? ` · ${t('lesson_label')} ${note.lessonNumber}` : ''}</small>
+                        <div>${note.conteudo || ''}</div>
+                    </article>
+                `).join('') : `<p class="course-notes-empty">${t('course_notes_empty')}</p>`}
+            </div>
+        `;
+        if (window.Quill) {
+            courseNoteQuill = new Quill('#courseNoteBody', {
+                theme: 'snow',
+                placeholder: t('course_notes_body_placeholder'),
+                modules: { toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+                    [{ script: 'sub' }, { script: 'super' }],
+                    [{ indent: '-1' }, { indent: '+1' }],
+                    [{ size: ['small', false, 'large', 'huge'] }],
+                    [{ color: courseNotePalette }, { background: courseNotePalette }],
+                    [{ align: [] }],
+                    ['link', 'clean']
+                ] }
+            });
+        }
+        container.querySelector('#courseNoteForm')?.addEventListener('submit', saveCourseNote);
+    }
+
+    function saveCourseNote(event) {
+        event.preventDefault();
+        const title = document.getElementById('courseNoteTitle')?.value.trim();
+        const body = courseNoteQuill?.root.innerHTML.trim();
+        const bodyText = courseNoteQuill?.getText().trim();
+        if (!title || !bodyText || !currentCourse || !currentDiscipline) return;
+        const lessonNumber = document.getElementById('courseNoteLesson')?.value || '';
+        const courseInfo = allCourses.find(course => course.id === currentCourse);
+        const notes = getCourseNotes();
+        const now = new Date().toISOString();
+        notes.unshift({ id: Date.now().toString(), titulo: title, conteudo: body, createdAt: now, updatedAt: now, favorite: false, tags: [], courseId: currentCourse, courseName: courseInfo?.name || currentCourse, disciplineName: currentDiscipline, lessonNumber: lessonNumber ? Number(lessonNumber) : '', lessonName: lessonNumber ? `${t('lesson_label')} ${lessonNumber}` : '' });
+        localStorage.setItem('ulivre_notas_estudo', JSON.stringify(notes));
+        renderCourseNotes();
     }
 
     // ========== GRÁFICO DE PROGRESSO ==========

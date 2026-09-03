@@ -32,6 +32,8 @@ const MAX_API_ATTEMPTS = 8;
 const API_RETRY_DELAY = 250;
 const metadataCache = new Map();
 const languageCache = new Map();
+let francAllDetector = null;
+let francReadyPromise = null;
 
 // ========== CONTROLE DE COTA ==========
 let apiQuotaExceeded = false;
@@ -174,12 +176,27 @@ async function loadTranslations(lang) {
     return false;
 }
 
+async function loadFrancDetector() {
+    if (francReadyPromise) return francReadyPromise;
+    francReadyPromise = import('https://esm.sh/franc@6?bundle')
+        .then(module => {
+            francAllDetector = module.francAll;
+            console.log('[Auditório] Detector franc carregado.');
+        })
+        .catch(() => {
+            francAllDetector = null;
+            console.warn('[Auditório] Detector franc indisponível. Usando detecção local.');
+        });
+    return francReadyPromise;
+}
+
 // Função t() com fallback mínimo
 function t(key, fallback = '') {
     // Se window.t estiver disponível (módulo central), usa-o
     if (window.t && typeof window.t === 'function') {
         try {
-            return window.t(key);
+            const translated = window.t(key);
+            if (translated && translated !== key) return translated;
         } catch (e) {
             // fallback
         }
@@ -188,7 +205,16 @@ function t(key, fallback = '') {
 }
 
 function getSubjectName(subject) { return t(`subject_${subject}`, subject); }
-function getLanguageName(langCode) { return t(`lang_${langCode}`, langCode?.toUpperCase() || 'Indefinido'); }
+function getLanguageName(langCode) {
+    const languageKey = langCode || 'undefined';
+    return t(`lang_${languageKey}`, t('lang_undefined', 'Indefinido'));
+}
+
+function normalizeLanguageCode(language) {
+    if (typeof language !== 'string') return null;
+    const code = language.trim().toLowerCase().split(/[-_]/)[0];
+    return code && (Object.prototype.hasOwnProperty.call(LANG_STOPWORDS, code) || SCRIPT_LANGUAGE_CODES.has(code)) ? code : null;
+}
 
 function updateLanguageSelector(lang) {
     const ptBtn = document.getElementById('langPtBtn');
@@ -236,6 +262,16 @@ function applyTranslationsToUI() {
     if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject', 'Filtrar por assunto:');
     const languageFilterSpan = document.querySelector('.language-filter span');
     if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language', 'Filtrar por idioma:');
+    const playerLabels = [
+        ['playPauseBtn', 'player_play_pause'],
+        ['muteUnmuteBtn', 'player_mute'],
+        ['audioModeBtn', 'audio_mode'],
+        ['closePlayerBtn', 'close_player']
+    ];
+    playerLabels.forEach(([id, key]) => {
+        const control = document.getElementById(id);
+        if (control) control.title = t(key);
+    });
     // Perfil
     const profileBtn = document.getElementById('profileBtn');
     if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
@@ -420,7 +456,7 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
                 if (isShortVideo(tempItem)) {
                     itemType = 'shorts';
                 }
-                const language = detail.language || detectLanguageLocal(snippet.title, snippet.description);
+                const language = normalizeLanguageCode(detail.language) || detectLanguageLocal(snippet.title, snippet.description);
                 const subject = detail.categoryId ? mapCategoryToSubject(detail.categoryId, detail.categoryTitle) : detectSubjectLocal(snippet.title, snippet.description);
                 return {
                     id: `yt_${videoId}`,
@@ -503,7 +539,7 @@ async function fetchVideoDetails(videoIds) {
                 const videoId = item.id;
                 const snippet = item.snippet;
                 const contentDetails = item.contentDetails;
-                let language = snippet.defaultAudioLanguage || snippet.defaultLanguage;
+                let language = normalizeLanguageCode(snippet.defaultAudioLanguage || snippet.defaultLanguage);
                 if (!language) language = detectLanguageLocal(snippet.title, snippet.description);
                 languageCache.set(videoId, language);
                 let durationSec = 0;
@@ -573,6 +609,8 @@ const LANG_STOPWORDS = {
     pa: 'ਅਤੇ ਇਹ ਇੱਕ ਕਿ ਹੈ ਮੈਂ ਤੂੰ ਉਹ ਉਹ ਇਹ ਅਸੀਂ ਤੁਸੀਂ ਉਹ ਪੰਜਾਬੀ'.split(' ')
 };
 
+const SCRIPT_LANGUAGE_CODES = new Set(['or', 'si', 'lo', 'bo', 'my', 'km', 'ka', 'hy', 'am', 'ber']);
+
 function detectScript(text) {
     if (!text) return null;
     if (/[\u4E00-\u9FFF]/.test(text)) return 'zh';
@@ -614,9 +652,11 @@ function detectScript(text) {
 
 function detectLanguageLocal(title, description = '') {
     const text = (title + ' ' + description).trim();
-    if (!text) return 'en';
+    if (!text) return null;
     const scriptLang = detectScript(text);
     if (scriptLang) return scriptLang;
+    const francLang = detectLanguageWithFranc(text);
+    if (francLang) return francLang;
     const words = text.toLowerCase().split(/[\s,.;!?()\[\]{}"':-]+/).filter(w => w.length > 1);
     const scores = {};
     for (const lang in LANG_STOPWORDS) scores[lang] = 0;
@@ -638,7 +678,7 @@ function detectLanguageLocal(title, description = '') {
     if (normalized.match(/[æøå]/i)) scores.no = (scores.no || 0) + 5;
     if (normalized.match(/[ěščřžýáíé]/i)) scores.cs = (scores.cs || 0) + 5;
     if (normalized.match(/[ąčęėįšųūž]/i)) scores.lt = (scores.lt || 0) + 5;
-    let bestLang = 'en';
+    let bestLang = null;
     let maxScore = 0;
     for (const lang in scores) {
         if (scores[lang] > maxScore) {
@@ -646,8 +686,40 @@ function detectLanguageLocal(title, description = '') {
             bestLang = lang;
         }
     }
-    if (maxScore < 2) return 'en';
+    const rankedScores = Object.values(scores).sort((a, b) => b - a);
+    const secondBestScore = rankedScores[1] || 0;
+    if (!bestLang || maxScore < 2 || maxScore - secondBestScore < 1) return null;
     return bestLang;
+}
+
+const FRANC_LANGUAGE_MAP = {
+    amh: 'am', ara: 'ar', ben: 'bn', bul: 'bg', cat: 'ca', ces: 'cs',
+    dan: 'da', deu: 'de', ell: 'el', eng: 'en', est: 'et', fas: 'fa',
+    fin: 'fi', fra: 'fr', guj: 'gu',
+    heb: 'he', hin: 'hi', hrv: 'hr', hun: 'hu', ind: 'id', ita: 'it',
+    jpn: 'ja', kan: 'kn', kor: 'ko', lav: 'lv', lit: 'lt', mal: 'ml',
+    mar: 'mr', msa: 'ms', nld: 'nl', nob: 'no', pan: 'pa', pol: 'pl',
+    por: 'pt', ron: 'ro', rus: 'ru', slk: 'sk', slv: 'sl', spa: 'es',
+    srp: 'sr', swe: 'sv', tam: 'ta', tel: 'te', tha: 'th', tur: 'tr',
+    ukr: 'uk', vie: 'vi', zho: 'zh'
+};
+
+function detectLanguageWithFranc(text) {
+    if (!francAllDetector || text.length < 20) return null;
+    try {
+        const candidates = francAllDetector(text, {
+            only: Object.keys(FRANC_LANGUAGE_MAP),
+            minLength: 20
+        });
+        const [best, second] = candidates;
+        if (!best || best[0] === 'und') return null;
+        const bestScore = best[1];
+        const secondScore = second?.[1] || 0;
+        if (bestScore < 0.75 || bestScore - secondScore < 0.08) return null;
+        return FRANC_LANGUAGE_MAP[best[0]] || null;
+    } catch (_) {
+        return null;
+    }
 }
 
 // ========== BUSCA UNIFICADA ==========
@@ -675,8 +747,8 @@ async function searchAllContent(query, filterType = 'all') {
         results = [...videos, ...podcasts, ...lives, ...shorts];
     }
     results.sort((a, b) => {
-        const langA = a.language?.slice(0,2) || 'en';
-        const langB = b.language?.slice(0,2) || 'en';
+            const langA = a.language?.slice(0,2) || '';
+            const langB = b.language?.slice(0,2) || '';
         const priorityA = languagePriority[langA] || 99;
         const priorityB = languagePriority[langB] || 99;
         if (priorityA !== priorityB) return priorityA - priorityB;
@@ -715,7 +787,7 @@ async function loadVideosFromJSON() {
 
             const finalVideoId = isPlaylist ? `playlist_${idx}` : videoId;
 
-            let language = item.language;
+            let language = normalizeLanguageCode(item.language);
             if (!language) {
                 language = detectLanguageLocal(item.title, item.description || '');
             }
@@ -991,7 +1063,12 @@ function getSubjectIcon(s){
 function formatDuration(sec) {
     if (!sec) return '';
     const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
+    if (h > 0) {
+        return t('duration_format', '{{hours}}h {{minutes}}min')
+            .replace('{{hours}}', h)
+            .replace('{{minutes}}', m);
+    }
+    return `${m} ${t('minutes_abbr', 'min')}`;
 }
 function createVideoCardHTML(v) {
     let badge = '';
@@ -999,12 +1076,16 @@ function createVideoCardHTML(v) {
     else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast', 'PODCAST')}</span>`;
     else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts', 'SHORTS')}</span>`;
     if (v.isPlaylist) {
-        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
+        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> ${t('badge_playlist', 'PLAYLIST')}</span>`;
     }
 
     const subjectName = getSubjectName(v.subject);
     const subjectIcon = getSubjectIcon(v.subject);
     const categoryBadge = `<span class="category-badge"><i class="fas ${subjectIcon}"></i> ${subjectName}</span>`;
+    const language = normalizeLanguageCode(v.language);
+    const languageBadge = language
+        ? `<span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(language)}</span>`
+        : '';
 
     return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
         <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
@@ -1012,7 +1093,7 @@ function createVideoCardHTML(v) {
             <div class="video-title">${escapeHtml(v.title)}</div>
             <div class="video-description">${escapeHtml(v.description)}</div>
             <div class="video-meta">
-                <span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(v.language)}</span>
+                ${languageBadge}
                 ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
                 ${categoryBadge}
             </div>
@@ -1094,7 +1175,7 @@ function buildSubjectChips() {
     }));
 }
 function buildLanguageChips(items = allItems) {
-    const langs = [...new Set(items.map(i => i.language).filter(l => l))];
+    const langs = [...new Set(items.map(i => normalizeLanguageCode(i.language)).filter(l => l))];
     const c = document.getElementById('languageChips'); if (!c) return;
     c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all', 'Todos')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
     c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
@@ -1147,6 +1228,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt')?'pt-br':'en');
     currentLang = savedLang;
     await loadTranslations(currentLang);
+    await loadFrancDetector();
     applyTranslationsToUI();
     updateLanguageSelector(currentLang);
     

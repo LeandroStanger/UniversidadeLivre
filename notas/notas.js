@@ -18,7 +18,9 @@
         editingId: null,
         currentLang: 'pt-br',
         translations: {},
-        tagFilter: null    // ID da tag ativa no filtro (null = todas)
+        tagFilter: null,   // ID da tag ativa no filtro (null = todas)
+        courses: [],
+        courseDataCache: new Map()
     };
 
     // Elementos do DOM
@@ -26,6 +28,41 @@
     
     // Quill editor
     let quill = null;
+
+    const COURSE_DATA_PATHS = {
+        administracao: 'graduacao/administracao/administracao-data.json',
+        biologia: 'graduacao/biologia/biologia-data.json',
+        computacao: 'graduacao/ciencia-computacao/ciencia-computacao-data.json',
+        matematica: 'graduacao/matematica/matematica-data.json',
+        'matematica-licenciatura': 'graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+        'ciencia-de-dados-bacharelado': 'graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
+        'computer-science': 'graduacao/computer-science/computer-science-data.json',
+        math: 'graduacao/math/math-data.json',
+        computacao_grafica: 'pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+        embarcados: 'pos-graduacao/embarcados/embarcados-data.json',
+        desenvolvimento_web: 'pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+        cybersecurity: 'pos-graduacao/cybersecurity/cybersecurity-data.json',
+        devops: 'pos-graduacao/devops/devops-data.json',
+        ciencia_de_dados: 'pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+        enem: 'ensino-medio/enem/enem-data.json',
+        espcex: 'ensino-medio/espcex/espcex-data.json',
+        ingles: 'idiomas/ingles/ingles-data.json',
+        espanhol: 'idiomas/espanhol/espanhol-data.json',
+        'espanhol-ingles': 'idiomas/espanhol-ingles/espanhol-ingles-data.json',
+        japones: 'idiomas/japones/japones-data.json',
+        'portugues-brasileiro': 'idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+        'japones-ingles': 'idiomas/japones-ingles/japones-ingles-data.json',
+        engenharia_computacao: 'graduacao/engenharia-computacao/engenharia-computacao-data.json',
+        'engenharia-producao': 'graduacao/engenharia-producao/engenharia-producao-data.json',
+        letras: 'graduacao/letras/letras-data.json',
+        'letras-portugues': 'graduacao/letras-portugues/letras-portugues-data.json',
+        pedagogia: 'graduacao/pedagogia/pedagogia-data.json',
+        'gestao-publica': 'graduacao/gestao-publica/gestao-publica-data.json',
+        'tecnologia-informacao': 'graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
+        'processos-gerenciais': 'graduacao/processos-gerenciais/processos-gerenciais-data.json',
+        fisica: 'graduacao/fisica/fisica-data.json',
+        quimica: 'graduacao/quimica/quimica-data.json'
+    };
 
     // ========== FALLBACKS INLINE (usados apenas se window.t não estiver disponível) ==========
     const FALLBACK_PT = {
@@ -36,6 +73,18 @@
         "notas_editor_title": "Nova Nota",
         "notas_clear_editor": "Limpar editor",
         "notas_title_placeholder": "Título da nota...",
+        "notas_title_required": "Esqueceu o título da nota?",
+        "notas_course_type_label": "Tipo de curso",
+        "notas_course_type_all": "Todos os tipos",
+        "notas_course_label": "Curso",
+        "notas_course_placeholder": "Selecione um curso",
+        "notas_discipline_label": "Disciplina",
+        "notas_discipline_placeholder": "Selecione uma disciplina",
+        "notas_no_disciplines": "Nenhuma disciplina disponível para este curso.",
+        "notas_lesson_label": "Aula",
+        "notas_lesson_placeholder": "Selecione uma aula",
+        "notas_general_lesson": "Geral (toda a disciplina)",
+        "notas_lesson_format": "Aula {{number}}",
         "notas_content_placeholder": "Escreva sua anotação aqui...",
         "notas_save": "Salvar",
         "notas_cancel": "Cancelar",
@@ -75,6 +124,18 @@
         "notas_editor_title": "New Note",
         "notas_clear_editor": "Clear editor",
         "notas_title_placeholder": "Note title...",
+        "notas_title_required": "Did you forget the note title?",
+        "notas_course_type_label": "Course type",
+        "notas_course_type_all": "All types",
+        "notas_course_label": "Course",
+        "notas_course_placeholder": "Select a course",
+        "notas_discipline_label": "Discipline",
+        "notas_discipline_placeholder": "Select a discipline",
+        "notas_no_disciplines": "No disciplines available for this course.",
+        "notas_lesson_label": "Lesson",
+        "notas_lesson_placeholder": "Select a lesson",
+        "notas_general_lesson": "General (entire discipline)",
+        "notas_lesson_format": "Lesson {{number}}",
         "notas_content_placeholder": "Write your note here...",
         "notas_save": "Save",
         "notas_cancel": "Cancel",
@@ -266,6 +327,154 @@
         }
     };
 
+    const CourseCatalog = {
+        async load() {
+            try {
+                const response = await fetch('../cursos/courses.json');
+                if (!response.ok) throw new Error('Falha ao carregar cursos');
+                const courses = await response.json();
+                state.courses = courses.filter(course => course && course.id && course.name);
+            } catch (error) {
+                console.error('[Notas] Erro ao carregar catálogo de cursos:', error);
+                state.courses = [];
+            }
+            this.renderCourseOptions();
+        },
+
+        renderCourseOptions(selectedId = '') {
+            const select = document.getElementById('notaCursoSelect');
+            if (!select) return;
+            const typeFilter = document.getElementById('notaTipoCursoSelect')?.value || 'all';
+            const visibleCourses = state.courses.filter(course => typeFilter === 'all' || course.courseLevel === typeFilter);
+            select.innerHTML = `<option value="">${I18n.t('notas_course_placeholder')}</option>` +
+                visibleCourses.map(course => {
+                    const levelKeys = {
+                        graduacao: 'graduacao',
+                        'ensino-medio': 'ensino_medio',
+                        'pos-graduacao': 'pos_graduacao',
+                        idiomas: 'idiomas'
+                    };
+                    const level = I18n.t(levelKeys[course.courseLevel] || course.courseLevel);
+                    const type = course.courseType ? ` - ${I18n.t(course.courseType)}` : '';
+                    return `<option value="${Utils.escapeHtml(course.id)}">${Utils.escapeHtml(course.name)} (${Utils.escapeHtml(level)}${Utils.escapeHtml(type)})</option>`;
+                }).join('');
+            select.disabled = visibleCourses.length === 0;
+            select.value = visibleCourses.some(course => course.id === selectedId) ? selectedId : '';
+        },
+
+        async loadDisciplines(courseId) {
+            const select = document.getElementById('notaDisciplinaSelect');
+            if (!select) return;
+            select.innerHTML = `<option value="">${I18n.t('loading')}</option>`;
+            select.disabled = true;
+            if (!courseId) {
+                this.renderDisciplineOptions([]);
+                return;
+            }
+
+            let data = state.courseDataCache.get(courseId);
+            if (!data) {
+                const path = COURSE_DATA_PATHS[courseId];
+                if (!path) {
+                    this.renderDisciplineOptions([]);
+                    return;
+                }
+                try {
+                    const response = await fetch(`../cursos/${path}`);
+                    if (!response.ok) throw new Error('Falha ao carregar disciplinas');
+                    data = await response.json();
+                    state.courseDataCache.set(courseId, data);
+                } catch (error) {
+                    console.error('[Notas] Erro ao carregar disciplinas:', error);
+                    this.renderDisciplineOptions([]);
+                    return;
+                }
+            }
+
+            const disciplines = (data.stages || []).flatMap(stage => stage.disciplines || [])
+                .map(discipline => discipline.name)
+                .filter(Boolean)
+                .filter((name, index, names) => names.indexOf(name) === index);
+            this.renderDisciplineOptions(disciplines);
+        },
+
+        renderDisciplineOptions(disciplines, selectedName = '') {
+            const select = document.getElementById('notaDisciplinaSelect');
+            if (!select) return;
+            const placeholder = disciplines.length ? I18n.t('notas_discipline_placeholder') : I18n.t('notas_no_disciplines');
+            select.innerHTML = `<option value="">${placeholder}</option>` +
+                disciplines.map(name => `<option value="${Utils.escapeHtml(name)}">${Utils.escapeHtml(name)}</option>`).join('');
+            select.disabled = disciplines.length === 0;
+            select.value = selectedName;
+        },
+
+        async loadLessons(courseId, disciplineName, selectedLesson = '') {
+            const select = document.getElementById('notaAulaSelect');
+            if (!select) return;
+            select.innerHTML = `<option value="">${I18n.t('loading')}</option>`;
+            select.disabled = true;
+            if (!courseId || !disciplineName) {
+                this.renderLessonOptions(0);
+                return;
+            }
+
+            let data = state.courseDataCache.get(courseId);
+            if (!data) {
+                await this.loadDisciplines(courseId);
+                data = state.courseDataCache.get(courseId);
+            }
+            const discipline = (data?.stages || [])
+                .flatMap(stage => stage.disciplines || [])
+                .find(item => item.name === disciplineName);
+            const lessonCount = discipline?.videoIds?.length || discipline?.lessons?.length ||
+                (discipline?.type === 'external' || discipline?.type === 'exercise' ? 1 : 0);
+            this.renderLessonOptions(lessonCount, selectedLesson);
+        },
+
+        renderLessonOptions(lessonCount, selectedLesson = '') {
+            const select = document.getElementById('notaAulaSelect');
+            if (!select) return;
+            const options = lessonCount > 0
+                ? `<option value="">${I18n.t('notas_lesson_placeholder')}</option><option value="all">${I18n.t('notas_general_lesson')}</option>` +
+                    Array.from({ length: lessonCount }, (_, index) => `<option value="${index + 1}">${I18n.t('notas_lesson_format').replace('{{number}}', index + 1)}</option>`).join('')
+                : `<option value="">${I18n.t('notas_lesson_placeholder')}</option>`;
+            select.innerHTML = options;
+            select.disabled = lessonCount === 0;
+            select.value = selectedLesson ? String(selectedLesson) : '';
+        },
+
+        getSelected() {
+            const courseSelect = document.getElementById('notaCursoSelect');
+            const disciplineSelect = document.getElementById('notaDisciplinaSelect');
+            const lessonSelect = document.getElementById('notaAulaSelect');
+            const course = state.courses.find(item => item.id === courseSelect?.value);
+            return {
+                courseId: course?.id || '',
+                courseName: course?.name || '',
+                disciplineName: disciplineSelect?.value || '',
+                lessonNumber: lessonSelect?.value && lessonSelect.value !== 'all' ? Number(lessonSelect.value) : '',
+                lessonName: lessonSelect?.value && lessonSelect.value !== 'all'
+                    ? I18n.t('notas_lesson_format').replace('{{number}}', lessonSelect.value)
+                    : ''
+            };
+        },
+
+        async setSelected(courseId = '', disciplineName = '', lessonNumber = '') {
+            this.renderCourseOptions(courseId);
+            await this.loadDisciplines(courseId);
+            const disciplines = [...(document.getElementById('notaDisciplinaSelect')?.options || [])]
+                .slice(1).map(option => option.value);
+            this.renderDisciplineOptions(disciplines, disciplineName);
+            await this.loadLessons(courseId, disciplineName, lessonNumber);
+        },
+
+        clearSelection() {
+            this.renderCourseOptions('');
+            this.renderDisciplineOptions([]);
+            this.renderLessonOptions(0);
+        }
+    };
+
     // ========== MÓDULO DE ARMAZENAMENTO ==========
     const Storage = {
         loadNotas() {
@@ -289,7 +498,7 @@
             } catch (e) {}
         },
 
-        addNota(titulo, conteudoHtml, tags = []) {
+        addNota(titulo, conteudoHtml, tags = [], courseId = '', courseName = '', disciplineName = '', lessonNumber = '', lessonName = '') {
             const now = new Date();
             const nota = {
                 id: Date.now().toString(),
@@ -298,14 +507,19 @@
                 createdAt: now.toISOString(),
                 updatedAt: now.toISOString(),
                 favorite: false,
-                tags: tags
+                tags: tags,
+                courseId,
+                courseName,
+                disciplineName,
+                lessonNumber,
+                lessonName
             };
             state.notas.unshift(nota);
             this.saveNotas();
             return nota;
         },
 
-        updateNota(id, titulo, conteudoHtml, tags = null) {
+        updateNota(id, titulo, conteudoHtml, tags = null, courseId = '', courseName = '', disciplineName = '', lessonNumber = '', lessonName = '') {
             const index = state.notas.findIndex(n => n.id === id);
             if (index !== -1) {
                 const updated = {
@@ -317,6 +531,11 @@
                 if (tags !== null) {
                     updated.tags = tags;
                 }
+                updated.courseId = courseId;
+                updated.courseName = courseName;
+                updated.disciplineName = disciplineName;
+                updated.lessonNumber = lessonNumber;
+                updated.lessonName = lessonName;
                 state.notas[index] = updated;
                 this.saveNotas();
                 return updated;
@@ -549,7 +768,10 @@
             if (searchTerm) {
                 filteredNotas = state.notas.filter(nota => 
                     nota.titulo.toLowerCase().includes(searchTerm) || 
-                    Utils.stripHtml(nota.conteudo).toLowerCase().includes(searchTerm)
+                    Utils.stripHtml(nota.conteudo).toLowerCase().includes(searchTerm) ||
+                    (nota.courseName || '').toLowerCase().includes(searchTerm) ||
+                    (nota.disciplineName || '').toLowerCase().includes(searchTerm) ||
+                    (nota.lessonName || '').toLowerCase().includes(searchTerm)
                 );
             }
 
@@ -593,6 +815,14 @@
                     });
                     tagsHtml += '</div>';
                 }
+
+                const contextHtml = nota.courseName || nota.disciplineName
+                    ? `<div class="note-context">
+                        ${nota.courseName ? `<span><i class="fas fa-graduation-cap" aria-hidden="true"></i> ${Utils.escapeHtml(nota.courseName)}</span>` : ''}
+                        ${nota.disciplineName ? `<span><i class="fas fa-book-open" aria-hidden="true"></i> ${Utils.escapeHtml(nota.disciplineName)}</span>` : ''}
+                        ${nota.lessonName ? `<span><i class="fas fa-play-circle" aria-hidden="true"></i> ${Utils.escapeHtml(nota.lessonName)}</span>` : ''}
+                    </div>`
+                    : '';
                 
                 html += `
                     <div class="note-card" data-id="${nota.id}" role="article">
@@ -611,6 +841,7 @@
                             </div>
                         </div>
                         <div class="note-card-content">${Utils.escapeHtml(preview)}</div>
+                        ${contextHtml}
                         ${tagsHtml}
                         <div class="note-card-footer">
                             <span class="note-date">
@@ -679,6 +910,7 @@
 
             state.editingId = id;
             elements.tituloInput.value = nota.titulo;
+            CourseCatalog.setSelected(nota.courseId || '', nota.disciplineName || '', nota.lessonNumber || '');
             
             if (quill) {
                 quill.root.innerHTML = nota.conteudo;
@@ -694,6 +926,7 @@
 
         clearEditor() {
             elements.tituloInput.value = '';
+            CourseCatalog.clearSelection();
             if (quill) {
                 quill.root.innerHTML = '';
                 quill.setContents([]);
@@ -714,16 +947,23 @@
             const conteudoHtml = quill ? quill.root.innerHTML : '';
 
             if (!titulo) {
-                alert(I18n.t('notas_title_placeholder') || 'O título da nota é obrigatório.');
+                const notice = document.getElementById('notaTitleNotice');
+                if (notice) {
+                    notice.hidden = false;
+                    window.clearTimeout(notice.hideTimeout);
+                    notice.hideTimeout = window.setTimeout(() => { notice.hidden = true; }, 4000);
+                }
+                elements.tituloInput.focus();
                 return;
             }
 
             const selectedTags = this.getSelectedTagsFromSelector();
+            const selectedCourse = CourseCatalog.getSelected();
 
             if (state.editingId) {
-                Storage.updateNota(state.editingId, titulo, conteudoHtml, selectedTags);
+                Storage.updateNota(state.editingId, titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
             } else {
-                Storage.addNota(titulo, conteudoHtml, selectedTags);
+                Storage.addNota(titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
             }
 
             this.clearEditor();
@@ -834,7 +1074,11 @@
         window.addEventListener('languageChanged', function(e) {
             const lang = e.detail.lang || 'pt-br';
             console.log('[Notas] Idioma global alterado para:', lang);
-            I18n.setLanguage(lang);
+            I18n.setLanguage(lang).then(() => {
+                const selectedCourse = document.getElementById('notaCursoSelect')?.value || '';
+                CourseCatalog.renderCourseOptions(selectedCourse);
+                CourseCatalog.loadDisciplines(selectedCourse);
+            });
         });
     }
 
@@ -848,7 +1092,11 @@
             clearEditorBtn: document.getElementById('clearEditorBtn'),
             notasList: document.getElementById('notasList'),
             notasCount: document.getElementById('notasCount'),
-            searchInput: document.getElementById('searchNotasInput')
+            searchInput: document.getElementById('searchNotasInput'),
+            tipoCursoSelect: document.getElementById('notaTipoCursoSelect'),
+            cursoSelect: document.getElementById('notaCursoSelect'),
+            disciplinaSelect: document.getElementById('notaDisciplinaSelect'),
+            aulaSelect: document.getElementById('notaAulaSelect')
         };
 
         initQuill();
@@ -859,6 +1107,7 @@
         state.currentLang = savedLang;
         await I18n.loadTranslations(savedLang);
         I18n.applyTranslations();
+        await CourseCatalog.load();
 
         TagManager.loadTags();
         Storage.loadNotas();
@@ -872,6 +1121,25 @@
         elements.saveBtn.addEventListener('click', () => UIRenderer.handleSaveNota());
         elements.cancelBtn.addEventListener('click', () => UIRenderer.clearEditor());
         elements.clearEditorBtn.addEventListener('click', () => UIRenderer.clearEditor());
+
+        if (elements.cursoSelect) {
+            elements.cursoSelect.addEventListener('change', async () => {
+                await CourseCatalog.loadDisciplines(elements.cursoSelect.value);
+                CourseCatalog.loadLessons(elements.cursoSelect.value, '');
+            });
+        }
+        if (elements.tipoCursoSelect) {
+            elements.tipoCursoSelect.addEventListener('change', () => {
+                CourseCatalog.renderCourseOptions('');
+                CourseCatalog.renderDisciplineOptions([]);
+                CourseCatalog.renderLessonOptions(0);
+            });
+        }
+        if (elements.disciplinaSelect) {
+            elements.disciplinaSelect.addEventListener('change', () => {
+                CourseCatalog.loadLessons(elements.cursoSelect?.value || '', elements.disciplinaSelect.value);
+            });
+        }
         
         if (elements.searchInput) {
             elements.searchInput.addEventListener('input', () => UIRenderer.renderNotasList());
