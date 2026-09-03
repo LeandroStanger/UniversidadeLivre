@@ -14,9 +14,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
     <!-- DOMPurify -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.7/purify.min.js"></script>
-
+    <!-- PeerJS / uPeerJS -->
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <!-- Estilos da comunidade -->
     <link rel="stylesheet" href="comunidade.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../perfil/profile.css" />
+    <link rel="stylesheet" href="jogo/jogo-da-velha/jogo-da-velha.css" />
+    <link rel="stylesheet" href="jogo/xadrez/xadrez.css" />
 
     <style>
         /* ============================================================
@@ -902,6 +907,51 @@
             border-color: transparent;
             box-shadow: 0 2px 12px rgba(108,140,255,0.2);
         }
+        .jitsi-btn {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(168, 85, 247, 0.18));
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            color: var(--com-text-primary);
+            box-shadow: none;
+        }
+        .jitsi-btn:hover {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(168, 85, 247, 0.28));
+            transform: translateY(-1px);
+        }
+        .jitsi-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(7, 11, 20, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            padding: 1rem;
+        }
+        .jitsi-modal.show {
+            display: flex;
+        }
+        .jitsi-modal-content {
+            width: min(1200px, 94vw);
+            max-height: 88vh;
+            background: var(--com-bg-secondary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius);
+            box-shadow: var(--com-shadow-modal);
+            overflow: hidden;
+        }
+        .jitsi-modal-body {
+            width: 100%;
+            min-height: 70vh;
+            background: var(--com-bg-primary);
+        }
+        .jitsi-modal-body iframe {
+            width: 100%;
+            height: 70vh;
+            border: 0;
+            background: #000;
+        }
         .posts-feed { display: flex; flex-direction: column; gap: 1.2rem; flex: 1; }
         .empty-state { text-align: center; padding: 3rem 1rem; color: var(--com-text-secondary); }
         .empty-state i { font-size: 3rem; opacity: 0.4; margin-bottom: 1rem; }
@@ -1604,7 +1654,7 @@
                 <a href="../index.html" class="logo-link">
                     <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" />
                 </a>
-                <p class="logo-subtitle" data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+                <p class="logo-subtitle" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
             </div>
             <div class="app-actions">
                 <div class="language-switch">
@@ -1653,6 +1703,10 @@
                 <!-- CHAT -->
                 <div class="p2p-chat-section">
                     <h4><i class="fas fa-comment-dots"></i> <span data-i18n="p2p_chat">Chat</span></h4>
+                    <div id="tttScoreboard" class="ttt-scoreboard" aria-live="polite">
+                        <strong><i class="fas fa-trophy"></i> <span data-i18n="games_score_title">Pontuação dos jogos</span></strong>
+                        <span id="tttScoreboardText" data-i18n="games_score_empty">Nenhuma partida registrada.</span>
+                    </div>
                     <div id="p2pMessages" class="chat-messages">
                         <div class="msg" style="color:var(--com-text-tertiary);font-style:italic;" data-i18n="connect_to_chat">Nenhuma mensagem ainda.</div>
                     </div>
@@ -1692,6 +1746,8 @@
                                 <div class="header-create-actions">
                                     <button id="newPostBtn" class="btn-primary" type="button"><i class="fas fa-plus-circle"></i> <span data-i18n="comunidade_new_post">Novo Post</span></button>
                                     <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
+                                    <button id="openJitsiBtn" class="btn-secondary jitsi-btn" type="button" title="Sala de vídeo da disciplina" data-i18n-title="discipline_video_room"><i class="fas fa-video"></i> <span data-i18n="video_room">Sala de vídeo</span></button>
+                                    <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><i class="fas fa-chess-knight"></i> <span data-i18n="games_button">Jogos</span></button>
                                 </div>
                             </div>
                             <p id="disciplineCourseName"></p>
@@ -1717,6 +1773,121 @@
                             </div>
                             <button id="addPollOptionBtn" class="btn-secondary" type="button"><i class="fas fa-plus"></i> <span data-i18n="add_poll_option">Adicionar opção</span></button>
                             <div class="modal-actions"><button id="cancelPollBtn" class="btn-secondary" data-i18n="cancel">Cancelar</button><button id="savePollBtn" class="btn-primary"><i class="fas fa-check"></i> <span data-i18n="publish">Publicar</span></button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="jitsiModal" class="jitsi-modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="jitsi-modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-video"></i> <span data-i18n="discipline_video_room">Sala de vídeo da disciplina</span></h3>
+                            <button class="close-modal" id="closeJitsiBtn" aria-label="Fechar sala de vídeo" data-i18n-title="close">&times;</button>
+                        </div>
+                        <div class="jitsi-modal-body">
+                            <iframe id="jitsiFrame" title="Sala de vídeo da disciplina" allow="camera;microphone;fullscreen;display-capture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gamesModal" class="games-modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="games-modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-gamepad"></i> <span data-i18n="games_room_title">Jogos da sala</span></h3>
+                            <button class="close-modal" id="closeGamesBtn" aria-label="Fechar jogos" data-i18n-title="close">&times;</button>
+                        </div>
+                        <div class="games-modal-body">
+                            <div id="gamesMenuScreen" class="games-menu-screen">
+                                <div class="games-grid" id="gamesGrid">
+                                    <button class="game-card" data-game="chess" type="button">
+                                        <span class="game-icon"><i class="fas fa-chess-knight"></i></span>
+                                        <span class="game-title" data-i18n="games_room_chess">Xadrez</span>
+                                        <span class="game-subtitle" data-i18n="games_room_chess_subtitle">Jogo de estratégia</span>
+                                    </button>
+                                    <button class="game-card" data-game="tictactoe" type="button">
+                                        <span class="game-icon"><i class="fas fa-circle-notch"></i></span>
+                                        <span class="game-title" data-i18n="games_room_tictactoe">Jogo da Velha</span>
+                                        <span class="game-subtitle" data-i18n="games_room_tictactoe_subtitle">Jogo rápido e tático</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="gameShellScreen" class="game-shell-screen" hidden>
+                                <div class="game-shell-header">
+                                    <button id="gameBackBtn" class="game-back-btn" type="button"><i class="fas fa-arrow-left"></i> <span data-i18n="games_room_back">Voltar</span></button>
+                                    <div class="game-shell-title-wrap">
+                                        <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
+                                        <small id="chessStatusText" data-i18n="games_room_sync_status">Sala sincronizada com os colegas da disciplina.</small>
+                                    </div>
+                                </div>
+
+                                <div id="chessOpponentPanel" class="chess-opponent-panel" aria-live="polite"></div>
+
+                                <div class="chess-room-creator">
+                                    <label for="chessRoomMode" data-i18n="games_room_type">Tipo da sala</label>
+                                    <div class="chess-room-creator-row">
+                                        <select id="chessRoomMode" class="chess-room-select chess-room-mode-select">
+                                            <option value="community" selected data-i18n="games_room_community">Comunidade</option>
+                                            <option value="bot" data-i18n="games_room_bot">Bot</option>
+                                        </select>
+                                        <div id="chessBotDifficultyWrap" class="chess-bot-difficulty-wrap" hidden>
+                                            <label for="chessBotDifficulty" data-i18n="games_room_bot_level">Nível do bot</label>
+                                            <select id="chessBotDifficulty" class="chess-room-select">
+                                                <option value="iniciante" data-i18n="games_room_level_beginner">Iniciante</option>
+                                                <option value="intermediario" selected data-i18n="games_room_level_intermediate">Intermediário</option>
+                                                <option value="avancado" data-i18n="games_room_level_advanced">Avançado</option>
+                                                <option value="mestre" data-i18n="games_room_level_master">Mestre</option>
+                                            </select>
+                                        </div>
+                                        <button id="createChessRoomBtn" class="btn-primary" type="button"><i class="fas fa-plus"></i> <span data-i18n="games_room_create_room">Criar sala</span></button>
+                                    </div>
+                                </div>
+
+                                <div id="chessRoomList" class="chess-room-list" aria-live="polite"></div>
+                                <div id="tttRoomList" class="chess-room-list" aria-live="polite" hidden></div>
+
+                                <div id="chessPanel" class="chess-panel">
+                                    <div class="chess-mode-picker" aria-label="Modo de jogo">
+                                        <span class="chess-menu-label" data-i18n="games_room_play_community">Jogar com a comunidade</span>
+                                        <span id="chessDifficultyValue" class="chess-difficulty" hidden data-i18n="games_room_level_intermediate">Intermediário</span>
+                                    </div>
+                                    <div class="chess-rules-hint" data-i18n="games_room_rules">Regras: xeque, xeque-mate, roque, captura en passant e promoção.</div>
+                                    <div class="game-stage">
+                                        <div class="game-stage-header">
+                                            <div>
+                                                <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
+                                            </div>
+                                            <button id="chessResetBtn" class="btn-secondary" type="button"><i class="fas fa-rotate-left"></i> <span data-i18n="games_room_reset">Reiniciar</span></button>
+                                        </div>
+                                        <div id="tttResult" class="ttt-result" aria-live="assertive" hidden></div>
+                                        <div id="chessBoard" class="chess-board" aria-live="polite"></div>
+                                       <div id="tttBoard" class="ttt-board" aria-live="polite" hidden></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="chessPromotionModal" class="chess-promotion-modal" hidden>
+                                <div class="chess-promotion-dialog" role="dialog" aria-modal="true" aria-labelledby="chessPromotionTitle">
+                                    <h4 id="chessPromotionTitle" data-i18n="games_room_choose_promotion">Escolha a peça para promoção</h4>
+                                    <div class="chess-promotion-options">
+                                        <button class="promotion-option" type="button" data-promotion="Q">
+                                            <span class="promotion-piece">♕</span>
+                                            <span data-i18n="games_room_queen">Dama</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="R">
+                                            <span class="promotion-piece">♖</span>
+                                            <span data-i18n="games_room_rook">Torre</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="B">
+                                            <span class="promotion-piece">♗</span>
+                                            <span data-i18n="games_room_bishop">Bispo</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="N">
+                                            <span class="promotion-piece">♘</span>
+                                            <span data-i18n="games_room_knight">Cavalo</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1818,6 +1989,7 @@
                         </div>
                     </div>
 
+                    <div class="profile-account-fields">
                     <!-- Nome -->
                     <div class="profile-user-section">
                         <label for="profileNameInput"><i class="fas fa-user"></i> Nome</label>
@@ -1841,6 +2013,14 @@
                         </div>
                     </div>
 
+                    <div class="profile-user-section">
+                        <label for="profileCountry"><i class="fas fa-globe"></i> País</label>
+                        <div class="profile-input-group">
+                            <select id="profileCountry"><option value="">Não informado</option></select>
+                            <button id="profileSaveCountryBtn"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+
                     <!-- Senha -->
                     <div class="profile-user-section">
                         <label for="profilePassword"><i class="fas fa-lock"></i> Senha (para exportar/importar)</label>
@@ -1850,6 +2030,7 @@
                         </div>
                         <div class="password-saved-indicator" style="display: none;"></div>
                     </div>
+                    </div>
 
                     <!-- Estatísticas -->
                     <div class="profile-stats">
@@ -1857,9 +2038,15 @@
                         <div class="stat-item"><span>Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
                         <div class="stat-item"><span>Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                         <div class="stat-item"><span>Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
-                        <div class="stat-item"><span>Pontuação total</span> <span id="profileTotalPoints">0</span></div>
+                        <div class="stat-item"><span>Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
                         <div class="stat-item"><span>Horas no Auditório</span> <span id="profileAuditorioTime">0min</span></div>
                     </div>
+                    <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span>Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+                    <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+                    <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> Ver provas e resultados</button>
+                    <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+                    <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> Ver status dos jogos</button>
+                    <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
                     <!-- Cursos salvos -->
                     <div id="profileCoursesList">
@@ -1910,5 +2097,7 @@
     <script src="../perfil/profile.js"></script>    <!-- 2º: perfil -->
     <script src="../onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
     <script src="comunidade.js"></script>           <!-- 4º: comunidade -->
+    <script src="jogo/jogo-da-velha/jogo-da-velha.js"></script> <!-- 5º: jogo da velha -->
+    <script src="jogo/xadrez/xadrez.js"></script>   <!-- 6º: xadrez -->
 </body>
 </html>
