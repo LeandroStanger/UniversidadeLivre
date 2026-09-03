@@ -10,12 +10,32 @@
         {
           "name": "Como estudar do jeito certo",
           "videoIds": [
-            "j6hcALm0mLM", "bMLbf10uC0Y", "jdykN0Pvmsg", "GKPhdBbwycA", "0pR36PKRS3U",
-            "Pt9ahS5IhYY", "o8NpsLSkKUo", "RBULO6Rd2TY", "X-23dxiSsxw", "SyAkPPLUcnI",
-            "TQ9A2hAOaJo", "l7lIPXij85I", "BqJCqjpLIUk", "VoHBn-guR1A", "iuri3vpmpx4",
-            "7n5ZQMWkdQ8", "kgH7N4PiCUU", "QO582jpSAsM", "2j33N2u3NAA", "SqBgnMgFQTU",
-            "rEtwjlXbs6M", "Y3mtLliMrkg", "nIN5_nHGk4w", "xHqhw7A5Wk0"
-          ]
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4",
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0"
+          ],
+          "bio": "A disciplina Como estudar do jeito certo é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     },
@@ -28,7 +48,8 @@
           "time": "39 min",
           "externalUrl": "https://www.cursoemvideo.com/curso/html5-css3-modulo1/",
           "platformName": "Curso em Vídeo",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina HTML e CSS, Parte I é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "HTML e CSS, Parte II",
@@ -36,7 +57,8 @@
           "time": "73 min",
           "externalUrl": "https://www.cursoemvideo.com/curso/curso-html5-e-css3-modulo-2-de-5-40-horas/",
           "platformName": "Curso em Vídeo",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina HTML e CSS, Parte II é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "JavaScript Básico",
@@ -44,24 +66,61 @@
           "time": "65 min",
           "externalUrl": "https://www.cursoemvideo.com/curso/javascript/",
           "platformName": "Curso em Vídeo",
-          "videoIds": []
+          "videoIds": [],
+          "bio": "A disciplina JavaScript Básico é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Curso de JavaScript ES6",
           "videoIds": [
-            "Nu-jj55daAY", "PL3LshCQzpo", "bS7Y7ngJ2wM", "lV4vd0K8MoQ", "ThwDm4pMoPw",
-            "31ArWBQi3gs", "03oVsYpw3dg", "kKluw4u4Bxo", "AW2e7bU-Mm8", "V25aDjNL6NE",
-            "biWgEqraFc0", "INkW2Puy1AU", "kLHyu8fc8ik", "lBb0d2hZpKY", "XzyyQu4BqSI",
-            "Cn2HS0Y6_TI", "rwAvMsNvCSw", "8amhgLwYYYg", "_I1w7PSi0XU", "rBNtXHBrw8E",
-            "rYxklS8c9Dg", "lmP6gvZ8-ew", "02vrrk7kFtE", "J1-BL5rmKxQ", "ljZKG2ZbW3s",
-            "L709KtTSX9o", "M-vJ7UMq3FA", "2Uks6s9el70", "0BWsACzsoYA", "Ib79UqGAQek",
-            "O9KWhlDR6Co", "9-3zncqS_vU", "tsUupWcv2oA", "bwL6mScSkFo", "mvx8_vJyL3Y",
-            "_NdLtSqMOgo", "PX8BjUNhh-U", "eSJsWkcQ050", "Ls0Mb9Q7G54"
-          ]
+            "Nu-jj55daAY",
+            "PL3LshCQzpo",
+            "bS7Y7ngJ2wM",
+            "lV4vd0K8MoQ",
+            "ThwDm4pMoPw",
+            "31ArWBQi3gs",
+            "03oVsYpw3dg",
+            "kKluw4u4Bxo",
+            "AW2e7bU-Mm8",
+            "V25aDjNL6NE",
+            "biWgEqraFc0",
+            "INkW2Puy1AU",
+            "kLHyu8fc8ik",
+            "lBb0d2hZpKY",
+            "XzyyQu4BqSI",
+            "Cn2HS0Y6_TI",
+            "rwAvMsNvCSw",
+            "8amhgLwYYYg",
+            "_I1w7PSi0XU",
+            "rBNtXHBrw8E",
+            "rYxklS8c9Dg",
+            "lmP6gvZ8-ew",
+            "02vrrk7kFtE",
+            "J1-BL5rmKxQ",
+            "ljZKG2ZbW3s",
+            "L709KtTSX9o",
+            "M-vJ7UMq3FA",
+            "2Uks6s9el70",
+            "0BWsACzsoYA",
+            "Ib79UqGAQek",
+            "O9KWhlDR6Co",
+            "9-3zncqS_vU",
+            "tsUupWcv2oA",
+            "bwL6mScSkFo",
+            "mvx8_vJyL3Y",
+            "_NdLtSqMOgo",
+            "PX8BjUNhh-U",
+            "eSJsWkcQ050",
+            "Ls0Mb9Q7G54"
+          ],
+          "bio": "A disciplina Curso de JavaScript ES6 é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Debuggando JavaScript",
-          "videoIds": ["BRprc9g6j3c", "9vttEI5YPKM"]
+          "videoIds": [
+            "BRprc9g6j3c",
+            "9vttEI5YPKM"
+          ],
+          "bio": "A disciplina Debuggando JavaScript é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     },
@@ -71,55 +130,171 @@
         {
           "name": "Curso de SASS",
           "videoIds": [
-            "XwPSWKnZIg4", "gT3VS98FxBc", "Zsnf9foBvPQ", "00MRCtPYJEY", "w7hki2quPIQ",
-            "3nThniunnnM", "JInBK6uFWCs", "fvBILePvdK4", "i9Y0zh3yKMU", "AZa-CCRiyoU",
-            "KvdCe_DjM_Y", "D65V6NNGgcA", "DhQre13u9nY", "nAC7LKSdL6M"
-          ]
+            "XwPSWKnZIg4",
+            "gT3VS98FxBc",
+            "Zsnf9foBvPQ",
+            "00MRCtPYJEY",
+            "w7hki2quPIQ",
+            "3nThniunnnM",
+            "JInBK6uFWCs",
+            "fvBILePvdK4",
+            "i9Y0zh3yKMU",
+            "AZa-CCRiyoU",
+            "KvdCe_DjM_Y",
+            "D65V6NNGgcA",
+            "DhQre13u9nY",
+            "nAC7LKSdL6M"
+          ],
+          "bio": "A disciplina Curso de SASS é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Node.js (Express)",
           "videoIds": [
-            "LLqq6FemMNQ", "522HiDiAf0w", "5fuoA7pGH_Y", "bWSkUscBeZc", "QnTCre0HHv8",
-            "pohvlFd0byI", "UMI7kFwmAHo", "G9b-Zi0rg3o", "u3MrPxq_RyA", "UkwLcuzJRDQ",
-            "HmmYkLyVy-c", "IPbLptXXXc0", "MlhNP1UbCRA", "QA2pmm8FC60", "YfG6MgedXTc",
-            "0q0u8syrztg", "jk9aFVXR9Cs", "4ktEr1rbhx8", "U4OUBjnjBWU", "p6oubMfuNto",
-            "LwvZeRj7CdQ", "P1OI_EKyl6U", "Ql6F6wPphkA", "OFrnB7Bvznk", "Oo8NXyrxB0",
-            "PiM-E4cDj0s", "wHvz6SMKZq4", "XlvR0_AECoI", "5_LRvbmlqeg", "h4lS9V3FCRQ",
-            "x2FZQsQiHl0", "ROL4ylHN47g", "dghtXs5j__Q", "1AuXAlmhUV4", "0llTpZe5GiE",
-            "9ELKCM4MU3c", "zw4duVA-ahY", "4rlKcxz09uE", "BN5iQ4pkhTc", "yNDCRAz7CM8",
-            "xFbptBF9Vag", "yNasCYQ2AOE", "JMWeqWUKNv0", "VFEE6_Ydf80", "4jFC_EAbMyw",
-            "EJvY2qFu7Mc", "7nDmDOR3784", "kZuQj24CZ3Y", "BtsIcD09vmQ", "X3IXjiq3DLA",
-            "tvqXaP802u0", "FtEaHKrH9Kc", "JSUMbMhyADQ", "acCEOBM2eC0", "5j5RHllZoBU",
-            "YPkv701xk78", "s1AZiMwuECE", "JwrIhK1OME0", "oVQ7enobouE", "DbKwNEBwZwI",
-            "bfuhndq5-II", "4ssxoAltYmM", "OVsvdeG_AZc"
-          ]
+            "LLqq6FemMNQ",
+            "522HiDiAf0w",
+            "5fuoA7pGH_Y",
+            "bWSkUscBeZc",
+            "QnTCre0HHv8",
+            "pohvlFd0byI",
+            "UMI7kFwmAHo",
+            "G9b-Zi0rg3o",
+            "u3MrPxq_RyA",
+            "UkwLcuzJRDQ",
+            "HmmYkLyVy-c",
+            "IPbLptXXXc0",
+            "MlhNP1UbCRA",
+            "QA2pmm8FC60",
+            "YfG6MgedXTc",
+            "0q0u8syrztg",
+            "jk9aFVXR9Cs",
+            "4ktEr1rbhx8",
+            "U4OUBjnjBWU",
+            "p6oubMfuNto",
+            "LwvZeRj7CdQ",
+            "P1OI_EKyl6U",
+            "Ql6F6wPphkA",
+            "OFrnB7Bvznk",
+            "Oo8NXyrxB0",
+            "PiM-E4cDj0s",
+            "wHvz6SMKZq4",
+            "XlvR0_AECoI",
+            "5_LRvbmlqeg",
+            "h4lS9V3FCRQ",
+            "x2FZQsQiHl0",
+            "ROL4ylHN47g",
+            "dghtXs5j__Q",
+            "1AuXAlmhUV4",
+            "0llTpZe5GiE",
+            "9ELKCM4MU3c",
+            "zw4duVA-ahY",
+            "4rlKcxz09uE",
+            "BN5iQ4pkhTc",
+            "yNDCRAz7CM8",
+            "xFbptBF9Vag",
+            "yNasCYQ2AOE",
+            "JMWeqWUKNv0",
+            "VFEE6_Ydf80",
+            "4jFC_EAbMyw",
+            "EJvY2qFu7Mc",
+            "7nDmDOR3784",
+            "kZuQj24CZ3Y",
+            "BtsIcD09vmQ",
+            "X3IXjiq3DLA",
+            "tvqXaP802u0",
+            "FtEaHKrH9Kc",
+            "JSUMbMhyADQ",
+            "acCEOBM2eC0",
+            "5j5RHllZoBU",
+            "YPkv701xk78",
+            "s1AZiMwuECE",
+            "JwrIhK1OME0",
+            "oVQ7enobouE",
+            "DbKwNEBwZwI",
+            "bfuhndq5-II",
+            "4ssxoAltYmM",
+            "OVsvdeG_AZc"
+          ],
+          "bio": "A disciplina Node.js (Express) é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "ESLint + Prettier + editorconfig",
-          "videoIds": ["9UJYaAt7v2o"]
+          "videoIds": [
+            "9UJYaAt7v2o"
+          ],
+          "bio": "A disciplina ESLint + Prettier + editorconfig é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Curso Básico REST APIs",
           "videoIds": [
-            "P1Mm-gTi5i8", "_4PikzgWX24", "XX1800nlbxU", "KHcFYMtKVko", "BkzfaIcbXVc",
-            "fqGqlygkrcQ", "rxxC9FJukXg", "dIY6WUDlm1o", "G4qUa3uftgY", "V0KqWy877Jg",
-            "rmHVC2u4N1s", "m-XFJXipGqU", "Fl7u3WZO9kk", "SXHVdP0LlPo", "tdi3B6zZlr8",
-            "tXaw3doMuBc", "2jLLNWF6Vac"
-          ]
+            "P1Mm-gTi5i8",
+            "_4PikzgWX24",
+            "XX1800nlbxU",
+            "KHcFYMtKVko",
+            "BkzfaIcbXVc",
+            "fqGqlygkrcQ",
+            "rxxC9FJukXg",
+            "dIY6WUDlm1o",
+            "G4qUa3uftgY",
+            "V0KqWy877Jg",
+            "rmHVC2u4N1s",
+            "m-XFJXipGqU",
+            "Fl7u3WZO9kk",
+            "SXHVdP0LlPo",
+            "tdi3B6zZlr8",
+            "tXaw3doMuBc",
+            "2jLLNWF6Vac"
+          ],
+          "bio": "A disciplina Curso Básico REST APIs é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Curso de React",
           "videoIds": [
-            "1LhX2u6_BJE", "xsR894YLShs", "Pl_aGMWTk4g", "um9WkmclLFs", "875omMYCjA0",
-            "CsCP8ZFySg4", "6T6AM9VbLMY", "zhP0EoBbfuc", "rg3QOhzii_w", "ZokLiEbKiiU",
-            "UVJfll2KefM", "lanKyPZQG_4", "6iJABCS34Jk", "CmdBwXsbGOs", "UUY3cYUif0Y",
-            "Mgpj-YC7a7Y", "0onL9O2ysCE", "-jKFmAKDJKc", "6id-PtDSnmw", "oaDdTH2JQrA",
-            "pIUMIOgP8j8", "10_raCSnrqc", "-QRlXs9LTOw", "UH-s-DwcYA8", "aeCiOmLlr94",
-            "zRttpd14ci4", "0gCEIt-WNQ0", "-I2hggc2yFA", "whBg2A-ls2I", "bHu_jB9apfM",
-            "89DrQYYhiNc", "JDiH9BMzjNs", "qycEIwP_qKs", "wdOBZm-_ZnY", "de7njgttAVg",
-            "WD94J2odWQc", "o0_rVkkWWrc", "VsXwvgW17ow", "GrxM7aHyN84", "ufb8a6ZztOM",
-            "fTqOfPfOFJE", "5LE1-W3TSvs", "ZKTaOoNCAcg", "rzR2Z1c8Mps"
-          ]
+            "1LhX2u6_BJE",
+            "xsR894YLShs",
+            "Pl_aGMWTk4g",
+            "um9WkmclLFs",
+            "875omMYCjA0",
+            "CsCP8ZFySg4",
+            "6T6AM9VbLMY",
+            "zhP0EoBbfuc",
+            "rg3QOhzii_w",
+            "ZokLiEbKiiU",
+            "UVJfll2KefM",
+            "lanKyPZQG_4",
+            "6iJABCS34Jk",
+            "CmdBwXsbGOs",
+            "UUY3cYUif0Y",
+            "Mgpj-YC7a7Y",
+            "0onL9O2ysCE",
+            "-jKFmAKDJKc",
+            "6id-PtDSnmw",
+            "oaDdTH2JQrA",
+            "pIUMIOgP8j8",
+            "10_raCSnrqc",
+            "-QRlXs9LTOw",
+            "UH-s-DwcYA8",
+            "aeCiOmLlr94",
+            "zRttpd14ci4",
+            "0gCEIt-WNQ0",
+            "-I2hggc2yFA",
+            "whBg2A-ls2I",
+            "bHu_jB9apfM",
+            "89DrQYYhiNc",
+            "JDiH9BMzjNs",
+            "qycEIwP_qKs",
+            "wdOBZm-_ZnY",
+            "de7njgttAVg",
+            "WD94J2odWQc",
+            "o0_rVkkWWrc",
+            "VsXwvgW17ow",
+            "GrxM7aHyN84",
+            "ufb8a6ZztOM",
+            "fTqOfPfOFJE",
+            "5LE1-W3TSvs",
+            "ZKTaOoNCAcg",
+            "rzR2Z1c8Mps"
+          ],
+          "bio": "A disciplina Curso de React é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     },
@@ -129,24 +304,64 @@
         {
           "name": "Mini-curso de TypeScript",
           "videoIds": [
-            "mRixno_uE2o", "KL1qNPQCz6M", "-4ZQk8fyCmc", "-BKYrctVmmg", "voII0wn66k0",
-            "zyYjns2aYJQ", "DqpBryBjs6Q", "ZkFLCA_exLI", "rxpycPZnT6I", "x-q7kGA_yp0",
-            "PMhd1ebCGl8", "Zjs7IJuhdaM", "vegOllzhmV0", "o1gCpXdVyHE"
-          ]
+            "mRixno_uE2o",
+            "KL1qNPQCz6M",
+            "-4ZQk8fyCmc",
+            "-BKYrctVmmg",
+            "voII0wn66k0",
+            "zyYjns2aYJQ",
+            "DqpBryBjs6Q",
+            "ZkFLCA_exLI",
+            "rxpycPZnT6I",
+            "x-q7kGA_yp0",
+            "PMhd1ebCGl8",
+            "Zjs7IJuhdaM",
+            "vegOllzhmV0",
+            "o1gCpXdVyHE"
+          ],
+          "bio": "A disciplina Mini-curso de TypeScript é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         },
         {
           "name": "Node (Express) com TypeScript",
           "videoIds": [
-            "GII-SyqjbqE", "x-oNtE1BfyQ", "WFyecpnaV8g", "tY-MR9SujHw", "dc-Y-LZ1T5k",
-            "XBhOI2jrtDU", "et_AKpCm8_A", "X5K8Tgcv5go", "3GmcJJcekgU", "yfVqMhI9Cds",
-            "LFlzrwwr29o", "EPwzQbqsDZs", "NNlu_9-s1XA", "pwvWcqctEIo", "7vwBywJyyL8",
-            "S4c-Sgq50Bg", "40PwmXFstqU", "r6iYcP3Mpgs", "ILY59lpsd90", "1nz1XT3yoxo",
-            "a8EuIxlm310", "vOXt9UgMEV0", "fK7wcFsgNjc", "ckeg6HN91iM", "1shDdjOMnTM",
-            "DSIf8dom6lA", "AVTwMksfUe0", "Yw-h_tyL1DE", "0kz_8q7g7Sw", "-xJeyrcHmF0",
-            "tH_724g0q1k", "41va5BlVy6o", "5D1nMo2Wewo"
-          ]
+            "GII-SyqjbqE",
+            "x-oNtE1BfyQ",
+            "WFyecpnaV8g",
+            "tY-MR9SujHw",
+            "dc-Y-LZ1T5k",
+            "XBhOI2jrtDU",
+            "et_AKpCm8_A",
+            "X5K8Tgcv5go",
+            "3GmcJJcekgU",
+            "yfVqMhI9Cds",
+            "LFlzrwwr29o",
+            "EPwzQbqsDZs",
+            "NNlu_9-s1XA",
+            "pwvWcqctEIo",
+            "7vwBywJyyL8",
+            "S4c-Sgq50Bg",
+            "40PwmXFstqU",
+            "r6iYcP3Mpgs",
+            "ILY59lpsd90",
+            "1nz1XT3yoxo",
+            "a8EuIxlm310",
+            "vOXt9UgMEV0",
+            "fK7wcFsgNjc",
+            "ckeg6HN91iM",
+            "1shDdjOMnTM",
+            "DSIf8dom6lA",
+            "AVTwMksfUe0",
+            "Yw-h_tyL1DE",
+            "0kz_8q7g7Sw",
+            "-xJeyrcHmF0",
+            "tH_724g0q1k",
+            "41va5BlVy6o",
+            "5D1nMo2Wewo"
+          ],
+          "bio": "A disciplina Node (Express) com TypeScript é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade."
         }
       ]
     }
-  ]
+  ],
+  "bio": "Desenvolvimento Web é uma formação em pós-graduação estruturada para desenvolver competência teórica, prática e profissional ao longo do percurso acadêmico. Curso baseado no cronograma oficial: HTML/CSS, JavaScript, Node.js, React, TypeScript, REST APIs e muito mais."
 }

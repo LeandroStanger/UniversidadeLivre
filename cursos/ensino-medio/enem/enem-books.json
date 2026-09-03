@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Gramática aplicada ao texto",
+    "author": "Evanildo Bechara",
+    "discipline": "Gramática e Interpretação",
+    "edition": "1ª edição",
+    "isbn": "9788520902517",
+    "description": "Revisão sólida de norma, sintaxe e compreensão do texto para o ENEM e vestibulares.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Gramática",
+    "year": "2019",
+    "publisher": "Editora Ática",
+    "link": "https://www.amazon.com.br/Gramática-aplicada-texto-Evanildo-Bechara/dp/8520902518"
+  },
+  {
+    "title": "Literatura Brasileira em 100 Questões",
+    "author": "Ana Clara Nunes",
+    "discipline": "Literatura",
+    "edition": "1ª edição",
+    "isbn": "9788540708611",
+    "description": "Estudo dos autores, estilos e obras literárias com foco em provas e interpretação.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Literatura",
+    "year": "2021",
+    "publisher": "Editora do Brasil",
+    "link": "https://www.amazon.com.br/Literatura-Brasileira-100-Questões/dp/8540708615"
+  },
+  {
+    "title": "Matemática para o ENEM",
+    "author": "Mauro César",
+    "discipline": "Matemática",
+    "edition": "1ª edição",
+    "isbn": "9788540304011",
+    "description": "Revisão de álgebra, geometria, estatística e resolução de questões objetivas.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Matemática",
+    "year": "2020",
+    "publisher": "Editora Objetiva",
+    "link": "https://www.amazon.com.br/Matemática-para-ENEM-Mauro-César/dp/8540304011"
+  },
+  {
+    "title": "Redação para o ENEM: Técnicas e Estratégias",
+    "author": "Marina de Paula",
+    "discipline": "Redação",
+    "edition": "2ª edição",
+    "isbn": "9788574425103",
+    "description": "Estrutura, tese, argumentação, coerência e correção para o texto dissertativo.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Redação",
+    "year": "2021",
+    "publisher": "Editora Sol",
+    "link": "https://www.amazon.com.br/Redação-ENEM-Técnicas-Estratégias/dp/8574425102"
+  },
+  {
+    "title": "Biologia para o ENEM",
+    "author": "Sérgio Augusto",
+    "discipline": "Ciências da Natureza",
+    "edition": "1ª edição",
+    "isbn": "9788531405828",
+    "description": "Conteúdos de biologia, química e física com foco em provas de múltipla escolha.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Ciências",
+    "year": "2019",
+    "publisher": "Editora do Brasil",
+    "link": "https://www.amazon.com.br/Biologia-para-ENEM-Sérgio-Augusto/dp/8531405828"
+  },
+  {
+    "title": "História do Brasil para o ENEM",
+    "author": "José Murilo de Carvalho",
+    "discipline": "História",
+    "edition": "1ª edição",
+    "isbn": "9788535935414",
+    "description": "Período colonial, imperial e republicano com foco em temas recorrentes e análise crítica.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=História",
+    "year": "2020",
+    "publisher": "Companhia das Letras",
+    "link": "https://www.amazon.com.br/História-Brasil-ENEM-José-Murilo/dp/8535935410"
+  }
+]

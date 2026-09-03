@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Python for Data Analysis",
+    "author": "Wes McKinney",
+    "discipline": "Análise de Dados com Python",
+    "edition": "2ª edição",
+    "isbn": "9781491957660",
+    "description": "Uso de pandas, NumPy, visualização e manipulação de dados em projetos de análise aplicada.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Data+Analysis",
+    "year": "2018",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/Python-Data-Analysis-Wes-McKinney/dp/1491957662"
+  },
+  {
+    "title": "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
+    "author": "Aurélien Géron",
+    "discipline": "Machine Learning",
+    "edition": "3ª edição",
+    "isbn": "9781098122461",
+    "description": "Modelagem preditiva, redes neurais, pipelines e prática em aprendizado de máquina.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=ML",
+    "year": "2022",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1098122461"
+  },
+  {
+    "title": "The Elements of Statistical Learning",
+    "author": "Trevor Hastie; Robert Tibshirani; Jerome Friedman",
+    "discipline": "Estatística Aplicada",
+    "edition": "2ª edição",
+    "isbn": "9780387848570",
+    "description": "Tratamento matemático de inferência estatística, predição e métodos de aprendizagem estatística.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Estatistica",
+    "year": "2009",
+    "publisher": "Springer",
+    "link": "https://www.amazon.com.br/Elements-Statistical-Learning-Prediction-Statistics/dp/0387848576"
+  },
+  {
+    "title": "R for Data Science",
+    "author": "Hadley Wickham; Garrett Grolemund",
+    "discipline": "Data Science em R",
+    "edition": "1ª edição",
+    "isbn": "9781491910399",
+    "description": "Fluxo completo de importação, limpeza, transformação, modelagem e visualização de dados.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=R+for+Data+Science",
+    "year": "2017",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/R-Data-Science-Hadley-Wickham/dp/1491910399"
+  }
+]

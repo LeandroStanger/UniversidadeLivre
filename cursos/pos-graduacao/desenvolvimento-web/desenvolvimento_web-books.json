@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Eloquent JavaScript",
+    "author": "Marijn Haverbeke",
+    "discipline": "JavaScript e Frontend",
+    "edition": "3ª edição",
+    "isbn": "9781593279509",
+    "description": "Introdução profunda a JavaScript, DOM, eventos, módulos, programação assíncrona e aplicações web.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=JS",
+    "year": "2018",
+    "publisher": "No Starch Press",
+    "link": "https://www.amazon.com.br/Eloquent-JavaScript-3rd-Programming-Introduction/dp/1593279507"
+  },
+  {
+    "title": "JavaScript: The Good Parts",
+    "author": "Douglas Crockford",
+    "discipline": "JavaScript Avançado",
+    "edition": "1ª edição",
+    "isbn": "9780596517748",
+    "description": "Boas práticas, linguagem, padrões e qualidade em JavaScript.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Good+Parts",
+    "year": "2008",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742"
+  },
+  {
+    "title": "CSS Secrets",
+    "author": "Lea Verou",
+    "discipline": "CSS e UI",
+    "edition": "1ª edição",
+    "isbn": "9781449372637",
+    "description": "Técnicas avançadas de CSS, layout, responsividade e experiências visuais.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=CSS",
+    "year": "2015",
+    "publisher": "O'Reilly",
+    "link": "https://www.amazon.com.br/CSS-Secrets-Lea-Verou/dp/1449372635"
+  },
+  {
+    "title": "Node.js Design Patterns",
+    "author": "Mario Casciaro; Luciano Mammino",
+    "discipline": "Backend e APIs",
+    "edition": "2ª edição",
+    "isbn": "9781838981956",
+    "description": "Arquitetura, modularização e padrões para aplicações Node.js robustas.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Node.js",
+    "year": "2020",
+    "publisher": "Packt",
+    "link": "https://www.amazon.com.br/Node-js-Design-Patterns-Server-side/dp/1838981956"
+  }
+]

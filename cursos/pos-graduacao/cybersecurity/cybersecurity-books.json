@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Cybersecurity and Cyberwar",
+    "author": "Peter W. Singer; Allan Friedman",
+    "discipline": "Segurança Cibernética",
+    "edition": "1ª edição",
+    "isbn": "9780199918119",
+    "description": "Panorama estratégico da segurança digital, ataques, defesa e aspectos políticos e organizacionais.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Cyber",
+    "year": "2014",
+    "publisher": "Oxford University Press",
+    "link": "https://www.amazon.com.br/Cybersecurity-Cyberwar-Peter-Singer/dp/0199918116"
+  },
+  {
+    "title": "The Web Application Hacker's Handbook",
+    "author": "Dafydd Stuttard; Marcus Pinto",
+    "discipline": "Testes de Segurança",
+    "edition": "2ª edição",
+    "isbn": "9781118026472",
+    "description": "Análise de vulnerabilidades e testes de penetração em aplicações web.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Hacking",
+    "year": "2011",
+    "publisher": "Wiley",
+    "link": "https://www.amazon.com.br/Web-Application-Hacker-Handbook-2nd/dp/1118026470"
+  },
+  {
+    "title": "Practical Malware Analysis",
+    "author": "Michael Sikorski; Andrew Honig",
+    "discipline": "Malware e Análise Forense",
+    "edition": "1ª edição",
+    "isbn": "9781593272906",
+    "description": "Análise estática e dinâmica de malware, engenharia reversa e coleta de evidências.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Malware",
+    "year": "2012",
+    "publisher": "No Starch Press",
+    "link": "https://www.amazon.com.br/Practical-Malware-Analysis-Hands-On/dp/1593272901"
+  },
+  {
+    "title": "Metasploit: The Penetration Tester's Guide",
+    "author": "David Kennedy; Jim O'Gorman; Devon Kearns; Mati Aharoni",
+    "discipline": "Penetração e Red Team",
+    "edition": "1ª edição",
+    "isbn": "9781593272883",
+    "description": "Ferramentas de testes de invasão, exploração e validação de riscos em ambientes reais.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Metasploit",
+    "year": "2011",
+    "publisher": "No Starch Press",
+    "link": "https://www.amazon.com.br/Metasploit-Penetration-Tester-Guide-Kennedy/dp/159327288X"
+  }
+]
