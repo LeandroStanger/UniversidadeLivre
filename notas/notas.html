@@ -71,6 +71,33 @@
             </button>
         </div>
         <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." aria-label="Título da nota">
+        <div id="notaTitleNotice" class="note-title-notice" role="alert" aria-live="polite" hidden>
+            <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
+            <span data-i18n="notas_title_required">Esqueceu o título da nota?</span>
+        </div>
+
+        <div class="note-course-selector">
+            <label for="notaTipoCursoSelect" data-i18n="notas_course_type_label">Tipo de curso</label>
+            <select id="notaTipoCursoSelect" aria-label="Tipo de curso">
+                <option value="all" data-i18n="notas_course_type_all">Todos os tipos</option>
+                <option value="graduacao" data-i18n="graduacao">Graduação</option>
+                <option value="ensino-medio" data-i18n="ensino_medio">Ensino Médio</option>
+                <option value="pos-graduacao" data-i18n="pos_graduacao">Pós-graduação</option>
+                <option value="idiomas" data-i18n="idiomas">Idiomas</option>
+            </select>
+            <label for="notaCursoSelect" data-i18n="notas_course_label">Curso</label>
+            <select id="notaCursoSelect" aria-label="Curso" disabled>
+                <option value="" data-i18n="notas_course_placeholder">Selecione um curso</option>
+            </select>
+            <label for="notaDisciplinaSelect" data-i18n="notas_discipline_label">Disciplina</label>
+            <select id="notaDisciplinaSelect" aria-label="Disciplina" disabled>
+                <option value="" data-i18n="notas_discipline_placeholder">Selecione uma disciplina</option>
+            </select>
+            <label for="notaAulaSelect" data-i18n="notas_lesson_label">Aula</label>
+            <select id="notaAulaSelect" aria-label="Aula" disabled>
+                <option value="" data-i18n="notas_lesson_placeholder">Selecione uma aula</option>
+            </select>
+        </div>
         
         <!-- Seletor de tags para a nota atual -->
         <div class="note-tags-selector" id="noteTagsSelector" style="display: none;">

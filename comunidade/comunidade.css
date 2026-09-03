@@ -859,8 +859,8 @@ body {
 }
 
 .header-create-actions {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
     gap: 0.45rem;
     flex-shrink: 0;
@@ -870,6 +870,11 @@ body {
     justify-content: center;
     white-space: nowrap;
 }
+
+.header-create-actions #newPostBtn { grid-column: 1; grid-row: 1; }
+.header-create-actions #openJitsiBtn { grid-column: 2; grid-row: 1; }
+.header-create-actions #newPollBtn { grid-column: 1; grid-row: 2; }
+.header-create-actions #openGamesBtn { grid-column: 2; grid-row: 2; }
 .poll-options { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .7rem; }
 .poll-option-input { width: 100%; padding: .65rem .9rem; background: var(--com-bg-tertiary); border: 1px solid var(--com-border); border-radius: var(--com-radius-sm); color: var(--com-text-primary); }
 .poll-card { display: flex; flex-direction: column; gap: .45rem; margin: .5rem 1.5rem 1rem; }

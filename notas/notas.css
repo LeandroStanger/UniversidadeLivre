@@ -499,6 +499,67 @@ a:hover {
     color: var(--text-tertiary);
 }
 
+.note-title-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.65rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    border-radius: 0.65rem;
+    background: rgba(251, 191, 36, 0.12);
+    color: var(--accent-orange);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.note-title-notice[hidden] {
+    display: none;
+}
+
+.note-course-selector {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.note-course-selector label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.note-course-selector select {
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    color: var(--text-primary);
+    font: inherit;
+}
+
+.note-course-selector select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.15);
+}
+
+.note-course-selector select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (max-width: 700px) {
+    .note-course-selector {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+}
+
 /* ========== SELETOR DE TAGS NO EDITOR ========== */
 .note-tags-selector {
     display: flex;
@@ -1120,6 +1181,21 @@ a:hover {
     margin-bottom: 0.8rem;
     word-break: break-word;
     white-space: pre-wrap;
+}
+
+.note-context {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.8rem;
+    margin: -0.15rem 0 0.75rem;
+    color: var(--accent-teal);
+    font-size: 0.75rem;
+}
+
+.note-context span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 .note-tags {
