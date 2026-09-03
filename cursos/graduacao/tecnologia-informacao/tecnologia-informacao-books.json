@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Fundamentos de Sistemas de Informação",
+    "author": "Kenneth C. Laudon; Jane P. Laudon",
+    "discipline": "Sistemas de Informação",
+    "edition": "14ª edição",
+    "isbn": "9788543002921",
+    "description": "Estrutura dos sistemas de informação, tecnologia e gestão empresarial.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=TI",
+    "year": "2020",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Fundamentos-Sistemas-Informação-Laudon/dp/8543002922"
+  },
+  {
+    "title": "Projeto de Sistemas de Informação",
+    "author": "Paulo Henrique de Souza Bermejo",
+    "discipline": "Análise e Projeto de Sistemas",
+    "edition": "1ª edição",
+    "isbn": "9788540905128",
+    "description": "Modelagem de requisitos, processos de negócio e design de soluções digitais.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Projetos",
+    "year": "2018",
+    "publisher": "Atlas",
+    "link": "https://www.amazon.com.br/Projeto-Sistemas-Informação-Bermejo/dp/8540905125"
+  },
+  {
+    "title": "Gestão de TI",
+    "author": "Aline V. B. de Albuquerque",
+    "discipline": "Governança de TI",
+    "edition": "2ª edição",
+    "isbn": "9788595105301",
+    "description": "Arquitetura tecnológica, governança, segurança e gestão de serviços de TI.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Gestão+TI",
+    "year": "2022",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Gestão-TI-Aline-Albuquerque/dp/8595105307"
+  },
+  {
+    "title": "Segurança da Informação",
+    "author": "André da Costa; Roberto P. de Oliveira",
+    "discipline": "Segurança e Proteção",
+    "edition": "1ª edição",
+    "isbn": "9788540703047",
+    "description": "Fundamentos de segurança, risco, normas e proteção de ativos digitais.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Segurança",
+    "year": "2021",
+    "publisher": "Novatec",
+    "link": "https://www.amazon.com.br/Segurança-Informação-Andre-Costa/dp/8540703046"
+  }
+]

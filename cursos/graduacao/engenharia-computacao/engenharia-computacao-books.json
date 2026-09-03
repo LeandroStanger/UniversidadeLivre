@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Digital Design and Computer Architecture",
+    "author": "David Harris; Sarah Harris",
+    "discipline": "Circuitos Digitais e Arquitetura",
+    "edition": "2ª edição",
+    "isbn": "9780123944245",
+    "description": "Fundamentos de lógica digital, arquitetura e organização de computadores com foco prático.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Digital+Design",
+    "year": "2012",
+    "publisher": "Morgan Kaufmann",
+    "link": "https://www.amazon.com.br/Digital-Design-Computer-Architecture-Harris/dp/0123944244"
+  },
+  {
+    "title": "Microelectronic Circuits",
+    "author": "Adel S. Sedra; Kenneth C. Smith",
+    "discipline": "Eletrônica",
+    "edition": "8ª edição",
+    "isbn": "9780190853464",
+    "description": "Modelagem, análise e projeto de circuitos eletrônicos e sistemas microeletrônicos.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Eletrônica",
+    "year": "2020",
+    "publisher": "Oxford University Press",
+    "link": "https://www.amazon.com.br/Microelectronic-Circuits-Sedra-Smith/dp/0190853463"
+  },
+  {
+    "title": "Embedded Systems: Introduction to ARM Cortex-M Microcontrollers",
+    "author": "Jonathan Valvano",
+    "discipline": "Sistemas Embarcados",
+    "edition": "5ª edição",
+    "isbn": "9781477508992",
+    "description": "Introdução a microcontroladores ARM, periféricos, temporização e aplicações embarcadas.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Embarcados",
+    "year": "2017",
+    "publisher": "CreateSpace",
+    "link": "https://www.amazon.com.br/Embedded-Systems-Introduction-Cortex-M-Microcontrollers/dp/1477508993"
+  },
+  {
+    "title": "Signals and Systems",
+    "author": "Alan V. Oppenheim; Alan S. Willsky; S. Hamid Nawab",
+    "discipline": "Sinais e Sistemas",
+    "edition": "2ª edição",
+    "isbn": "9780138147570",
+    "description": "Modelagem de sinais, convolução, transformadas e filtros digitais e analógicos.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Sinais",
+    "year": "1997",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Signals-Systems-Oppenheim-Willsky/dp/0138147574"
+  }
+]
