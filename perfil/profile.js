@@ -25,6 +25,7 @@
         NAME: 'userProfileName',
         AVATAR: 'userAvatar',
         GENDER: 'userGender',
+        COUNTRY: 'userCountry',
         PASSWORD: 'userPasswordHash',
         MATRICULA: 'userMatricula'
     };
@@ -66,6 +67,23 @@
         { key: 'avatar_zebra', file: 'Zebra.png' },
         { key: 'avatar_beija_flor', file: 'Beija-flor.png' }
     ];
+
+    const COUNTRY_CODES = 'AF AL DZ AS AD AO AI AQ AG AR AM AW AU AT AZ BS BH BD BB BY BE BZ BJ BM BT BO BQ BA BW BV BR IO BN BG BF BI CV KH CM CA KY CF TD CL CN CX CC CO KM CG CD CK CR CI HR CU CW CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FK FO FJ FI FR GF PF TF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HM VA HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MO MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL NC NZ NI NE NG NU NF MK MP NO OM PK PW PS PA PG PY PE PH PN PL PT PR QA RE RO RU RW BL SH KN LC MF PM VC WS SM ST SA SN RS SC SL SG SX SK SI SB SO ZA GS SS ES LK SD SR SJ SE CH SY TW TJ TZ TH TL TG TK TO TT TN TR TM TC TV UG UA AE GB US UM UY UZ VU VE VN VG VI WF EH YE ZM ZW'.split(' ');
+
+    function getCountryOptions(language, selectedCountry = '') {
+        const locale = language === 'en' ? 'en' : 'pt-BR';
+        let displayNames;
+        try {
+            displayNames = new Intl.DisplayNames([locale], { type: 'region' });
+        } catch (_) {
+            displayNames = null;
+        }
+        return COUNTRY_CODES
+            .map(code => ({ code, name: displayNames?.of(code) || code }))
+            .sort((first, second) => first.name.localeCompare(second.name, locale))
+            .map(country => `<option value="${country.code}"${country.code === selectedCountry ? ' selected' : ''}>${country.name}</option>`)
+            .join('');
+    }
 
     // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
     const COURSE_NAMES = {
@@ -372,6 +390,13 @@
     }
 
     function getProfileGender() { return localStorage.getItem(STORAGE_KEYS.GENDER) || ''; }
+    function getProfileCountry() { return localStorage.getItem(STORAGE_KEYS.COUNTRY) || ''; }
+
+    function saveProfileCountry(country) {
+        localStorage.setItem(STORAGE_KEYS.COUNTRY, country || '');
+        updateProfileModal();
+        showToast(t('profile_country_saved'), 'success');
+    }
 
     function saveProfileGender(gender) {
         localStorage.setItem(STORAGE_KEYS.GENDER, gender);
@@ -825,18 +850,38 @@
     }
 
     // ========== ESTATÍSTICAS DOS CURSOS ==========
-    function calculateCourseStats(watchedMap) {
+    function getCourseExamStats(courseId) {
+        let points = 0;
+        let attempts = 0;
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            if (!key || !key.startsWith(`ulivre_discipline_exam_${courseId}_`)) continue;
+            try {
+                const state = JSON.parse(localStorage.getItem(key));
+                if (!state || !state.attempted) continue;
+                points += Number(state.score) || 0;
+                attempts += 1;
+            } catch (_) {}
+        }
+        return { points, attempts };
+    }
+
+    function calculateCourseStats(watchedMap, courseId) {
         const totalVideos = watchedMap.length;
         const watchedVideos = watchedMap.filter(v => v === true).length;
         const completedLessons = Math.floor(watchedVideos / 5);
         const completedDisciplines = Math.floor(watchedVideos / 25);
-        const points = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
+        const lessonPoints = (watchedVideos * 10) + (completedLessons * 50) + (completedDisciplines * 200);
+        const examStats = getCourseExamStats(courseId);
         return {
             totalVideos,
             watchedVideos,
             completedLessons,
             completedDisciplines,
-            points,
+            lessonPoints,
+            examPoints: examStats.points,
+            examAttempts: examStats.attempts,
+            points: lessonPoints + examStats.points,
             progressPercent: totalVideos ? Math.round((watchedVideos / totalVideos) * 100) : 0
         };
     }
@@ -850,7 +895,7 @@
                 try {
                     const data = JSON.parse(localStorage.getItem(key));
                     if (data && data.watchedMap) {
-                        const stats = calculateCourseStats(data.watchedMap);
+                        const stats = calculateCourseStats(data.watchedMap, courseId);
                         const name = getCourseName(courseId);
                         courses.push({ id: courseId, name, stats, data });
                     }
@@ -858,6 +903,83 @@
             }
         }
         return courses;
+    }
+
+    function formatExamDuration(milliseconds) {
+        const seconds = Math.max(0, Math.round(Number(milliseconds) / 1000));
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}min ${String(remainingSeconds).padStart(2, '0')}s`;
+    }
+
+    function renderExamHistory() {
+        const container = document.getElementById('profileExamDetails');
+        if (!container) return;
+        const courses = getAllCoursesProgress();
+        const history = getExamHistory(courses.map(course => course.id));
+        if (!history.length) {
+            container.innerHTML = `<p>${t('profile_no_exam_details')}</p>`;
+            return;
+        }
+        container.innerHTML = history.map(exam => {
+            const finishedAt = exam.finishedAt ? new Date(exam.finishedAt).toLocaleString() : t('profile_not_available');
+            return `<article class="profile-exam-item"><strong>${escapeHtml(exam.courseName)} · ${escapeHtml(exam.disciplineName)}</strong><span>${exam.score}/${exam.total} ${t('profile_exam_correct')} · ${Math.max(0, exam.total - exam.score)} ${t('profile_exam_wrong')} · ${exam.percent}%</span><small>${t('profile_exam_time')}: ${exam.duration} · ${finishedAt}</small></article>`;
+        }).join('');
+    }
+
+    function renderGameStatus() {
+        const container = document.getElementById('profileGameStatus');
+        if (!container) return;
+        const user = loadProfileName() || 'Jogador';
+        const readScore = (key) => {
+            try {
+                const scores = JSON.parse(localStorage.getItem(key) || '{}');
+                return scores[user] || {};
+            } catch (_) {
+                return {};
+            }
+        };
+        const games = [
+            { name: t('games_score_chess'), icon: 'fa-chess', score: readScore('ulivre_chess_scores') },
+            { name: t('games_score_ttt'), icon: 'fa-th', score: readScore('ulivre_ttt_scores') }
+        ];
+        container.innerHTML = games.map(game => {
+            const score = game.score;
+            const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
+            return `<article class="profile-game-status-item"><strong><i class="fas ${game.icon}"></i> ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
+        }).join('');
+    }
+
+    function getExamHistory(courseIds) {
+        const history = [];
+        const knownCourseIds = [...new Set([...(courseIds || []), ...Object.keys(COURSE_NAMES)])].sort((first, second) => second.length - first.length);
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            const courseId = knownCourseIds.find(id => key?.startsWith(`ulivre_discipline_exam_${id}_`));
+            if (!courseId) continue;
+            try {
+                const state = JSON.parse(localStorage.getItem(key));
+                if (!state || !state.attempted) continue;
+                const disciplineKey = key.slice(`ulivre_discipline_exam_${courseId}_`.length);
+                const limit = Number(state.timeLimitMs) || 3 * 60 * 60 * 1000;
+                const remaining = Number(state.timeRemainingMs) || 0;
+                history.push({
+                    storageKey: key,
+                    courseId,
+                    courseName: getCourseName(courseId),
+                    disciplineName: disciplineKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase()),
+                    score: Number(state.score) || 0,
+                    total: Number(state.total) || 0,
+                    percent: Number(state.percent) || 0,
+                    passed: Boolean(state.passed),
+                    finishedAt: state.finishedAt || null,
+                    duration: formatExamDuration(limit - remaining),
+                    timeLimitMs: limit,
+                    timeRemainingMs: remaining
+                });
+            } catch (_) {}
+        }
+        return history.sort((first, second) => (second.finishedAt || 0) - (first.finishedAt || 0));
     }
 
     // ========== EXPORTAÇÃO/IMPORTAÇÃO ==========
@@ -905,11 +1027,12 @@
         const exportData = {
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
+            country: getProfileCountry() || '',
             timestamp: new Date().toISOString(),
             avatar: getUserAvatar() || null,
             matricula: getMatricula(),
             auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
-            version: '2.1',
+            version: '2.2',
             data: {}
         };
 
@@ -935,6 +1058,7 @@
                 progressPercent: c.stats.progressPercent,
                 rawData: cleanObject(c.data, 15)
             }));
+            exportData.data.examHistory = getExamHistory(courses.map(course => course.id));
             exportData.data.totalStats = courses.reduce((acc, c) => {
                 acc.watchedVideos += c.stats.watchedVideos;
                 acc.totalVideos += c.stats.totalVideos;
@@ -951,6 +1075,22 @@
             exportData.data.tags = getTags();
         }
         exportData.data.community = getCommunityProgress();
+        const gameScores = localStorage.getItem('ulivre_ttt_scores');
+        if (gameScores) {
+            try {
+                exportData.data.tttScores = JSON.parse(gameScores);
+            } catch (_) {
+                console.warn('[Profile] Pontuação dos jogos inválida para exportação.');
+            }
+        }
+        const chessScores = localStorage.getItem('ulivre_chess_scores');
+        if (chessScores) {
+            try {
+                exportData.data.chessScores = JSON.parse(chessScores);
+            } catch (_) {
+                console.warn('[Profile] Pontuação do xadrez inválida para exportação.');
+            }
+        }
         exportData.data.cursorTimeset = getProgressStorageEntries(['cursor_timeset']);
         return exportData;
     }
@@ -1277,6 +1417,7 @@
         try {
             if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
             if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
+            if (importedData.country) localStorage.setItem(STORAGE_KEYS.COUNTRY, importedData.country);
             if (importedData.avatar) {
                 try {
                     localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
@@ -1304,6 +1445,28 @@
             if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
             if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
             if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
+            if (data.tttScores && typeof data.tttScores === 'object') {
+                localStorage.setItem('ulivre_ttt_scores', JSON.stringify(data.tttScores));
+            }
+            if (data.chessScores && typeof data.chessScores === 'object') {
+                localStorage.setItem('ulivre_chess_scores', JSON.stringify(data.chessScores));
+            }
+            if (Array.isArray(data.examHistory)) {
+                data.examHistory.forEach((exam) => {
+                    if (exam.storageKey && exam.courseId) {
+                        localStorage.setItem(exam.storageKey, JSON.stringify({
+                            passed: Boolean(exam.passed),
+                            score: Number(exam.score) || 0,
+                            total: Number(exam.total) || 0,
+                            percent: Number(exam.percent) || 0,
+                            attempted: true,
+                            finishedAt: exam.finishedAt || null,
+                            timeLimitMs: Number(exam.timeLimitMs) || 3 * 60 * 60 * 1000,
+                            timeRemainingMs: Number(exam.timeRemainingMs) || 0
+                        }));
+                    }
+                });
+            }
             if (data.community && typeof data.community === 'object') {
                 Object.entries(data.community).forEach(([key, value]) => {
                     if (key.startsWith('comunidade_posts_') || key.startsWith('comunidade_chat_')) {
@@ -1382,6 +1545,14 @@
                 if (genderMap[opt.value] !== undefined) opt.textContent = genderMap[opt.value];
             });
         }
+        const countryLabel = document.querySelector('label[for="profileCountry"]');
+        if (countryLabel) countryLabel.innerHTML = '<i class="fas fa-globe"></i> ' + t('profile_country');
+        const countrySelect = document.getElementById('profileCountry');
+        if (countrySelect) {
+            const selectedCountry = countrySelect.value || getProfileCountry();
+            countrySelect.innerHTML = `<option value="">${t('profile_country_not_informed')}</option>` + getCountryOptions(window.getCurrentLanguage?.() || 'pt-br', selectedCountry);
+            countrySelect.value = selectedCountry;
+        }
 
         const statItems = document.querySelectorAll('.profile-stats .stat-item');
         if (statItems.length >= 6) {
@@ -1390,7 +1561,7 @@
                 t('profile_total_videos'),
                 t('profile_completed_lessons'),
                 t('profile_completed_disciplines'),
-                t('profile_total_points'),
+                t('profile_game_points'),
                 t('profile_auditorio_hours')
             ];
             statItems.forEach((item, idx) => {
@@ -1466,7 +1637,20 @@
     // ========== UI DO MODAL ==========
     function updateProfileModal() {
         const allCourses = getAllCoursesProgress();
-        const totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, points: 0 };
+        const totalStats = { watchedVideos: 0, totalVideos: 0, completedLessons: 0, completedDisciplines: 0, coursePoints: 0, points: 0 };
+        const currentUser = loadProfileName() || 'Jogador';
+        let tttScore = {};
+        let chessScore = {};
+        try {
+            const gameScores = JSON.parse(localStorage.getItem('ulivre_ttt_scores') || '{}');
+            tttScore = gameScores[currentUser] || {};
+            const chessScores = JSON.parse(localStorage.getItem('ulivre_chess_scores') || '{}');
+            chessScore = chessScores[currentUser] || {};
+            totalStats.points += Number(tttScore.points) || 0;
+            totalStats.points += Number(chessScore.points) || 0;
+        } catch (_) {
+            console.warn('[Profile] Pontuação dos jogos indisponível.');
+        }
         let ongoingCount = 0;
 
         const nameInput = document.getElementById('profileNameInput');
@@ -1477,6 +1661,11 @@
 
         const genderSelect = document.getElementById('profileGender');
         if (genderSelect) genderSelect.value = getProfileGender();
+        const countrySelect = document.getElementById('profileCountry');
+        if (countrySelect) {
+            countrySelect.innerHTML = `<option value="">${t('profile_country_not_informed')}</option>` + getCountryOptions(window.getCurrentLanguage?.() || 'pt-br', getProfileCountry());
+            countrySelect.value = getProfileCountry();
+        }
 
         const passwordInput = document.getElementById('profilePassword');
         if (passwordInput) {
@@ -1509,7 +1698,7 @@
                     totalStats.totalVideos += stats.totalVideos;
                     totalStats.completedLessons += stats.completedLessons;
                     totalStats.completedDisciplines += stats.completedDisciplines;
-                    totalStats.points += stats.points;
+                    totalStats.coursePoints += stats.points;
                     const iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
                     listHtml +=
                         '<div class="profile-course-item">' +
@@ -1518,7 +1707,7 @@
                         '</div>' +
                         '<div class="profile-course-progress">' +
                         '<span>' + stats.progressPercent + '%</span>' +
-                        '<span class="points">' + stats.points + ' pts</span>' +
+                        '<span class="points">' + t('profile_lesson_points') + ': ' + stats.lessonPoints + ' · ' + t('profile_exam_points') + ': ' + stats.examPoints + '</span>' +
                         '</div>' +
                         '</div>';
                 }
@@ -1544,7 +1733,35 @@
         const disciplinesEl = document.getElementById('profileCompletedDisciplines');
         if (disciplinesEl) disciplinesEl.textContent = totalStats.completedDisciplines;
         const pointsEl = document.getElementById('profileTotalPoints');
-        if (pointsEl) pointsEl.textContent = totalStats.points;
+        const gamePoints = (Number(chessScore.points) || 0) + (Number(tttScore.points) || 0);
+        const grandTotal = totalStats.coursePoints + gamePoints;
+        if (pointsEl) pointsEl.textContent = gamePoints;
+        const coursePointsEl = document.getElementById('profileCoursePoints');
+        if (coursePointsEl) coursePointsEl.textContent = totalStats.coursePoints;
+        const grandTotalEl = document.getElementById('profileGrandTotalPoints');
+        if (grandTotalEl) grandTotalEl.textContent = grandTotal;
+        const examButton = document.getElementById('profileExamDetailsBtn');
+        if (examButton && examButton.dataset.bound !== 'true') {
+            examButton.dataset.bound = 'true';
+            examButton.addEventListener('click', () => {
+                const details = document.getElementById('profileExamDetails');
+                if (!details) return;
+                details.hidden = !details.hidden;
+                if (!details.hidden) document.getElementById('profileGameStatus').hidden = true;
+                if (!details.hidden) renderExamHistory();
+            });
+        }
+        const gameStatusButton = document.getElementById('profileGameStatusBtn');
+        if (gameStatusButton && gameStatusButton.dataset.bound !== 'true') {
+            gameStatusButton.dataset.bound = 'true';
+            gameStatusButton.addEventListener('click', () => {
+                const details = document.getElementById('profileGameStatus');
+                if (!details) return;
+                details.hidden = !details.hidden;
+                if (!details.hidden) document.getElementById('profileExamDetails').hidden = true;
+                if (!details.hidden) renderGameStatus();
+            });
+        }
 
         updateAuditorioTimeDisplay();
         loadAvatarToModal();
@@ -1631,6 +1848,9 @@
             console.warn('[Profile] Modal #profileModal não encontrado no DOM');
             return;
         }
+        if (!modal.contains(document.activeElement)) {
+            profileOpener = document.activeElement instanceof HTMLElement ? document.activeElement : document.getElementById('profileBtn');
+        }
         try {
             updateProfileModal();
         } catch (e) {
@@ -1647,16 +1867,26 @@
     function closeProfileModal() {
         const modal = document.getElementById('profileModal');
         if (!modal) return;
+        const returnFocusTarget = profileOpener || document.getElementById('profileBtn');
+        if (modal.contains(document.activeElement)) {
+            if (returnFocusTarget && typeof returnFocusTarget.focus === 'function') {
+                returnFocusTarget.focus({ preventScroll: true });
+            } else if (typeof document.activeElement?.blur === 'function') {
+                document.activeElement.blur();
+            }
+        }
         modal.classList.remove('show');
         modal.style.display = 'none';
         modal.setAttribute('inert', '');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        profileOpener = null;
         console.log('[Profile] Modal fechado');
     }
 
     // ========== INICIALIZAÇÃO ==========
     let _initialized = false;
+    let profileOpener = null;
 
     async function initProfileSystem() {
         if (_initialized) {
@@ -1741,6 +1971,13 @@
             saveGenderBtn.addEventListener('click', handleSaveGender);
         }
 
+        const saveCountryBtn = document.getElementById('profileSaveCountryBtn');
+        if (saveCountryBtn) {
+            saveCountryBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
+            saveCountryBtn.removeEventListener('click', handleSaveCountry);
+            saveCountryBtn.addEventListener('click', handleSaveCountry);
+        }
+
         const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) {
             savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
@@ -1762,6 +1999,11 @@
             if (!genderSelect) return;
             const gender = genderSelect.value || '';
             saveProfileGender(gender);
+        }
+
+        function handleSaveCountry() {
+            const countrySelect = document.getElementById('profileCountry');
+            if (countrySelect) saveProfileCountry(countrySelect.value);
         }
 
         async function handleSavePassword() {
@@ -1824,6 +2066,11 @@
         if (genderSelectField) {
             genderSelectField.value = getProfileGender();
         }
+        const countrySelectField = document.getElementById('profileCountry');
+        if (countrySelectField) {
+            countrySelectField.innerHTML = `<option value="">${t('profile_country_not_informed')}</option>` + getCountryOptions(window.getCurrentLanguage?.() || 'pt-br', getProfileCountry());
+            countrySelectField.value = getProfileCountry();
+        }
         const passwordInputField = document.getElementById('profilePassword');
         if (passwordInputField) {
             passwordInputField.placeholder = t('profile_password_placeholder');
@@ -1850,6 +2097,9 @@
     window.showAvatarSelector = showAvatarSelector;
     window.saveProfileName = saveProfileName;
     window.saveProfileGender = saveProfileGender;
+    window.getProfileCountry = getProfileCountry;
+    window.saveProfileCountry = saveProfileCountry;
+    window.getCountryOptions = getCountryOptions;
     window.saveProfilePassword = saveProfilePassword;
     window.saveUserAvatar = saveUserAvatar;
     window.setDefaultAvatar = setDefaultAvatar;
@@ -1892,6 +2142,22 @@
         if (el) el.textContent = formatted;
     });
 
+    window.addEventListener('chessScoreUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex') {
+            updateProfileModal();
+            if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+        }
+    });
+
+    window.addEventListener('tttScoreUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex') {
+            updateProfileModal();
+            if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+        }
+    });
+
     window.addEventListener('storage', (e) => {
         if (e.key === AUDITORIO_TIME_KEY) {
             const el = document.getElementById('profileAuditorioTime');
@@ -1901,6 +2167,10 @@
                 const minutes = Math.floor((seconds % 3600) / 60);
                 el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
             }
+        }
+        if ((e.key === 'ulivre_ttt_scores' || e.key === 'ulivre_chess_scores') && document.getElementById('profileModal')?.style?.display === 'flex') {
+            updateProfileModal();
+            if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
         }
     });
 

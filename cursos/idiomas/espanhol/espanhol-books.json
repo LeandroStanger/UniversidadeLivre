@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "title": "Gramática de uso del español",
+    "author": "María José García; Jacinto B. Moreno",
+    "discipline": "Gramática",
+    "edition": "1ª edição",
+    "isbn": "9788441533074",
+    "description": "Estrutura gramatical, verbos, pronomes, tempo verbal e uso prático do espanhol.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Español",
+    "year": "2017",
+    "publisher": "EDELSA",
+    "link": "https://www.amazon.com.br/Gramática-uso-español-María-José/dp/8441533074"
+  },
+  {
+    "title": "Vox Modern Spanish Grammar",
+    "author": "M. V. L. Sandoval",
+    "discipline": "Gramática Avançada",
+    "edition": "1ª edição",
+    "isbn": "9780134968025",
+    "description": "Gramática contextualizada e aprofundada para estudantes de espanhol intermediários e avançados.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Grammar",
+    "year": "2015",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Vox-Modern-Spanish-Grammar/dp/0134968021"
+  },
+  {
+    "title": "Spanish Grammar in Context",
+    "author": "Juan Kattán-Ibarra",
+    "discipline": "Uso e Contexto",
+    "edition": "2ª edição",
+    "isbn": "9780415488203",
+    "description": "Materiais em contexto real para exercitar vocabulário, estrutura e pronúncia.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Contexto",
+    "year": "2018",
+    "publisher": "Routledge",
+    "link": "https://www.amazon.com.br/Spanish-Grammar-Context-Juan-Kattan-Ibarra/dp/0415488209"
+  },
+  {
+    "title": "Práctica de Español para Extranjeros",
+    "author": "María José García",
+    "discipline": "Conversação e Prática",
+    "edition": "1ª edição",
+    "isbn": "9788478662458",
+    "description": "Prática oral e escrita para estudantes de nível intermediário e avançado.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Práctica",
+    "year": "2017",
+    "publisher": "Difusión",
+    "link": "https://www.amazon.com.br/Práctica-Español-para-extranjeros/dp/8478662455"
+  }
+]
