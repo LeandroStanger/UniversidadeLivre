@@ -8,6 +8,7 @@
     <meta name="theme-color" content="#0D1117">
     <link rel="stylesheet" href="auditorio.css">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../perfil/profile.css">
     <link rel="stylesheet" href="../onboarding/onboarding.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
@@ -20,7 +21,7 @@
             <a href="../index.html">
                 <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
             </a>
-            <p data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+            <p data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
         </div>
         <div class="stats">
             <div class="stat-item language-switch">
@@ -130,6 +131,7 @@
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
 
+            <div class="profile-account-fields">
             <!-- Nome -->
             <div class="profile-user-section">
                 <label for="profileNameInput"><i class="fas fa-user"></i> <span data-i18n="profile_name">Nome</span></label>
@@ -148,12 +150,18 @@
                 </select>
                 <button id="profileSaveGenderBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profileCountry"><i class="fas fa-globe"></i> <span data-i18n="profile_country">País</span></label>
+                <select id="profileCountry"><option value="" data-i18n="profile_country_not_informed">Não informado</option></select>
+                <button id="profileSaveCountryBtn" class="btn-secondary"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
 
             <!-- Senha -->
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
                 <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;" data-i18n-placeholder="profile_password_placeholder">
                 <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
             </div>
             <hr>
 
@@ -166,9 +174,15 @@
                 <div class="stat-item"><i class="fas fa-book"></i> <span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
                 <div class="stat-item"><i class="fas fa-check-circle"></i> <span data-i18n="profile_completed_lessons">Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                 <div class="stat-item"><i class="fas fa-award"></i> <span data-i18n="profile_completed_disciplines">Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
-                <div class="stat-item profile-points"><i class="fas fa-star"></i> <span data-i18n="profile_total_points">Pontuação total</span> <span id="profileTotalPoints">0</span></div>
+                <div class="stat-item profile-points"><i class="fas fa-gamepad"></i> <span data-i18n="profile_game_points">Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
                 <div class="stat-item"><i class="fas fa-headphones"></i> <span data-i18n="profile_auditorio_hours">Horas no Auditório</span> <span id="profileAuditorioTime">0</span></div>
             </div>
+            <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+            <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+            <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
+            <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+            <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+            <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
             <!-- Lista de cursos -->
             <div id="profileCoursesList" style="margin: 1rem 0;"></div>
@@ -219,7 +233,7 @@
                 <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
                 <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
                 <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
-                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
             </div>
             <!-- Passo 2: Sobre o projeto -->
             <div class="step" data-step="2">

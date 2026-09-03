@@ -12,7 +12,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     'use strict';
 
-    console.log('[Main] Inicializando script.js v28.0...');
+attachDisciplineQuizModalHandlers();
+console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
@@ -523,9 +524,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Filtros
         const searchTerm = document.getElementById('courseSearchInput')?.value?.trim().toLowerCase() || '';
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const scopeFilter = document.querySelector('#scopeChips .chip.active')?.dataset.scope || 'all';
         const levelFilter = document.querySelector('#levelChips .chip.active')?.dataset.level || 'all';
 
         let filteredCourses = allCourses.filter(course => {
+            if (scopeFilter === 'my-courses' && !isCourseTrackedInProgress(course.id)) return false;
             if (levelFilter !== 'all' && course.courseLevel !== levelFilter) return false;
             if (searchTerm) {
                 const name = (course.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -733,15 +736,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('[renderCourseCards] Renderização concluída.');
     }
 
+    function isCourseTrackedInProgress(courseId) {
+        if (!courseId) return false;
+
+        const completedKey = `course_completed_${courseId}`;
+        if (localStorage.getItem(completedKey) === 'true') {
+            return true;
+        }
+
+        const saved = localStorage.getItem(`ulivre_course_${courseId}`);
+        if (!saved) return false;
+
+        try {
+            const data = JSON.parse(saved);
+            const watchedMap = Array.isArray(data?.watchedMap) ? data.watchedMap : [];
+            const watchedCount = watchedMap.filter(Boolean).length;
+            return watchedCount > 0 && watchedMap.length > 0;
+        } catch (error) {
+            return false;
+        }
+    }
+
     // ========== FILTROS DA PÁGINA INICIAL ==========
     function initHomeFilters() {
         const searchInput = document.getElementById('courseSearchInput');
+        const scopeChips = document.querySelectorAll('#scopeChips .chip');
         const levelChips = document.querySelectorAll('#levelChips .chip');
 
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
                 renderCourseCards();
             }, 300));
+        }
+
+        if (scopeChips.length) {
+            scopeChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    scopeChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    renderCourseCards();
+                });
+            });
         }
 
         if (levelChips.length) {
@@ -1318,12 +1353,118 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    const DISCIPLINE_QUIZ_TIME_LIMIT_MS = 3 * 60 * 60 * 1000;
+    const DISCIPLINE_PASS_PERCENT = 70;
+    let activeDisciplineQuizTimer = null;
+
+    function normalizeDisciplineKey(value) {
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase();
+    }
+
+    function getDisciplineExamStorageKey(courseId, disciplineName) {
+        return `ulivre_discipline_exam_${courseId}_${normalizeDisciplineKey(disciplineName)}`;
+    }
+
+    function getDisciplineExamState(courseId, disciplineName) {
+        if (!courseId || !disciplineName) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+        const raw = localStorage.getItem(getDisciplineExamStorageKey(courseId, disciplineName));
+        if (!raw) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+        try {
+            const parsed = JSON.parse(raw);
+            return {
+                passed: Boolean(parsed.passed),
+                score: Number(parsed.score) || 0,
+                total: Number(parsed.total) || 0,
+                percent: Number(parsed.percent) || 0,
+                finishedAt: parsed.finishedAt || null,
+                attempted: Boolean(parsed.attempted),
+                timeRemainingMs: Number(parsed.timeRemainingMs) || 0
+            };
+        } catch (error) {
+            return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+        }
+    }
+
+    function setDisciplineExamState(courseId, disciplineName, state) {
+        if (!courseId || !disciplineName) return;
+        localStorage.setItem(getDisciplineExamStorageKey(courseId, disciplineName), JSON.stringify(state));
+    }
+
+    function isDisciplinePassed(disciplineName) {
+        const state = getDisciplineExamState(currentCourse, disciplineName);
+        return Boolean(state.passed);
+    }
+
+    function isDisciplineUnlocked(disciplineName) {
+        if (!stagesData || !Array.isArray(stagesData) || !disciplineName) return false;
+        const flat = [];
+        stagesData.forEach(stage => { (stage.disciplines || []).forEach(discipline => flat.push(discipline)); });
+        const currentIndex = flat.findIndex(item => normalizeDisciplineKey(item.name) === normalizeDisciplineKey(disciplineName));
+        if (currentIndex === -1) return false;
+        if (currentIndex === 0) return true;
+        return flat.slice(0, currentIndex).every(item => isDisciplinePassed(item.name));
+    }
+
+    function isDisciplineCompleted(disciplineName) {
+        const lessonIds = disciplineToLessonsMap.get(disciplineName) || [];
+        if (!lessonIds.length) return false;
+        return lessonIds.every(lid => lessons[lid]?.completed === true);
+    }
+
     function updateDisciplineCompletion(disciplineName, lessonIds) {
         const allLessonsCompleted = lessonIds.every(lid => lessons[lid]?.completed === true);
         if (allLessonsCompleted && !notifiedDisciplines.has(disciplineName)) {
             notifiedDisciplines.add(disciplineName);
             queueNotification(t('discipline_completed', { name: disciplineName }), 'success');
         }
+    }
+
+    function formatQuizCountdown(ms) {
+        const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return [hours, minutes, seconds].map(value => String(value).padStart(2, '0')).join(':');
+    }
+
+    function stopDisciplineQuizTimer() {
+        if (activeDisciplineQuizTimer) {
+            clearInterval(activeDisciplineQuizTimer);
+            activeDisciplineQuizTimer = null;
+        }
+    }
+
+    function updateDisciplineQuizTimerDisplay() {
+        const modal = document.getElementById('disciplineQuizModal');
+        if (!modal || modal.style.display === 'none') {
+            stopDisciplineQuizTimer();
+            return;
+        }
+        const timerEl = document.getElementById('disciplineQuizTimer');
+        if (!timerEl) return;
+        try {
+            const state = JSON.parse(modal.dataset.quizState || '{}');
+            if (!state || !state.startedAt) return;
+            const remaining = Math.max(0, Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt)));
+            timerEl.textContent = `Tempo restante: ${formatQuizCountdown(remaining)}`;
+            state.timeRemainingMs = remaining;
+            modal.dataset.quizState = JSON.stringify(state);
+            if (remaining <= 0) {
+                stopDisciplineQuizTimer();
+                finalizeDisciplineQuiz(true);
+            }
+        } catch (error) {
+            stopDisciplineQuizTimer();
+        }
+    }
+
+    function startDisciplineQuizTimer() {
+        stopDisciplineQuizTimer();
+        const modal = document.getElementById('disciplineQuizModal');
+        if (!modal) return;
+        const update = () => updateDisciplineQuizTimerDisplay();
+        update();
+        activeDisciplineQuizTimer = setInterval(update, 1000);
     }
 
     function expandCurrentLessonInUnifiedContent() {
@@ -1618,8 +1759,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let discPercent = totalV ? Math.round((watchedV / totalV) * 100) : 0;
                 let card = document.createElement("div");
                 card.className = "discipline-card";
-                card.innerHTML = `<div class="discipline-header"><span><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>${escapeHtml(discipline.name)}</span><span class="discipline-progress">${discPercent}%</span></div><div class="weeks-container"></div>`;
+                const disciplineCompleted = isDisciplineCompleted(discipline.name);
+                const disciplineUnlocked = isDisciplineUnlocked(discipline.name);
+                const disciplinePassed = isDisciplinePassed(discipline.name);
+                const quizButtonTitle = !disciplineUnlocked
+                    ? 'Desbloqueie a disciplina anterior para abrir esta prova.'
+                    : !disciplineCompleted
+                        ? 'Conclua toda a disciplina para desbloquear a prova.'
+                        : disciplinePassed
+                            ? 'Você já aprovou esta prova.'
+                            : 'Prova disponível';
+                card.innerHTML = `<div class="discipline-header"><span><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>${escapeHtml(discipline.name)}</span><span class="discipline-progress">${discPercent}%</span></div><div class="weeks-container"></div><button class="discipline-quiz-btn" type="button" ${(!disciplineUnlocked || !disciplineCompleted || disciplinePassed) ? 'disabled' : ''} title="${quizButtonTitle}"><i class="fas fa-clipboard-question"></i> ${disciplinePassed ? 'Aprovado' : 'Prova'}</button>`;
                 let weeksContainer = card.querySelector('.weeks-container');
+                let quizButton = card.querySelector('.discipline-quiz-btn');
+                if (quizButton && (!disciplineUnlocked || !disciplineCompleted || disciplinePassed)) {
+                    quizButton.classList.add('locked');
+                }
+                if (card && !disciplineUnlocked) {
+                    card.classList.add('discipline-locked');
+                }
                 let weeks = [];
                 for (let i = 0; i < lessonsForDisc.length; i += 5) weeks.push(lessonsForDisc.slice(i, i + 5));
                 weeks.forEach((week, wIdx) => {
@@ -1629,11 +1787,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     week.forEach(lesson => {
                         let gid = lessons.indexOf(lesson);
                         let lessonDiv = document.createElement("div");
-                        lessonDiv.className = `lesson-item ${lesson.completed ? 'completed' : ''}`;
+                        lessonDiv.className = `lesson-item ${lesson.completed ? 'completed' : ''} ${!disciplineUnlocked ? 'locked-disciplines' : ''}`;
                         lessonDiv.innerHTML = `<span><i class="fas fa-play-circle" style="font-size:0.7rem; margin-right:0.5rem;"></i> ${t('lesson_label')} ${gid + 1}</span> <span>${Math.round(lesson.totalDuration)}min</span>`;
                         lessonDiv.setAttribute('data-lesson-id', gid);
                         lessonDiv.addEventListener('click', (e) => {
                             e.stopPropagation();
+                            if (!disciplineUnlocked) {
+                                alert('Desbloqueie a disciplina anterior fazendo a prova com a pontuação mínima.');
+                                return;
+                            }
                             const lid = parseInt(e.currentTarget.getAttribute('data-lesson-id'));
                             if (!isNaN(lid) && lessons[lid] && lessons[lid].unlocked) {
                                 currentLessonId = lid;
@@ -1645,6 +1807,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                     weeksContainer.appendChild(weekDiv);
                 });
+                if (quizButton) {
+                    quizButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!isDisciplineCompleted(discipline.name)) {
+                            alert(t('discipline_quiz_locked'));
+                            return;
+                        }
+                        openDisciplineQuiz(discipline.name);
+                    });
+                }
                 let header = card.querySelector('.discipline-header');
                 header.addEventListener('click', () => weeksContainer.classList.toggle('open'));
                 discList.appendChild(card);
@@ -1654,6 +1826,333 @@ document.addEventListener('DOMContentLoaded', async () => {
             container.appendChild(stageDiv);
         });
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
+    }
+
+    const disciplineQuizCache = new Map();
+
+    function getCourseQuizFile(courseId) {
+        const courseMap = {
+            administracao: 'cursos/graduacao/administracao/administracao-quiz.json',
+            biologia: 'cursos/graduacao/biologia/biologia-quiz.json',
+            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
+            matematica: 'cursos/graduacao/matematica/matematica-quiz.json',
+            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-quiz.json',
+            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-quiz.json',
+            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-quiz.json',
+            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-quiz.json',
+            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-quiz.json',
+            devops: 'cursos/pos-graduacao/devops/devops-quiz.json',
+            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-quiz.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-quiz.json',
+            'computer-science': 'cursos/graduacao/computer-science/computer-science-quiz.json',
+            'math': 'cursos/graduacao/math/math-quiz.json',
+            'enem': 'cursos/ensino-medio/enem/enem-quiz.json',
+            'espcex': 'cursos/ensino-medio/espcex/espcex-quiz.json',
+            'ingles': 'cursos/idiomas/ingles/ingles-quiz.json',
+            'espanhol': 'cursos/idiomas/espanhol/espanhol-quiz.json',
+            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-quiz.json',
+            'japones': 'cursos/idiomas/japones/japones-quiz.json',
+            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-quiz.json',
+            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-quiz.json',
+            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-quiz.json',
+            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-quiz.json',
+            'letras': 'cursos/graduacao/letras/letras-quiz.json',
+            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-quiz.json',
+            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-quiz.json',
+            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-quiz.json',
+            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-quiz.json',
+            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-quiz.json',
+            'fisica': 'cursos/graduacao/fisica/fisica-quiz.json',
+            'quimica': 'cursos/graduacao/quimica/quimica-quiz.json'
+        };
+        return courseMap[courseId] || null;
+    }
+
+    function createFallbackQuizQuestions(disciplineName, count = 50) {
+        const topicBase = (disciplineName || 'disciplina').trim();
+        const tokens = topicBase.split(/\s+/).slice(0, 6);
+        const domainWords = tokens.length ? tokens : ['disciplina', 'estudo', 'conhecimento'];
+        const questionSeeds = [
+            'Qual conceito é essencial para o domínio desta disciplina?',
+            'Qual alternativa melhor descreve a aplicação prática desta temática?',
+            'Por que essa habilidade é importante no contexto acadêmico?',
+            'Qual elemento deve ser priorizado na análise do tema?',
+            'Qual abordagem costuma gerar melhor compreensão do conteúdo?',
+            'Em uma situação prática, qual decisão é mais adequada?',
+            'Qual é a característica central dessa área de estudo?',
+            'Qual ferramenta ou método é mais indicado para aprofundar o assunto?',
+            'O que distingue a teoria da prática nesta disciplina?',
+            'Qual afirmação melhor resume a competência esperada?'
+        ];
+
+        return Array.from({ length: count }, (_, index) => {
+            const baseQuestion = questionSeeds[index % questionSeeds.length];
+            const correctIndex = index % 4;
+            const optionPool = [
+                'Compreender os fundamentos e aplicar com raciocínio crítico.',
+                'Memorizar respostas sem relacionar ao contexto.',
+                'Evitar análise prática e focar apenas na teoria isolada.',
+                'Priorizar solução mecânica em vez de entendimento conceitual.'
+            ];
+            const options = [
+                optionPool[(correctIndex + 0) % optionPool.length],
+                optionPool[(correctIndex + 1) % optionPool.length],
+                optionPool[(correctIndex + 2) % optionPool.length],
+                optionPool[(correctIndex + 3) % optionPool.length]
+            ];
+            const correctAnswer = options[correctIndex];
+            const topicPhrase = domainWords.join(' ');
+            return {
+                id: `${normalize(disciplineName || 'disciplina')}-${index + 1}`,
+                discipline: disciplineName,
+                question: `${baseQuestion} Considere o tema ${topicPhrase}.`,
+                options,
+                correctIndex,
+                correctAnswer,
+                explanation: `A melhor resposta está ligada à compreensão conceitual e à aplicação crítica de ${topicPhrase}, em vez de memorização mecânica.`
+            };
+        });
+    }
+
+    async function loadCourseQuizBank(courseId) {
+        if (disciplineQuizCache.has(courseId)) {
+            return disciplineQuizCache.get(courseId);
+        }
+        const fileName = getCourseQuizFile(courseId);
+        if (!fileName) {
+            return [];
+        }
+        try {
+            const response = await fetch(fileName);
+            if (!response.ok) {
+                throw new Error('Quiz não disponível para este curso');
+            }
+            const data = await response.json();
+            disciplineQuizCache.set(courseId, data || []);
+            return data || [];
+        } catch (error) {
+            console.warn('[Quiz] Arquivo de prova não encontrado para o curso:', courseId, error);
+            disciplineQuizCache.set(courseId, []);
+            return [];
+        }
+    }
+
+    function findDisciplineQuestions(disciplineBank, disciplineName) {
+        if (!Array.isArray(disciplineBank)) return [];
+        const normalizedTarget = normalize(disciplineName || '');
+        for (const item of disciplineBank) {
+            if (normalize(item?.name || item?.discipline || '') === normalizedTarget) {
+                return Array.isArray(item.questions) ? item.questions : [];
+            }
+        }
+        return [];
+    }
+
+    function buildQuizStateFromQuestions(disciplineName, questions) {
+        const pool = Array.isArray(questions) && questions.length ? questions : createFallbackQuizQuestions(disciplineName, 50);
+        const selected = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+        return {
+            disciplineName,
+            questions: selected,
+            currentIndex: 0,
+            answers: new Array(selected.length).fill(null),
+            completed: false,
+            startedAt: Date.now(),
+            timeLimitMs: DISCIPLINE_QUIZ_TIME_LIMIT_MS,
+            timeRemainingMs: DISCIPLINE_QUIZ_TIME_LIMIT_MS
+        };
+    }
+
+    function openDisciplineQuiz(disciplineName) {
+        const modal = document.getElementById('disciplineQuizModal');
+        const title = document.getElementById('disciplineQuizTitle');
+        if (!modal || !title) return;
+
+        if (!isDisciplineCompleted(disciplineName) || !isDisciplineUnlocked(disciplineName)) {
+            alert(t('discipline_quiz_locked'));
+            return;
+        }
+
+        const courseId = currentCourse;
+        if (!courseId) {
+            alert('Selecione um curso antes de iniciar a prova.');
+            return;
+        }
+
+        const openModal = async () => {
+            let bank = await loadCourseQuizBank(courseId);
+            let questions = findDisciplineQuestions(bank, disciplineName);
+            if (!questions.length) {
+                questions = createFallbackQuizQuestions(disciplineName, 50);
+            }
+            const state = buildQuizStateFromQuestions(disciplineName, questions);
+            title.textContent = `${disciplineName} · Prova`;
+            modal.dataset.quizState = JSON.stringify(state);
+            modal.setAttribute('aria-hidden', 'false');
+            modal.style.display = 'flex';
+            startDisciplineQuizTimer();
+            renderDisciplineQuizQuestion();
+        };
+
+        openModal();
+    }
+
+    function renderDisciplineQuizQuestion() {
+        const modal = document.getElementById('disciplineQuizModal');
+        const statusEl = document.getElementById('disciplineQuizStatus');
+        const questionEl = document.getElementById('disciplineQuizQuestion');
+        const optionsEl = document.getElementById('disciplineQuizOptions');
+        const navEl = document.getElementById('disciplineQuizNavigation');
+        if (!modal || !statusEl || !questionEl || !optionsEl || !navEl) return;
+
+        let state = null;
+        try {
+            state = JSON.parse(modal.dataset.quizState || '{}');
+        } catch (e) {
+            return;
+        }
+
+        if (!state || !Array.isArray(state.questions) || !state.questions.length) return;
+
+        const current = state.questions[state.currentIndex];
+        const answered = state.answers[state.currentIndex];
+        const remaining = Math.max(0, Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())));
+        const progressLabel = `Pergunta ${state.currentIndex + 1} de ${state.questions.length}`;
+        statusEl.innerHTML = `<span>${escapeHtml(progressLabel)}</span><span id="disciplineQuizTimer">Tempo restante: ${formatQuizCountdown(remaining)}</span>`;
+        questionEl.innerHTML = `<strong>${escapeHtml(current.question)}</strong>`;
+
+        optionsEl.innerHTML = current.options.map((option, index) => `
+            <label class="discipline-quiz-option ${answered === index ? 'selected' : ''}">
+                <input type="radio" name="disciplineQuizOption" value="${index}" ${answered === index ? 'checked' : ''}>
+                <span>${escapeHtml(option)}</span>
+            </label>
+        `).join('');
+
+        optionsEl.querySelectorAll('input[name="disciplineQuizOption"]').forEach(input => {
+            input.addEventListener('change', (event) => {
+                const answerIndex = Number(event.target.value);
+                state.answers[state.currentIndex] = answerIndex;
+                modal.dataset.quizState = JSON.stringify(state);
+                renderDisciplineQuizQuestion();
+            });
+        });
+
+        const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'discipline-quiz-nav-btn secondary';
+        prevBtn.textContent = 'Anterior';
+        prevBtn.disabled = state.currentIndex === 0;
+        prevBtn.onclick = () => {
+            if (state.currentIndex > 0) {
+                state.currentIndex -= 1;
+                modal.dataset.quizState = JSON.stringify(state);
+                renderDisciplineQuizQuestion();
+            }
+        };
+
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'discipline-quiz-nav-btn primary';
+        nextBtn.textContent = state.currentIndex === state.questions.length - 1 ? 'Finalizar' : 'Próxima';
+        nextBtn.onclick = () => {
+            if (remaining <= 0) {
+                finalizeDisciplineQuiz(true);
+                return;
+            }
+            if (state.currentIndex < state.questions.length - 1) {
+                state.currentIndex += 1;
+                modal.dataset.quizState = JSON.stringify(state);
+                renderDisciplineQuizQuestion();
+            } else {
+                finalizeDisciplineQuiz();
+            }
+        };
+
+        navEl.innerHTML = '';
+        navEl.appendChild(prevBtn);
+        navEl.appendChild(nextBtn);
+    }
+
+    function finalizeDisciplineQuiz(autoTimeout = false) {
+        const modal = document.getElementById('disciplineQuizModal');
+        const statusEl = document.getElementById('disciplineQuizStatus');
+        const questionEl = document.getElementById('disciplineQuizQuestion');
+        const optionsEl = document.getElementById('disciplineQuizOptions');
+        const navEl = document.getElementById('disciplineQuizNavigation');
+        if (!modal || !statusEl || !questionEl || !optionsEl || !navEl) return;
+
+        try {
+            const state = JSON.parse(modal.dataset.quizState || '{}');
+            if (!state || !Array.isArray(state.questions)) return;
+
+            stopDisciplineQuizTimer();
+
+            let score = 0;
+            const summary = state.questions.map((q, idx) => {
+                const answerIndex = state.answers[idx];
+                const correct = answerIndex === q.correctIndex;
+                if (correct) score += 1;
+                return `\n${idx + 1}. ${correct ? '✅' : '❌'} ${escapeHtml(q.question)}<br><small>${correct ? 'Resposta correta' : `Correta: ${escapeHtml(q.options[q.correctIndex])}`}</small>`;
+            }).join('<br>');
+
+            const percent = Math.round((score / state.questions.length) * 100);
+            const passed = percent >= DISCIPLINE_PASS_PERCENT;
+            const disciplineName = state.disciplineName || currentDiscipline;
+            setDisciplineExamState(currentCourse, disciplineName, {
+                passed,
+                score,
+                total: state.questions.length,
+                percent,
+                attempted: true,
+                finishedAt: Date.now(),
+                timeRemainingMs: Math.max(0, Number(state.timeRemainingMs || (Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())))))
+            });
+
+            statusEl.innerHTML = `<span>${autoTimeout ? 'Tempo esgotado' : 'Resultado final'}</span><strong>${score}/${state.questions.length}</strong>`;
+            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>Você acertou ${score} de ${state.questions.length} questões.</h3><p>Seu desempenho foi de ${percent}%.</p>${passed ? '<p><strong>Prova aprovada.</strong> A próxima disciplina foi desbloqueada.</p>' : '<p><strong>Prova reprovada.</strong> Você precisa atingir ${DISCIPLINE_PASS_PERCENT}% para desbloquear a próxima disciplina.</p>'}</div>`;
+            optionsEl.innerHTML = `<div class="discipline-quiz-summary">${summary}</div>`;
+            navEl.innerHTML = '<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizCloseBtn">Fechar</button>';
+            document.getElementById('disciplineQuizCloseBtn')?.addEventListener('click', () => {
+                closeDisciplineQuiz();
+            });
+
+            if (passed) {
+                const flatDisciplines = [];
+                stagesData.forEach(stage => {
+                    (stage.disciplines || []).forEach(discipline => flatDisciplines.push(discipline));
+                });
+                const currentIndex = flatDisciplines.findIndex(item => normalizeDisciplineKey(item.name) === normalizeDisciplineKey(disciplineName));
+                if (currentIndex >= 0 && currentIndex < flatDisciplines.length - 1) {
+                    const nextDiscipline = flatDisciplines[currentIndex + 1];
+                    if (nextDiscipline && nextDiscipline.name) {
+                        queueNotification(`A disciplina "${nextDiscipline.name}" foi desbloqueada.`, 'success');
+                    }
+                }
+            }
+
+            renderUnifiedCourseContent();
+        } catch (e) {
+            console.error('[Quiz] Erro ao finalizar prova:', e);
+        }
+    }
+
+    function closeDisciplineQuiz() {
+        const modal = document.getElementById('disciplineQuizModal');
+        if (!modal) return;
+        stopDisciplineQuizTimer();
+        modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+        modal.dataset.quizState = '';
+    }
+
+    function attachDisciplineQuizModalHandlers() {
+        const modal = document.getElementById('disciplineQuizModal');
+        const closeBtn = document.querySelector('.close-discipline-quiz');
+        if (!modal || !closeBtn) return;
+        closeBtn.addEventListener('click', closeDisciplineQuiz);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeDisciplineQuiz();
+        });
     }
 
     // ========== BIBLIOTECA ==========

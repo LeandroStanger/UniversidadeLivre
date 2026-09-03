@@ -30,6 +30,7 @@
     let formData = {
         name: '',
         gender: '',
+        country: '',
         password: '',
         avatar: null // base64 ou null
     };
@@ -300,6 +301,7 @@
     // ========== ESCOLHA DE IDIOMA ==========
     function handleLanguageSelect(lang) {
         selectedLang = lang;
+        if (!formData.country && lang === 'pt-br') formData.country = 'BR';
         const ptBtn = document.getElementById('onboardingLangPt');
         const enBtn = document.getElementById('onboardingLangEn');
         if (ptBtn && enBtn) {
@@ -438,6 +440,7 @@
 
         if (importedData.user) localStorage.setItem('userProfileName', importedData.user);
         if (importedData.gender) localStorage.setItem('userGender', importedData.gender);
+        if (importedData.country) localStorage.setItem('userCountry', importedData.country);
         if (importedData.avatar) {
             localStorage.setItem('userAvatar', importedData.avatar);
             if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
@@ -496,11 +499,14 @@
         showToast(t('profile_import_success', { count: importedCount }), 'success');
 
         setTimeout(() => {
-            if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+            const currentPath = window.location.pathname;
+            const isHomePage = currentPath === '/' || currentPath.endsWith('/index.html');
+            const isCommunityPage = currentPath.endsWith('/comunidade/comunidade.html');
+            if (isHomePage || isCommunityPage) {
                 window.location.reload();
-            } else {
-                window.location.href = 'index.html';
+                return;
             }
+            window.location.href = new URL('../index.html', window.location.href).href;
         }, 1500);
     }
 
@@ -643,6 +649,13 @@
                         <div id="onboardingGenderError" class="form-error" style="display:none;">${t('onboarding_error_gender_required')}</div>
                     </div>
                     <div class="form-group">
+                        <label for="onboardingCountry">${t('onboarding_form_country_label')}</label>
+                        <select id="onboardingCountry">
+                            <option value="">${t('profile_country_not_informed')}</option>
+                            ${window.getCountryOptions ? window.getCountryOptions(selectedLang || 'pt-br', formData.country) : ''}
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="onboardingPassword">${t('onboarding_form_password_label')}</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="${t('onboarding_form_password_placeholder')}" value="${formData.password}" style="padding-right:40px;">
@@ -714,6 +727,7 @@
         const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
         if (savedLang) {
             selectedLang = savedLang;
+            if (!formData.country) formData.country = localStorage.getItem('userCountry') || (savedLang === 'pt-br' ? 'BR' : '');
             if (ptBtn && enBtn) {
                 ptBtn.style.borderColor = savedLang === 'pt-br' ? 'var(--accent-blue)' : 'var(--border)';
                 ptBtn.style.background = savedLang === 'pt-br' ? 'var(--bg-secondary)' : 'var(--bg-tertiary)';
@@ -1204,6 +1218,7 @@
 
             formData.name = name;
             formData.gender = gender;
+            formData.country = document.getElementById('onboardingCountry')?.value || '';
             formData.password = password;
         }
 
@@ -1234,6 +1249,8 @@
                 else localStorage.setItem('userProfileName', formData.name);
                 if (window.saveProfileGender) window.saveProfileGender(formData.gender);
                 else localStorage.setItem('userGender', formData.gender);
+                if (window.saveProfileCountry) window.saveProfileCountry(formData.country);
+                else localStorage.setItem('userCountry', formData.country);
             }
 
             if (formData.password) {
@@ -1311,6 +1328,7 @@
 
         const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
         selectedLang = savedLang;
+        if (!formData.country) formData.country = localStorage.getItem('userCountry') || (savedLang === 'pt-br' ? 'BR' : '');
         await loadTranslations(savedLang);
         applyTranslations();
 
@@ -1328,8 +1346,10 @@
         requestAnimationFrame(() => {
             const nameInput = document.getElementById('onboardingName');
             const genderSelect = document.getElementById('onboardingGender');
+            const countrySelect = document.getElementById('onboardingCountry');
             if (nameInput) nameInput.value = formData.name;
             if (genderSelect) genderSelect.value = formData.gender;
+            if (countrySelect) countrySelect.value = formData.country;
             updateModeUI();
         });
 
@@ -1389,17 +1409,21 @@
             if (modal && modal.classList.contains('show')) {
                 const nameInput = document.getElementById('onboardingName');
                 const genderSelect = document.getElementById('onboardingGender');
+                const countrySelect = document.getElementById('onboardingCountry');
                 const passwordInput = document.getElementById('onboardingPassword');
                 if (nameInput) formData.name = nameInput.value;
                 if (genderSelect) formData.gender = genderSelect.value;
+                if (countrySelect) formData.country = countrySelect.value;
                 if (passwordInput) formData.password = passwordInput.value;
                 buildSteps();
                 requestAnimationFrame(() => {
                     const newName = document.getElementById('onboardingName');
                     const newGender = document.getElementById('onboardingGender');
+                    const newCountry = document.getElementById('onboardingCountry');
                     const newPassword = document.getElementById('onboardingPassword');
                     if (newName) newName.value = formData.name;
                     if (newGender) newGender.value = formData.gender;
+                    if (newCountry) newCountry.value = formData.country;
                     if (newPassword) newPassword.value = formData.password;
                     renderStep(currentStep);
                 });
