@@ -1917,7 +1917,7 @@
         }
 
         // ===== AVATAR WRAPPER =====
-        const avatarContainer = document.querySelector('#avatarWrapper .avatar-container');
+        const avatarContainer = document.getElementById('avatarWrapper');
         console.log('[Profile] Área do avatar encontrada?', !!avatarContainer);
         if (avatarContainer) {
             avatarContainer.addEventListener('click', (e) => {

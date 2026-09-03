@@ -877,8 +877,12 @@
         .discipline-course-image img { width: 100%; height: 100%; object-fit: cover; }
         .discipline-info h2 { font-size: 1.4rem; color: var(--com-text-primary); margin: 0; }
         .discipline-title-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
-        .header-create-actions { display:flex; flex-direction:column; align-items:stretch; gap:0.45rem; flex-shrink:0; }
+        .header-create-actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); align-items:stretch; gap:0.45rem; flex-shrink:0; }
         .header-create-actions button { justify-content:center; white-space:nowrap; }
+        .header-create-actions #newPostBtn { grid-column:1; grid-row:1; }
+        .header-create-actions #openJitsiBtn { grid-column:2; grid-row:1; }
+        .header-create-actions #newPollBtn { grid-column:1; grid-row:2; }
+        .header-create-actions #openGamesBtn { grid-column:2; grid-row:2; }
         .discipline-title-row .btn-primary { flex-shrink:0; white-space:nowrap; }
         .discipline-info p { font-size: 0.85rem; color: var(--com-text-secondary); margin: 0; }
         .feed-tabs {
@@ -1745,8 +1749,8 @@
                                 <h2 id="disciplineName" data-i18n="select_discipline">Selecione uma disciplina</h2>
                                 <div class="header-create-actions">
                                     <button id="newPostBtn" class="btn-primary" type="button"><i class="fas fa-plus-circle"></i> <span data-i18n="comunidade_new_post">Novo Post</span></button>
-                                    <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
                                     <button id="openJitsiBtn" class="btn-secondary jitsi-btn" type="button" title="Sala de vídeo da disciplina" data-i18n-title="discipline_video_room"><i class="fas fa-video"></i> <span data-i18n="video_room">Sala de vídeo</span></button>
+                                    <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
                                     <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><i class="fas fa-chess-knight"></i> <span data-i18n="games_button">Jogos</span></button>
                                 </div>
                             </div>
