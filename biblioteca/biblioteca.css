@@ -730,6 +730,9 @@ a:hover {
     gap: 0.8rem;
     margin-bottom: 1.2rem;
     flex-wrap: wrap;
+    background: transparent;
+    padding: 0.25rem 0;
+    border: none;
 }
 
 .filter-bar span {
@@ -745,8 +748,8 @@ a:hover {
 }
 
 .chip {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     padding: 0.3rem 1rem;
     border-radius: 2rem;
     font-size: 0.75rem;
@@ -756,6 +759,7 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
+    box-shadow: none;
 }
 
 .chip i {
@@ -763,16 +767,17 @@ a:hover {
 }
 
 .chip:hover {
-    border-color: var(--accent-blue);
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(108, 140, 255, 0.5);
     color: var(--text-primary);
     transform: translateY(-2px);
 }
 
 .chip.active {
-    background: var(--gradient-primary);
-    border-color: transparent;
+    background: rgba(108, 140, 255, 0.12);
+    border-color: rgba(108, 140, 255, 0.45);
     color: white;
-    box-shadow: 0 2px 12px rgba(108, 140, 255, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.12);
 }
 
 /* ========== AUDIOBOOKS ========== */
@@ -939,6 +944,141 @@ a:hover {
 
 .listen-btn:active {
     transform: scale(0.97);
+}
+
+.continue-listening-section {
+    margin-bottom: 1.25rem;
+    display: none;
+}
+
+.continue-listening-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.continue-listening-header h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0;
+}
+
+.continue-listening-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    gap: 0.6rem;
+    justify-content: flex-start;
+}
+
+.continue-listening-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 150px;
+    min-height: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.continue-listening-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(108, 140, 255, 0.35);
+}
+
+.continue-listening-cover-wrap {
+    width: 100%;
+    height: 82px;
+    background: var(--bg-secondary);
+}
+
+.continue-listening-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.continue-listening-body {
+    padding: 0.42rem 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.continue-listening-author {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-teal);
+    font-weight: 700;
+}
+
+.continue-listening-body h4 {
+    font-size: 0.64rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.continue-listening-body p {
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+}
+
+.continue-listening-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.52rem;
+    color: var(--text-secondary);
+}
+
+.continue-listening-progress-bar {
+    width: 100%;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.continue-listening-progress-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #10b981, #38BDF8);
+}
+
+.continue-listening-button {
+    margin-top: 0.08rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--gradient-primary);
+    color: white;
+    padding: 0.32rem 0.5rem;
+    font-size: 0.56rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.continue-listening-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(108, 140, 255, 0.2);
 }
 
 /* ========== PLAYER MULTIMÍDIA AVANÇADO ========== */

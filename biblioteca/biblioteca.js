@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isSavingProgress = false;
     let currentParts = [];
     let currentPartIndex = 0;
+    let currentAudiobookMeta = null;
 
     // ========== RATE LIMITING PARA GOOGLE BOOKS ==========
     let googleBooksQueue = [];
@@ -76,6 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         && GOOGLE_BOOKS_API_KEY.trim() !== ''
         && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY';
     const PROGRESS_STORAGE_PREFIX = 'audiobook_progress_';
+const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
@@ -1798,6 +1800,187 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========== PROGRESSO INDIVIDUAL ==========
+    function getRecentAudiobookRegistry() {
+        try {
+            const raw = localStorage.getItem(RECENT_AUDIOBOOKS_STORAGE_KEY);
+            if (!raw) return [];
+            return JSON.parse(raw);
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function setRecentAudiobookRegistry(items) {
+        localStorage.setItem(RECENT_AUDIOBOOKS_STORAGE_KEY, JSON.stringify(items.slice(0, 12)));
+    }
+
+    function buildRecentAudiobookEntry(meta, progressSeconds, videoId) {
+        const safeMeta = meta || {};
+        return {
+            id: safeMeta.id || videoId || safeMeta.videoId || 'audiobook',
+            videoId: safeMeta.videoId || videoId || '',
+            title: safeMeta.title || currentTitle || 'Audiobook',
+            description: safeMeta.description || currentDescription || '',
+            author: safeMeta.author || '',
+            cover: safeMeta.cover || '',
+            progressSeconds: Number(progressSeconds) || 0,
+            lastPlayed: Date.now()
+        };
+    }
+
+    function upsertRecentAudiobookProgress(meta, progressSeconds, videoId) {
+        const entry = buildRecentAudiobookEntry(meta, progressSeconds, videoId);
+        const currentEntries = getRecentAudiobookRegistry().filter((item) => {
+            return !(item.id === entry.id || item.videoId === entry.videoId);
+        });
+        currentEntries.unshift(entry);
+
+        const uniqueMap = new Map();
+        currentEntries.forEach((item) => {
+            const key = `${item.id || item.videoId || item.title}-${item.videoId || item.title}`;
+            if (!uniqueMap.has(key)) uniqueMap.set(key, item);
+        });
+
+        const sorted = [...uniqueMap.values()].sort((a, b) => (b.lastPlayed || 0) - (a.lastPlayed || 0));
+        setRecentAudiobookRegistry(sorted);
+    }
+
+    function formatProgressTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds <= 0) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function resolveAudiobookPlayback(book) {
+        const parts = Array.isArray(book && book.parts) && book.parts.length
+            ? book.parts
+            : (book && book.url ? [{
+                type: 'audio',
+                url: book.url,
+                title: 'Parte 1',
+                videoId: book.videoId || extractVideoId(book.url)
+            }] : []);
+
+        const firstPart = parts[0] || {};
+        const videoId = book && (book.videoId || firstPart.videoId || extractVideoId(book.url) || extractVideoId(firstPart.url));
+
+        return {
+            videoId,
+            title: (book && book.title) || 'Audiobook',
+            description: (book && book.description) || '',
+            parts
+        };
+    }
+
+    function getRecentAudiobooks(audiobooks) {
+        const registry = getRecentAudiobookRegistry();
+        const recent = [];
+
+        registry.forEach((item) => {
+            const match = audiobooks.find((book) => {
+                const matchesId = book.id && item.id && book.id === item.id;
+                const matchesVideo = !!(item.videoId && (book.videoId === item.videoId || (Array.isArray(book.parts) && book.parts.some((part) => part.videoId === item.videoId))));
+                return matchesId || matchesVideo;
+            });
+
+            const sourceBook = match || {
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                cover: item.cover,
+                author: item.author,
+                videoId: item.videoId,
+                parts: item.videoId ? [{ videoId: item.videoId, title: item.title }] : []
+            };
+
+            recent.push({
+                ...sourceBook,
+                recentItem: item,
+                progressSeconds: Number(item.progressSeconds || 0)
+            });
+        });
+
+        return recent.slice(0, 4);
+    }
+
+    function renderContinueListeningSection(audiobooks) {
+        const section = document.getElementById('continueListeningSection');
+        if (!section) return;
+
+        const recent = getRecentAudiobooks(audiobooks || []);
+        if (!recent.length) {
+            section.style.display = 'none';
+            section.innerHTML = '';
+            return;
+        }
+
+        section.style.display = 'block';
+        section.innerHTML = `
+            <div class="continue-listening-header">
+                <h3>Continuar ouvindo</h3>
+            </div>
+            <div class="continue-listening-grid">
+                ${recent.map((book) => {
+                    const item = book.recentItem || {};
+                    const progress = Number(book.progressSeconds || item.progressSeconds || 0);
+                    const playback = resolveAudiobookPlayback(book);
+                    const percentage = Math.min(100, Math.max(0, ((progress / 900) * 100) || 0));
+                    const title = (book.title || item.title || playback.title || 'Audiobook');
+                    const description = (book.description || item.description || playback.description || 'Retome de onde parou.');
+                    const cover = book.cover || item.cover || 'https://placehold.co/240x360/1F2933/FBBF24?text=Audiobook';
+                    const author = book.author || item.author || 'Audiobook';
+                    const safeId = book.id || item.id || playback.videoId || '';
+                    return `
+                        <article class="continue-listening-card">
+                            <div class="continue-listening-cover-wrap">
+                                <img src="${cover}" alt="${title}" class="continue-listening-cover" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Audiobook'">
+                            </div>
+                            <div class="continue-listening-body">
+                                <span class="continue-listening-author">${author}</span>
+                                <h4>${title}</h4>
+                                <p>${description}</p>
+                                <div class="continue-listening-progress-meta">
+                                    <span>${formatProgressTime(progress)}</span>
+                                    <span>${Math.round(percentage)}%</span>
+                                </div>
+                                <div class="continue-listening-progress-bar">
+                                    <span style="width: ${percentage}%"></span>
+                                </div>
+                                <button class="continue-listening-button" data-book-id="${safeId}" data-video-id="${playback.videoId || ''}">Continuar</button>
+                            </div>
+                        </article>
+                    `;
+                }).join('')}
+            </div>
+        `;
+
+        section.querySelectorAll('.continue-listening-button').forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetBookId = button.dataset.bookId;
+                const targetVideoId = button.dataset.videoId;
+                const book = (audiobooks || []).find((entry) => {
+                    const matchesId = entry.id && targetBookId && entry.id === targetBookId;
+                    const matchesVideo = !!(targetVideoId && (entry.videoId === targetVideoId || (Array.isArray(entry.parts) && entry.parts.some((part) => part.videoId === targetVideoId))));
+                    return matchesId || matchesVideo;
+                });
+
+                if (!book) return;
+                const playback = resolveAudiobookPlayback(book);
+                const meta = {
+                    id: book.id,
+                    title: book.title,
+                    description: book.description,
+                    cover: book.cover,
+                    author: book.author,
+                    videoId: playback.videoId
+                };
+
+                playMultimedia(playback.videoId, playback.title, playback.description, playback.parts, meta, loadProgress(playback.videoId));
+            });
+        });
+    }
+
     function saveProgress() {
         if (!currentVideoId || !multimediaPlayer || !multimediaPlayerReady) {
             console.warn('[Progress] Não é possível salvar: ID do vídeo ou player não disponível');
@@ -1810,6 +1993,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (currentTime && currentTime > 0) {
                 const key = `${PROGRESS_STORAGE_PREFIX}${currentVideoId}`;
                 localStorage.setItem(key, currentTime);
+                if (currentAudiobookMeta) {
+                    upsertRecentAudiobookProgress(currentAudiobookMeta, currentTime, currentVideoId);
+                }
                 console.log(`[Progress] Salvo: ${key} = ${currentTime.toFixed(1)}s`);
             }
         } catch (e) {
@@ -1924,8 +2110,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    async function playMultimedia(videoId, title, description, parts) {
+    async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0) {
         console.log('[Player] Play solicitado:', videoId, title, parts);
+        currentAudiobookMeta = meta || currentAudiobookMeta || {
+            id: videoId,
+            title: title || currentTitle || 'Audiobook',
+            description: description || currentDescription || '',
+            videoId
+        };
 
         if (window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
             console.log('[Player] Usando player do Auditório');
@@ -1969,6 +2161,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (descEl) descEl.textContent = description || '';
         currentTitle = title || '';
         currentDescription = description || '';
+        if (currentAudiobookMeta) {
+            currentAudiobookMeta.title = currentTitle || currentAudiobookMeta.title || 'Audiobook';
+            currentAudiobookMeta.description = currentDescription || currentAudiobookMeta.description || '';
+        }
 
         // Mostra o container e rola até ele
         container.style.display = 'block';
@@ -2006,7 +2202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (multimediaPlayer && multimediaPlayerReady) {
             console.log('[Player] Player existente, carregando vídeo');
             multimediaPlayer.loadVideoById(videoId);
-            const savedTime = loadProgress(videoId);
+            const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
             if (savedTime > 5) {
                 setTimeout(() => {
                     if (multimediaPlayerReady) {
@@ -2033,7 +2229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             if (multimediaPlayerReady) {
                 multimediaPlayer.loadVideoById(videoId);
-                const savedTime = loadProgress(videoId);
+                const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
                 if (savedTime > 5) {
                     setTimeout(() => {
                         if (multimediaPlayerReady) {
@@ -2091,6 +2287,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         onReady: () => {
                             console.log('[Player] Player pronto');
                             multimediaPlayerReady = true;
+                            const startingTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
+                            if (startingTime > 5) {
+                                setTimeout(() => {
+                                    if (multimediaPlayerReady) {
+                                        multimediaPlayer.seekTo(startingTime, true);
+                                    }
+                                }, 600);
+                            }
                             const savedVol = localStorage.getItem('player_volume');
                             if (savedVol !== null) {
                                 multimediaPlayer.setVolume(parseInt(savedVol));
@@ -2253,9 +2457,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const duration = book.duration || '';
             const year = book.year || '';
             const partsCount = book.parts ? book.parts.length : 1;
+            const firstVideoId = book.videoId || (book.parts && book.parts[0] && book.parts[0].videoId) || '';
 
             html += `
-                <div class="audiobook-card" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}">
+                <div class="audiobook-card" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}" data-video-id="${firstVideoId}">
                     <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro'">
                     <div class="audiobook-info">
                         <div class="audiobook-title">${escapeHtml(book.title)}</div>
@@ -2264,7 +2469,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ${year ? `<div class="audiobook-year">${year}</div>` : ''}
                         ${partsCount > 1 ? `<div class="audiobook-parts"><i class="fas fa-layer-group"></i> ${partsCount} ${t('parts')}</div>` : ''}
                         <div class="audiobook-description">${escapeHtml(book.description)}</div>
-                        <button class="listen-btn" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}" data-parts='${JSON.stringify(book.parts || [])}'>
+                        <button class="listen-btn" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}" data-video-id="${firstVideoId}" data-parts='${JSON.stringify(book.parts || [])}'>
                             <i class="fas fa-play"></i> ${t('listen_button')}
                         </button>
                     </div>
@@ -2273,6 +2478,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         container.innerHTML = html;
+        renderContinueListeningSection(audiobooks);
 
         container.querySelectorAll('.audiobook-card').forEach(card => {
             const btn = card.querySelector('.listen-btn');
@@ -2285,7 +2491,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.querySelectorAll('.listen-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                const videoId = this.dataset.videoId;
+                const videoId = this.dataset.videoId || this.closest('.audiobook-card')?.dataset.videoId || '';
                 const title = this.dataset.title;
                 const description = this.dataset.description;
                 let parts = [];
@@ -2295,16 +2501,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!parts.length && videoId) {
                     parts = [{ type: 'audio', url: `https://www.youtube.com/watch?v=${videoId}`, title: 'Parte 1', videoId }];
                 }
-                // Se não houver parts, tenta usar videoId
-                if (!parts.length && videoId) {
-                    parts = [{ type: 'audio', url: `https://www.youtube.com/watch?v=${videoId}`, title: 'Parte 1', videoId }];
-                }
-                // Se ainda não houver parts, tenta extrair de data-video-id (fallback)
-                if (!parts.length) {
-                    const vid = this.dataset.videoId || this.closest('.audiobook-card')?.dataset.videoId;
-                    if (vid) parts = [{ type: 'audio', url: `https://www.youtube.com/watch?v=${vid}`, title: 'Parte 1', videoId: vid }];
-                }
-                playMultimedia(videoId || (parts.length ? parts[0].videoId : null), title, description, parts);
+                const meta = {
+                    id: this.dataset.audiobookId,
+                    title,
+                    description,
+                    cover: this.closest('.audiobook-card')?.querySelector('.audiobook-cover')?.src || '',
+                    videoId
+                };
+                playMultimedia(videoId || (parts.length ? parts[0].videoId : null), title, description, parts, meta, loadProgress(videoId || (parts.length ? parts[0].videoId : '')));
             });
         });
     }
@@ -2326,6 +2530,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="search-bar">
                 <input type="text" id="audiobookSearchInput" placeholder="${t('search_audiobooks_placeholder')}">
             </div>
+            <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
             <div id="audiobooksGrid" class="audiobooks-grid"></div>
         `;
 
