@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Cálculo",
+    "author": "James Stewart",
+    "discipline": "Cálculo Diferencial e Integral",
+    "edition": "8ª edição",
+    "isbn": "9788522112586",
+    "description": "Limites, derivadas, integrais, aplicações e análise de funções em nível universitário.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Cálculo",
+    "year": "2016",
+    "publisher": "Cengage",
+    "link": "https://www.amazon.com.br/Cálculo-Volume-1-Stewart/dp/8522112584"
+  },
+  {
+    "title": "Álgebra Linear",
+    "author": "Gilbert Strang",
+    "discipline": "Álgebra Linear",
+    "edition": "5ª edição",
+    "isbn": "9788520105604",
+    "description": "Vetores, matrizes, transformações lineares e aplicações em ciência e engenharia.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Álgebra+Linear",
+    "year": "2020",
+    "publisher": "Cengage",
+    "link": "https://www.amazon.com.br/Álgebra-Linear-Gilbert-Strang/dp/8520105604"
+  },
+  {
+    "title": "Geometria Analítica",
+    "author": "Paulo Winterle",
+    "discipline": "Geometria Analítica",
+    "edition": "2ª edição",
+    "isbn": "9788521614311",
+    "description": "Retas, planos, vetores, cônicas e aplicações no estudo do espaço geométrico.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Geometria",
+    "year": "2018",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Geometria-Analítica-Paulo-Winterle/dp/8521614319"
+  },
+  {
+    "title": "Matemática Discreta",
+    "author": "Kenneth H. Rosen",
+    "discipline": "Matemática Discreta",
+    "edition": "7ª edição",
+    "isbn": "9788582600406",
+    "description": "Lógica, teoria dos conjuntos, relações, grafos e fundamentos discretos da computação.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Discreta",
+    "year": "2016",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Matemática-Discreta-Kenneth-Rosen/dp/8582600409"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Gramática Normativa da Língua Portuguesa",
+    "author": "Celso Cunha; Lindley Cintra",
+    "discipline": "Gramática e Normatividade",
+    "edition": "5ª edição",
+    "isbn": "9788522100510",
+    "description": "Fundamentos da norma culta, sintaxe, morfologia e uso da língua portuguesa.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Gramática",
+    "year": "2011",
+    "publisher": "Líber Livro",
+    "link": "https://www.amazon.com.br/Gramática-Normativa-Língua-Portuguesa/dp/8522100516"
+  },
+  {
+    "title": "Literatura Brasileira",
+    "author": "José Guilherme Merquior",
+    "discipline": "Literatura Brasileira",
+    "edition": "2ª edição",
+    "isbn": "9788520901807",
+    "description": "Panorama dos movimentos, autores e temas da literatura brasileira.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Literatura",
+    "year": "2017",
+    "publisher": "Editora Ática",
+    "link": "https://www.amazon.com.br/Literatura-Brasileira-José-Guilherme-Merquior/dp/8520901800"
+  },
+  {
+    "title": "Manual de Redação para Concursos",
+    "author": "Maria Tereza de Camargo",
+    "discipline": "Redação e Texto",
+    "edition": "4ª edição",
+    "isbn": "9788572883122",
+    "description": "Estrutura de argumentos, coerência, coesão, revisão e produção textual formal.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Redação",
+    "year": "2018",
+    "publisher": "Editora Método",
+    "link": "https://www.amazon.com.br/Manual-Redação-para-Concursos/dp/8572883122"
+  },
+  {
+    "title": "Introdução à Linguística",
+    "author": "Hélio Olímpio",
+    "discipline": "Linguística",
+    "edition": "2ª edição",
+    "isbn": "9788535210430",
+    "description": "Análise da linguagem, significação, estrutura e variação linguística.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Linguística",
+    "year": "2019",
+    "publisher": "Pallas",
+    "link": "https://www.amazon.com.br/Introdução-Linguística-Helio-Olimpio/dp/8535210437"
+  }
+]

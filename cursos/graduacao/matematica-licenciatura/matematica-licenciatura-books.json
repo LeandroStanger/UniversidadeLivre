@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Cálculo",
+    "author": "James Stewart",
+    "discipline": "Cálculo e Modelagem Matemática",
+    "edition": "8ª edição",
+    "isbn": "9788522112586",
+    "description": "Estrutura do cálculo e sua aplicação em situações matemáticas e didáticas.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Cálculo",
+    "year": "2016",
+    "publisher": "Cengage",
+    "link": "https://www.amazon.com.br/Cálculo-Volume-1-Stewart/dp/8522112584"
+  },
+  {
+    "title": "Álgebra Linear com Aplicações",
+    "author": "Howard Anton; Chris Rorres",
+    "discipline": "Álgebra e Ensino",
+    "edition": "10ª edição",
+    "isbn": "9788577802265",
+    "description": "Desenvolvimento de álgebra linear em contexto didático e aplicações práticas.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Álgebra",
+    "year": "2012",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Álgebra-Linear-Aplicações-Howard-Anton/dp/8577802269"
+  },
+  {
+    "title": "Didática da Matemática",
+    "author": "Célia Maria Carolino Tolentino",
+    "discipline": "Didática da Matemática",
+    "edition": "1ª edição",
+    "isbn": "9788523311343",
+    "description": "Fatores pedagógicos, planejamento, metodologias para o ensino da matemática.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Didática",
+    "year": "2019",
+    "publisher": "Editora UFSC",
+    "link": "https://www.amazon.com.br/Didática-Matemática-Celia-Tolentino/dp/8523311344"
+  },
+  {
+    "title": "Geometria",
+    "author": "João Lucas Barbosa",
+    "discipline": "Geometria e Ensino",
+    "edition": "1ª edição",
+    "isbn": "9788521202675",
+    "description": "Fundamentos geométricos e estratégias de ensino na educação básica e superior.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Geometria",
+    "year": "2015",
+    "publisher": "Thomson",
+    "link": "https://www.amazon.com.br/Geometria-João-Lucas-Barbosa/dp/8521202675"
+  }
+]

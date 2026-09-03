@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Gramática do Português",
+    "author": "Cecília Meireles; Fernando Pestana",
+    "discipline": "Gramática e Sintaxe",
+    "edition": "1ª edição",
+    "isbn": "9788535930001",
+    "description": "Fundamentos da estrutura gramatical do português e suas regras de uso.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Português",
+    "year": "2017",
+    "publisher": "Fundamento",
+    "link": "https://www.amazon.com.br/Gramática-Português/dp/8535930001"
+  },
+  {
+    "title": "Introdução à Literatura Brasileira",
+    "author": "Antonio Candido",
+    "discipline": "Literatura Brasileira",
+    "edition": "16ª edição",
+    "isbn": "9788535919769",
+    "description": "Leitura de autores, escolas e movimentos da literatura brasileira.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Literatura",
+    "year": "2020",
+    "publisher": "Editora da Unicamp",
+    "link": "https://www.amazon.com.br/Introdução-Literatura-Brasileira-Antonio-Candido/dp/8535919764"
+  },
+  {
+    "title": "Análise do Discurso",
+    "author": "E. Orlandi",
+    "discipline": "Linguística e Discurso",
+    "edition": "2ª edição",
+    "isbn": "9788530913231",
+    "description": "Estudo do discurso, ideologia, contexto social e produção de sentido.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Discurso",
+    "year": "2018",
+    "publisher": "Pontes",
+    "link": "https://www.amazon.com.br/Análise-Discurso-Eduardo-Orlandi/dp/8530913237"
+  },
+  {
+    "title": "O Texto e a Leitura",
+    "author": "Margarida M. de Andrade",
+    "discipline": "Leitura e Produção Textual",
+    "edition": "3ª edição",
+    "isbn": "9788535220909",
+    "description": "Estratégias de leitura crítica, compreensão e produção de textos argumentativos.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Leitura",
+    "year": "2019",
+    "publisher": "Pallas",
+    "link": "https://www.amazon.com.br/O-Texto-Leitura-Margarida-Andrade/dp/8535220909"
+  }
+]
