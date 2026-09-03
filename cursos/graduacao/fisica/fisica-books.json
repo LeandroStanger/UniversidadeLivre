@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Fundamentos de Física",
+    "author": "David Halliday; Robert Resnick; Jearl Walker",
+    "discipline": "Mecânica e Termodinâmica",
+    "edition": "10ª edição",
+    "isbn": "9788521616467",
+    "description": "Tratamento completo de mecânica, movimentos, forças, calor e termodinâmica.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Física",
+    "year": "2016",
+    "publisher": "LTC",
+    "link": "https://www.amazon.com.br/Fundamentos-Física-Halliday-Resnick/dp/8521616462"
+  },
+  {
+    "title": "Física para Cientistas e Engenheiros",
+    "author": "Raymond A. Serway; John W. Jewett",
+    "discipline": "Eletromagnetismo e Óptica",
+    "edition": "9ª edição",
+    "isbn": "9788582600837",
+    "description": "Caderno completo com circuitos, eletricidade, magnetismo, ondas e óptica.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Eletricidade",
+    "year": "2019",
+    "publisher": "Cengage",
+    "link": "https://www.amazon.com.br/Física-Cientistas-Engenheiros-Raymond-Serway/dp/8582600838"
+  },
+  {
+    "title": "Introduction to Electrodynamics",
+    "author": "David J. Griffiths",
+    "discipline": "Eletromagnetismo",
+    "edition": "4ª edição",
+    "isbn": "9781108420419",
+    "description": "Texto clássico e rigoroso para eletromagnetismo em nível universitário.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Eletromagnetismo",
+    "year": "2017",
+    "publisher": "Cambridge University Press",
+    "link": "https://www.amazon.com.br/Introduction-Electrodynamics-David-Griffiths/dp/1108420419"
+  },
+  {
+    "title": "Física Moderna",
+    "author": "Paul A. Tipler; Ralph A. Llewellyn",
+    "discipline": "Física Moderna",
+    "edition": "6ª edição",
+    "isbn": "9788576051477",
+    "description": "Estrutura da relatividade, quantização, átomos e conceitos fundamentais da física moderna.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Física+Moderna",
+    "year": "2014",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Física-Moderna-Tipler-Llewellyn/dp/8576051474"
+  }
+]

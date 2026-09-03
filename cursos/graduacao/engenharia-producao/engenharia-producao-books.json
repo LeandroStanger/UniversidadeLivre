@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Administração da Produção e Operações",
+    "author": "Everardo F. de A. C. Corrêa; Roberto Gianesi; Irineu de A. M. Ferreira",
+    "discipline": "Produção e Operações",
+    "edition": "4ª edição",
+    "isbn": "9788582607367",
+    "description": "Gestão de processos produtivos, logística, capacidade, qualidade e decisões operacionais.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Produção",
+    "year": "2018",
+    "publisher": "Atlas",
+    "link": "https://www.amazon.com.br/Administração-Produção-Operações-Everardo-Corrêa/dp/8582607361"
+  },
+  {
+    "title": "Pesquisa Operacional para Cursos de Administração e Engenharia",
+    "author": "Raul Garcia",
+    "discipline": "Pesquisa Operacional",
+    "edition": "2ª edição",
+    "isbn": "9788522108264",
+    "description": "Modelagem matemática, otimização e apoio à decisão em produção e logística.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=PO",
+    "year": "2015",
+    "publisher": "Atlas",
+    "link": "https://www.amazon.com.br/Pesquisa-Operacional-cursos-Administração-Engenharia/dp/8522108267"
+  },
+  {
+    "title": "Gestão da Qualidade",
+    "author": "Joseph M. Juran; A. Blanton Godfrey",
+    "discipline": "Qualidade e Processo",
+    "edition": "5ª edição",
+    "isbn": "9788574525616",
+    "description": "Fundamentos de melhoria contínua, qualidade e foco no cliente para sistemas produtivos.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Qualidade",
+    "year": "1999",
+    "publisher": "McGraw Hill",
+    "link": "https://www.amazon.com.br/Gestão-Qualidade-Juran-Godfrey/dp/8574525613"
+  },
+  {
+    "title": "Gestão de Operações e Logística",
+    "author": "David Simchi-Levi; Philip Kaminsky; Edith Simchi-Levi",
+    "discipline": "Logística",
+    "edition": "3ª edição",
+    "isbn": "9788535257348",
+    "description": "Planejamento, transporte, estoques, rede de suprimentos e eficiência logística.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Logística",
+    "year": "2019",
+    "publisher": "Bookman",
+    "link": "https://www.amazon.com.br/Gestão-Operações-Logística-David-Simchi-Levi/dp/8535257344"
+  }
+]

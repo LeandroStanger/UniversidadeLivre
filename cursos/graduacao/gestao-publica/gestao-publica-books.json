@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Administração Pública Brasileira",
+    "author": "Hélio Beltrão",
+    "discipline": "Administração Pública",
+    "edition": "3ª edição",
+    "isbn": "9788591262288",
+    "description": "Estudo da estrutura, funções e desafios da administração pública no Brasil.",
+    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=AP+Brasileira",
+    "year": "2020",
+    "publisher": "Elsevier",
+    "link": "https://www.amazon.com.br/Administração-Pública-Brasileira-Helio-Beltrão/dp/8591262283"
+  },
+  {
+    "title": "Políticas Públicas: Conceitos, Instrumentos e Práticas",
+    "author": "Jorge Abrahão",
+    "discipline": "Políticas Públicas",
+    "edition": "1ª edição",
+    "isbn": "9788535255891",
+    "description": "Formação, implementação e avaliação de políticas públicas em contexto estatal e social.",
+    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Políticas",
+    "year": "2018",
+    "publisher": "Campus",
+    "link": "https://www.amazon.com.br/Políticas-Públicas-Conceitos-Instrumentos-Práticas/dp/8535255898"
+  },
+  {
+    "title": "Direito Administrativo",
+    "author": "Maria Sylvia Zanella Di Pietro",
+    "discipline": "Direito Administrativo",
+    "edition": "33ª edição",
+    "isbn": "9788553597498",
+    "description": "Estrutura do Estado, atos administrativos, contratos e serviços públicos no Brasil.",
+    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Direito+Admin.",
+    "year": "2021",
+    "publisher": "Forense",
+    "link": "https://www.amazon.com.br/Direito-Administrativo-Maria-Sylvia-Di-Pietro/dp/8553597492"
+  },
+  {
+    "title": "Gestão de Pessoas na Administração Pública",
+    "author": "Cláudio Antonio B. Souza",
+    "discipline": "Recursos Humanos Públicos",
+    "edition": "2ª edição",
+    "isbn": "9788535259356",
+    "description": "Conceitos de gestão de pessoas, mérito, capacitação e desempenho no serviço público.",
+    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=RH+Público",
+    "year": "2020",
+    "publisher": "Campus",
+    "link": "https://www.amazon.com.br/Gestão-Pessoas-Administração-Pública/dp/8535259356"
+  }
+]
