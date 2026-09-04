@@ -2757,8 +2757,25 @@ console.log('[Main] Inicializando script.js v28.0...');
         const total = allVideosFlat.length;
         const watched = allVideosFlat.filter(v => v.watched).length;
         const percent = total ? (watched / total) * 100 : 0;
+        const courseName = currentCourseDetails?.name || getCourseName(currentCourse);
+        const courseLevel = currentCourseDetails?.courseLevel;
+        const levelText = courseLevel === 'graduacao' ? t('graduacao')
+            : courseLevel === 'pos-graduacao' ? t('pos_graduacao')
+                : courseLevel === 'ensino-medio' ? t('ensino_medio')
+                    : courseLevel === 'idiomas' ? t('idiomas') : '';
+        const courseType = courseLevel === 'graduacao' ? currentCourseDetails?.courseType : '';
+        const typeText = courseType === 'bacharelado' ? t('bacharelado')
+            : courseType === 'licenciatura' ? t('licenciatura')
+                : courseType === 'tecnologo' ? t('tecnologo') : '';
         chartContainer.innerHTML = `
             <div class="progress-chart animate-in visible" style="margin: 1rem 0; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 12px;">
+                <div class="progress-course-heading">
+                    <strong>${escapeHtml(courseName)}</strong>
+                    <div class="progress-course-level">
+                        ${levelText ? `<span>${escapeHtml(levelText)}</span>` : ''}
+                        ${typeText ? `<span>${escapeHtml(typeText)}</span>` : ''}
+                    </div>
+                </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                     <span>${t('course_progress')}</span>
                     <span>${Math.round(percent)}%</span>
