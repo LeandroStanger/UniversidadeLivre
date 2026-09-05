@@ -71,10 +71,11 @@
     }
     function renderLobby() {
         const panel = getPanel();
+        const visibleRooms = rooms.filter(room => window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true);
         panel.innerHTML = `<div class="impostor-card">
             <div class="impostor-header"><div><h4>${tx('game_impostor_title', 'Jogo do Impostor')}</h4><p>${tx('game_impostor_description', 'A maioria recebe a Palavra A; apenas um jogador recebe a Palavra B. Dê uma única palavra de dica, vote e elimine os suspeitos.')}</p></div></div>
             <div class="impostor-create-room"><label for="impostorRoomMode">${tx('game_room_play_with', 'Jogar com')}</label><select id="impostorRoomMode" class="impostor-select"><option value="bots">${tx('game_room_bots', 'Bots')}</option><option value="people">${tx('game_room_people', 'Pessoas')}</option></select><button id="impostorCreateRoomBtn" class="impostor-primary" type="button"><i class="fas fa-plus"></i> ${tx('games_room_create_room', 'Criar sala')}</button></div>
-            <div class="impostor-room-list"><h5>${tx('game_room_available', 'Salas disponíveis')}</h5>${rooms.length ? rooms.map(room => `<div class="impostor-room"><div><strong>${escapeHtml(room.id)}</strong><span class="impostor-muted">${room.mode === 'bots' ? tx('game_room_you_and_bots', 'Você + cinco bots') : tx('game_room_six_players', 'Seis jogadores')}</span></div><div class="impostor-room-actions"><button class="impostor-primary impostor-join-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('games_room_join', 'Entrar')}</button><button class="impostor-secondary impostor-view-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('games_room_visualize', 'Visualizar')}</button><button class="impostor-danger impostor-delete-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('game_room_delete', 'Apagar sala')}</button></div></div>`).join('') : `<p class="impostor-muted">${tx('game_room_none', 'Nenhuma sala disponível.')}</p>`}</div>
+            <div class="impostor-room-list"><h5>${tx('game_room_available', 'Salas disponíveis')}</h5>${visibleRooms.length ? visibleRooms.map(room => `<div class="impostor-room"><div><strong>${escapeHtml(room.id)}</strong><span class="impostor-muted">${room.mode === 'bots' ? tx('game_room_you_and_bots', 'Você + cinco bots') : tx('game_room_six_players', 'Seis jogadores')}</span></div><div class="impostor-room-actions"><button class="impostor-primary impostor-join-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('games_room_join', 'Entrar')}</button><button class="impostor-secondary impostor-view-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('games_room_visualize', 'Visualizar')}</button><button class="impostor-danger impostor-delete-room" type="button" data-room-id="${escapeHtml(room.id)}">${tx('game_room_delete', 'Apagar sala')}</button></div></div>`).join('') : `<p class="impostor-muted">${tx('game_room_none', 'Nenhuma sala disponível.')}</p>`}</div>
         </div>`;
         panel.querySelector('#impostorCreateRoomBtn').addEventListener('click', createRoom);
         panel.querySelectorAll('.impostor-join-room').forEach(button => button.addEventListener('click', () => startGame(button.dataset.roomId)));
@@ -84,7 +85,7 @@
     function createRoom() {
         const roomId = `IMP-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
         const mode = document.getElementById('impostorRoomMode')?.value || 'bots';
-        rooms.push({ id: roomId, mode });
+        rooms.push(window.UniversidadeLivreGameScope?.decorateRoom({ id: roomId, mode }));
         renderLobby();
     }
     function deleteRoom(roomId) {

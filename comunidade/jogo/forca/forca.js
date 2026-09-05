@@ -21,8 +21,8 @@
     function normalize(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
     function getUserName() { return (window.currentUserName || localStorage.getItem('userProfileName') || 'Você').trim() || 'Você'; }
     function levelLabel(level) { return ({ iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado', mestre: 'Mestre' }[level] || 'Intermediário'); }
-    function readRooms() { try { const rooms = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); return Array.isArray(rooms) ? rooms : []; } catch (_) { return []; } }
-    function writeRooms(rooms) { localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms.slice(-20))); }
+    function readRooms() { try { const rooms = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); return Array.isArray(rooms) ? rooms.filter(room => window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true) : []; } catch (_) { return []; } }
+    function writeRooms(rooms) { let existing = []; try { existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (_) {} const otherScopes = Array.isArray(existing) ? existing.filter(room => !(window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true)) : []; localStorage.setItem(STORAGE_KEY, JSON.stringify([...otherScopes, ...rooms].slice(-20))); }
     function readStates() { try { const states = JSON.parse(localStorage.getItem(STATE_KEY) || '{}'); return states && typeof states === 'object' ? states : {}; } catch (_) { return {}; } }
     function writeState(roomId, state) { const states = readStates(); states[roomId] = state; localStorage.setItem(STATE_KEY, JSON.stringify(states)); }
     function readState(roomId) { return readStates()[roomId] || null; }
@@ -83,7 +83,7 @@
 
     function createRoom() {
         const mode = document.getElementById('hangmanMode').value;
-        const room = { id: roomId(), gameType: 'hangman', mode, capacity: Number(document.getElementById('hangmanCapacity').value), difficulty: document.getElementById('hangmanDifficulty').value, players: 1, createdBy: getUserName(), createdAt: Date.now() };
+        const room = window.UniversidadeLivreGameScope?.decorateRoom({ id: roomId(), gameType: 'hangman', mode, capacity: Number(document.getElementById('hangmanCapacity').value), difficulty: document.getElementById('hangmanDifficulty').value, players: 1, createdBy: getUserName(), createdAt: Date.now() });
         const rooms = readRooms(); rooms.push(room); writeRooms(rooms); startRoom(room);
     }
     function deleteRoom(id) { writeRooms(readRooms().filter(room => room.id !== id)); renderLobby(); }

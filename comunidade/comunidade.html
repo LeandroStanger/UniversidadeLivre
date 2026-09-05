@@ -1863,6 +1863,17 @@
 
                                 <div id="chessOpponentPanel" class="chess-opponent-panel" aria-live="polite"></div>
 
+                                <div class="game-matchmaking-filter">
+                                    <label for="gameMatchmakingScope"><i class="fas fa-users"></i> <span data-i18n="games_matchmaking_scope_label">Jogar com</span></label>
+                                    <select id="gameMatchmakingScope" class="chess-room-select">
+                                        <option value="global" selected data-i18n="games_matchmaking_global">Qualquer pessoa</option>
+                                        <option value="course" data-i18n="games_matchmaking_course">Pessoas do mesmo curso</option>
+                                        <option value="discipline" data-i18n="games_matchmaking_discipline">Pessoas da mesma disciplina</option>
+                                    </select>
+                                    <small data-i18n="games_matchmaking_help">O filtro vale para as salas criadas a partir desta escolha.</small>
+                                    <span id="gameMatchmakingOnlineCount" class="game-matchmaking-online-count" aria-live="polite">0 pessoas online</span>
+                                </div>
+
                                 <div class="chess-room-creator">
                                     <label for="chessRoomMode" data-i18n="games_room_type">Tipo da sala</label>
                                     <div class="chess-room-creator-row">

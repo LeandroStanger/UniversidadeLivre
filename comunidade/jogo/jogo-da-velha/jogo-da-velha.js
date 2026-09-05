@@ -92,7 +92,8 @@
             players: Number(room.players || 1),
             spectators: Number(room.spectators || 0),
             status: room.status || 'disponivel',
-            mode
+            mode,
+            matchmakingScope: room.matchmakingScope || null
         };
     }
 
@@ -101,7 +102,7 @@
             const stored = localStorage.getItem(TTT_ROOMS_KEY);
             const rooms = stored ? (JSON.parse(stored) || []) : [];
             if (!Array.isArray(rooms)) return [];
-            const filteredRooms = rooms.filter((room) => room && room.gameType === 'tictactoe' && !String(room.id).startsWith('xadrez-'));
+            const filteredRooms = rooms.filter((room) => room && room.gameType === 'tictactoe' && !String(room.id).startsWith('xadrez-') && (window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true));
             if (filteredRooms.length !== rooms.length) localStorage.setItem(TTT_ROOMS_KEY, JSON.stringify(filteredRooms));
             return filteredRooms;
         } catch (_) {
@@ -110,7 +111,10 @@
     }
 
     function writeTTTRooms(rooms) {
-        localStorage.setItem(TTT_ROOMS_KEY, JSON.stringify(rooms));
+        let existing = [];
+        try { existing = JSON.parse(localStorage.getItem(TTT_ROOMS_KEY) || '[]'); } catch (_) {}
+        const otherScopes = Array.isArray(existing) ? existing.filter(room => !(window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true)) : [];
+        localStorage.setItem(TTT_ROOMS_KEY, JSON.stringify([...otherScopes, ...rooms]));
     }
 
     function readActiveTTTRoom() {
@@ -198,7 +202,7 @@
     function createTTTRoom() {
         const roomMode = document.getElementById('chessRoomMode')?.value || 'community';
         const difficulty = roomMode === 'bot' ? (document.getElementById('chessBotDifficulty')?.value || 'intermediario') : 'intermediario';
-        const room = normalizeTTTRoom({
+        const room = normalizeTTTRoom(window.UniversidadeLivreGameScope?.decorateRoom({
             id: `velha-${new Date().getTime().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
             createdBy: getCurrentTTTUser(),
             level: difficulty,
@@ -209,7 +213,7 @@
             spectators: 0,
             status: 'disponivel',
             mode: roomMode
-        });
+        }) || {});
 
         if (!room) return;
 

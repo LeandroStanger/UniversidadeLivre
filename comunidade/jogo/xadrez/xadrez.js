@@ -80,7 +80,7 @@
             }
             const parsed = JSON.parse(stored);
             if (!Array.isArray(parsed)) return [];
-            const rooms = parsed.filter((room) => room && room.gameType === 'chess' && !String(room.id).startsWith('velha-'));
+            const rooms = parsed.filter((room) => room && room.gameType === 'chess' && !String(room.id).startsWith('velha-') && (window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true));
             if (rooms.length !== parsed.length) localStorage.setItem(CHESS_ROOMS_KEY, JSON.stringify(rooms));
             return rooms;
         } catch (_) {
@@ -89,7 +89,10 @@
     }
 
     function writeChessRooms(rooms) {
-        localStorage.setItem(CHESS_ROOMS_KEY, JSON.stringify(rooms));
+        let existing = [];
+        try { existing = JSON.parse(localStorage.getItem(CHESS_ROOMS_KEY) || '[]'); } catch (_) {}
+        const otherScopes = Array.isArray(existing) ? existing.filter(room => !(window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true)) : [];
+        localStorage.setItem(CHESS_ROOMS_KEY, JSON.stringify([...otherScopes, ...rooms]));
     }
 
     function readActiveChessRoom() {
@@ -187,7 +190,8 @@
             players: Number(room.players || 1),
             spectators: Number(room.spectators || 0),
             status: room.status || 'disponivel',
-            mode
+            mode,
+            matchmakingScope: room.matchmakingScope || null
         };
     }
 
@@ -445,7 +449,7 @@
 
         const roomMode = getSelectedChessMode();
         const roomDifficulty = roomMode === 'bot' ? (document.getElementById('chessBotDifficulty')?.value || 'intermediario') : 'intermediario';
-        const room = normalizeChessRoom({
+        const room = normalizeChessRoom(window.UniversidadeLivreGameScope?.decorateRoom({
             id: buildChessRoomId(),
             createdBy: getCurrentChessUser(),
             level: roomDifficulty,
@@ -456,7 +460,7 @@
             spectators: 0,
             status: 'disponivel',
             mode: roomMode
-        });
+        }) || {});
 
         if (!room) return;
 

@@ -78,6 +78,7 @@
 .game-shell-title-wrap small { color: var(--games-muted); }
 
 .chess-room-creator,
+.game-matchmaking-filter,
 .impostor-create-room,
 .hangman-create,
 .checkers-create,
@@ -94,6 +95,23 @@
     background: var(--games-surface-soft);
     border: 1px solid var(--games-border);
     border-radius: var(--games-radius);
+}
+
+.game-matchmaking-filter {
+    align-items: center;
+}
+
+.game-matchmaking-filter small {
+    flex-basis: 100%;
+    color: var(--games-muted);
+    font-size: .75rem;
+}
+
+.game-matchmaking-online-count {
+    flex-basis: 100%;
+    color: var(--games-yellow);
+    font-size: .82rem;
+    font-weight: 700;
 }
 
 .uno-create-box {

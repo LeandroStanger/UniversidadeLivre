@@ -404,6 +404,50 @@
     const elements = {};
     let coursesRefreshTimer = null;
 
+    const GAME_SCOPE_KEY = 'ulivre_game_matchmaking_scope';
+
+    function readGameMatchmakingScope() {
+        try {
+            const stored = JSON.parse(localStorage.getItem(GAME_SCOPE_KEY) || '{}');
+            return {
+                mode: ['global', 'course', 'discipline'].includes(stored.mode) ? stored.mode : 'global',
+                courseId: stored.courseId || state.currentCourseId || null,
+                discipline: stored.discipline || state.currentDiscipline || null
+            };
+        } catch (_) {
+            return { mode: 'global', courseId: state.currentCourseId || null, discipline: state.currentDiscipline || null };
+        }
+    }
+
+    function setGameMatchmakingScope(mode) {
+        const validMode = ['global', 'course', 'discipline'].includes(mode) ? mode : 'global';
+        const scope = { mode: validMode, courseId: state.currentCourseId, discipline: state.currentDiscipline };
+        localStorage.setItem(GAME_SCOPE_KEY, JSON.stringify(scope));
+        window.dispatchEvent(new CustomEvent('gameMatchmakingScopeChanged', { detail: scope }));
+        refreshPresence();
+        updateGameMatchmakingOnlineCount();
+        return scope;
+    }
+
+    function decorateGameRoom(room) {
+        return { ...room, matchmakingScope: readGameMatchmakingScope() };
+    }
+
+    function matchesGameRoomScope(room) {
+        const scope = readGameMatchmakingScope();
+        if (scope.mode === 'global') return true;
+        const roomScope = room?.matchmakingScope;
+        if (!roomScope?.courseId || roomScope.courseId !== scope.courseId) return false;
+        return scope.mode !== 'discipline' || roomScope.discipline === scope.discipline;
+    }
+
+    window.UniversidadeLivreGameScope = {
+        get: readGameMatchmakingScope,
+        set: setGameMatchmakingScope,
+        decorateRoom: decorateGameRoom,
+        matchesRoom: matchesGameRoomScope
+    };
+
     // ========================================================================
     // FUNÇÕES AUXILIARES
     // ========================================================================
@@ -523,10 +567,34 @@
         }
     }
 
+    function updateGameMatchmakingOnlineCount() {
+        const output = document.getElementById('gameMatchmakingOnlineCount');
+        if (!output) return;
+
+        const scope = readGameMatchmakingScope();
+        const now = Date.now();
+        const presence = readPresence();
+        const online = Object.entries(presence).filter(([, entry]) => {
+            if (!entry || now - Number(entry.timestamp || 0) >= PRESENCE_TIMEOUT) return false;
+            if (scope.mode === 'global') return true;
+            if (entry.courseId !== scope.courseId) return false;
+            return scope.mode !== 'discipline' || entry.discipline === scope.discipline;
+        });
+        const users = new Set(online.map(([id, entry]) => entry.name || id));
+        const count = users.size;
+        const key = count === 1 ? 'games_matchmaking_online_one' : 'games_matchmaking_online_many';
+        const translated = t(key, { count });
+        output.textContent = translated === key
+            ? `${count} ${count === 1 ? 'pessoa online' : 'pessoas online'}`
+            : translated;
+    }
+
     function refreshPresence() {
         const presence = readPresence();
         presence[presenceId] = {
             name: state.currentUser.name,
+            courseId: state.currentCourseId,
+            discipline: state.currentDiscipline,
             timestamp: Date.now()
         };
         Object.keys(presence).forEach(id => {
@@ -534,6 +602,7 @@
         });
         localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(presence));
         updateOnlineCount();
+        updateGameMatchmakingOnlineCount();
     }
 
     function startPresence() {
@@ -541,6 +610,7 @@
         refreshPresence();
         presenceInterval = setInterval(refreshPresence, PRESENCE_INTERVAL);
         window.addEventListener('storage', updateOnlineCount);
+        window.addEventListener('storage', updateGameMatchmakingOnlineCount);
         if (window.i18nReady && typeof window.i18nReady.then === 'function') {
             window.i18nReady.then(updateOnlineCount).catch(error => {
                 console.warn('[Comunidade] Não foi possível sincronizar a tradução da presença:', error);
@@ -2024,6 +2094,14 @@
     function selectDiscipline(courseId, discipline, scrollToPostId) {
         state.currentCourseId = courseId;
         state.currentDiscipline = discipline;
+        const currentScope = readGameMatchmakingScope();
+        localStorage.setItem(GAME_SCOPE_KEY, JSON.stringify({
+            mode: currentScope.mode,
+            courseId,
+            discipline
+        }));
+        refreshPresence();
+        updateGameMatchmakingOnlineCount();
 
         document.querySelectorAll('.course-item').forEach(el => {
             el.classList.toggle('active', el.dataset.courseId === courseId);
@@ -2808,6 +2886,17 @@
     async function initAfterOnboarding() {
         // Atualiza o usuário (pode ter mudado)
         state.currentUser = getCurrentUser();
+
+        const matchmakingSelect = document.getElementById('gameMatchmakingScope');
+        if (matchmakingSelect) {
+            matchmakingSelect.value = readGameMatchmakingScope().mode;
+            updateGameMatchmakingOnlineCount();
+            matchmakingSelect.addEventListener('change', () => {
+                setGameMatchmakingScope(matchmakingSelect.value);
+                window.renderChessRoomList?.();
+                window.renderTTTRoomList?.();
+            });
+        }
 
         initializePeerNetwork();
         startPresence();

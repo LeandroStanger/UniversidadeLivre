@@ -49,10 +49,10 @@
     const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 
     function readRooms() {
-        try { return JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); } catch (_) { return []; }
+        try { const rooms = JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); return Array.isArray(rooms) ? rooms.filter(room => window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true) : []; } catch (_) { return []; }
     }
 
-    function writeRooms(rooms) { localStorage.setItem(ROOMS_KEY, JSON.stringify(rooms.slice(-20))); }
+    function writeRooms(rooms) { let existing = []; try { existing = JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); } catch (_) {} const otherScopes = Array.isArray(existing) ? existing.filter(room => !(window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true)) : []; localStorage.setItem(ROOMS_KEY, JSON.stringify([...otherScopes, ...rooms].slice(-20))); }
     function getRoom(id = activeRoomId) { return readRooms().find(room => room.id === id) || null; }
     function readWallets() {
         try { return JSON.parse(localStorage.getItem(WALLET_KEY) || '{}'); } catch (_) { return {}; }
@@ -82,7 +82,7 @@
     function createRoom() {
         const mode = panel().querySelector('#bichoMode')?.value || 'community';
         const difficulty = panel().querySelector('#bichoDifficulty')?.value || 'intermediario';
-        const room = { id: `BIC-${Math.random().toString(36).slice(2, 7).toUpperCase()}`, owner: playerId(), mode, difficulty, players: [{ id: playerId(), name: userName() }], capacity: 2, lastDraw: null, createdAt: Date.now() };
+        const room = window.UniversidadeLivreGameScope?.decorateRoom({ id: `BIC-${Math.random().toString(36).slice(2, 7).toUpperCase()}`, owner: playerId(), mode, difficulty, players: [{ id: playerId(), name: userName() }], capacity: 2, lastDraw: null, createdAt: Date.now() });
         if (mode === 'bot') room.players.push({ id: `bot-${room.id}`, name: tx('bicho_bot_name', 'Bot do Bicho'), isBot: true });
         activeRoomId = room.id;
         sessionStorage.setItem('ulivre_bicho_active_room', activeRoomId);

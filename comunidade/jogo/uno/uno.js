@@ -26,11 +26,14 @@
     const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 
     function readRooms() {
-        try { return JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); } catch (_) { return []; }
+        try { const rooms = JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); return Array.isArray(rooms) ? rooms.filter(room => window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true) : []; } catch (_) { return []; }
     }
 
     function writeRooms(rooms) {
-        localStorage.setItem(ROOMS_KEY, JSON.stringify(rooms.slice(-30)));
+        let existing = [];
+        try { existing = JSON.parse(localStorage.getItem(ROOMS_KEY) || '[]'); } catch (_) {}
+        const otherScopes = Array.isArray(existing) ? existing.filter(room => !(window.UniversidadeLivreGameScope?.matchesRoom(room) ?? true)) : [];
+        localStorage.setItem(ROOMS_KEY, JSON.stringify([...otherScopes, ...rooms].slice(-30)));
     }
 
     function getRoom(roomId = activeRoomId) {
@@ -129,7 +132,7 @@
 
     function createRoom(mode, difficulty = 'intermediate') {
         if (!['bot', 'community'].includes(mode)) return;
-        const room = {
+        const room = window.UniversidadeLivreGameScope?.decorateRoom({
             id: `UNO-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
             owner: playerId(),
             mode,
@@ -137,7 +140,7 @@
             players: [{ id: playerId(), name: userName(), avatar: userAvatar(), isBot: false }],
             game: null,
             createdAt: Date.now()
-        };
+        });
         if (mode === 'bot') room.players.push({ id: `bot-${room.id}`, name: 'UNO Bot', isBot: true });
         activeRoomId = room.id;
         sessionStorage.setItem(ACTIVE_KEY, activeRoomId);
