@@ -165,6 +165,20 @@
         return window.t(key, replacements);
     }
 
+    function getLocalizedCourseName(course) {
+        if (!course) return '';
+        return typeof window.getCourseName === 'function'
+            ? window.getCourseName(course.id)
+            : course.name;
+    }
+
+    function getLocalizedDisciplineName(discipline) {
+        if (!discipline) return '';
+        return typeof window.getDisciplineName === 'function'
+            ? window.getDisciplineName(discipline)
+            : discipline;
+    }
+
     function updatePeerStatus(isOnline, customText) {
         const dot = document.getElementById('p2pStatusDot');
         const text = document.getElementById('p2pStatusText');
@@ -411,6 +425,65 @@
             return d.toLocaleString(locale, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         } catch (_) { return ''; }
     }
+
+    function openRoomDeleteDialog(onConfirm) {
+        if (typeof onConfirm !== 'function') return;
+        const modal = document.createElement('div');
+        modal.className = 'uno-confirm-modal';
+        modal.innerHTML = `<div class="uno-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="roomDeleteTitle"><div class="uno-confirm-icon"><i class="fas fa-trash"></i></div><h3 id="roomDeleteTitle">${t('uno_confirm_title')}</h3><p>${t('uno_confirm_delete')}</p><div class="uno-confirm-actions"><button class="btn-secondary" data-room-delete-cancel type="button">${t('uno_cancel')}</button><button class="btn-danger" data-room-delete-confirm type="button"><i class="fas fa-trash"></i> ${t('uno_delete')}</button></div></div>`;
+        document.body.appendChild(modal);
+        const close = () => modal.remove();
+        modal.querySelector('[data-room-delete-cancel]')?.addEventListener('click', close);
+        modal.addEventListener('click', event => { if (event.target === modal) close(); });
+        modal.querySelector('[data-room-delete-confirm]')?.addEventListener('click', () => { close(); onConfirm(); });
+    }
+
+    const standaloneRoomConfigs = [
+        { panel: '#checkersPanel', room: '.checkers-room', join: '.checkers-join', view: '.checkers-view', remove: '.checkers-delete', key: 'ulivre_checkers_rooms', game: 'CheckersGame' },
+        { panel: '#roulettePanel', room: '.roulette-room', join: '.roulette-join', view: '.roulette-view', remove: '.roulette-delete', key: 'ulivre_roulette_rooms', game: 'RouletteGame' },
+        { panel: '#hangmanPanel', room: '.hangman-room', join: '.hangman-join', view: '.hangman-view', remove: '.hangman-delete', key: 'ulivre_hangman_rooms', game: 'HangmanGame' },
+        { panel: '#bichoPanel', room: '.bicho-room', join: '.bicho-join', view: '.bicho-view', remove: '.bicho-delete', key: 'ulivre_bicho_rooms', game: 'BichoGame' }
+    ];
+
+    function syncStandaloneRoomActions() {
+        standaloneRoomConfigs.forEach(config => {
+            document.querySelectorAll(`${config.panel} ${config.room}`).forEach(roomElement => {
+                const idElement = roomElement.querySelector(config.join) || roomElement.querySelector(config.view) || roomElement.querySelector(config.remove);
+                const roomId = idElement?.dataset.room;
+                if (!roomId) return;
+                let rooms;
+                try { rooms = JSON.parse(localStorage.getItem(config.key) || '[]'); } catch (_) { rooms = []; }
+                const room = Array.isArray(rooms) ? rooms.find(item => item.id === roomId) : null;
+                const isFull = room && (room.mode === 'bot' || Number(room.players || 0) >= Number(room.capacity || 2));
+                const joinButton = roomElement.querySelector(config.join);
+                if (joinButton) joinButton.hidden = Boolean(isFull);
+            });
+        });
+    }
+
+    function bindStandaloneRoomActions() {
+        document.addEventListener('click', event => {
+            const button = event.target.closest('.checkers-delete, .roulette-delete, .hangman-delete, .bicho-delete');
+            if (!button) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            const config = standaloneRoomConfigs.find(item => button.matches(item.remove));
+            const roomId = button.dataset.room;
+            if (!config || !roomId) return;
+            openRoomDeleteDialog(() => {
+                let rooms;
+                try { rooms = JSON.parse(localStorage.getItem(config.key) || '[]'); } catch (_) { rooms = []; }
+                localStorage.setItem(config.key, JSON.stringify(Array.isArray(rooms) ? rooms.filter(room => room.id !== roomId) : []));
+                window[config.game]?.show();
+            });
+        }, true);
+
+        const observer = new MutationObserver(syncStandaloneRoomActions);
+        if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+        syncStandaloneRoomActions();
+    }
+
+    bindStandaloneRoomActions();
 
     function getCurrentUser() {
         const name = localStorage.getItem('userProfileName') || 'Anônimo';
@@ -1888,7 +1961,8 @@
         for (const course of state.courses) {
             const disciplines = state.disciplines[course.id] || [];
             const isActive = state.currentCourseId === course.id;
-            const initial = getCourseInitial(course.name);
+            const localizedCourseName = getLocalizedCourseName(course);
+            const initial = getCourseInitial(localizedCourseName);
             const color = getCourseColor(course.id);
             const levelLabel = course.courseLevel === 'graduacao' ? t('graduacao') :
                                course.courseLevel === 'pos-graduacao' ? t('pos_graduacao') :
@@ -1896,14 +1970,14 @@
 
             const imgUrl = getCourseImageUrl(course.id);
             const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
-            const iconContent = imgUrl ? `<img src="${imgUrl}" alt="${escapeHtml(course.name)}" onerror="${safeOnError}" />` : initial;
+            const iconContent = imgUrl ? `<img src="${imgUrl}" alt="${escapeHtml(localizedCourseName)}" onerror="${safeOnError}" />` : initial;
 
             html += `
                 <div class="course-entry">
                   <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}">
                     <div class="course-icon" style="background:${color}">${iconContent}</div>
                     <div class="course-info">
-                        <div class="course-name">${escapeHtml(course.name)}</div>
+                        <div class="course-name">${escapeHtml(localizedCourseName)}</div>
                         <div class="course-level">${levelLabel}</div>
                     </div>
                   </div>
@@ -1914,7 +1988,7 @@
             } else {
                 for (const disc of disciplines) {
                     const activeDisc = isActive && state.currentDiscipline === disc;
-                    html += `<div class="discipline-item ${activeDisc ? 'active' : ''}" data-course-id="${course.id}" data-discipline="${escapeHtml(disc)}">${escapeHtml(disc)}</div>`;
+                    html += `<div class="discipline-item ${activeDisc ? 'active' : ''}" data-course-id="${course.id}" data-discipline="${escapeHtml(disc)}">${escapeHtml(getLocalizedDisciplineName(disc))}</div>`;
                 }
             }
             html += `</div></div>`;
@@ -1989,8 +2063,9 @@
     function renderDisciplineHeader(courseId, discipline) {
         const course = state.courses.find(c => c.id === courseId);
         const color = course ? getCourseColor(courseId) : '#6C8CFF';
-        const initial = course ? getCourseInitial(course.name) : '?';
-        const courseName = course ? course.name : '';
+        const localizedCourseName = getLocalizedCourseName(course);
+        const initial = course ? getCourseInitial(localizedCourseName) : '?';
+        const courseName = localizedCourseName;
 
         const imgEl = document.getElementById('disciplineCourseImage');
         if (imgEl) {
@@ -2005,7 +2080,7 @@
             }
         }
         if (elements.disciplineName) {
-            elements.disciplineName.textContent = discipline || t('select_discipline');
+            elements.disciplineName.textContent = getLocalizedDisciplineName(discipline) || t('select_discipline');
         }
         if (elements.disciplineCourseName) {
             elements.disciplineCourseName.textContent = courseName ? `${t('course')}: ${courseName}` : '';
@@ -2948,6 +3023,7 @@
         scrollToPost,
         censorText
     };
+    window.openRoomDeleteDialog = openRoomDeleteDialog;
 
     // ========================================================================
     // AUTOINICIALIZAÇÃO

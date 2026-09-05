@@ -121,6 +121,21 @@
         'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
+    const DISCIPLINE_NAMES = {
+        'administracao': { pt: 'Administração', en: 'Administration' },
+        'algoritmos': { pt: 'Algoritmos', en: 'Algorithms' },
+        'arquitetura-de-computadores': { pt: 'Arquitetura de Computadores', en: 'Computer Architecture' },
+        'banco-de-dados': { pt: 'Banco de Dados', en: 'Databases' },
+        'calculo': { pt: 'Cálculo', en: 'Calculus' },
+        'ciencia-da-computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'engenharia-de-software': { pt: 'Engenharia de Software', en: 'Software Engineering' },
+        'estrutura-de-dados': { pt: 'Estrutura de Dados', en: 'Data Structures' },
+        'matematica': { pt: 'Matemática', en: 'Mathematics' },
+        'programacao': { pt: 'Programação', en: 'Programming' },
+        'sistemas-operacionais': { pt: 'Sistemas Operacionais', en: 'Operating Systems' },
+        'redes-de-computadores': { pt: 'Redes de Computadores', en: 'Computer Networks' }
+    };
+
     // ========== TRADUÇÃO (usa window.t com fallback) ==========
     function t(key, replacements = {}) {
         if (window.t && typeof window.t === 'function') {
@@ -140,6 +155,24 @@
         if (!nameObj) return courseId;
         const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
         return nameObj[lang] || nameObj.pt || courseId;
+    }
+
+    function getDisciplineName(disciplineId) {
+        const originalName = String(disciplineId || '');
+        const normalizedId = originalName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const nameObj = DISCIPLINE_NAMES[normalizedId];
+        const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
+        if (nameObj) return nameObj[lang] || nameObj.pt;
+        const englishWords = {
+            algoritmos: 'Algorithms', arquitetura: 'Architecture', banco: 'Database', calculo: 'Calculus',
+            ciencia: 'Science', computadores: 'Computers', computacao: 'Computing', dados: 'Data',
+            engenharia: 'Engineering', estrutura: 'Structure', fundamentos: 'Foundations', matematica: 'Mathematics',
+            programacao: 'Programming', redes: 'Networks', sistemas: 'Systems', software: 'Software'
+        };
+        return (lang === 'en' ? normalizedId : originalName).replace(/[-_]/g, ' ').split(/\s+/).filter(Boolean).map(word => {
+            const translated = lang === 'en' ? (englishWords[word] || word) : word;
+            return translated.charAt(0).toUpperCase() + translated.slice(1);
+        }).join(' ');
     }
 
     // ========================================================================
@@ -922,7 +955,8 @@
             return;
         }
         container.innerHTML = history.map(exam => {
-            const finishedAt = exam.finishedAt ? new Date(exam.finishedAt).toLocaleString() : t('profile_not_available');
+            const locale = window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR';
+            const finishedAt = exam.finishedAt ? new Date(exam.finishedAt).toLocaleString(locale) : t('profile_not_available');
             return `<article class="profile-exam-item"><strong>${escapeHtml(exam.courseName)} · ${escapeHtml(exam.disciplineName)}</strong><span>${exam.score}/${exam.total} ${t('profile_exam_correct')} · ${Math.max(0, exam.total - exam.score)} ${t('profile_exam_wrong')} · ${exam.percent}%</span><small>${t('profile_exam_time')}: ${exam.duration} · ${finishedAt}</small></article>`;
         }).join('');
     }
@@ -939,9 +973,22 @@
                 return {};
             }
         };
+        const rawScore = (key) => readScore(key);
+        const normalizeScore = (score, key) => ({
+            points: Number(score.points) || 0,
+            wins: Number(score.wins) || 0,
+            draws: Number(score.draws) || 0,
+            losses: Number(score.losses) || ((key === 'ulivre_hangman_scores' || key === 'ulivre_roulette_wallets' || key === 'ulivre_bicho_wallets') ? Math.max(0, (Number(score.games || score.spins || score.bets) || 0) - (Number(score.wins) || 0)) : 0)
+        });
         const games = [
-            { name: t('games_score_chess'), icon: 'fa-chess', score: readScore('ulivre_chess_scores') },
-            { name: t('games_score_ttt'), icon: 'fa-th', score: readScore('ulivre_ttt_scores') }
+            { name: t('games_score_chess'), icon: 'fa-chess', score: normalizeScore(rawScore('ulivre_chess_scores'), 'ulivre_chess_scores') },
+            { name: t('games_score_ttt'), icon: 'fa-th', score: normalizeScore(rawScore('ulivre_ttt_scores'), 'ulivre_ttt_scores') },
+            { name: t('games_score_impostor'), icon: 'fa-user-secret', score: normalizeScore(rawScore('ulivre_impostor_scores'), 'ulivre_impostor_scores') },
+            { name: t('games_score_hangman'), icon: 'fa-font', score: normalizeScore(rawScore('ulivre_hangman_scores'), 'ulivre_hangman_scores') },
+            { name: t('games_score_checkers'), icon: 'fa-chess-board', score: normalizeScore(rawScore('ulivre_checkers_scores'), 'ulivre_checkers_scores') },
+            { name: t('games_score_roulette'), icon: 'fa-dharmachakra', score: normalizeScore(rawScore('ulivre_roulette_wallets'), 'ulivre_roulette_wallets') },
+            { name: t('games_score_uno'), icon: 'fa-layer-group', score: normalizeScore(rawScore('ulivre_uno_scores'), 'ulivre_uno_scores') },
+            { name: t('games_score_bicho'), icon: 'fa-paw', score: normalizeScore(rawScore('ulivre_bicho_wallets'), 'ulivre_bicho_wallets') }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
@@ -967,7 +1014,7 @@
                     storageKey: key,
                     courseId,
                     courseName: getCourseName(courseId),
-                    disciplineName: disciplineKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase()),
+                    disciplineName: getDisciplineName(disciplineKey),
                     score: Number(state.score) || 0,
                     total: Number(state.total) || 0,
                     percent: Number(state.percent) || 0,
@@ -1572,6 +1619,15 @@
             });
         }
 
+        const coursePointsLabel = document.querySelector('.profile-total-score-card span[data-i18n="profile_course_points"]');
+        if (coursePointsLabel) coursePointsLabel.textContent = t('profile_course_points');
+        const grandTotalLabel = document.querySelector('.profile-total-score-card span[data-i18n="profile_grand_total"]');
+        if (grandTotalLabel) grandTotalLabel.textContent = t('profile_grand_total');
+        const examDetailsLabel = document.querySelector('#profileExamDetailsBtn span[data-i18n="profile_exam_details"]');
+        if (examDetailsLabel) examDetailsLabel.textContent = t('profile_exam_details');
+        const gameStatusLabel = document.querySelector('#profileGameStatusBtn span[data-i18n="profile_game_status"]');
+        if (gameStatusLabel) gameStatusLabel.textContent = t('profile_game_status');
+
         const exportItems = [
             { id: 'exportCourses', key: 'profile_export_courses' },
             { id: 'exportVideos', key: 'profile_export_videos' },
@@ -1641,13 +1697,20 @@
         const currentUser = loadProfileName() || 'Jogador';
         let tttScore = {};
         let chessScore = {};
+        let extraGameScores = {};
         try {
             const gameScores = JSON.parse(localStorage.getItem('ulivre_ttt_scores') || '{}');
             tttScore = gameScores[currentUser] || {};
             const chessScores = JSON.parse(localStorage.getItem('ulivre_chess_scores') || '{}');
             chessScore = chessScores[currentUser] || {};
+            const extraKeys = ['ulivre_impostor_scores', 'ulivre_hangman_scores', 'ulivre_checkers_scores', 'ulivre_roulette_wallets'];
+            extraGameScores = extraKeys.reduce((total, key) => {
+                const scores = JSON.parse(localStorage.getItem(key) || '{}');
+                return total + (Number(scores[currentUser]?.points) || 0);
+            }, 0);
             totalStats.points += Number(tttScore.points) || 0;
             totalStats.points += Number(chessScore.points) || 0;
+            totalStats.points += extraGameScores;
         } catch (_) {
             console.warn('[Profile] Pontuação dos jogos indisponível.');
         }
@@ -1733,9 +1796,15 @@
         const disciplinesEl = document.getElementById('profileCompletedDisciplines');
         if (disciplinesEl) disciplinesEl.textContent = totalStats.completedDisciplines;
         const pointsEl = document.getElementById('profileTotalPoints');
-        const gamePoints = (Number(chessScore.points) || 0) + (Number(tttScore.points) || 0);
+        const gamePoints = (Number(chessScore.points) || 0) + (Number(tttScore.points) || 0) + extraGameScores;
         const grandTotal = totalStats.coursePoints + gamePoints;
         if (pointsEl) pointsEl.textContent = gamePoints;
+        const coursePointsLabel = document.querySelector('.profile-total-score-card span[data-i18n="profile_course_points"]');
+        if (coursePointsLabel) coursePointsLabel.textContent = t('profile_course_points');
+        const examDetailsLabel = document.querySelector('#profileExamDetailsBtn span[data-i18n="profile_exam_details"]');
+        if (examDetailsLabel) examDetailsLabel.textContent = t('profile_exam_details');
+        const gameStatusLabel = document.querySelector('#profileGameStatusBtn span[data-i18n="profile_game_status"]');
+        if (gameStatusLabel) gameStatusLabel.textContent = t('profile_game_status');
         const coursePointsEl = document.getElementById('profileCoursePoints');
         if (coursePointsEl) coursePointsEl.textContent = totalStats.coursePoints;
         const grandTotalEl = document.getElementById('profileGrandTotalPoints');
@@ -2109,6 +2178,7 @@
     window.checkPasswordStrength = checkPasswordStrength;
     window.getPasswordFeedback = getPasswordFeedback;
     window.getCourseName = getCourseName;
+    window.getDisciplineName = getDisciplineName;
     window.validateImportedData = validateImportedData;
 
     // ========== INICIALIZAÇÃO AUTOMÁTICA ==========
@@ -2158,6 +2228,16 @@
         }
     });
 
+    ['impostorScoreUpdated', 'hangmanScoreUpdated', 'checkersScoreUpdated', 'rouletteScoreUpdated', 'unoScoreUpdated', 'bichoScoreUpdated'].forEach(eventName => {
+        window.addEventListener(eventName, () => {
+            const modal = document.getElementById('profileModal');
+            if (modal?.style?.display === 'flex') {
+                updateProfileModal();
+                if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+            }
+        });
+    });
+
     window.addEventListener('storage', (e) => {
         if (e.key === AUDITORIO_TIME_KEY) {
             const el = document.getElementById('profileAuditorioTime');
@@ -2183,6 +2263,11 @@
         if (modal && modal.style.display === 'flex') {
             updateProfileTranslations();
             updateProfileModal();
+            updateNotesCheckboxes();
+            const examDetails = document.getElementById('profileExamDetails');
+            if (examDetails && !examDetails.hidden) renderExamHistory();
+            const gameStatus = document.getElementById('profileGameStatus');
+            if (gameStatus && !gameStatus.hidden) renderGameStatus();
         }
     });
 

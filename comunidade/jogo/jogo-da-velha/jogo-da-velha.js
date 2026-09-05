@@ -353,6 +353,7 @@
             const roomModeClass = room.mode === 'bot' ? 'bot' : 'community';
             const roomDifficulty = room.mode === 'bot' ? (room.difficulty || room.level || 'intermediario') : (room.level || 'intermediario');
             const canDeleteRoom = isCurrentUserRoomCreator(room);
+            const canJoinRoom = room.mode === 'community' && Number(room.players || 0) < 2;
             const playersText = `${room.players} ${t(room.players === 1 ? 'games_room_player_count_one' : 'games_room_player_count_many', { count: room.players })}`;
             const viewersText = t('games_room_viewers', { count: room.spectators });
             return `
@@ -365,7 +366,7 @@
                         <small>${levelLabel(roomDifficulty)} · ${playersText} · ${viewersText} · ${isActiveText}</small>
                     </div>
                     <div class="chess-room-actions">
-                        <button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>
+                        ${canJoinRoom ? `<button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>` : ''}
                         <button class="chess-room-view-button" type="button" data-room-action="view" data-room-id="${roomId}">${t('games_room_visualize')}</button>
                         ${canDeleteRoom ? `<button class="chess-room-delete-button" type="button" data-room-action="delete" data-room-id="${roomId}">${t('games_room_delete')}</button>` : ''}
                     </div>

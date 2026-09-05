@@ -1,0 +1,59 @@
+.hangman-panel[hidden] { display: none; }
+.hangman-card {
+    color: var(--com-text-primary);
+    background: linear-gradient(145deg, rgba(26, 38, 56, 0.98), rgba(15, 22, 36, 0.98));
+    border: 1px solid var(--com-border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--com-shadow);
+}
+.hangman-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.hangman-header h4 { margin: 0; font-size: 1.35rem; }
+.hangman-header p { margin: 0.25rem 0 0; color: var(--com-text-secondary); font-size: 0.9rem; }
+.hangman-create { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: .65rem; align-items: end; }
+.hangman-field { display: grid; gap: .3rem; color: var(--com-text-secondary); font-size: .78rem; font-weight: 700; }
+.hangman-select, .hangman-input { width: 100%; padding: .7rem .75rem; border: 1px solid var(--com-border); border-radius: 10px; background: var(--com-bg-tertiary); color: var(--com-text-primary); font: inherit; }
+.hangman-primary, .hangman-secondary, .hangman-danger { padding: .65rem .85rem; border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer; }
+.hangman-primary { border: 0; background: var(--com-accent-blue); color: #fff; }
+.hangman-secondary { border: 1px solid var(--com-border); background: transparent; color: var(--com-text-primary); }
+.hangman-danger { border: 1px solid rgba(248, 113, 113, .5); background: transparent; color: #fca5a5; }
+.hangman-primary:hover, .hangman-secondary:hover, .hangman-danger:hover { filter: brightness(1.12); }
+.hangman-room-list { display: grid; gap: .65rem; margin-top: 1.25rem; }
+.hangman-room { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .8rem; border: 1px solid var(--com-border); border-radius: 10px; background: rgba(7, 11, 20, .42); }
+.hangman-room-meta, .hangman-room-actions { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+.hangman-room-meta { flex-direction: column; align-items: flex-start; }
+.hangman-muted { color: var(--com-text-tertiary); font-size: .85rem; }
+.hangman-game-layout { display: grid; grid-template-columns: minmax(190px, .75fr) minmax(0, 1.25fr); gap: 1rem; }
+.hangman-drawing { min-height: 260px; display: grid; place-items: center; border: 1px solid var(--com-border); border-radius: 12px; background: radial-gradient(circle at 50% 20%, rgba(56, 189, 248, .1), transparent 55%), rgba(7, 11, 20, .42); color: var(--com-accent-orange); overflow: hidden; }
+.hangman-scaffold { position: relative; width: 190px; height: 225px; }
+.hangman-scaffold::before, .hangman-scaffold::after, .hangman-beam, .hangman-rope { content: ''; position: absolute; display: block; background: currentColor; border-radius: 4px; }
+.hangman-scaffold::before { width: 8px; height: 205px; left: 30px; bottom: 8px; }
+.hangman-scaffold::after { width: 120px; height: 8px; left: 30px; top: 10px; }
+.hangman-beam { width: 8px; height: 34px; left: 145px; top: 10px; }
+.hangman-rope { width: 3px; height: 30px; left: 145px; top: 44px; }
+.hangman-scaffold .hangman-person { position: absolute; inset: 0; }
+.hangman-part { position: absolute; display: block; opacity: 0; background: #f8fafc; transition: opacity 180ms ease, transform 180ms ease; }
+.hangman-part.is-visible { opacity: 1; }
+.hangman-head { width: 42px; height: 42px; left: 125px; top: 70px; border: 5px solid #f8fafc; border-radius: 50%; background: transparent; }
+.hangman-body { width: 6px; height: 72px; left: 143px; top: 112px; }
+.hangman-arm-left, .hangman-arm-right, .hangman-leg-left, .hangman-leg-right { width: 6px; height: 58px; left: 143px; top: 118px; transform-origin: top center; }
+.hangman-arm-left { transform: rotate(55deg); }.hangman-arm-right { transform: rotate(-55deg); }
+.hangman-leg-left, .hangman-leg-right { top: 178px; height: 48px; }.hangman-leg-left { transform: rotate(35deg); }.hangman-leg-right { transform: rotate(-35deg); }
+.hangman-progress { display: grid; gap: .65rem; align-content: start; }
+.hangman-word { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; min-height: 3.2rem; padding: 1rem; border-radius: 12px; background: rgba(56, 189, 248, .08); color: var(--com-accent-teal); font-size: clamp(1.35rem, 4vw, 2rem); font-weight: 800; letter-spacing: .15em; }
+.hangman-word span { min-width: 1.1rem; text-align: center; border-bottom: 2px solid currentColor; }
+.hangman-stats { display: flex; justify-content: space-between; color: var(--com-text-secondary); font-size: .85rem; }
+.hangman-turn-badge { display: grid; gap: .1rem; min-width: 100px; padding: .45rem .65rem; border: 1px solid rgba(251, 191, 36, .35); border-radius: 10px; color: var(--com-text-secondary); font-size: .72rem; text-align: center; }
+.hangman-turn-badge strong { color: var(--com-accent-orange); }.hangman-turn-badge b { color: var(--com-text-primary); font-size: 1.05rem; }
+.hangman-scoreboard { display: flex; flex-wrap: wrap; gap: .5rem .9rem; margin-bottom: 1rem; padding: .7rem .85rem; border: 1px solid rgba(56, 189, 248, .2); border-radius: 10px; background: rgba(56, 189, 248, .06); color: var(--com-text-secondary); font-size: .8rem; }
+.hangman-scoreboard strong { color: var(--com-text-primary); }
+.hangman-round-message { margin-bottom: 1rem; padding: .65rem .8rem; border-left: 3px solid var(--com-accent-teal); border-radius: 0 8px 8px 0; background: rgba(56, 189, 248, .08); color: var(--com-text-secondary); font-size: .85rem; }
+.hangman-keyboard { display: grid; grid-template-columns: repeat(9, minmax(28px, 1fr)); gap: .4rem; margin-top: .5rem; }
+.hangman-key { min-height: 38px; border: 1px solid var(--com-border); border-radius: 8px; background: var(--com-bg-tertiary); color: var(--com-text-primary); font-weight: 800; cursor: pointer; }
+.hangman-key:hover:not(:disabled) { border-color: var(--com-accent-teal); transform: translateY(-1px); }
+.hangman-key:disabled { cursor: not-allowed; opacity: .35; }
+.hangman-word-guess { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
+.hangman-hint { padding: .7rem .85rem; border-left: 3px solid var(--com-accent-orange); background: rgba(251, 146, 60, .1); color: var(--com-text-secondary); }
+.hangman-result { margin-top: 1rem; padding: .9rem; border-radius: 10px; background: rgba(16, 185, 129, .12); border: 1px solid rgba(16, 185, 129, .4); }
+.hangman-result.loss { background: rgba(251, 191, 36, .12); border-color: rgba(251, 191, 36, .4); }
+@media (max-width: 680px) { .hangman-create, .hangman-game-layout { grid-template-columns: 1fr; } .hangman-room { align-items: stretch; flex-direction: column; } .hangman-room-actions { flex-direction: column; align-items: stretch; } .hangman-keyboard { grid-template-columns: repeat(7, minmax(28px, 1fr)); } }

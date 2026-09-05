@@ -22,6 +22,13 @@
     <link rel="stylesheet" href="../perfil/profile.css" />
     <link rel="stylesheet" href="jogo/jogo-da-velha/jogo-da-velha.css" />
     <link rel="stylesheet" href="jogo/xadrez/xadrez.css" />
+    <link rel="stylesheet" href="jogo/impostor/impostor.css" />
+    <link rel="stylesheet" href="jogo/forca/forca.css" />
+    <link rel="stylesheet" href="jogo/damas/damas.css" />
+    <link rel="stylesheet" href="jogo/roleta/roleta.css" />
+    <link rel="stylesheet" href="jogo/uno/uno.css" />
+    <link rel="stylesheet" href="jogo/games-theme.css" />
+    <link rel="stylesheet" href="jogo/bicho/bicho.css" />
 
     <style>
         /* ============================================================
@@ -1812,6 +1819,36 @@
                                         <span class="game-title" data-i18n="games_room_tictactoe">Jogo da Velha</span>
                                         <span class="game-subtitle" data-i18n="games_room_tictactoe_subtitle">Jogo rápido e tático</span>
                                     </button>
+                                    <button class="game-card" data-game="impostor" type="button">
+                                        <span class="game-icon"><i class="fas fa-user-secret"></i></span>
+                                        <span class="game-title" data-i18n="game_impostor_title">Jogo do Impostor</span>
+                                        <span class="game-subtitle" data-i18n="game_impostor_subtitle">Descubra quem recebeu outra palavra</span>
+                                    </button>
+                                    <button class="game-card" data-game="hangman" type="button">
+                                        <span class="game-icon"><i class="fas fa-font"></i></span>
+                                        <span class="game-title" data-i18n="game_hangman_title">Jogo da Forca</span>
+                                        <span class="game-subtitle" data-i18n="game_hangman_subtitle">Adivinhe a palavra antes da última tentativa</span>
+                                    </button>
+                                    <button class="game-card" data-game="checkers" type="button">
+                                        <span class="game-icon"><i class="fas fa-chess-board"></i></span>
+                                        <span class="game-title" data-i18n="game_checkers_title">Jogo de Damas</span>
+                                        <span class="game-subtitle" data-i18n="game_checkers_subtitle">Estratégia, captura e promoção</span>
+                                    </button>
+                                    <button class="game-card" data-game="roulette" type="button">
+                                        <span class="game-icon"><i class="fas fa-dharmachakra"></i></span>
+                                        <span class="game-title" data-i18n="game_roulette_title">Roleta</span>
+                                        <span class="game-subtitle" data-i18n="game_roulette_subtitle">Aposte moedas e gire a sorte</span>
+                                    </button>
+                                    <button class="game-card" data-game="uno" type="button">
+                                        <span class="game-icon"><i class="fas fa-layer-group"></i></span>
+                                        <span class="game-title" data-i18n="game_uno_title">UNO</span>
+                                        <span class="game-subtitle" data-i18n="game_uno_subtitle">Jogue com bot ou com um colega</span>
+                                    </button>
+                                    <button class="game-card" data-game="bicho" type="button">
+                                        <span class="game-icon"><i class="fas fa-paw"></i></span>
+                                        <span class="game-title" data-i18n="game_bicho_title">Jogo do Bicho</span>
+                                        <span class="game-subtitle" data-i18n="game_bicho_subtitle">Aposte em animais com moedas virtuais</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -1867,6 +1904,13 @@
                                        <div id="tttBoard" class="ttt-board" aria-live="polite" hidden></div>
                                     </div>
                                 </div>
+
+                                <div id="impostorPanel" class="impostor-panel" hidden></div>
+                                <div id="hangmanPanel" class="hangman-panel" hidden></div>
+                                <div id="checkersPanel" class="checkers-panel" hidden></div>
+                                <div id="roulettePanel" class="roulette-panel" hidden></div>
+                                <div id="unoPanel" class="uno-panel" hidden></div>
+                                <div id="bichoPanel" class="bicho-panel" hidden></div>
                             </div>
 
                             <div id="chessPromotionModal" class="chess-promotion-modal" hidden>
@@ -2038,18 +2082,18 @@
 
                     <!-- Estatísticas -->
                     <div class="profile-stats">
-                        <div class="stat-item"><span>Vídeos assistidos</span> <span id="profileWatchedVideos">0</span></div>
-                        <div class="stat-item"><span>Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
+                        <div class="stat-item"><span data-i18n="profile_watched_videos">Vídeos assistidos</span> <span id="profileWatchedVideos">0</span></div>
+                        <div class="stat-item"><span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
                         <div class="stat-item"><span>Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                         <div class="stat-item"><span>Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
                         <div class="stat-item"><span>Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
                         <div class="stat-item"><span>Horas no Auditório</span> <span id="profileAuditorioTime">0min</span></div>
                     </div>
-                    <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span>Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+                    <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
                     <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
-                    <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> Ver provas e resultados</button>
+                    <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
                     <div id="profileExamDetails" class="profile-exam-details" hidden></div>
-                    <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> Ver status dos jogos</button>
+                    <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
                     <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
                     <!-- Cursos salvos -->
@@ -2065,7 +2109,7 @@
                     <hr />
                     <h4><i class="fas fa-file-export"></i> Exportar / Importar dados</h4>
                     <div class="export-options">
-                        <p>Selecione quais dados exportar:</p>
+                        <p data-i18n="profile_select_data">Selecione quais dados exportar:</p>
                         <label><input type="checkbox" id="exportCourses" checked /> Cursos</label>
                         <label><input type="checkbox" id="exportVideos" checked /> Vídeos</label>
                         <label><input type="checkbox" id="exportBooks" checked /> Livros lidos</label>
@@ -2103,5 +2147,11 @@
     <script src="comunidade.js"></script>           <!-- 4º: comunidade -->
     <script src="jogo/jogo-da-velha/jogo-da-velha.js"></script> <!-- 5º: jogo da velha -->
     <script src="jogo/xadrez/xadrez.js"></script>   <!-- 6º: xadrez -->
+    <script src="jogo/impostor/impostor.js"></script>
+    <script src="jogo/forca/forca.js"></script>
+    <script src="jogo/damas/damas.js"></script>
+    <script src="jogo/roleta/roleta.js"></script>
+    <script src="jogo/uno/uno.js"></script>
+    <script src="jogo/bicho/bicho.js"></script>
 </body>
 </html>

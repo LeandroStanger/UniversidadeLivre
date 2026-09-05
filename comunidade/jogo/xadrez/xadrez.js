@@ -144,11 +144,11 @@
     }
 
     function getSelectedGame() {
-        return currentGameSelection === 'tictactoe' ? 'tictactoe' : 'chess';
+        return ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho'].includes(currentGameSelection) ? currentGameSelection : 'chess';
     }
 
     function setSelectedGame(game) {
-        currentGameSelection = game === 'tictactoe' ? 'tictactoe' : 'chess';
+        currentGameSelection = ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho'].includes(game) ? game : 'chess';
     }
 
     function getActiveRoomIdForSelection() {
@@ -342,6 +342,7 @@
             const roomModeClass = room.mode === 'bot' ? 'bot' : 'community';
             const roomDifficulty = room.mode === 'bot' ? (room.difficulty || room.level || 'intermediario') : (room.level || 'intermediario');
             const canDeleteRoom = isCurrentUserRoomCreator(room);
+            const canJoinRoom = room.mode === 'community' && Number(room.players || 0) < 2;
             return `
                 <div class="chess-room-item">
                     <div class="chess-room-meta">
@@ -352,7 +353,7 @@
                         <small>${levelLabel(roomDifficulty)} · ${room.players} ${t(room.players === 1 ? 'games_room_player_count_one' : 'games_room_player_count_many', { count: room.players })} · ${t('games_room_viewers', { count: room.spectators })} · ${isActiveText}</small>
                     </div>
                     <div class="chess-room-actions">
-                        <button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>
+                        ${canJoinRoom ? `<button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>` : ''}
                         <button class="chess-room-view-button" type="button" data-room-action="view" data-room-id="${roomId}">${t('games_room_visualize')}</button>
                         ${canDeleteRoom ? `<button class="chess-room-delete-button" type="button" data-room-action="delete" data-room-id="${roomId}">${t('games_room_delete')}</button>` : ''}
                     </div>
@@ -414,6 +415,7 @@
             const roomModeClass = room.mode === 'bot' ? 'bot' : 'community';
             const roomDifficulty = room.mode === 'bot' ? (room.difficulty || room.level || 'intermediario') : (room.level || 'intermediario');
             const canDeleteRoom = isCurrentUserRoomCreator(room);
+            const canJoinRoom = room.mode === 'community' && Number(room.players || 0) < 2;
             const playersText = `${room.players} ${t(room.players === 1 ? 'games_room_player_count_one' : 'games_room_player_count_many', { count: room.players })}`;
             const viewersText = t('games_room_viewers', { count: room.spectators });
             return `
@@ -426,7 +428,7 @@
                         <small>${levelLabel(roomDifficulty)} · ${playersText} · ${viewersText} · ${isActiveText}</small>
                     </div>
                     <div class="chess-room-actions">
-                        <button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>
+                        ${canJoinRoom ? `<button class="chess-room-button" type="button" data-room-action="join" data-room-id="${roomId}">${t('games_room_join')}</button>` : ''}
                         <button class="chess-room-view-button" type="button" data-room-action="view" data-room-id="${roomId}">${t('games_room_visualize')}</button>
                         ${canDeleteRoom ? `<button class="chess-room-delete-button" type="button" data-room-action="delete" data-room-id="${roomId}">${t('games_room_delete')}</button>` : ''}
                     </div>
@@ -1309,10 +1311,42 @@
     function showGamesMenuScreen() {
         const menuScreen = document.getElementById('gamesMenuScreen');
         const chessScreen = document.getElementById('gameShellScreen');
+        const impostorPanel = document.getElementById('impostorPanel');
+        const hangmanPanel = document.getElementById('hangmanPanel');
+        const checkersPanel = document.getElementById('checkersPanel');
+        const roulettePanel = document.getElementById('roulettePanel');
+        const unoPanel = document.getElementById('unoPanel');
+        const bichoPanel = document.getElementById('bichoPanel');
+        const chessPanel = document.getElementById('chessPanel');
         const menuCards = document.querySelectorAll('.game-card[data-game]');
         if (menuScreen) menuScreen.hidden = false;
         if (chessScreen) chessScreen.hidden = true;
         if (chessScreen) chessScreen.classList.remove('room-active');
+        if (impostorPanel) impostorPanel.hidden = true;
+        if (hangmanPanel) hangmanPanel.hidden = true;
+        if (checkersPanel) checkersPanel.hidden = true;
+        if (roulettePanel) roulettePanel.hidden = true;
+        if (unoPanel) {
+            unoPanel.hidden = true;
+            unoPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (bichoPanel) {
+            bichoPanel.hidden = true;
+            bichoPanel.style.setProperty('display', 'none', 'important');
+        }
+        [chessPanel, impostorPanel, hangmanPanel, checkersPanel, roulettePanel].forEach(panel => panel?.style.removeProperty('display'));
+        if (chessPanel) chessPanel.hidden = false;
+        document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
+        document.querySelector('.chess-opponent-panel')?.style.removeProperty('display');
+        document.querySelector('.chess-room-creator')?.removeAttribute('hidden');
+        document.querySelector('.chess-room-creator')?.style.removeProperty('display');
+        document.getElementById('chessRoomList')?.removeAttribute('hidden');
+        document.getElementById('tttRoomList')?.removeAttribute('hidden');
+        document.querySelector('.game-stage')?.removeAttribute('hidden');
+        document.querySelector('.game-stage')?.style.removeProperty('display');
+        document.getElementById('chessPanel')?.style.removeProperty('display');
+        document.getElementById('chessRoomList')?.style.removeProperty('display');
+        document.getElementById('tttRoomList')?.style.removeProperty('display');
         menuCards.forEach((card) => card.classList.remove('active'));
         updateChessRoomVisibility();
     }
@@ -1327,6 +1361,18 @@
         if (statusText) statusText.textContent = getDisplayGameStatusLabel();
         if (menuScreen) menuScreen.hidden = true;
         if (chessScreen) chessScreen.hidden = false;
+        document.getElementById('impostorPanel')?.setAttribute('hidden', '');
+        document.getElementById('hangmanPanel')?.setAttribute('hidden', '');
+        document.getElementById('checkersPanel')?.setAttribute('hidden', '');
+        document.getElementById('roulettePanel')?.setAttribute('hidden', '');
+        document.getElementById('chessPanel')?.removeAttribute('hidden');
+        document.querySelector('.chess-room-creator')?.removeAttribute('hidden');
+        document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
+        document.querySelector('.game-stage')?.removeAttribute('hidden');
+        document.querySelector('.chess-room-creator')?.style.removeProperty('display');
+        document.querySelector('.chess-opponent-panel')?.style.removeProperty('display');
+        document.querySelector('.game-stage')?.style.removeProperty('display');
+        document.getElementById('chessPanel')?.style.removeProperty('display');
         const chessBoard = document.getElementById('chessBoard');
         const tttBoard = document.getElementById('tttBoard');
         if (chessBoard) {
@@ -1352,6 +1398,18 @@
         if (statusText) statusText.textContent = t('games_room_select_room_prompt');
         if (menuScreen) menuScreen.hidden = true;
         if (chessScreen) chessScreen.hidden = false;
+        document.getElementById('impostorPanel')?.setAttribute('hidden', '');
+        document.getElementById('hangmanPanel')?.setAttribute('hidden', '');
+        document.getElementById('checkersPanel')?.setAttribute('hidden', '');
+        document.getElementById('roulettePanel')?.setAttribute('hidden', '');
+        document.getElementById('chessPanel')?.removeAttribute('hidden');
+        document.querySelector('.chess-room-creator')?.removeAttribute('hidden');
+        document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
+        document.querySelector('.game-stage')?.removeAttribute('hidden');
+        document.querySelector('.chess-room-creator')?.style.removeProperty('display');
+        document.querySelector('.chess-opponent-panel')?.style.removeProperty('display');
+        document.querySelector('.game-stage')?.style.removeProperty('display');
+        document.getElementById('chessPanel')?.style.removeProperty('display');
         const chessBoard = document.getElementById('chessBoard');
         const tttBoard = document.getElementById('tttBoard');
         if (chessBoard) {
@@ -1666,9 +1724,41 @@
 
         modal.querySelectorAll('.game-card[data-game]').forEach(card => {
             card.addEventListener('click', function() {
-                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : 'chess';
+                document.getElementById('bichoPanel')?.setAttribute('hidden', '');
+                document.getElementById('bichoPanel')?.style.setProperty('display', 'none', 'important');
+                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : 'chess';
                 setSelectedGame(selectedGameName);
                 modal.querySelectorAll('.game-card[data-game]').forEach(item => item.classList.toggle('active', item === this));
+
+                if (selectedGameName === 'impostor') {
+                    window.ImpostorGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'hangman') {
+                    window.HangmanGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'checkers') {
+                    window.CheckersGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'roulette') {
+                    window.RouletteGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'uno') {
+                    window.UnoGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'bicho') {
+                    window.BichoGame?.show();
+                    return;
+                }
 
                 if (selectedGameName === 'chess') {
                     const activeRoom = readActiveChessRoom();
@@ -1692,6 +1782,30 @@
         });
 
         document.getElementById('gameBackBtn')?.addEventListener('click', () => {
+            if (getSelectedGame() === 'impostor') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'hangman') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'checkers') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'roulette') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'uno') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'bicho') {
+                showGamesMenuScreen();
+                return;
+            }
             if (getSelectedGame() === 'tictactoe') {
                 leaveTTTRoom();
                 showGamesMenuScreen();
@@ -1733,7 +1847,9 @@
                 joinChessRoom(roomId, 'view');
             }
             if (action === 'delete') {
-                deleteChessRoom(roomId);
+                const deleteRoom = () => deleteChessRoom(roomId);
+                if (typeof window.openRoomDeleteDialog === 'function') window.openRoomDeleteDialog(deleteRoom);
+                else deleteRoom();
             }
         };
         document.getElementById('chessRoomList')?.addEventListener('click', handleRoomAction);

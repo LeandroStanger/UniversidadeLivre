@@ -1,0 +1,68 @@
+.impostor-panel {
+    color: var(--com-text-primary);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.impostor-panel[hidden] { display: none; }
+.impostor-card {
+    background: linear-gradient(145deg, rgba(26, 38, 56, 0.96), rgba(15, 22, 36, 0.96));
+    border: 1px solid var(--com-border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--com-shadow);
+}
+.impostor-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.impostor-header h4 { margin: 0; font-size: 1.35rem; }
+.impostor-header p { margin: 0.25rem 0 0; color: var(--com-text-secondary); font-size: 0.9rem; }
+.impostor-timer { min-width: 76px; text-align: center; color: var(--com-accent-orange); font-size: 1.5rem; font-weight: 800; }
+.impostor-setup { display: grid; gap: 1rem; max-width: 460px; }
+.impostor-create-room { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; align-items: end; max-width: 460px; }
+.impostor-create-room label { grid-column: 1 / -1; color: var(--com-text-secondary); font-weight: 600; }
+.impostor-create-room .impostor-select { margin-top: 0; }
+.impostor-room-list { display: grid; gap: 0.65rem; margin-top: 1.25rem; }
+.impostor-room-list h5 { margin: 0; color: var(--com-text-secondary); font-size: 0.95rem; }
+.impostor-room { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 0.8rem; border: 1px solid var(--com-border); border-radius: 10px; background: rgba(7, 11, 20, 0.42); }
+.impostor-room div { display: grid; gap: 0.2rem; }
+.impostor-room-actions { display: flex; gap: 0.45rem; }
+.impostor-room .impostor-primary { padding: 0.55rem 0.8rem; }
+.impostor-secondary { padding: 0.55rem 0.8rem; border: 1px solid var(--com-border); border-radius: 10px; background: transparent; color: var(--com-text-primary); font: inherit; font-weight: 700; cursor: pointer; }
+.impostor-secondary:hover { background: rgba(255, 255, 255, 0.08); }
+.impostor-danger { padding: 0.55rem 0.8rem; border: 1px solid rgba(248, 113, 113, 0.55); border-radius: 10px; background: transparent; color: #fca5a5; font: inherit; font-weight: 700; cursor: pointer; }
+.impostor-danger:hover { background: rgba(248, 113, 113, 0.12); }
+.impostor-setup label { color: var(--com-text-secondary); font-weight: 600; }
+.impostor-select, .impostor-clue-select, .impostor-vote-select {
+    width: 100%; margin-top: 0.35rem; padding: 0.7rem 0.8rem; border: 1px solid var(--com-border);
+    border-radius: 10px; background: var(--com-bg-tertiary); color: var(--com-text-primary); font: inherit;
+}
+.impostor-primary { background: var(--com-accent-blue); color: white; border: 0; border-radius: 10px; padding: 0.75rem 1rem; font-weight: 700; cursor: pointer; }
+.impostor-primary:hover { filter: brightness(1.1); }
+.impostor-muted { color: var(--com-text-tertiary); font-size: 0.85rem; }
+.impostor-reveal-list, .impostor-clue-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.65rem; margin: 1rem 0; }
+.impostor-player {
+    border: 1px solid var(--com-border); border-radius: 12px; padding: 0.8rem; background: rgba(7, 11, 20, 0.42);
+}
+.impostor-player, .impostor-active-player { display: flex; align-items: center; gap: 0.65rem; }
+.impostor-avatar { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 50%; object-fit: cover; background: var(--com-bg-tertiary); }
+.impostor-avatar-large { width: 48px; height: 48px; flex-basis: 48px; }
+.impostor-active-player h4 { margin: 0; }
+.impostor-active-player p { margin-bottom: 0; }
+.impostor-player > div { min-width: 0; }
+.impostor-player strong { display: block; margin-bottom: 0.35rem; }
+.impostor-word { color: var(--com-accent-teal); font-weight: 700; min-height: 1.4em; }
+.impostor-word.secret { color: var(--com-text-tertiary); font-style: italic; }
+.impostor-private-word { display: grid; gap: 0.25rem; margin: 1rem 0; padding: 1rem; border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 12px; background: rgba(56, 189, 248, 0.08); }
+.impostor-private-word span { color: var(--com-text-secondary); font-size: 0.8rem; }
+.impostor-private-word strong { color: var(--com-accent-teal); font-size: 1.7rem; }
+.impostor-round-meta { display: grid; gap: 0.25rem; margin: 1rem 0; padding: 0.9rem 1rem; border-left: 3px solid var(--com-accent-orange); background: rgba(251, 146, 60, 0.1); }
+.impostor-round-meta span { color: var(--com-text-secondary); font-size: 0.8rem; }
+.impostor-round-meta strong { color: var(--com-accent-orange); font-size: 1.2rem; }
+.impostor-clue-select + .impostor-primary { margin-top: 0.75rem; }
+.impostor-reveal-btn, .impostor-clue-btn { margin-top: 0.65rem; width: 100%; padding: 0.55rem; border: 1px solid var(--com-border); border-radius: 8px; background: transparent; color: var(--com-text-primary); cursor: pointer; }
+.impostor-clue-list .impostor-player { display: flex; flex-direction: column; }
+.impostor-clue { color: var(--com-text-secondary); margin-top: auto; padding-top: 0.55rem; }
+.impostor-vote { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; align-items: end; margin-top: 1rem; }
+.impostor-vote label { min-width: 0; }
+.impostor-result { margin-top: 1rem; padding: 1rem; border-radius: 12px; background: rgba(16, 185, 129, 0.13); border: 1px solid rgba(16, 185, 129, 0.45); }
+.impostor-result.loss { background: rgba(251, 191, 36, 0.12); border-color: rgba(251, 191, 36, 0.45); }
+@media (max-width: 560px) { .impostor-header { flex-direction: column; } .impostor-vote { grid-template-columns: 1fr; } .impostor-room { align-items: stretch; flex-direction: column; } .impostor-create-room { grid-template-columns: 1fr; } .impostor-room-actions { flex-direction: column; } }

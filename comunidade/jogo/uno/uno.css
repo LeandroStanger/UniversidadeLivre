@@ -1,0 +1,508 @@
+.uno-panel {
+    width: 100%;
+    color: var(--com-text-primary, #f5f7ff);
+}
+
+.uno-lobby,
+.uno-game {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+.uno-intro,
+.uno-game-top,
+.uno-room,
+.uno-controls,
+.uno-table,
+.uno-opponent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.uno-intro {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--com-border, rgba(255,255,255,.12));
+}
+
+.uno-intro h3,
+.uno-intro p {
+    margin: 0;
+}
+
+.uno-intro p,
+.uno-muted,
+.uno-room small,
+.uno-controls span {
+    color: var(--com-text-secondary, #9da8bd);
+}
+
+.uno-logo {
+    display: inline-grid;
+    place-items: center;
+    width: 74px;
+    height: 46px;
+    flex: 0 0 auto;
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: .04em;
+    background: #ef3340;
+    border: 4px solid #fbd44c;
+    border-radius: 50%;
+    transform: rotate(-8deg);
+    box-shadow: 0 5px 0 #bd2230;
+}
+
+.uno-logo.small {
+    width: 54px;
+    height: 32px;
+    font-size: .9rem;
+    border-width: 3px;
+    box-shadow: 0 3px 0 #bd2230;
+}
+
+.uno-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin: 1.25rem 0 1.5rem;
+}
+
+.uno-create-box,
+.uno-open-rooms {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--com-border, rgba(255,255,255,.12));
+    border-radius: 8px;
+}
+
+.uno-create-box h4,
+.uno-open-rooms h4 {
+    margin: 0 0 .75rem;
+}
+
+.uno-create-row,
+.uno-section-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .65rem;
+}
+
+.uno-create-row label {
+    color: var(--com-text-secondary, #9da8bd);
+}
+
+.uno-create-row select {
+    min-height: 38px;
+    padding: .45rem .65rem;
+    color: inherit;
+    background: var(--com-surface, #20283a);
+    border: 1px solid var(--com-border, rgba(255,255,255,.18));
+    border-radius: 6px;
+}
+
+.uno-create-row > span:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .65rem;
+}
+
+.uno-create-row [hidden] {
+    display: none !important;
+}
+
+.uno-section-heading {
+    justify-content: space-between;
+}
+
+.uno-section-heading span {
+    display: grid;
+    min-width: 1.6rem;
+    min-height: 1.6rem;
+    place-items: center;
+    color: #161b27;
+    font-weight: 800;
+    background: #f5c542;
+    border-radius: 50%;
+}
+
+.uno-room-list {
+    display: grid;
+    gap: .65rem;
+}
+
+.uno-room {
+    justify-content: space-between;
+    padding: .85rem 1rem;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--com-border, rgba(255,255,255,.12));
+    border-radius: 8px;
+}
+
+.uno-room-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .45rem;
+}
+
+.uno-room-actions .btn-danger,
+.uno-confirm-actions .btn-danger,
+.chess-room-delete-button,
+.checkers-danger,
+.roulette-danger,
+.hangman-danger,
+.impostor-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: #fff;
+    background: #b83245;
+    border: 1px solid #d95768;
+    padding: .6rem 1.2rem;
+    border-radius: 2rem !important;
+    font-weight: 600;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.uno-room-actions .btn-danger:hover,
+.uno-confirm-actions .btn-danger:hover,
+.chess-room-delete-button:hover,
+.checkers-danger:hover,
+.roulette-danger:hover,
+.hangman-danger:hover,
+.impostor-danger:hover {
+    background: #d04458;
+    box-shadow: 0 5px 14px rgba(184, 50, 69, .28);
+    transform: translateY(-1px);
+}
+
+.uno-confirm-modal {
+    position: fixed;
+    z-index: 10050;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(8, 12, 22, .7);
+}
+
+.uno-confirm-dialog {
+    width: min(100%, 390px);
+    padding: 1.35rem;
+    color: var(--com-text-primary, #f5f7ff);
+    text-align: center;
+    background: var(--com-surface, #20283a);
+    border: 1px solid var(--com-border, rgba(255,255,255,.16));
+    border-radius: 10px;
+    box-shadow: 0 18px 60px rgba(0,0,0,.35);
+}
+
+.uno-confirm-dialog h3,
+.uno-confirm-dialog p {
+    margin: 0;
+}
+
+.uno-confirm-dialog p {
+    margin-top: .45rem;
+    color: var(--com-text-secondary, #9da8bd);
+}
+
+.uno-confirm-icon {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin: 0 auto .75rem;
+    place-items: center;
+    color: #fff;
+    background: #b83245;
+    border-radius: 50%;
+}
+
+.uno-confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: .65rem;
+    margin-top: 1.2rem;
+}
+
+.uno-spectator {
+    margin-bottom: .75rem;
+    padding: .65rem .8rem;
+    color: #1d2430;
+    text-align: center;
+    background: #f5c542;
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+.uno-room span {
+    display: grid;
+    gap: .25rem;
+}
+
+.uno-game-top {
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.uno-room-heading {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.uno-room-heading div {
+    display: grid;
+    gap: .2rem;
+}
+
+.uno-room-heading small {
+    color: var(--com-text-secondary, #9da8bd);
+    font-size: .78rem;
+}
+
+.uno-player-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+
+.uno-player-card {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    min-width: 0;
+    padding: .8rem;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--com-border, rgba(255,255,255,.12));
+    border-radius: 12px;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.uno-player-card.is-active {
+    background: rgba(245,197,66,.12);
+    border-color: #f5c542;
+    transform: translateY(-2px);
+}
+
+.uno-player-card.is-current-user {
+    box-shadow: inset 3px 0 0 #ef3340;
+}
+
+.uno-avatar {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    place-items: center;
+    overflow: hidden;
+    color: #fff;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #ef3340, #2878d0);
+    border: 3px solid rgba(255,255,255,.8);
+    border-radius: 50%;
+}
+
+.uno-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.uno-player-info {
+    display: grid;
+    min-width: 0;
+    gap: .15rem;
+}
+
+.uno-player-info strong,
+.uno-player-info span,
+.uno-player-info em {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.uno-player-info span {
+    color: var(--com-text-secondary, #9da8bd);
+    font-size: .78rem;
+}
+
+.uno-player-info em {
+    color: #f5c542;
+    font-size: .7rem;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.uno-player-info em i {
+    font-size: .45rem;
+}
+
+.uno-player-count {
+    display: grid;
+    margin-left: auto;
+    color: #f5c542;
+    font-size: 1.15rem;
+    text-align: right;
+}
+
+.uno-player-count small {
+    color: var(--com-text-secondary, #9da8bd);
+    font-size: .65rem;
+    font-weight: 500;
+}
+
+.uno-opponent {
+    justify-content: space-between;
+    padding: .75rem 1rem;
+    background: rgba(255,255,255,.045);
+    border-radius: 8px;
+}
+
+.uno-table {
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 210px;
+    padding: 1.25rem;
+}
+
+.uno-deck-back,
+.uno-discard {
+    display: grid;
+    place-items: center;
+    width: 86px;
+    height: 124px;
+    border-radius: 10px;
+    transform: rotate(-5deg);
+}
+
+.uno-deck-back {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-style: italic;
+    background: #ef3340;
+    border: 7px solid #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,.2);
+}
+
+.uno-discard {
+    transform: rotate(5deg);
+}
+
+.uno-current-color {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+}
+
+.uno-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.7);
+}
+
+.uno-dot-red { background: #ef3340; }
+.uno-dot-yellow { background: #f5c542; }
+.uno-dot-green { background: #27ae60; }
+.uno-dot-blue { background: #2878d0; }
+
+.uno-status {
+    margin: .5rem 0 1rem;
+    padding: .7rem;
+    text-align: center;
+    border-radius: 8px;
+    background: rgba(255,255,255,.06);
+}
+
+.uno-status.your-turn {
+    color: #161b27;
+    background: #f5c542;
+    font-weight: 800;
+}
+
+.uno-hand-label {
+    margin-bottom: .5rem;
+    font-weight: 700;
+}
+
+.uno-hand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .45rem;
+    min-height: 140px;
+}
+
+.uno-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 65px;
+    height: 94px;
+    flex: 0 0 65px;
+    overflow: hidden;
+    color: #fff;
+    font-weight: 900;
+    font-size: .85rem;
+    border: 4px solid #fff;
+    border-radius: 9px;
+    box-shadow: 0 4px 9px rgba(0,0,0,.22);
+    transition: transform .15s ease, filter .15s ease;
+}
+
+.uno-card span {
+    max-width: 54px;
+    text-align: center;
+    line-height: 1.05;
+}
+
+.uno-card.is-playable:hover {
+    transform: translateY(-10px) rotate(-2deg);
+    filter: brightness(1.1);
+}
+
+.uno-card:disabled {
+    cursor: default;
+    opacity: .72;
+}
+
+.uno-card-red { background: #ef3340; }
+.uno-card-yellow { color: #25221b; background: #f5c542; }
+.uno-card-green { background: #27ae60; }
+.uno-card-blue { background: #2878d0; }
+.uno-card-wild { background: linear-gradient(135deg, #ef3340 0 25%, #f5c542 25% 50%, #27ae60 50% 75%, #2878d0 75%); }
+
+.uno-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+    .uno-lobby,
+    .uno-game { padding: .75rem; }
+    .uno-intro { align-items: flex-start; }
+        .uno-create-row { align-items: stretch; flex-direction: column; }
+        .uno-create-row .btn-primary,
+        .uno-create-row .btn-secondary,
+        .uno-create-row select { width: 100%; }
+        .uno-create-row > span:not([hidden]) { align-items: stretch; flex-direction: column; }
+        .uno-player-strip { grid-template-columns: 1fr; }
+        .uno-player-card { padding: .65rem; }
+    .uno-logo { width: 60px; height: 38px; font-size: 1rem; }
+    .uno-card { width: 54px; height: 78px; flex-basis: 54px; font-size: .72rem; border-width: 3px; }
+    .uno-card span { max-width: 45px; }
+}

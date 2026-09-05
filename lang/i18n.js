@@ -125,12 +125,15 @@
         if (lang === currentLang && isLoaded) {
             // Mesmo idioma, apenas reaplica as traduções
             applyTranslationsToDOM();
+            updateLanguageSelector(lang);
+            document.documentElement.lang = lang === 'pt-br' ? 'pt-BR' : 'en';
             return;
         }
 
         await loadTranslations(lang);
         applyTranslationsToDOM();
         updateLanguageSelector(lang);
+        document.documentElement.lang = lang === 'pt-br' ? 'pt-BR' : 'en';
     }
 
     // ========== OBTER IDIOMA ATUAL ==========
@@ -235,10 +238,14 @@
             document.addEventListener('DOMContentLoaded', () => {
                 applyTranslationsToDOM();
                 setupLanguageButtons();
+                updateLanguageSelector(initialLang);
+                document.documentElement.lang = initialLang === 'pt-br' ? 'pt-BR' : 'en';
             });
         } else {
             applyTranslationsToDOM();
             setupLanguageButtons();
+            updateLanguageSelector(initialLang);
+            document.documentElement.lang = initialLang === 'pt-br' ? 'pt-BR' : 'en';
         }
 
         // Marcar como inicializado
