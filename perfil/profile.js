@@ -896,6 +896,13 @@
                 attempts += 1;
             } catch (_) {}
         }
+        try {
+            const finalExam = JSON.parse(localStorage.getItem(`ulivre_final_exam_${courseId}`) || 'null');
+            if (finalExam?.attempted) {
+                points += Number(finalExam.score) || 0;
+                attempts += 1;
+            }
+        } catch (_) {}
         return { points, attempts };
     }
 
@@ -957,7 +964,8 @@
         container.innerHTML = history.map(exam => {
             const locale = window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR';
             const finishedAt = exam.finishedAt ? new Date(exam.finishedAt).toLocaleString(locale) : t('profile_not_available');
-            return `<article class="profile-exam-item"><strong>${escapeHtml(exam.courseName)} · ${escapeHtml(exam.disciplineName)}</strong><span>${exam.score}/${exam.total} ${t('profile_exam_correct')} · ${Math.max(0, exam.total - exam.score)} ${t('profile_exam_wrong')} · ${exam.percent}%</span><small>${t('profile_exam_time')}: ${exam.duration} · ${finishedAt}</small></article>`;
+            const title = exam.examType === 'final' ? `${exam.courseName} · ${t('profile_final_exam')}` : `${exam.courseName} · ${exam.disciplineName}`;
+            return `<article class="profile-exam-item"><strong>${escapeHtml(title)}</strong><span>${exam.score}/${exam.total} ${t('profile_exam_correct')} · ${Math.max(0, exam.total - exam.score)} ${t('profile_exam_wrong')} · ${exam.percent}%</span><small>${t('profile_exam_time')}: ${exam.duration} · ${finishedAt}</small></article>`;
         }).join('');
     }
 
@@ -1008,7 +1016,7 @@
                 const state = JSON.parse(localStorage.getItem(key));
                 if (!state || !state.attempted) continue;
                 const disciplineKey = key.slice(`ulivre_discipline_exam_${courseId}_`.length);
-                const limit = Number(state.timeLimitMs) || 3 * 60 * 60 * 1000;
+                const limit = Number(state.timeLimitMs) || 5 * 60 * 60 * 1000;
                 const remaining = Number(state.timeRemainingMs) || 0;
                 history.push({
                     storageKey: key,
@@ -1026,6 +1034,30 @@
                 });
             } catch (_) {}
         }
+        (courseIds || []).forEach(courseId => {
+            const key = `ulivre_final_exam_${courseId}`;
+            try {
+                const state = JSON.parse(localStorage.getItem(key) || 'null');
+                if (!state?.attempted) return;
+                const limit = Number(state.timeLimitMs) || 3 * 60 * 60 * 1000;
+                const remaining = Number(state.timeRemainingMs) || 0;
+                history.push({
+                    storageKey: key,
+                    courseId,
+                    courseName: getCourseName(courseId),
+                    disciplineName: t('profile_final_exam'),
+                    examType: 'final',
+                    score: Number(state.score) || 0,
+                    total: Number(state.total) || 0,
+                    percent: Number(state.percent) || 0,
+                    passed: Boolean(state.passed),
+                    finishedAt: state.finishedAt || null,
+                    duration: formatExamDuration(limit - remaining),
+                    timeLimitMs: limit,
+                    timeRemainingMs: remaining
+                });
+            } catch (_) {}
+        });
         return history.sort((first, second) => (second.finishedAt || 0) - (first.finishedAt || 0));
     }
 

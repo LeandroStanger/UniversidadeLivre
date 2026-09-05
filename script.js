@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     'use strict';
 
 attachDisciplineQuizModalHandlers();
+document.getElementById('finalExamBtn')?.addEventListener('click', openFinalExam);
 console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
@@ -1339,13 +1340,14 @@ console.log('[Main] Inicializando script.js v28.0...');
         const courseView = document.getElementById('courseView');
         if (!courseView || courseView.style.display !== 'block') return;
         if (!allVideosFlat || allVideosFlat.length === 0) return;
-        if (localStorage.getItem(`course_completed_${currentCourse}`) === 'true') return;
+        if (localStorage.getItem(`course_completed_${currentCourse}`) === 'true' && getFinalExamState(currentCourse).passed) return;
 
         const total = allVideosFlat.length;
         const watched = allVideosFlat.filter(v => v.watched).length;
         const progressPercent = total ? Math.floor((watched / total) * 100) : 0;
 
-        if (progressPercent >= 100 && !_progressJustHit100) {
+        updateFinalExamButton();
+        if (progressPercent >= 100 && areAllDisciplineExamsPassed() && getFinalExamState(currentCourse).passed && !_progressJustHit100) {
             _progressJustHit100 = true;
             localStorage.setItem(`course_completed_${currentCourse}`, 'true');
             if (window._completionPopupTriggered) return;
@@ -1360,6 +1362,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     const DISCIPLINE_QUIZ_TIME_LIMIT_MS = 3 * 60 * 60 * 1000;
+    const FINAL_EXAM_TIME_LIMIT_MS = 5 * 60 * 60 * 1000;
     const DISCIPLINE_PASS_PERCENT = 70;
     let activeDisciplineQuizTimer = null;
 
@@ -1394,6 +1397,102 @@ console.log('[Main] Inicializando script.js v28.0...');
     function setDisciplineExamState(courseId, disciplineName, state) {
         if (!courseId || !disciplineName) return;
         localStorage.setItem(getDisciplineExamStorageKey(courseId, disciplineName), JSON.stringify(state));
+    }
+
+    function getCourseDisciplines() {
+        const disciplines = [];
+        (stagesData || []).forEach(stage => {
+            (stage.disciplines || []).forEach(discipline => {
+                if (discipline?.name) disciplines.push(discipline.name);
+            });
+        });
+        return disciplines;
+    }
+
+    function areAllDisciplineExamsPassed() {
+        const disciplines = getCourseDisciplines();
+        return disciplines.length > 0 && disciplines.every(discipline => getDisciplineExamState(currentCourse, discipline).passed);
+    }
+
+    function getFinalExamStorageKey(courseId) {
+        return `ulivre_final_exam_${courseId}`;
+    }
+
+    function getFinalExamState(courseId) {
+        const fallback = { passed: false, score: 0, total: 0, percent: 0, attempted: false, finishedAt: null, timeLimitMs: FINAL_EXAM_TIME_LIMIT_MS, timeRemainingMs: 0 };
+        if (!courseId) return fallback;
+        try {
+            const parsed = JSON.parse(localStorage.getItem(getFinalExamStorageKey(courseId)) || 'null');
+            return parsed ? { ...fallback, ...parsed } : fallback;
+        } catch (_) {
+            return fallback;
+        }
+    }
+
+    function getFinalQuestionCount(courseId, disciplineName) {
+        const level = currentCourseDetails?.courseLevel;
+        const normalized = normalizeDisciplineKey(disciplineName);
+        if (courseId === 'enem') return 45;
+        if (courseId === 'espcex') return /matematica|portugues|gramatica|literatura|interpretacao/.test(normalized) ? 20 : 12;
+        if (level === 'pos-graduacao') return 8 + Math.floor(Math.random() * 3);
+        if (level === 'idiomas') return 9;
+        return 5 + Math.floor(Math.random() * 3);
+    }
+
+    function buildFinalExamQuestions(courseId, bank) {
+        return getCourseDisciplines().flatMap(disciplineName => {
+            const count = getFinalQuestionCount(courseId, disciplineName);
+            if (!count) return [];
+            const questions = findDisciplineQuestions(bank, disciplineName);
+            return [...questions].sort(() => Math.random() - 0.5).slice(0, count).map(question => ({ ...question, finalDiscipline: disciplineName }));
+        }).sort(() => Math.random() - 0.5);
+    }
+
+    function updateFinalExamButton() {
+        const button = document.getElementById('finalExamBtn');
+        if (!button || !currentCourse) return;
+        const videosComplete = allVideosFlat?.length > 0 && allVideosFlat.every(video => video.watched);
+        const eligible = videosComplete && areAllDisciplineExamsPassed();
+        const finalState = getFinalExamState(currentCourse);
+        button.disabled = !eligible || finalState.passed;
+        button.classList.toggle('available', eligible && !finalState.passed);
+        const label = button.querySelector('span');
+        if (label) label.textContent = finalState.passed
+            ? t('final_exam_passed')
+            : eligible ? t('final_exam_available') : t('final_exam_locked');
+    }
+
+    function openFinalExam() {
+        if (!currentCourse || !areAllDisciplineExamsPassed() || !allVideosFlat?.every(video => video.watched)) {
+            alert('Conclua todas as disciplinas e seja aprovado em todas as provas para liberar a prova final.');
+            return;
+        }
+        const modal = document.getElementById('disciplineQuizModal');
+        const title = document.getElementById('disciplineQuizTitle');
+        if (!modal || !title) return;
+        loadCourseQuizBank(currentCourse).then(bank => {
+            const questions = buildFinalExamQuestions(currentCourse, bank);
+            if (!questions.length) {
+                alert('Não há questões disponíveis para a prova final deste curso.');
+                return;
+            }
+            const state = {
+                finalExam: true,
+                disciplineName: null,
+                questions,
+                currentIndex: 0,
+                answers: new Array(questions.length).fill(null),
+                startedAt: Date.now(),
+                timeLimitMs: FINAL_EXAM_TIME_LIMIT_MS,
+                timeRemainingMs: FINAL_EXAM_TIME_LIMIT_MS
+            };
+            title.textContent = `${currentCourseDetails?.name || getCourseName(currentCourse)} · Prova final`;
+            modal.dataset.quizState = JSON.stringify(state);
+            modal.setAttribute('aria-hidden', 'false');
+            modal.style.display = 'flex';
+            startDisciplineQuizTimer();
+            renderDisciplineQuizQuestion();
+        });
     }
 
     function isDisciplinePassed(disciplineName) {
@@ -1749,6 +1848,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     function renderUnifiedCourseContent() {
         let container = document.getElementById("unifiedContentList");
         if (!container) return;
+        updateFinalExamButton();
         container.innerHTML = "";
         stagesData.forEach((stage, stageIdx) => {
             let totalVids = 0, watchedVids = 0;
@@ -2024,7 +2124,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const current = state.questions[state.currentIndex];
         const answered = state.answers[state.currentIndex];
         const remaining = Math.max(0, Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())));
-        const progressLabel = `Pergunta ${state.currentIndex + 1} de ${state.questions.length}`;
+        const progressLabel = `${state.finalExam ? 'Prova final · ' : ''}Pergunta ${state.currentIndex + 1} de ${state.questions.length}`;
         statusEl.innerHTML = `<span>${escapeHtml(progressLabel)}</span><span id="disciplineQuizTimer">Tempo restante: ${formatQuizCountdown(remaining)}</span>`;
         questionEl.innerHTML = `<strong>${escapeHtml(current.question)}</strong>`;
 
@@ -2105,7 +2205,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const percent = Math.round((score / state.questions.length) * 100);
             const passed = percent >= DISCIPLINE_PASS_PERCENT;
             const disciplineName = state.disciplineName || currentDiscipline;
-            setDisciplineExamState(currentCourse, disciplineName, {
+            const resultState = {
                 passed,
                 score,
                 total: state.questions.length,
@@ -2113,17 +2213,28 @@ console.log('[Main] Inicializando script.js v28.0...');
                 attempted: true,
                 finishedAt: Date.now(),
                 timeRemainingMs: Math.max(0, Number(state.timeRemainingMs || (Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())))))
-            });
+            };
+            if (state.finalExam) {
+                localStorage.setItem(getFinalExamStorageKey(currentCourse), JSON.stringify({ ...resultState, attempted: true }));
+            } else {
+                setDisciplineExamState(currentCourse, disciplineName, resultState);
+            }
 
             statusEl.innerHTML = `<span>${autoTimeout ? 'Tempo esgotado' : 'Resultado final'}</span><strong>${score}/${state.questions.length}</strong>`;
-            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>Você acertou ${score} de ${state.questions.length} questões.</h3><p>Seu desempenho foi de ${percent}%.</p>${passed ? '<p><strong>Prova aprovada.</strong> A próxima disciplina foi desbloqueada.</p>' : '<p><strong>Prova reprovada.</strong> Você precisa atingir ${DISCIPLINE_PASS_PERCENT}% para desbloquear a próxima disciplina.</p>'}</div>`;
+            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>Você acertou ${score} de ${state.questions.length} questões.</h3><p>Seu desempenho foi de ${percent}%.</p>${passed ? `<p><strong>${state.finalExam ? 'Prova final aprovada.' : 'Prova aprovada.'}</strong></p>` : `<p><strong>Prova reprovada.</strong> Você precisa atingir ${DISCIPLINE_PASS_PERCENT}%.</p>`}</div>`;
             optionsEl.innerHTML = `<div class="discipline-quiz-summary">${summary}</div>`;
             navEl.innerHTML = '<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizCloseBtn">Fechar</button>';
             document.getElementById('disciplineQuizCloseBtn')?.addEventListener('click', () => {
                 closeDisciplineQuiz();
+                if (state.finalExam && passed) {
+                    localStorage.setItem(`course_completed_${currentCourse}`, 'true');
+                    if (window.showFinalCompletionModal) {
+                        window.showFinalCompletionModal(currentCourse, currentCourseDetails?.name || getCourseName(currentCourse), currentCourseFolder);
+                    }
+                }
             });
 
-            if (passed) {
+            if (passed && !state.finalExam) {
                 const flatDisciplines = [];
                 stagesData.forEach(stage => {
                     (stage.disciplines || []).forEach(discipline => flatDisciplines.push(discipline));
