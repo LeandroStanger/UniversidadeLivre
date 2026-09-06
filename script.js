@@ -1342,12 +1342,19 @@ console.log('[Main] Inicializando script.js v28.0...');
                 }
             });
         }
-        let totalTime = parseInt(localStorage.getItem("total_course_time") || "0");
+        const activity = window.CursorTimeset?.getPlatformActivitySummary?.() || { totalSeconds: 0, streakDays: 0 };
+        const auditoriumTime = parseInt(localStorage.getItem('auditorio_total_time') || '0', 10);
+        const totalTime = Math.max(0, Number(activity.totalSeconds) || 0) + Math.max(0, auditoriumTime);
         const totalTimeDisplay = document.getElementById("totalTimeDisplay");
         if (totalTimeDisplay) totalTimeDisplay.innerHTML = `${Math.floor(totalTime / 3600)}h ${Math.floor((totalTime % 3600) / 60)}m`;
         const streakDisplay = document.getElementById("streakDisplay");
-        if (streakDisplay) streakDisplay.innerHTML = localStorage.getItem("global_streak") || "0";
+        if (streakDisplay) streakDisplay.innerHTML = Math.max(0, Number(activity.streakDays) || 0);
     }
+
+    window.addEventListener('cursorActivityUpdated', updateGlobalStats);
+    window.addEventListener('auditorioTimeUpdated', updateGlobalStats);
+    window.addEventListener('languageChanged', updateGlobalStats);
+    window.setInterval(updateGlobalStats, 5000);
 
     function syncVideosWatched() { allVideosFlat.forEach(v => { stagesData[v.stageIdx]?.disciplines[v.disciplineIdx]?.videos[v.videoIdx] && (stagesData[v.stageIdx].disciplines[v.disciplineIdx].videos[v.videoIdx].watched = v.watched); }); }
 
