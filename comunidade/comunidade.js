@@ -2197,7 +2197,7 @@
 
             html += `
                 <div class="course-entry">
-                  <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}">
+                  <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}" role="button" tabindex="0" aria-expanded="${isActive ? 'true' : 'false'}">
                     <div class="course-icon" style="background:${color}">${iconContent}</div>
                     <div class="course-info">
                         <div class="course-name">${escapeHtml(localizedCourseName)}</div>
@@ -2220,8 +2220,12 @@
 
         container.querySelectorAll('.course-item').forEach(el => {
             el.addEventListener('click', function() {
-                const courseId = this.dataset.courseId;
-                toggleCourse(courseId);
+                toggleCourse(this.dataset.courseId);
+            });
+            el.addEventListener('keydown', function(event) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                toggleCourse(this.dataset.courseId);
             });
         });
 
@@ -2239,6 +2243,7 @@
         if (list) list.classList.toggle('open');
         document.querySelectorAll('.course-item').forEach(el => {
             el.classList.toggle('active', el.dataset.courseId === courseId);
+            el.setAttribute('aria-expanded', el.dataset.courseId === courseId ? 'true' : 'false');
         });
         const disciplines = state.disciplines[courseId] || [];
         selectDiscipline(courseId, disciplines.length > 0 ? disciplines[0] : null);
@@ -2259,6 +2264,7 @@
 
         document.querySelectorAll('.course-item').forEach(el => {
             el.classList.toggle('active', el.dataset.courseId === courseId);
+            el.setAttribute('aria-expanded', el.dataset.courseId === courseId ? 'true' : 'false');
         });
         document.querySelectorAll('.discipline-item').forEach(el => {
             const isActive = el.dataset.courseId === courseId && el.dataset.discipline === discipline;

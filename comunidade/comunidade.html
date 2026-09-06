@@ -766,7 +766,7 @@
             box-shadow: var(--com-shadow);
         }
         .sidebar {
-            width: 300px;
+            width: 340px;
             background: var(--com-bg-tertiary);
             border-right: 1px solid var(--com-border);
             padding: 1rem 0;
@@ -796,7 +796,7 @@
             font-size: 1rem;
         }
         .icon-btn:hover { background: var(--com-bg-secondary); color: var(--com-text-primary); }
-        .course-list { flex: 1; overflow-y: auto; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 0.8rem; padding: 0.7rem; }
+        .course-list { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1rem; padding: 0.85rem; -webkit-overflow-scrolling: touch; }
         .course-entry { min-width: 0; }
         .course-item {
             display: flex;
@@ -806,6 +806,8 @@
             padding: 0;
             border-radius: var(--com-radius-sm);
             cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
             transition: var(--com-transition);
             border: 1px solid transparent;
             background: var(--com-bg-card);
@@ -815,7 +817,7 @@
         .course-item.active { background: var(--com-bg-secondary); border-color: var(--com-accent-blue); }
         .course-item .course-icon {
             width: 100%;
-            height: 80px;
+            height: 112px;
             border-radius: var(--com-radius-sm) var(--com-radius-sm) 0 0;
             display: flex;
             align-items: center;
@@ -829,25 +831,27 @@
             overflow: hidden;
         }
         .course-item .course-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .course-info { min-width: 0; padding: 0.75rem 0.85rem 0.8rem; }
-        .course-item .course-name { font-weight: 700; color: var(--com-text-primary); font-size: 0.9rem; }
-        .course-item .course-level { font-size: 0.65rem; color: var(--com-text-tertiary); }
+        .course-info { min-width: 0; padding: 0.9rem 1rem 0.95rem; }
+        .course-item .course-name { font-weight: 700; color: var(--com-text-primary); font-size: 1rem; line-height: 1.35; }
+        .course-item .course-level { margin-top: 0.25rem; font-size: 0.75rem; color: var(--com-text-tertiary); }
         @media (max-width: 480px) {
-            .course-item .course-icon { height: 58px; }
+            .course-item .course-icon { height: 88px; }
         }
         .discipline-list {
             display: none;
             flex-direction: column;
-            gap: 0.1rem;
-            padding: 0.35rem 0.15rem 0;
+            gap: 0.25rem;
+            padding: 0.5rem 0.2rem 0;
             margin-top: 0;
         }
         .discipline-list.open { display: flex; }
         .discipline-item {
-            padding: 0.3rem 0.8rem 0.3rem 1.5rem;
+            min-height: 42px;
+            padding: 0.55rem 0.9rem 0.55rem 1.5rem;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
+            line-height: 1.35;
             color: var(--com-text-secondary);
             transition: var(--com-transition);
             border-left: 2px solid transparent;
@@ -856,10 +860,12 @@
         .discipline-item.active { background: var(--com-bg-secondary); color: var(--com-accent-teal); border-left-color: var(--com-accent-blue); }
         .main-content {
             flex: 1;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             padding: 1.5rem;
             overflow-y: auto;
+            overflow-x: hidden;
             max-height: 80vh;
         }
         .discipline-header {
@@ -1607,12 +1613,18 @@
         }
         @media (max-width: 768px) {
             .comunidade-wrapper { flex-direction: column; }
-            .sidebar { width:100%; max-height:300px; border-right:none; border-bottom:1px solid var(--com-border); }
+            .sidebar { width:100%; max-height:min(48vh, 460px); border-right:none; border-bottom:1px solid var(--com-border); }
             .main-content { max-height:none; padding:1rem; }
             .app-header { flex-direction:column; align-items:stretch; }
             .app-actions { justify-content:center; flex-wrap:wrap; border-radius:1.5rem; padding:0.4rem 0.8rem; }
             .discipline-header { flex-direction:column; align-items:stretch; }
             .discipline-info { flex-wrap:wrap; }
+            .discipline-info > div:last-child,
+            .discipline-title-row,
+            .header-create-actions { width:100%; min-width:0; }
+            .discipline-title-row { flex-direction:column; align-items:stretch; gap:0.75rem; }
+            .discipline-title-row h2 { overflow-wrap:anywhere; line-height:1.25; }
+            .header-create-actions button { min-width:0; min-height:44px; white-space:normal; line-height:1.2; }
             .discipline-course-image { height:96px; }
             .discipline-title-row { align-items:flex-start; }
             .p2p-chat-section .chat-messages { max-height:80px; }
@@ -1636,7 +1648,7 @@
         }
         @media (max-width: 480px) {
             .container { padding:0 0.8rem; }
-            .sidebar { max-height:200px; }
+            .sidebar { max-height:min(52vh, 420px); min-height:0; }
             .post-card { padding:1rem; }
             .article-cover { height:112px; }
             .post-card > .post-header,
@@ -1649,8 +1661,8 @@
             .post-actions { gap:0.6rem; }
             .post-actions button { font-size:0.75rem; }
             .gif-results { grid-template-columns:1fr 1fr; }
-            .course-item .course-icon { width:100%; height:58px; font-size:0.8rem; }
-            .discipline-item { font-size:0.8rem; padding:0.2rem 0.6rem 0.2rem 1rem; }
+            .course-item .course-icon { width:100%; height:88px; font-size:0.95rem; }
+            .discipline-item { min-height:42px; display:flex; align-items:center; font-size:0.8rem; padding:0.35rem 0.6rem 0.35rem 1rem; touch-action:manipulation; }
             .comment-item { font-size:0.8rem; }
             .p2p-chat-section .chat-messages .msg { font-size:0.7rem; }
             .chat-input-main textarea { font-size:0.7rem; padding:0.15rem 0.3rem; min-height:2.4rem; }

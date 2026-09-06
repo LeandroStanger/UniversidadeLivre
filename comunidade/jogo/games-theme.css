@@ -77,6 +77,88 @@
 .game-shell-title-wrap strong { color: var(--games-text); }
 .game-shell-title-wrap small { color: var(--games-muted); }
 
+@media (max-width: 720px) {
+    .games-modal {
+        align-items: stretch;
+        padding: 0;
+    }
+
+    .games-modal-content {
+        width: 100%;
+        max-height: 100dvh;
+        min-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .games-modal-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .65rem;
+        padding: 0;
+    }
+
+    .game-card {
+        min-height: 126px;
+        padding: .8rem;
+    }
+
+    .game-card .game-icon {
+        width: 2.35rem;
+        height: 2.35rem;
+        margin-bottom: .65rem;
+    }
+
+    .game-card .game-subtitle {
+        font-size: .7rem;
+    }
+
+    .game-shell-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: .65rem;
+    }
+
+    .game-shell-title-wrap {
+        min-width: 0;
+        order: 2;
+        flex-basis: calc(100% - 3.5rem);
+    }
+
+    .game-shell-title-wrap strong,
+    .game-shell-title-wrap small {
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 420px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: .7rem;
+        align-items: center;
+        text-align: left;
+    }
+
+    .game-card .game-icon {
+        grid-row: span 2;
+        margin: 0;
+    }
+
+    .game-card .game-subtitle {
+        margin-top: .15rem;
+    }
+}
+
 .chess-room-creator,
 .game-matchmaking-filter,
 .impostor-create-room,

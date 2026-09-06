@@ -2853,6 +2853,29 @@ a:hover {
         margin-left: 0;
         width: 100%;
         justify-content: flex-start;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.55rem;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 0.65rem;
+    }
+
+    .header > .stats > * {
+        min-width: 0;
+        width: 100%;
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .header > .stats > .stat-item {
+        min-height: 40px;
+    }
+
+    .header > .stats > .language-switch {
+        width: max-content;
+        justify-self: center;
     }
 
     .app-header > .app-actions {
@@ -2863,6 +2886,10 @@ a:hover {
 
     .logo-universidade {
         height: 32px;
+    }
+
+    .header .logo-universidade {
+        height: 52px !important;
     }
 
     .right-sidebar {
@@ -2929,9 +2956,15 @@ a:hover {
         padding: 0.4rem 0.8rem;
     }
 
+    .header > .stats {
+        gap: 0.45rem;
+        padding: 0.55rem;
+    }
+
     .btn-biblioteca {
         font-size: 0.7rem;
         padding: 6px 10px;
+        min-height: 42px;
     }
 
     .course-card h2 {
@@ -3040,6 +3073,7 @@ a:hover {
     .btn-biblioteca {
         font-size: 0.65rem;
         padding: 4px 8px;
+        min-height: 40px;
     }
 
     .lang-btn {
