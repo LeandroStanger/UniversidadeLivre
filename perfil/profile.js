@@ -27,10 +27,12 @@
         GENDER: 'userGender',
         COUNTRY: 'userCountry',
         PASSWORD: 'userPasswordHash',
-        MATRICULA: 'userMatricula'
+        MATRICULA: 'userMatricula',
+        USER_NUMBER: 'userNumber'
     };
 
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+    const TEST_ADMIN_MATRICULA = '20260815064514840';
     const PASSWORD_MIN_LENGTH = 8;
     const PASSWORD_REQUIREMENTS = {
         minLength: PASSWORD_MIN_LENGTH,
@@ -121,6 +123,27 @@
         'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
 
+    const COURSE_TYPES = {
+        administracao: 'bacharelado',
+        biologia: 'licenciatura',
+        'ciencia-de-dados-bacharelado': 'bacharelado',
+        computacao: 'bacharelado',
+        'computer-science': 'bacharelado',
+        'engenharia-producao': 'bacharelado',
+        engenharia_computacao: 'bacharelado',
+        fisica: 'licenciatura',
+        'gestao-publica': 'tecnologo',
+        letras: 'licenciatura',
+        'letras-portugues': 'licenciatura',
+        matematica: 'bacharelado',
+        'matematica-licenciatura': 'licenciatura',
+        math: 'bacharelado',
+        pedagogia: 'licenciatura',
+        'processos-gerenciais': 'tecnologo',
+        quimica: 'licenciatura',
+        'tecnologia-informacao': 'bacharelado'
+    };
+
     const DISCIPLINE_NAMES = {
         'administracao': { pt: 'Administração', en: 'Administration' },
         'algoritmos': { pt: 'Algoritmos', en: 'Algorithms' },
@@ -197,6 +220,15 @@
             localStorage.setItem(STORAGE_KEYS.MATRICULA, matricula);
         }
         return matricula;
+    }
+
+    function getUserNumber() {
+        let number = localStorage.getItem(STORAGE_KEYS.USER_NUMBER);
+        if (!number) {
+            number = `UL-${getMatricula()}`;
+            localStorage.setItem(STORAGE_KEYS.USER_NUMBER, number);
+        }
+        return number;
     }
 
     function getAuditorioHours() {
@@ -904,6 +936,289 @@
             }
         } catch (_) {}
         return { points, attempts };
+    }
+
+    function getFinalCertificates() {
+        const certificates = [];
+        const matricula = getMatricula();
+        const isTestAdmin = matricula === TEST_ADMIN_MATRICULA;
+        if ((!isTestAdmin && localStorage.getItem('ulivre_authenticated_session') !== 'true') || !loadProfileName() || !matricula) return certificates;
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            if (!key?.startsWith('ulivre_final_exam_')) continue;
+            const courseId = key.slice('ulivre_final_exam_'.length);
+            try {
+                const result = JSON.parse(localStorage.getItem(key) || 'null');
+                if (result?.passed) certificates.push({ courseId, ...result });
+            } catch (_) {}
+        }
+        if (getMatricula() === TEST_ADMIN_MATRICULA) {
+            const existingCourses = new Set(certificates.map(certificate => certificate.courseId));
+            getAllCoursesProgress().forEach(course => {
+                if (existingCourses.has(course.id)) return;
+                certificates.push({
+                    courseId: course.id,
+                    courseName: course.name,
+                    courseLevel: getCertificateCourseLevel(course.id),
+                    score: '-',
+                    total: '-',
+                    percent: 100,
+                    passed: true,
+                    attempted: true,
+                    adminTest: true,
+                    finishedAt: new Date().toISOString()
+                });
+            });
+        }
+        return certificates.sort((first, second) => String(second.finishedAt || '').localeCompare(String(first.finishedAt || '')));
+    }
+
+    function getCertificateCourseLevel(courseId) {
+        const languageCourses = new Set(['espanhol', 'espanhol-ingles', 'ingles', 'japones', 'japones-ingles', 'portugues-brasileiro']);
+        const postCourses = new Set(['ciencia_de_dados', 'computacao_grafica', 'cybersecurity', 'desenvolvimento_web', 'devops', 'embarcados']);
+        if (courseId === 'enem' || courseId === 'espcex') return 'ensino-medio';
+        if (languageCourses.has(courseId)) return 'idiomas';
+        if (postCourses.has(courseId)) return 'pos-graduacao';
+        return 'graduacao';
+    }
+
+    function getCertificateCourseType(certificate) {
+        return certificate.courseType || COURSE_TYPES[certificate.courseId] || '';
+    }
+
+    function getCertificateLevelLabel(certificate) {
+        const courseLevel = certificate.courseLevel || getCertificateCourseLevel(certificate.courseId);
+        const levelLabel = ({
+            graduacao: t('graduacao'),
+            'pos-graduacao': t('pos_graduacao'),
+            'ensino-medio': t('ensino_medio'),
+            idiomas: t('idiomas')
+        }[courseLevel] || courseLevel);
+        if (courseLevel !== 'graduacao') return levelLabel;
+        const typeLabel = ({
+            bacharelado: t('profile_bacharelado'),
+            licenciatura: t('profile_licenciatura'),
+            tecnologo: t('profile_tecnologo')
+        }[getCertificateCourseType(certificate)]);
+        return typeLabel ? `${levelLabel} - ${typeLabel}` : levelLabel;
+    }
+
+    function escapeCertificateText(value) {
+        return escapeHtml(String(value || ''));
+    }
+
+    function getCertificateLogoUrl() {
+        const relativePath = window.location.pathname.includes('/comunidade/')
+            ? '../logo-da-universidade-livre.png'
+            : 'logo-da-universidade-livre.png';
+        return new URL(relativePath, window.location.href).href;
+    }
+
+    function buildCertificateMarkup(certificate) {
+        const name = loadProfileName() || t('profile_not_available');
+        const matricula = getMatricula();
+        if (localStorage.getItem('ulivre_onboarding_complete') === 'true' && loadProfileName() && matricula) {
+            localStorage.setItem('ulivre_authenticated_session', 'true');
+        }
+        const userNumber = getUserNumber();
+        const courseName = certificate.courseName || getCourseName(certificate.courseId);
+        const level = certificate.courseLevel || certificate.courseId ? getCertificateLevelLabel(certificate) : t('profile_not_available');
+        const date = certificate.finishedAt ? new Date(certificate.finishedAt).toLocaleDateString(window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR') : t('profile_not_available');
+        const result = certificate.adminTest ? t('profile_test_certificate') : `${certificate.score}/${certificate.total} (${certificate.percent}%)`;
+        return `<div class="certificate-seal"><i class="fas fa-award"></i></div><p class="certificate-kicker">${escapeCertificateText(t('profile_certificate'))}</p><img class="certificate-logo" src="${escapeCertificateText(getCertificateLogoUrl())}" alt="Universidade Livre"><p>${escapeCertificateText(t('profile_certificate_text'))}</p><h3>${escapeCertificateText(courseName)}</h3><p>${escapeCertificateText(level)}</p><p class="certificate-certificate-note">${escapeCertificateText(t('profile_certificate_completed'))}</p><div class="certificate-details"><div class="certificate-holder"><p><strong>${escapeCertificateText(t('profile_name'))}</strong><span>${escapeCertificateText(name)}</span></p><p><strong>${escapeCertificateText(t('profile_matricula'))}</strong><span>${escapeCertificateText(matricula)}</span></p><p><strong>${escapeCertificateText(t('profile_certificate_date'))}</strong><span>${escapeCertificateText(date)}</span></p></div><div class="certificate-result"><p><strong>${escapeCertificateText(t('profile_certificate_result'))}</strong><span>${escapeCertificateText(result)}</span></p><p><strong>${escapeCertificateText(t('profile_user_number'))}</strong><span>${escapeCertificateText(userNumber)}</span></p></div></div><p class="certificate-disclaimer">${escapeCertificateText(t('profile_certificate_disclaimer'))}</p>`;
+    }
+
+    function openCertificate(certificate) {
+        if (localStorage.getItem('userMatricula') !== TEST_ADMIN_MATRICULA && localStorage.getItem('ulivre_authenticated_session') !== 'true') {
+            showToast(t('profile_login_required'), 'error');
+            return;
+        }
+        const modal = document.getElementById('certificateModal');
+        const preview = document.getElementById('certificatePreview');
+        const download = document.getElementById('downloadCertificateBtn');
+        if (!modal || !preview) return;
+        preview.innerHTML = buildCertificateMarkup(certificate);
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+        download?.replaceWith(download.cloneNode(true));
+        document.getElementById('downloadCertificateBtn')?.addEventListener('click', () => downloadCertificate(certificate, 'png'));
+        document.getElementById('downloadCertificatePdfBtn')?.addEventListener('click', () => downloadCertificate(certificate, 'pdf'));
+    }
+
+    function closeCertificate() {
+        const modal = document.getElementById('certificateModal');
+        if (modal) {
+            modal.hidden = true;
+            modal.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    async function downloadCertificate(certificate, format = 'png') {
+        const width = 1600;
+        const height = 1131;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        try {
+            const context = canvas.getContext('2d');
+            if (!context) throw new Error('Canvas 2D indisponível');
+            context.fillStyle = '#ffffff';
+            context.fillRect(0, 0, width, height);
+            context.strokeStyle = '#10b981';
+            context.lineWidth = 16;
+            context.strokeRect(8, 8, width - 16, height - 16);
+            context.strokeStyle = '#d1fae5';
+            context.lineWidth = 6;
+            context.strokeRect(28, 28, width - 56, height - 56);
+
+            const centerText = (text, y, font, color = '#172033') => {
+                context.font = font;
+                context.fillStyle = color;
+                context.textAlign = 'center';
+                context.fillText(String(text), width / 2, y);
+            };
+            const wrapText = (text, x, y, maxWidth, lineHeight) => {
+                const words = String(text).split(' ');
+                let line = '';
+                words.forEach(word => {
+                    const candidate = line ? `${line} ${word}` : word;
+                    if (context.measureText(candidate).width > maxWidth && line) {
+                        context.fillText(line, x, y);
+                        line = word;
+                        y += lineHeight;
+                    } else line = candidate;
+                });
+                if (line) context.fillText(line, x, y);
+                return y;
+            };
+
+            context.beginPath();
+            context.arc(width / 2, 125, 39, 0, Math.PI * 2);
+            context.fillStyle = '#10b981';
+            context.fill();
+            context.strokeStyle = '#d1fae5';
+            context.lineWidth = 7;
+            context.stroke();
+            centerText('*', 137, 'bold 42px Georgia', '#ffffff');
+
+            const logoUrl = getCertificateLogoUrl();
+            try {
+                const response = await fetch(logoUrl);
+                if (!response.ok) throw new Error(`Logo request failed with status ${response.status}`);
+                const logoBlob = await response.blob();
+                const logoUrlObject = URL.createObjectURL(logoBlob);
+                const logo = await new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = reject;
+                    image.src = logoUrlObject;
+                });
+                context.drawImage(logo, width / 2 - 150, 175, 300, 120);
+                URL.revokeObjectURL(logoUrlObject);
+            } catch (_) {}
+
+            const name = loadProfileName() || t('profile_not_available');
+            const courseName = certificate.courseName || getCourseName(certificate.courseId);
+            const level = certificate.courseLevel || certificate.courseId ? getCertificateLevelLabel(certificate) : t('profile_not_available');
+            const date = certificate.finishedAt ? new Date(certificate.finishedAt).toLocaleDateString(window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR') : t('profile_not_available');
+            const result = certificate.adminTest ? t('profile_test_certificate') : `${certificate.score}/${certificate.total} (${certificate.percent}%)`;
+            centerText(t('profile_certificate'), 345, 'bold 20px Georgia', '#047857');
+            centerText(t('profile_certificate_text'), 405, '22px Georgia');
+            centerText(courseName, 465, 'bold 38px Georgia', '#047857');
+            centerText(level, 510, '22px Georgia');
+            centerText(t('profile_certificate_completed'), 550, '22px Georgia', '#374151');
+            context.strokeStyle = '#a7f3d0';
+            context.lineWidth = 2;
+            context.beginPath();
+            context.moveTo(200, 590);
+            context.lineTo(1400, 590);
+            context.stroke();
+            context.textAlign = 'left';
+            context.font = 'bold 16px Georgia';
+            context.fillStyle = '#047857';
+            context.fillText(t('profile_name').toUpperCase(), 240, 645);
+            context.fillText(t('profile_matricula').toUpperCase(), 240, 725);
+            context.fillText(t('profile_certificate_date').toUpperCase(), 240, 805);
+            context.fillText(t('profile_certificate_result').toUpperCase(), 900, 645);
+            context.fillText(t('profile_user_number').toUpperCase(), 900, 725);
+            context.font = '23px Georgia';
+            context.fillStyle = '#172033';
+            context.fillText(name, 240, 675);
+            context.fillText(getMatricula(), 240, 755);
+            context.fillText(date, 240, 835);
+            context.fillText(result, 900, 675);
+            context.fillText(getUserNumber(), 900, 755);
+            context.fillStyle = '#f0fdf4';
+            context.fillRect(0, 1050, width, 81);
+            context.fillStyle = '#6b7280';
+            context.font = '15px Georgia';
+            context.textAlign = 'center';
+            wrapText(t('profile_certificate_disclaimer'), width / 2, 1085, 1450, 20);
+
+            const imageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            const fileData = format === 'pdf' ? createCertificatePdf(imageDataUrl, width, height) : await new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG vazio')), 'image/png'));
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(fileData);
+            const courseFileName = String(certificate.courseName || certificate.courseId)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'curso';
+            const certificateFileLabel = String(t('profile_certificate') || 'Certificate')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'certificate';
+            link.download = `${certificateFileLabel}-${courseFileName}-(Universidade Livre).${format}`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error(`[Profile] Não foi possível gerar o ${format.toUpperCase()} do certificado:`, error);
+            showToast(t('profile_certificate_download_error'), 'error');
+        }
+    }
+
+    function createCertificatePdf(imageDataUrl, width, height) {
+        const jpegData = atob(imageDataUrl.split(',')[1]);
+        const imageBytes = new Uint8Array(jpegData.length);
+        for (let index = 0; index < jpegData.length; index++) imageBytes[index] = jpegData.charCodeAt(index);
+        const encoder = new TextEncoder();
+        const chunks = [];
+        const offsets = [0];
+        let byteLength = 0;
+        const addText = text => {
+            const bytes = encoder.encode(text);
+            chunks.push(bytes);
+            byteLength += bytes.length;
+        };
+        addText('%PDF-1.4\n');
+        const addObject = (number, body) => {
+            offsets[number] = byteLength;
+            addText(`${number} 0 obj\n${body}\nendobj\n`);
+        };
+        addObject(1, '<< /Type /Catalog /Pages 2 0 R >>');
+        addObject(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+        addObject(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Image 5 0 R >> >> /Contents 4 0 R >>');
+        const pageStream = 'q\n842 0 0 595 0 0 cm\n/Image Do\nQ\n';
+        addObject(4, `<< /Length ${pageStream.length} >>\nstream\n${pageStream}endstream`);
+        offsets[5] = byteLength;
+        addText(`5 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n`);
+        chunks.push(imageBytes);
+        byteLength += imageBytes.length;
+        addText('\nendstream\nendobj\n');
+        const xrefOffset = byteLength;
+        addText(`xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(offset => `${String(offset).padStart(10, '0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+        return new Blob(chunks, { type: 'application/pdf' });
+    }
+
+    function renderCertificates() {
+        const container = document.getElementById('profileCertificatesList');
+        if (!container) return;
+        const certificates = getFinalCertificates();
+        container.innerHTML = certificates.length ? certificates.map((certificate, index) => `<article class="profile-certificate-item"><div><strong>${escapeCertificateText(certificate.courseName || getCourseName(certificate.courseId))}</strong><small>${escapeCertificateText(certificate.courseLevel || '')} · ${certificate.adminTest ? escapeCertificateText(t('profile_test_certificate')) : `${certificate.percent}%`}</small></div><button type="button" class="btn-secondary profile-open-certificate" data-certificate-index="${index}"><i class="fas fa-eye"></i> ${escapeCertificateText(t('profile_certificate_view'))}</button></article>`).join('') : `<p>${escapeCertificateText(t('profile_no_certificates'))}</p>`;
+        container.querySelectorAll('.profile-open-certificate').forEach(button => button.addEventListener('click', () => openCertificate(certificates[Number(button.dataset.certificateIndex)])));
     }
 
     function calculateCourseStats(watchedMap, courseId) {
@@ -1852,6 +2167,22 @@
                 if (!details.hidden) renderExamHistory();
             });
         }
+        const certificatesButton = document.getElementById('profileCertificatesBtn');
+        if (certificatesButton && certificatesButton.dataset.bound !== 'true') {
+            certificatesButton.dataset.bound = 'true';
+            certificatesButton.addEventListener('click', () => {
+                const list = document.getElementById('profileCertificatesList');
+                if (!list) return;
+                list.hidden = !list.hidden;
+                certificatesButton.setAttribute('aria-expanded', String(!list.hidden));
+                if (!list.hidden) renderCertificates();
+            });
+        }
+        renderCertificates();
+        document.getElementById('closeCertificateModal')?.addEventListener('click', closeCertificate);
+        document.getElementById('certificateModal')?.addEventListener('click', event => {
+            if (event.target.id === 'certificateModal') closeCertificate();
+        });
         const gameStatusButton = document.getElementById('profileGameStatusBtn');
         if (gameStatusButton && gameStatusButton.dataset.bound !== 'true') {
             gameStatusButton.dataset.bound = 'true';
@@ -2095,6 +2426,7 @@
             saveProfileName(name);
         }
 
+
         function handleSaveGender() {
             const genderSelect = document.getElementById('profileGender');
             if (!genderSelect) return;
@@ -2291,6 +2623,7 @@
         const lang = e.detail.lang || 'pt-br';
         console.log('[Profile] Idioma alterado para:', lang);
         updateProfileButton();
+            document.querySelectorAll('#closeCertificateModal').forEach(button => button.setAttribute('aria-label', t('close')));
         const modal = document.getElementById('profileModal');
         if (modal && modal.style.display === 'flex') {
             updateProfileTranslations();

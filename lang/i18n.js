@@ -188,6 +188,12 @@
             if (translations[key]) el.title = translations[key];
         });
 
+        // Acessibilidade
+        document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+            const key = el.getAttribute('data-i18n-aria');
+            if (translations[key]) el.setAttribute('aria-label', translations[key]);
+        });
+
         // Título da página
         if (translations.app_title) {
             document.title = translations.app_title;

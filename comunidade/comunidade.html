@@ -2054,7 +2054,7 @@
                         <label for="profileNameInput"><i class="fas fa-user"></i> Nome</label>
                         <div class="profile-input-group">
                             <input type="text" id="profileNameInput" placeholder="Seu nome..." />
-                            <button id="profileSaveNameBtn"><i class="fas fa-save"></i> Salvar Nome</button>
+                            <button id="profileSaveNameBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar Nome</button>
                         </div>
                     </div>
 
@@ -2068,7 +2068,7 @@
                                 <option value="feminino">Feminino</option>
                                 <option value="outro">Outro</option>
                             </select>
-                            <button id="profileSaveGenderBtn"><i class="fas fa-save"></i> Salvar</button>
+                            <button id="profileSaveGenderBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
                         </div>
                     </div>
 
@@ -2076,7 +2076,7 @@
                         <label for="profileCountry"><i class="fas fa-globe"></i> País</label>
                         <div class="profile-input-group">
                             <select id="profileCountry"><option value="">Não informado</option></select>
-                            <button id="profileSaveCountryBtn"><i class="fas fa-save"></i> Salvar</button>
+                            <button id="profileSaveCountryBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
                         </div>
                     </div>
 
@@ -2085,7 +2085,7 @@
                         <label for="profilePassword"><i class="fas fa-lock"></i> Senha (para exportar/importar)</label>
                         <div class="profile-input-group">
                             <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." />
-                            <button id="profileSavePasswordBtn"><i class="fas fa-save"></i> Salvar</button>
+                            <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
                         </div>
                         <div class="password-saved-indicator" style="display: none;"></div>
                     </div>
@@ -2104,6 +2104,8 @@
                     <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
                     <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
                     <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+                    <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
+                    <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
                     <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
                     <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
@@ -2144,6 +2146,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="certificateModal" class="certificate-modal" hidden aria-hidden="true">
+        <div class="certificate-modal-content" role="dialog" aria-modal="true" aria-labelledby="certificateTitle">
+            <div class="certificate-modal-header"><h2 id="certificateTitle"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificate">Certificado</span></h2><button type="button" id="closeCertificateModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button></div>
+            <div id="certificatePreview" class="certificate-preview"></div>
+            <div class="certificate-modal-actions"><button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button><button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button></div>
         </div>
     </div>
 
