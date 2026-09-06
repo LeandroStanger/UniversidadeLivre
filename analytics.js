@@ -55,32 +55,37 @@
         }
     }
 
-    function count(path, title) {
+    function count(path, title, event = true) {
         const language = getLanguage();
         pending.push({
             path: `/universidade-livre${languagePath(path)}`,
             title: `${title || document.title} · ${language.label}`,
-            event: true,
+            event,
             referrer: document.referrer || SITE_URL
         });
         flush();
+    }
+
+    function pageview(path, title) {
+        count(path, title, false);
     }
 
     window.UniversidadeLivreAnalytics = {
         slug,
         getLanguage,
         count,
+        pageview,
         course(courseId, courseName) {
-            count(`/curso/${slug(courseId)}`, courseName || `Curso ${courseId}`);
+            pageview(`/curso/${slug(courseId)}`, courseName || `Curso ${courseId}`);
         },
         discipline(courseId, disciplineName) {
-            count(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}`, disciplineName);
+            pageview(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}`, disciplineName);
         },
         lesson(courseId, disciplineName, lessonName) {
-            count(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}/aula/${slug(lessonName)}`, lessonName);
+            pageview(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}/aula/${slug(lessonName)}`, lessonName);
         },
         media(area, mediaId, title) {
-            count(`/${slug(area)}/conteudo/${slug(mediaId)}`, title);
+            pageview(`/${slug(area)}/conteudo/${slug(mediaId)}`, title);
         },
         action(area, actionName, context) {
             const suffix = context ? `/${slug(context)}` : '';
