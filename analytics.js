@@ -4,7 +4,11 @@
 
     const SITE_URL = 'https://leandrostanger.github.io/UniversidadeLivre';
     const pending = [];
+    const LOCAL_COUNTS_KEY = 'ulivre_analytics_local_counts';
+    const MAX_PENDING_EVENTS = 100;
+    const MAX_SEND_ATTEMPTS = 3;
     let retryTimer = null;
+    let retryDelay = 1000;
     let initialPageviewSent = false;
 
     function slug(value) {
@@ -35,34 +39,69 @@
         return `/idioma/${getLanguage().slug}${normalized}`;
     }
 
+    function readLocalCounts() {
+        try {
+            return JSON.parse(localStorage.getItem(LOCAL_COUNTS_KEY) || '{}');
+        } catch (_) {
+            return {};
+        }
+    }
+
+    function saveLocalCount(event) {
+        try {
+            const counts = readLocalCounts();
+            const key = `${event.event ? 'event' : 'pageview'}:${event.path}`;
+            counts[key] = (Number(counts[key]) || 0) + 1;
+            localStorage.setItem(LOCAL_COUNTS_KEY, JSON.stringify(counts));
+        } catch (_) {}
+    }
+
+    function scheduleFlush() {
+        if (retryTimer || !pending.length) return;
+        retryTimer = window.setTimeout(() => {
+            retryTimer = null;
+            retryDelay = Math.min(retryDelay * 2, 30000);
+            flush();
+        }, retryDelay);
+    }
+
     function flush() {
         if (!window.goatcounter || typeof window.goatcounter.count !== 'function') {
-            if (pending.length && !retryTimer) {
-                retryTimer = window.setTimeout(() => {
-                    retryTimer = null;
-                    flush();
-                }, 1000);
-            }
+            pending.forEach(event => { event.attempts += 1; });
+            while (pending.length && pending[0].attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
+            scheduleFlush();
             return;
         }
 
         while (pending.length) {
-            const event = pending.shift();
+            const queued = pending[0];
             try {
-                window.goatcounter.count(event);
+                window.goatcounter.count(queued.payload);
+                pending.shift();
+                retryDelay = 1000;
             } catch (error) {
                 console.warn('[Analytics] Falha ao enviar evento:', error);
+                queued.attempts += 1;
+                if (queued.attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
+                else {
+                    scheduleFlush();
+                    return;
+                }
             }
         }
     }
 
     function count(path, title, event = true) {
         const language = getLanguage();
-        pending.push({
-            path: `/universidade-livre${languagePath(path)}`,
-            title: `${title || document.title} · ${language.label}`,
-            event,
-            referrer: document.referrer || SITE_URL
+        if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: `/universidade-livre${languagePath(path)}`, event });
+        else pending.push({
+            payload: {
+                path: `/universidade-livre${languagePath(path)}`,
+                title: `${title || document.title} · ${language.label}`,
+                event,
+                referrer: document.referrer || SITE_URL
+            },
+            attempts: 0
         });
         flush();
     }
