@@ -161,6 +161,8 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== CARGA HORÁRIA DOS CURSOS ==========
     const courseDurationCache = new Map();
+    const courseDisciplineCountCache = new Map();
+    const courseDataCache = new Map();
 
     async function computeCourseTotalMinutes(courseId) {
         if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
@@ -204,9 +206,12 @@ console.log('[Main] Inicializando script.js v28.0...');
             const response = await fetch(fileName);
             if (!response.ok) throw new Error('Erro ao carregar dados do curso');
             const data = await response.json();
+            courseDataCache.set(courseId, data);
             let totalMinutes = 0;
+            let disciplineCount = 0;
             for (const stage of data.stages || []) {
                 for (const discipline of stage.disciplines || []) {
+                    disciplineCount += 1;
                     if (discipline.type === 'external' && discipline.time) {
                         const mins = parseTime(discipline.time);
                         totalMinutes += mins || 0;
@@ -221,12 +226,43 @@ console.log('[Main] Inicializando script.js v28.0...');
                 }
             }
             courseDurationCache.set(courseId, totalMinutes);
+            courseDisciplineCountCache.set(courseId, disciplineCount);
             return totalMinutes;
         } catch (error) {
             console.error(`Erro ao calcular carga horária para ${courseId}:`, error);
             return 0;
         }
     }
+
+    window.getCourseCertificateSummary = async function(courseId) {
+        const totalMinutes = await computeCourseTotalMinutes(courseId);
+        return {
+            totalMinutes,
+            disciplineCount: courseDisciplineCountCache.get(courseId) || 0
+        };
+    };
+
+    window.getCourseTranscriptData = async function(courseId) {
+        await computeCourseTotalMinutes(courseId);
+        const data = courseDataCache.get(courseId);
+        if (!data) return null;
+        const getDisciplineMinutes = discipline => {
+            if (discipline.type === 'external' && discipline.time) return parseTime(discipline.time) || 0;
+            if (discipline.type === 'exercise') return getDurationFromDiscipline(discipline) || 30;
+            return Array.isArray(discipline.videoIds) ? discipline.videoIds.reduce((total, _, index) => total + 15 + (index % 25), 0) : 0;
+        };
+        return {
+            name: data.name || courseId,
+            stages: (data.stages || []).map(stage => ({
+                name: stage.name,
+                disciplines: (stage.disciplines || []).map(discipline => ({
+                    name: discipline.name,
+                    totalMinutes: getDisciplineMinutes(discipline),
+                    lessonCount: discipline.type === 'external' || discipline.type === 'exercise' ? 1 : (discipline.videoIds || []).length
+                }))
+            }))
+        };
+    };
 
     function formatDuration(minutes) {
         const hours = Math.floor(minutes / 60);

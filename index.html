@@ -335,6 +335,11 @@
             <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
             <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
             <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+            <button type="button" id="profileTranscriptBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Ver boletim</span></button>
+            <div id="profileTranscript" class="profile-transcript" hidden>
+                <div id="profileTranscriptCourses" class="profile-transcript-courses"></div>
+                <div id="profileTranscriptStages" class="profile-transcript-stages"></div>
+            </div>
             <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
             <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
             <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
@@ -376,6 +381,20 @@
         <div class="certificate-modal-actions">
             <button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button>
             <button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button>
+        </div>
+    </div>
+</div>
+
+<div id="transcriptModal" class="certificate-modal" hidden aria-hidden="true">
+    <div class="certificate-modal-content transcript-modal-content" role="dialog" aria-modal="true" aria-labelledby="transcriptTitle">
+        <div class="certificate-modal-header">
+            <h2 id="transcriptTitle"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Boletim</span></h2>
+            <button type="button" id="closeTranscriptModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <div id="transcriptPreview" class="transcript-preview"></div>
+        <div class="certificate-modal-actions">
+            <button type="button" id="downloadTranscriptBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_transcript_download">Baixar PNG</span></button>
+            <button type="button" id="downloadTranscriptPdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_transcript_download_pdf">Baixar PDF</span></button>
         </div>
     </div>
 </div>
