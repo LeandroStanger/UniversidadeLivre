@@ -222,6 +222,8 @@
         writeTTTRooms(rooms.slice(-8));
         persistActiveTTTRoom(room.id);
         const newRoomState = createNativeTTTState();
+        newRoomState.wager = { gameId: 'tictactoe', amount: 1 };
+        window.UniversidadeLivreWallet?.startWager('tictactoe', room.id, 1);
         localStorage.setItem(getTTTStorageKey(room.id), JSON.stringify(newRoomState));
         writeTTTGameState(newRoomState, room.id);
         if (typeof window.setSelectedGame === 'function') {
@@ -273,6 +275,8 @@
     function joinTicTacToeRoom(roomId, mode) {
         const room = readTTTRooms().map(normalizeTTTRoom).filter(Boolean).find((item) => item.id === roomId);
         if (!room) return;
+
+        if (mode === 'play') window.UniversidadeLivreWallet?.startWager('tictactoe', roomId, 1);
 
         if (mode === 'play' && room.mode === 'community' && room.createdBy.toLowerCase() !== getCurrentTTTUser().toLowerCase()) {
             const rooms = readTTTRooms();
@@ -483,6 +487,8 @@
         });
 
         if (winner || isDraw) {
+            window.UniversidadeLivreWallet?.startWager('tictactoe', activeRoomId, 1);
+            window.UniversidadeLivreWallet?.settleWager('tictactoe', activeRoomId, winner ? (winner === 'X' ? playerX : playerO) : null, isDraw);
             if (!state.resultRecorded) {
                 const localResult = isDraw ? 'draw' : (winner === 'X' ? 'win' : 'loss');
                 state.resultRecorded = true;

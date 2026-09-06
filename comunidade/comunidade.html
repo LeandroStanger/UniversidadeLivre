@@ -30,6 +30,11 @@
     <link rel="stylesheet" href="jogo/uno/uno.css" />
     <link rel="stylesheet" href="jogo/games-theme.css" />
     <link rel="stylesheet" href="jogo/bicho/bicho.css" />
+    <link rel="stylesheet" href="jogo/caca-niquel/caca-niquel.css" />
+    <link rel="stylesheet" href="jogo/poker/poker.css" />
+    <link rel="stylesheet" href="jogo/blackjack/blackjack.css" />
+    <link rel="stylesheet" href="jogo/bacara/bacara.css" />
+    <link rel="stylesheet" href="jogo/bingo/bingo.css" />
 
     <style>
         /* ============================================================
@@ -1850,6 +1855,31 @@
                                         <span class="game-title" data-i18n="game_bicho_title">Jogo do Bicho</span>
                                         <span class="game-subtitle" data-i18n="game_bicho_subtitle">Aposte em animais com moedas virtuais</span>
                                     </button>
+                                    <button class="game-card" data-game="slots" type="button">
+                                        <span class="game-icon"><i class="fas fa-dice"></i></span>
+                                        <span class="game-title" data-i18n="game_slots_title">Caça-Níqueis</span>
+                                        <span class="game-subtitle" data-i18n="game_slots_subtitle">Jogue com bot ou com a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="poker" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♠</span>
+                                        <span class="game-title" data-i18n="game_poker_title">Poker</span>
+                                        <span class="game-subtitle" data-i18n="game_poker_subtitle">Jogue contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="blackjack" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♣</span>
+                                        <span class="game-title" data-i18n="game_blackjack_title">Blackjack</span>
+                                        <span class="game-subtitle" data-i18n="game_blackjack_subtitle">Jogue contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="bacara" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♦</span>
+                                        <span class="game-title" data-i18n="game_bacara_title">Bacará</span>
+                                        <span class="game-subtitle" data-i18n="game_bacara_subtitle">Aposte contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="bingo" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">●</span>
+                                        <span class="game-title" data-i18n="game_bingo_title">Bingo</span>
+                                        <span class="game-subtitle" data-i18n="game_bingo_subtitle">Complete sua cartela contra o bot ou a comunidade</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -1859,6 +1889,12 @@
                                     <div class="game-shell-title-wrap">
                                         <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
                                         <small id="chessStatusText" data-i18n="games_room_sync_status">Sala sincronizada com os colegas da disciplina.</small>
+                                    </div>
+                                    <div id="livreCoinsWallet" class="livre-coins-wallet" aria-live="polite">
+                                        <span class="livre-coins-label">Livre Coins</span>
+                                        <strong id="livreCoinsBalance">0</strong>
+                                        <span class="livre-points-label">Pontos: <strong id="livrePointsBalance">0</strong></span>
+                                        <button id="convertLivrePoints" class="livre-convert-points" type="button">Trocar pontos</button>
                                     </div>
                                 </div>
 
@@ -1923,6 +1959,11 @@
                                 <div id="roulettePanel" class="roulette-panel" hidden></div>
                                 <div id="unoPanel" class="uno-panel" hidden></div>
                                 <div id="bichoPanel" class="bicho-panel" hidden></div>
+                                <div id="slotsPanel" class="slots-panel" hidden></div>
+                                <div id="pokerPanel" class="poker-panel" hidden></div>
+                                <div id="blackjackPanel" class="blackjack-panel" hidden></div>
+                                <div id="bacaraPanel" class="bacara-panel" hidden></div>
+                                <div id="bingoPanel" class="bingo-panel" hidden></div>
                             </div>
 
                             <div id="chessPromotionModal" class="chess-promotion-modal" hidden>
@@ -2099,10 +2140,13 @@
                         <div class="stat-item"><span>Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                         <div class="stat-item"><span>Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
                         <div class="stat-item"><span>Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
+                        <div class="stat-item livre-coins-profile-stat"><span>Total Livre Coins</span> <span id="profileLivreCoins">0</span></div>
+                        <div class="stat-item livre-coins-profile-stat"><span>Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
                         <div class="stat-item"><span>Horas no Auditório</span> <span id="profileAuditorioTime">0min</span></div>
                     </div>
                     <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
                     <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+                    <div class="livre-coins-profile-convert"><span>5 pontos = 1 Livre Coin</span><button type="button" id="profileConvertLivrePoints" class="profile-details-button">Trocar pontos por Livre Coins</button></div>
                     <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
                     <div id="profileExamDetails" class="profile-exam-details" hidden></div>
                     <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
@@ -2177,5 +2221,10 @@
     <script src="jogo/roleta/roleta.js"></script>
     <script src="jogo/uno/uno.js"></script>
     <script src="jogo/bicho/bicho.js"></script>
+    <script src="jogo/caca-niquel/caca-niquel.js"></script>
+    <script src="jogo/poker/poker.js"></script>
+    <script src="jogo/blackjack/blackjack.js"></script>
+    <script src="jogo/bacara/bacara.js"></script>
+    <script src="jogo/bingo/bingo.js"></script>
 </body>
 </html>

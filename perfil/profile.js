@@ -1616,7 +1616,7 @@
             points: Number(score.points) || 0,
             wins: Number(score.wins) || 0,
             draws: Number(score.draws) || 0,
-            losses: Number(score.losses) || ((key === 'ulivre_hangman_scores' || key === 'ulivre_roulette_wallets' || key === 'ulivre_bicho_wallets') ? Math.max(0, (Number(score.games || score.spins || score.bets) || 0) - (Number(score.wins) || 0)) : 0)
+            losses: Number(score.losses) || ((key === 'ulivre_hangman_scores' || key === 'ulivre_roulette_wallets' || key === 'ulivre_bicho_wallets' || key === 'ulivre_poker_wallets' || key === 'ulivre_blackjack_wallets' || key === 'ulivre_bacara_wallets' || key === 'ulivre_bingo_wallets') ? Math.max(0, (Number(score.games || score.spins || score.bets || score.hands || score.rounds) || 0) - (Number(score.wins) || 0)) : 0)
         });
         const games = [
             { name: t('games_score_chess'), icon: 'fa-chess', score: normalizeScore(rawScore('ulivre_chess_scores'), 'ulivre_chess_scores') },
@@ -1626,12 +1626,17 @@
             { name: t('games_score_checkers'), icon: 'fa-chess-board', score: normalizeScore(rawScore('ulivre_checkers_scores'), 'ulivre_checkers_scores') },
             { name: t('games_score_roulette'), icon: 'fa-dharmachakra', score: normalizeScore(rawScore('ulivre_roulette_wallets'), 'ulivre_roulette_wallets') },
             { name: t('games_score_uno'), icon: 'fa-layer-group', score: normalizeScore(rawScore('ulivre_uno_scores'), 'ulivre_uno_scores') },
-            { name: t('games_score_bicho'), icon: 'fa-paw', score: normalizeScore(rawScore('ulivre_bicho_wallets'), 'ulivre_bicho_wallets') }
+            { name: t('games_score_bicho'), icon: 'fa-paw', score: normalizeScore(rawScore('ulivre_bicho_wallets'), 'ulivre_bicho_wallets') },
+            { name: t('games_score_poker'), iconSymbol: '♠', score: normalizeScore(rawScore('ulivre_poker_wallets'), 'ulivre_poker_wallets') },
+            { name: t('games_score_blackjack'), iconSymbol: '♣', score: normalizeScore(rawScore('ulivre_blackjack_wallets'), 'ulivre_blackjack_wallets') },
+            { name: t('games_score_bacara'), icon: 'fa-diamond', score: normalizeScore(rawScore('ulivre_bacara_wallets'), 'ulivre_bacara_wallets') },
+            { name: t('games_score_bingo'), icon: 'fa-ticket', score: normalizeScore(rawScore('ulivre_bingo_wallets'), 'ulivre_bingo_wallets') }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
             const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
-            return `<article class="profile-game-status-item"><strong><i class="fas ${game.icon}"></i> ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
+            const icon = game.iconSymbol ? `<span class="profile-game-status-icon profile-game-status-suit">${game.iconSymbol}</span>` : `<i class="fas ${game.icon}"></i>`;
+            return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
         }).join('');
     }
 
@@ -2460,6 +2465,23 @@
         const pointsEl = document.getElementById('profileTotalPoints');
         const gamePoints = (Number(chessScore.points) || 0) + (Number(tttScore.points) || 0) + extraGameScores;
         const grandTotal = totalStats.coursePoints + gamePoints;
+        const walletApi = window.UniversidadeLivreWallet;
+        if (walletApi?.syncAcademicPoints) walletApi.syncAcademicPoints(totalStats.coursePoints);
+        const livreWallet = walletApi?.get?.() || { coins: 0, points: 0 };
+        const livreCoinsEl = document.getElementById('profileLivreCoins');
+        const livrePointsEl = document.getElementById('profileLivrePoints');
+        if (livreCoinsEl) livreCoinsEl.textContent = String(livreWallet.coins || 0);
+        if (livrePointsEl) livrePointsEl.textContent = String(livreWallet.points || 0);
+        const convertLivreBtn = document.getElementById('profileConvertLivrePoints');
+        if (convertLivreBtn && convertLivreBtn.dataset.bound !== 'true') {
+            convertLivreBtn.dataset.bound = 'true';
+            convertLivreBtn.addEventListener('click', () => {
+                const current = window.UniversidadeLivreWallet?.get?.();
+                if (!current?.points) return;
+                window.UniversidadeLivreWallet.convertPoints(current.points);
+                updateProfileModal();
+            });
+        }
         if (pointsEl) pointsEl.textContent = gamePoints;
         const coursePointsLabel = document.querySelector('.profile-total-score-card span[data-i18n="profile_course_points"]');
         if (coursePointsLabel) coursePointsLabel.textContent = t('profile_course_points');
@@ -2947,6 +2969,11 @@
                 if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
             }
         });
+    });
+
+    window.addEventListener('livreWalletUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex') updateProfileModal();
     });
 
     window.addEventListener('storage', (e) => {

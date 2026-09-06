@@ -84,7 +84,7 @@
     function createRoom() {
         const mode = document.getElementById('hangmanMode').value;
         const room = window.UniversidadeLivreGameScope?.decorateRoom({ id: roomId(), gameType: 'hangman', mode, capacity: Number(document.getElementById('hangmanCapacity').value), difficulty: document.getElementById('hangmanDifficulty').value, players: 1, createdBy: getUserName(), createdAt: Date.now() });
-        const rooms = readRooms(); rooms.push(room); writeRooms(rooms); startRoom(room);
+        const rooms = readRooms(); rooms.push(room); writeRooms(rooms); window.UniversidadeLivreWallet?.startWager('hangman', room.id, 1); startRoom(room);
     }
     function deleteRoom(id) { writeRooms(readRooms().filter(room => room.id !== id)); renderLobby(); }
     function viewRoom(id) {
@@ -105,6 +105,7 @@
         if (!room || room.players >= room.capacity) return;
         room.players += 1;
         writeRooms(readRooms().map(item => item.id === room.id ? room : item));
+        window.UniversidadeLivreWallet?.startWager('hangman', room.id, 1);
         startRoom(room);
     }
     function startRoom(room) {
@@ -181,6 +182,7 @@
     function finishGame(winner) {
         clearTimers();
         game.ended = true;
+        window.UniversidadeLivreWallet?.settleWager('hangman', game.room.id, winner?.name || null, !winner);
         if (!game.scored) {
             game.participants.forEach(player => { if (player.name === getUserName()) recordScore(player.name, winner?.name === player.name ? 100 : 0, winner?.name === player.name ? 'win' : 'loss'); });
             game.scored = true;

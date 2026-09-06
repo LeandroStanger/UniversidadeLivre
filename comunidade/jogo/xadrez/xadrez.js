@@ -469,7 +469,9 @@
         writeChessRooms(rooms.slice(-8));
         persistActiveChessRoom(room.id);
         const newRoomState = createNativeChessState();
+        newRoomState.wager = { gameId: 'chess', amount: 1 };
         localStorage.setItem(getGamesStorageKey(room.id), JSON.stringify(newRoomState));
+        window.UniversidadeLivreWallet?.startWager('chess', room.id, 1);
         writeChessGameState(newRoomState, room.id);
         chessIsSpectator = false;
         showChessGameScreen();
@@ -514,6 +516,7 @@
         if (!room) return;
 
         persistActiveChessRoom(roomId);
+        if (mode === 'play') window.UniversidadeLivreWallet?.startWager('chess', roomId, 1);
         chessIsSpectator = mode === 'view';
         const modal = document.getElementById('gamesModal');
         if (modal) {
@@ -1321,6 +1324,11 @@
         const roulettePanel = document.getElementById('roulettePanel');
         const unoPanel = document.getElementById('unoPanel');
         const bichoPanel = document.getElementById('bichoPanel');
+        const slotsPanel = document.getElementById('slotsPanel');
+        const pokerPanel = document.getElementById('pokerPanel');
+        const blackjackPanel = document.getElementById('blackjackPanel');
+        const bacaraPanel = document.getElementById('bacaraPanel');
+        const bingoPanel = document.getElementById('bingoPanel');
         const chessPanel = document.getElementById('chessPanel');
         const menuCards = document.querySelectorAll('.game-card[data-game]');
         if (menuScreen) menuScreen.hidden = false;
@@ -1337,6 +1345,26 @@
         if (bichoPanel) {
             bichoPanel.hidden = true;
             bichoPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (slotsPanel) {
+            slotsPanel.hidden = true;
+            slotsPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (pokerPanel) {
+            pokerPanel.hidden = true;
+            pokerPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (blackjackPanel) {
+            blackjackPanel.hidden = true;
+            blackjackPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (bacaraPanel) {
+            bacaraPanel.hidden = true;
+            bacaraPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (bingoPanel) {
+            bingoPanel.hidden = true;
+            bingoPanel.style.setProperty('display', 'none', 'important');
         }
         [chessPanel, impostorPanel, hangmanPanel, checkersPanel, roulettePanel].forEach(panel => panel?.style.removeProperty('display'));
         if (chessPanel) chessPanel.hidden = false;
@@ -1369,6 +1397,11 @@
         document.getElementById('hangmanPanel')?.setAttribute('hidden', '');
         document.getElementById('checkersPanel')?.setAttribute('hidden', '');
         document.getElementById('roulettePanel')?.setAttribute('hidden', '');
+        document.getElementById('slotsPanel')?.setAttribute('hidden', '');
+        document.getElementById('pokerPanel')?.setAttribute('hidden', '');
+        document.getElementById('blackjackPanel')?.setAttribute('hidden', '');
+        document.getElementById('bacaraPanel')?.setAttribute('hidden', '');
+        document.getElementById('bingoPanel')?.setAttribute('hidden', '');
         document.getElementById('chessPanel')?.removeAttribute('hidden');
         document.querySelector('.chess-room-creator')?.removeAttribute('hidden');
         document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
@@ -1406,6 +1439,11 @@
         document.getElementById('hangmanPanel')?.setAttribute('hidden', '');
         document.getElementById('checkersPanel')?.setAttribute('hidden', '');
         document.getElementById('roulettePanel')?.setAttribute('hidden', '');
+        document.getElementById('slotsPanel')?.setAttribute('hidden', '');
+        document.getElementById('pokerPanel')?.setAttribute('hidden', '');
+        document.getElementById('blackjackPanel')?.setAttribute('hidden', '');
+        document.getElementById('bacaraPanel')?.setAttribute('hidden', '');
+        document.getElementById('bingoPanel')?.setAttribute('hidden', '');
         document.getElementById('chessPanel')?.removeAttribute('hidden');
         document.querySelector('.chess-room-creator')?.removeAttribute('hidden');
         document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
@@ -1562,6 +1600,7 @@
             gameState.resultRecordedUsers = { ...recordedUsers, [scoreUser]: true };
             writeChessGameState(gameState);
             recordChessResult(result);
+            window.UniversidadeLivreWallet?.settleWager('chess', readActiveChessRoom(), result === 'win' ? scoreUser : null, result === 'draw');
         }
 
         if (activeRoom?.mode === 'bot' && gameState.turn === 'black' && !chessIsSpectator) {
@@ -1730,8 +1769,9 @@
             card.addEventListener('click', function() {
                 document.getElementById('bichoPanel')?.setAttribute('hidden', '');
                 document.getElementById('bichoPanel')?.style.setProperty('display', 'none', 'important');
-                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : 'chess';
+                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : 'chess';
                 setSelectedGame(selectedGameName);
+                window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
                 modal.querySelectorAll('.game-card[data-game]').forEach(item => item.classList.toggle('active', item === this));
 
                 if (selectedGameName === 'impostor') {
@@ -1761,6 +1801,31 @@
 
                 if (selectedGameName === 'bicho') {
                     window.BichoGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'slots') {
+                    window.SlotsGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'poker') {
+                    window.PokerGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'blackjack') {
+                    window.BlackjackGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'bacara') {
+                    window.BacaraGame?.show();
+                    return;
+                }
+
+                if (selectedGameName === 'bingo') {
+                    window.BingoGame?.show();
                     return;
                 }
 

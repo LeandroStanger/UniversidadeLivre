@@ -448,6 +448,129 @@
         matchesRoom: matchesGameRoomScope
     };
 
+    const LIVRE_WALLET_KEY = 'ulivre_livre_coins_wallet';
+    const LEGACY_WALLET_KEYS = ['ulivre_bicho_wallets', 'ulivre_roulette_wallets', 'ulivre_slots_wallets', 'ulivre_poker_wallets', 'ulivre_blackjack_wallets', 'ulivre_bacara_wallets', 'ulivre_bingo_wallets'];
+    const nativeStorageSetItem = Storage.prototype.setItem;
+    function livreCoinsUser() {
+        return (localStorage.getItem('userProfileName') || 'Anônimo').trim() || 'Anônimo';
+    }
+    function readLivreWallet() {
+        try {
+            const all = JSON.parse(localStorage.getItem(LIVRE_WALLET_KEY) || '{}');
+            return all[livreCoinsUser()] || { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0 };
+        } catch (_) {
+            return { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0 };
+        }
+    }
+    function writeLivreWallet(value) {
+        let all = {};
+        try { all = JSON.parse(localStorage.getItem(LIVRE_WALLET_KEY) || '{}'); } catch (_) {}
+        all[livreCoinsUser()] = { ...readLivreWallet(), ...value, coins: Math.max(0, Math.floor(value.coins ?? readLivreWallet().coins)), points: Math.max(0, Math.floor(value.points ?? readLivreWallet().points)) };
+        nativeStorageSetItem.call(localStorage, LIVRE_WALLET_KEY, JSON.stringify(all));
+        LEGACY_WALLET_KEYS.forEach(key => {
+            let legacy = {};
+            try { legacy = JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) {}
+            if (legacy[livreCoinsUser()]) {
+                legacy[livreCoinsUser()] = { ...legacy[livreCoinsUser()], coins: all[livreCoinsUser()].coins };
+                nativeStorageSetItem.call(localStorage, key, JSON.stringify(legacy));
+            }
+        });
+        window.dispatchEvent(new CustomEvent('livreWalletUpdated', { detail: all[livreCoinsUser()] }));
+        return all[livreCoinsUser()];
+    }
+    function claimLivreGameBonus(gameId) {
+        const wallet = readLivreWallet();
+        if (wallet.bonuses?.[gameId]) return wallet;
+        const bonusByGame = {
+            chess: 50,
+            tictactoe: 50,
+            hangman: 50,
+            checkers: 50,
+            bicho: 50,
+            bingo: 50,
+            slots: 150,
+            bacara: 150,
+            poker: 150,
+            blackjack: 150,
+            basketball: 75,
+            racing: 50,
+            roulette: 0
+        };
+        const bonus = Number.isFinite(bonusByGame[gameId]) ? bonusByGame[gameId] : 50;
+        const bonuses = { ...(wallet.bonuses || {}), [gameId]: true };
+        return writeLivreWallet({ ...wallet, coins: wallet.coins + bonus, bonuses });
+    }
+    window.UniversidadeLivreWallet = {
+        get: readLivreWallet,
+        update: writeLivreWallet,
+        claimGameBonus: claimLivreGameBonus,
+        syncAcademicPoints(totalPoints = 0) {
+            const wallet = readLivreWallet();
+            const total = Math.max(0, Math.floor(totalPoints));
+            const previous = Number(wallet.syncedAcademicPoints || 0);
+            const delta = Math.max(0, total - previous);
+            return writeLivreWallet({ ...wallet, points: wallet.points + delta, syncedAcademicPoints: Math.max(previous, total) });
+        },
+        convertPoints(amount = 0) {
+            const wallet = readLivreWallet();
+            const points = Math.min(Math.max(0, Math.floor(amount)), wallet.points);
+            return writeLivreWallet({ ...wallet, points: wallet.points - points, coins: wallet.coins + points });
+        },
+        startWager(gameId, roomId, amount = 1) {
+            const wallet = readLivreWallet();
+            const key = `${gameId}:${roomId}`;
+            let wagers = {};
+            try { wagers = JSON.parse(localStorage.getItem('ulivre_game_wagers') || '{}'); } catch (_) {}
+            if (wagers[key]?.[livreCoinsUser()]) return true;
+            const stake = Math.max(1, Math.floor(amount));
+            if (wallet.coins < stake) return false;
+            writeLivreWallet({ ...wallet, coins: wallet.coins - stake });
+            wagers[key] = { ...(wagers[key] || {}), [livreCoinsUser()]: stake };
+            localStorage.setItem('ulivre_game_wagers', JSON.stringify(wagers));
+            return true;
+        },
+        settleWager(gameId, roomId, winnerName = null, draw = false) {
+            const key = `${gameId}:${roomId}`;
+            let wagers = {};
+            try { wagers = JSON.parse(localStorage.getItem('ulivre_game_wagers') || '{}'); } catch (_) {}
+            const stakes = wagers[key];
+            if (!stakes) return;
+            const current = livreCoinsUser();
+            const amount = draw ? Number(stakes[current] || 0) : Object.values(stakes).reduce((sum, value) => sum + Number(value || 0), 0);
+            if (draw || winnerName === current) writeLivreWallet({ ...readLivreWallet(), coins: readLivreWallet().coins + amount });
+            delete wagers[key];
+            localStorage.setItem('ulivre_game_wagers', JSON.stringify(wagers));
+        }
+    };
+    const nativeStorageSetItemForBridge = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key, value) {
+        nativeStorageSetItemForBridge.call(this, key, value);
+        if (this !== localStorage || !LEGACY_WALLET_KEYS.includes(key)) return;
+        try {
+            const data = JSON.parse(value || '{}');
+            const entry = data[livreCoinsUser()];
+            if (entry && Number.isFinite(Number(entry.coins))) writeLivreWallet({ coins: Number(entry.coins) });
+        } catch (_) {}
+    };
+    function refreshLivreCoinsDisplay() {
+        const balance = document.getElementById('livreCoinsBalance');
+        const points = document.getElementById('livrePointsBalance');
+        if (balance) balance.textContent = String(window.UniversidadeLivreWallet.get().coins);
+        if (points) points.textContent = String(window.UniversidadeLivreWallet.get().points);
+    }
+    window.addEventListener('livreWalletUpdated', refreshLivreCoinsDisplay);
+    window.addEventListener('storage', event => {
+        if (event.key === LIVRE_WALLET_KEY) refreshLivreCoinsDisplay();
+    });
+    document.addEventListener('DOMContentLoaded', refreshLivreCoinsDisplay, { once: true });
+    document.addEventListener('click', event => {
+        if (!event.target.closest('#convertLivrePoints')) return;
+        const wallet = window.UniversidadeLivreWallet.get();
+        if (wallet.points <= 0) return;
+        window.UniversidadeLivreWallet.convertPoints(wallet.points);
+        refreshLivreCoinsDisplay();
+    });
+
     // ========================================================================
     // FUNÇÕES AUXILIARES
     // ========================================================================
@@ -486,7 +609,12 @@
         { panel: '#checkersPanel', room: '.checkers-room', join: '.checkers-join', view: '.checkers-view', remove: '.checkers-delete', key: 'ulivre_checkers_rooms', game: 'CheckersGame' },
         { panel: '#roulettePanel', room: '.roulette-room', join: '.roulette-join', view: '.roulette-view', remove: '.roulette-delete', key: 'ulivre_roulette_rooms', game: 'RouletteGame' },
         { panel: '#hangmanPanel', room: '.hangman-room', join: '.hangman-join', view: '.hangman-view', remove: '.hangman-delete', key: 'ulivre_hangman_rooms', game: 'HangmanGame' },
-        { panel: '#bichoPanel', room: '.bicho-room', join: '.bicho-join', view: '.bicho-view', remove: '.bicho-delete', key: 'ulivre_bicho_rooms', game: 'BichoGame' }
+        { panel: '#bichoPanel', room: '.bicho-room', join: '.bicho-join', view: '.bicho-view', remove: '.bicho-delete', key: 'ulivre_bicho_rooms', game: 'BichoGame' },
+        { panel: '#slotsPanel', room: '.slots-room', join: '.slots-join', view: '.slots-view', remove: '.slots-delete', key: 'ulivre_slots_rooms', game: 'SlotsGame' }
+        , { panel: '#pokerPanel', room: '.poker-room', join: '.poker-join', view: '.poker-view', remove: '.poker-delete', key: 'ulivre_poker_rooms', game: 'PokerGame' }
+        , { panel: '#blackjackPanel', room: '.blackjack-room', join: '.blackjack-join', view: '.blackjack-view', remove: '.blackjack-delete', key: 'ulivre_blackjack_rooms', game: 'BlackjackGame' }
+        , { panel: '#bacaraPanel', room: '.bacara-room', join: '.bacara-join', view: '.bacara-view', remove: '.bacara-delete', key: 'ulivre_bacara_rooms', game: 'BacaraGame' }
+        , { panel: '#bingoPanel', room: '.bingo-room', join: '.bingo-join', view: '.bingo-view', remove: '.bingo-delete', key: 'ulivre_bingo_rooms', game: 'BingoGame' }
     ];
 
     function syncStandaloneRoomActions() {

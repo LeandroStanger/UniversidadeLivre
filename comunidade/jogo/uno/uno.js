@@ -145,6 +145,7 @@
         activeRoomId = room.id;
         sessionStorage.setItem(ACTIVE_KEY, activeRoomId);
         writeRooms([...readRooms(), room]);
+        window.UniversidadeLivreWallet?.startWager('uno', room.id, 1);
         if (mode === 'bot') startRoom(room); else render();
     }
 
@@ -154,6 +155,7 @@
         room.players.push({ id: playerId(), name: userName(), avatar: userAvatar(), isBot: false });
         activeRoomId = room.id;
         sessionStorage.setItem(ACTIVE_KEY, activeRoomId);
+        window.UniversidadeLivreWallet?.startWager('uno', room.id, 1);
         startRoom(room);
     }
 
@@ -205,6 +207,7 @@
         game.color = card.color === 'wild' ? game.color : card.color;
         if (!hand.length) {
             game.winner = player.name;
+            window.UniversidadeLivreWallet?.settleWager('uno', room.id, player.name, false);
             game.message = `${player.name} venceu!`;
             recordUnoResult('win');
             updateRoom(room);
@@ -262,6 +265,7 @@
             if (card.color !== 'wild') game.color = card.color;
             if (!hand.length) {
                 game.winner = player.name;
+                window.UniversidadeLivreWallet?.settleWager('uno', room.id, player.name, false);
                 if (player.isBot) recordUnoResult('loss');
             }
             else applyCardEffect(card, game, room);

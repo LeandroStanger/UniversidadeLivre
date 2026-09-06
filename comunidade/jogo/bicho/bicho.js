@@ -58,11 +58,16 @@
         try { return JSON.parse(localStorage.getItem(WALLET_KEY) || '{}'); } catch (_) { return {}; }
     }
     function wallet() {
+        if (window.UniversidadeLivreWallet) return window.UniversidadeLivreWallet.get();
         const wallets = readWallets();
         if (!wallets[userName()]) wallets[userName()] = { coins: STARTING_COINS, points: 0, wins: 0, bets: 0, history: [] };
         return wallets[userName()];
     }
     function saveWallet(value) {
+        if (window.UniversidadeLivreWallet) {
+            window.UniversidadeLivreWallet.update(value);
+            return;
+        }
         const wallets = readWallets();
         wallets[userName()] = { ...value, coins: Math.max(0, Math.floor(value.coins)) };
         localStorage.setItem(WALLET_KEY, JSON.stringify(wallets));
