@@ -986,6 +986,20 @@
         return certificate.courseType || COURSE_TYPES[certificate.courseId] || '';
     }
 
+    async function getCertificateCompletion(certificate) {
+        if (typeof window.getCourseCertificateSummary !== 'function') return t('profile_not_available');
+        try {
+            const summary = await window.getCourseCertificateSummary(certificate.courseId);
+            if (!summary.totalMinutes && !summary.disciplineCount) return t('profile_not_available');
+            const hours = Math.floor(summary.totalMinutes / 60);
+            const minutes = summary.totalMinutes % 60;
+            const duration = hours ? `${hours}h${minutes ? ` ${minutes}min` : ''}` : `${minutes}min`;
+            return `${duration} · ${summary.disciplineCount} ${t('profile_certificate_disciplines')}`;
+        } catch (_) {
+            return t('profile_not_available');
+        }
+    }
+
     function getCertificateLevelLabel(certificate) {
         const courseLevel = certificate.courseLevel || getCertificateCourseLevel(certificate.courseId);
         const levelLabel = ({
@@ -1014,7 +1028,7 @@
         return new URL(relativePath, window.location.href).href;
     }
 
-    function buildCertificateMarkup(certificate) {
+    async function buildCertificateMarkup(certificate) {
         const name = loadProfileName() || t('profile_not_available');
         const matricula = getMatricula();
         if (localStorage.getItem('ulivre_onboarding_complete') === 'true' && loadProfileName() && matricula) {
@@ -1025,10 +1039,11 @@
         const level = certificate.courseLevel || certificate.courseId ? getCertificateLevelLabel(certificate) : t('profile_not_available');
         const date = certificate.finishedAt ? new Date(certificate.finishedAt).toLocaleDateString(window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR') : t('profile_not_available');
         const result = certificate.adminTest ? t('profile_test_certificate') : `${certificate.score}/${certificate.total} (${certificate.percent}%)`;
-        return `<div class="certificate-seal"><i class="fas fa-award"></i></div><p class="certificate-kicker">${escapeCertificateText(t('profile_certificate'))}</p><img class="certificate-logo" src="${escapeCertificateText(getCertificateLogoUrl())}" alt="Universidade Livre"><p>${escapeCertificateText(t('profile_certificate_text'))}</p><h3>${escapeCertificateText(courseName)}</h3><p>${escapeCertificateText(level)}</p><p class="certificate-certificate-note">${escapeCertificateText(t('profile_certificate_completed'))}</p><div class="certificate-details"><div class="certificate-holder"><p><strong>${escapeCertificateText(t('profile_name'))}</strong><span>${escapeCertificateText(name)}</span></p><p><strong>${escapeCertificateText(t('profile_matricula'))}</strong><span>${escapeCertificateText(matricula)}</span></p><p><strong>${escapeCertificateText(t('profile_certificate_date'))}</strong><span>${escapeCertificateText(date)}</span></p></div><div class="certificate-result"><p><strong>${escapeCertificateText(t('profile_certificate_result'))}</strong><span>${escapeCertificateText(result)}</span></p><p><strong>${escapeCertificateText(t('profile_user_number'))}</strong><span>${escapeCertificateText(userNumber)}</span></p></div></div><p class="certificate-disclaimer">${escapeCertificateText(t('profile_certificate_disclaimer'))}</p>`;
+        const completion = await getCertificateCompletion(certificate);
+        return `<div class="certificate-seal"><i class="fas fa-award"></i></div><p class="certificate-kicker">${escapeCertificateText(t('profile_certificate'))}</p><img class="certificate-logo" src="${escapeCertificateText(getCertificateLogoUrl())}" alt="Universidade Livre"><p>${escapeCertificateText(t('profile_certificate_text'))}</p><h3>${escapeCertificateText(courseName)}</h3><p>${escapeCertificateText(level)}</p><p class="certificate-certificate-note">${escapeCertificateText(t('profile_certificate_completed'))}</p><div class="certificate-details"><div class="certificate-holder"><p><strong>${escapeCertificateText(t('profile_name'))}</strong><span>${escapeCertificateText(name)}</span></p><p><strong>${escapeCertificateText(t('profile_matricula'))}</strong><span>${escapeCertificateText(matricula)}</span></p><p><strong>${escapeCertificateText(t('profile_certificate_date'))}</strong><span>${escapeCertificateText(date)}</span></p></div><div class="certificate-result"><p><strong>${escapeCertificateText(t('profile_certificate_result'))}</strong><span>${escapeCertificateText(result)}</span></p><p><strong>${escapeCertificateText(t('profile_certificate_completion'))}</strong><span>${escapeCertificateText(completion)}</span></p><p><strong>${escapeCertificateText(t('profile_user_number'))}</strong><span>${escapeCertificateText(userNumber)}</span></p></div></div><p class="certificate-disclaimer">${escapeCertificateText(t('profile_certificate_disclaimer'))}</p>`;
     }
 
-    function openCertificate(certificate) {
+    async function openCertificate(certificate) {
         if (localStorage.getItem('userMatricula') !== TEST_ADMIN_MATRICULA && localStorage.getItem('ulivre_authenticated_session') !== 'true') {
             showToast(t('profile_login_required'), 'error');
             return;
@@ -1037,7 +1052,7 @@
         const preview = document.getElementById('certificatePreview');
         const download = document.getElementById('downloadCertificateBtn');
         if (!modal || !preview) return;
-        preview.innerHTML = buildCertificateMarkup(certificate);
+        preview.innerHTML = await buildCertificateMarkup(certificate);
         modal.hidden = false;
         modal.setAttribute('aria-hidden', 'false');
         download?.replaceWith(download.cloneNode(true));
@@ -1122,6 +1137,7 @@
             const level = certificate.courseLevel || certificate.courseId ? getCertificateLevelLabel(certificate) : t('profile_not_available');
             const date = certificate.finishedAt ? new Date(certificate.finishedAt).toLocaleDateString(window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR') : t('profile_not_available');
             const result = certificate.adminTest ? t('profile_test_certificate') : `${certificate.score}/${certificate.total} (${certificate.percent}%)`;
+            const completion = await getCertificateCompletion(certificate);
             centerText(t('profile_certificate'), 345, 'bold 20px Georgia', '#047857');
             centerText(t('profile_certificate_text'), 405, '22px Georgia');
             centerText(courseName, 465, 'bold 38px Georgia', '#047857');
@@ -1140,14 +1156,16 @@
             context.fillText(t('profile_matricula').toUpperCase(), 240, 725);
             context.fillText(t('profile_certificate_date').toUpperCase(), 240, 805);
             context.fillText(t('profile_certificate_result').toUpperCase(), 900, 645);
-            context.fillText(t('profile_user_number').toUpperCase(), 900, 725);
+            context.fillText(t('profile_certificate_completion').toUpperCase(), 900, 725);
+            context.fillText(t('profile_user_number').toUpperCase(), 900, 805);
             context.font = '23px Georgia';
             context.fillStyle = '#172033';
             context.fillText(name, 240, 675);
             context.fillText(getMatricula(), 240, 755);
             context.fillText(date, 240, 835);
             context.fillText(result, 900, 675);
-            context.fillText(getUserNumber(), 900, 755);
+            context.fillText(completion, 900, 755);
+            context.fillText(getUserNumber(), 900, 835);
             context.fillStyle = '#f0fdf4';
             context.fillRect(0, 1050, width, 81);
             context.fillStyle = '#6b7280';
@@ -1265,6 +1283,279 @@
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${minutes}min ${String(remainingSeconds).padStart(2, '0')}s`;
+    }
+
+    function formatStudyHours(seconds) {
+        const minutes = Math.max(0, Math.round(Number(seconds || 0) / 60));
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return hours ? `${hours}h${remainingMinutes ? ` ${remainingMinutes}min` : ''}` : `${remainingMinutes}min`;
+    }
+
+    function normalizeTranscriptKey(value) {
+        return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+    }
+
+    function isTranscriptAdmin() {
+        return getMatricula() === TEST_ADMIN_MATRICULA;
+    }
+
+    function getTranscriptExam(courseId, disciplineName) {
+        try {
+            return JSON.parse(localStorage.getItem(`ulivre_discipline_exam_${courseId}_${normalizeTranscriptKey(disciplineName)}`) || 'null') || {};
+        } catch (_) {
+            return {};
+        }
+    }
+
+    function getTranscriptDisciplineTime(times, courseId, disciplineName) {
+        const sources = [times.discipline, times.practice, times.bibliography];
+        return sources.reduce((total, source) => total + Number(source?.[courseId]?.[disciplineName]?.totalTime || 0), 0);
+    }
+
+    async function getCourseTranscript(course) {
+        const source = await window.getCourseTranscriptData?.(course.id);
+        if (!source) return null;
+        const watchedMap = course.data?.watchedMap || [];
+        const times = window.CursorTimeset?.getCourseSpecificData(course.id) || {};
+        let videoIndex = 0;
+        const stages = source.stages.map((stage, stageIndex) => {
+            const disciplines = stage.disciplines.map(discipline => {
+                const watchedCount = watchedMap.slice(videoIndex, videoIndex + discipline.lessonCount).filter(Boolean).length;
+                videoIndex += discipline.lessonCount;
+                const storedExam = getTranscriptExam(course.id, discipline.name);
+                const exam = storedExam.attempted || !isTranscriptAdmin() ? storedExam : (() => {
+                    const score = Math.floor(7 + Math.random() * 4);
+                    return { score, total: 10, percent: score * 10, passed: true, attempted: true };
+                })();
+                return {
+                    ...discipline,
+                    watchedCount,
+                    watched: discipline.lessonCount > 0 && watchedCount === discipline.lessonCount,
+                    exam,
+                    passed: Boolean(exam.passed) || isTranscriptAdmin(),
+                    studySeconds: getTranscriptDisciplineTime(times, course.id, discipline.name)
+                };
+            });
+            return {
+                ...stage,
+                stageIndex,
+                disciplines,
+                completed: disciplines.length > 0 && disciplines.every(discipline => discipline.watched && discipline.passed),
+                totalMinutes: disciplines.reduce((total, discipline) => total + discipline.totalMinutes, 0),
+                studySeconds: disciplines.reduce((total, discipline) => total + discipline.studySeconds, 0)
+            };
+        });
+        return {
+            ...course,
+            stages,
+            totalMinutes: stages.reduce((total, stage) => total + stage.totalMinutes, 0),
+            studySeconds: stages.reduce((total, stage) => total + stage.studySeconds, 0)
+        };
+    }
+
+    function isFullTranscriptAvailable(transcript) {
+        if (isTranscriptAdmin()) return true;
+        try {
+            const finalExam = JSON.parse(localStorage.getItem(`ulivre_final_exam_${transcript.id}`) || 'null');
+            return transcript.stages.length > 0 && transcript.stages.every(stage => stage.completed) && Boolean(finalExam?.passed);
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function formatTranscriptDuration(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return hours ? `${hours}h${remainingMinutes ? ` ${remainingMinutes}min` : ''}` : `${remainingMinutes}min`;
+    }
+
+    function getTranscriptAverage(stages) {
+        const results = stages.flatMap(stage => stage.disciplines.map(discipline => Number(discipline.exam.percent)).filter(Number.isFinite));
+        return results.length ? (results.reduce((total, value) => total + value, 0) / results.length).toFixed(1) : '0.0';
+    }
+
+    function getTranscriptPoints(stages) {
+        return stages.reduce((result, stage) => stage.disciplines.reduce((stageResult, discipline) => {
+            stageResult.score += Number(discipline.exam.score) || 0;
+            stageResult.total += Number(discipline.exam.total) || 0;
+            return stageResult;
+        }, result), { score: 0, total: 0 });
+    }
+
+    function getTranscriptStageLabel(stage) {
+        const name = String(stage.name || '').replace(/^\s*\d+\s*[ªº]?\s*etapa\s*[·:-]?\s*/i, '');
+        return `${t('profile_transcript_stage')} ${stage.stageIndex} · ${name || stage.name}`;
+    }
+
+    function getProfileCountryLabel() {
+        const country = getProfileCountry();
+        if (!country) return '';
+        try {
+            const locale = window.getCurrentLanguage?.() === 'en' ? 'en' : 'pt-BR';
+            return new Intl.DisplayNames([locale], { type: 'region' }).of(country) || country;
+        } catch (_) {
+            return country;
+        }
+    }
+
+    function renderTranscriptStages(transcript) {
+        const container = document.getElementById('profileTranscriptStages');
+        if (!container || !transcript) return;
+        const releasedStages = transcript.stages.filter(stage => stage.completed || isTranscriptAdmin());
+        if (!releasedStages.length) {
+            container.innerHTML = `<p class="profile-transcript-empty">${escapeHtml(t('profile_transcript_locked'))}</p>`;
+            return;
+        }
+        const fullButton = isFullTranscriptAvailable(transcript) ? `<button type="button" class="btn-secondary profile-view-transcript"><i class="fas fa-eye"></i> ${escapeHtml(t('profile_transcript_view_full'))}</button>` : '';
+        container.innerHTML = `<div class="profile-transcript-heading"><div><strong>${escapeHtml(transcript.name)}</strong><small>${escapeHtml(t('profile_transcript_course_total'))}: ${formatTranscriptDuration(transcript.totalMinutes)} · ${escapeHtml(t('profile_transcript_studied'))}: ${formatStudyHours(transcript.studySeconds)} · ${escapeHtml(t('profile_transcript_points'))}: ${getTranscriptPoints(releasedStages).score}/${getTranscriptPoints(releasedStages).total} · ${escapeHtml(t('profile_transcript_exam_average'))}: ${getTranscriptAverage(releasedStages)}%</small></div><span>${releasedStages.length}/${transcript.stages.length} ${escapeHtml(t('profile_transcript_stages'))}</span></div><div class="profile-transcript-stage-grid">${releasedStages.map((stage, index) => { const points = getTranscriptPoints([stage]); return `<article class="profile-transcript-stage"><header><div><strong>${escapeHtml(getTranscriptStageLabel(stage))}</strong><small>${escapeHtml(t('profile_transcript_stage_total'))}: ${formatTranscriptDuration(stage.totalMinutes)} · ${escapeHtml(t('profile_transcript_average'))}: ${getTranscriptAverage([stage])}% · ${escapeHtml(t('profile_transcript_points'))}: ${points.score}/${points.total} · ${escapeHtml(t('profile_transcript_studied'))}: ${formatStudyHours(stage.studySeconds)}</small></div><span class="profile-transcript-approved"><i class="fas fa-check-circle"></i> ${escapeHtml(t('profile_transcript_released'))}</span></header><div class="profile-transcript-disciplines">${stage.disciplines.map(discipline => `<div class="profile-transcript-discipline"><strong>${escapeHtml(discipline.name)}</strong><span>${escapeHtml(t('profile_transcript_discipline_total'))}: ${formatTranscriptDuration(discipline.totalMinutes)} · ${escapeHtml(t('profile_transcript_studied'))}: ${formatStudyHours(discipline.studySeconds)}</span><small>${escapeHtml(t('profile_transcript_points'))}: ${discipline.exam.score ?? '-'} / ${discipline.exam.total ?? '-'} · ${escapeHtml(t('profile_transcript_exam_average'))}: ${discipline.exam.percent ?? 0}%</small></div>`).join('')}</div><button type="button" class="btn-secondary profile-view-stage" data-transcript-stage="${index}"><i class="fas fa-eye"></i> ${escapeHtml(t('profile_transcript_view_stage'))}</button></article>`; }).join('')}</div>${fullButton}`;
+        container.querySelector('.profile-view-transcript')?.addEventListener('click', () => openTranscript(transcript, releasedStages));
+        container.querySelectorAll('.profile-view-stage').forEach(button => button.addEventListener('click', () => openTranscript(transcript, [releasedStages[Number(button.dataset.transcriptStage)]])));
+    }
+
+    async function renderTranscript() {
+        const coursesContainer = document.getElementById('profileTranscriptCourses');
+        if (!coursesContainer) return;
+        const courses = await Promise.all(getAllCoursesProgress().map(getCourseTranscript));
+        const validCourses = courses.filter(Boolean);
+        coursesContainer.innerHTML = validCourses.length ? validCourses.map((course, index) => {
+            const released = course.stages.filter(stage => stage.completed || isTranscriptAdmin()).length;
+            return `<button type="button" class="profile-transcript-course${released ? '' : ' locked'}" data-transcript-course="${index}"><i class="fas fa-graduation-cap"></i><strong>${escapeHtml(course.name)}</strong><span>${released}/${course.stages.length} ${escapeHtml(t('profile_transcript_stages'))}</span><small>${released ? t('profile_transcript_click') : t('profile_transcript_locked_short')}</small></button>`;
+        }).join('') : `<p class="profile-transcript-empty">${escapeHtml(t('profile_transcript_no_courses'))}</p>`;
+        coursesContainer.querySelectorAll('[data-transcript-course]').forEach(button => button.addEventListener('click', () => {
+            const transcript = validCourses[Number(button.dataset.transcriptCourse)];
+            if (!transcript?.stages.some(stage => stage.completed || isTranscriptAdmin())) return;
+            const transcriptPanel = button.closest('.profile-transcript');
+            if (transcriptPanel?.dataset.selectedCourse === button.dataset.transcriptCourse) {
+                document.getElementById('profileTranscriptStages').innerHTML = '';
+                transcriptPanel.dataset.selectedCourse = '';
+                button.classList.remove('selected');
+                return;
+            }
+            renderTranscriptStages(transcript);
+            document.querySelectorAll('.profile-transcript-course').forEach(item => item.classList.remove('selected'));
+            button.classList.add('selected');
+            button.closest('.profile-transcript')?.classList.add('has-selection');
+            button.closest('.profile-transcript').dataset.selectedCourse = button.dataset.transcriptCourse;
+            button.closest('.profile-transcript')._transcript = transcript;
+        }));
+        document.getElementById('profileTranscriptStages').innerHTML = '';
+        coursesContainer.closest('.profile-transcript')?.setAttribute('data-selected-course', '');
+    }
+
+    let activeTranscript = null;
+
+    function buildTranscriptMarkup(transcript, selectedStages) {
+        const stages = selectedStages || transcript.stages.filter(stage => stage.completed || isTranscriptAdmin());
+        const isStageTranscript = stages.length === 1;
+        const title = isStageTranscript ? t('profile_transcript_stage') : t('profile_transcript_full_course');
+        const averageLabel = isStageTranscript ? t('profile_transcript_average') : t('profile_transcript_total_average');
+        const totalMinutes = isStageTranscript ? stages[0].totalMinutes : transcript.totalMinutes;
+        const studySeconds = isStageTranscript ? stages[0].studySeconds : transcript.studySeconds;
+        const points = getTranscriptPoints(stages);
+        const gender = getProfileGender();
+        const country = getProfileCountryLabel();
+        return `<div class="transcript-sheet"><div class="transcript-sheet-header"><span>${escapeHtml(t('profile_transcript'))}</span></div><img class="transcript-sheet-logo" src="${escapeCertificateText(getCertificateLogoUrl())}" alt="Universidade Livre"><small class="transcript-sheet-user-meta">${escapeHtml(loadProfileName() || t('profile_not_available'))} · ${escapeHtml(t('profile_matricula'))} ${escapeHtml(getMatricula())}${gender ? ` · ${escapeHtml(t('profile_gender'))} ${escapeHtml(gender)}` : ''}${country ? ` · ${escapeHtml(t('profile_country'))} ${escapeHtml(country)}` : ''}</small><div class="transcript-sheet-summary"><strong>${escapeHtml(transcript.name)}</strong><span>${escapeHtml(title)}</span><span>${escapeHtml(t('profile_transcript_total'))}: ${formatTranscriptDuration(totalMinutes)}</span><span>${escapeHtml(averageLabel)}: ${getTranscriptAverage(stages)}%</span><span>${escapeHtml(t('profile_transcript_points'))}: ${points.score}/${points.total}</span><span>${escapeHtml(t('profile_transcript_studied'))}: ${formatStudyHours(studySeconds)}</span></div>${stages.map(stage => { const stagePoints = getTranscriptPoints([stage]); return `<section><h4>${escapeHtml(getTranscriptStageLabel(stage))} <small>${formatTranscriptDuration(stage.totalMinutes)}${isStageTranscript ? ` · ${escapeHtml(t('profile_transcript_average'))}: ${getTranscriptAverage([stage])}% · ${escapeHtml(t('profile_transcript_points'))}: ${stagePoints.score}/${stagePoints.total}` : ''}</small></h4>${stage.disciplines.map(discipline => `<div class="transcript-sheet-row"><strong>${escapeHtml(discipline.name)}</strong><span>${escapeHtml(t('profile_transcript_points'))}: ${discipline.exam.score ?? '-'} / ${discipline.exam.total ?? '-'}</span><span>${escapeHtml(t('profile_transcript_exam_average'))}: ${discipline.exam.percent ?? 0}%</span><span>${formatTranscriptDuration(discipline.totalMinutes)}</span></div>`).join('')}</section>`; }).join('')}</div>`;
+    }
+
+    async function openTranscript(transcript, selectedStages) {
+        if (!transcript) return;
+        activeTranscript = transcript;
+        activeTranscript.selectedStages = selectedStages;
+        activeTranscript.isStageTranscript = selectedStages?.length === 1;
+        activeTranscript.stageNumber = activeTranscript.isStageTranscript ? transcript.stages.indexOf(selectedStages[0]) + 1 : null;
+        const preview = document.getElementById('transcriptPreview');
+        const modal = document.getElementById('transcriptModal');
+        if (!preview || !modal) return;
+        preview.innerHTML = buildTranscriptMarkup(transcript, selectedStages);
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeTranscript() {
+        const modal = document.getElementById('transcriptModal');
+        if (modal) {
+            modal.hidden = true;
+            modal.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    async function downloadTranscript(format = 'png') {
+        if (!activeTranscript) return;
+        const width = 1600;
+        const releasedStages = activeTranscript.selectedStages || activeTranscript.stages.filter(stage => stage.completed || isTranscriptAdmin());
+        const height = Math.max(1131, 520 + releasedStages.reduce((total, stage) => total + 130 + stage.disciplines.length * 58, 0));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        if (!context) return;
+        context.fillStyle = '#f8fafc';
+        context.fillRect(0, 0, width, height);
+        context.fillStyle = '#047857';
+        context.textAlign = 'left';
+        context.font = 'bold 44px Georgia';
+        try {
+            const response = await fetch(getCertificateLogoUrl());
+            const logoBlob = await response.blob();
+            const logoUrl = URL.createObjectURL(logoBlob);
+            const logo = await new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+                image.src = logoUrl;
+            });
+            context.drawImage(logo, 100, 82, 300, 125);
+            URL.revokeObjectURL(logoUrl);
+        } catch (_) {}
+        context.fillText(t('profile_transcript'), 100, 78);
+        context.font = '24px Georgia';
+        context.fillStyle = '#172033';
+        context.fillText(`${loadProfileName() || t('profile_not_available')} · ${t('profile_matricula')} ${getMatricula()}${getProfileGender() ? ` · ${t('profile_gender')} ${getProfileGender()}` : ''}${getProfileCountryLabel() ? ` · ${t('profile_country')} ${getProfileCountryLabel()}` : ''}`, 100, 245);
+        let y = 320;
+        context.fillStyle = '#172033';
+        context.font = 'bold 32px Georgia';
+        context.fillText(activeTranscript.name, 100, y);
+        context.font = '22px Georgia';
+        const isStageTranscript = activeTranscript.selectedStages?.length === 1;
+        const selectedStages = activeTranscript.selectedStages || activeTranscript.stages.filter(stage => stage.completed || isTranscriptAdmin());
+        const transcriptTotalMinutes = isStageTranscript ? selectedStages[0].totalMinutes : activeTranscript.totalMinutes;
+        const transcriptStudySeconds = isStageTranscript ? selectedStages[0].studySeconds : activeTranscript.studySeconds;
+        const transcriptPoints = getTranscriptPoints(selectedStages);
+        context.fillText(`${t('profile_transcript_total')}: ${formatTranscriptDuration(transcriptTotalMinutes)} · ${isStageTranscript ? t('profile_transcript_average') : t('profile_transcript_total_average')}: ${getTranscriptAverage(selectedStages)}% · ${t('profile_transcript_points')}: ${transcriptPoints.score}/${transcriptPoints.total} · ${t('profile_transcript_studied')}: ${formatStudyHours(transcriptStudySeconds)}`, 100, y + 42);
+        y += 115;
+        releasedStages.forEach(stage => {
+            context.fillStyle = '#d1fae5';
+            context.fillRect(80, y - 34, 1440, 58);
+            context.fillStyle = '#047857';
+            context.font = 'bold 24px Georgia';
+            const stagePoints = getTranscriptPoints([stage]);
+            context.fillText(`${getTranscriptStageLabel(stage)} · ${formatTranscriptDuration(stage.totalMinutes)}${isStageTranscript ? ` · ${t('profile_transcript_average')}: ${getTranscriptAverage([stage])}% · ${t('profile_transcript_points')}: ${stagePoints.score}/${stagePoints.total}` : ''}`, 105, y + 3);
+            y += 72;
+            context.font = 'bold 19px Georgia';
+            context.fillStyle = '#374151';
+            stage.disciplines.forEach(discipline => {
+                context.fillText(discipline.name, 120, y);
+                context.font = '19px Georgia';
+                context.fillText(`${t('profile_transcript_points')}: ${discipline.exam.score ?? '-'} / ${discipline.exam.total ?? '-'} · ${discipline.exam.percent ?? 0}% · ${formatTranscriptDuration(discipline.totalMinutes)}`, 900, y);
+                context.font = 'bold 19px Georgia';
+                y += 52;
+            });
+            y += 35;
+        });
+        const imageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        const fileData = format === 'pdf' ? createCertificatePdf(imageDataUrl, width, height) : await new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Boletim vazio')), 'image/png'));
+        const link = document.createElement('a');
+        const objectUrl = URL.createObjectURL(fileData);
+        link.href = objectUrl;
+        const stageLabel = activeTranscript.isStageTranscript ? `-etapa-${activeTranscript.stageNumber}` : '-completo';
+        link.download = `boletim-${normalizeTranscriptKey(activeTranscript.name)}${stageLabel}.${format === 'pdf' ? 'pdf' : 'png'}`;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+            link.remove();
+        }, 1000);
     }
 
     function renderExamHistory() {
@@ -2168,6 +2459,17 @@
                 if (!details.hidden) renderExamHistory();
             });
         }
+        const transcriptButton = document.getElementById('profileTranscriptBtn');
+        if (transcriptButton && transcriptButton.dataset.bound !== 'true') {
+            transcriptButton.dataset.bound = 'true';
+            transcriptButton.addEventListener('click', () => {
+                const transcript = document.getElementById('profileTranscript');
+                if (!transcript) return;
+                transcript.hidden = !transcript.hidden;
+                transcriptButton.setAttribute('aria-expanded', String(!transcript.hidden));
+                if (!transcript.hidden) renderTranscript();
+            });
+        }
         const certificatesButton = document.getElementById('profileCertificatesBtn');
         if (certificatesButton && certificatesButton.dataset.bound !== 'true') {
             certificatesButton.dataset.bound = 'true';
@@ -2184,6 +2486,12 @@
         document.getElementById('certificateModal')?.addEventListener('click', event => {
             if (event.target.id === 'certificateModal') closeCertificate();
         });
+        document.getElementById('closeTranscriptModal')?.addEventListener('click', closeTranscript);
+        document.getElementById('transcriptModal')?.addEventListener('click', event => {
+            if (event.target.id === 'transcriptModal') closeTranscript();
+        });
+        document.getElementById('downloadTranscriptBtn')?.addEventListener('click', () => downloadTranscript('png'));
+        document.getElementById('downloadTranscriptPdfBtn')?.addEventListener('click', () => downloadTranscript('pdf'));
         const gameStatusButton = document.getElementById('profileGameStatusBtn');
         if (gameStatusButton && gameStatusButton.dataset.bound !== 'true') {
             gameStatusButton.dataset.bound = 'true';
