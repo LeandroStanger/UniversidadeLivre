@@ -1026,6 +1026,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const courseInfo = allCourses.find(c => c.id === courseId);
             currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
             currentCourse = courseId;
+            window.UniversidadeLivreAnalytics?.course(courseId, currentCourseDetails.name || courseData.name);
             initCourse(courseData);
             const homeScreen = document.getElementById("homeScreen");
             const courseView = document.getElementById("courseView");
@@ -1718,6 +1719,9 @@ console.log('[Main] Inicializando script.js v28.0...');
         renderCurrentLessonPanel(); renderUnifiedCourseContent();
         expandCurrentLessonInUnifiedContent();
         updateCurrentDiscipline();
+        const lessonName = video.title || `${t('lesson_label', 'Aula')} ${currentLessonId + 1}`;
+        window.UniversidadeLivreAnalytics?.discipline(currentCourse, currentDiscipline);
+        window.UniversidadeLivreAnalytics?.lesson(currentCourse, currentDiscipline, lessonName);
         updateNotificationPosition();
         if (window.CursorTimeset && currentCourse && currentDiscipline) {
             let context = 'discipline';

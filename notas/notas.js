@@ -962,8 +962,10 @@
 
             if (state.editingId) {
                 Storage.updateNota(state.editingId, titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
+                window.UniversidadeLivreAnalytics?.action('notas', 'editar', selectedCourse.courseId || 'sem-curso');
             } else {
                 Storage.addNota(titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
+                window.UniversidadeLivreAnalytics?.action('notas', 'criar', selectedCourse.courseId || 'sem-curso');
             }
 
             this.clearEditor();
