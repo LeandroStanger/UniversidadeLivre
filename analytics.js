@@ -5,6 +5,7 @@
     const SITE_URL = 'https://leandrostanger.github.io/UniversidadeLivre';
     const pending = [];
     let retryTimer = null;
+    let initialPageviewSent = false;
 
     function slug(value) {
         return String(value || 'item')
@@ -70,6 +71,13 @@
         count(path, title, false);
     }
 
+    function sendInitialPageview() {
+        if (initialPageviewSent) return;
+        initialPageviewSent = true;
+        const pagePath = location.pathname.replace(/^\/+/, '') || 'inicio';
+        pageview(`/pagina/${slug(pagePath)}`, document.title);
+    }
+
     window.UniversidadeLivreAnalytics = {
         slug,
         getLanguage,
@@ -108,5 +116,13 @@
         count('/idioma-selecionado', `Idioma selecionado: ${language}`);
     });
 
-    window.addEventListener('load', flush, { once: true });
+    window.addEventListener('load', () => {
+        const ready = window.i18nReady;
+        if (ready && typeof ready.then === 'function') {
+            ready.then(sendInitialPageview).catch(sendInitialPageview);
+        } else {
+            sendInitialPageview();
+        }
+        flush();
+    }, { once: true });
 })();
