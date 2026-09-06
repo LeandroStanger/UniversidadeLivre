@@ -279,6 +279,10 @@
                     </div>
                 </div>
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                <div class="profile-matricula">
+                    <span data-i18n="profile_matricula">Matrícula:</span>
+                    <strong id="profileMatriculaDisplay"></strong>
+                </div>
             </div>
 
             <div class="profile-account-fields">
@@ -286,9 +290,8 @@
             <div class="profile-user-section">
                 <label for="profileNameInput"><i class="fas fa-user"></i> <span data-i18n="profile_name">Nome</span></label>
                 <input type="text" id="profileNameInput" placeholder="Seu nome..." value="">
-                <button id="profileSaveNameBtn" class="btn-secondary"><i class="fas fa-save"></i> <span data-i18n="profile_save_name">Salvar Nome</span></button>
+                <button id="profileSaveNameBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> <span data-i18n="profile_save_name">Salvar Nome</span></button>
             </div>
-
             <!-- Gênero -->
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profileGender"><i class="fas fa-venus-mars"></i> <span data-i18n="profile_gender">Gênero</span></label>
@@ -298,19 +301,19 @@
                     <option value="feminino" data-i18n="profile_gender_feminine">Feminino</option>
                     <option value="outro" data-i18n="profile_gender_other">Outro</option>
                 </select>
-                <button id="profileSaveGenderBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+                <button id="profileSaveGenderBtn" class="btn-secondary profile-field-save" type="button" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profileCountry"><i class="fas fa-globe"></i> <span data-i18n="profile_country">País</span></label>
                 <select id="profileCountry"><option value="" data-i18n="profile_country_not_informed">Não informado</option></select>
-                <button id="profileSaveCountryBtn" class="btn-secondary"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+                <button id="profileSaveCountryBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
 
             <!-- Senha -->
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
                 <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;">
-                <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+                <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
             </div>
             <hr>
@@ -331,6 +334,8 @@
             <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
             <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
             <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+            <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
+            <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
             <button type="button" id="profileGameStatusBtn" class="profile-details-button"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
             <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
@@ -356,6 +361,20 @@
                 <input type="file" id="importFileInput" accept=".json" style="display: none;">
             </div>
             <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+        </div>
+    </div>
+</div>
+
+<div id="certificateModal" class="certificate-modal" hidden aria-hidden="true">
+    <div class="certificate-modal-content" role="dialog" aria-modal="true" aria-labelledby="certificateTitle">
+        <div class="certificate-modal-header">
+            <h2 id="certificateTitle"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificate">Certificado</span></h2>
+            <button type="button" id="closeCertificateModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <div id="certificatePreview" class="certificate-preview"></div>
+        <div class="certificate-modal-actions">
+            <button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button>
+            <button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button>
         </div>
     </div>
 </div>

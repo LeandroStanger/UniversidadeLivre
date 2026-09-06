@@ -447,7 +447,9 @@
                 window.saveUserAvatar(importedData.avatar);
             }
         }
-        if (importedData.matricula) localStorage.setItem('userMatricula', importedData.matricula);
+        if (importedData.matricula && !localStorage.getItem('userMatricula')) localStorage.setItem('userMatricula', importedData.matricula);
+        if (!localStorage.getItem('userMatricula')) localStorage.setItem('userMatricula', `${new Date().getFullYear()}${Date.now().toString().slice(-10)}`);
+        localStorage.setItem('ulivre_authenticated_session', 'true');
         if (importedData.auditorioTime) localStorage.setItem('auditorio_total_time', importedData.auditorioTime);
 
         let importedCount = 0;
@@ -1285,6 +1287,8 @@
             }
 
             localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
+            if (!localStorage.getItem('userMatricula')) localStorage.setItem('userMatricula', `${new Date().getFullYear()}${Date.now().toString().slice(-10)}`);
+            localStorage.setItem('ulivre_authenticated_session', 'true');
             closeOnboarding();
 
             if (window.updateProfileButton) window.updateProfileButton();

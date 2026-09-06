@@ -1429,6 +1429,13 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
+    function isFinalExamUserAuthenticated() {
+        return localStorage.getItem('ulivre_authenticated_session') === 'true'
+            && localStorage.getItem('ulivre_onboarding_complete') === 'true'
+            && Boolean(localStorage.getItem('userProfileName')?.trim())
+            && Boolean(localStorage.getItem('userMatricula')?.trim());
+    }
+
     function getFinalQuestionCount(courseId, disciplineName) {
         const level = currentCourseDetails?.courseLevel;
         const normalized = normalizeDisciplineKey(disciplineName);
@@ -1452,7 +1459,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const button = document.getElementById('finalExamBtn');
         if (!button || !currentCourse) return;
         const videosComplete = allVideosFlat?.length > 0 && allVideosFlat.every(video => video.watched);
-        const eligible = videosComplete && areAllDisciplineExamsPassed();
+        const eligible = isFinalExamUserAuthenticated() && videosComplete && areAllDisciplineExamsPassed();
         const finalState = getFinalExamState(currentCourse);
         button.disabled = !eligible || finalState.passed;
         button.classList.toggle('available', eligible && !finalState.passed);
@@ -1463,6 +1470,10 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function openFinalExam() {
+        if (!isFinalExamUserAuthenticated()) {
+            alert('Faça login no seu perfil e confirme sua matrícula antes de realizar a prova final.');
+            return;
+        }
         if (!currentCourse || !areAllDisciplineExamsPassed() || !allVideosFlat?.every(video => video.watched)) {
             alert('Conclua todas as disciplinas e seja aprovado em todas as provas para liberar a prova final.');
             return;
@@ -2212,6 +2223,12 @@ console.log('[Main] Inicializando script.js v28.0...');
                 percent,
                 attempted: true,
                 finishedAt: Date.now(),
+                userName: localStorage.getItem('userProfileName') || '',
+                userNumber: localStorage.getItem('userNumber') || `UL-${localStorage.getItem('userMatricula') || ''}`,
+                matricula: localStorage.getItem('userMatricula') || '',
+                courseName: currentCourseDetails?.name || getCourseName(currentCourse),
+                courseLevel: currentCourseDetails?.courseLevel || '',
+                timeLimitMs: Number(state.timeLimitMs || FINAL_EXAM_TIME_LIMIT_MS),
                 timeRemainingMs: Math.max(0, Number(state.timeRemainingMs || (Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())))))
             };
             if (state.finalExam) {
