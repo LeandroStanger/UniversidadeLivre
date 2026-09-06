@@ -280,6 +280,11 @@
     margin: 0.5rem 0 1rem;
 }
 
+.profile-exam-details[hidden],
+.profile-game-status[hidden] {
+    display: none;
+}
+
 .profile-exam-details {
     grid-template-columns: 1fr;
 }

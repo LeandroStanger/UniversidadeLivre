@@ -2163,6 +2163,7 @@
                 const details = document.getElementById('profileExamDetails');
                 if (!details) return;
                 details.hidden = !details.hidden;
+                examButton.setAttribute('aria-expanded', String(!details.hidden));
                 if (!details.hidden) document.getElementById('profileGameStatus').hidden = true;
                 if (!details.hidden) renderExamHistory();
             });
@@ -2190,6 +2191,7 @@
                 const details = document.getElementById('profileGameStatus');
                 if (!details) return;
                 details.hidden = !details.hidden;
+                gameStatusButton.setAttribute('aria-expanded', String(!details.hidden));
                 if (!details.hidden) document.getElementById('profileExamDetails').hidden = true;
                 if (!details.hidden) renderGameStatus();
             });
