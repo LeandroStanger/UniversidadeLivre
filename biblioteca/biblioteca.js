@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const CORS_PROXIES = [
         'https://corsproxy.io/?',
-        'https://api.allorigins.win/raw?url=',
-        'https://proxy.cors.sh/'
+        'https://api.allorigins.win/raw?url='
     ];
 
     const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
@@ -909,7 +908,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 language: 'en', publisher: work.publisher || 'Crossref', source: 'Crossref', type: 'paper',
                 year: work.published?.['date-parts']?.[0]?.[0] || null
             }));
-        } catch (_) { return []; }
+        } catch (error) {
+            console.warn('[LibriVox] API indisponível no navegador; usando a coleção LibriVox do Internet Archive.', error);
+            return searchArchiveAudiobooks(query);
+        }
     }
 
     // Fontes adicionais sem chave. APIs que exigem credencial ficam opcionais.
@@ -1581,7 +1583,6 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                                 : ''),
                             parts: parts
                         };
-                        if (!book.cover) book = await enrichWithOpenLibrary(book);
                         return book;
                     }));
                     return enriched;
@@ -1595,26 +1596,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     async function searchLibriVox(query) {
-        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
-            const response = await fetch(`https://librivox.org/api/feed/audiobooks?title=${encodeURIComponent(query)}&format=json`, { signal: controller.signal });
-            clearTimeout(timeoutId);
-            if (!response.ok) return [];
-            const data = await response.json();
-            return (data.books || []).slice(0, MAX_EXTERNAL_RESULTS).map(book => {
-                const chapters = Array.isArray(book.sections) ? book.sections.map((section, index) => ({
-                    type: 'audio', title: section.title || `Parte ${index + 1}`, url: section.url
-                })).filter(part => part.url) : [];
-                return {
-                    id: `librivox_${book.id}`, type: 'audiobook', source: 'LibriVox', sourceType: 'external',
-                    title: book.title || 'Audiobook', author: book.author || t('unknown_author'),
-                    description: book.description || '', cover: book.coverart || '', year: book.copyright_year || '',
-                    duration: book.totaltimes || '', parts: chapters
-                };
-            }).filter(book => book.parts.length > 0);
-        } catch (_) { return []; }
+        // O endpoint oficial do LibriVox não permite CORS no frontend.
+        return searchArchiveAudiobooks(query);
     }
 
     async function searchArchiveAudiobooks(query) {
@@ -1626,7 +1609,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             ];
             let docs = [];
             for (const archiveQuery of queries) {
-                const response = await fetch(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(archiveQuery)}&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&rows=40&output=json`);
+                const response = await fetchWithRetry(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(archiveQuery)}&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&rows=40&output=json`, {}, 1, 500);
                 if (!response.ok) continue;
                 const data = await response.json();
                 docs.push(...(data.response?.docs || []));
@@ -1635,20 +1618,22 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             docs = [...new Map(docs.map(doc => [doc.identifier, doc])).values()].slice(0, 40);
             const books = await Promise.all(docs.map(async doc => {
                 try {
-                    const metadataResponse = await fetch(`https://archive.org/metadata/${encodeURIComponent(doc.identifier)}`);
+                    const metadataResponse = await fetchWithRetry(`https://archive.org/metadata/${encodeURIComponent(doc.identifier)}`, {}, 1, 500);
                     if (!metadataResponse.ok) return null;
                     const metadata = await metadataResponse.json();
                     const restricted = metadata.metadata?.access-restricted === 'true'
                         || metadata.metadata?.access_restricted === 'true'
                         || metadata.metadata?.private === 'true';
                     if (restricted) return null;
-                    const file = (metadata.files || []).find(item => /\.(mp3|m4a|ogg|wav)$/i.test(item.name || '') && item.private !== true && item.private !== 'true');
+                    const audioFiles = (metadata.files || []).filter(item => /\.(mp3|m4a|ogg|wav)$/i.test(item.name || '') && item.private !== true && item.private !== 'true');
+                    const file = audioFiles.find(item => !/(128kb|64kb|metadata|cover|thumb)/i.test(item.name || '')) || audioFiles[0];
                     if (!file) return null;
+                    const filePath = String(file.name).split('/').map(encodeURIComponent).join('/');
                     return {
                         id: `archive_audio_${doc.identifier}`, type: 'audiobook', source: 'Internet Archive', sourceType: 'external',
                         title: doc.title || 'Audiobook', author: doc.creator || t('unknown_author'),
                         description: '', cover: `https://archive.org/services/img/${doc.identifier}`, year: doc.year || '',
-                        parts: [{ type: 'audio', title: 'Parte 1', url: `https://archive.org/download/${doc.identifier}/${encodeURIComponent(file.name)}` }]
+                        parts: [{ type: 'audio', title: 'Parte 1', url: `https://archive.org/download/${encodeURIComponent(doc.identifier)}/${filePath}` }]
                     };
                 } catch (_) { return null; }
             }));
@@ -2229,6 +2214,35 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         });
     }
 
+    function playDirectAudioPart(part, initialProgress = 0) {
+        const playerWrapper = document.getElementById('playerVideoWrapper');
+        if (!playerWrapper || !part?.url) return false;
+
+        playerWrapper.innerHTML = '<div id="multimediaYouTubePlayer"><audio id="directAudioPlayer" preload="metadata" style="display:none"></audio></div>';
+        const audio = playerWrapper.querySelector('#directAudioPlayer');
+        currentDirectAudio = audio;
+        currentVideoId = part.url;
+        currentPartUrl = part.url;
+        currentPartType = 'audio';
+        audio.src = part.url;
+        audio.currentTime = Math.max(0, Number(initialProgress) || 0);
+        audio.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
+        audio.addEventListener('loadedmetadata', () => updateProgressBar(), { once: true });
+        audio.addEventListener('play', () => {
+            const button = document.getElementById('playerPlayPause');
+            if (button) { button.dataset.playing = 'true'; button.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`; }
+        });
+        audio.addEventListener('pause', () => {
+            const button = document.getElementById('playerPlayPause');
+            if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
+        });
+        audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
+        startProgressSaving();
+        startProgressUpdates();
+        audio.play().catch(() => {});
+        return true;
+    }
+
     function playPart(index) {
         if (!currentParts || index >= currentParts.length) return;
         const part = currentParts[index];
@@ -2237,6 +2251,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         // Salva progresso da parte atual antes de trocar
         if (currentVideoId) saveProgress();
         // Para o player atual
+        if (currentDirectAudio) {
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
+        }
         if (multimediaPlayer && multimediaPlayerReady) {
             multimediaPlayer.stopVideo();
             multimediaPlayer.clearVideo();
@@ -2264,6 +2284,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                         multimediaPlayer.playVideo();
                     }
                 }, 500);
+            } else if (part.type === 'audio' && part.url) {
+                playDirectAudioPart(part, loadProgress(part.url));
             }
         } else if (part.type === 'pdf') {
             // Abre PDF em nova aba
@@ -2374,30 +2396,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 return;
             }
             if (!videoId && firstPart.type === 'audio' && firstPart.url) {
-                const playerWrapper = document.getElementById('playerVideoWrapper');
-                if (playerWrapper) {
-                    playerWrapper.innerHTML = '<div id="multimediaYouTubePlayer"><audio id="directAudioPlayer" preload="metadata" style="display:none"></audio></div>';
-                    const audio = playerWrapper.querySelector('#directAudioPlayer');
-                    currentDirectAudio = audio;
-                    audio.src = firstPart.url;
-                    audio.currentTime = Math.max(0, Number(initialProgress) || 0);
-                    currentPartUrl = firstPart.url;
-                    currentPartType = 'audio';
-                    audio.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
-                    audio.addEventListener('loadedmetadata', () => updateProgressBar(), { once: true });
-                    audio.addEventListener('play', () => {
-                        const button = document.getElementById('playerPlayPause');
-                        if (button) { button.dataset.playing = 'true'; button.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`; }
-                    });
-                    audio.addEventListener('pause', () => {
-                        const button = document.getElementById('playerPlayPause');
-                        if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
-                    });
-                    audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
-                    startProgressSaving();
-                    startProgressUpdates();
-                    audio.play().catch(() => {});
-                }
+                playDirectAudioPart(firstPart, initialProgress);
                 return;
             }
             // Senão, continua com o áudio/vídeo
@@ -2769,10 +2768,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 if (term.length >= MIN_SEARCH_LENGTH) {
                     const grid = document.getElementById('audiobooksGrid');
                     if (grid) grid.insertAdjacentHTML('afterbegin', `<div class="loading-skeleton audiobook-search-loading"><div class="spinner"></div><p>${t('loading')}</p></div>`);
-                    const externalResults = await Promise.all([
+                    const externalResults = await Promise.allSettled([
                         searchArchiveAudiobooks(term)
                     ]);
-                    const external = await Promise.all(externalResults.flat().map(book => enrichBookMetadata(book)));
+                    const external = externalResults
+                        .filter(result => result.status === 'fulfilled')
+                        .flatMap(result => Array.isArray(result.value) ? result.value : []);
                     if (thisAudiobookSearchId !== audiobookSearchId) return;
                     const merged = [...localAudiobooks, ...external];
                     const seen = new Set();
