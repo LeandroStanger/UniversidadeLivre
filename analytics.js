@@ -7,8 +7,10 @@
     const LOCAL_COUNTS_KEY = 'ulivre_analytics_local_counts';
     const MAX_PENDING_EVENTS = 100;
     const MAX_SEND_ATTEMPTS = 3;
+    const MIN_SEND_INTERVAL = 1500;
     let retryTimer = null;
     let retryDelay = 1000;
+    let lastSentAt = 0;
     let initialPageviewSent = false;
 
     function slug(value) {
@@ -56,13 +58,13 @@
         } catch (_) {}
     }
 
-    function scheduleFlush() {
+    function scheduleFlush(delay = retryDelay) {
         if (retryTimer || !pending.length) return;
         retryTimer = window.setTimeout(() => {
             retryTimer = null;
             retryDelay = Math.min(retryDelay * 2, 30000);
             flush();
-        }, retryDelay);
+        }, delay);
     }
 
     function flush() {
@@ -73,31 +75,38 @@
             return;
         }
 
-        while (pending.length) {
-            const queued = pending[0];
-            try {
-                window.goatcounter.count(queued.payload);
-                pending.shift();
-                retryDelay = 1000;
-            } catch (error) {
-                console.warn('[Analytics] Falha ao enviar evento:', error);
-                queued.attempts += 1;
-                if (queued.attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
-                else {
-                    scheduleFlush();
-                    return;
-                }
-            }
+        const elapsed = Date.now() - lastSentAt;
+        if (elapsed < MIN_SEND_INTERVAL) {
+            scheduleFlush(MIN_SEND_INTERVAL - elapsed);
+            return;
+        }
+
+        const queued = pending[0];
+        try {
+            window.goatcounter.count(queued.payload);
+            pending.shift();
+            lastSentAt = Date.now();
+            retryDelay = 1000;
+            scheduleFlush(MIN_SEND_INTERVAL);
+        } catch (error) {
+            console.warn('[Analytics] Falha ao enviar evento:', error);
+            queued.attempts += 1;
+            if (queued.attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
+            scheduleFlush();
         }
     }
 
     function count(path, title, event = true) {
         const language = getLanguage();
-        if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: `/universidade-livre${languagePath(path)}`, event });
+        const payloadPath = `/universidade-livre${languagePath(path)}`;
+        const payloadTitle = `${title || document.title} · ${language.label}`;
+        const duplicate = pending.some(item => item.payload.path === payloadPath && item.payload.title === payloadTitle && item.payload.event === event);
+        if (duplicate) return;
+        if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: payloadPath, event });
         else pending.push({
             payload: {
-                path: `/universidade-livre${languagePath(path)}`,
-                title: `${title || document.title} · ${language.label}`,
+            path: payloadPath,
+            title: payloadTitle,
                 event,
                 referrer: document.referrer || SITE_URL
             },

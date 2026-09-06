@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentSearchTerm = '';
     let currentAbortController = null;
     let currentSearchId = 0;
+    let audiobookSearchId = 0;
     let activeTab = 'book';
     let activeMainTab = 'library';
     let externalLibrariesData = [];
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentVideoId = null;
     let currentPartUrl = null;
     let currentPartType = null;
+    let currentDirectAudio = null;
     let progressSaveInterval = null;
     let isAudioMode = true;
     let isPlayerVisible = false;
@@ -283,6 +285,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     function escapeHtml(str) {
         return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : '';
+    }
+
+    function escapeAttribute(str) {
+        return String(str || '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
     }
 
     function generateId() {
@@ -590,6 +596,9 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 console.debug('[Enrich] Google Books falhou; usando capa local como fallback.');
             }
         }
+        if (!enriched.cover || !enriched.description || !enriched.year) {
+            enriched = await enrichWithOpenLibrary(enriched);
+        }
         return enriched;
     }
 
@@ -718,7 +727,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}+AND+mediatype:texts&fl[]=title&fl[]=creator&fl[]=description&fl[]=identifier&fl[]=language&fl[]=publisher&fl[]=year&rows=${MAX_EXTERNAL_RESULTS}&output=json`;
-            const response = await fetchWithProxy(url, API_TIMEOUT_MS);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
             const data = await response.json();
             const docs = data.response?.docs || [];
             return docs.map(doc => ({
@@ -844,10 +856,64 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
     }
 
-    // Placeholders para outras APIs
+    async function searchSemanticScholar(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetchWithProxy(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}&fields=title,abstract,authors,year,openAccessPdf`, API_TIMEOUT_MS);
+            const data = await response.json();
+            return (data.data || []).map(paper => ({
+                id: `semantic_${paper.paperId}`,
+                title: paper.title || 'Sem título',
+                author: formatAuthor((paper.authors || []).map(author => author.name).join(', ') || t('unknown_author')),
+                rawAuthor: (paper.authors || []).map(author => author.name).join(', '),
+                description: paper.abstract || '',
+                cover: null,
+                download: paper.openAccessPdf?.url || null,
+                downloadLabel: t('download_book'),
+                language: 'en', publisher: 'Semantic Scholar', source: 'Semantic Scholar', type: 'paper', year: paper.year || null
+            }));
+        } catch (error) { console.warn('[Semantic Scholar] Erro:', error); return []; }
+    }
+
+    async function searchOpenAlex(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per-page=${MAX_EXTERNAL_RESULTS}&select=id,title,authorships,publication_year,open_access,primary_location`);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return (data.results || []).map(work => ({
+                id: `openalex_${String(work.id || '').split('/').pop()}`,
+                title: work.title || 'Sem título',
+                author: formatAuthor((work.authorships || []).map(item => item.author?.display_name).filter(Boolean).join(', ') || t('unknown_author')),
+                rawAuthor: (work.authorships || []).map(item => item.author?.display_name).filter(Boolean).join(', '),
+                description: '', cover: null,
+                download: work.open_access?.oa_url || work.primary_location?.landing_page_url || null,
+                downloadLabel: t('access_online'), language: 'en', publisher: 'OpenAlex', source: 'OpenAlex', type: 'paper', year: work.publication_year || null
+            }));
+        } catch (error) { console.warn('[OpenAlex] Erro:', error); return []; }
+    }
+
+    async function searchCrossref(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${MAX_EXTERNAL_RESULTS}&select=DOI,title,author,published,URL,abstract,publisher`);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return (data.message?.items || []).map(work => ({
+                id: `crossref_${work.DOI || generateId()}`,
+                title: work.title?.[0] || 'Sem título',
+                author: formatAuthor((work.author || []).map(item => `${item.given || ''} ${item.family || ''}`.trim()).join(', ') || t('unknown_author')),
+                rawAuthor: (work.author || []).map(item => `${item.given || ''} ${item.family || ''}`.trim()).join(', '),
+                description: String(work.abstract || '').replace(/<[^>]+>/g, ''),
+                cover: null, download: work.URL || null, downloadLabel: t('access_online'),
+                language: 'en', publisher: work.publisher || 'Crossref', source: 'Crossref', type: 'paper',
+                year: work.published?.['date-parts']?.[0]?.[0] || null
+            }));
+        } catch (_) { return []; }
+    }
+
+    // Fontes adicionais sem chave. APIs que exigem credencial ficam opcionais.
     async function searchCORE(query) { return []; }
-    async function searchSemanticScholar(query) { return []; }
-    async function searchOpenAlex(query) { return []; }
     async function searchNDLTD(query) { return []; }
     async function searchOATD(query) { return []; }
     async function searchPaperity(query) { return []; }
@@ -859,16 +925,11 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     async function searchExternalBooks(query) {
         const promises = [
-            searchArxiv(query),
             searchGutenberg(query),
             searchInternetArchive(query),
-            searchStandardEbooks(query),
-            searchDOAB(query),
             searchOpenLibrary(query),
             searchGoogleBooks(query),
-            searchCORE(query), searchSemanticScholar(query), searchOpenAlex(query),
-            searchNDLTD(query), searchOATD(query), searchPaperity(query), searchSSRN(query),
-            searchBASE(query), searchHolyBooks(query), searchObooko(query), searchInfoBooks(query)
+            searchOpenAlex(query), searchCrossref(query)
         ];
         const results = await Promise.allSettled(promises);
         const all = [];
@@ -1063,16 +1124,16 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         return items.filter(item => item.type === activeTab);
     }
 
-    async function showResults(items) {
+    async function showResults(items, keepLoading = false) {
         const filteredByType = items.filter(book => !isAudiobook(book));
         const tabFiltered = filterByActiveTab(filteredByType);
         const unique = deduplicateBooks(tabFiltered);
         if (!grid) return;
         uiState.hasResults = true;
         uiState.hasError = false;
-        hideLoading();
+        if (!keepLoading) hideLoading();
         if (!unique || unique.length === 0) {
-            showEmptyState();
+            if (!keepLoading) showEmptyState();
             return;
         }
         const sorted = sortBooksByPriority(unique);
@@ -1389,7 +1450,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (thisSearchId !== currentSearchId) return;
 
         let currentResults = [...localResults];
-        showResults(currentResults);
+        await showResults(currentResults, true);
 
         const globalTimeoutId = setTimeout(() => {
             if (uiState.isLoading && thisSearchId === currentSearchId) {
@@ -1404,7 +1465,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 const merged = [...currentResults, ...externalResults];
                 const unique = deduplicateBooks(merged);
                 searchCache.set(cacheKey, { data: unique, timestamp: Date.now() });
-                showResults(unique);
+                await showResults(unique);
             }
         } catch (error) {
             console.error('[Search] erro:', error);
@@ -1510,15 +1571,17 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                             }
                             return p;
                         });
-                        const book = {
+                        let book = {
                             ...item,
                             type: 'audiobook',
+                            sourceType: 'local',
                             source: 'YouTube',
                             cover: item.cover || (parts[0]?.videoId
                                 ? `https://i.ytimg.com/vi/${parts[0].videoId}/hqdefault.jpg`
                                 : ''),
                             parts: parts
                         };
+                        if (!book.cover) book = await enrichWithOpenLibrary(book);
                         return book;
                     }));
                     return enriched;
@@ -1529,6 +1592,68 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
         console.warn('[Biblioteca] Nenhum arquivo audiobooks.json encontrado. A aba de audiobooks ficará vazia.');
         return [];
+    }
+
+    async function searchLibriVox(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+            const response = await fetch(`https://librivox.org/api/feed/audiobooks?title=${encodeURIComponent(query)}&format=json`, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return (data.books || []).slice(0, MAX_EXTERNAL_RESULTS).map(book => {
+                const chapters = Array.isArray(book.sections) ? book.sections.map((section, index) => ({
+                    type: 'audio', title: section.title || `Parte ${index + 1}`, url: section.url
+                })).filter(part => part.url) : [];
+                return {
+                    id: `librivox_${book.id}`, type: 'audiobook', source: 'LibriVox', sourceType: 'external',
+                    title: book.title || 'Audiobook', author: book.author || t('unknown_author'),
+                    description: book.description || '', cover: book.coverart || '', year: book.copyright_year || '',
+                    duration: book.totaltimes || '', parts: chapters
+                };
+            }).filter(book => book.parts.length > 0);
+        } catch (_) { return []; }
+    }
+
+    async function searchArchiveAudiobooks(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const queries = [
+                `(${query}) AND mediatype:audio AND collection:librivoxaudio`,
+                `mediatype:audio AND (title:(${query}) OR creator:(${query}))`
+            ];
+            let docs = [];
+            for (const archiveQuery of queries) {
+                const response = await fetch(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(archiveQuery)}&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&rows=40&output=json`);
+                if (!response.ok) continue;
+                const data = await response.json();
+                docs.push(...(data.response?.docs || []));
+                if (docs.length >= 8) break;
+            }
+            docs = [...new Map(docs.map(doc => [doc.identifier, doc])).values()].slice(0, 40);
+            const books = await Promise.all(docs.map(async doc => {
+                try {
+                    const metadataResponse = await fetch(`https://archive.org/metadata/${encodeURIComponent(doc.identifier)}`);
+                    if (!metadataResponse.ok) return null;
+                    const metadata = await metadataResponse.json();
+                    const restricted = metadata.metadata?.access-restricted === 'true'
+                        || metadata.metadata?.access_restricted === 'true'
+                        || metadata.metadata?.private === 'true';
+                    if (restricted) return null;
+                    const file = (metadata.files || []).find(item => /\.(mp3|m4a|ogg|wav)$/i.test(item.name || '') && item.private !== true && item.private !== 'true');
+                    if (!file) return null;
+                    return {
+                        id: `archive_audio_${doc.identifier}`, type: 'audiobook', source: 'Internet Archive', sourceType: 'external',
+                        title: doc.title || 'Audiobook', author: doc.creator || t('unknown_author'),
+                        description: '', cover: `https://archive.org/services/img/${doc.identifier}`, year: doc.year || '',
+                        parts: [{ type: 'audio', title: 'Parte 1', url: `https://archive.org/download/${doc.identifier}/${encodeURIComponent(file.name)}` }]
+                    };
+                } catch (_) { return null; }
+            }));
+            return books.filter(Boolean);
+        } catch (error) { console.warn('[Internet Archive Audio] Erro:', error); return []; }
     }
 
     // ========== PLAYER MULTIMÍDIA ==========
@@ -1545,7 +1670,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             return container;
         }
 
-        console.warn('[Player] Container não encontrado, criando dinamicamente...');
+        console.debug('[Player] Container principal ainda não existe; criando uma única instância reutilizável.');
         const audiobooksTab = document.getElementById('audiobooksTabContent');
         if (!audiobooksTab) {
             console.error('[Player] Aba de audiobooks não encontrada, criando no body');
@@ -1625,6 +1750,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const progressBar = document.getElementById('playerProgressBar');
         if (progressBar) {
             progressBar.addEventListener('input', (e) => {
+                if (currentDirectAudio?.duration) {
+                    currentDirectAudio.currentTime = (parseFloat(e.target.value) / 100) * currentDirectAudio.duration;
+                    return;
+                }
                 if (multimediaPlayer && multimediaPlayerReady) {
                     const percent = parseFloat(e.target.value);
                     const duration = multimediaPlayer.getDuration();
@@ -1641,6 +1770,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (volumeSlider) {
             volumeSlider.addEventListener('input', (e) => {
                 const vol = parseInt(e.target.value);
+                if (currentDirectAudio) currentDirectAudio.volume = vol / 100;
                 if (multimediaPlayer && multimediaPlayerReady) {
                     multimediaPlayer.setVolume(vol);
                     updateVolumeIcon(vol);
@@ -1657,6 +1787,11 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
         if (muteBtn) {
             muteBtn.addEventListener('click', () => {
+                if (currentDirectAudio) {
+                    currentDirectAudio.muted = !currentDirectAudio.muted;
+                    updateVolumeIcon(currentDirectAudio.muted ? 0 : parseInt(volumeSlider?.value || '80', 10), currentDirectAudio.muted);
+                    return;
+                }
                 if (multimediaPlayer && multimediaPlayerReady) {
                     const muted = multimediaPlayer.isMuted();
                     if (muted) {
@@ -1701,6 +1836,20 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function togglePlayPause() {
+        if (currentDirectAudio) {
+            const btn = document.getElementById('playerPlayPause');
+            if (currentDirectAudio.paused) {
+                currentDirectAudio.play().catch(() => {});
+                btn.dataset.playing = 'true';
+                btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+            } else {
+                currentDirectAudio.pause();
+                btn.dataset.playing = 'false';
+                btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+            }
+            updatePlayerControlTranslations();
+            return;
+        }
         if (!multimediaPlayer || !multimediaPlayerReady) return;
         const btn = document.getElementById('playerPlayPause');
         if (multimediaPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
@@ -1829,6 +1978,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function upsertRecentAudiobookProgress(meta, progressSeconds, videoId) {
+        if (meta?.sourceType !== 'local') return;
         const entry = buildRecentAudiobookEntry(meta, progressSeconds, videoId);
         const currentEntries = getRecentAudiobookRegistry().filter((item) => {
             return !(item.id === entry.id || item.videoId === entry.videoId);
@@ -1884,6 +2034,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 return matchesId || matchesVideo;
             });
 
+            if (!match || match.sourceType !== 'local') return;
             const sourceBook = match || {
                 id: item.id,
                 title: item.title,
@@ -1973,7 +2124,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                     description: book.description,
                     cover: book.cover,
                     author: book.author,
-                    videoId: playback.videoId
+                    videoId: playback.videoId,
+                    sourceType: book.sourceType || 'local'
                 };
 
                 playMultimedia(playback.videoId, playback.title, playback.description, playback.parts, meta, loadProgress(playback.videoId));
@@ -1982,6 +2134,16 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function saveProgress() {
+        if (currentDirectAudio) {
+            try {
+                const currentTime = currentDirectAudio.currentTime || 0;
+                if (currentTime > 0 && currentVideoId) {
+                    localStorage.setItem(`${PROGRESS_STORAGE_PREFIX}${currentVideoId}`, currentTime);
+                    if (currentAudiobookMeta) upsertRecentAudiobookProgress(currentAudiobookMeta, currentTime, currentVideoId);
+                }
+            } catch (e) { console.warn('[Progress] Erro ao salvar áudio:', e); }
+            return;
+        }
         if (!currentVideoId || !multimediaPlayer || !multimediaPlayerReady) {
             console.warn('[Progress] Não é possível salvar: ID do vídeo ou player não disponível');
             return;
@@ -2120,12 +2282,21 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             videoId
         };
 
-        if (window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
+        if (currentDirectAudio) {
+            saveProgress();
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
+        }
+
+        const directAudio = !videoId && Array.isArray(parts) && parts[0]?.type === 'audio' && parts[0]?.url;
+        if (!directAudio && window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
             console.log('[Player] Usando player do Auditório');
             window.Auditorio.playVideo(videoId, title, description);
             return;
         }
-        if (window.playVideo && typeof window.playVideo === 'function') {
+        if (!directAudio && window.playVideo && typeof window.playVideo === 'function') {
             console.log('[Player] Usando playVideo global');
             window.playVideo(videoId, title, description);
             return;
@@ -2152,7 +2323,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
 
         // Atualiza o ID do vídeo atual
-        currentVideoId = videoId;
+        currentVideoId = videoId || (parts?.[0]?.url || null);
         currentParts = parts || [];
         currentPartIndex = 0;
 
@@ -2176,9 +2347,15 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const wrapper = document.getElementById('playerVideoWrapper');
         const modeBtn = document.getElementById('playerToggleMode');
         if (wrapper) {
-            wrapper.style.display = 'none';
+            wrapper.style.display = directAudio ? 'none' : 'none';
+            if (!directAudio && !document.getElementById('multimediaYouTubePlayer')) {
+                wrapper.innerHTML = '<div id="multimediaYouTubePlayer"></div>';
+            }
             if (modeBtn) modeBtn.innerHTML = `<i class="fas fa-eye"></i> ${t('video_mode')}`;
         }
+        if (modeBtn) modeBtn.style.display = directAudio ? 'none' : '';
+        const subtitlesButton = document.getElementById('playerSubtitles');
+        if (subtitlesButton) subtitlesButton.style.display = directAudio ? 'none' : '';
 
         if (subtitlesEnabled) {
             setTimeout(() => showCaptionsOverlay(), 500);
@@ -2194,6 +2371,33 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 // Abre PDF e não carrega player
                 window.open(firstPart.url, '_blank');
                 // Opcional: não iniciar player, apenas mostrar informações
+                return;
+            }
+            if (!videoId && firstPart.type === 'audio' && firstPart.url) {
+                const playerWrapper = document.getElementById('playerVideoWrapper');
+                if (playerWrapper) {
+                    playerWrapper.innerHTML = '<div id="multimediaYouTubePlayer"><audio id="directAudioPlayer" preload="metadata" style="display:none"></audio></div>';
+                    const audio = playerWrapper.querySelector('#directAudioPlayer');
+                    currentDirectAudio = audio;
+                    audio.src = firstPart.url;
+                    audio.currentTime = Math.max(0, Number(initialProgress) || 0);
+                    currentPartUrl = firstPart.url;
+                    currentPartType = 'audio';
+                    audio.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
+                    audio.addEventListener('loadedmetadata', () => updateProgressBar(), { once: true });
+                    audio.addEventListener('play', () => {
+                        const button = document.getElementById('playerPlayPause');
+                        if (button) { button.dataset.playing = 'true'; button.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`; }
+                    });
+                    audio.addEventListener('pause', () => {
+                        const button = document.getElementById('playerPlayPause');
+                        if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
+                    });
+                    audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
+                    startProgressSaving();
+                    startProgressUpdates();
+                    audio.play().catch(() => {});
+                }
                 return;
             }
             // Senão, continua com o áudio/vídeo
@@ -2369,11 +2573,22 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function updateProgressBar() {
-        if (!multimediaPlayer || !multimediaPlayerReady) return;
         const progressBar = document.getElementById('playerProgressBar');
         const currentTimeEl = document.getElementById('playerCurrentTime');
         const durationEl = document.getElementById('playerDuration');
         if (!progressBar || !currentTimeEl || !durationEl) return;
+
+        if (currentDirectAudio) {
+            const current = currentDirectAudio.currentTime || 0;
+            const duration = currentDirectAudio.duration || 0;
+            if (duration) {
+                progressBar.value = (current / duration) * 100;
+                currentTimeEl.textContent = formatTime(current);
+                durationEl.textContent = formatTime(duration);
+            }
+            return;
+        }
+        if (!multimediaPlayer || !multimediaPlayerReady) return;
 
         const current = multimediaPlayer.getCurrentTime() || 0;
         const duration = multimediaPlayer.getDuration() || 0;
@@ -2405,6 +2620,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 multimediaPlayer.stopVideo();
                 multimediaPlayer.clearVideo();
             } catch (e) {}
+        }
+        if (currentDirectAudio) {
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
         }
         multimediaPlayerReady = false;
         isPlayerVisible = false;
@@ -2461,7 +2682,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             const firstVideoId = book.videoId || (book.parts && book.parts[0] && book.parts[0].videoId) || '';
 
             html += `
-                <div class="audiobook-card" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}" data-video-id="${firstVideoId}">
+                <div class="audiobook-card" data-audiobook-id="${escapeAttribute(book.id)}" data-title="${escapeAttribute(book.title)}" data-description="${escapeAttribute(book.description)}" data-video-id="${escapeAttribute(firstVideoId)}">
                     <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro'">
                     <div class="audiobook-info">
                         <div class="audiobook-title">${escapeHtml(book.title)}</div>
@@ -2470,7 +2691,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                         ${year ? `<div class="audiobook-year">${year}</div>` : ''}
                         ${partsCount > 1 ? `<div class="audiobook-parts"><i class="fas fa-layer-group"></i> ${partsCount} ${t('parts')}</div>` : ''}
                         <div class="audiobook-description">${escapeHtml(book.description)}</div>
-                        <button class="listen-btn" data-audiobook-id="${book.id}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}" data-video-id="${firstVideoId}" data-parts='${JSON.stringify(book.parts || [])}'>
+                        <button class="listen-btn" data-audiobook-id="${escapeAttribute(book.id)}" data-title="${escapeAttribute(book.title)}" data-description="${escapeAttribute(book.description)}" data-source-type="${escapeAttribute(book.sourceType || 'local')}" data-video-id="${escapeAttribute(firstVideoId)}" data-parts='${String(JSON.stringify(book.parts || [])).replace(/'/g, '&#39;')}'>
                             <i class="fas fa-play"></i> ${t('listen_button')}
                         </button>
                     </div>
@@ -2507,7 +2728,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                     title,
                     description,
                     cover: this.closest('.audiobook-card')?.querySelector('.audiobook-cover')?.src || '',
-                    videoId
+                    videoId,
+                    sourceType: this.dataset.sourceType || 'local'
                 };
                 playMultimedia(videoId || (parts.length ? parts[0].videoId : null), title, description, parts, meta, loadProgress(videoId || (parts.length ? parts[0].videoId : '')));
             });
@@ -2520,12 +2742,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         container.innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`;
 
-        const audiobooks = await loadAudiobooks();
-
-        if (!audiobooks || audiobooks.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-headphones"></i><p>${t('no_audiobooks')}</p></div>`;
-            return;
-        }
+        const localAudiobooks = await loadAudiobooks();
+        let audiobooks = localAudiobooks;
 
         container.innerHTML = `
             <div class="search-bar">
@@ -2539,13 +2757,34 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         const searchInput = document.getElementById('audiobookSearchInput');
         if (searchInput) {
-            searchInput.addEventListener('input', debounce(function() {
+            searchInput.addEventListener('input', debounce(async function() {
                 const term = this.value.trim().toLowerCase();
+                const thisAudiobookSearchId = ++audiobookSearchId;
                 const filtered = audiobooks.filter(book =>
                     book.title.toLowerCase().includes(term) ||
                     (book.author && book.author.toLowerCase().includes(term))
                 );
                 renderAudiobooks(filtered);
+                audiobooks = localAudiobooks;
+                if (term.length >= MIN_SEARCH_LENGTH) {
+                    const grid = document.getElementById('audiobooksGrid');
+                    if (grid) grid.insertAdjacentHTML('afterbegin', `<div class="loading-skeleton audiobook-search-loading"><div class="spinner"></div><p>${t('loading')}</p></div>`);
+                    const externalResults = await Promise.all([
+                        searchArchiveAudiobooks(term)
+                    ]);
+                    const external = await Promise.all(externalResults.flat().map(book => enrichBookMetadata(book)));
+                    if (thisAudiobookSearchId !== audiobookSearchId) return;
+                    const merged = [...localAudiobooks, ...external];
+                    const seen = new Set();
+                    audiobooks = merged.filter(book => {
+                        if (seen.has(book.id)) return false;
+                        seen.add(book.id);
+                        return true;
+                    });
+                    const localMatches = localAudiobooks.filter(book => book.title.toLowerCase().includes(term) || (book.author || '').toLowerCase().includes(term));
+                    const externalMatches = audiobooks.filter(book => book.sourceType === 'external');
+                    renderAudiobooks([...localMatches, ...externalMatches]);
+                }
             }, 300));
         }
 

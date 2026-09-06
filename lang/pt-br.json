@@ -481,6 +481,7 @@
   "profile_activity_ended": "Fim",
   "profile_activity_duration": "Duração",
   "profile_no_activity": "Ainda não há períodos de atividade registrados.",
+  "audio_playback_error": "Não foi possível reproduzir este áudio.",
   "profile_transcript_click": "Clique para ver as etapas",
   "profile_transcript_locked_short": "Conclua a etapa para liberar",
   "profile_transcript_locked": "Conclua todas as disciplinas e a prova da etapa para liberar este boletim.",

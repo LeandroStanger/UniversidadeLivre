@@ -481,6 +481,7 @@
   "profile_activity_ended": "Ended",
   "profile_activity_duration": "Duration",
   "profile_no_activity": "No activity periods recorded yet.",
+  "audio_playback_error": "This audio could not be played.",
   "profile_transcript_click": "Click to see the stages",
   "profile_transcript_locked_short": "Complete the stage to unlock",
   "profile_transcript_locked": "Complete all disciplines and the stage exam to unlock this transcript.",

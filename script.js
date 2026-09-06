@@ -1351,6 +1351,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         if (streakDisplay) streakDisplay.innerHTML = Math.max(0, Number(activity.streakDays) || 0);
     }
 
+    updateGlobalStats();
     window.addEventListener('cursorActivityUpdated', updateGlobalStats);
     window.addEventListener('auditorioTimeUpdated', updateGlobalStats);
     window.addEventListener('languageChanged', updateGlobalStats);

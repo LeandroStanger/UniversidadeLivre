@@ -484,8 +484,8 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
 }
 
 async function searchYouTube(query, maxResults = 30, options = {}) {
-    if (apiQuotaExceeded || !hasYouTubeApiKey) return [];
-    if (!hasYouTubeApiKey) return [];
+    if (apiQuotaExceeded) return [];
+    if (!hasYouTubeApiKey) return searchPublicVideoIndex(query, maxResults, options);
     const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
     
     if (channelIds.length === 0) {
@@ -515,6 +515,35 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
         return true;
     });
     return unique.slice(0, maxResults);
+}
+
+async function searchPublicVideoIndex(query, maxResults = 30, options = {}) {
+    if (!query || query.length < 2) return [];
+    const suffix = options.podcastMode ? ' podcast' : options.liveMode ? ' live' : options.shortsMode ? ' shorts' : '';
+    const instances = ['https://inv.nadeko.net', 'https://invidious.nerdvpn.de', 'https://invidious.privacyredirect.com'];
+    for (const instance of instances) {
+        try {
+            const response = await fetch(`${instance}/api/v1/search?q=${encodeURIComponent(query + suffix)}&type=video&page=1`, { signal: AbortSignal.timeout(8000) });
+            if (!response.ok) continue;
+            const items = await response.json();
+            return items.filter(item => item.type === 'video' && item.videoId).slice(0, maxResults).map(item => ({
+                id: `public_${item.videoId}`,
+                videoId: item.videoId,
+                title: item.title || query,
+                description: item.description || '',
+                thumbnail: item.videoThumbnails?.find(image => image.quality === 'medium')?.url || item.videoThumbnails?.[0]?.url || '',
+                type: options.podcastMode ? 'podcast' : options.liveMode ? 'live' : options.shortsMode ? 'shorts' : 'video',
+                subject: detectSubjectLocal(item.title, item.description || ''),
+                language: normalizeLanguageCode(item.language) || currentLanguageFilter || 'pt',
+                url: `https://www.youtube.com/watch?v=${item.videoId}`,
+                source: 'Invidious',
+                channelTitle: item.author || '',
+                duration: item.lengthSeconds || 0,
+                isLive: Boolean(item.liveNow)
+            }));
+        } catch (_) {}
+    }
+    return [];
 }
 
 async function fetchVideoDetails(videoIds) {
