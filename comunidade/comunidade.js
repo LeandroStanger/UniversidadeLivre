@@ -2094,6 +2094,7 @@
     function selectDiscipline(courseId, discipline, scrollToPostId) {
         state.currentCourseId = courseId;
         state.currentDiscipline = discipline;
+        window.UniversidadeLivreAnalytics?.discipline(courseId, discipline);
         const currentScope = readGameMatchmakingScope();
         localStorage.setItem(GAME_SCOPE_KEY, JSON.stringify({
             mode: currentScope.mode,
@@ -2699,6 +2700,7 @@
         roomUrl.searchParams.set('userInfo.displayName', displayName);
         roomUrl.hash = `userInfo.displayName=${encodeURIComponent(displayName)}`;
 
+        window.UniversidadeLivreAnalytics?.action('comunidade', 'sala-video', `${courseName}-${disciplineName}`);
         openJitsiModal(roomUrl.toString());
     }
 
@@ -2965,6 +2967,15 @@
         }
         document.getElementById('openJitsiBtn')?.addEventListener('click', openJitsiRoom);
         document.getElementById('closeJitsiBtn')?.addEventListener('click', closeJitsiModal);
+        document.getElementById('openGamesBtn')?.addEventListener('click', () => {
+            window.UniversidadeLivreAnalytics?.action('comunidade', 'jogos', state.currentDiscipline || 'sala');
+        });
+        document.getElementById('gamesGrid')?.addEventListener('click', (event) => {
+            const game = event.target.closest('.game-card')?.dataset.game;
+            if (game) {
+                window.UniversidadeLivreAnalytics?.action('jogo', game, state.currentDiscipline || 'sala');
+            }
+        });
 
         document.getElementById('jitsiModal')?.addEventListener('click', function(e) {
             if (e.target === this) closeJitsiModal();
