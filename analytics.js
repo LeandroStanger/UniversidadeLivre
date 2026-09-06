@@ -2,6 +2,7 @@
 (function () {
     'use strict';
 
+    const SITE_URL = 'https://leandrostanger.github.io/UniversidadeLivre';
     const pending = [];
     let retryTimer = null;
 
@@ -60,7 +61,7 @@
             path: `/universidade-livre${languagePath(path)}`,
             title: `${title || document.title} · ${language.label}`,
             event: true,
-            referrer: document.referrer || undefined
+            referrer: document.referrer || SITE_URL
         });
         flush();
     }
