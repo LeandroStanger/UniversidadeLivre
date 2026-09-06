@@ -249,6 +249,30 @@
         if (el) el.textContent = auditTime.formatted;
     }
 
+    function formatPlatformSeconds(seconds) {
+        const totalMinutes = Math.max(0, Math.floor(Number(seconds || 0) / 60));
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return hours ? `${hours}h ${minutes}min` : `${minutes}min`;
+    }
+
+    function renderActivityDetails() {
+        const container = document.getElementById('profileActivityDetails');
+        if (!container) return;
+        const summary = window.CursorTimeset?.getPlatformActivitySummary?.() || { totalSeconds: 0, streakDays: 0, activeDays: 0, periods: [] };
+        const totalSeconds = summary.totalSeconds + getAuditorioHours().seconds;
+        const locale = window.getCurrentLanguage?.() === 'en' ? 'en-US' : 'pt-BR';
+        const formatDate = value => value ? new Date(value).toLocaleString(locale) : t('profile_not_available');
+        const formatDay = value => value ? new Date(`${value}T12:00:00`).toLocaleDateString(locale) : t('profile_not_available');
+        const periods = [...(summary.periods || [])].reverse();
+        const streakLabel = summary.streakDays === 1 ? t('profile_current_streak_singular') : t('profile_current_streak');
+        const activeDaysLabel = summary.activeDays === 1 ? t('profile_active_day_singular') : t('profile_active_days');
+        const periodsLabel = periods.length === 1 ? t('profile_activity_period_singular') : t('profile_activity_periods');
+        const streakValue = summary.streakDays ? `${summary.streakDays} ${streakLabel}` : t('profile_no_streak');
+        const activeDaysValue = `${summary.activeDays} ${activeDaysLabel}`;
+        container.innerHTML = `<div class="profile-activity-stats"><div><strong>${formatPlatformSeconds(totalSeconds)}</strong><small>${escapeHtml(t('profile_platform_total'))}</small></div><div><strong>${escapeHtml(streakValue)}</strong><small>${escapeHtml(t('profile_current_streak'))}</small></div><div><strong>${escapeHtml(activeDaysValue)}</strong><small>${escapeHtml(t('profile_active_days'))}</small></div></div><h4>${escapeHtml(periodsLabel)}</h4>${periods.length ? `<div class="profile-activity-periods">${periods.map(period => `<article><strong>${escapeHtml(formatDay(period.date))}</strong><span>${escapeHtml(t('profile_activity_started'))}: ${escapeHtml(formatDate(period.start))}</span><span>${escapeHtml(t('profile_activity_ended'))}: ${escapeHtml(formatDate(period.end))}</span><small>${escapeHtml(t('profile_activity_duration'))}: ${formatPlatformSeconds(period.seconds)}</small></article>`).join('')}</div>` : `<p class="profile-transcript-empty">${escapeHtml(t('profile_no_activity'))}</p>`}`;
+    }
+
     // ========== SISTEMA DE NOTIFICAÇÕES ==========
     function showToast(message, type = 'info') {
         if (window.queueNotification && typeof window.queueNotification === 'function') {
@@ -2447,6 +2471,19 @@
         if (coursePointsEl) coursePointsEl.textContent = totalStats.coursePoints;
         const grandTotalEl = document.getElementById('profileGrandTotalPoints');
         if (grandTotalEl) grandTotalEl.textContent = grandTotal;
+        const activityButton = document.getElementById('profileActivityBtn');
+        if (activityButton && activityButton.dataset.bound !== 'true') {
+            activityButton.dataset.bound = 'true';
+            activityButton.addEventListener('click', () => {
+                const details = document.getElementById('profileActivityDetails');
+                if (!details) return;
+                details.hidden = !details.hidden;
+                activityButton.setAttribute('aria-expanded', String(!details.hidden));
+                if (!details.hidden) renderActivityDetails();
+            });
+        }
+        const activityLabel = document.querySelector('#profileActivityBtn span[data-i18n="profile_activity_summary"]');
+        if (activityLabel) activityLabel.textContent = t('profile_activity_summary');
         const examButton = document.getElementById('profileExamDetailsBtn');
         if (examButton && examButton.dataset.bound !== 'true') {
             examButton.dataset.bound = 'true';

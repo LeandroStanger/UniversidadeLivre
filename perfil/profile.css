@@ -289,6 +289,54 @@
     grid-template-columns: 1fr;
 }
 
+.profile-activity-details {
+    margin: 0.5rem 0 1rem;
+    padding: 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--bg-tertiary);
+}
+
+.profile-activity-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+}
+
+.profile-activity-stats div,
+.profile-activity-periods article {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    background: rgba(255, 255, 255, .03);
+}
+
+.profile-activity-stats strong {
+    color: var(--accent-teal);
+    font-size: 1.1rem;
+}
+
+.profile-activity-stats small,
+.profile-activity-periods span,
+.profile-activity-periods small {
+    color: var(--text-secondary);
+    font-size: .78rem;
+}
+
+.profile-activity-details h4 {
+    margin: 1rem 0 .5rem;
+    color: var(--text-secondary);
+}
+
+.profile-activity-periods {
+    display: grid;
+    gap: .5rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .profile-exam-item,
 .profile-game-status-item {
     display: grid;
@@ -654,6 +702,10 @@
 }
 
 @media (max-width: 700px) {
+    .profile-activity-stats {
+        grid-template-columns: 1fr;
+    }
+
     .profile-transcript-courses {
         grid-template-columns: 1fr;
     }
