@@ -1767,8 +1767,15 @@
 
         modal.querySelectorAll('.game-card[data-game]').forEach(card => {
             card.addEventListener('click', function() {
-                document.getElementById('bichoPanel')?.setAttribute('hidden', '');
-                document.getElementById('bichoPanel')?.style.setProperty('display', 'none', 'important');
+                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel'].forEach(id => {
+                    const panel = document.getElementById(id);
+                    panel?.setAttribute('hidden', '');
+                    panel?.style.setProperty('display', 'none', 'important');
+                });
+                document.querySelectorAll('.chess-room-creator, .chess-opponent-panel, #chessRoomList, #tttRoomList, .game-stage').forEach(element => {
+                    element.hidden = true;
+                    element.style.display = 'none';
+                });
                 const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : 'chess';
                 setSelectedGame(selectedGameName);
                 window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
@@ -1872,6 +1879,10 @@
                 return;
             }
             if (getSelectedGame() === 'bicho') {
+                showGamesMenuScreen();
+                return;
+            }
+            if (getSelectedGame() === 'slots' || getSelectedGame() === 'poker' || getSelectedGame() === 'blackjack' || getSelectedGame() === 'bacara' || getSelectedGame() === 'bingo') {
                 showGamesMenuScreen();
                 return;
             }

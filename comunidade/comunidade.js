@@ -457,9 +457,9 @@
     function readLivreWallet() {
         try {
             const all = JSON.parse(localStorage.getItem(LIVRE_WALLET_KEY) || '{}');
-            return all[livreCoinsUser()] || { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0 };
+            return all[livreCoinsUser()] || { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0, activeGame: null };
         } catch (_) {
-            return { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0 };
+            return { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0, activeGame: null };
         }
     }
     function writeLivreWallet(value) {
@@ -467,6 +467,31 @@
         try { all = JSON.parse(localStorage.getItem(LIVRE_WALLET_KEY) || '{}'); } catch (_) {}
         all[livreCoinsUser()] = { ...readLivreWallet(), ...value, coins: Math.max(0, Math.floor(value.coins ?? readLivreWallet().coins)), points: Math.max(0, Math.floor(value.points ?? readLivreWallet().points)) };
         nativeStorageSetItem.call(localStorage, LIVRE_WALLET_KEY, JSON.stringify(all));
+        const activeGame = value.activeGame || all[livreCoinsUser()].activeGame;
+        const legacyKeyByGame = {
+            poker: 'ulivre_poker_wallets',
+            blackjack: 'ulivre_blackjack_wallets',
+            bacara: 'ulivre_bacara_wallets',
+            bingo: 'ulivre_bingo_wallets'
+        };
+        const activeLegacyKey = legacyKeyByGame[activeGame];
+        if (activeLegacyKey) {
+            let legacy = {};
+            try { legacy = JSON.parse(localStorage.getItem(activeLegacyKey) || '{}'); } catch (_) {}
+            legacy[livreCoinsUser()] = {
+                ...(legacy[livreCoinsUser()] || {}),
+                coins: all[livreCoinsUser()].coins,
+                points: all[livreCoinsUser()].points || 0,
+                wins: all[livreCoinsUser()].wins || 0,
+                draws: all[livreCoinsUser()].draws || 0,
+                games: all[livreCoinsUser()].games || 0,
+                hands: all[livreCoinsUser()].hands || 0,
+                rounds: all[livreCoinsUser()].rounds || 0,
+                spins: all[livreCoinsUser()].spins || 0,
+                bets: all[livreCoinsUser()].bets || 0
+            };
+            nativeStorageSetItem.call(localStorage, activeLegacyKey, JSON.stringify(legacy));
+        }
         LEGACY_WALLET_KEYS.forEach(key => {
             let legacy = {};
             try { legacy = JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) {}
@@ -498,7 +523,7 @@
         };
         const bonus = Number.isFinite(bonusByGame[gameId]) ? bonusByGame[gameId] : 50;
         const bonuses = { ...(wallet.bonuses || {}), [gameId]: true };
-        return writeLivreWallet({ ...wallet, coins: wallet.coins + bonus, bonuses });
+        return writeLivreWallet({ ...wallet, activeGame: gameId, coins: wallet.coins + bonus, bonuses });
     }
     window.UniversidadeLivreWallet = {
         get: readLivreWallet,
@@ -635,7 +660,7 @@
 
     function bindStandaloneRoomActions() {
         document.addEventListener('click', event => {
-            const button = event.target.closest('.checkers-delete, .roulette-delete, .hangman-delete, .bicho-delete');
+            const button = event.target.closest('.checkers-delete, .roulette-delete, .hangman-delete, .bicho-delete, .slots-delete, .poker-delete, .blackjack-delete, .bacara-delete, .bingo-delete');
             if (!button) return;
             event.preventDefault();
             event.stopImmediatePropagation();

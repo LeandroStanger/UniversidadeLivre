@@ -2973,7 +2973,10 @@
 
     window.addEventListener('livreWalletUpdated', () => {
         const modal = document.getElementById('profileModal');
-        if (modal?.style?.display === 'flex') updateProfileModal();
+        if (modal?.style?.display === 'flex') {
+            updateProfileModal();
+            if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+        }
     });
 
     window.addEventListener('storage', (e) => {
