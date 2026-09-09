@@ -640,6 +640,7 @@
         , { panel: '#blackjackPanel', room: '.blackjack-room', join: '.blackjack-join', view: '.blackjack-view', remove: '.blackjack-delete', key: 'ulivre_blackjack_rooms', game: 'BlackjackGame' }
         , { panel: '#bacaraPanel', room: '.bacara-room', join: '.bacara-join', view: '.bacara-view', remove: '.bacara-delete', key: 'ulivre_bacara_rooms', game: 'BacaraGame' }
         , { panel: '#bingoPanel', room: '.bingo-room', join: '.bingo-join', view: '.bingo-view', remove: '.bingo-delete', key: 'ulivre_bingo_rooms', game: 'BingoGame' }
+        , { panel: '#bitcoinPanel', room: '.bitcoin-room', join: '.bitcoin-join', view: '.bitcoin-view', remove: '.bitcoin-delete', key: 'ulivre_bitcoin_rooms', game: 'BitcoinGame' }
     ];
 
     function syncStandaloneRoomActions() {
@@ -660,7 +661,7 @@
 
     function bindStandaloneRoomActions() {
         document.addEventListener('click', event => {
-            const button = event.target.closest('.checkers-delete, .roulette-delete, .hangman-delete, .bicho-delete, .slots-delete, .poker-delete, .blackjack-delete, .bacara-delete, .bingo-delete');
+            const button = event.target.closest('.checkers-delete, .roulette-delete, .hangman-delete, .bicho-delete, .slots-delete, .poker-delete, .blackjack-delete, .bacara-delete, .bingo-delete, .bitcoin-delete');
             if (!button) return;
             event.preventDefault();
             event.stopImmediatePropagation();

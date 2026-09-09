@@ -147,11 +147,11 @@
     }
 
     function getSelectedGame() {
-        return ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho'].includes(currentGameSelection) ? currentGameSelection : 'chess';
+        return ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo'].includes(currentGameSelection) ? currentGameSelection : 'chess';
     }
 
     function setSelectedGame(game) {
-        currentGameSelection = ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho'].includes(game) ? game : 'chess';
+        currentGameSelection = ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo'].includes(game) ? game : 'chess';
     }
 
     function getActiveRoomIdForSelection() {
@@ -1329,6 +1329,7 @@
         const blackjackPanel = document.getElementById('blackjackPanel');
         const bacaraPanel = document.getElementById('bacaraPanel');
         const bingoPanel = document.getElementById('bingoPanel');
+        const bitcoinPanel = document.getElementById('bitcoinPanel');
         const chessPanel = document.getElementById('chessPanel');
         const menuCards = document.querySelectorAll('.game-card[data-game]');
         if (menuScreen) menuScreen.hidden = false;
@@ -1365,6 +1366,10 @@
         if (bingoPanel) {
             bingoPanel.hidden = true;
             bingoPanel.style.setProperty('display', 'none', 'important');
+        }
+        if (bitcoinPanel) {
+            bitcoinPanel.hidden = true;
+            bitcoinPanel.style.setProperty('display', 'none', 'important');
         }
         [chessPanel, impostorPanel, hangmanPanel, checkersPanel, roulettePanel].forEach(panel => panel?.style.removeProperty('display'));
         if (chessPanel) chessPanel.hidden = false;
@@ -1767,7 +1772,7 @@
 
         modal.querySelectorAll('.game-card[data-game]').forEach(card => {
             card.addEventListener('click', function() {
-                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel'].forEach(id => {
+                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel', 'bitcoinPanel'].forEach(id => {
                     const panel = document.getElementById(id);
                     panel?.setAttribute('hidden', '');
                     panel?.style.setProperty('display', 'none', 'important');
@@ -1776,7 +1781,7 @@
                     element.hidden = true;
                     element.style.display = 'none';
                 });
-                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : 'chess';
+                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : this.dataset.game === 'bitcoin' ? 'bitcoin' : 'chess';
                 setSelectedGame(selectedGameName);
                 window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
                 modal.querySelectorAll('.game-card[data-game]').forEach(item => item.classList.toggle('active', item === this));
@@ -1833,6 +1838,10 @@
 
                 if (selectedGameName === 'bingo') {
                     window.BingoGame?.show();
+                    return;
+                }
+                if (selectedGameName === 'bitcoin') {
+                    window.BitcoinGame?.show();
                     return;
                 }
 
