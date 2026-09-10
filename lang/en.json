@@ -693,6 +693,8 @@
   "no_articles_to_share": "No articles to share.",
   "no_polls_to_share": "No polls to share.",
   "p2p_chat": "Chat",
+  "chat_open": "Open chat",
+  "chat_close": "Close chat",
   "connect_to_chat": "No messages yet.",
   "type_message": "Type your message or paste GIF URL...",
   "connected": "Connected (local)",

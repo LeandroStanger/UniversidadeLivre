@@ -1735,8 +1735,8 @@
                 </div>
 
                 <!-- CHAT -->
-                <div class="p2p-chat-section">
-                    <h4><i class="fas fa-comment-dots"></i> <span data-i18n="p2p_chat">Chat</span></h4>
+                <div class="p2p-chat-section chat-widget-panel" id="chatWidgetPanel" hidden>
+                    <h4><span><i class="fas fa-comment-dots"></i> <span data-i18n="p2p_chat">Chat</span></span><button type="button" id="chatWidgetClose" class="chat-widget-close" data-i18n-title="chat_close" aria-label="Fechar chat"><i class="fas fa-times"></i></button></h4>
                     <div id="tttScoreboard" class="ttt-scoreboard" aria-live="polite">
                         <strong><i class="fas fa-trophy"></i> <span data-i18n="games_score_title">Pontuação dos jogos</span></strong>
                         <span id="tttScoreboardText" data-i18n="games_score_empty">Nenhuma partida registrada.</span>
@@ -1769,6 +1769,9 @@
                     </div>
                 </div>
             </aside>
+            <button type="button" id="chatWidgetToggle" class="chat-widget-toggle" aria-expanded="false" aria-controls="chatWidgetPanel" data-i18n-title="chat_open" aria-label="Abrir chat">
+                <i class="fas fa-comment-dots" aria-hidden="true"></i><span class="chat-widget-badge" aria-hidden="true"></span>
+            </button>
 
             <main class="main-content" id="mainContent">
                 <div class="discipline-header" id="disciplineHeader">

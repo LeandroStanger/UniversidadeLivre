@@ -2980,6 +2980,25 @@
         });
     }
 
+    function initChatWidget() {
+        const panel = document.getElementById('chatWidgetPanel');
+        const toggle = document.getElementById('chatWidgetToggle');
+        const close = document.getElementById('chatWidgetClose');
+        if (!panel || !toggle || !close || toggle.dataset.bound === 'true') return;
+        const setOpen = open => {
+            panel.hidden = !open;
+            toggle.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.setAttribute('aria-label', t(open ? 'chat_close' : 'chat_open'));
+            toggle.setAttribute('title', t(open ? 'chat_close' : 'chat_open'));
+            if (open) document.getElementById('p2pInput')?.focus();
+        };
+        toggle.dataset.bound = 'true';
+        toggle.addEventListener('click', () => setOpen(panel.hidden));
+        close.addEventListener('click', () => setOpen(false));
+        setOpen(false);
+    }
+
     // ========================================================================
     // GARANTIR QUE O PERFIL FUNCIONE NA COMUNIDADE
     // ========================================================================
@@ -3169,6 +3188,7 @@
         initEmojiPicker();
         initCommentEmojiPickers();
         initGifModal();
+        initChatWidget();
         initTabs();
         elements.newPollBtn?.addEventListener('click', openPollModal);
         document.getElementById('closePollModal')?.addEventListener('click', closePollModal);
