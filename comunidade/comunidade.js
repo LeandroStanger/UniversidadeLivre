@@ -376,6 +376,7 @@
         currentUser: { name: 'Anônimo', avatar: null },
         chatMessages: [],
         activeTab: 'all',
+        courseScope: localStorage.getItem('comunidade_course_scope') === 'all' ? 'all' : 'my',
         notes: [],
         selectedNoteId: null,
         chatBlocked: false,
@@ -893,13 +894,26 @@
     async function refreshCourses() {
         const success = await loadCoursesAndDisciplines();
         if (!success) return;
+        if (state.courseScope === 'my' && state.courses.length > 0 && getVisibleCourses().length === 0) {
+            state.courseScope = 'all';
+            localStorage.setItem('comunidade_course_scope', 'all');
+            document.querySelectorAll('.course-scope-tab').forEach(tab => {
+                const active = tab.dataset.courseScope === 'all';
+                tab.classList.toggle('active', active);
+                tab.setAttribute('aria-selected', String(active));
+            });
+        }
         renderSidebar();
-        if (state.currentCourseId && state.currentDiscipline) {
+        const visibleCourses = getVisibleCourses();
+        if (state.currentCourseId && visibleCourses.some(course => course.id === state.currentCourseId) && state.currentDiscipline) {
             selectDiscipline(state.currentCourseId, state.currentDiscipline);
-        } else if (state.courses.length > 0) {
-            const first = state.courses[0];
+        } else if (visibleCourses.length > 0) {
+            const first = visibleCourses[0];
             const disciplines = state.disciplines[first.id] || [];
             selectDiscipline(first.id, disciplines.length > 0 ? disciplines[0] : null);
+        } else {
+            state.currentCourseId = null;
+            state.currentDiscipline = null;
         }
     }
 
@@ -2176,13 +2190,15 @@
         const container = elements.courseList;
         if (!container) return;
 
-        if (state.courses.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${t('no_courses_found')}</p></div>`;
+        const visibleCourses = getVisibleCourses();
+        if (visibleCourses.length === 0) {
+            const message = state.courseScope === 'my' ? t('no_my_courses') : t('no_courses_found');
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${message}</p></div>`;
             return;
         }
 
         let html = '';
-        for (const course of state.courses) {
+        for (const course of visibleCourses) {
             const disciplines = state.disciplines[course.id] || [];
             const isActive = state.currentCourseId === course.id;
             const localizedCourseName = getLocalizedCourseName(course);
@@ -2235,6 +2251,51 @@
                 const courseId = this.dataset.courseId;
                 const discipline = this.dataset.discipline;
                 selectDiscipline(courseId, discipline);
+            });
+        });
+    }
+
+    function getVisibleCourses() {
+        if (state.courseScope === 'all') return state.courses;
+        const activeCourseIds = new Set();
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            if (!key || !key.startsWith('ulivre_course_')) continue;
+            try {
+                const data = JSON.parse(localStorage.getItem(key) || '{}');
+                const hasWatchedVideo = Array.isArray(data.watchedMap) && data.watchedMap.some(Boolean);
+                const hasExamProgress = Object.keys(data).some(name => /exam|discipline/i.test(name) && data[name]);
+                if (hasWatchedVideo || hasExamProgress) activeCourseIds.add(key.replace('ulivre_course_', ''));
+            } catch (_) {}
+        }
+        return state.courses.filter(course => activeCourseIds.has(course.id));
+    }
+
+    function initCourseScopeTabs() {
+        const tabs = document.querySelectorAll('.course-scope-tab');
+        tabs.forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.courseScope === state.courseScope);
+            tab.setAttribute('aria-selected', String(tab.dataset.courseScope === state.courseScope));
+            tab.addEventListener('click', () => {
+                state.courseScope = tab.dataset.courseScope === 'all' ? 'all' : 'my';
+                localStorage.setItem('comunidade_course_scope', state.courseScope);
+                tabs.forEach(item => {
+                    const active = item.dataset.courseScope === state.courseScope;
+                    item.classList.toggle('active', active);
+                    item.setAttribute('aria-selected', String(active));
+                });
+                const visibleCourses = getVisibleCourses();
+                const selectedIsVisible = visibleCourses.some(course => course.id === state.currentCourseId);
+                if (!selectedIsVisible) {
+                    state.currentCourseId = null;
+                    state.currentDiscipline = null;
+                }
+                renderSidebar();
+                if (!selectedIsVisible && visibleCourses.length > 0) {
+                    const first = visibleCourses[0];
+                    const disciplines = state.disciplines[first.id] || [];
+                    selectDiscipline(first.id, disciplines[0] || null);
+                }
             });
         });
     }
@@ -2968,6 +3029,7 @@
         elements.cancelPostBtn = document.getElementById('cancelPostBtn');
         elements.savePostBtn = document.getElementById('savePostBtn');
         elements.refreshCoursesBtn = document.getElementById('refreshCoursesBtn');
+        initCourseScopeTabs();
 
         state.currentUser = getCurrentUser();
         setupProfileButton();
