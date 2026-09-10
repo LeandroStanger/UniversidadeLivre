@@ -2,6 +2,7 @@
     'use strict';
 
     const ROOMS_KEY = 'ulivre_bitcoin_rooms';
+    const STATS_KEY = 'ulivre_bitcoin_stats';
     const GAME_ID = 'bitcoin';
     const DURATIONS = [5, 10, 15, 20, 25, 30, 35, 45, 60, 90, 120, 150, 180, 210, 240, 270, 300];
     let activeRoomId = null;
@@ -39,6 +40,19 @@
     const getRoom = (roomId = activeRoomId) => readRooms().find(room => room.id === roomId) || null;
     const wallet = () => window.UniversidadeLivreWallet?.get() || { coins: 0, wins: 0, games: 0 };
     const saveWallet = value => window.UniversidadeLivreWallet?.update(value);
+    const readStats = () => {
+        try {
+            const stats = JSON.parse(localStorage.getItem(STATS_KEY) || '{}');
+            return { games: Number(stats.games) || 0, wins: Number(stats.wins) || 0, losses: Number(stats.losses) || 0 };
+        } catch (_) {
+            return { games: 0, wins: 0, losses: 0 };
+        }
+    };
+    const saveStats = stats => localStorage.setItem(STATS_KEY, JSON.stringify({
+        games: Number(stats.games) || 0,
+        wins: Number(stats.wins) || 0,
+        losses: Number(stats.losses) || 0
+    }));
     const getCurrency = () => {
         const language = localStorage.getItem('selectedLanguage') || document.documentElement.lang || 'pt-BR';
         return language.toLowerCase().startsWith('en') ? 'usd' : 'brl';
@@ -68,6 +82,8 @@
     const durationOptions = selected => DURATIONS
         .map(minutes => `<option value="${minutes}" ${minutes === selected ? 'selected' : ''}>${durationLabel(minutes)}</option>`)
         .join('');
+    const payoutMultiplier = minutes => 2 + Math.min(minutes, 300) / 120;
+    const payoutAmount = (amount, minutes) => Math.floor(amount * payoutMultiplier(minutes));
     const remainingMs = bet => Math.max(0, bet.startedAt + bet.duration * 60 * 1000 - Date.now());
     const formatCountdown = milliseconds => {
         const totalSeconds = Math.ceil(milliseconds / 1000);
@@ -160,7 +176,11 @@
             const currency = getCurrency();
             const startPrice = await fetchPrice(currency);
             if (!saveWallet({ ...wallet(), coins: wallet().coins - amount, games: Number(wallet().games || 0) + 1, activeGame: GAME_ID })) throw new Error('Saldo indisponível');
-            const bet = { playerId: id(), playerName: name(), direction, amount, duration, currency, startPrice, startedAt: Date.now(), resolved: false, result: null };
+            const multiplier = payoutMultiplier(duration);
+            const bet = { playerId: id(), playerName: name(), direction, amount, duration, multiplier, currency, startPrice, startedAt: Date.now(), resolved: false, result: null };
+            const stats = readStats();
+            stats.games += 1;
+            saveStats(stats);
             room.bet = { ...(room.bet || {}), [id()]: bet };
             writeRooms(readRooms().map(item => item.id === room.id ? room : item));
             game.message = tx('bitcoin_bet_registered', `Aposta registrada em ${formatPrice(startPrice, currency)}.`, { price: formatPrice(startPrice, currency) });
@@ -185,7 +205,11 @@
                 clearInterval(countdownTimer);
                 countdownTimer = null;
             }
-            if (won) saveWallet({ ...wallet(), coins: wallet().coins + bet.amount * 2, wins: Number(wallet().wins || 0) + 1 });
+            if (won) saveWallet({ ...wallet(), coins: wallet().coins + payoutAmount(bet.amount, bet.duration), wins: Number(wallet().wins || 0) + 1 });
+            const stats = readStats();
+            if (won) stats.wins += 1;
+            else stats.losses += 1;
+            saveStats(stats);
             writeRooms(readRooms().map(item => item.id === room.id ? room : item));
             if (room.id === activeRoomId && playerId === id()) {
                 game.message = won
@@ -228,8 +252,19 @@
         const displayCurrency = bet?.currency || getCurrency();
         const roomMode = room.mode === 'individual' ? tx('bitcoin_individual', 'Aposta individual') : tx('bitcoin_community', 'Aposta com a comunidade');
         const waitingDirection = bet?.direction === 'up' ? tx('bitcoin_up', 'Bitcoin vai subir') : tx('bitcoin_down', 'Bitcoin vai descer');
-        target.innerHTML = `<div class="bitcoin-card"><div class="bitcoin-header"><div><h4>${tx('bitcoin_title', 'Bitcoin: sobe ou desce')} · ${esc(room.id)}</h4><p>${tx('bitcoin_room_players', '{{mode}} · {{players}}/{{capacity}} jogadores', { mode: roomMode, players: room.players.length, capacity: room.capacity })}</p></div><div class="bitcoin-price">${game.price ? formatPrice(game.price, getCurrency()) : tx('bitcoin_loading_price', 'Atualizando...')}</div></div><div class="bitcoin-balance"><span>${tx('bitcoin_balance', 'Saldo')}: <strong>${wallet().coins}</strong> Livre Coins</span><span>${tx('bitcoin_participants', 'Participantes')}: <strong>${room.players.map(player => esc(player.name)).join(', ')}</strong></span></div>${result ? `<div class="bitcoin-status ${result.won ? 'bitcoin-win' : 'bitcoin-loss'}">${game.message || (result.won ? tx('bitcoin_won', 'Você ganhou!') : tx('bitcoin_lost', 'Você perdeu.'))} ${formatPrice(bet.startPrice, displayCurrency)} → ${formatPrice(result.endPrice, displayCurrency)}</div>` : bet ? `<div class="bitcoin-status"><div>${esc(game.message || tx('bitcoin_waiting_bet', 'Aposta em {{direction}} aguardando o vencimento.', { direction: waitingDirection }))}</div><div class="bitcoin-countdown-label">${tx('bitcoin_time_remaining', 'Tempo restante')}</div><strong id="bitcoinCountdown" class="bitcoin-countdown">${formatCountdown(remainingMs(bet))}</strong></div>` : `<div class="bitcoin-round"><div class="bitcoin-direction"><label><input type="radio" name="bitcoinDirection" value="up"> ↗ ${tx('bitcoin_up', 'Bitcoin vai subir')}</label><label><input type="radio" name="bitcoinDirection" value="down"> ↘ ${tx('bitcoin_down', 'Bitcoin vai descer')}</label></div><label class="bitcoin-field">${tx('bitcoin_bet_time', 'Tempo da aposta')}<select id="bitcoinRoundDuration" class="bitcoin-select">${durationOptions(15)}</select></label><label class="bitcoin-field">${tx('bitcoin_bet_amount', 'Valor da aposta')}<input id="bitcoinAmount" class="bitcoin-input" type="number" min="1" max="${wallet().coins}" value="10"></label><button id="bitcoinBet" class="bitcoin-primary" type="button">${tx('bitcoin_place_bet', 'Apostar')}</button></div>`}${game.error ? `<div class="bitcoin-status bitcoin-loss">${game.error}</div>` : ''}<div class="bitcoin-actions"><button id="bitcoinBack" class="bitcoin-secondary" type="button">${tx('bitcoin_back_rooms', 'Voltar para salas')}</button></div></div>`;
+        const selectedDuration = Number(panel().querySelector('#bitcoinRoundDuration')?.value || 15);
+        const selectedAmount = Math.max(0, Math.floor(Number(panel().querySelector('#bitcoinAmount')?.value || 10)));
+        const potentialPrize = payoutAmount(selectedAmount, selectedDuration);
+        target.innerHTML = `<div class="bitcoin-card"><div class="bitcoin-header"><div><h4>${tx('bitcoin_title', 'Bitcoin: sobe ou desce')} · ${esc(room.id)}</h4><p>${tx('bitcoin_room_players', '{{mode}} · {{players}}/{{capacity}} jogadores', { mode: roomMode, players: room.players.length, capacity: room.capacity })}</p></div><div class="bitcoin-price">${game.price ? formatPrice(game.price, getCurrency()) : tx('bitcoin_loading_price', 'Atualizando...')}</div></div><div class="bitcoin-balance"><span>${tx('bitcoin_balance', 'Saldo')}: <strong>${wallet().coins}</strong> Livre Coins</span><span>${tx('bitcoin_participants', 'Participantes')}: <strong>${room.players.map(player => esc(player.name)).join(', ')}</strong></span></div>${result ? `<div class="bitcoin-status ${result.won ? 'bitcoin-win' : 'bitcoin-loss'}">${game.message || (result.won ? tx('bitcoin_won', 'Você ganhou!') : tx('bitcoin_lost', 'Você perdeu.'))} ${formatPrice(bet.startPrice, displayCurrency)} → ${formatPrice(result.endPrice, displayCurrency)}</div>` : bet ? `<div class="bitcoin-status"><div>${esc(game.message || tx('bitcoin_waiting_bet', 'Aposta em {{direction}} aguardando o vencimento.', { direction: waitingDirection }))}</div><div class="bitcoin-countdown-label">${tx('bitcoin_time_remaining', 'Tempo restante')}</div><strong id="bitcoinCountdown" class="bitcoin-countdown">${formatCountdown(remainingMs(bet))}</strong><div class="bitcoin-prize-info">${tx('bitcoin_locked_prize', 'Prêmio potencial')}: <strong>${payoutAmount(bet.amount, bet.duration)} Livre Coins</strong> (${(bet.multiplier || payoutMultiplier(bet.duration)).toFixed(2)}x)</div></div>` : `<div class="bitcoin-round"><div class="bitcoin-direction"><label><input type="radio" name="bitcoinDirection" value="up"> ↗ ${tx('bitcoin_up', 'Bitcoin vai subir')}</label><label><input type="radio" name="bitcoinDirection" value="down"> ↘ ${tx('bitcoin_down', 'Bitcoin vai descer')}</label></div><label class="bitcoin-field">${tx('bitcoin_bet_time', 'Tempo da aposta')}<select id="bitcoinRoundDuration" class="bitcoin-select">${durationOptions(15)}</select></label><label class="bitcoin-field">${tx('bitcoin_bet_amount', 'Valor da aposta')}<input id="bitcoinAmount" class="bitcoin-input" type="number" min="1" max="${wallet().coins}" value="10"></label><div id="bitcoinPotentialPrize" class="bitcoin-prize-info">${tx('bitcoin_potential_prize', 'Se ganhar, você recebe')}: <strong>${potentialPrize} Livre Coins</strong> (${payoutMultiplier(selectedDuration).toFixed(2)}x)</div><button id="bitcoinBet" class="bitcoin-primary" type="button">${tx('bitcoin_place_bet', 'Apostar')}</button></div>`}${game.error ? `<div class="bitcoin-status bitcoin-loss">${game.error}</div>` : ''}<div class="bitcoin-actions"><button id="bitcoinBack" class="bitcoin-secondary" type="button">${tx('bitcoin_back_rooms', 'Voltar para salas')}</button></div></div>`;
         target.querySelector('#bitcoinBet')?.addEventListener('click', placeBet);
+        const updatePrize = () => {
+            const duration = Number(target.querySelector('#bitcoinRoundDuration')?.value || 15);
+            const amount = Math.max(0, Math.floor(Number(target.querySelector('#bitcoinAmount')?.value || 0)));
+            const output = target.querySelector('#bitcoinPotentialPrize');
+            if (output) output.innerHTML = `${tx('bitcoin_potential_prize', 'Se ganhar, você recebe')}: <strong>${payoutAmount(amount, duration)} Livre Coins</strong> (${payoutMultiplier(duration).toFixed(2)}x)`;
+        };
+        target.querySelector('#bitcoinRoundDuration')?.addEventListener('change', updatePrize);
+        target.querySelector('#bitcoinAmount')?.addEventListener('input', updatePrize);
         target.querySelector('#bitcoinBack')?.addEventListener('click', renderLobby);
     }
     function show() {

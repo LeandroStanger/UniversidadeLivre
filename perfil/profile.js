@@ -32,6 +32,23 @@
     };
 
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+    const GAME_PROGRESS_KEYS = [
+        'ulivre_ttt_scores',
+        'ulivre_chess_scores',
+        'ulivre_impostor_scores',
+        'ulivre_hangman_scores',
+        'ulivre_checkers_scores',
+        'ulivre_roulette_wallets',
+        'ulivre_uno_scores',
+        'ulivre_bicho_wallets',
+        'ulivre_slots_wallets',
+        'ulivre_poker_wallets',
+        'ulivre_blackjack_wallets',
+        'ulivre_bacara_wallets',
+        'ulivre_bingo_wallets',
+        'ulivre_bitcoin_stats',
+        'ulivre_livre_coins_wallet'
+    ];
     const TEST_ADMIN_MATRICULA = '20260815064514840';
     const PASSWORD_MIN_LENGTH = 8;
     const PASSWORD_REQUIREMENTS = {
@@ -1612,6 +1629,19 @@
             }
         };
         const rawScore = (key) => readScore(key);
+        const bitcoinScore = (() => {
+            try {
+                const score = JSON.parse(localStorage.getItem('ulivre_bitcoin_stats') || '{}');
+                return {
+                    points: 0,
+                    wins: Number(score.wins) || 0,
+                    draws: 0,
+                    losses: Number(score.losses) || 0
+                };
+            } catch (_) {
+                return { points: 0, wins: 0, draws: 0, losses: 0 };
+            }
+        })();
         const normalizeScore = (score, key) => ({
             points: Number(score.points) || 0,
             wins: Number(score.wins) || 0,
@@ -1631,6 +1661,7 @@
             { name: t('games_score_blackjack'), iconSymbol: '♣', score: normalizeScore(rawScore('ulivre_blackjack_wallets'), 'ulivre_blackjack_wallets') },
             { name: t('games_score_bacara'), icon: 'fa-diamond', score: normalizeScore(rawScore('ulivre_bacara_wallets'), 'ulivre_bacara_wallets') },
             { name: t('games_score_bingo'), icon: 'fa-ticket', score: normalizeScore(rawScore('ulivre_bingo_wallets'), 'ulivre_bingo_wallets') }
+            , { name: t('games_score_bitcoin'), iconSymbol: '₿', score: bitcoinScore }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
@@ -1746,7 +1777,7 @@
             avatar: getUserAvatar() || null,
             matricula: getMatricula(),
             auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
-            version: '2.2',
+            version: '2.3',
             data: {}
         };
 
@@ -1789,21 +1820,20 @@
             exportData.data.tags = getTags();
         }
         exportData.data.community = getCommunityProgress();
-        const gameScores = localStorage.getItem('ulivre_ttt_scores');
-        if (gameScores) {
+        exportData.data.gameProgress = {};
+        GAME_PROGRESS_KEYS.forEach(key => {
+            const value = localStorage.getItem(key);
+            if (value === null) return;
             try {
-                exportData.data.tttScores = JSON.parse(gameScores);
+                exportData.data.gameProgress[key] = JSON.parse(value);
             } catch (_) {
-                console.warn('[Profile] Pontuação dos jogos inválida para exportação.');
+                console.warn(`[Profile] Dados do jogo inválidos para exportação: ${key}`);
             }
-        }
-        const chessScores = localStorage.getItem('ulivre_chess_scores');
-        if (chessScores) {
-            try {
-                exportData.data.chessScores = JSON.parse(chessScores);
-            } catch (_) {
-                console.warn('[Profile] Pontuação do xadrez inválida para exportação.');
-            }
+        });
+        const currentUser = loadProfileName() || 'Anônimo';
+        const livreWallet = exportData.data.gameProgress['ulivre_livre_coins_wallet'];
+        if (livreWallet && typeof livreWallet === 'object' && !Array.isArray(livreWallet)) {
+            exportData.data.livreWallet = livreWallet[currentUser] || null;
         }
         exportData.data.cursorTimeset = getProgressStorageEntries(['cursor_timeset']);
         return exportData;
@@ -2159,11 +2189,29 @@
             if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
             if (data.notes) localStorage.setItem('ulivre_notas_estudo', JSON.stringify(data.notes));
             if (data.tags) localStorage.setItem('ulivre_notas_tags', JSON.stringify(data.tags));
-            if (data.tttScores && typeof data.tttScores === 'object') {
-                localStorage.setItem('ulivre_ttt_scores', JSON.stringify(data.tttScores));
+            if (data.gameProgress && typeof data.gameProgress === 'object') {
+                GAME_PROGRESS_KEYS.forEach(key => {
+                    const value = data.gameProgress[key];
+                    if (value !== undefined) localStorage.setItem(key, JSON.stringify(value));
+                });
             }
-            if (data.chessScores && typeof data.chessScores === 'object') {
-                localStorage.setItem('ulivre_chess_scores', JSON.stringify(data.chessScores));
+            if (!data.gameProgress) {
+                if (data.tttScores && typeof data.tttScores === 'object') {
+                    localStorage.setItem('ulivre_ttt_scores', JSON.stringify(data.tttScores));
+                }
+                if (data.chessScores && typeof data.chessScores === 'object') {
+                    localStorage.setItem('ulivre_chess_scores', JSON.stringify(data.chessScores));
+                }
+            }
+            if (data.livreWallet && typeof data.livreWallet === 'object' && !Array.isArray(data.livreWallet)) {
+                let wallets = {};
+                try {
+                    wallets = JSON.parse(localStorage.getItem('ulivre_livre_coins_wallet') || '{}');
+                } catch (_) {
+                    wallets = {};
+                }
+                wallets[importedData.user || loadProfileName() || 'Anônimo'] = data.livreWallet;
+                localStorage.setItem('ulivre_livre_coins_wallet', JSON.stringify(wallets));
             }
             if (Array.isArray(data.examHistory)) {
                 data.examHistory.forEach((exam) => {
