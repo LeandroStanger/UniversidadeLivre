@@ -514,6 +514,7 @@
             checkers: 50,
             bicho: 50,
             bingo: 50,
+            bitcoin: 75,
             slots: 150,
             bacara: 150,
             poker: 150,
@@ -584,6 +585,34 @@
         if (balance) balance.textContent = String(window.UniversidadeLivreWallet.get().coins);
         if (points) points.textContent = String(window.UniversidadeLivreWallet.get().points);
     }
+    function decorateGameCoinLabels() {
+        const root = document.getElementById('gameShellScreen');
+        if (!root) return;
+        root.querySelectorAll('span, strong, label, p, div').forEach(element => {
+            if (element.dataset.coinLogo === 'true' || element.children.length > 0) return;
+            const textNode = Array.from(element.childNodes).find(node => node.nodeType === Node.TEXT_NODE && /\b(?:Livre Coins?|moedas?)\b/i.test(node.textContent || ''));
+            if (!textNode) return;
+            const fragment = document.createDocumentFragment();
+            const parts = textNode.textContent.split(/(\b(?:Livre Coins?|moedas?)\b)/i);
+            parts.forEach(part => {
+                if (/^(?:Livre Coins?|moedas?)$/i.test(part)) {
+                    const logo = document.createElement('img');
+                    logo.className = 'livre-coin-logo';
+                    logo.src = 'Livre Coin/Livre Coin.png';
+                    logo.alt = '';
+                    logo.setAttribute('aria-hidden', 'true');
+                    fragment.append(logo, document.createTextNode(part));
+                } else if (part) {
+                    fragment.append(document.createTextNode(part));
+                }
+            });
+            textNode.replaceWith(fragment);
+            element.dataset.coinLogo = 'true';
+        });
+    }
+    const gameCoinLabelsObserver = new MutationObserver(decorateGameCoinLabels);
+    gameCoinLabelsObserver.observe(document.getElementById('gameShellScreen') || document.body, { childList: true, subtree: true });
+    decorateGameCoinLabels();
     window.addEventListener('livreWalletUpdated', refreshLivreCoinsDisplay);
     window.addEventListener('storage', event => {
         if (event.key === LIVRE_WALLET_KEY) refreshLivreCoinsDisplay();
