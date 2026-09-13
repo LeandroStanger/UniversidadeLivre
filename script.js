@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     'use strict';
 
 attachDisciplineQuizModalHandlers();
-document.getElementById('finalExamBtn')?.addEventListener('click', openFinalExam);
 console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
@@ -108,6 +107,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     let activeTab = null;
     let currentCourse = null;
     let stagesData = [];
+    let activeStageIndex = 0;
     let allVideosFlat = [];
     let lessons = [];
     let currentLessonId = 0, currentVideoInLesson = 0;
@@ -115,6 +115,16 @@ console.log('[Main] Inicializando script.js v28.0...');
     let disciplineToLessonsMap = new Map();
     let player = null, isPlayerReady = false, currentVideoDuration = 0, updateInterval = null;
     let currentDiscipline = null;
+    const COMMUNITY_CONTEXT_KEY = 'comunidade_current_study_context';
+
+    function persistCommunityStudyContext() {
+        if (!currentCourse || !currentDiscipline) return;
+        localStorage.setItem(COMMUNITY_CONTEXT_KEY, JSON.stringify({
+            courseId: currentCourse,
+            discipline: currentDiscipline,
+            updatedAt: Date.now()
+        }));
+    }
     let notifiedDisciplines = new Set();
     let notificationQueue = [];
     let notificationActive = false;
@@ -459,7 +469,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 progressPercent = total ? Math.floor((watched / total) * 100) : 0;
             } catch (e) {}
         }
-        const buttonKey = progressPercent > 0 ? 'continue_studies' : 'enter_course';
+        const buttonKey = progressPercent > 0 ? 'continue_studies' : 'start_course';
 
         let levelText = '';
         let typeText = '';
@@ -1062,6 +1072,10 @@ console.log('[Main] Inicializando script.js v28.0...');
             const courseInfo = allCourses.find(c => c.id === courseId);
             currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
             currentCourse = courseId;
+            document.body.dataset.course = courseId;
+            document.getElementById('courseView')?.classList.remove('lesson-open');
+            const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
+            if (backToDisciplineBtn) backToDisciplineBtn.hidden = true;
             window.UniversidadeLivreAnalytics?.course(courseId, currentCourseDetails.name || courseData.name);
             initCourse(courseData);
             const homeScreen = document.getElementById("homeScreen");
@@ -1122,16 +1136,15 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (!currentDiscipline) {
                 currentDiscipline = ensureCurrentDiscipline();
             }
+            persistCommunityStudyContext();
+            if (window.renderCourseIntroCard) {
+                await window.renderCourseIntroCard(courseId, currentCourseDetails);
+            }
             renderUnifiedCourseContent();
             expandCurrentLessonInUnifiedContent();
             renderCurrentLessonPanel();
             activeTab = 'bibliografia';
             activateTab('bibliografia');
-            const introDisplayed = window.checkCourseIntro
-                ? await window.checkCourseIntro(courseId)
-                : false;
-            if (introDisplayed) window.onIntroClosed = () => { startLesson(); window.onIntroClosed = null; };
-            else startLesson();
             updateNotificationPosition();
             updatePracticeTabVisibility();
             renderProgressChart();
@@ -1216,6 +1229,9 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function initCourse(courseData) {
         stagesData = convertStages(courseData.stages);
+        activeStageIndex = 0;
+        const contentList = document.getElementById('unifiedContentList');
+        if (contentList) delete contentList.dataset.stageSelected;
         rebuildDataStructures();
     }
 
@@ -1251,7 +1267,10 @@ console.log('[Main] Inicializando script.js v28.0...');
         let current = { videos: [], totalDuration: 0 };
         for (let v of videos) {
             const dur = v.duration;
-            if (current.totalDuration + dur <= targetMin + tolerance) {
+            const currentContext = current.videos[0];
+            const sameDiscipline = !currentContext ||
+                (currentContext.stageIdx === v.stageIdx && currentContext.disciplineIdx === v.disciplineIdx);
+            if (sameDiscipline && current.totalDuration + dur <= targetMin + tolerance) {
                 current.videos.push(v);
                 current.totalDuration += dur;
             } else {
@@ -1273,10 +1292,15 @@ console.log('[Main] Inicializando script.js v28.0...');
                 data.watchedMap?.forEach((w, idx) => { if (allVideosFlat[idx]) allVideosFlat[idx].watched = w; });
                 if (data.currentLessonId !== undefined) currentLessonId = data.currentLessonId;
                 if (data.currentVideoInLesson !== undefined) currentVideoInLesson = data.currentVideoInLesson;
-                for (let i = 0; i < lessons.length; i++) {
-                    lessons[i].completed = lessons[i].videos.every(v => v.watched);
-                    if (i > 0 && lessons[i-1].completed) lessons[i].unlocked = true;
-                    else if (i === 0) lessons[i].unlocked = true;
+                if (!lessons[currentLessonId]) currentLessonId = 0;
+                if (!lessons[currentLessonId]?.videos[currentVideoInLesson]) currentVideoInLesson = 0;
+                refreshLessonUnlocks();
+                if (!lessons[currentLessonId]?.unlocked) {
+                    currentLessonId = 0;
+                    lessons.forEach((lesson, index) => {
+                        if (lesson.unlocked) currentLessonId = index;
+                    });
+                    currentVideoInLesson = 0;
                 }
             } catch (e) { console.error(`[Progresso] Erro ao parsear dados para ${courseId}:`, e); resetProgressForNewCourse(); }
         } else { resetProgressForNewCourse(); }
@@ -1318,6 +1342,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             time_updated: timeUpdated
         };
         localStorage.setItem(`ulivre_course_${currentCourse}`, JSON.stringify(newData));
+        syncCoursePointsToGameWallet();
         updateGlobalStats();
         updatePracticeTabVisibility();
         if (typeof renderProgressChart === 'function') renderProgressChart();
@@ -1325,6 +1350,14 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (window.updateProfileModal) window.updateProfileModal();
         }
         checkCourseCompletion();
+    }
+
+    function syncCoursePointsToGameWallet() {
+        if (typeof window.syncAllCoursePointsToWallet === 'function') {
+            window.syncAllCoursePointsToWallet();
+        } else if (typeof window.updateProfileModal === 'function') {
+            window.updateProfileModal();
+        }
     }
 
     function updateGlobalStats() {
@@ -1365,7 +1398,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         let allWatched = lesson.videos.every(v => v.watched);
         if (allWatched && !lesson.completed) {
             lesson.completed = true;
-            if (lessonId + 1 < lessons.length) lessons[lessonId + 1].unlocked = true;
+            refreshLessonUnlocks();
             renderCurrentLessonPanel();
             renderUnifiedCourseContent();
             expandCurrentLessonInUnifiedContent();
@@ -1501,14 +1534,17 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function updateFinalExamButton() {
-        const button = document.getElementById('finalExamBtn');
-        if (!button || !currentCourse) return;
+        const card = document.querySelector('.final-exam-card');
+        if (!card || !currentCourse) return;
         const videosComplete = allVideosFlat?.length > 0 && allVideosFlat.every(video => video.watched);
         const eligible = isFinalExamUserAuthenticated() && videosComplete && areAllDisciplineExamsPassed();
         const finalState = getFinalExamState(currentCourse);
-        button.disabled = !eligible || finalState.passed;
-        button.classList.toggle('available', eligible && !finalState.passed);
-        const label = button.querySelector('span');
+        const available = eligible && !finalState.passed;
+        card.disabled = !available;
+        card.classList.toggle('available', available);
+        card.classList.toggle('completed', finalState.passed);
+        card.setAttribute('aria-disabled', String(!available));
+        const label = card.querySelector('.final-exam-card-status');
         if (label) label.textContent = finalState.passed
             ? t('final_exam_passed')
             : eligible ? t('final_exam_available') : t('final_exam_locked');
@@ -1516,11 +1552,11 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function openFinalExam() {
         if (!isFinalExamUserAuthenticated()) {
-            alert('Faça login no seu perfil e confirme sua matrícula antes de realizar a prova final.');
+            alert(t('final_exam_login_required'));
             return;
         }
         if (!currentCourse || !areAllDisciplineExamsPassed() || !allVideosFlat?.every(video => video.watched)) {
-            alert('Conclua todas as disciplinas e seja aprovado em todas as provas para liberar a prova final.');
+            alert(t('final_exam_requirements'));
             return;
         }
         const modal = document.getElementById('disciplineQuizModal');
@@ -1529,7 +1565,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         loadCourseQuizBank(currentCourse).then(bank => {
             const questions = buildFinalExamQuestions(currentCourse, bank);
             if (!questions.length) {
-                alert('Não há questões disponíveis para a prova final deste curso.');
+                alert(t('final_exam_no_questions'));
                 return;
             }
             const state = {
@@ -1542,7 +1578,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 timeLimitMs: FINAL_EXAM_TIME_LIMIT_MS,
                 timeRemainingMs: FINAL_EXAM_TIME_LIMIT_MS
             };
-            title.textContent = `${currentCourseDetails?.name || getCourseName(currentCourse)} · Prova final`;
+            title.textContent = `${currentCourseDetails?.name || getCourseName(currentCourse)} · ${t('final_exam_title')}`;
             modal.dataset.quizState = JSON.stringify(state);
             modal.setAttribute('aria-hidden', 'false');
             modal.style.display = 'flex';
@@ -1556,14 +1592,52 @@ console.log('[Main] Inicializando script.js v28.0...');
         return Boolean(state.passed);
     }
 
+    function getLessonDisciplineName(lesson) {
+        const firstVideo = lesson?.videos?.[0];
+        return stagesData[firstVideo?.stageIdx]?.disciplines[firstVideo?.disciplineIdx]?.name || null;
+    }
+
+    function refreshLessonUnlocks() {
+        lessons.forEach((lesson, index) => {
+            lesson.completed = lesson.videos.every(video => video.watched);
+            if (index === 0) {
+                lesson.unlocked = true;
+                return;
+            }
+
+            const previousLesson = lessons[index - 1];
+            const previousDiscipline = getLessonDisciplineName(previousLesson);
+            const lessonDiscipline = getLessonDisciplineName(lesson);
+            const sameDiscipline = previousDiscipline && previousDiscipline === lessonDiscipline;
+            lesson.unlocked = previousLesson.completed &&
+                (sameDiscipline || isDisciplinePassed(previousDiscipline));
+        });
+}
+
     function isDisciplineUnlocked(disciplineName) {
         if (!stagesData || !Array.isArray(stagesData) || !disciplineName) return false;
-        const flat = [];
-        stagesData.forEach(stage => { (stage.disciplines || []).forEach(discipline => flat.push(discipline)); });
-        const currentIndex = flat.findIndex(item => normalizeDisciplineKey(item.name) === normalizeDisciplineKey(disciplineName));
-        if (currentIndex === -1) return false;
-        if (currentIndex === 0) return true;
-        return flat.slice(0, currentIndex).every(item => isDisciplinePassed(item.name));
+        const stageIndex = stagesData.findIndex(stage =>
+            (stage.disciplines || []).some(discipline =>
+                normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(disciplineName)
+            )
+        );
+        if (stageIndex < 0 || !isStageUnlocked(stageIndex)) return false;
+        const disciplineIndex = stagesData[stageIndex].disciplines.findIndex(discipline =>
+            normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(disciplineName)
+        );
+        return disciplineIndex >= 0 && stagesData[stageIndex].disciplines
+            .slice(0, disciplineIndex)
+            .every(discipline => isDisciplinePassed(discipline.name));
+    }
+
+    function isStageComplete(stageIndex) {
+        const stage = stagesData[stageIndex];
+        return Boolean(stage?.disciplines?.length) &&
+            stage.disciplines.every(discipline => isDisciplinePassed(discipline.name));
+    }
+
+    function isStageUnlocked(stageIndex) {
+        return stageIndex === 0 || (stageIndex > 0 && isStageComplete(stageIndex - 1));
     }
 
     function isDisciplineCompleted(disciplineName) {
@@ -1607,7 +1681,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const state = JSON.parse(modal.dataset.quizState || '{}');
             if (!state || !state.startedAt) return;
             const remaining = Math.max(0, Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt)));
-            timerEl.textContent = `Tempo restante: ${formatQuizCountdown(remaining)}`;
+            timerEl.textContent = t('quiz_time_remaining', { time: formatQuizCountdown(remaining) });
             state.timeRemainingMs = remaining;
             modal.dataset.quizState = JSON.stringify(state);
             if (remaining <= 0) {
@@ -1760,12 +1834,17 @@ console.log('[Main] Inicializando script.js v28.0...');
                 loadVideoInPlayer(video);
             }
         }
+        updateCurrentDiscipline();
         renderCurrentLessonPanel(); renderUnifiedCourseContent();
         expandCurrentLessonInUnifiedContent();
-        updateCurrentDiscipline();
         const lessonName = video.title || `${t('lesson_label', 'Aula')} ${currentLessonId + 1}`;
         window.UniversidadeLivreAnalytics?.discipline(currentCourse, currentDiscipline);
         window.UniversidadeLivreAnalytics?.lesson(currentCourse, currentDiscipline, lessonName);
+        const stageName = stagesData[video.stageIdx]?.name || video.stageIdx;
+        window.UniversidadeLivreAnalytics?.event('curso', 'aula-iniciada', {
+            course: currentCourse,
+            stage: stageName
+        });
         updateNotificationPosition();
         if (window.CursorTimeset && currentCourse && currentDiscipline) {
             let context = 'discipline';
@@ -1864,6 +1943,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const discipline = lesson.videos[0].title.split(' - ')[0];
         if (currentDiscipline !== discipline) {
             currentDiscipline = discipline;
+            persistCommunityStudyContext();
             const bibliografiaTab = document.getElementById('bibliografia-tab');
             if (bibliografiaTab && bibliografiaTab.classList.contains('active')) {
                 renderBooksFilteredByDiscipline(currentDiscipline);
@@ -1907,91 +1987,254 @@ console.log('[Main] Inicializando script.js v28.0...');
     function renderUnifiedCourseContent() {
         let container = document.getElementById("unifiedContentList");
         if (!container) return;
+        const courseView = document.getElementById('courseView');
+        const lessonViewOpen = courseView?.classList.contains('lesson-open');
+        const heading = document.querySelector('#unifiedCourseContent .course-content-heading h3');
+        if (heading) {
+            heading.innerHTML = lessonViewOpen
+                ? `<i class="fas fa-book-open"></i> ${t('course_content_discipline')}`
+                : `<i class="fas fa-book-open"></i> ${t('course_content_course')}`;
+        }
         updateFinalExamButton();
         container.innerHTML = "";
-        stagesData.forEach((stage, stageIdx) => {
-            let totalVids = 0, watchedVids = 0;
-            stage.disciplines.forEach(disc => disc.videos.forEach(v => { totalVids++; if (v.watched) watchedVids++; }));
-            let stagePercent = totalVids ? Math.floor((watchedVids / totalVids) * 100) : 0;
-            let stageDiv = document.createElement("div");
-            stageDiv.className = "stage-group-unified animate-in visible";
-            stageDiv.innerHTML = `<div class="stage-header"><span>${escapeHtml(stage.name)}</span><span class="stage-progress">${stagePercent}%</span></div><div class="disciplines-list"></div>`;
-            let discList = stageDiv.querySelector('.disciplines-list');
-            stage.disciplines.forEach(discipline => {
-                let lessonsIndices = disciplineLessonsMap.get(discipline.name) || [];
-                let lessonsForDisc = lessonsIndices.map(i => lessons[i]).filter(l => l);
-                let totalV = lessonsForDisc.reduce((s, l) => s + l.videos.length, 0);
-                let watchedV = lessonsForDisc.reduce((s, l) => s + l.videos.filter(v => v.watched).length, 0);
-                let discPercent = totalV ? Math.round((watchedV / totalV) * 100) : 0;
-                let card = document.createElement("div");
-                card.className = "discipline-card";
-                const disciplineCompleted = isDisciplineCompleted(discipline.name);
-                const disciplineUnlocked = isDisciplineUnlocked(discipline.name);
-                const disciplinePassed = isDisciplinePassed(discipline.name);
-                const quizButtonTitle = !disciplineUnlocked
-                    ? 'Desbloqueie a disciplina anterior para abrir esta prova.'
-                    : !disciplineCompleted
-                        ? 'Conclua toda a disciplina para desbloquear a prova.'
-                        : disciplinePassed
-                            ? 'Você já aprovou esta prova.'
-                            : 'Prova disponível';
-                card.innerHTML = `<div class="discipline-header"><span><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>${escapeHtml(discipline.name)}</span><span class="discipline-progress">${discPercent}%</span></div><div class="weeks-container"></div><button class="discipline-quiz-btn" type="button" ${(!disciplineUnlocked || !disciplineCompleted || disciplinePassed) ? 'disabled' : ''} title="${quizButtonTitle}"><i class="fas fa-clipboard-question"></i> ${disciplinePassed ? 'Aprovado' : 'Prova'}</button>`;
-                let weeksContainer = card.querySelector('.weeks-container');
-                let quizButton = card.querySelector('.discipline-quiz-btn');
-                if (quizButton && (!disciplineUnlocked || !disciplineCompleted || disciplinePassed)) {
-                    quizButton.classList.add('locked');
-                }
-                if (card && !disciplineUnlocked) {
-                    card.classList.add('discipline-locked');
-                }
-                let weeks = [];
-                for (let i = 0; i < lessonsForDisc.length; i += 5) weeks.push(lessonsForDisc.slice(i, i + 5));
-                weeks.forEach((week, wIdx) => {
-                    let weekDiv = document.createElement("div");
-                    weekDiv.className = "week-group";
-                    weekDiv.innerHTML = `<div class="week-title">${t('week')} ${wIdx + 1}</div>`;
-                    week.forEach(lesson => {
-                        let gid = lessons.indexOf(lesson);
-                        let lessonDiv = document.createElement("div");
-                        lessonDiv.className = `lesson-item ${lesson.completed ? 'completed' : ''} ${!disciplineUnlocked ? 'locked-disciplines' : ''}`;
-                        lessonDiv.innerHTML = `<span><i class="fas fa-play-circle" style="font-size:0.7rem; margin-right:0.5rem;"></i> ${t('lesson_label')} ${gid + 1}</span> <span>${Math.round(lesson.totalDuration)}min</span>`;
-                        lessonDiv.setAttribute('data-lesson-id', gid);
-                        lessonDiv.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            if (!disciplineUnlocked) {
-                                alert('Desbloqueie a disciplina anterior fazendo a prova com a pontuação mínima.');
-                                return;
-                            }
-                            const lid = parseInt(e.currentTarget.getAttribute('data-lesson-id'));
-                            if (!isNaN(lid) && lessons[lid] && lessons[lid].unlocked) {
-                                currentLessonId = lid;
-                                currentVideoInLesson = 0;
-                                loadCurrentLesson();
-                            } else if (lessons[lid] && !lessons[lid].unlocked) alert(t('lesson_locked'));
-                        });
-                        weekDiv.appendChild(lessonDiv);
-                    });
-                    weeksContainer.appendChild(weekDiv);
+        if (!stagesData.length) return;
+
+        if (activeStageIndex === null || !isStageUnlocked(activeStageIndex)) {
+            activeStageIndex = stagesData.findIndex((_, index) => isStageUnlocked(index));
+            if (activeStageIndex < 0) activeStageIndex = 0;
+        }
+
+        if (activeStageIndex === 0 && !container.dataset.stageSelected) {
+            const heading = document.createElement('div');
+            heading.className = 'content-flow-intro';
+            heading.innerHTML = `<strong>${t('choose_stage')}</strong><span>${t('stage_unlock_hint')}</span>`;
+            container.appendChild(heading);
+        }
+
+        if (container.dataset.stageSelected === 'true') {
+            const backButton = document.createElement('button');
+            backButton.type = 'button';
+            backButton.className = 'stage-back-btn';
+            backButton.innerHTML = `<i class="fas fa-arrow-left"></i> ${t('all_stages')}`;
+            backButton.addEventListener('click', () => {
+                delete container.dataset.stageSelected;
+                activeStageIndex = 0;
+                renderUnifiedCourseContent();
+            });
+            container.appendChild(backButton);
+            renderDisciplineCards(container, stagesData[activeStageIndex], activeStageIndex);
+        } else {
+            const stagesGrid = document.createElement('div');
+            stagesGrid.className = 'stages-card-grid';
+            const hasStartedCourse = allVideosFlat.some(video => video.watched) || currentLessonId > 0;
+            if (currentDiscipline) {
+                const continueCard = document.createElement('div');
+                continueCard.className = 'continue-course-card';
+                continueCard.setAttribute('role', 'button');
+                continueCard.setAttribute('tabindex', '0');
+                const requiresExam = hasStartedCourse && isDisciplineCompleted(currentDiscipline) && !isDisciplinePassed(currentDiscipline);
+                const continueLabel = !hasStartedCourse
+                    ? t('start_course')
+                    : requiresExam ? t('take_discipline_exam') : t('continue_course');
+                const continueDescription = !hasStartedCourse
+                    ? t('start_course_description', { discipline: currentDiscipline })
+                    : requiresExam
+                        ? t('take_discipline_exam_description', { discipline: currentDiscipline })
+                        : t('continue_course_description', { discipline: currentDiscipline });
+                continueCard.innerHTML = `
+                    <i class="fas ${!hasStartedCourse ? 'fa-rocket' : requiresExam ? 'fa-clipboard-question' : 'fa-play-circle'} fa-lg"></i>
+                    <div><strong>${continueLabel}</strong><small>${escapeHtml(continueDescription)}</small></div>
+                    <i class="fas fa-chevron-right continue-course-arrow"></i>`;
+                const continueCourse = () => {
+                    if (requiresExam) {
+                        openDisciplineQuiz(currentDiscipline);
+                    } else {
+                        selectDiscipline(currentDiscipline);
+                    }
+                };
+                continueCard.addEventListener('click', continueCourse);
+                continueCard.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        continueCourse();
+                    }
                 });
-                if (quizButton) {
-                    quizButton.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (!isDisciplineCompleted(discipline.name)) {
-                            alert(t('discipline_quiz_locked'));
+                stagesGrid.appendChild(continueCard);
+            }
+            stagesData.forEach((stage, stageIdx) => {
+                const unlocked = isStageUnlocked(stageIdx);
+                const completedCount = stage.disciplines.filter(discipline => isDisciplinePassed(discipline.name)).length;
+                const stageCard = document.createElement('button');
+                stageCard.type = 'button';
+                stageCard.className = `stage-card ${unlocked ? '' : 'stage-card-locked'} ${isStageComplete(stageIdx) ? 'stage-card-complete' : ''}`;
+                stageCard.disabled = !unlocked;
+                stageCard.innerHTML = `
+                    <span class="stage-card-icon"><i class="fas ${unlocked ? (isStageComplete(stageIdx) ? 'fa-check' : 'fa-layer-group') : 'fa-lock'}"></i></span>
+                    <span class="stage-card-body">
+                        <strong>${escapeHtml(stage.name)}</strong>
+                        <small>${t('stage_disciplines_approved', { completed: completedCount, total: stage.disciplines.length })}</small>
+                    </span>
+                    <i class="fas fa-chevron-right stage-card-arrow"></i>`;
+                if (unlocked) {
+                    stageCard.addEventListener('click', () => {
+                        activeStageIndex = stageIdx;
+                        container.dataset.stageSelected = 'true';
+                        renderUnifiedCourseContent();
+                    });
+                }
+                stagesGrid.appendChild(stageCard);
+            });
+            container.appendChild(stagesGrid);
+            const finalExamCard = document.createElement('button');
+            finalExamCard.type = 'button';
+            finalExamCard.className = 'final-exam-card';
+            finalExamCard.innerHTML = `
+                <span class="final-exam-card-icon"><i class="fas fa-trophy"></i></span>
+                <span class="final-exam-card-body">
+                    <strong data-i18n="final_exam_button">Prova final</strong>
+                    <small class="final-exam-card-status"></small>
+                </span>
+                <i class="fas fa-chevron-right final-exam-card-arrow"></i>`;
+            finalExamCard.addEventListener('click', () => {
+                if (!finalExamCard.disabled) openFinalExam();
+            });
+            container.appendChild(finalExamCard);
+            updateFinalExamButton();
+        }
+        if (typeof window.applyTranslations === 'function') window.applyTranslations();
+    }
+
+    function renderDisciplineCards(container, stage, stageIdx) {
+        if (!stage) return;
+        const lessonViewOpen = document.getElementById('courseView')?.classList.contains('lesson-open');
+        const visibleDisciplines = lessonViewOpen && currentDiscipline
+            ? stage.disciplines.filter(discipline => normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(currentDiscipline))
+            : stage.disciplines;
+        if (lessonViewOpen && visibleDisciplines.length) {
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'stage-back-btn';
+            closeButton.innerHTML = `<i class="fas fa-arrow-left"></i> ${t('back_to_disciplines')}`;
+            closeButton.addEventListener('click', () => {
+                stopAllMedia();
+                document.getElementById('courseView')?.classList.remove('lesson-open');
+                renderUnifiedCourseContent();
+            });
+            container.appendChild(closeButton);
+        }
+        const header = document.createElement('div');
+        header.className = 'selected-stage-heading';
+        const disciplineCountLabel = t(
+            visibleDisciplines.length === 1 ? 'disciplines_in_stage' : 'disciplines_in_stage_plural',
+            { count: visibleDisciplines.length }
+        );
+        header.innerHTML = `<span class="stage-card-icon"><i class="fas fa-layer-group"></i></span><div><strong>${escapeHtml(stage.name)}</strong><small>${disciplineCountLabel}</small></div>`;
+        container.appendChild(header);
+
+        const grid = document.createElement('div');
+        grid.className = 'discipline-card-grid';
+        visibleDisciplines.forEach(discipline => {
+            const lessonsIndices = disciplineLessonsMap.get(discipline.name) || [];
+            const lessonsForDisc = lessonsIndices.map(i => lessons[i]).filter(Boolean);
+            const totalV = lessonsForDisc.reduce((sum, lesson) => sum + lesson.videos.length, 0);
+            const watchedV = lessonsForDisc.reduce((sum, lesson) => sum + lesson.videos.filter(video => video.watched).length, 0);
+            const discPercent = totalV ? Math.round((watchedV / totalV) * 100) : 0;
+            const disciplineCompleted = isDisciplineCompleted(discipline.name);
+            const disciplinePassed = isDisciplinePassed(discipline.name);
+            const disciplineUnlocked = isDisciplineUnlocked(discipline.name);
+            const card = document.createElement('article');
+            card.className = `discipline-card ${disciplineUnlocked ? '' : 'discipline-locked'} ${disciplinePassed ? 'discipline-passed' : ''}`;
+            card.innerHTML = `
+                <button class="discipline-card-heading" type="button" ${disciplineUnlocked ? '' : 'disabled'}><span class="discipline-card-icon"><i class="fas ${disciplinePassed ? 'fa-check' : 'fa-book-open'}"></i></span><span><strong>${escapeHtml(discipline.name)}</strong><small>${t('discipline_content_progress', { percent: discPercent })}</small></span></button>
+                <div class="discipline-progress-track"><span style="width:${discPercent}%"></span></div>
+                <div class="discipline-card-actions">
+                    <button class="discipline-lessons-btn" type="button" ${disciplineUnlocked ? '' : 'disabled'}><i class="fas fa-play"></i> ${t('view_lessons')}</button>
+                    <button class="discipline-quiz-btn" type="button" ${(!disciplineUnlocked || !disciplineCompleted || disciplinePassed) ? 'disabled' : ''}><i class="fas fa-clipboard-question"></i> ${disciplinePassed ? t('approved') : t('discipline_quiz_button')}</button>
+                </div>
+                <div class="weeks-container"></div>`;
+
+            const weeksContainer = card.querySelector('.weeks-container');
+            const lessonsButton = card.querySelector('.discipline-lessons-btn');
+            const quizButton = card.querySelector('.discipline-quiz-btn');
+            const weeks = [];
+            for (let i = 0; i < lessonsForDisc.length; i += 5) weeks.push(lessonsForDisc.slice(i, i + 5));
+            weeks.forEach((week, weekIndex) => {
+                const weekDiv = document.createElement('div');
+                weekDiv.className = 'week-group';
+                weekDiv.innerHTML = `<div class="week-title">${t('week')} ${weekIndex + 1}</div>`;
+                week.forEach(lesson => {
+                    const lessonId = lessons.indexOf(lesson);
+                    const lessonDiv = document.createElement('div');
+                    lessonDiv.className = `lesson-item ${lesson.completed ? 'completed' : ''}`;
+                    lessonDiv.innerHTML = `<span><i class="fas fa-play-circle"></i> ${t('lesson_label')} ${lessonId + 1}</span><span>${Math.round(lesson.totalDuration)}min</span>`;
+                    lessonDiv.addEventListener('click', () => {
+                        if (!lessons[lessonId]?.unlocked) {
+                            alert(t('lesson_locked'));
                             return;
                         }
-                        openDisciplineQuiz(discipline.name);
+                        currentLessonId = lessonId;
+                        currentVideoInLesson = 0;
+                        loadCurrentLesson();
                     });
-                }
-                let header = card.querySelector('.discipline-header');
-                header.addEventListener('click', () => weeksContainer.classList.toggle('open'));
-                discList.appendChild(card);
+                    weekDiv.appendChild(lessonDiv);
+                });
+                weeksContainer.appendChild(weekDiv);
             });
-            let stageHeader = stageDiv.querySelector('.stage-header');
-            stageHeader.addEventListener('click', () => discList.classList.toggle('open'));
-            container.appendChild(stageDiv);
+            if (lessonViewOpen) weeksContainer.classList.add('open');
+            lessonsButton?.addEventListener('click', () => {
+                weeksContainer.classList.toggle('open');
+                if (disciplineUnlocked) selectDiscipline(discipline.name);
+            });
+            quizButton?.addEventListener('click', () => {
+                if (!disciplineCompleted) {
+                    alert(t('discipline_quiz_locked'));
+                    return;
+                }
+                openDisciplineQuiz(discipline.name);
+            });
+            grid.appendChild(card);
         });
-        if (typeof window.applyTranslations === 'function') window.applyTranslations();
+        container.appendChild(grid);
+    }
+
+    function selectDiscipline(disciplineName) {
+        if (!isDisciplineUnlocked(disciplineName)) {
+            alert('Conclua a etapa anterior para desbloquear esta disciplina.');
+            return;
+        }
+        const lessonIds = disciplineToLessonsMap.get(disciplineName) || [];
+        const availableLessons = lessonIds.filter(lessonId => lessons[lessonId]?.unlocked);
+        const currentLessonForDiscipline = lessonIds.includes(currentLessonId) && lessons[currentLessonId]?.unlocked &&
+            lessons[currentLessonId].videos.some(video => !video.watched)
+            ? currentLessonId
+            : availableLessons.find(lessonId => lessons[lessonId].videos.some(video => !video.watched));
+        const nextLessonId = currentLessonForDiscipline ?? availableLessons[0];
+        if (nextLessonId === undefined) {
+            alert(t('lesson_locked'));
+            return;
+        }
+        currentDiscipline = disciplineName;
+        persistCommunityStudyContext();
+        currentLessonId = nextLessonId;
+        const lesson = lessons[currentLessonId];
+        activeStageIndex = lesson.videos[0].stageIdx;
+        const contentList = document.getElementById('unifiedContentList');
+        if (contentList) contentList.dataset.stageSelected = 'true';
+        const firstUnwatchedVideo = lesson.videos.findIndex(video => !video.watched);
+        currentVideoInLesson = firstUnwatchedVideo >= 0 ? firstUnwatchedVideo : 0;
+        document.getElementById('courseView')?.classList.add('lesson-open');
+        const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
+        if (backToDisciplineBtn) backToDisciplineBtn.hidden = false;
+        loadCurrentLesson();
+        document.querySelector('.player-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function backToDiscipline() {
+        stopAllMedia();
+        document.getElementById('courseView')?.classList.remove('lesson-open');
+        const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
+        if (backToDisciplineBtn) backToDisciplineBtn.hidden = true;
+        renderUnifiedCourseContent();
     }
 
     const disciplineQuizCache = new Map();
@@ -2141,7 +2384,7 @@ console.log('[Main] Inicializando script.js v28.0...');
 
         const courseId = currentCourse;
         if (!courseId) {
-            alert('Selecione um curso antes de iniciar a prova.');
+            alert(t('quiz_course_required'));
             return;
         }
 
@@ -2152,7 +2395,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 questions = createFallbackQuizQuestions(disciplineName, 50);
             }
             const state = buildQuizStateFromQuestions(disciplineName, questions);
-            title.textContent = `${disciplineName} · Prova`;
+            title.textContent = `${disciplineName} · ${t('discipline_quiz_title')}`;
             modal.dataset.quizState = JSON.stringify(state);
             modal.setAttribute('aria-hidden', 'false');
             modal.style.display = 'flex';
@@ -2183,8 +2426,12 @@ console.log('[Main] Inicializando script.js v28.0...');
         const current = state.questions[state.currentIndex];
         const answered = state.answers[state.currentIndex];
         const remaining = Math.max(0, Number(state.timeLimitMs || DISCIPLINE_QUIZ_TIME_LIMIT_MS) - (Date.now() - Number(state.startedAt || Date.now())));
-        const progressLabel = `${state.finalExam ? 'Prova final · ' : ''}Pergunta ${state.currentIndex + 1} de ${state.questions.length}`;
-        statusEl.innerHTML = `<span>${escapeHtml(progressLabel)}</span><span id="disciplineQuizTimer">Tempo restante: ${formatQuizCountdown(remaining)}</span>`;
+        const progressLabel = t('quiz_question_progress', {
+            current: state.currentIndex + 1,
+            total: state.questions.length
+        });
+        const examLabel = state.finalExam ? `${t('final_exam_title')} · ` : '';
+        statusEl.innerHTML = `<span>${escapeHtml(examLabel + progressLabel)}</span><span id="disciplineQuizTimer">${escapeHtml(t('quiz_time_remaining', { time: formatQuizCountdown(remaining) }))}</span>`;
         questionEl.innerHTML = `<strong>${escapeHtml(current.question)}</strong>`;
 
         optionsEl.innerHTML = current.options.map((option, index) => `
@@ -2258,7 +2505,10 @@ console.log('[Main] Inicializando script.js v28.0...');
                 const answerIndex = state.answers[idx];
                 const correct = answerIndex === q.correctIndex;
                 if (correct) score += 1;
-                return `\n${idx + 1}. ${correct ? '✅' : '❌'} ${escapeHtml(q.question)}<br><small>${correct ? 'Resposta correta' : `Correta: ${escapeHtml(q.options[q.correctIndex])}`}</small>`;
+                const answerText = correct
+                    ? t('quiz_correct_answer')
+                    : t('quiz_correct_answer_label', { answer: q.options[q.correctIndex] });
+                return `\n${idx + 1}. ${correct ? '✅' : '❌'} ${escapeHtml(q.question)}<br><small>${escapeHtml(answerText)}</small>`;
             }).join('<br>');
 
             const percent = Math.round((score / state.questions.length) * 100);
@@ -2283,10 +2533,12 @@ console.log('[Main] Inicializando script.js v28.0...');
                 localStorage.setItem(getFinalExamStorageKey(currentCourse), JSON.stringify({ ...resultState, attempted: true }));
             } else {
                 setDisciplineExamState(currentCourse, disciplineName, resultState);
+                if (passed) refreshLessonUnlocks();
             }
+            syncCoursePointsToGameWallet();
 
-            statusEl.innerHTML = `<span>${autoTimeout ? 'Tempo esgotado' : 'Resultado final'}</span><strong>${score}/${state.questions.length}</strong>`;
-            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>Você acertou ${score} de ${state.questions.length} questões.</h3><p>Seu desempenho foi de ${percent}%.</p>${passed ? `<p><strong>${state.finalExam ? 'Prova final aprovada.' : 'Prova aprovada.'}</strong></p>` : `<p><strong>Prova reprovada.</strong> Você precisa atingir ${DISCIPLINE_PASS_PERCENT}%.</p>`}</div>`;
+            statusEl.innerHTML = `<span>${autoTimeout ? t('quiz_time_expired') : t('quiz_final_result')}</span><strong>${score}/${state.questions.length}</strong>`;
+            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>${escapeHtml(t('quiz_result_score', { score, total: state.questions.length }))}</h3><p>${escapeHtml(t('quiz_result_percent', { percent }))}</p>${passed ? `<p><strong>${escapeHtml(state.finalExam ? t('final_exam_passed_result') : t('quiz_passed'))}</strong></p>` : `<p><strong>${escapeHtml(t('quiz_failed'))}</strong> ${escapeHtml(t('quiz_pass_requirement', { percent: DISCIPLINE_PASS_PERCENT }))}</p>`}</div>`;
             optionsEl.innerHTML = `<div class="discipline-quiz-summary">${summary}</div>`;
             navEl.innerHTML = '<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizCloseBtn">Fechar</button>';
             document.getElementById('disciplineQuizCloseBtn')?.addEventListener('click', () => {
@@ -2300,16 +2552,14 @@ console.log('[Main] Inicializando script.js v28.0...');
             });
 
             if (passed && !state.finalExam) {
-                const flatDisciplines = [];
-                stagesData.forEach(stage => {
-                    (stage.disciplines || []).forEach(discipline => flatDisciplines.push(discipline));
-                });
-                const currentIndex = flatDisciplines.findIndex(item => normalizeDisciplineKey(item.name) === normalizeDisciplineKey(disciplineName));
-                if (currentIndex >= 0 && currentIndex < flatDisciplines.length - 1) {
-                    const nextDiscipline = flatDisciplines[currentIndex + 1];
-                    if (nextDiscipline && nextDiscipline.name) {
-                        queueNotification(`A disciplina "${nextDiscipline.name}" foi desbloqueada.`, 'success');
-                    }
+                const currentStageIndex = stagesData.findIndex(stage =>
+                    (stage.disciplines || []).some(discipline =>
+                        normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(disciplineName)
+                    )
+                );
+                const nextStage = stagesData[currentStageIndex + 1];
+                if (currentStageIndex >= 0 && nextStage && isStageComplete(currentStageIndex)) {
+                    queueNotification(`A etapa "${nextStage.name}" foi desbloqueada.`, 'success');
                 }
             }
 
@@ -2333,9 +2583,6 @@ console.log('[Main] Inicializando script.js v28.0...');
         const closeBtn = document.querySelector('.close-discipline-quiz');
         if (!modal || !closeBtn) return;
         closeBtn.addEventListener('click', closeDisciplineQuiz);
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) closeDisciplineQuiz();
-        });
     }
 
     // ========== BIBLIOTECA ==========
@@ -2980,10 +3227,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 onReady: () => {
                     isPlayerReady = true;
                     player.setVolume(playerVolume);
-                    if (window._startLessonScheduled) {
-                        window._startLessonScheduled = false;
-                        startLesson();
-                    }
+                    window._startLessonScheduled = false;
                 },
                 onStateChange: onPlayerStateChange,
                 onError: () => console.error("Erro no player do YouTube")
@@ -3124,6 +3368,8 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     const backToHomeBtn = document.getElementById("backToHomeBtn");
     if (backToHomeBtn) backToHomeBtn.addEventListener("click", backToHome);
+    const backToDisciplineBtn = document.getElementById("backToDisciplineBtn");
+    if (backToDisciplineBtn) backToDisciplineBtn.addEventListener("click", backToDiscipline);
     const prevVideoBtn = document.getElementById("prevVideoBtn");
     if (prevVideoBtn) prevVideoBtn.addEventListener("click", prevVideo);
     const nextVideoBtn = document.getElementById("nextVideoBtn");
@@ -3193,6 +3439,21 @@ console.log('[Main] Inicializando script.js v28.0...');
         const lang = e.detail.lang || 'pt-br';
         console.log('[Main] Idioma alterado para:', lang);
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
+        const quizModal = document.getElementById('disciplineQuizModal');
+        if (quizModal?.style.display === 'flex') {
+            try {
+                const quizState = JSON.parse(quizModal.dataset.quizState || '{}');
+                const quizTitle = document.getElementById('disciplineQuizTitle');
+                if (quizTitle) {
+                    quizTitle.textContent = quizState.finalExam
+                        ? `${currentCourseDetails?.name || getCourseName(currentCourse)} · ${t('final_exam_title')}`
+                        : `${quizState.disciplineName || currentDiscipline} · ${t('discipline_quiz_title')}`;
+                }
+                renderDisciplineQuizQuestion();
+            } catch (error) {
+                console.error('[Main] Erro ao atualizar o idioma da prova:', error);
+            }
+        }
         if (currentCourse) {
             renderCurrentLessonPanel();
             renderUnifiedCourseContent();

@@ -86,28 +86,36 @@
         <div id="videosContainer"></div>
     </section>
 
-    <!-- ========== PLAYER ========== -->
-    <div id="playerContainer" class="player-container" style="display: none;">
-        <div class="player-wrapper">
-            <div id="youtubePlayer"></div>
-            <button id="closePlayerBtn" class="close-player"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="custom-player-controls">
-            <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
-            <div class="volume-control">
-                <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
-                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+    <!-- ========== JANELA INTERNA DO PLAYER ========== -->
+    <div id="playerModal" class="player-modal" hidden aria-hidden="true">
+        <div class="player-modal-backdrop" aria-hidden="true"></div>
+        <div class="player-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
+            <div class="player-modal-header">
+                <span data-i18n="auditorio_player_title">Player do Auditório</span>
+                <button id="closePlayerBtn" class="close-player" aria-label="Fechar player"><i class="fas fa-times"></i></button>
             </div>
-            <div class="progress-container">
-                <span id="currentTimeDisplay">00:00</span>
-                <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
-                <span id="durationDisplay">00:00</span>
+            <div id="playerContainer" class="player-container">
+                <div class="player-wrapper">
+                    <div id="youtubePlayer"></div>
+                </div>
+                <div class="custom-player-controls">
+                    <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                    <div class="volume-control">
+                        <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+                    </div>
+                    <div class="progress-container">
+                        <span id="currentTimeDisplay">00:00</span>
+                        <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
+                        <span id="durationDisplay">00:00</span>
+                    </div>
+                    <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i></button>
+                </div>
+                <div class="player-info">
+                    <h3 id="playerTitle"></h3>
+                    <p id="playerDescription"></p>
+                </div>
             </div>
-            <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i></button>
-        </div>
-        <div class="player-info">
-            <h3 id="playerTitle"></h3>
-            <p id="playerDescription"></p>
         </div>
     </div>
 </div>
@@ -130,6 +138,10 @@
                     </div>
                 </div>
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                <div class="profile-matricula">
+                    <span data-i18n="profile_matricula">Matrícula:</span>
+                    <strong id="profileMatriculaDisplay"></strong>
+                </div>
             </div>
 
             <div class="profile-account-fields">

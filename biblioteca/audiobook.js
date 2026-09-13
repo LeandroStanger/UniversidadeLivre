@@ -1492,8 +1492,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalBody = document.getElementById('modalBody');
         closeModalBtn = document.querySelector('.close-modal');
         if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
 
         // Carregar idioma
         const savedLang = localStorage.getItem('selectedLanguage');

@@ -868,12 +868,27 @@ a:hover {
     font-size: 0.9rem;
 }
 
+.course-navigation {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.course-navigation .back-btn {
+    margin-bottom: 1rem;
+}
+
 .back-btn:hover {
     background: var(--accent-blue);
     border-color: var(--accent-blue);
     color: white !important;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(108, 140, 255, 0.3);
+}
+
+.course-navigation .back-btn[hidden] {
+    display: none;
 }
 
 .main-layout {
@@ -2060,8 +2075,56 @@ a:hover {
     border-radius: var(--card-radius);
     padding: 0.8rem;
     border: 1px solid var(--border);
-    max-height: 400px;
+    max-height: 720px;
     overflow-y: auto;
+}
+
+.course-view:not(.lesson-open) .main-layout {
+    display: block;
+}
+
+.course-view:not(.lesson-open) .video-column,
+.course-view:not(.lesson-open) .current-lesson-panel,
+.course-view:not(.lesson-open) #progressChartContainer {
+    display: none;
+}
+
+.course-view:not(.lesson-open) .right-sidebar {
+    display: block;
+}
+
+.course-view:not(.lesson-open) .main-layout {
+    grid-template-columns: 1fr;
+}
+
+.course-view:not(.lesson-open) .unified-content {
+    max-height: none;
+}
+
+.course-view.lesson-open .unified-content {
+    max-height: 720px;
+}
+
+.course-view.lesson-open #courseIntroCard {
+    display: none;
+}
+
+.course-view.lesson-open .course-content-heading h3 {
+    font-size: .95rem;
+}
+
+.course-content-page {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.course-content-page #unifiedContentList {
+    max-height: none;
 }
 
 .unified-content h3 {
@@ -2086,19 +2149,335 @@ a:hover {
     margin-bottom: 0;
 }
 
-.final-exam-btn {
-    border: 0;
-    border-radius: 999px;
-    padding: .55rem .8rem;
-    color: #fff;
-    background: var(--accent-blue);
-    cursor: pointer;
-    font-weight: 700;
+.content-flow-intro,
+.selected-stage-heading {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin: .4rem 0 .8rem;
+    color: var(--text-secondary);
+    font-size: .78rem;
 }
 
-.final-exam-btn:disabled {
+.content-flow-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .1rem;
+    padding: .25rem .2rem .45rem;
+}
+
+.content-flow-intro strong,
+.selected-stage-heading strong {
+    color: var(--text-primary);
+    font-size: .9rem;
+}
+
+.selected-stage-heading small,
+.stage-card-body small,
+.discipline-card-heading small {
+    display: block;
+    color: var(--text-secondary);
+    font-size: .72rem;
+    margin-top: .1rem;
+}
+
+.stages-card-grid,
+.discipline-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .65rem;
+}
+
+.continue-course-card {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .9rem 1rem;
+    margin-bottom: .1rem;
+    border: 1px solid rgba(16, 185, 129, .4);
+    border-radius: 14px;
+    color: var(--text-primary);
+    background: linear-gradient(120deg, rgba(16, 185, 129, .16), rgba(56, 189, 248, .08));
+    cursor: pointer;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.continue-course-card:hover,
+.continue-course-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, .14);
+    outline: none;
+}
+
+.continue-course-card > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.continue-course-card strong,
+.continue-course-card small {
+    display: block;
+}
+
+.continue-course-card small {
+    color: var(--text-secondary);
+    font-size: .75rem;
+}
+
+.continue-course-card i {
+    color: var(--accent-green);
+}
+
+.continue-course-arrow {
+    flex-shrink: 0;
+    font-size: .9rem;
+}
+
+.stage-card {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    min-height: 78px;
+    padding: .75rem;
+    text-align: left;
+    color: var(--text-primary);
+    background: linear-gradient(145deg, rgba(56, 189, 248, .13), rgba(108, 140, 255, .08));
+    border: 1px solid rgba(56, 189, 248, .3);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.stage-card:not(:disabled):hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-teal);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, .12);
+}
+
+.stage-card-locked {
+    cursor: not-allowed;
+    opacity: .52;
+    background: rgba(15, 22, 36, .65);
+    border-color: var(--border);
+}
+
+.stage-card-complete {
+    border-color: rgba(16, 185, 129, .55);
+    background: linear-gradient(145deg, rgba(16, 185, 129, .16), rgba(56, 189, 248, .07));
+}
+
+.stage-card-icon,
+.discipline-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    color: var(--accent-teal);
+    background: rgba(56, 189, 248, .14);
+}
+
+.stage-card-complete .stage-card-icon,
+.discipline-passed .discipline-card-icon {
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, .14);
+}
+
+.stage-card-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.stage-card-body strong {
+    display: block;
+    font-size: .82rem;
+    line-height: 1.25;
+}
+
+.stage-card-arrow {
+    color: var(--text-tertiary);
+    font-size: .75rem;
+}
+
+.stage-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin: .15rem 0 .75rem;
+    padding: .35rem .6rem;
+    border: 0;
+    border-radius: 999px;
+    color: var(--accent-teal);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    font-size: .78rem;
+}
+
+.stage-back-btn:hover {
+    background: rgba(56, 189, 248, .1);
+}
+
+.discipline-card-grid {
+    grid-template-columns: 1fr;
+}
+
+.discipline-card {
+    padding: .75rem;
+    border-radius: 14px;
+    background: rgba(26, 38, 56, .72);
+    border: 1px solid var(--border-light);
+}
+
+.discipline-card-heading {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+}
+
+.discipline-card-heading:disabled {
+    cursor: not-allowed;
+    opacity: .65;
+}
+
+.discipline-card-heading > div {
+    min-width: 0;
+}
+
+.discipline-card-heading strong {
+    display: block;
+    font-size: .82rem;
+    line-height: 1.3;
+}
+
+.discipline-progress-track {
+    height: 4px;
+    margin: .7rem 0 .65rem 2.65rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--bg-secondary);
+}
+
+.discipline-progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--gradient-primary);
+}
+
+.discipline-card-actions {
+    display: flex;
+    gap: .45rem;
+}
+
+.discipline-lessons-btn,
+.discipline-card .discipline-quiz-btn {
+    flex: 1;
+    margin-top: 0;
+    padding: .5rem .55rem;
+    font-size: .72rem;
+}
+
+.discipline-lessons-btn {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    cursor: pointer;
+}
+
+.discipline-lessons-btn:hover:not(:disabled) {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+}
+
+.discipline-lessons-btn:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+}
+
+.discipline-card .weeks-container {
+    margin-top: .55rem;
+}
+
+.final-exam-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    grid-column: 1 / -1;
+    margin-top: .1rem;
+    padding: .9rem 1rem;
+    border: 1px solid rgba(108, 140, 255, .45);
+    border-radius: 14px;
+    color: var(--text-primary);
+    background: linear-gradient(120deg, rgba(108, 140, 255, .18), rgba(167, 139, 250, .1));
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.final-exam-card:hover:not(:disabled),
+.final-exam-card:focus-visible:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 8px 20px rgba(108, 140, 255, .16);
+    outline: none;
+}
+
+.final-exam-card:disabled {
     cursor: not-allowed;
     opacity: .45;
+}
+
+.final-exam-card.available {
+    border-color: var(--accent-blue);
+}
+
+.final-exam-card.completed {
+    border-color: var(--accent-green);
+}
+
+.final-exam-card-icon {
+    color: var(--accent-blue);
+    font-size: 1.15rem;
+}
+
+.final-exam-card.completed .final-exam-card-icon {
+    color: var(--accent-green);
+}
+
+.final-exam-card-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.final-exam-card-body strong,
+.final-exam-card-body small {
+    display: block;
+}
+
+.final-exam-card-body small {
+    margin-top: .1rem;
+    color: var(--text-secondary);
+    font-size: .75rem;
+}
+
+.final-exam-card-arrow {
+    color: var(--accent-blue);
 }
 
 .certificate-modal[hidden] { display: none; }
@@ -2971,6 +3350,14 @@ a:hover {
         font-size: 0.95rem;
     }
 
+    .stages-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stage-card {
+        min-height: 68px;
+    }
+
     .course-description {
         font-size: 0.8rem;
     }
@@ -3199,6 +3586,17 @@ a:hover {
 }
 .discipline-card {
     position: relative;
+}
+
+.unified-content .discipline-card {
+    padding: .75rem;
+    border-radius: 14px;
+    background: rgba(26, 38, 56, .72);
+    border: 1px solid var(--border-light);
+}
+
+.unified-content .discipline-card .weeks-container {
+    margin-top: .55rem;
 }
 
 .discipline-quiz-btn {
