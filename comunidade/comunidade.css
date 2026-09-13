@@ -461,6 +461,8 @@ body {
 }
 
 .p2p-chat-section .chat-messages {
+    display: flex;
+    flex-direction: column;
     max-height: 120px;
     overflow-y: auto;
     font-size: 0.8rem;
@@ -477,8 +479,27 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    padding: 0.2rem 0;
-    border-bottom: 1px solid var(--com-border-light);
+    width: fit-content;
+    max-width: 85%;
+    margin: 0.35rem 0;
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--com-border-light);
+    border-radius: 0.9rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.p2p-chat-section .chat-messages .msg.msg-own {
+    align-self: flex-end;
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.45);
+    border-bottom-right-radius: 0.25rem;
+}
+
+.p2p-chat-section .chat-messages .msg.msg-other {
+    align-self: flex-start;
+    background: rgba(108, 140, 255, 0.16);
+    border-color: rgba(108, 140, 255, 0.35);
+    border-bottom-left-radius: 0.25rem;
 }
 
 .p2p-chat-section .chat-messages .msg .msg-header {
@@ -487,6 +508,8 @@ body {
     gap: 0.4rem;
     flex-wrap: wrap;
 }
+.discipline-item { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.discipline-unread-count { min-width:1.25rem; padding:.08rem .35rem; border-radius:999px; background:var(--com-accent-blue); color:#fff; font-size:.65rem; font-weight:700; text-align:center; }
 
 .p2p-chat-section .chat-messages .msg .msg-header .user {
     font-weight: 600;
@@ -502,7 +525,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    padding-left: 0.3rem;
+    padding-left: 0;
 }
 
 .p2p-chat-section .chat-messages .msg .msg-text {

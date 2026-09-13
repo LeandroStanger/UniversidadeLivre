@@ -1952,10 +1952,6 @@
             }
             resetChessGame();
         });
-        modal.addEventListener('click', function(event) {
-            if (event.target === modal) closeGamesModal();
-        });
-
         window.addEventListener('storage', function(event) {
             if (event.key && (event.key.startsWith('comunidade_games_') || event.key.startsWith('comunidade_ttt_'))) {
                 renderChessBoard();
