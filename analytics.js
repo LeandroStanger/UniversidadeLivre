@@ -41,6 +41,36 @@
         return `/idioma/${getLanguage().slug}${normalized}`;
     }
 
+    function ageBand() {
+        const rawAge = localStorage.getItem('userAge')
+            || localStorage.getItem('profileAge')
+            || localStorage.getItem('age');
+        const age = Number.parseInt(rawAge, 10);
+        if (!Number.isFinite(age) || age < 5 || age > 120) return 'nao-informada';
+        if (age < 18) return 'menor-18';
+        if (age < 25) return '18-24';
+        if (age < 35) return '25-34';
+        if (age < 45) return '35-44';
+        if (age < 55) return '45-54';
+        return '55-mais';
+    }
+
+    function contextPath(context = {}) {
+        const parts = [`idade-${ageBand()}`];
+        if (context.course) parts.push(`curso-${slug(context.course)}`);
+        if (context.stage !== undefined && context.stage !== null) parts.push(`etapa-${slug(context.stage)}`);
+        if (context.game) parts.push(`jogo-${slug(context.game)}`);
+        if (context.term) parts.push(`termo-${slug(context.term)}`);
+        return parts.join('/');
+    }
+
+    function currentCourse() {
+        return document.body?.dataset.course
+            || localStorage.getItem('currentCourse')
+            || localStorage.getItem('activeCourse')
+            || '';
+    }
+
     function readLocalCounts() {
         try {
             return JSON.parse(localStorage.getItem(LOCAL_COUNTS_KEY) || '{}');
@@ -146,6 +176,15 @@
         action(area, actionName, context) {
             const suffix = context ? `/${slug(context)}` : '';
             count(`/${slug(area)}/${slug(actionName)}${suffix}`, `${actionName}${context ? ` · ${context}` : ''}`);
+        },
+        event(area, actionName, context = {}) {
+            const suffix = contextPath(context);
+            count(`/evento/${slug(area)}/${slug(actionName)}/${suffix}`, `${actionName} · ${area}`);
+        },
+        search(area, term, context = {}) {
+            const normalizedTerm = String(term || '').trim().slice(0, 80);
+            if (normalizedTerm.length < 2) return;
+            this.event(area, 'busca', { ...context, term: slug(normalizedTerm) });
         }
     };
 
@@ -164,7 +203,42 @@
         count('/idioma-selecionado', `Idioma selecionado: ${language}`);
     });
 
+    function setupInteractionTracking() {
+        const searchTimers = new WeakMap();
+        document.addEventListener('input', (event) => {
+            const input = event.target;
+            if (!(input instanceof HTMLInputElement) || !input.matches('#courseSearchInput, #searchInput, #audiobookSearchInput')) return;
+            const area = input.id === 'courseSearchInput'
+                ? 'cursos'
+                : input.id === 'audiobookSearchInput' ? 'audiolivros' : 'busca';
+            clearTimeout(searchTimers.get(input));
+            searchTimers.set(input, window.setTimeout(() => {
+                window.UniversidadeLivreAnalytics?.search(area, input.value, { course: currentCourse() });
+            }, 900));
+        });
+
+        document.addEventListener('click', (event) => {
+            const stage = event.target.closest('.stage-card');
+            if (stage && !stage.disabled) {
+                const name = stage.querySelector('.stage-card-body strong')?.textContent?.trim();
+                window.UniversidadeLivreAnalytics?.event('curso', 'etapa-selecionada', {
+                    course: currentCourse(),
+                    stage: name || 'desconhecida'
+                });
+            }
+
+            const game = event.target.closest('.game-card')?.dataset.game;
+            if (game) {
+                window.UniversidadeLivreAnalytics?.event('jogo', 'abertura', {
+                    course: currentCourse(),
+                    game
+                });
+            }
+        });
+    }
+
     window.addEventListener('load', () => {
+        setupInteractionTracking();
         const ready = window.i18nReady;
         if (ready && typeof ready.then === 'function') {
             ready.then(sendInitialPageview).catch(sendInitialPageview);

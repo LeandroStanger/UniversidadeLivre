@@ -54,6 +54,10 @@
     };
     const MAX_CHAT_MESSAGES = 100;
     const MAX_CHAT_MESSAGE_LENGTH = 500;
+    const COMMUNITY_CONTEXT_KEY = 'comunidade_current_study_context';
+    const COMMUNITY_READ_KEY = 'comunidade_read_posts_';
+    const COMMUNITY_NOTIFICATIONS_INITIALIZED_KEY = 'comunidade_notifications_initialized';
+    const COMMUNITY_NOTIFICATION_TITLE = 'Universidade Livre · Comunidade';
     const OFFENSE_LIMIT_CHAT = 3;
     const OFFENSE_LIMIT_POST = 2;
     const OFFENSE_LIMIT_COMMENT = 2;
@@ -717,6 +721,83 @@
         const name = localStorage.getItem('userProfileName') || 'Anônimo';
         const avatar = localStorage.getItem('userAvatar') || null;
         return { name, avatar };
+    }
+
+    function getPreferredStudyContext() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(COMMUNITY_CONTEXT_KEY) || 'null');
+            return saved && saved.courseId && saved.discipline ? saved : null;
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function getUnreadPosts(courseId, discipline) {
+        const posts = loadPosts(courseId, discipline);
+        const readKey = `${COMMUNITY_READ_KEY}${courseId}_${discipline}`;
+        let readIds = [];
+        try {
+            readIds = JSON.parse(localStorage.getItem(readKey) || '[]');
+        } catch (_) {
+            readIds = [];
+        }
+        const read = new Set(Array.isArray(readIds) ? readIds : []);
+        return posts.filter(post => post.id && !read.has(post.id) && post.author !== state.currentUser.name);
+    }
+
+    function markPostsAsRead(courseId, discipline, posts) {
+        if (!courseId || !discipline || !Array.isArray(posts)) return;
+        const readKey = `${COMMUNITY_READ_KEY}${courseId}_${discipline}`;
+        let readIds = [];
+        try {
+            readIds = JSON.parse(localStorage.getItem(readKey) || '[]');
+        } catch (_) {
+            readIds = [];
+        }
+        const ids = new Set(Array.isArray(readIds) ? readIds : []);
+        posts.forEach(post => { if (post.id) ids.add(post.id); });
+        localStorage.setItem(readKey, JSON.stringify([...ids].slice(-300)));
+    }
+
+    function notifyNewCommunityPosts() {
+        if (!state.courses.length) return;
+        if (localStorage.getItem(COMMUNITY_NOTIFICATIONS_INITIALIZED_KEY) !== 'true') {
+            for (const course of state.courses) {
+                for (const discipline of state.disciplines[course.id] || []) {
+                    markPostsAsRead(course.id, discipline, loadPosts(course.id, discipline));
+                }
+            }
+            localStorage.setItem(COMMUNITY_NOTIFICATIONS_INITIALIZED_KEY, 'true');
+            return;
+        }
+        const unread = [];
+        for (const course of state.courses) {
+            for (const discipline of state.disciplines[course.id] || []) {
+                const posts = getUnreadPosts(course.id, discipline);
+                if (posts.length) unread.push({ course, discipline, posts });
+            }
+        }
+        if (!unread.length) return;
+
+        const total = unread.reduce((sum, item) => sum + item.posts.length, 0);
+        if ('Notification' in window && Notification.permission === 'granted') {
+            const first = unread[0];
+            new Notification(COMMUNITY_NOTIFICATION_TITLE, {
+                body: `${total} novo(s) conteúdo(s) em ${first.discipline}${unread.length > 1 ? ` e mais ${unread.length - 1} disciplina(s)` : ''}.`,
+                tag: 'universidade-livre-comunidade',
+                icon: '../logo-da-universidade-livre.png'
+            });
+        }
+        renderSidebar();
+    }
+
+    async function requestCommunityNotifications() {
+        if (!('Notification' in window) || Notification.permission !== 'default') return;
+        try {
+            await Notification.requestPermission();
+        } catch (error) {
+            console.warn('[Comunidade] Não foi possível solicitar notificações:', error);
+        }
     }
 
     const presenceId = sessionStorage.getItem('comunidade_presence_id') || generateId();
@@ -1730,7 +1811,7 @@
             }
 
             html += `
-                <div class="msg" data-msg-id="${msg.id}">
+                <div class="msg ${isOwner ? 'msg-own' : 'msg-other'}" data-msg-id="${msg.id}">
                     <div class="msg-header">
                         <span class="user">${escapeHtml(user)}</span>
                         <span class="time">${time}</span>
@@ -2257,7 +2338,8 @@
             } else {
                 for (const disc of disciplines) {
                     const activeDisc = isActive && state.currentDiscipline === disc;
-                    html += `<div class="discipline-item ${activeDisc ? 'active' : ''}" data-course-id="${course.id}" data-discipline="${escapeHtml(disc)}">${escapeHtml(getLocalizedDisciplineName(disc))}</div>`;
+                    const unreadCount = getUnreadPosts(course.id, disc).length;
+                    html += `<div class="discipline-item ${activeDisc ? 'active' : ''}" data-course-id="${course.id}" data-discipline="${escapeHtml(disc)}"><span>${escapeHtml(getLocalizedDisciplineName(disc))}</span>${unreadCount ? `<span class="discipline-unread-count" aria-label="${unreadCount} novo(s)">${unreadCount}</span>` : ''}</div>`;
                 }
             }
             html += `</div></div>`;
@@ -2368,6 +2450,7 @@
 
         if (courseId && discipline) {
             state.posts = loadPosts(courseId, discipline);
+            markPostsAsRead(courseId, discipline, state.posts);
             renderPosts();
             renderChatMessages();
             updateChatStatus(true);
@@ -2983,6 +3066,7 @@
                     state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
                     renderPosts();
                     renderChatMessages();
+                    notifyNewCommunityPosts();
                 }
 
             }
@@ -3180,10 +3264,21 @@
 
         renderSidebar();
 
-        if (state.courses.length > 0) {
-            const first = state.courses[0];
-            const disciplines = state.disciplines[first.id] || [];
-            selectDiscipline(first.id, disciplines.length > 0 ? disciplines[0] : null);
+        const preferred = getPreferredStudyContext();
+        const preferredCourse = preferred && state.courses.find(course => course.id === preferred.courseId);
+        const visibleCourses = getVisibleCourses();
+        const initialCourse = preferredCourse || visibleCourses[0] || state.courses[0];
+        if (initialCourse) {
+            const disciplines = state.disciplines[initialCourse.id] || [];
+            const initialDiscipline = preferredCourse && disciplines.includes(preferred.discipline)
+                ? preferred.discipline
+                : disciplines[0];
+            if (state.courseScope === 'my' && !visibleCourses.some(course => course.id === initialCourse.id)) {
+                state.courseScope = 'all';
+                localStorage.setItem('comunidade_course_scope', 'all');
+            }
+            selectDiscipline(initialCourse.id, initialDiscipline || null);
+            requestCommunityNotifications().then(notifyNewCommunityPosts);
         }
 
         const chatInput = document.getElementById('p2pInput');
@@ -3248,9 +3343,6 @@
             }
         });
 
-        document.getElementById('jitsiModal')?.addEventListener('click', function(e) {
-            if (e.target === this) closeJitsiModal();
-        });
         document.querySelectorAll('.share-tab').forEach(tab => tab.addEventListener('click', function() {
             document.querySelectorAll('.share-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active'); renderShareArticleList();
@@ -3273,10 +3365,6 @@
         if (coursesRefreshTimer) clearInterval(coursesRefreshTimer);
         coursesRefreshTimer = setInterval(refreshCourses, COURSE_REFRESH_INTERVAL);
 
-        document.getElementById('postModal')?.addEventListener('click', function(e) {
-            if (e.target === this) closePostModal();
-        });
-
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const modal = document.getElementById('postModal');
@@ -3284,7 +3372,6 @@
                 if (document.getElementById('gifModal').style.display === 'flex') closeGifModal();
                 if (document.getElementById('shareArticleModal').style.display === 'flex') closeShareArticleModal();
                 if (document.getElementById('pollModal').style.display === 'flex') closePollModal();
-                if (document.getElementById('jitsiModal').style.display === 'flex') closeJitsiModal();
             }
         });
 

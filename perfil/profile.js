@@ -2405,6 +2405,39 @@
         }
     }
 
+    function syncAcademicPointsToWallet(totalPoints, walletApi = window.UniversidadeLivreWallet) {
+        if (walletApi?.syncAcademicPoints) {
+            walletApi.syncAcademicPoints(totalPoints);
+            return;
+        }
+        const walletKey = 'ulivre_livre_coins_wallet';
+        const userName = loadProfileName() || 'Anônimo';
+        let wallets = {};
+        try {
+            wallets = JSON.parse(localStorage.getItem(walletKey) || '{}');
+        } catch (error) {
+            console.warn('[Profile] Carteira de LivreCoins inválida; sincronização ignorada.', error);
+            return;
+        }
+        const wallet = wallets[userName] || { coins: 0, points: 0, bonuses: {}, wins: 0, games: 0 };
+        const previous = Math.max(0, Number(wallet.syncedAcademicPoints) || 0);
+        const current = Math.max(0, Math.floor(Number(totalPoints) || 0));
+        const delta = Math.max(0, current - previous);
+        wallets[userName] = {
+            ...wallet,
+            points: Math.max(0, Math.floor(Number(wallet.points) || 0)) + delta,
+            syncedAcademicPoints: Math.max(previous, current)
+        };
+        localStorage.setItem(walletKey, JSON.stringify(wallets));
+    }
+
+    function syncAllCoursePointsToWallet() {
+        const totalCoursePoints = getAllCoursesProgress().reduce((total, course) =>
+            total + Math.max(0, Number(course.stats?.points) || 0), 0);
+        syncAcademicPointsToWallet(totalCoursePoints);
+        return totalCoursePoints;
+    }
+
     // ========== UI DO MODAL ==========
     function updateProfileModal() {
         const allCourses = getAllCoursesProgress();
@@ -2514,7 +2547,7 @@
         const gamePoints = (Number(chessScore.points) || 0) + (Number(tttScore.points) || 0) + extraGameScores;
         const grandTotal = totalStats.coursePoints + gamePoints;
         const walletApi = window.UniversidadeLivreWallet;
-        if (walletApi?.syncAcademicPoints) walletApi.syncAcademicPoints(totalStats.coursePoints);
+        syncAcademicPointsToWallet(totalStats.coursePoints, walletApi);
         const livreWallet = walletApi?.get?.() || { coins: 0, points: 0 };
         const livreCoinsEl = document.getElementById('profileLivreCoins');
         const livrePointsEl = document.getElementById('profileLivrePoints');
@@ -2938,6 +2971,7 @@
     window.openProfileModal = openProfileModal;
     window.closeProfileModal = closeProfileModal;
     window.updateProfileModal = updateProfileModal;
+    window.syncAllCoursePointsToWallet = syncAllCoursePointsToWallet;
     window.updateProfileTranslations = updateProfileTranslations;
     window.handleExport = handleExport;
     window.handleImport = handleImport;
@@ -2970,6 +3004,7 @@
                 if (!window._profileInitialized) {
                     window._profileInitialized = true;
                     initProfileSystem();
+                    syncAllCoursePointsToWallet();
                 }
             });
         } else {
@@ -2977,6 +3012,7 @@
             if (!window._profileInitialized) {
                 window._profileInitialized = true;
                 initProfileSystem();
+                syncAllCoursePointsToWallet();
             }
         }
     }
@@ -3028,6 +3064,9 @@
     });
 
     window.addEventListener('storage', (e) => {
+        if (e.key?.startsWith('ulivre_course_') || e.key?.startsWith('ulivre_discipline_exam_') || e.key?.startsWith('ulivre_final_exam_')) {
+            syncAllCoursePointsToWallet();
+        }
         if (e.key === AUDITORIO_TIME_KEY) {
             const el = document.getElementById('profileAuditorioTime');
             if (el && document.getElementById('profileModal')?.style?.display === 'flex') {

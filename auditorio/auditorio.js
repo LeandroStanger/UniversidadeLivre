@@ -273,9 +273,8 @@ function applyTranslationsToUI() {
         if (control) control.title = t(key);
     });
     // Perfil
-    const profileBtn = document.getElementById('profileBtn');
-    if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile', 'Perfil')}`;
+    if (typeof window.updateProfileButton === 'function') {
+        window.updateProfileButton();
     }
     // Notas
     const notasLink = document.querySelector('a[href="../notas/notas.html"]');
@@ -1055,7 +1054,12 @@ function setupPlayerControls() {
     if (closeBtn) closeBtn.addEventListener('click', closePlayer);
 }
 function closePlayer() {
-    document.getElementById('playerContainer').style.display = 'none';
+    const modal = document.getElementById('playerModal');
+    if (modal) {
+        modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
+    }
+    document.getElementById('playerContainer').style.display = 'block';
     if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
     stopProgressUpdate(); currentVideoId = null; audioMode = false;
     stopWatchTimer();
@@ -1067,10 +1071,15 @@ function playVideo(videoId, title, description) {
     window.UniversidadeLivreAnalytics?.media('auditorio', videoId, title);
     document.getElementById('playerTitle').textContent = title;
     document.getElementById('playerDescription').textContent = description;
-    const container = document.getElementById('playerContainer'); container.style.display = 'block';
+    const modal = document.getElementById('playerModal');
+    if (modal) {
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+    }
+    const container = document.getElementById('playerContainer');
+    container.style.display = 'block';
     container.classList.toggle('audio-mode', audioMode);
     document.getElementById('audioModeBtn')?.classList.toggle('audio-active', audioMode);
-    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     currentVideoId = videoId;
     document.querySelector('.fallback-message')?.remove();
     document.getElementById('playPauseBtn').style.display = 'flex';
@@ -1317,9 +1326,8 @@ window.addEventListener('languageChanged', async function(e) {
         buildLanguageChips(allItems);
         updateAllContent();
         // Atualiza o botão de perfil se necessário
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile', 'Perfil')}`;
+        if (typeof window.updateProfileButton === 'function') {
+            window.updateProfileButton();
         }
         // Atualiza o botão "Notas"
         const notasLink = document.querySelector('a[href="../notas/notas.html"]');

@@ -734,6 +734,51 @@ a:hover {
 }
 
 /* ========== PLAYER DE MÍDIA ========== */
+.player-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+}
+
+.player-modal[hidden] {
+    display: none;
+}
+
+.player-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.player-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(1100px, 100%);
+    max-height: calc(100vh - 2.5rem);
+    overflow: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--modal-shadow);
+}
+
+.player-modal-header {
+    min-height: 48px;
+    padding: 0.55rem 0.75rem 0.55rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+
 .player-container {
     background: var(--bg-card);
     backdrop-filter: blur(8px);
@@ -744,6 +789,7 @@ a:hover {
     border: 1px solid var(--border);
     box-shadow: var(--card-shadow);
     transition: var(--transition-medium);
+    margin-bottom: 0;
 }
 
 .player-container:hover {
@@ -764,9 +810,7 @@ a:hover {
 }
 
 .close-player {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    position: relative;
     background: rgba(0, 0, 0, 0.7);
     border: none;
     color: white;
@@ -1453,8 +1497,6 @@ a:hover {
     }
 
     .close-player {
-        top: 8px;
-        right: 8px;
         width: 32px;
         height: 32px;
         font-size: 1rem;

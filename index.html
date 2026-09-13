@@ -98,7 +98,10 @@
 
     <!-- ========== VISUALIZAÇÃO DO CURSO ========== -->
     <div id="courseView" class="course-view">
-        <button class="back-btn" id="backToHomeBtn" data-i18n="back_to_courses"><i class="fas fa-arrow-left"></i> Voltar para cursos</button>
+        <div class="course-navigation">
+            <button class="back-btn" id="backToHomeBtn" data-i18n="back_to_courses"><i class="fas fa-arrow-left"></i> Voltar para cursos</button>
+            <button class="back-btn" id="backToDisciplineBtn" type="button" hidden><i class="fas fa-arrow-left"></i> Voltar para a disciplina</button>
+        </div>
         <div class="main-layout">
             <div class="video-column">
                 <!-- Player -->
@@ -172,12 +175,26 @@
                     <div class="panel-title" data-i18n="current_lesson"><i class="fas fa-play-circle"></i> Aula Atual</div>
                     <div id="currentLessonPanelContent">Carregando...</div>
                 </div>
-                
-                <!-- Conteúdo do Curso -->
+                <article id="courseIntroCard" class="course-intro-card" aria-labelledby="courseIntroCardTitle" hidden>
+                    <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
+                    <div class="course-intro-card-body">
+                        <span id="courseIntroCardLabel" class="course-intro-card-label">Sobre o curso</span>
+                        <h2 id="courseIntroCardTitle"></h2>
+                        <div id="courseIntroCardClassification" class="course-intro-card-classification" aria-label="Classificação do curso"></div>
+                        <p id="courseIntroCardInstitution" class="course-intro-card-institution"></p>
+                        <p id="courseIntroCardPremise" class="course-intro-card-premise"></p>
+                        <p id="courseIntroCardDescription"></p>
+                        <div class="course-intro-card-learning">
+                            <strong id="courseIntroCardLearningHeading">O que você vai aprender</strong>
+                            <ul id="courseIntroCardLearningList"></ul>
+                        </div>
+                        <p id="courseIntroCardAbout" class="course-intro-card-about"></p>
+                    </div>
+                </article>
+                <!-- Conteúdo filtrado da disciplina selecionada -->
                 <div class="unified-content" id="unifiedCourseContent">
                     <div class="course-content-heading">
-                        <h3 data-i18n="course_content"><i class="fas fa-book-open"></i> Conteúdo do Curso</h3>
-                        <button id="finalExamBtn" class="final-exam-btn" type="button" disabled><i class="fas fa-trophy"></i> <span data-i18n="final_exam_button">Prova final</span></button>
+                        <h3 data-i18n="course_content"><i class="fas fa-book-open"></i> Conteúdo do curso</h3>
                     </div>
                     <div id="unifiedContentList">Carregando...</div>
                 </div>
@@ -199,29 +216,15 @@
     </div>
 </div>
 
-<!-- ========== MODAL DE INTRODUÇÃO DO CURSO ========== -->
-<div id="courseIntroModal" class="course-intro-modal" role="dialog" aria-hidden="true">
-    <div class="intro-modal-content">
-        <img class="intro-logo-large" src="" alt="Universidade Livre - Um caminho para a educação autodidata">
-        <div id="introContent"></div>
-        <div class="social-icons"></div>
-        <div class="intro-footer">
-            <label class="dont-show-again"><input type="checkbox" id="dontShowAgain"> <span data-i18n="intro_dont_show">Não mostrar novamente</span></label>
-            <button class="start-lesson-btn" id="startLessonBtn" data-i18n="intro_start">Começar aula agora</button>
-        </div>
-        <button class="close-intro" aria-label="Fechar">&times;</button>
-    </div>
-</div>
-
 <!-- ========== MODAL DE PROVA DA DISCIPLINA ========== -->
 <div id="disciplineQuizModal" class="discipline-quiz-modal" role="dialog" aria-hidden="true">
     <div class="discipline-quiz-modal-content">
         <div class="discipline-quiz-header">
             <div>
-                <span class="discipline-quiz-kicker">Prova</span>
+                <span class="discipline-quiz-kicker" data-i18n="discipline_quiz_title">Prova da disciplina</span>
                 <h2 id="disciplineQuizTitle">Prova da disciplina</h2>
             </div>
-            <button class="close-discipline-quiz" aria-label="Fechar prova">&times;</button>
+            <button class="close-discipline-quiz" data-i18n-aria="close" aria-label="Fechar">&times;</button>
         </div>
         <div class="discipline-quiz-body">
             <div id="disciplineQuizStatus" class="discipline-quiz-status"></div>
