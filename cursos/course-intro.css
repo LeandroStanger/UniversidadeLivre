@@ -32,6 +32,15 @@
     background: var(--bg-primary, #0A0E17);
 }
 
+.course-intro-card > picture {
+    display: block;
+    min-width: 0;
+}
+
+.course-intro-card > picture .course-intro-card-image {
+    display: block;
+}
+
 .course-intro-card-body {
     padding: 1rem;
 }
@@ -127,8 +136,13 @@
     }
 
     .course-intro-card-image {
-        height: 88px;
+        width: 100%;
+        height: auto;
         min-height: 0;
+        max-height: 220px;
+        object-fit: contain;
+        object-position: center;
+        padding: 0.35rem;
     }
 
     .course-intro-card-body {

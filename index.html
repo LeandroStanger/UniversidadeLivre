@@ -176,7 +176,10 @@
                     <div id="currentLessonPanelContent">Carregando...</div>
                 </div>
                 <article id="courseIntroCard" class="course-intro-card" aria-labelledby="courseIntroCardTitle" hidden>
-                    <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
+                    <picture>
+                        <source id="courseIntroCardMobileImage" media="(max-width: 600px)" srcset="">
+                        <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
+                    </picture>
                     <div class="course-intro-card-body">
                         <span id="courseIntroCardLabel" class="course-intro-card-label">Sobre o curso</span>
                         <h2 id="courseIntroCardTitle"></h2>
