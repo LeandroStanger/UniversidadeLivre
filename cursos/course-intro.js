@@ -388,6 +388,7 @@
     window.renderCourseIntroCard = async function(courseId, courseInfo = {}) {
         const card = document.getElementById('courseIntroCard');
         const image = document.getElementById('courseIntroCardImage');
+        const mobileImage = document.getElementById('courseIntroCardMobileImage');
         const title = document.getElementById('courseIntroCardTitle');
         const classification = document.getElementById('courseIntroCardClassification');
         const institution = document.getElementById('courseIntroCardInstitution');
@@ -434,6 +435,9 @@
             : [];
 
         image.alt = `Imagem do curso ${readmeTitle || courseData.name || courseId}`;
+        if (mobileImage) {
+            mobileImage.srcset = courseData.imageUrl || '';
+        }
         const imageCandidates = getCourseIntroImageCandidates(courseData);
         let imageCandidateIndex = 0;
         image.onerror = () => {
