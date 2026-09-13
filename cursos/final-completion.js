@@ -249,19 +249,6 @@
             closeBtn.onclick = closeModal;
         }
 
-        // Fechar ao clicar fora
-        modal.onclick = function(e) {
-            if (e.target === modal) closeModal();
-        };
-
-        // Fechar com ESC
-        document.addEventListener('keydown', function escHandler(e) {
-            if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
-                closeModal();
-                document.removeEventListener('keydown', escHandler);
-            }
-        });
-
         // ===== EXIBIR =====
         showModal();
 

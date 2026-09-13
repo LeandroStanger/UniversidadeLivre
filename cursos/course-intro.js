@@ -23,6 +23,8 @@
     let sliderDots = null;
 
     let currentCourseId = null;
+    let currentCardCourseId = null;
+    let currentCardCourseInfo = {};
     let introData = null;
     let _initialized = false;
     let _sliderInterval = null;
@@ -47,6 +49,13 @@
             'error_loading': 'Erro ao carregar introdução.',
             'profile': 'Perfil',
             'course_progress': 'Progresso do Curso',
+            'graduacao': 'Graduação',
+            'pos_graduacao': 'Pós-graduação',
+            'ensino_medio': 'Ensino Médio',
+            'idiomas': 'Idiomas',
+            'bacharelado': 'Bacharelado',
+            'licenciatura': 'Licenciatura',
+            'tecnologo': 'Tecnólogo',
             'back_to_courses': 'Voltar para cursos',
             'help_button': 'Ajuda',
             'close': 'Fechar'
@@ -99,14 +108,23 @@
 
     // Lista de todos os cursos com suporte a introdução
     const supportedCourses = Object.keys(courseIdToJsonKey);
+    const englishCourseIds = new Set([
+        'computer-science',
+        'espanhol-ingles',
+        'japones-ingles',
+        'math',
+        'portugues-brasileiro'
+    ]);
+
+    function isEnglishCourse(courseId) {
+        return englishCourseIds.has(courseId);
+    }
 
     // ========== CAPTURAR ELEMENTOS ==========
     function getElements() {
         modal = document.getElementById('courseIntroModal');
-        if (!modal) {
-            console.warn('[Intro] Elemento #courseIntroModal não encontrado');
-            return false;
-        }
+        // O resumo é renderizado na página; o modal antigo não é mais necessário.
+        if (!modal) return true;
         closeBtn = modal.querySelector('.close-intro');
         startBtn = document.getElementById('startLessonBtn');
         dontShowCheckbox = document.getElementById('dontShowAgain');
@@ -153,6 +171,22 @@
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    }
+
+    function getCourseIntroImageCandidates(courseData) {
+        const imageUrl = typeof courseData?.imageUrl === 'string' ? courseData.imageUrl : '';
+        const folder = imageUrl.slice(0, imageUrl.lastIndexOf('/') + 1);
+        const candidates = [];
+
+        if (folder) {
+            candidates.push(`${folder}sobre o curso.png`);
+            candidates.push(`${folder}Sobre o curso.png`);
+        }
+
+        candidates.push('cursos/sobre o curso.png');
+        // Mantém compatibilidade com a imagem padrão já existente no repositório.
+        candidates.push('cursos/Sobre o curso.png');
+        return candidates;
     }
 
     // ========== RENDERIZAR SLIDER ==========
@@ -350,6 +384,129 @@
         return true;
     }
 
+    // Renderiza o resumo do curso na própria página, sem interromper a navegação.
+    window.renderCourseIntroCard = async function(courseId, courseInfo = {}) {
+        const card = document.getElementById('courseIntroCard');
+        const image = document.getElementById('courseIntroCardImage');
+        const title = document.getElementById('courseIntroCardTitle');
+        const classification = document.getElementById('courseIntroCardClassification');
+        const institution = document.getElementById('courseIntroCardInstitution');
+        const premise = document.getElementById('courseIntroCardPremise');
+        const description = document.getElementById('courseIntroCardDescription');
+        const learningList = document.getElementById('courseIntroCardLearningList');
+        const about = document.getElementById('courseIntroCardAbout');
+        const label = document.getElementById('courseIntroCardLabel');
+        const learningHeading = document.getElementById('courseIntroCardLearningHeading');
+        if (!card || !image || !title || !classification || !institution || !premise || !description || !learningList || !about || !label || !learningHeading) return false;
+
+        const data = await loadIntroData();
+        const jsonKey = courseIdToJsonKey[courseId] || courseId;
+        const courseData = data?.[jsonKey];
+        if (!courseData) {
+            card.hidden = true;
+            console.warn(`[Intro] Dados do resumo não encontrados para o curso: ${courseId}`);
+            return false;
+        }
+
+        currentCardCourseId = courseId;
+        currentCardCourseInfo = { ...courseInfo };
+        const englishCourse = isEnglishCourse(courseId);
+        // The course language takes precedence over the interface language.
+        // This keeps the complete course summary consistent with its content.
+        const useEnglishLabels = englishCourse;
+        label.textContent = useEnglishLabels ? 'About the course' : 'Sobre o curso';
+        learningHeading.textContent = useEnglishLabels ? 'What you will learn' : 'O que você vai aprender';
+
+        const readme = document.createElement('div');
+        readme.innerHTML = courseData.readmeContent || '';
+        const readmeTitle = readme.querySelector('h1')?.textContent?.trim();
+        const paragraphs = Array.from(readme.querySelectorAll('p'));
+        const paragraphTexts = paragraphs
+            .map(paragraph => paragraph.textContent?.trim())
+            .filter(Boolean);
+        const summary = paragraphTexts[0];
+        const courseDetails = paragraphTexts.slice(1, 3).join(' ');
+        const learningHeadingSource = Array.from(readme.querySelectorAll('strong'))
+            .find(element => /(?:o que você vai aprender|what you will learn)/i.test(element.textContent || ''));
+        const learningListSource = learningHeadingSource?.closest('p')?.nextElementSibling;
+        const learningItems = learningListSource?.tagName === 'UL'
+            ? Array.from(learningListSource.querySelectorAll('li'))
+            : [];
+
+        image.alt = `Imagem do curso ${readmeTitle || courseData.name || courseId}`;
+        const imageCandidates = getCourseIntroImageCandidates(courseData);
+        let imageCandidateIndex = 0;
+        image.onerror = () => {
+            imageCandidateIndex += 1;
+            if (imageCandidateIndex < imageCandidates.length) {
+                image.src = imageCandidates[imageCandidateIndex];
+                return;
+            }
+            image.onerror = null;
+            image.src = 'logo-da-universidade-livre.png';
+        };
+        image.src = imageCandidates[imageCandidateIndex];
+        title.textContent = readmeTitle || courseData.name || courseId;
+        const levelLabels = {
+            graduacao: 'graduacao',
+            'pos-graduacao': 'pos_graduacao',
+            'ensino-medio': 'ensino_medio',
+            idiomas: 'idiomas'
+        };
+        const typeLabels = {
+            bacharelado: 'bacharelado',
+            licenciatura: 'licenciatura',
+            tecnologo: 'tecnologo'
+        };
+        const levelKey = levelLabels[courseInfo.courseLevel];
+        const typeKey = courseInfo.courseLevel === 'graduacao'
+            ? typeLabels[courseInfo.courseType]
+            : null;
+        const courseTypeLabels = {
+            graduacao: 'Undergraduate',
+            pos_graduacao: 'Postgraduate',
+            ensino_medio: 'High School',
+            idiomas: 'Languages',
+            bacharelado: "Bachelor's degree",
+            licenciatura: 'Teaching degree',
+            tecnologo: 'Technology degree'
+        };
+        classification.replaceChildren(
+            ...(levelKey ? [createClassificationBadge(
+                useEnglishLabels ? courseTypeLabels[levelKey] : t(levelKey),
+                'level'
+            )] : []),
+            ...(typeKey ? [createClassificationBadge(
+                useEnglishLabels ? courseTypeLabels[typeKey] : t(typeKey),
+                'type'
+            )] : [])
+        );
+        institution.textContent = 'Universidade Livre';
+        premise.textContent = useEnglishLabels
+            ? `Course premise: ${summary || 'learn at your own pace with curated, free content.'}`
+            : `Premissa do curso: ${summary || 'aprender no seu ritmo, com conteúdo curado e gratuito.'}`;
+        description.textContent = courseDetails || (useEnglishLabels
+            ? 'A learning journey with organized content and practical application.'
+            : 'Uma jornada de aprendizagem com conteúdo organizado e aplicação prática.');
+        learningList.replaceChildren(...learningItems.map(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item.textContent?.trim() || '';
+            return listItem;
+        }));
+        about.textContent = useEnglishLabels
+            ? 'Open University offers undergraduate, postgraduate and language courses with curated, free content. Study at your own pace with community support.'
+            : 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.';
+        card.hidden = false;
+        return true;
+    };
+
+    function createClassificationBadge(label, variant) {
+        const badge = document.createElement('span');
+        badge.className = `course-intro-card-badge course-intro-card-badge-${variant}`;
+        badge.textContent = label;
+        return badge;
+    }
+
     // ========== OBSERVAR ELEMENTOS PARA ANIMAÇÃO ==========
     function observeAnimateElements() {
         if (!contentDiv) return;
@@ -457,6 +614,9 @@
     window.addEventListener('languageChanged', function(e) {
         const lang = e.detail.lang || 'pt-br';
         updateModalTexts();
+        if (currentCardCourseId) {
+            renderCourseIntroCard(currentCardCourseId, currentCardCourseInfo);
+        }
         // Recarregar conteúdo se o modal estiver aberto
         if (modal && modal.classList.contains('show') && currentCourseId) {
             renderContent(currentCourseId);
