@@ -38,8 +38,29 @@
             graduation: {},
             discipline: {},
             practice: {},
-            bibliography: {}
+            bibliography: {},
+            activity: { days: {}, sessions: [] }
         };
+    }
+
+    function getActivityDate(timestamp = Date.now()) {
+        return new Date(timestamp).toISOString().slice(0, 10);
+    }
+
+    function updateActivityHistory(data, elapsedSeconds) {
+        if (!data.activity) data.activity = { days: {}, sessions: [] };
+        if (!data.activity.days) data.activity.days = {};
+        if (!data.activity.sessions) data.activity.sessions = [];
+        const today = getActivityDate();
+        data.activity.days[today] = (Number(data.activity.days[today]) || 0) + elapsedSeconds;
+        const lastSession = data.activity.sessions[data.activity.sessions.length - 1];
+        if (lastSession && lastSession.date === today) {
+            lastSession.end = new Date().toISOString();
+            lastSession.seconds += elapsedSeconds;
+        } else {
+            data.activity.sessions.push({ date: today, start: new Date(lastActiveTimestamp || Date.now()).toISOString(), end: new Date().toISOString(), seconds: elapsedSeconds });
+            if (data.activity.sessions.length > 100) data.activity.sessions.splice(0, data.activity.sessions.length - 100);
+        }
     }
     
     // ========== SALVAR DADOS ==========
@@ -136,7 +157,9 @@
                         data.bibliography[currentCourseId][currentDisciplineName].totalTime += elapsedSeconds;
                     }
                 }
+                updateActivityHistory(data, elapsedSeconds);
                 saveTimesetData(data);
+                window.dispatchEvent(new CustomEvent('cursorActivityUpdated'));
                 console.log(`[CursorTimeset] Tempo atualizado: +${elapsedSeconds}s (total acumulado)`);
             }
         }
@@ -304,6 +327,31 @@
             total: totalGraduationTime + totalDisciplineTime + totalPracticeTime + totalBibliographyTime
         };
     }
+
+    function getPlatformActivitySummary() {
+        const data = loadTimesetData();
+        const days = data.activity?.days || {};
+        const dates = Object.keys(days).filter(date => Number(days[date]) > 0).sort();
+        let streak = 0;
+        let cursor = new Date();
+        for (let index = dates.length - 1; index >= 0; index--) {
+            const expected = getActivityDate(cursor.getTime());
+            if (dates[index] !== expected) {
+                if (index === dates.length - 1 && expected === getActivityDate()) cursor.setDate(cursor.getDate() - 1);
+                else break;
+                if (dates[index] !== getActivityDate(cursor.getTime())) break;
+            }
+            streak += 1;
+            cursor.setDate(cursor.getDate() - 1);
+        }
+        const periods = (data.activity?.sessions || []).map(session => ({
+            start: session.start,
+            end: session.end,
+            date: session.date,
+            seconds: Number(session.seconds) || 0
+        }));
+        return { totalSeconds: Object.values(days).reduce((total, value) => total + (Number(value) || 0), 0), streakDays: streak, activeDays: dates.length, days, periods };
+    }
     
     // ========== INICIALIZAÇÃO ==========
     function initializeCursorTimeset() {
@@ -333,6 +381,7 @@
         getTimesetData: loadTimesetData,
         getCourseSpecificData,
         getTotalTimeData,
+        getPlatformActivitySummary,
         // Método para obter dados específicos do Computer Science (mantido para compatibilidade)
         getComputerScienceData: function() {
             return getCourseSpecificData('computer-science').csExtra || {};
