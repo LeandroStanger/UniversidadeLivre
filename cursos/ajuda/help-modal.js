@@ -26,9 +26,14 @@
     // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
         // Tenta usar a função global de tradução se disponível
-        if (window.getTranslation && typeof window.getTranslation === 'function') {
+        const translate = typeof window.getTranslation === 'function'
+            ? window.getTranslation
+            : typeof window.t === 'function'
+                ? window.t
+                : window.i18n?.t;
+        if (translate) {
             try {
-                return window.getTranslation(key, replacements);
+                return translate(key, replacements);
             } catch (e) {
                 // fallback
             }
@@ -37,6 +42,7 @@
         // Fallback interno (apenas para chaves críticas)
         const fallbacks = {
             'help_modal_title': 'Ajuda - {{course}}',
+            'help_modal_aria': 'Ajuda do curso',
             'help_unknown_course': 'Curso não identificado.',
             'help_unavailable': 'Conteúdo de ajuda não disponível para este curso.',
             'loading': 'Carregando...',
@@ -165,10 +171,14 @@
             return;
         }
 
-        // Atualizar título do modal
+        // Atualizar o título com o idioma atual, sem reutilizar o título fixo do JSON.
         if (modalTitle) {
-            const title = courseData.title || t('help_modal_title', { course: currentCourse });
-            modalTitle.innerText = title;
+            const localizedCourseName = typeof window.getLocalizedCourseName === 'function'
+                ? window.getLocalizedCourseName(currentCourse)
+                : currentCourse;
+            const title = t('help_modal_title', { course: localizedCourseName });
+            modalTitle.innerHTML = `<i class="fas fa-circle-question" aria-hidden="true"></i><span>${escapeHtml(title)}</span>`;
+            modal.setAttribute('aria-label', t('help_modal_aria'));
         }
 
         // Construir HTML a partir das seções

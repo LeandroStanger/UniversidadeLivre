@@ -14,6 +14,7 @@
   "back_to_courses": "Voltar para cursos",
   "help_button": "Ajuda",
   "help_modal_title": "Ajuda - {{course}}",
+  "help_modal_aria": "Ajuda do curso",
   "help_unknown_course": "Curso não identificado.",
   "help_unavailable": "Conteúdo de ajuda não disponível para este curso.",
   "mark_watched": "Concluir Vídeo",

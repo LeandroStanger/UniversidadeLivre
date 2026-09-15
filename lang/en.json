@@ -14,6 +14,7 @@
   "back_to_courses": "Back to Courses",
   "help_button": "Help",
   "help_modal_title": "Help - {{course}}",
+  "help_modal_aria": "Course help",
   "help_unknown_course": "Course not identified.",
   "help_unavailable": "Help content not available for this course.",
   "mark_watched": "Mark as Watched",

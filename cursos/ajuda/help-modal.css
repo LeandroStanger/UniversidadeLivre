@@ -59,12 +59,13 @@
     gap: 0.5rem;
 }
 
-.help-modal-header h2::before {
-    content: '\f059';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
+.help-modal-header h2 i {
     color: var(--accent-teal, #38BDF8);
     font-size: 1.1rem;
+}
+
+.help-modal-header h2::before {
+    content: none;
 }
 
 .close-help {

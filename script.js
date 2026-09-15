@@ -154,6 +154,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const lang = getCurrentLanguage();
         return nameObj[lang] || nameObj.pt || courseId;
     }
+    window.getLocalizedCourseName = getCourseName;
 
     // ========== VARIÁVEIS GLOBAIS ==========
     let allCourses = [];
