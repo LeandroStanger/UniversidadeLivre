@@ -43,6 +43,10 @@
     const COURSES_JSON = '../cursos/courses.json';
     const COURSE_DATA_BASE = '../cursos/';
     const COURSE_PATH_ALIASES = {
+        'accounting': {
+            directory: 'accounting',
+            file: 'accounting'
+        },
         'ciencia-de-dados-bacharelado': {
             directory: 'ciencia-de-dados',
             file: 'ciencia-de-dados-bacharelado'
@@ -171,9 +175,14 @@
 
     function getLocalizedCourseName(course) {
         if (!course) return '';
+        if (course.id === 'accounting') return 'Accounting';
         return typeof window.getCourseName === 'function'
             ? window.getCourseName(course.id)
             : course.name;
+    }
+
+    function normalizeCourseId(courseId) {
+        return courseId === 'contabilidade' ? 'accounting' : courseId;
     }
 
     function getLocalizedDisciplineName(discipline) {
@@ -416,7 +425,7 @@
             const stored = JSON.parse(localStorage.getItem(GAME_SCOPE_KEY) || '{}');
             return {
                 mode: ['global', 'course', 'discipline'].includes(stored.mode) ? stored.mode : 'global',
-                courseId: stored.courseId || state.currentCourseId || null,
+                courseId: normalizeCourseId(stored.courseId || state.currentCourseId || null),
                 discipline: stored.discipline || state.currentDiscipline || null
             };
         } catch (_) {
@@ -1203,13 +1212,15 @@
     // GERENCIAR POSTS
     // ========================================================================
     function getStorageKey(courseId, discipline) {
-        return `${STORAGE_KEY_POSTS}${courseId}_${discipline}`;
+        return `${STORAGE_KEY_POSTS}${normalizeCourseId(courseId)}_${discipline}`;
     }
 
     function loadPosts(courseId, discipline) {
         const key = getStorageKey(courseId, discipline);
         try {
-            const stored = localStorage.getItem(key);
+            const legacyKey = `${STORAGE_KEY_POSTS}contabilidade_${discipline}`;
+            const stored = localStorage.getItem(key) ||
+                (normalizeCourseId(courseId) === 'accounting' ? localStorage.getItem(legacyKey) : null);
             return stored ? JSON.parse(stored) : [];
         } catch (_) { return []; }
     }
@@ -1626,7 +1637,7 @@
         }
 
         const course = state.courses.find(c => c.id === state.currentCourseId);
-        const courseName = course ? course.name : 'Curso';
+        const courseName = course ? getLocalizedCourseName(course) : 'Curso';
         const disciplineName = state.currentDiscipline || 'Disciplina';
 
         const tempDiv = document.createElement('div');
@@ -1715,7 +1726,7 @@
                 <div class="share-course-group">
                     <div class="share-course-title" style="border-left: 3px solid ${color};">
                         <i class="fas fa-graduation-cap" style="color:${color};"></i>
-                        ${escapeHtml(course.name)}
+                        ${escapeHtml(getLocalizedCourseName(course))}
                     </div>
                     <div class="share-discipline-group">
                         <div class="share-discipline-title">
@@ -2376,7 +2387,9 @@
                 const data = JSON.parse(localStorage.getItem(key) || '{}');
                 const hasWatchedVideo = Array.isArray(data.watchedMap) && data.watchedMap.some(Boolean);
                 const hasExamProgress = Object.keys(data).some(name => /exam|discipline/i.test(name) && data[name]);
-                if (hasWatchedVideo || hasExamProgress) activeCourseIds.add(key.replace('ulivre_course_', ''));
+                if (hasWatchedVideo || hasExamProgress) {
+                    activeCourseIds.add(normalizeCourseId(key.replace('ulivre_course_', '')));
+                }
             } catch (_) {}
         }
         return state.courses.filter(course => activeCourseIds.has(course.id));
@@ -2423,6 +2436,7 @@
     }
 
     function selectDiscipline(courseId, discipline, scrollToPostId) {
+        courseId = normalizeCourseId(courseId);
         state.currentCourseId = courseId;
         state.currentDiscipline = discipline;
         window.UniversidadeLivreAnalytics?.discipline(courseId, discipline);

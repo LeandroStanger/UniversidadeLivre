@@ -18,10 +18,43 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
     if (localStorage.getItem('currentStep') !== null) localStorage.removeItem('currentStep');
+    migrateAccountingCourseId();
 
     // ========== VARIÁVEL DE CONTROLE PARA RENDERIZAÇÃO ==========
     let _renderingCourses = false;
     let _progressJustHit100 = false;
+
+    function migrateAccountingCourseId() {
+        const keyPrefixes = [
+            ['ulivre_course_contabilidade', 'ulivre_course_accounting'],
+            ['ulivre_discipline_exam_contabilidade_', 'ulivre_discipline_exam_accounting_'],
+            ['ulivre_final_exam_contabilidade', 'ulivre_final_exam_accounting'],
+            ['course_completed_contabilidade', 'course_completed_accounting']
+        ];
+        keyPrefixes.forEach(([oldPrefix, newPrefix]) => {
+            const keysToMigrate = [];
+            for (let index = 0; index < localStorage.length; index++) {
+                const key = localStorage.key(index);
+                if (key?.startsWith(oldPrefix)) keysToMigrate.push(key);
+            }
+            keysToMigrate.forEach(oldKey => {
+                const newKey = `${newPrefix}${oldKey.slice(oldPrefix.length)}`;
+                if (!localStorage.getItem(newKey)) {
+                    const value = localStorage.getItem(oldKey);
+                    if (value !== null) localStorage.setItem(newKey, value);
+                }
+            });
+        });
+        if (localStorage.getItem('comunidade_current_study_context')) {
+            try {
+                const context = JSON.parse(localStorage.getItem('comunidade_current_study_context'));
+                if (context.courseId === 'contabilidade') {
+                    context.courseId = 'accounting';
+                    localStorage.setItem('comunidade_current_study_context', JSON.stringify(context));
+                }
+            } catch (_) {}
+        }
+    }
 
     // ========== INICIALIZAR CURSOR TIMESET ==========
     if (window.CursorTimeset && typeof window.CursorTimeset.initialize === 'function') {
@@ -61,6 +94,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     const COURSE_NAMES = {
         'administracao': { pt: 'Administração', en: 'Administration' },
         'biologia': { pt: 'Biologia', en: 'Biology' },
+        'accounting': { pt: 'Accounting', en: 'Accounting' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
         'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
@@ -92,6 +126,27 @@ console.log('[Main] Inicializando script.js v28.0...');
         'quimica': { pt: 'Química', en: 'Chemistry' },
         'tecnologia-informacao': { pt: 'Tecnologia da Informação', en: 'Information Technology' }
     };
+
+    // Cursos cujo conteúdo principal foi publicado em inglês.
+    const ENGLISH_COURSE_IDS = new Set([
+        'computer-science',
+        'accounting',
+        'math',
+        'espanhol-ingles',
+        'japones-ingles',
+        'portugues-brasileiro'
+    ]);
+
+    function getCourseLanguage(course) {
+        if (course?.language === 'en' || course?.language === 'pt') return course.language;
+        return ENGLISH_COURSE_IDS.has(course?.id) ? 'en' : 'pt';
+    }
+
+    function getCourseLanguageLabel(course) {
+        return getCourseLanguage(course) === 'en'
+            ? t('course_language_english')
+            : t('course_language_portuguese');
+    }
 
     function getCourseName(courseId) {
         const nameObj = COURSE_NAMES[courseId];
@@ -179,6 +234,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const courseMap = {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             biologia: 'cursos/graduacao/biologia/biologia-data.json',
+            accounting: 'cursos/graduacao/accounting/accounting-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
@@ -358,6 +414,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const folderMap = {
             administracao: 'cursos/graduacao/administracao/',
             biologia: 'cursos/graduacao/biologia/',
+            accounting: 'cursos/graduacao/accounting/',
             computacao: 'cursos/graduacao/ciencia-computacao/',
             matematica: 'cursos/graduacao/matematica/',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
@@ -401,6 +458,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const courseMap = {
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             biologia: 'cursos/graduacao/biologia/biologia-data.json',
+            accounting: 'cursos/graduacao/accounting/accounting-data.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
@@ -484,6 +542,7 @@ console.log('[Main] Inicializando script.js v28.0...');
 
         const levelBadge = levelText ? `<span class="badge badge-course-level">${escapeHtml(levelText)}</span>` : '';
         const typeBadge = typeText ? `<span class="badge badge-course-type">${escapeHtml(typeText)}</span>` : '';
+        const languageBadge = `<span class="badge badge-course-language badge-language-${getCourseLanguage(course)}">${escapeHtml(getCourseLanguageLabel(course))}</span>`;
         const roomHtml = course.room ? `<div class="course-room"><i class="fas fa-door-open"></i> Sala: ${escapeHtml(course.room)}</div>` : '';
 
         card.innerHTML = `
@@ -492,7 +551,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                      onerror="this.src='https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(course.name)}'">
             </div>
             <h2>${escapeHtml(course.name)}</h2>
-            <div class="course-badges">${levelBadge}${typeBadge}</div>
+            <div class="course-badges">${levelBadge}${typeBadge}${languageBadge}</div>
             ${roomHtml}
             <p class="course-description" style="overflow: visible; -webkit-line-clamp: unset;">${escapeHtml(course.description)}</p>
             ${durationText}
@@ -579,10 +638,12 @@ console.log('[Main] Inicializando script.js v28.0...');
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const scopeFilter = document.querySelector('#scopeChips .chip.active')?.dataset.scope || 'all';
         const levelFilter = document.querySelector('#levelChips .chip.active')?.dataset.level || 'all';
+        const languageFilter = document.querySelector('#languageChips .chip.active')?.dataset.language || 'all';
 
         let filteredCourses = allCourses.filter(course => {
             if (scopeFilter === 'my-courses' && !isCourseTrackedInProgress(course.id)) return false;
             if (levelFilter !== 'all' && course.courseLevel !== levelFilter) return false;
+            if (languageFilter !== 'all' && getCourseLanguage(course) !== languageFilter) return false;
             if (searchTerm) {
                 const name = (course.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                 const desc = (course.description || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -815,6 +876,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const searchInput = document.getElementById('courseSearchInput');
         const scopeChips = document.querySelectorAll('#scopeChips .chip');
         const levelChips = document.querySelectorAll('#levelChips .chip');
+        const languageChips = document.querySelectorAll('#languageChips .chip');
 
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
@@ -836,6 +898,16 @@ console.log('[Main] Inicializando script.js v28.0...');
             levelChips.forEach(chip => {
                 chip.addEventListener('click', () => {
                     levelChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    renderCourseCards();
+                });
+            });
+        }
+
+        if (languageChips.length) {
+            languageChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    languageChips.forEach(c => c.classList.remove('active'));
                     chip.classList.add('active');
                     renderCourseCards();
                 });
@@ -1070,7 +1142,14 @@ console.log('[Main] Inicializando script.js v28.0...');
                 return;
             }
             const courseInfo = allCourses.find(c => c.id === courseId);
-            currentCourseDetails = courseInfo || { id: courseId, name: courseData.name, courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio') };
+            currentCourseDetails = courseInfo
+                ? { ...courseInfo, bio: courseInfo.bio || courseData.bio }
+                : {
+                    id: courseId,
+                    name: courseData.name,
+                    bio: courseData.bio,
+                    courseLevel: courseData.type === 'Bacharelado' ? 'graduacao' : (courseData.type === 'Pós-graduação' ? 'pos-graduacao' : 'ensino-medio')
+                };
             currentCourse = courseId;
             document.body.dataset.course = courseId;
             document.getElementById('courseView')?.classList.remove('lesson-open');
@@ -1207,6 +1286,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             name: stage.name,
             disciplines: stage.disciplines.map(discipline => ({
                 name: discipline.name,
+                bio: discipline.bio || '',
                 videos: buildVideosFromDiscipline(discipline)
             }))
         }));
@@ -1329,8 +1409,14 @@ console.log('[Main] Inicializando script.js v28.0...');
     function saveAllProgress() {
         if (!currentCourse) return;
         const watchedMap = allVideosFlat.map(v => v.watched);
-        let savedData = localStorage.getItem(`ulivre_course_${currentCourse}`);
-        let existing = savedData ? JSON.parse(savedData) : {};
+        const progressKey = `ulivre_course_${currentCourse}`;
+        let existing = {};
+        try {
+            const savedData = localStorage.getItem(progressKey);
+            existing = savedData ? JSON.parse(savedData) : {};
+        } catch (error) {
+            console.warn(`[Progresso] Dados inválidos descartados para ${currentCourse}:`, error);
+        }
         const now = generateTimeSet();
         const timeCreated = existing.time_created || now;
         const timeUpdated = now;
@@ -1341,7 +1427,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             time_created: timeCreated,
             time_updated: timeUpdated
         };
-        localStorage.setItem(`ulivre_course_${currentCourse}`, JSON.stringify(newData));
+        localStorage.setItem(progressKey, JSON.stringify(newData));
         syncCoursePointsToGameWallet();
         updateGlobalStats();
         updatePracticeTabVisibility();
@@ -2146,6 +2232,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             card.className = `discipline-card ${disciplineUnlocked ? '' : 'discipline-locked'} ${disciplinePassed ? 'discipline-passed' : ''}`;
             card.innerHTML = `
                 <button class="discipline-card-heading" type="button" ${disciplineUnlocked ? '' : 'disabled'}><span class="discipline-card-icon"><i class="fas ${disciplinePassed ? 'fa-check' : 'fa-book-open'}"></i></span><span><strong>${escapeHtml(discipline.name)}</strong><small>${t('discipline_content_progress', { percent: discPercent })}</small></span></button>
+                ${discipline.bio ? `<p class="discipline-card-bio">${escapeHtml(discipline.bio)}</p>` : ''}
                 <div class="discipline-progress-track"><span style="width:${discPercent}%"></span></div>
                 <div class="discipline-card-actions">
                     <button class="discipline-lessons-btn" type="button" ${disciplineUnlocked ? '' : 'disabled'}><i class="fas fa-play"></i> ${t('view_lessons')}</button>
@@ -2243,6 +2330,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const courseMap = {
             administracao: 'cursos/graduacao/administracao/administracao-quiz.json',
             biologia: 'cursos/graduacao/biologia/biologia-quiz.json',
+            accounting: 'cursos/graduacao/accounting/accounting-quiz.json',
             computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
             matematica: 'cursos/graduacao/matematica/matematica-quiz.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-quiz.json',
@@ -2724,6 +2812,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const teamFiles = {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             biologia: 'cursos/graduacao/biologia/team-biologia.json',
+            accounting: 'cursos/graduacao/accounting/team-accounting.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
@@ -2971,6 +3060,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const teamFiles = {
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             biologia: 'cursos/graduacao/biologia/team-biologia.json',
+            accounting: 'cursos/graduacao/accounting/team-accounting.json',
             computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
@@ -3066,7 +3156,10 @@ console.log('[Main] Inicializando script.js v28.0...');
                         <a href="${escapeHtml(data.license.url)}" target="_blank" rel="noopener noreferrer" class="license-btn"><i class="fas fa-external-link-alt"></i> ${t('learn_more')}</a>
                     </div>`;
         }
-        if (data.bio) html += `<div class="bio-section animate-in"><h3><i class="fas fa-users"></i> ${t('bio_title')}</h3><p>${escapeHtml(data.bio)}</p></div>`;
+        const courseBio = currentCourseDetails?.bio;
+        if (courseBio || data.bio) {
+            html += `<div class="bio-section animate-in"><h3><i class="fas fa-users"></i> ${t('bio_title')}</h3><p>${escapeHtml(courseBio || data.bio)}</p></div>`;
+        }
         if (data.distributor) html += `<div class="distributor-section animate-in"><h3><i class="fas fa-truck"></i> ${t('distributor_title')}</h3><p>${escapeHtml(data.distributor)}</p></div>`;
         if (data.tutoria && data.tutoria.links && data.tutoria.links.length) {
             let linksHtml = '<ul class="tutoria-info">';
