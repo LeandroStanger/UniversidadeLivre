@@ -1720,5 +1720,69 @@
         "content": "Se você está começando, não se preocupe com a quantidade de conteúdo. Comece pela etapa 0 (técnicas de estudo) e progrida gradualmente. Dedique tempo para entender os fundamentos de programação e matemática, pois eles são a base para disciplinas mais avançadas. A prática constante e a paciência são os maiores aliados no aprendizado de tecnologia."
       }
     ]
+  },
+  "accounting": {
+    "title": "Accounting Course Help",
+    "sections": [
+      {
+        "heading": "Introduction",
+        "content": "Welcome to the Accounting course at Universidade Livre. This self-paced program brings together free, curated video lessons covering financial accounting, managerial accounting, taxation, auditing, finance, business law, business analysis, and accounting information systems."
+      },
+      {
+        "heading": "Community Channels",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre"
+          }
+        ]
+      },
+      {
+        "heading": "Frequently Asked Questions",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "Is this course equivalent to an accredited bachelor's degree?",
+            "content": "Universidade Livre provides a structured guide to free educational resources. It does not replace an accredited degree, supervised professional experience, or the networking of a traditional university program."
+          },
+          {
+            "heading": "Do I need previous accounting knowledge?",
+            "content": "No. The course begins with Introduction to Accounting, business mathematics, economics, and business fundamentals. The stages progress gradually toward advanced accounting, auditing, taxation, and analytics."
+          },
+          {
+            "heading": "Does Universidade Livre issue a certificate or diploma?",
+            "content": "No. Universidade Livre is an educational resource guide and does not issue certificates or diplomas."
+          },
+          {
+            "heading": "Which areas of accounting are covered?",
+            "content": "The program covers financial, managerial, cost, tax, international, governmental, nonprofit, forensic, and strategic accounting, as well as auditing, financial reporting, budgeting, governance, risk, and data analytics."
+          },
+          {
+            "heading": "Do I need specific software?",
+            "content": "No. The lessons use freely available resources. Spreadsheet software is useful for practice, and free alternatives such as Google Sheets or LibreOffice Calc can be used."
+          },
+          {
+            "heading": "How long does it take to complete the course?",
+            "content": "The course is self-paced. With one to two hours of study per day, a learner may complete the program in approximately four years, but the schedule can be adapted to personal availability."
+          }
+        ]
+      },
+      {
+        "heading": "Course Structure",
+        "content": "The course has 8 stages (0 to 7) and 54 disciplines. It starts with accounting and business foundations, then progresses through financial and managerial accounting, taxation, auditing, reporting standards, information systems, and contemporary accounting topics."
+      },
+      {
+        "heading": "Study Methodology",
+        "content": "To get the most from the course:\n• Watch the video lessons in the proposed order\n• Solve exercises and recreate examples in spreadsheets\n• Keep organized notes and review accounting terminology\n• Participate in the community to discuss questions\n• Use the library and apply concepts to realistic financial statements"
+      },
+      {
+        "heading": "Tips for Beginners",
+        "content": "Start with Stage 0 and focus on understanding the accounting cycle, double-entry bookkeeping, financial statements, and basic business mathematics. Progress consistently, practice with examples, and do not skip foundational topics before moving to advanced accounting."
+      }
+    ]
   }
 }

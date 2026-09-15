@@ -57,6 +57,7 @@
     const courseIdToKeyMap = {
         // Graduação
         'administracao': 'administracao',
+        'accounting': 'accounting',
         'biologia': 'biologia',
         'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
         'computacao': 'ciencia_computacao',

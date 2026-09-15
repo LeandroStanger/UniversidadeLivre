@@ -24,6 +24,14 @@
             .slice(0, 80) || 'item';
     }
 
+    function normalizeCourseId(courseId) {
+        return courseId === 'contabilidade' ? 'accounting' : String(courseId || '');
+    }
+
+    function coursePath(courseId) {
+        return `/curso/${slug(normalizeCourseId(courseId))}`;
+    }
+
     function getLanguage() {
         const getCurrentLanguage = window.i18n && typeof window.i18n.getCurrentLanguage === 'function'
             ? window.i18n.getCurrentLanguage
@@ -162,13 +170,14 @@
         count,
         pageview,
         course(courseId, courseName) {
-            pageview(`/curso/${slug(courseId)}`, courseName || `Curso ${courseId}`);
+            const normalizedCourseId = normalizeCourseId(courseId);
+            pageview(coursePath(normalizedCourseId), courseName || `Curso ${normalizedCourseId}`);
         },
         discipline(courseId, disciplineName) {
-            pageview(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}`, disciplineName);
+            pageview(`${coursePath(courseId)}/disciplina/${slug(disciplineName)}`, disciplineName);
         },
         lesson(courseId, disciplineName, lessonName) {
-            pageview(`/curso/${slug(courseId)}/disciplina/${slug(disciplineName)}/aula/${slug(lessonName)}`, lessonName);
+            pageview(`${coursePath(courseId)}/disciplina/${slug(disciplineName)}/aula/${slug(lessonName)}`, lessonName);
         },
         media(area, mediaId, title) {
             pageview(`/${slug(area)}/conteudo/${slug(mediaId)}`, title);

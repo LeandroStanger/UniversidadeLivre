@@ -107,6 +107,7 @@
     // ========== MAPA DE NOMES DE CURSOS TRADUZIDOS ==========
     const COURSE_NAMES = {
         'administracao': { pt: 'Administração', en: 'Administration' },
+        'accounting': { pt: 'Accounting', en: 'Accounting' },
         'biologia': { pt: 'Biologia', en: 'Biology' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
@@ -141,6 +142,7 @@
     };
 
     const COURSE_TYPES = {
+        accounting: 'bacharelado',
         administracao: 'bacharelado',
         biologia: 'licenciatura',
         'ciencia-de-dados-bacharelado': 'bacharelado',
