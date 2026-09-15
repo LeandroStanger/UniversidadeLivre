@@ -72,6 +72,7 @@
         // Graduação
         'administracao': 'administracao',
         'biologia': 'biologia',
+        'accounting': 'accounting',
         'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
         'computacao': 'computacao',
         'computer-science': 'computer-science',
@@ -113,6 +114,7 @@
         'espanhol-ingles',
         'japones-ingles',
         'math',
+        'accounting',
         'portugues-brasileiro'
     ]);
 

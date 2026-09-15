@@ -9,6 +9,15 @@
     "bio": "Administração é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico."
   },
   {
+    "id": "accounting",
+    "name": "Accounting",
+    "courseLevel": "graduacao",
+    "courseType": "bacharelado",
+    "icon": "fa-calculator",
+    "description": "A comprehensive Accounting bachelor's degree covering financial, managerial, tax, auditing, corporate, and international accounting, with business, finance, law, statistics, and data analytics foundations.",
+    "bio": "Accounting is an academic program structured to develop the knowledge, skills, and professional competencies needed for accounting, finance, auditing, taxation, management, and business analysis."
+  },
+  {
     "id": "biologia",
     "name": "Biologia",
     "courseLevel": "graduacao",
