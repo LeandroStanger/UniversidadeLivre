@@ -1,0 +1,306 @@
+{
+  "course": "Accounting",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Founder of Universidade Livre",
+      "year": "2026",
+      "description": "Founder of Universidade Livre, responsible for the structure and vision of the project.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Alanis Business Academy",
+      "url": "https://www.youtube.com/@Alanisbusinessacademy",
+      "role": "Business and accounting education",
+      "description": "Educational content for business and accounting learners.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mRUG-MINUoOo5ugRHOKbcdMy9-kPc1B3lB8RWC0IB04_8=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Hasham Ali Khan",
+      "url": "https://www.youtube.com/@hashamalikhan",
+      "role": "Accounting and commerce education",
+      "description": "Accounting and commerce lessons for students.",
+      "image": "https://yt3.ggpht.com/4AruYR0JW4GRcQDlr-0ti5asB2lxVxzuXpMKz1BPTuP-Pw8uqQqsznZ3Y1_e0h78u6ckiZMClQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Daniel Corks",
+      "url": "https://www.youtube.com/@MrCorks_SolBridge",
+      "role": "Business and finance education",
+      "description": "Lessons and explanations related to business and finance.",
+      "image": "https://yt3.ggpht.com/vMMYPjWa-gktDdnpfE6LyOY_Q73wbKV90fFqsLk5QJORxfHVTRE0yV-BZgV2EBaH2zFynAGmZg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Khan Academy",
+      "url": "https://www.youtube.com/@khanacademy",
+      "role": "Open educational resources",
+      "description": "Free educational lessons supporting business and quantitative foundations.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_l3GggKOWViCBpDs9APIsK6MHB2Mu-ECo5dUEU-Vay2gg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Krassimir Petrov",
+      "url": "https://www.youtube.com/@kmpetrov",
+      "role": "Economics and finance education",
+      "description": "Educational perspectives on economics, finance, and business.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nRE8In3LhXMB5Upz7nfVtoFbLW4HauZiwtPBV29wMznds=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "ACCOUNTING WITH MADAM MUMBI",
+      "url": "https://www.youtube.com/@accountingwithmadammumbi1979",
+      "role": "Accounting education",
+      "description": "Accounting lessons and study guidance.",
+      "image": "https://yt3.ggpht.com/esbnqLRatdK2-xYr0HHs_DgLnVciWBcyPeSeAfRJNNg6utObgoGJHxauyxUsZ9ZVEyFRbaHxwg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Edspira",
+      "url": "https://www.youtube.com/@Edspira",
+      "role": "Accounting and business education",
+      "description": "Clear lessons covering accounting and business topics.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nabQ1wYKmYC_wKKLA1LVq5CdAonEYrO-W6LZz31Z7xl_g=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Mitchell",
+      "url": "https://www.youtube.com/@ProfessorMitchell",
+      "role": "Accounting education",
+      "description": "Accounting instruction and practical explanations.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kPeaYLNfWR2oRorDxeq-w5W5XhAs-AjQrjEyMisqicRw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MIT OpenCourseWare",
+      "url": "https://www.youtube.com/@mitocw",
+      "role": "Open university education",
+      "description": "Open course materials supporting business and analytical learning.",
+      "image": "https://yt3.ggpht.com/swNtJDBP8xHP_zwrbL4tCUQt02B-7Mr8XggFMBjANHn_Q5aUtPmxPs8f8Ag3wO2O-rJpsQQGpA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Business School 101",
+      "url": "https://www.youtube.com/@BusinessSchool101",
+      "role": "Business education",
+      "description": "Business concepts and management lessons.",
+      "image": "https://yt3.ggpht.com/iYUq-mAFCyHzisK1KFyYBs7LhM9jcQ_aayxJS4KIqwONdEG0oG7z6TymN7cKwDB57GDGG_raTw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Accounting Seekho",
+      "url": "https://www.youtube.com/@AccountingSeekho",
+      "role": "Accounting lessons and practical explanations",
+      "image": "https://yt3.ggpht.com/MgJO96V0kDgBRn3aCcsK8w9HyjmzNVB7ShNbTG3caan3DQY2V1-BuFXt3jlodmhVq3I6awUoCQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Farhat Lectures",
+      "url": "https://www.youtube.com/@Farhatlectures",
+      "role": "Financial accounting, auditing, and taxation lessons",
+      "image": "https://yt3.ggpht.com/Rg7sHKHkJ-uO292aTWTtjnYzFVMn3k6IKSz3VUwG4a7liL8hTHFDqrGKz7PA1Lv3Xq5N5h0F0Fs=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Accounting Study",
+      "url": "https://www.youtube.com/@AccountingStudy",
+      "role": "Accounting and finance study resources",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nn8hhrx19NN8ZajMnESuFp4YRmjrh9SJTR8Q5JbQvF4_s=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "TepperCMU",
+      "url": "https://www.youtube.com/@TepperCMU",
+      "role": "Business and management education",
+      "description": "Business school lectures and management resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lDV1MCPS5DvhDhrBiXt92q57tmw0qU1O6ek0Dkr-iZ5Q=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Ahmad ababneh",
+      "url": "https://www.youtube.com/@ahmadababneh5805",
+      "role": "Accounting education",
+      "description": "Accounting lessons and study resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lwoltppvIYZ5gf1Kzlqf5ulXEmQFBkDZqRYmgo2SPC5g=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Ermi E-learning",
+      "url": "https://www.youtube.com/@ErmiE-learning",
+      "role": "Accounting and commerce education",
+      "description": "E-learning resources for accounting and commerce students.",
+      "image": "https://yt3.ggpht.com/pInH3liNzGn2zu270_PUW_oTHQretUjlZ3T5gD7c1X8L-Zbql4Ru7ASDAnw01DxGQNT_SJRk=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Devika's Commerce & Management Academy",
+      "url": "https://www.youtube.com/@devikascommercemanagement",
+      "role": "Commerce and management education",
+      "description": "Commerce, management, and accounting learning resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kWrwFIfI4uNMYSRndGUDN9AW5fxvle-XRdg5M2NkInIw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Sir A's Accounting Iksimplified",
+      "url": "https://www.youtube.com/@SirATheCPAProf",
+      "role": "Professional accounting education",
+      "description": "Accounting instruction and professional exam preparation.",
+      "image": "https://yt3.ggpht.com/3uLKBx4XEeNS184zjnbLXrrU7k44rjR2T31-H3DT6ZFJCZAA6CfYpblkNm6Du0BlMcchwPVi=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "PROF. SHUBHAM TIWARI",
+      "url": "https://www.youtube.com/@prof.shubhamtiwari2788",
+      "role": "Commerce and accounting education",
+      "description": "Commerce and accounting lessons for students.",
+      "image": "https://yt3.ggpht.com/lHUkbTK_KRcEUwLgkdjGC8a8Ajf7kTKNLDjTsIQuwwgsllCy0LQZ90VEYBUMWgOtYb_8QrDpFg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Commerce Explorer Media",
+      "url": "https://www.youtube.com/@commerceexplorermedia",
+      "role": "Commerce education",
+      "description": "Commerce and accounting study content.",
+      "image": "https://yt3.ggpht.com/8UwoMjjhqi0pVlwYByA05zGxdinjNl08Yeow3PTV7smjvqku5hEdatp8aXwXtuNxn2_niFID=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Finally Learn",
+      "url": "https://www.youtube.com/@FinallyLearn",
+      "role": "Accounting and business education",
+      "description": "Lessons and resources for accounting and business learners.",
+      "image": "https://yt3.ggpht.com/xlBR5A9cU34kVcW44aKRdWmwzf-hnffTdCXLVdUCmN0HOh7lx1G17BUilHcUr5AcjnaeKt7EGA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Karlton Dennis",
+      "url": "https://www.youtube.com/@karltondennis",
+      "role": "Tax and accounting education",
+      "description": "Tax, accounting, and business education.",
+      "image": "https://yt3.ggpht.com/XBQ878OrY2gPg9HO3ABWjt2mAPHi-jn30G11SVhwxxH37_YuZ-EGsE0LfXVzerD-I1hqZEH9_R4=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MeanThat",
+      "url": "https://www.youtube.com/@meanthat",
+      "role": "Business and finance education",
+      "description": "Business and finance learning resources.",
+      "image": "https://yt3.ggpht.com/TnovNB2ONLf725dT3FNbOZ3CKMjsYprDZLYRIg9VwKrtfejiJycjiIdP5kx40duBfmIAcBKA7A=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Accounting Instruction, Help, & How To (Financial & Managerial)",
+      "url": "https://www.youtube.com/@AccountingInstruction",
+      "role": "Financial and managerial accounting",
+      "description": "Instruction, help, and practical guidance in financial and managerial accounting.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nAAM509wLus5CttGyb9MEp3Sk7ndsQlEHES-valxPyctk=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Management Plus",
+      "url": "https://www.youtube.com/@ManagementPlusOfficial",
+      "role": "Management and business education",
+      "description": "Management, business, and organizational learning resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kTurCzDi0p1eP9cg9Y5rj_xHOPnckQBvM2hWl3LWHOGQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Doc Mahmoud Badwi- FCES",
+      "url": "https://www.youtube.com/@Docmamobadwi",
+      "role": "Accounting and finance education",
+      "description": "Accounting, finance, and business lessons.",
+      "image": "https://yt3.ggpht.com/Z2NivxAXtdZAyD0z75u_HQW7jKinaAf6zGoUidF1G9GhH35U2fgdNAR3gHcU6OinniEiQOpXQoc=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "FP&A with CA Asif Masani",
+      "url": "https://www.youtube.com/@asifmasani",
+      "role": "Financial planning and analysis",
+      "description": "Financial planning, analysis, and accounting resources.",
+      "image": "https://yt3.ggpht.com/-MFuljgG9OgzWx0fa03BejJs2uRBUO4DauBMHLJInULzQk-jNnDEbH2FNHzX4s6sK54QMDFz=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professional's Legacy",
+      "url": "https://www.youtube.com/@professionallegacy",
+      "role": "Professional business education",
+      "description": "Professional development and business learning content.",
+      "image": "https://yt3.ggpht.com/FLBi25WBFHBH-9N054p8C2BrhS73t6IHNp5SMD1Nh497_ypBMcQrX9r5vgiyVXyiss_nE95KTQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Learn with JJ",
+      "url": "https://www.youtube.com/@LearnwithDrJJ",
+      "role": "Business and accounting education",
+      "description": "Educational lessons supporting business and accounting studies.",
+      "image": "https://yt3.ggpht.com/1bjd7qjkJZv8LKN9J6MQHdVzrN3cQIr_C0oBWL44IXnhiJQvL0t3Tohl5ic37diWRHtFX2v6=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Dr Neale O’Connor: Asia Tech & Supply Chain",
+      "url": "https://www.youtube.com/@DrNealeOConnor",
+      "role": "Supply chain and business education",
+      "description": "Supply chain, technology, and business learning resources.",
+      "image": "https://yt3.ggpht.com/h5pOE_H0oEw-Wrsx47pb14Wty_bDftu87McLQm5V0ElMkWCU-42sLpnocLP7RrASSqjHFf5X=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Learning Academy of Commerce",
+      "url": "https://www.youtube.com/@LearningAcademyOfCommerce",
+      "role": "Commerce and accounting education",
+      "description": "Commerce and accounting lessons for learners.",
+      "image": "https://yt3.ggpht.com/4LfqZCVjNLxtQe8XHSPsfYNKIdfZ7efa2yNPxvMxRp-DIxbHH1sGIL6Gqdbd0DAYPhMgSYXn=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Indzara - Simple and Effective Templates",
+      "url": "https://www.youtube.com/@indzara",
+      "role": "Spreadsheet and business tools",
+      "description": "Templates and tools useful for accounting and business analysis.",
+      "image": "https://yt3.ggpht.com/2-TRoHGx61hX26DZMJ622jmU8msf3DjNvt8GXxMp3djXRALksfJqUcImbDWAlgYvl8vtutyr9g=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MANIFESTED PUBLISHERS",
+      "url": "https://www.youtube.com/@manifestedpublishers",
+      "role": "Business and education publishing",
+      "description": "Educational publishing and business learning resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mnlCe77yeX-e9hv4r-HykVY2jG9wcg2Zd6byea2bGnS98=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "ACCA Student Study Resources",
+      "url": "https://www.youtube.com/@ACCAStudyResources",
+      "role": "ACCA and accounting education",
+      "description": "Study resources for ACCA and accounting students.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_ntPC4bwEiBIYzZ3zl7QstFoVqu0zwujPaqisSaZr7QCA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Andre Lim",
+      "url": "https://www.youtube.com/@andrelimwj",
+      "role": "Accounting and finance education",
+      "description": "Accounting, finance, and business learning resources.",
+      "image": "https://yt3.ggpht.com/Fo5buzpPKSBPgcLPsLoHYv015lTHzQvWIv1n0B8RgLMu7-SqWXaUQhqPAEZEiaT7ItVjG8OeYQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Dr. Aamir & Nabiha Accounting Lectures",
+      "url": "https://www.youtube.com/@dr.aamirnabihaaccountingle9517",
+      "role": "Accounting lectures",
+      "description": "Accounting lectures and study support.",
+      "image": "https://yt3.ggpht.com/CvRsifoDa9klmcDTifsTb4DP3zKkqdpCm-mABJdVl87b_k2-sHZYCtsEeNBy1WTF4RzHojzzRg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Unpack Auditing",
+      "url": "https://www.youtube.com/@Unpack_auditing",
+      "role": "Auditing education",
+      "description": "Auditing lessons and practical study resources.",
+      "image": "https://yt3.ggpht.com/Uws_mem48L6uVBUw0nvxhqVS4zhkL-N3W4Gu0dWrWJXSuOoXG4EdkS8BHU5mIaY_qlnNF_AjelY=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "LAW91",
+      "url": "https://www.youtube.com/@Lawninetyone",
+      "role": "Law education",
+      "description": "Legal education supporting business and accounting studies.",
+      "image": "https://yt3.ggpht.com/n5LZXYyeiHPJYdBmdlKyQ4aRLlUrGy5_2H0tMwvJiNKO4K12id-0uGXW8j87h4_p5--TQ3DP_o0=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Piyush Rana (College - Commerce)",
+      "url": "https://www.youtube.com/@PiyushRanaCollegeCommerce",
+      "role": "Commerce and accounting education",
+      "description": "College-level commerce and accounting lessons.",
+      "image": "https://yt3.ggpht.com/ol6qcQnUngSL7qv9f7MPVi8O8qwm8P8zarv8Rbpcw2GBzO8baanKKiRtBOCjKZ5qT6A5aRZ2=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Commerce Class Partner",
+      "url": "https://www.youtube.com/@commerceclasspartner",
+      "role": "Commerce education",
+      "description": "Commerce and accounting study resources.",
+      "image": "https://yt3.ggpht.com/xAPY_9zKvpRRm4fBnz5qbyUb2QopGQsPfg8xIlyITOxYodysbBzEGFniqL-rnKN0Q-c58AuX=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Accounting & Finance E-Academy",
+      "url": "https://www.youtube.com/@eacademy786",
+      "role": "Accounting and finance education",
+      "description": "Accounting and finance lessons for students.",
+      "image": "https://yt3.ggpht.com/wmlbIklNi5MO93aCwdWzcitzWFi_WlRdEsMn5VDYGLh1gxVVaCKk2fRbZDOWg_UEZ7BRFkKUg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "triberivet",
+      "url": "https://www.youtube.com/@triberivet",
+      "role": "Business and finance education",
+      "description": "Business, finance, and accounting learning resources.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_l6_nbjsFtIf4Rohu4Ibh7PCnk2wvrDPc5v7Sz0_fo=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}
