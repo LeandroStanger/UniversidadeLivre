@@ -1204,6 +1204,15 @@ body {
     border: 1px solid var(--com-border);
     margin: 0.3rem 0;
 }
+
+.post-content video.video-js {
+    width: 100%;
+    max-width: 720px;
+    min-height: 220px;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
 .post-content pre {
     background: var(--com-bg-primary);
     padding: 0.8rem;

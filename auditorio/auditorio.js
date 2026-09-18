@@ -25,6 +25,7 @@ let currentVideoId = null;
 let updateTimer = null;
 let videoProgress = {};
 let audioMode = false;
+let captionsEnabled = false;
 
 let pendingVideo = null;
 let apiLoadAttempts = 0;
@@ -963,6 +964,7 @@ function createPlayer(videoId, startSeconds = 0) {
     const wrapper = document.querySelector('.player-wrapper'); if (!wrapper) return false;
     let el = document.getElementById('youtubePlayer'); if (!el) { el = document.createElement('div'); el.id = 'youtubePlayer'; wrapper.appendChild(el); }
     if (player) { try { player.destroy(); } catch(e) {} player = null; }
+    playerReady = false;
     try {
         player = new YT.Player('youtubePlayer', {
             videoId,
@@ -979,8 +981,99 @@ function createPlayer(videoId, startSeconds = 0) {
         document.getElementById('playPauseBtn').style.display = 'flex';
         document.querySelector('.progress-container').style.display = 'flex';
         document.querySelector('.volume-control').style.display = 'flex';
+        resetPlayerOptions();
         return true;
     } catch (e) { showPlayerError(t('player_error_generic', 'Erro no player.')); return false; }
+}
+function resetPlayerOptions() {
+    const quality = document.getElementById('videoQualitySelect');
+    const audio = document.getElementById('audioTrackSelect');
+    if (quality) quality.replaceChildren(new Option('Auto', 'auto'));
+    if (audio) audio.replaceChildren(new Option('Original', 'original'));
+    captionsEnabled = false;
+    document.getElementById('captionsToggleBtn')?.classList.remove('active');
+    populateQualityOptions();
+    populateAudioOptions();
+}
+function updateAuditorioVolumePercentage(value) {
+    const output = document.getElementById('volumePercentage');
+    if (output) output.textContent = `${Math.max(0, Math.min(100, Number(value) || 0))}%`;
+}
+function populateQualityOptions() {
+    const select = document.getElementById('videoQualitySelect');
+    if (!select || !playerReady || !player?.getAvailableQualityLevels) return;
+    const labels = { highres: '2160p', hd2160: '2160p', hd1440: '1440p', hd1080: '1080p', hd720: '720p', large: '480p', medium: '360p', small: '240p' };
+    const levels = player.getAvailableQualityLevels() || [];
+    select.replaceChildren(new Option('Auto', 'auto'));
+    [...new Set(levels)].forEach(level => select.appendChild(new Option(labels[level] || level, level)));
+    select.disabled = select.options.length <= 1;
+}
+function scheduleQualityOptions() {
+    let attempts = 0;
+    const refresh = () => {
+        populateQualityOptions();
+        if (document.getElementById('videoQualitySelect')?.options.length <= 1 && attempts++ < 30) {
+            setTimeout(refresh, 500);
+        }
+    };
+    refresh();
+}
+function getAudioApi() {
+    return player && typeof player.getAvailableAudioTracks === 'function' ? player : null;
+}
+function populateAudioOptions() {
+    const select = document.getElementById('audioTrackSelect');
+    const api = getAudioApi();
+    const control = select?.closest('.player-select');
+    if (!select || !api) {
+        if (control) control.hidden = true;
+        return;
+    }
+    let tracks = [];
+    try { tracks = api.getAvailableAudioTracks() || []; } catch (error) {
+        console.warn('[Auditório] Não foi possível consultar faixas de áudio:', error);
+        if (control) control.hidden = true;
+        return;
+    }
+    if (!Array.isArray(tracks)) tracks = Object.values(tracks);
+    const readId = track => String(track?.id || track?.trackId || track?.audioTrackId || track?.languageCode || '');
+    const original = tracks.find(track => track?.kind === 'original') || tracks[0];
+    const originalId = readId(original) || 'original';
+    select.replaceChildren(new Option('Original', originalId));
+    tracks.forEach(track => {
+        const id = readId(track);
+        if (!id || id === originalId) return;
+        const label = track.displayName || track.languageName || track.language || track.languageCode || 'Faixa de áudio';
+        select.appendChild(new Option(label, id));
+    });
+    const hasAlternatives = select.options.length > 1;
+    select.disabled = !hasAlternatives;
+    if (control) control.hidden = !hasAlternatives;
+}
+function toggleCaptions() {
+    if (!playerReady || !player?.loadModule) return;
+    const button = document.getElementById('captionsToggleBtn');
+    try {
+        if (captionsEnabled) {
+            player.unloadModule('captions');
+        } else {
+            player.loadModule('captions');
+            player.setOption('captions', 'track', { languageCode: document.getElementById('captionLanguageSelect')?.value || (currentLang === 'en' ? 'en' : 'pt') });
+        }
+        captionsEnabled = !captionsEnabled;
+        button?.classList.toggle('active', captionsEnabled);
+    } catch (error) {
+        console.warn('[Auditório] Não foi possível alternar legendas:', error);
+    }
+}
+function toggleFullscreen() {
+    const container = document.getElementById('playerContainer');
+    if (!container) return;
+    if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+    } else {
+        container.requestFullscreen?.();
+    }
 }
 function onPlayerReady(event) {
     playerReady = true;
@@ -990,6 +1083,25 @@ function onPlayerReady(event) {
     const savedVolume = localStorage.getItem('yt_player_volume');
     const volSlider = document.getElementById('volumeSlider');
     if (savedVolume !== null && volSlider) { player.setVolume(parseInt(savedVolume)); volSlider.value = savedVolume; }
+    updateAuditorioVolumePercentage(volSlider?.value || player.getVolume?.() || 100);
+    scheduleQualityOptions();
+    populateAudioOptions();
+    player.addEventListener?.('onApiChange', () => {
+        populateQualityOptions();
+        populateAudioOptions();
+    });
+    setTimeout(() => {
+        populateQualityOptions();
+        populateAudioOptions();
+    }, 500);
+    let attempts = 0;
+    const refreshAudio = () => {
+        populateAudioOptions();
+        if (document.getElementById('audioTrackSelect')?.options.length <= 1 && attempts++ < 20) {
+            setTimeout(refreshAudio, 500);
+        }
+    };
+    refreshAudio();
     startProgressUpdate();
 }
 function onPlayerStateChange(event) {
@@ -1015,11 +1127,17 @@ function onPlayerError(e) {
     if (e.data === 2) msg = t('player_error_removed', 'Vídeo removido.');
     else if (e.data === 5) msg = t('player_error_issue', 'Problema no player.');
     else if (e.data === 100) msg = t('player_error_not_found', 'Vídeo não encontrado.');
-    showPlayerError(msg);
+    showPlayerError(msg, [101, 150].includes(e.data));
     stopWatchTimer();
 }
-function showPlayerError(msg) {
-    const w = document.querySelector('.player-wrapper'); if (w) w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i> ${msg}</div>`;
+function showPlayerError(msg, canOpenOnYouTube = false) {
+    const w = document.querySelector('.player-wrapper');
+    if (w) {
+        const openButton = canOpenOnYouTube && currentVideoId
+            ? `<a class="external-btn external-btn-primary" href="https://www.youtube.com/watch?v=${encodeURIComponent(currentVideoId)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> ${t('open_on_youtube', 'Assistir no YouTube')}</a>`
+            : '';
+        w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i><p>${msg}</p>${openButton}</div>`;
+    }
     document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
 }
 function startProgressUpdate() {
@@ -1048,8 +1166,27 @@ function setupPlayerControls() {
     const playBtn = document.getElementById('playPauseBtn'), muteBtn = document.getElementById('muteUnmuteBtn'), volSlider = document.getElementById('volumeSlider'), progBar = document.getElementById('progressBar'), audioBtn = document.getElementById('audioModeBtn'), closeBtn = document.getElementById('closePlayerBtn');
     if (playBtn) playBtn.addEventListener('click', () => { if (!playerReady) return; player.getPlayerState()===YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); });
     if (muteBtn) muteBtn.addEventListener('click', () => { if (!playerReady) return; player.isMuted() ? (player.unMute(), muteBtn.innerHTML='<i class="fas fa-volume-up"></i>') : (player.mute(), muteBtn.innerHTML='<i class="fas fa-volume-mute"></i>'); });
-    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
+    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); updateAuditorioVolumePercentage(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
     if (progBar) progBar.addEventListener('input', e => { if (!playerReady) return; player.seekTo(+e.target.value, true); });
+    document.getElementById('playbackSpeedSelect')?.addEventListener('change', e => {
+        if (playerReady && player?.setPlaybackRate) player.setPlaybackRate(Number(e.target.value));
+    });
+    document.getElementById('videoQualitySelect')?.addEventListener('change', e => {
+        if (playerReady && player?.setPlaybackQuality) player.setPlaybackQuality(e.target.value === 'auto' ? 'default' : e.target.value);
+    });
+    document.getElementById('audioTrackSelect')?.addEventListener('change', e => {
+        const api = getAudioApi();
+        if (!api?.setAudioTrack) return;
+        try { api.setAudioTrack(e.target.value); } catch (error) { console.warn('[Auditório] Não foi possível alterar a faixa:', error); }
+    });
+    document.getElementById('captionsToggleBtn')?.addEventListener('click', toggleCaptions);
+    document.getElementById('captionLanguageSelect')?.addEventListener('change', event => {
+        if (!captionsEnabled || !playerReady || !player?.setOption) return;
+        try { player.setOption('captions', 'track', { languageCode: event.target.value }); } catch (error) {
+            console.warn('[Auditório] Não foi possível alterar o idioma da legenda:', error);
+        }
+    });
+    document.getElementById('fullscreenToggleBtn')?.addEventListener('click', toggleFullscreen);
     if (audioBtn) audioBtn.addEventListener('click', toggleAudioMode);
     if (closeBtn) closeBtn.addEventListener('click', closePlayer);
 }

@@ -2304,6 +2304,42 @@
         return temp.innerHTML;
     }
 
+    function initializeCommunityVideoPlayers(container) {
+        if (!container || !window.videojs) return;
+        container.querySelectorAll('iframe.ql-video[src]').forEach(iframe => {
+            const source = iframe.getAttribute('src') || '';
+            if (!/\.(mp4|webm|ogg|ogv)(?:[?#]|$)/i.test(source)) return;
+            const video = document.createElement('video');
+            video.className = 'video-js vjs-default-skin';
+            video.setAttribute('controls', '');
+            video.setAttribute('playsinline', '');
+            video.dataset.videoJs = 'true';
+            const sourceElement = document.createElement('source');
+            sourceElement.src = source;
+            sourceElement.type = source.match(/\.(webm)(?:[?#]|$)/i) ? 'video/webm' : 'video/mp4';
+            video.appendChild(sourceElement);
+            iframe.replaceWith(video);
+        });
+        container.querySelectorAll('video.video-js, video[data-video-js]').forEach(videoElement => {
+            if (videoElement.dataset.videoJsInitialized === 'true') return;
+            videoElement.classList.add('video-js', 'vjs-default-skin');
+            videoElement.controls = true;
+            videoElement.playsInline = true;
+            videoElement.dataset.videoJsInitialized = 'true';
+            try {
+                window.videojs(videoElement, {
+                    controls: true,
+                    responsive: true,
+                    fluid: true,
+                    preload: 'metadata',
+                    playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2]
+                });
+            } catch (error) {
+                console.warn('[Comunidade] Não foi possível inicializar o Video.js:', error);
+            }
+        });
+    }
+
     // ========================================================================
     // RENDERIZAÇÃO (sidebar e posts)
     // ========================================================================
@@ -2642,6 +2678,7 @@
             `;
         }
         feed.innerHTML = html;
+        initializeCommunityVideoPlayers(feed);
 
         // Eventos
         feed.querySelectorAll('.like-btn').forEach(btn => {

@@ -935,12 +935,135 @@ a:hover {
 
 .video-wrapper iframe,
 .video-wrapper #youtube-player,
+.video-wrapper #videojs-player,
 .video-wrapper .external-lesson-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+.video-wrapper .video-js {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrapper .video-js .vjs-tech {
+    object-fit: contain;
+}
+
+.video-wrapper .video-js .vjs-control-bar {
+    z-index: 5;
+}
+
+.player-section.videojs-active .player-controls {
+    border-top-color: var(--accent-blue);
+}
+
+.video-wrapper > .plyr {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.video-wrapper > .plyr .plyr__controls {
+    display: none !important;
+}
+
+.video-wrapper > .plyr .plyr__control--overlaid {
+    display: flex;
+    z-index: 10;
+}
+
+.exit-fullscreen-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0.45rem;
+    background: rgba(7, 11, 20, 0.82);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+}
+
+.exit-fullscreen-btn:hover,
+.exit-fullscreen-btn:focus-visible {
+    background: var(--accent-blue);
+}
+
+.exit-fullscreen-btn[hidden] {
+    display: none !important;
+}
+
+.plyr-course-title {
+    flex: 1 1 auto;
+    min-width: 8rem;
+    overflow: hidden;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.plyr-integrated-speed {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #fff;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.plyr-integrated-speed-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.plyr-integrated-speed-select {
+    min-width: 4.7rem;
+    padding: 0.25rem 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 0.25rem;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.plyr-integrated-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    min-width: 2.2rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.4rem;
+    border: 0;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+}
+
+.plyr-integrated-button:hover,
+.plyr-integrated-button.is-active {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .external-lesson-container {
@@ -1033,6 +1156,24 @@ a:hover {
     flex-wrap: wrap;
     background: var(--bg-secondary);
     border-top: 1px solid var(--border);
+    border-bottom: 0;
+}
+
+.video-progress-container {
+    padding: 0.55rem 1.2rem 0;
+    background: var(--bg-secondary);
+}
+
+.video-progress-container .video-progress-bar {
+    cursor: pointer;
+}
+
+.video-time {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding-top: 0.2rem;
 }
 
 .ctrl-buttons {
@@ -1066,6 +1207,83 @@ a:hover {
     gap: 0.5rem;
 }
 
+.volume-slider-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.lesson-player-options {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-left: auto;
+}
+
+.lesson-player-select select {
+    min-height: 36px;
+    padding: 0 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 0.45rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.lesson-player-select select:focus {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 1px;
+}
+
+.lesson-player-options .ctrl-btn.active {
+    background: var(--accent-blue);
+    color: #fff;
+}
+
+.audio-track-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.audio-track-control[hidden] {
+    display: none !important;
+}
+
+.audio-track-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.4rem);
+    z-index: 20;
+}
+
+.audio-track-control.is-open .audio-track-menu {
+    display: block;
+}
+
+.audio-track-menu select {
+    min-width: 9rem;
+    box-shadow: var(--card-shadow);
+}
+
+.mark-watched-btn {
+    margin-left: 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .volume-slider {
     width: 80px;
     height: 4px;
@@ -1074,6 +1292,15 @@ a:hover {
     -webkit-appearance: none;
     appearance: none;
     transition: height var(--transition-fast);
+}
+
+.volume-percentage {
+    min-width: 2.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-align: center;
 }
 
 .volume-slider:hover {

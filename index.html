@@ -115,8 +115,24 @@
                 <!-- Player -->
                 <div class="player-section">
                     <div class="video-wrapper">
-                        <div id="youtube-player"></div>
+                        <div id="youtube-player" class="plyr__video-embed">
+                            <iframe
+                                src="https://www.youtube.com/embed/j6hcALm0mLM?cc_load_policy=1&cc_lang_pref=pt"
+                                title="Player de vídeo"
+                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                        <video id="videojs-player" class="video-js vjs-default-skin" controls playsinline hidden></video>
                         <div id="externalLessonContainer" style="display: none;" class="external-lesson-container"></div>
+                        <button id="exitFullscreenBtn" class="exit-fullscreen-btn" type="button" hidden title="Sair da tela cheia" aria-label="Sair da tela cheia">
+                            <i class="fas fa-compress"></i>
+                            <span>Sair da tela cheia</span>
+                        </button>
+                    </div>
+                    <div class="video-progress-container">
+                        <div class="video-progress-bar" id="videoProgressBar"><div class="video-progress-fill" id="videoProgressFill"></div></div>
+                        <div class="video-time"><span id="videoCurrentTime">00:00</span><span id="videoDuration">00:00</span></div>
                     </div>
                     <div class="player-controls">
                         <div class="ctrl-buttons">
@@ -128,16 +144,56 @@
                             <button class="ctrl-btn" id="muteUnmuteBtn" title="Mutar/Desmutar">
                                 <i class="fas fa-volume-up"></i>
                             </button>
-                            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" title="Volume">
+                            <div class="volume-slider-group">
+                                <output id="volumePercentage" class="volume-percentage" for="volumeSlider">80%</output>
+                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" title="Volume">
+                            </div>
                         </div>
-                        <div class="video-info">
-                            <span class="video-title" id="currentVideoTitle"></span>
-                            <button class="mark-watched-btn" id="markWatchedBtn" data-i18n="mark_watched"><i class="fas fa-check"></i> Concluir Vídeo</button>
+                        <div class="lesson-player-options" aria-label="Opções do reprodutor">
+                            <label class="lesson-player-select">
+                                <span class="sr-only">Velocidade</span>
+                                <select id="playbackSpeedSelect" title="Velocidade de reprodução" aria-label="Velocidade de reprodução">
+                                    <option value="0.5">0,5x</option>
+                                    <option value="0.75">0,75x</option>
+                                    <option value="1" selected>Normal</option>
+                                    <option value="1.25">1,25x</option>
+                                    <option value="1.5">1,5x</option>
+                                    <option value="1.75">1,75x</option>
+                                    <option value="2">2x</option>
+                                </select>
+                            </label>
+                            <label class="lesson-player-select">
+                                <span class="sr-only">Qualidade</span>
+                                <select id="videoQualitySelect" title="Qualidade do vídeo" aria-label="Qualidade do vídeo">
+                                    <option value="auto" selected>Auto</option>
+                                </select>
+                            </label>
+                            <div class="audio-track-control" hidden>
+                                <button class="ctrl-btn" id="audioTrackBtn" type="button" title="Selecionar faixa de áudio" aria-label="Selecionar faixa de áudio" aria-expanded="false">
+                                    <i class="fas fa-language"></i>
+                                </button>
+                                <label class="lesson-player-select audio-track-menu">
+                                    <span class="sr-only">Faixa de áudio</span>
+                                    <select id="audioTrackSelect" title="Faixa de áudio" aria-label="Faixa de áudio">
+                                        <option value="original" selected>Original</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button class="ctrl-btn" id="captionsToggleBtn" type="button" title="Ativar/desativar legendas" aria-label="Ativar/desativar legendas">
+                                <i class="fas fa-closed-captioning"></i>
+                            </button>
+                            <label class="lesson-player-select" id="captionLanguageControl">
+                                <span class="sr-only">Idioma da legenda</span>
+                                <select id="captionLanguageSelect" title="Idioma da legenda" aria-label="Idioma da legenda">
+                                    <option value="pt">Português</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </label>
+                            <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" title="Tela cheia" aria-label="Tela cheia">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         </div>
-                    </div>
-                    <div class="video-progress-container">
-                        <div class="video-progress-bar" id="videoProgressBar"><div class="video-progress-fill" id="videoProgressFill"></div></div>
-                        <div class="video-time"><span id="videoCurrentTime">00:00</span><span id="videoDuration">00:00</span></div>
+                        <button class="mark-watched-btn" id="markWatchedBtn" data-i18n="mark_watched"><i class="fas fa-check"></i> Concluir Vídeo</button>
                     </div>
                 </div>
 
@@ -550,7 +606,10 @@
 <!-- ========== SCRIPTS ========== -->
 <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
 <script src="analytics.js"></script>
-<script src="https://www.youtube.com/iframe_api"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
+<link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
+<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
+<script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <!-- ========== MÓDULO CENTRAL DE TRADUÇÃO (i18n) ========== -->

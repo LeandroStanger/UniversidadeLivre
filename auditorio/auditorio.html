@@ -99,16 +99,52 @@
                     <div id="youtubePlayer"></div>
                 </div>
                 <div class="custom-player-controls">
-                    <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
-                    <div class="volume-control">
-                        <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
-                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
-                    </div>
-                    <div class="progress-container">
+                    <div class="progress-container progress-container-top">
                         <span id="currentTimeDisplay">00:00</span>
                         <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
                         <span id="durationDisplay">00:00</span>
                     </div>
+                    <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
+                    <div class="volume-control">
+                        <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
+                        <div class="volume-slider-group">
+                            <output id="volumePercentage" class="volume-percentage" for="volumeSlider">100%</output>
+                            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+                        </div>
+                    </div>
+                    <label class="player-select">
+                        <span class="sr-only">Velocidade</span>
+                        <select id="playbackSpeedSelect" title="Velocidade de reprodução" aria-label="Velocidade de reprodução">
+                            <option value="0.5">0,5x</option>
+                            <option value="0.75">0,75x</option>
+                            <option value="1" selected>Normal</option>
+                            <option value="1.25">1,25x</option>
+                            <option value="1.5">1,5x</option>
+                            <option value="1.75">1,75x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </label>
+                    <label class="player-select">
+                        <span class="sr-only">Qualidade</span>
+                        <select id="videoQualitySelect" title="Qualidade do vídeo" aria-label="Qualidade do vídeo">
+                            <option value="auto" selected>Auto</option>
+                        </select>
+                    </label>
+                    <label class="player-select">
+                        <span class="sr-only">Faixa de áudio</span>
+                        <select id="audioTrackSelect" title="Faixa de áudio" aria-label="Faixa de áudio">
+                            <option value="original" selected>Original</option>
+                        </select>
+                    </label>
+                    <button id="captionsToggleBtn" class="ctrl-btn" type="button" title="Legendas" aria-label="Ativar/desativar legendas"><i class="fas fa-closed-captioning"></i></button>
+                    <label class="player-select">
+                        <span class="sr-only">Idioma da legenda</span>
+                        <select id="captionLanguageSelect" title="Idioma da legenda" aria-label="Idioma da legenda">
+                            <option value="pt">Português</option>
+                            <option value="en">English</option>
+                        </select>
+                    </label>
+                    <button id="fullscreenToggleBtn" class="ctrl-btn" type="button" title="Tela cheia" aria-label="Tela cheia"><i class="fas fa-expand"></i></button>
                     <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i></button>
                 </div>
                 <div class="player-info">
@@ -347,6 +383,8 @@
 <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
 <script src="../analytics.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
+<link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
+<script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>
 <script src="../lang/i18n.js"></script>
 <script src="auditorio.js"></script>
 <script src="../perfil/profile.js"></script>

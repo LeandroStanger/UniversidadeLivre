@@ -169,7 +169,11 @@ console.log('[Main] Inicializando script.js v28.0...');
     let currentLessonId = 0, currentVideoInLesson = 0;
     let disciplineLessonsMap = new Map();
     let disciplineToLessonsMap = new Map();
-    let player = null, isPlayerReady = false, currentVideoDuration = 0, updateInterval = null;
+    let player = null, videojsPlayer = null, isPlayerReady = false, activePlayerType = 'youtube', currentVideoDuration = 0, updateInterval = null;
+    let pendingVideoObj = null;
+    let youtubeEmbedFallbackActive = false;
+    let captionsEnabled = false;
+    const CAPTION_LANGUAGE_STORAGE_KEY = 'captionLanguage';
     let currentDiscipline = null;
     const COMMUNITY_CONTEXT_KEY = 'comunidade_current_study_context';
 
@@ -201,6 +205,11 @@ console.log('[Main] Inicializando script.js v28.0...');
     let playerVolume = 80;
     const VOLUME_STORAGE_KEY = 'youtube_player_volume';
 
+    function updateVolumePercentage(value = playerVolume) {
+        const percentage = document.getElementById('volumePercentage');
+        if (percentage) percentage.textContent = `${Math.max(0, Math.min(100, Number(value) || 0))}%`;
+    }
+
     function loadSavedVolume() {
         const saved = localStorage.getItem(VOLUME_STORAGE_KEY);
         if (saved !== null) {
@@ -209,6 +218,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const volSlider = document.getElementById('volumeSlider');
             if (volSlider) volSlider.value = playerVolume;
         }
+        updateVolumePercentage(playerVolume);
     }
 
     // ========== FUNÇÕES AUXILIARES ==========
@@ -1814,7 +1824,12 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function stopAllMedia() {
-        if (player && isPlayerReady) { try { player.pauseVideo(); player.stopVideo(); player.clearVideo(); } catch (e) { console.warn('[Media] Erro ao parar YouTube:', e); } }
+        if (player && isPlayerReady) {
+            try { player.pause(); } catch (e) { console.warn('[Media] Erro ao parar Plyr:', e); }
+        }
+        if (videojsPlayer) {
+            try { videojsPlayer.pause(); } catch (e) { console.warn('[Media] Erro ao parar Video.js:', e); }
+        }
         hideExternalLesson();
         const progressFill = document.getElementById("videoProgressFill");
         if (progressFill) progressFill.style.width = "0%";
@@ -1852,6 +1867,40 @@ console.log('[Main] Inicializando script.js v28.0...');
         if (markBtn) markBtn.addEventListener('click', () => markCurrentVideoWatched());
     }
 
+    function showYouTubeEmbedFallback(video) {
+        const videoId = getYouTubeVideoId(video?.url);
+        if (!videoId || youtubeEmbedFallbackActive) return;
+
+        youtubeEmbedFallbackActive = true;
+        const youtubeUrl = `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;
+        const container = document.getElementById('externalLessonContainer');
+        const youtubeWrapper = document.getElementById('youtube-player');
+        const volumeControlDiv = document.getElementById('volumeControl');
+        if (!container) return;
+
+        stopAllMedia();
+        if (youtubeWrapper) youtubeWrapper.style.display = 'none';
+        if (volumeControlDiv) volumeControlDiv.style.display = 'none';
+        container.style.display = 'flex';
+        container.innerHTML = `<div class="external-lesson-card">
+            <div class="external-lesson-icon"><i class="fab fa-youtube"></i></div>
+            <h3>${escapeHtml(video.title)}</h3>
+            <p>${t('youtube_embed_unavailable')}</p>
+            <div class="external-platform"><i class="fab fa-youtube"></i> YouTube</div>
+            <p>${t('youtube_embed_instruction')}</p>
+            <div class="external-buttons">
+                <a class="external-btn external-btn-primary" href="${safeAttr(youtubeUrl)}" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-external-link-alt"></i> ${t('open_on_youtube')}
+                </a>
+                <button id="markYouTubeUnavailableWatchedBtn" class="external-btn external-btn-secondary">
+                    <i class="fas fa-check"></i> ${t('mark_watched')}
+                </button>
+            </div>
+        </div>`;
+        document.getElementById('markYouTubeUnavailableWatchedBtn')
+            ?.addEventListener('click', () => markCurrentVideoWatched());
+    }
+
     function showExerciseLesson(video) {
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
@@ -1881,10 +1930,42 @@ console.log('[Main] Inicializando script.js v28.0...');
     function hideExternalLesson() {
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
+        const videojsElement = document.getElementById('videojs-player');
         const volumeControlDiv = document.getElementById('volumeControl');
         if (container) { container.style.display = 'none'; container.innerHTML = ''; }
         if (youtubeWrapper) youtubeWrapper.style.display = 'block';
+        if (videojsElement) videojsElement.hidden = true;
         if (volumeControlDiv) volumeControlDiv.style.display = 'flex';
+    }
+
+    function getVideoMimeType(url) {
+        const extension = String(url || '').split('?')[0].split('.').pop()?.toLowerCase();
+        const mimeTypes = {
+            mp4: 'video/mp4',
+            webm: 'video/webm',
+            ogv: 'video/ogg',
+            ogg: 'video/ogg',
+            m3u8: 'application/x-mpegURL'
+        };
+        return mimeTypes[extension] || 'video/mp4';
+    }
+
+    function activateDirectVideoPlayer() {
+        const youtubeWrapper = document.getElementById('youtube-player');
+        const videojsElement = document.getElementById('videojs-player');
+        if (youtubeWrapper) youtubeWrapper.style.display = 'none';
+        if (videojsElement) videojsElement.hidden = false;
+        activePlayerType = 'videojs';
+        document.querySelector('.player-section')?.classList.add('videojs-active');
+    }
+
+    function activateYouTubePlayer() {
+        const youtubeWrapper = document.getElementById('youtube-player');
+        const videojsElement = document.getElementById('videojs-player');
+        if (youtubeWrapper) youtubeWrapper.style.display = 'block';
+        if (videojsElement) videojsElement.hidden = true;
+        activePlayerType = 'youtube';
+        document.querySelector('.player-section')?.classList.remove('videojs-active');
     }
 
     function loadCurrentLesson() {
@@ -1942,24 +2023,59 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function loadVideoInPlayer(videoObj) {
-        let videoId = videoObj.url.split("/embed/")[1]?.split("?")[0] || "j6hcALm0mLM";
-        if (player && isPlayerReady) {
-            player.loadVideoById(videoId);
-            setTimeout(() => {
-                if (player && isPlayerReady) {
-                    player.setVolume(playerVolume);
-                    const muteBtn = document.getElementById('muteUnmuteBtn');
-                    if (muteBtn && playerVolume === 0) {
-                        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    }
-                    if (videoObj.time > 5) player.seekTo(videoObj.time, true);
-                }
-            }, 500);
+        youtubeEmbedFallbackActive = false;
+        const youtubeMatch = getYouTubeVideoId(videoObj.url);
+        const youtubeWrapper = document.getElementById('youtube-player');
+        const videojsElement = document.getElementById('videojs-player');
+        if (youtubeMatch) {
+            if (videojsPlayer) videojsPlayer.pause();
+            activateYouTubePlayer();
+            if (!player || !isPlayerReady) {
+                pendingVideoObj = videoObj;
+                return;
+            }
+            player.source = { type: 'video', sources: [{ src: youtubeMatch, provider: 'youtube' }] };
+            player.volume = playerVolume / 100;
+            resetQualityOptions();
+            resetAudioTrackOptions();
+            updateAvailableQualities();
+            scheduleQualityOptions();
+            updateAvailableAudioTracks();
+            scheduleAudioTrackOptions();
+            if (videoObj.time > 5) player.once('loadedmetadata', () => { player.currentTime = videoObj.time; });
+        } else if (videojsPlayer && videojsElement) {
+            activateDirectVideoPlayer();
+            videojsPlayer.reset();
+            videojsPlayer.src({ src: videoObj.url, type: getVideoMimeType(videoObj.url) });
+            videojsPlayer.ready(() => {
+                videojsPlayer.volume(playerVolume / 100);
+                if (videoObj.time > 5) videojsPlayer.currentTime(videoObj.time);
+                videojsPlayer.focus();
+            });
         }
         const titleEl = document.getElementById("currentVideoTitle");
         if (titleEl) titleEl.innerText = videoObj.title;
         currentVideoDuration = videoObj.duration * 60;
         saveAllProgress();
+    }
+
+    function getYouTubeVideoId(value) {
+        if (!value || typeof value !== 'string') return null;
+        try {
+            const url = new URL(value, window.location.href);
+            const hostname = url.hostname.replace(/^www\./, '').toLowerCase();
+            if (hostname === 'youtu.be') return url.pathname.slice(1).split('/')[0] || null;
+            if (hostname === 'youtube.com' || hostname === 'm.youtube.com' || hostname === 'youtube-nocookie.com') {
+                if (url.pathname === '/watch') return url.searchParams.get('v');
+                const pathParts = url.pathname.split('/').filter(Boolean);
+                if (pathParts[0] === 'embed' || pathParts[0] === 'shorts' || pathParts[0] === 'live') {
+                    return pathParts[1] || null;
+                }
+            }
+        } catch (error) {
+            console.warn('[Player] URL de vídeo inválida:', value, error);
+        }
+        return null;
     }
 
     function markCurrentVideoWatched() {
@@ -3304,44 +3420,425 @@ console.log('[Main] Inicializando script.js v28.0...');
         `;
     }
 
-    // ========== YOUTUBE PLAYER ==========
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtube-player', {
-            height: '100%',
-            width: '100%',
-            playerVars: {
-                autoplay: 0,
-                controls: 1,
-                modestbranding: 1,
-                rel: 0,
-                origin: window.location.origin,
-                host: 'https://www.youtube.com'
-            },
-            events: {
-                onReady: () => {
-                    isPlayerReady = true;
-                    player.setVolume(playerVolume);
-                    window._startLessonScheduled = false;
-                },
-                onStateChange: onPlayerStateChange,
-                onError: () => console.error("Erro no player do YouTube")
+    // ========== PLAYERS (PLYR + VIDEO.JS) ==========
+    function initializePlayers() {
+        const youtubeElement = document.getElementById('youtube-player');
+        const videojsElement = document.getElementById('videojs-player');
+        if (youtubeElement && window.Plyr) {
+            const youtubeIframe = youtubeElement.querySelector('iframe');
+            const pageOrigin = window.location.origin;
+            if (youtubeIframe && /^https?:$/.test(window.location.protocol)) {
+                try {
+                    const iframeUrl = new URL(youtubeIframe.src);
+                    iframeUrl.searchParams.set('enablejsapi', '1');
+                    iframeUrl.searchParams.set('origin', pageOrigin);
+                    youtubeIframe.src = iframeUrl.toString();
+                } catch (error) {
+                    console.warn('[Player] Não foi possível preparar o iframe do YouTube:', error);
+                }
             }
-        });
+            player = new Plyr(youtubeElement, {
+                hideControls: true,
+                clickToPlay: true,
+                controls: [],
+                settings: [],
+                captions: {
+                    active: false,
+                    language: 'pt',
+                    update: true
+                },
+                quality: {
+                    default: 720,
+                    options: [2160, 1440, 1080, 720, 576, 480, 360],
+                    forced: false,
+                    onChange: (quality) => {
+                        if (player?.provider === 'youtube' && player.embed?.setPlaybackQuality) {
+                            player.embed.setPlaybackQuality(`hd${quality}`);
+                        }
+                    }
+                },
+                speed: {
+                    selected: 1,
+                    options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+                },
+                youtube: {
+                    noCookie: false,
+                    enablejsapi: 1,
+                    rel: 0,
+                    modestbranding: 1,
+                    playsinline: 1,
+                    origin: pageOrigin,
+                    cc_load_policy: 1,
+                    cc_lang_pref: 'pt'
+                }
+            });
+            player.on('ready', () => {
+                isPlayerReady = true;
+                player.volume = playerVolume / 100;
+                enableCaptionsWhenAvailable();
+                const shouldStartLesson = window._startLessonScheduled;
+                window._startLessonScheduled = false;
+                if (pendingVideoObj) {
+                    const videoToLoad = pendingVideoObj;
+                    pendingVideoObj = null;
+                    loadVideoInPlayer(videoToLoad);
+                } else if (shouldStartLesson) {
+                    loadCurrentLesson();
+                }
+            });
+            player.on('playing', () => onPlayerStateChange('playing'));
+            player.on('pause', () => onPlayerStateChange('pause'));
+            player.on('ended', () => onPlayerStateChange('ended'));
+            player.on('error', () => {
+                const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
+                if (activePlayerType === 'youtube' && currentVideo) {
+                    showYouTubeEmbedFallback(currentVideo);
+                }
+            });
+            player.on('timeupdate', () => updateVideoProgress(player.currentTime || 0));
+            player.on('loadedmetadata', enableCaptionsWhenAvailable);
+            player.on('canplay', scheduleQualityOptions);
+            player.on('canplay', scheduleAudioTrackOptions);
+            player.on('playing', scheduleAudioTrackOptions);
+            player.on('ready', scheduleAudioTrackOptions);
+        }
+        if (videojsElement && window.videojs) {
+            videojsPlayer = videojs(videojsElement, {
+                controls: true,
+                responsive: true,
+                fluid: true,
+                preload: 'metadata',
+                inactivityTimeout: 2500,
+                userActions: {
+                    hotkeys: true,
+                    doubleClick: true
+                },
+                playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
+                controlBar: {
+                    children: [
+                        'playToggle',
+                        'progressControl',
+                        'currentTimeDisplay',
+                        'timeDivider',
+                        'durationDisplay',
+                        'volumePanel',
+                        'playbackRateMenuButton',
+                        'captionsButton',
+                        'fullscreenToggle'
+                    ]
+                }
+            });
+
+            videojsPlayer.on('loadedmetadata', () => {
+                currentVideoDuration = videojsPlayer.duration() || currentVideoDuration;
+                updateVideoProgress(videojsPlayer.currentTime() || 0);
+            });
+            videojsPlayer.on('durationchange', () => {
+                currentVideoDuration = videojsPlayer.duration() || currentVideoDuration;
+            });
+            videojsPlayer.on('playing', () => onPlayerStateChange('playing'));
+            videojsPlayer.on('pause', () => onPlayerStateChange('pause'));
+            videojsPlayer.on('ended', () => onPlayerStateChange('ended'));
+            videojsPlayer.on('timeupdate', () => updateVideoProgress(videojsPlayer.currentTime() || 0));
+            videojsPlayer.on('volumechange', () => {
+                const volume = Math.round((videojsPlayer.volume() || 0) * 100);
+                if (!videojsPlayer.muted()) {
+                    playerVolume = volume;
+                    updateVolumePercentage(volume);
+                    localStorage.setItem(VOLUME_STORAGE_KEY, volume);
+                }
+            });
+            videojsPlayer.on('fullscreenchange', () => {
+                const fullscreenButton = document.getElementById('fullscreenToggleBtn');
+                const isFullscreen = videojsPlayer.isFullscreen();
+                fullscreenButton?.classList.toggle('active', isFullscreen);
+                fullscreenButton?.setAttribute('aria-label', isFullscreen ? 'Sair da tela cheia' : 'Tela cheia');
+                fullscreenButton?.setAttribute('title', isFullscreen ? 'Sair da tela cheia' : 'Tela cheia');
+            });
+            videojsPlayer.on('error', () => {
+                const error = videojsPlayer.error();
+                console.warn('[Video.js] Não foi possível carregar o vídeo:', error?.message || 'erro desconhecido');
+            });
+        }
     }
 
-    function onPlayerStateChange(event) {
+    function enableCaptionsWhenAvailable() {
+        const button = document.getElementById('captionsToggleBtn');
+        if (!player?.embed?.loadModule || !button) return;
+        try {
+            player.embed.loadModule('captions');
+            const language = document.getElementById('captionLanguageSelect')?.value || 'pt';
+            player.embed.setOption('captions', 'track', { languageCode: language });
+            captionsEnabled = true;
+            button.classList.add('active');
+        } catch (error) {
+            console.warn('[Player] Legendas indisponíveis para este vídeo:', error);
+        }
+    }
+
+    function updateAvailableQualities() {
+        const select = document.getElementById('videoQualitySelect');
+        const embed = player?.embed;
+        if (!select || !embed?.getAvailableQualityLevels) return;
+        let levels;
+        try {
+            levels = embed.getAvailableQualityLevels();
+        } catch (error) {
+            console.warn('[Player] Não foi possível consultar as qualidades:', error);
+            return;
+        }
+        if (!Array.isArray(levels) || levels.length === 0) {
+            select.disabled = false;
+            if (!select.options.length || select.options[0].value !== 'auto') {
+                select.replaceChildren(new Option('Auto', 'auto'));
+            }
+            return;
+        }
+        const qualityOrder = ['hd1080', 'hd720', 'large', 'medium', 'small'];
+        const labels = {
+            hd1080: '1080p',
+            hd720: '720p',
+            large: '480p',
+            medium: '360p',
+            small: '240p'
+        };
+        const highestLevel = levels.includes('highres') ? 'hd1080' : levels
+            .filter(level => qualityOrder.includes(level))
+            .sort((first, second) => qualityOrder.indexOf(first) - qualityOrder.indexOf(second))[0];
+        const availableLevels = highestLevel
+            ? qualityOrder.slice(qualityOrder.indexOf(highestLevel))
+            : levels.filter(level => labels[level]);
+        select.replaceChildren(new Option('Auto', 'auto'));
+        availableLevels.forEach(level => {
+            select.appendChild(new Option(labels[level], level));
+        });
+        select.disabled = availableLevels.length === 0;
+        select.value = 'auto';
+    }
+
+    function resetQualityOptions() {
+        const select = document.getElementById('videoQualitySelect');
+        if (!select) return;
+        select.replaceChildren(new Option('Auto', 'auto'));
+        select.disabled = false;
+    }
+
+    function scheduleQualityOptions() {
+        let attempts = 0;
+        const refresh = () => {
+            updateAvailableQualities();
+            attempts += 1;
+            const select = document.getElementById('videoQualitySelect');
+            if (select?.options.length <= 1 && attempts < 20) {
+                setTimeout(refresh, 250);
+            }
+        };
+        refresh();
+    }
+
+    function resetAudioTrackOptions() {
+        const select = document.getElementById('audioTrackSelect');
+        const button = document.getElementById('audioTrackBtn');
+        const control = select?.closest('.audio-track-control');
+        if (!select) return;
+        select.replaceChildren(new Option('Original', 'original'));
+        select.disabled = false;
+        if (button) button.disabled = false;
+        if (control) control.hidden = true;
+        button?.setAttribute('aria-expanded', 'false');
+        control?.classList.remove('is-open');
+    }
+
+    function setCaptionLanguage(languageCode) {
+        const language = languageCode || 'pt';
+        localStorage.setItem(CAPTION_LANGUAGE_STORAGE_KEY, language);
+        const playerSelect = document.getElementById('captionLanguageSelect');
+        if (playerSelect) playerSelect.value = language;
+        if (activePlayerType === 'youtube' && player?.embed?.setOption && isPlayerReady) {
+            try {
+                player.embed.loadModule('captions');
+                player.embed.setOption('captions', 'track', { languageCode: language });
+                captionsEnabled = true;
+                document.getElementById('captionsToggleBtn')?.classList.add('active');
+            } catch (error) {
+                console.warn('[Player] Não foi possível alterar o idioma da legenda:', error);
+            }
+        } else if (activePlayerType === 'videojs' && videojsPlayer) {
+            const tracks = videojsPlayer.textTracks?.();
+            if (!tracks) return;
+            for (let index = 0; index < tracks.length; index += 1) {
+                const track = tracks[index];
+                track.mode = track.language === language ? 'showing' : 'disabled';
+            }
+        }
+    }
+
+    function getYouTubeAudioApi() {
+        const embed = player?.embed;
+        if (!embed) return null;
+        if (typeof embed.getAvailableAudioTracks === 'function') return embed;
+        const internalPlayer = typeof embed.getInternalPlayer === 'function'
+            ? embed.getInternalPlayer()
+            : null;
+        return internalPlayer && typeof internalPlayer.getAvailableAudioTracks === 'function'
+            ? internalPlayer
+            : null;
+    }
+
+    function updateAvailableAudioTracks() {
+        const select = document.getElementById('audioTrackSelect');
+        const embed = getYouTubeAudioApi();
+        const control = select?.closest('.audio-track-control');
+        const button = document.getElementById('audioTrackBtn');
+        if (!select || !embed?.getAvailableAudioTracks) {
+            if (control) control.hidden = true;
+            if (button) button.disabled = true;
+            return;
+        }
+        if (embed.addEventListener && !embed.__universidadeLivreAudioTrackListener) {
+            embed.__universidadeLivreAudioTrackListener = true;
+            embed.addEventListener('onApiChange', scheduleAudioTrackOptions);
+        }
+
+        const readTrackId = (track) => {
+            if (!track || typeof track !== 'object') return null;
+            const candidates = [
+                track.id,
+                track.trackId,
+                track.audioTrackId,
+                track.audioTrackID,
+                track.track_id,
+                track.audioTrackInfo?.id,
+                track.audioTrackInfo?.trackId,
+                track.languageCode,
+                track.language_code,
+                track.language
+            ];
+            const value = candidates.find(candidate => candidate !== undefined && candidate !== null && candidate !== '');
+            return value === undefined || value === null ? null : String(value);
+        };
+
+        const readTrackLabel = (track, index) => {
+            if (!track || typeof track !== 'object') return `Faixa ${index + 1}`;
+            return track.displayName || track.label || track.name || track.languageName ||
+                track.audioTrackInfo?.displayName || track.audioTrackInfo?.languageName ||
+                track.language || track.languageCode || track.language_code || `Faixa ${index + 1}`;
+        };
+
+        const isOriginalTrack = (track) => {
+            if (!track || typeof track !== 'object') return false;
+            const kind = String(track.kind || track.role || track.type || '').toLowerCase();
+            return track.isOriginal === true ||
+                ['original', 'default', 'main', 'primary'].includes(kind);
+        };
+
+        let tracks;
+        try {
+            tracks = embed.getAvailableAudioTracks();
+        } catch (error) {
+            console.warn('[Player] Não foi possível consultar as faixas de áudio:', error);
+            return;
+        }
+        if (!Array.isArray(tracks)) {
+            tracks = tracks && typeof tracks[Symbol.iterator] === 'function'
+                ? Array.from(tracks)
+                : tracks && typeof tracks === 'object'
+                    ? Object.values(tracks)
+                    : [];
+        }
+
+        const normalizedTracks = tracks
+            .map((track, index) => {
+                if (typeof track === 'string') {
+                    return { id: String(track), displayName: track, kind: 'alternative' };
+                }
+                if (!track || typeof track !== 'object') return null;
+                const id = readTrackId(track);
+                if (!id) return null;
+                const normalizedTrack = {
+                    ...track,
+                    id,
+                    kind: track.kind || (isOriginalTrack(track) || id === 'original' ? 'original' : 'alternative'),
+                    displayName: readTrackLabel(track, index)
+                };
+                return normalizedTrack;
+            })
+            .filter(Boolean)
+            .filter((track, index, allTracks) =>
+                allTracks.findIndex(candidate => candidate.id === track.id) === index
+            );
+
+        if (normalizedTracks.length === 0) {
+            select.disabled = true;
+            const button = document.getElementById('audioTrackBtn');
+            if (button) button.disabled = true;
+            if (control) control.hidden = true;
+            return;
+        }
+
+        const originalTrack = normalizedTracks.find(track =>
+            track.kind === 'original' || isOriginalTrack(track) || track.id === 'original' || track.id === 'default'
+        ) || normalizedTracks[0];
+        const originalTrackId = originalTrack?.id || 'original';
+        const alternativeTracks = normalizedTracks.filter(track =>
+            track.id !== originalTrackId &&
+            track.kind !== 'original' &&
+            !isOriginalTrack(track)
+        );
+        select.replaceChildren(new Option('Original', originalTrackId));
+        alternativeTracks.forEach(track => {
+            const optionValue = track.id;
+            if ([...select.options].some(option => option.value === optionValue)) return;
+            select.appendChild(new Option(
+                track.displayName || 'Faixa de áudio',
+                optionValue
+            ));
+        });
+
+        const currentTrack = typeof embed.getAudioTrack === 'function' ? embed.getAudioTrack() : null;
+        const currentTrackId = currentTrack && readTrackId(currentTrack);
+
+        if (!currentTrackId && originalTrack?.id && typeof embed.setAudioTrack === 'function') {
+            try {
+                embed.setAudioTrack(originalTrack.id);
+            } catch (error) {
+                console.warn('[Player] Não foi possível selecionar a faixa original:', error);
+            }
+        }
+
+        const selectedValue = [...select.options].some(option => String(option.value) === String(currentTrackId))
+            ? String(currentTrackId)
+            : originalTrackId;
+        select.value = selectedValue;
+        const hasAlternativeTracks = alternativeTracks.length > 0;
+        select.disabled = !hasAlternativeTracks;
+        if (button) button.disabled = !hasAlternativeTracks;
+        if (control) control.hidden = !hasAlternativeTracks;
+    }
+
+    function scheduleAudioTrackOptions() {
+        let attempts = 0;
+        const refresh = () => {
+            updateAvailableAudioTracks();
+            attempts += 1;
+            const select = document.getElementById('audioTrackSelect');
+            if (select?.options.length <= 1 && attempts < 40) setTimeout(refresh, 500);
+        };
+        refresh();
+    }
+
+    function onPlayerStateChange(state) {
         const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
         if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
-        if (event.data === YT.PlayerState.PLAYING) {
+        if (state === 'playing') {
             const playPauseBtn = document.getElementById("playPauseBtn");
             if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
             if (updateInterval) clearInterval(updateInterval);
-            updateInterval = setInterval(() => { if (player && isPlayerReady && player.getCurrentTime) updateVideoProgress(player.getCurrentTime()); }, 500);
-        } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+        } else if (state === 'pause' || state === 'ended') {
             const playPauseBtn = document.getElementById("playPauseBtn");
             if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
             if (updateInterval) clearInterval(updateInterval);
-            if (event.data === YT.PlayerState.ENDED && lessons[currentLessonId]?.videos[currentVideoInLesson]) markCurrentVideoWatched();
+            if (state === 'ended' && lessons[currentLessonId]?.videos[currentVideoInLesson]) markCurrentVideoWatched();
         }
         saveAllProgress();
     }
@@ -3362,9 +3859,10 @@ console.log('[Main] Inicializando script.js v28.0...');
     function togglePlayPause() {
         const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
         if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
-        if (player && isPlayerReady) {
-            if (player.getPlayerState() === YT.PlayerState.PLAYING) player.pauseVideo();
-            else player.playVideo();
+        if (activePlayerType === 'youtube' && player && isPlayerReady) {
+            player.playing ? player.pause() : player.play();
+        } else if (activePlayerType === 'videojs' && videojsPlayer) {
+            videojsPlayer.paused() ? videojsPlayer.play() : videojsPlayer.pause();
         }
     }
 
@@ -3476,12 +3974,13 @@ console.log('[Main] Inicializando script.js v28.0...');
     if (videoProgressBar) videoProgressBar.addEventListener("click", (e) => {
         const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
         if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
-        if (!player || !isPlayerReady) return;
+        if ((!player || !isPlayerReady) && !videojsPlayer) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const percent = x / rect.width;
         const seek = percent * currentVideoDuration;
-        player.seekTo(seek, true);
+        if (activePlayerType === 'youtube' && player && isPlayerReady) player.currentTime = seek;
+        else if (activePlayerType === 'videojs' && videojsPlayer) videojsPlayer.currentTime(seek);
     });
 
     // Controle de Volume
@@ -3491,39 +3990,168 @@ console.log('[Main] Inicializando script.js v28.0...');
         volumeSlider.addEventListener('input', (e) => {
             const vol = parseInt(e.target.value, 10);
             playerVolume = vol;
-            if (player && isPlayerReady) {
-                player.setVolume(vol);
+            updateVolumePercentage(vol);
+            if (activePlayerType === 'youtube' && player && isPlayerReady) {
+                player.volume = vol / 100;
+                if (vol === 0) player.muted = true;
                 if (vol === 0) {
                     muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
                 } else {
                     muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
                 }
+            } else if (activePlayerType === 'videojs' && videojsPlayer) {
+                videojsPlayer.volume(vol / 100);
             }
             localStorage.setItem(VOLUME_STORAGE_KEY, vol);
         });
     }
     if (muteUnmuteBtn) {
         muteUnmuteBtn.addEventListener('click', () => {
-            if (!player || !isPlayerReady) return;
-            if (player.isMuted()) {
-                player.unMute();
-                const currentVol = player.getVolume();
-                volumeSlider.value = currentVol;
-                playerVolume = currentVol;
-                muteUnmuteBtn.innerHTML = currentVol === 0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-                localStorage.setItem(VOLUME_STORAGE_KEY, currentVol);
-            } else {
-                player.mute();
-                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            if (activePlayerType === 'youtube' && player && isPlayerReady) {
+                player.muted = !player.muted;
+                if (!player.muted) {
+                    const currentVol = Math.round((player.volume || playerVolume / 100) * 100);
+                    volumeSlider.value = currentVol;
+                    playerVolume = currentVol;
+                    updateVolumePercentage(currentVol);
+                    localStorage.setItem(VOLUME_STORAGE_KEY, currentVol);
+                } else {
+                    updateVolumePercentage(0);
+                }
+                muteUnmuteBtn.innerHTML = player.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            } else if (activePlayerType === 'videojs' && videojsPlayer) {
+                videojsPlayer.muted(!videojsPlayer.muted());
+                updateVolumePercentage(videojsPlayer.muted() ? 0 : playerVolume);
+                muteUnmuteBtn.innerHTML = videojsPlayer.muted() ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
             }
         });
     }
+
+    const playbackSpeedSelect = document.getElementById('playbackSpeedSelect');
+    if (playbackSpeedSelect) {
+        playbackSpeedSelect.addEventListener('change', () => {
+            const speed = Number(playbackSpeedSelect.value);
+            if (activePlayerType === 'youtube' && player && isPlayerReady) player.speed = speed;
+            if (activePlayerType === 'videojs' && videojsPlayer) videojsPlayer.playbackRate(speed);
+        });
+    }
+
+    const videoQualitySelect = document.getElementById('videoQualitySelect');
+    if (videoQualitySelect) {
+        videoQualitySelect.addEventListener('change', () => {
+            const quality = videoQualitySelect.value;
+            if (activePlayerType === 'youtube' && player?.provider === 'youtube' && player.embed?.setPlaybackQuality) {
+                player.embed.setPlaybackQuality(quality === 'auto' ? 'default' : quality);
+            }
+        });
+    }
+
+    const audioTrackSelect = document.getElementById('audioTrackSelect');
+    if (audioTrackSelect) {
+        audioTrackSelect.addEventListener('change', () => {
+            const embed = getYouTubeAudioApi();
+            if (!embed?.setAudioTrack) return;
+            try {
+                embed.setAudioTrack(audioTrackSelect.value);
+            } catch (error) {
+                console.warn('[Player] Não foi possível alterar a faixa de áudio:', error);
+                return;
+            }
+            audioTrackSelect.closest('.audio-track-control')?.classList.remove('is-open');
+            document.getElementById('audioTrackBtn')?.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    const audioTrackBtn = document.getElementById('audioTrackBtn');
+    if (audioTrackBtn) {
+        audioTrackBtn.addEventListener('click', () => {
+            if (audioTrackBtn.disabled) return;
+            const control = audioTrackBtn.closest('.audio-track-control');
+            const isOpen = control?.classList.toggle('is-open') || false;
+            audioTrackBtn.setAttribute('aria-expanded', String(isOpen));
+            if (isOpen) audioTrackSelect?.focus();
+        });
+    }
+
+    const captionsToggleBtn = document.getElementById('captionsToggleBtn');
+    const captionLanguageSelect = document.getElementById('captionLanguageSelect');
+    if (captionLanguageSelect) {
+        captionLanguageSelect.value = localStorage.getItem(CAPTION_LANGUAGE_STORAGE_KEY) || 'pt';
+        captionLanguageSelect.addEventListener('change', () => {
+            setCaptionLanguage(captionLanguageSelect.value);
+        });
+    }
+    if (captionsToggleBtn) {
+        captionsToggleBtn.addEventListener('click', () => {
+            if (activePlayerType === 'youtube' && player && isPlayerReady && player.embed?.setOption) {
+                try {
+                    if (captionsEnabled) {
+                        player.embed.unloadModule('captions');
+                        captionsEnabled = false;
+                    } else {
+                        player.embed.loadModule('captions');
+                        const language = document.getElementById('captionLanguageSelect')?.value || 'pt';
+                        player.embed.setOption('captions', 'track', { languageCode: language });
+                        captionsEnabled = true;
+                    }
+
+                    captionsToggleBtn.classList.toggle('active', captionsEnabled);
+                } catch (error) {
+                    console.warn('[Player] Não foi possível alternar legendas:', error);
+                }
+            } else if (activePlayerType === 'videojs' && videojsPlayer) {
+                const tracks = videojsPlayer.textTracks();
+                const captionsTrack = Array.from(tracks).find(track => track.kind === 'captions' || track.kind === 'subtitles');
+                if (captionsTrack) {
+                    captionsTrack.mode = captionsTrack.mode === 'showing' ? 'hidden' : 'showing';
+                    captionsToggleBtn.classList.toggle('active', captionsTrack.mode === 'showing');
+                }
+            }
+        });
+    }
+
+    const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+    const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+    const videoWrapper = exitFullscreenBtn?.closest('.video-wrapper');
+    const syncFullscreenExitButton = () => {
+        const fullscreenElement = document.fullscreenElement;
+        if (!exitFullscreenBtn || !videoWrapper) return;
+
+        exitFullscreenBtn.hidden = !fullscreenElement;
+        if (fullscreenElement && !fullscreenElement.contains(exitFullscreenBtn)) {
+            fullscreenElement.appendChild(exitFullscreenBtn);
+        } else if (!fullscreenElement && !videoWrapper.contains(exitFullscreenBtn)) {
+            videoWrapper.appendChild(exitFullscreenBtn);
+        }
+    };
+
+    document.addEventListener('fullscreenchange', syncFullscreenExitButton);
+    exitFullscreenBtn?.addEventListener('click', () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen?.().catch?.((error) => {
+                console.warn('[Player] Não foi possível sair da tela cheia:', error);
+            });
+        } else if (player?.fullscreen?.active) {
+            player.fullscreen.exit();
+        } else if (videojsPlayer?.isFullscreen?.()) {
+            videojsPlayer.exitFullscreen();
+        }
+    });
+
+    if (fullscreenToggleBtn) {
+        fullscreenToggleBtn.addEventListener('click', () => {
+            if (activePlayerType === 'youtube' && player && isPlayerReady) {
+                if (player.fullscreen.active) player.fullscreen.exit();
+                else player.fullscreen.enter();
+            } else if (activePlayerType === 'videojs' && videojsPlayer) {
+                videojsPlayer.isFullscreen() ? videojsPlayer.exitFullscreen() : videojsPlayer.requestFullscreen();
+            }
+        });
+    }
+
     loadSavedVolume();
 
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-    if (typeof YT !== 'undefined' && YT.loaded) {
-        onYouTubeIframeAPIReady();
-    }
+    initializePlayers();
 
     initTabs();
     bindNotificationPositionUpdates();
