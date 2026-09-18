@@ -67,32 +67,41 @@
 
     <!-- ========== FILTROS DA PÁGINA INICIAL ========== -->
     <div id="homeFilters" class="home-filters">
+        <div class="filters-heading">
+            <div>
+                <span class="filters-kicker"><i class="fas fa-compass"></i> <span data-i18n="explore_courses">Explorar</span></span>
+                <h2 data-i18n="find_next_course">Encontre seu próximo curso</h2>
+            </div>
+            <span class="filters-heading-icon"><i class="fas fa-sparkles"></i></span>
+        </div>
         <div class="search-wrapper">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="courseSearchInput" class="search-input" data-i18n-placeholder="search_courses_placeholder" placeholder="Buscar cursos por nome ou descrição...">
+            <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
         </div>
         <div class="filter-group scope-group">
+            <span class="filter-label"><i class="fas fa-layer-group"></i> <span data-i18n="course_collection">Coleção</span></span>
             <div id="scopeChips" class="chips-container">
-                <div class="chip active" data-scope="all" data-i18n="all_courses">Todos</div>
-                <div class="chip" data-scope="my-courses" data-i18n="my_courses">Meus cursos</div>
+                <div class="chip active" data-scope="all" data-i18n="all_courses"><i class="fas fa-border-all"></i> Todos</div>
+                <div class="chip" data-scope="my-courses" data-i18n="my_courses"><i class="fas fa-bookmark"></i> Meus cursos</div>
             </div>
         </div>
         <div class="filter-group">
-            <span data-i18n="filter_by_level">Filtrar por nível:</span>
+            <span class="filter-label" data-i18n="filter_by_level"><i class="fas fa-signal"></i> Filtrar por nível:</span>
             <div id="levelChips" class="chips-container">
-                <div class="chip active" data-level="all" data-i18n="filter_all">Todos</div>
-                <div class="chip" data-level="graduacao" data-i18n="graduacao">Graduação</div>
-                <div class="chip" data-level="pos-graduacao" data-i18n="pos_graduacao">Pós‑graduação</div>
-                <div class="chip" data-level="ensino-medio" data-i18n="ensino_medio">Ensino Médio</div>
-                <div class="chip" data-level="idiomas" data-i18n="idiomas">Idiomas</div>
+                <div class="chip active" data-level="all" data-i18n="filter_all"><i class="fas fa-border-all"></i> Todos</div>
+                <div class="chip" data-level="graduacao" data-i18n="graduacao"><i class="fas fa-graduation-cap"></i> Graduação</div>
+                <div class="chip" data-level="pos-graduacao" data-i18n="pos_graduacao"><i class="fas fa-award"></i> Pós‑graduação</div>
+                <div class="chip" data-level="ensino-medio" data-i18n="ensino_medio"><i class="fas fa-school"></i> Ensino Médio</div>
+                <div class="chip" data-level="idiomas" data-i18n="idiomas"><i class="fas fa-language"></i> Idiomas</div>
             </div>
         </div>
         <div class="filter-group">
-            <span data-i18n="filter_by_course_language">Filtrar por idioma do curso:</span>
+            <span class="filter-label" data-i18n="filter_by_course_language"><i class="fas fa-globe"></i> Filtrar por idioma do curso:</span>
             <div id="languageChips" class="chips-container">
-                <div class="chip active" data-language="all" data-i18n="filter_all_languages">Todos</div>
-                <div class="chip" data-language="pt" data-i18n="course_language_portuguese">Português</div>
-                <div class="chip" data-language="en" data-i18n="course_language_english">Inglês</div>
+                <div class="chip active" data-language="all" data-i18n="filter_all_languages"><i class="fas fa-border-all"></i> Todos</div>
+                <div class="chip" data-language="pt" data-i18n="course_language_portuguese"><i class="fas fa-flag"></i> Português</div>
+                <div class="chip" data-language="en" data-i18n="course_language_english"><i class="fas fa-language"></i> Inglês</div>
             </div>
         </div>
     </div>

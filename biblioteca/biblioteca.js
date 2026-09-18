@@ -2869,8 +2869,19 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         let audiobooks = localAudiobooks;
 
         container.innerHTML = `
-            <div class="search-bar">
-                <input type="text" id="audiobookSearchInput" placeholder="${t('search_audiobooks_placeholder')}">
+            <div class="library-filters audiobook-filters">
+                <div class="filters-heading">
+                    <div>
+                        <span class="filters-kicker"><i class="fas fa-headphones"></i> <span>${t('audio_mode')}</span></span>
+                        <h2>${t('audiobooks_title')}</h2>
+                    </div>
+                    <span class="filters-heading-icon"><i class="fas fa-waveform-lines"></i></span>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text" id="audiobookSearchInput" placeholder="${t('search_audiobooks_placeholder')}">
+                    <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+                </div>
             </div>
             <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
             <div id="audiobooksGrid" class="audiobooks-grid"></div>

@@ -57,27 +57,35 @@
         <p data-i18n="auditorio_description">Vídeos educativos selecionados pela comunidade.</p>
     </div>
 
-    <!-- ========== BARRA DE PESQUISA ========== -->
-    <div class="search-bar-container">
-        <div class="search-wrapper">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar vídeos por título ou descrição..." data-i18n-placeholder="search_videos_placeholder">
+    <!-- ========== PESQUISA E FILTROS ========== -->
+    <div class="auditorio-filters">
+        <div class="filters-heading">
+            <div>
+                <span class="filters-kicker"><i class="fas fa-compass"></i> <span data-i18n="explore_auditorio">Explorar</span></span>
+                <h2 data-i18n="find_next_video">Encontre algo novo para assistir</h2>
+            </div>
+            <span class="filters-heading-icon"><i class="fas fa-sparkles"></i></span>
         </div>
-        <button id="randomVideoBtn" class="random-btn"><i class="fas fa-random"></i> <span data-i18n="random_video">Vídeo aleatório</span></button>
-    </div>
-
-    <!-- ========== FILTROS ========== -->
-    <div class="filter-group type-filter">
-        <span data-i18n="filter_by_type">Filtrar por tipo:</span>
-        <div id="typeChips" class="chips-container"></div>
-    </div>
-    <div class="filter-group subject-filter">
-        <span data-i18n="filter_by_subject">Filtrar por assunto:</span>
-        <div id="subjectChips" class="chips-container"></div>
-    </div>
-    <div class="filter-group language-filter">
-        <span data-i18n="filter_by_language">Filtrar por idioma:</span>
-        <div id="languageChips" class="chips-container"></div>
+        <div class="search-bar-container">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar vídeos por título ou descrição..." data-i18n-placeholder="search_videos_placeholder">
+                <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+            </div>
+            <button id="randomVideoBtn" class="random-btn"><i class="fas fa-shuffle"></i> <span data-i18n="random_video">Vídeo aleatório</span></button>
+        </div>
+        <div class="filter-group type-filter">
+            <span class="filter-label"><i class="fas fa-layer-group"></i> <span data-i18n="filter_by_type">Filtrar por tipo:</span></span>
+            <div id="typeChips" class="chips-container"></div>
+        </div>
+        <div class="filter-group subject-filter">
+            <span class="filter-label"><i class="fas fa-tags"></i> <span data-i18n="filter_by_subject">Filtrar por assunto:</span></span>
+            <div id="subjectChips" class="chips-container"></div>
+        </div>
+        <div class="filter-group language-filter">
+            <span class="filter-label"><i class="fas fa-globe"></i> <span data-i18n="filter_by_language">Filtrar por idioma:</span></span>
+            <div id="languageChips" class="chips-container"></div>
+        </div>
     </div>
 
     <!-- ========== GRADE DE VÍDEOS ========== -->

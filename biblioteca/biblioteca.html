@@ -55,17 +55,27 @@
 
     <!-- ========== CONTEÚDO DA ABA "BIBLIOTECA" ========== -->
     <div id="libraryTabContent" class="main-tab-content active">
-        <div class="search-bar">
-            <input type="text" id="searchInput" data-i18n="search_library_placeholder" placeholder="Buscar por título, autor, idioma ou assunto...">
-        </div>
-
-        <div class="tabs-header">
-            <button class="tab-btn active" data-tab="book"><i class="fas fa-book"></i> <span data-i18n="filter_books">Livros</span></button>
-            <button class="tab-btn" data-tab="article"><i class="fas fa-file-alt"></i> <span data-i18n="filter_articles">Artigos</span></button>
-            <button class="tab-btn" data-tab="paper"><i class="fas fa-file-pdf"></i> <span data-i18n="filter_papers">Papers</span></button>
-            <button class="tab-btn" data-tab="tcc"><i class="fas fa-graduation-cap"></i> <span data-i18n="filter_tcc">TCC</span></button>
-            <button class="tab-btn" data-tab="dissertation"><i class="fas fa-tasks"></i> <span data-i18n="filter_dissertation">Dissertações</span></button>
-            <button class="tab-btn" data-tab="thesis"><i class="fas fa-award"></i> <span data-i18n="filter_thesis">Teses</span></button>
+        <div class="library-filters">
+            <div class="filters-heading">
+                <div>
+                    <span class="filters-kicker"><i class="fas fa-compass"></i> <span data-i18n="explore_library">Explorar</span></span>
+                    <h2 data-i18n="find_next_read">Encontre sua próxima leitura</h2>
+                </div>
+                <span class="filters-heading-icon"><i class="fas fa-sparkles"></i></span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input type="text" id="searchInput" data-i18n="search_library_placeholder" placeholder="Buscar por título, autor, idioma ou assunto...">
+                <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+            </div>
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="book"><i class="fas fa-book"></i> <span data-i18n="filter_books">Livros</span></button>
+                <button class="tab-btn" data-tab="article"><i class="fas fa-file-alt"></i> <span data-i18n="filter_articles">Artigos</span></button>
+                <button class="tab-btn" data-tab="paper"><i class="fas fa-file-pdf"></i> <span data-i18n="filter_papers">Papers</span></button>
+                <button class="tab-btn" data-tab="tcc"><i class="fas fa-graduation-cap"></i> <span data-i18n="filter_tcc">TCC</span></button>
+                <button class="tab-btn" data-tab="dissertation"><i class="fas fa-tasks"></i> <span data-i18n="filter_dissertation">Dissertações</span></button>
+                <button class="tab-btn" data-tab="thesis"><i class="fas fa-award"></i> <span data-i18n="filter_thesis">Teses</span></button>
+            </div>
         </div>
 
         <div id="booksGrid" class="book-grid"></div>
@@ -73,8 +83,19 @@
 
     <!-- ========== CONTEÚDO DA ABA "AUDIOBOOKS" ========== -->
     <div id="audiobooksTabContent" class="main-tab-content">
-        <div class="search-bar">
-            <input type="text" id="audiobookSearchInput" data-i18n="search_audiobooks_placeholder" placeholder="Buscar audiobooks por título ou autor...">
+        <div class="library-filters audiobook-filters">
+            <div class="filters-heading">
+                <div>
+                    <span class="filters-kicker"><i class="fas fa-headphones"></i> <span data-i18n="audio_mode">Modo Áudio</span></span>
+                    <h2 data-i18n="audiobooks_title">Audiobooks</h2>
+                </div>
+                <span class="filters-heading-icon"><i class="fas fa-waveform-lines"></i></span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input type="text" id="audiobookSearchInput" data-i18n="search_audiobooks_placeholder" placeholder="Buscar audiobooks por título ou autor...">
+                <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+            </div>
         </div>
 
         <!-- Player de audiobooks (embutido) -->

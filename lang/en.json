@@ -160,6 +160,13 @@
   "tab_recommended": "Recommended Libraries",
   "course_content": "Course Content",
   "current_lesson": "Current Lesson",
+  "explore_courses": "Explore",
+  "find_next_course": "Find your next course",
+  "course_collection": "Collection",
+  "explore_auditorio": "Explore",
+  "find_next_video": "Find something new to watch",
+  "explore_library": "Explore",
+  "find_next_read": "Find your next read",
 
   "_modais": "=== MODALS ===",
   "intro_start": "Start lesson now",

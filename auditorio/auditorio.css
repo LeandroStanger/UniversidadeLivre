@@ -311,10 +311,79 @@ a:hover {
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0;
+}
+
+.auditorio-filters {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
     margin-bottom: 2rem;
+    padding: 1.35rem;
+    border: 1px solid rgba(108, 140, 255, 0.2);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.12), transparent 34%),
+        linear-gradient(145deg, rgba(26, 38, 56, 0.92), rgba(15, 22, 36, 0.96));
+    box-shadow: 0 18px 45px rgba(4, 8, 18, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+}
+
+.auditorio-filters::before {
+    position: absolute;
+    content: '';
+    width: 150px;
+    height: 150px;
+    top: -90px;
+    left: 12%;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.1);
+    pointer-events: none;
+}
+
+.filters-heading {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.filters-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+    color: var(--accent-teal);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.filters-heading h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    letter-spacing: -0.02em;
+}
+
+.filters-heading-icon {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    border-radius: 14px;
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.1);
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.12);
 }
 
 .search-wrapper {
+    z-index: 1;
     flex: 1;
     position: relative;
 }
@@ -331,10 +400,11 @@ a:hover {
 
 .search-input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 2rem;
+    box-sizing: border-box;
+    padding: 0.9rem 4rem 0.9rem 2.7rem;
+    background: rgba(7, 11, 20, 0.54);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
     color: var(--text-primary);
     font-size: 0.9rem;
     transition: var(--transition-fast);
@@ -342,8 +412,8 @@ a:hover {
 
 .search-input:focus {
     outline: none;
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.15);
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12), 0 8px 24px rgba(4, 8, 18, 0.2);
 }
 
 .search-input::placeholder {
@@ -366,6 +436,22 @@ a:hover {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(108, 140, 255, 0.2);
+}
+
+.search-shortcut {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.45rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 6px;
+    color: var(--text-tertiary);
+    font-size: 0.72rem;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .random-btn::after {
@@ -398,17 +484,31 @@ a:hover {
 
 /* ========== FILTROS ========== */
 .filter-group {
-    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+    padding: 0.85rem 0 0;
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.75rem;
 }
 
-.filter-group span {
+.filter-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 190px;
     font-size: 0.9rem;
     color: var(--text-secondary);
     font-weight: 500;
+}
+
+.filter-label i {
+    width: 16px;
+    color: var(--accent-teal);
+    text-align: center;
 }
 
 .chips-container {
@@ -418,11 +518,11 @@ a:hover {
 }
 
 .chip {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    padding: 0.4rem 1rem;
-    border-radius: 2rem;
-    font-size: 0.8rem;
+    background: rgba(7, 11, 20, 0.3);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    padding: 0.48rem 0.85rem;
+    border-radius: 11px;
+    font-size: 0.78rem;
     cursor: pointer;
     transition: var(--transition-fast);
     color: var(--text-secondary);
@@ -436,16 +536,21 @@ a:hover {
 }
 
 .chip:hover {
-    border-color: var(--accent-blue);
+    border-color: rgba(56, 189, 248, 0.55);
     color: var(--text-primary);
-    transform: translateY(-2px);
+    background: rgba(56, 189, 248, 0.08);
+    transform: translateY(-1px);
 }
 
 .chip.active {
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, var(--accent-blue), #7c5cff);
     border-color: transparent;
     color: white;
-    box-shadow: 0 2px 12px rgba(108, 140, 255, 0.2);
+    box-shadow: 0 7px 18px rgba(108, 140, 255, 0.22);
+}
+
+.chip.active i {
+    color: #dff8ff;
 }
 
 .chip .fa-podcast {
@@ -1509,13 +1614,51 @@ a:hover {
         align-items: stretch;
     }
 
+    .auditorio-filters {
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    .filters-heading h2 {
+        font-size: 1.1rem;
+    }
+
+    .filters-heading-icon {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+    }
+
     .random-btn {
         justify-content: center;
     }
 
     .filter-group {
+        gap: 0.6rem;
+        padding-top: 0.7rem;
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .filter-label {
+        min-width: 100%;
+        font-size: 0.78rem;
+    }
+
+    .chips-container {
+        width: 100%;
+        gap: 0.4rem;
+    }
+
+    .chip {
+        padding: 0.45rem 0.65rem;
+        font-size: 0.73rem;
+    }
+
+    .search-shortcut {
+        display: none;
     }
 
     .section-title {
