@@ -30,6 +30,8 @@
     let _sliderInterval = null;
     let _currentSlideIndex = 0;
     let _totalSlides = 0;
+    let shareButton = null;
+    let shareMenu = null;
 
     // ========== FUNÇÃO DE TRADUÇÃO (fallback) ==========
     function t(key, replacements = {}) {
@@ -58,7 +60,10 @@
             'tecnologo': 'Tecnólogo',
             'back_to_courses': 'Voltar para cursos',
             'help_button': 'Ajuda',
-            'close': 'Fechar'
+            'close': 'Fechar',
+            'share_course': 'Compartilhar',
+            'copy_course_link': 'Copiar link',
+            'course_link_copied': 'Link do curso copiado.'
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
@@ -125,6 +130,8 @@
     // ========== CAPTURAR ELEMENTOS ==========
     function getElements() {
         modal = document.getElementById('courseIntroModal');
+        shareButton = document.getElementById('courseShareBtn');
+        shareMenu = document.getElementById('courseShareMenu');
         // O resumo é renderizado na página; o modal antigo não é mais necessário.
         if (!modal) return true;
         closeBtn = modal.querySelector('.close-intro');
@@ -140,6 +147,99 @@
         sliderNext = modal.querySelector('.intro-slider-next');
         sliderDots = modal.querySelector('.intro-slider-dots');
         return true;
+    }
+
+    function getCourseShareUrl() {
+        const url = new URL(window.location.href);
+        url.search = '';
+        url.hash = '';
+        url.searchParams.set('curso', currentCardCourseId || '');
+        return url.toString();
+    }
+
+    function getCourseShareText() {
+        const title = document.getElementById('courseIntroCardTitle')?.textContent?.trim();
+        const institution = document.getElementById('courseIntroCardInstitution')?.textContent?.trim();
+        const description = document.getElementById('courseIntroCardDescription')?.textContent?.trim();
+        const shareTitle = title || 'Curso';
+        const shareInstitution = institution || 'Universidade Livre';
+        const shareDescription = description || 'Confira este curso gratuito da Universidade Livre.';
+        return `${shareTitle}\n${shareInstitution}\n\n${shareDescription}`;
+    }
+
+    function getCourseShareTitle() {
+        return document.getElementById('courseIntroCardTitle')?.textContent?.trim()
+            || 'Curso · Universidade Livre';
+    }
+
+    function closeShareMenu() {
+        if (!shareMenu || !shareButton) return;
+        shareMenu.hidden = true;
+        shareButton.setAttribute('aria-expanded', 'false');
+    }
+
+    async function copyCourseLink() {
+        const url = getCourseShareUrl();
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(url);
+        } else {
+            const input = document.createElement('textarea');
+            input.value = url;
+            input.setAttribute('readonly', '');
+            input.style.position = 'fixed';
+            input.style.opacity = '0';
+            document.body.appendChild(input);
+            input.select();
+            const copied = document.execCommand('copy');
+            input.remove();
+            if (!copied) throw new Error('Não foi possível copiar o link.');
+        }
+        if (window.showNotification) {
+            window.showNotification(t('course_link_copied'), 'success');
+        } else {
+            alert(t('course_link_copied'));
+        }
+    }
+
+    async function shareCourse(action) {
+        const url = getCourseShareUrl();
+        const text = getCourseShareText();
+        if (action === 'copy') {
+            await copyCourseLink();
+        } else if (action === 'whatsapp') {
+            window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
+        } else if (action === 'telegram') {
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+        } else if (navigator.share) {
+            await navigator.share({ title: getCourseShareTitle(), text, url });
+        } else {
+            await copyCourseLink();
+        }
+        closeShareMenu();
+    }
+
+    function initCourseSharing() {
+        if (!shareButton || !shareMenu) return;
+        shareButton.addEventListener('click', () => {
+            const isOpen = !shareMenu.hidden;
+            shareMenu.hidden = isOpen;
+            shareButton.setAttribute('aria-expanded', String(!isOpen));
+        });
+        shareMenu.addEventListener('click', async event => {
+            const actionButton = event.target.closest('[data-share-action]');
+            if (!actionButton) return;
+            try {
+                await shareCourse(actionButton.dataset.shareAction);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('[Intro] Erro ao compartilhar curso:', error);
+                    alert('Não foi possível compartilhar o curso. Tente copiar o link.');
+                }
+            }
+        });
+        document.addEventListener('click', event => {
+            if (!shareMenu.hidden && !event.target.closest('.course-share')) closeShareMenu();
+        });
     }
 
     // ========== CARREGAR DADOS DE INTRODUÇÃO ==========
@@ -503,6 +603,7 @@
             ? 'Open University offers undergraduate, postgraduate and language courses with curated, free content. Study at your own pace with community support.'
             : 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.';
         card.hidden = false;
+        closeShareMenu();
         return true;
     };
 
@@ -692,6 +793,7 @@
         }
 
         initEvents();
+        initCourseSharing();
         initTexts();
         preloadData();
 
