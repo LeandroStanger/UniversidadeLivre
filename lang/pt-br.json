@@ -22,6 +22,10 @@
   "no_results": "Nenhum resultado encontrado.",
   "error_loading": "Erro ao carregar resultados. Tente novamente mais tarde.",
   "close": "Fechar",
+  "share_course": "Compartilhar",
+  "copy_course_link": "Copiar link",
+  "course_link_copied": "Link do curso copiado.",
+  "course_share_copied": "Descrição e link do curso copiados.",
 
   "_cursos": "=== CURSOS ===",
   "graduacao": "Graduação",
