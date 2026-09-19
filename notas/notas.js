@@ -32,7 +32,7 @@
     const COURSE_DATA_PATHS = {
         administracao: 'graduacao/administracao/administracao-data.json',
         biologia: 'graduacao/biologia/biologia-data.json',
-        computacao: 'graduacao/ciencia-computacao/ciencia-computacao-data.json',
+        'ciencia-da-computacao': 'graduacao/ciencia-computacao/ciencia-computacao-data.json',
         matematica: 'graduacao/matematica/matematica-data.json',
         'matematica-licenciatura': 'graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
         'ciencia-de-dados-bacharelado': 'graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',

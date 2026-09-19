@@ -45,12 +45,48 @@ console.log('[Main] Inicializando script.js v28.0...');
                 }
             });
         });
+        const courseIdPrefixes = [
+            ['ulivre_course_computacao', 'ulivre_course_ciencia-da-computacao'],
+            ['ulivre_discipline_exam_computacao_', 'ulivre_discipline_exam_ciencia-da-computacao_'],
+            ['ulivre_final_exam_computacao', 'ulivre_final_exam_ciencia-da-computacao'],
+            ['course_completed_computacao', 'course_completed_ciencia-da-computacao'],
+            ['intro_seen_computacao', 'intro_seen_ciencia-da-computacao']
+        ];
+        courseIdPrefixes.forEach(([oldPrefix, newPrefix]) => {
+            const keysToMigrate = [];
+            for (let index = 0; index < localStorage.length; index++) {
+                const key = localStorage.key(index);
+                if (key?.startsWith(oldPrefix)) keysToMigrate.push(key);
+            }
+            keysToMigrate.forEach(oldKey => {
+                const newKey = `${newPrefix}${oldKey.slice(oldPrefix.length)}`;
+                if (!localStorage.getItem(newKey)) {
+                    localStorage.setItem(newKey, localStorage.getItem(oldKey));
+                }
+            });
+        });
         if (localStorage.getItem('comunidade_current_study_context')) {
             try {
                 const context = JSON.parse(localStorage.getItem('comunidade_current_study_context'));
                 if (context.courseId === 'contabilidade') {
                     context.courseId = 'accounting';
                     localStorage.setItem('comunidade_current_study_context', JSON.stringify(context));
+                }
+                if (context.courseId === 'computacao') {
+                    context.courseId = 'ciencia-da-computacao';
+                    localStorage.setItem('comunidade_current_study_context', JSON.stringify(context));
+                }
+            } catch (_) {}
+        }
+        const notes = localStorage.getItem('ulivre_notas_estudo');
+        if (notes) {
+            try {
+                const parsedNotes = JSON.parse(notes);
+                if (Array.isArray(parsedNotes)) {
+                    const migratedNotes = parsedNotes.map(note => note.courseId === 'computacao'
+                        ? { ...note, courseId: 'ciencia-da-computacao', courseName: 'Ciência da Computação' }
+                        : note);
+                    localStorage.setItem('ulivre_notas_estudo', JSON.stringify(migratedNotes));
                 }
             } catch (_) {}
         }
@@ -97,7 +133,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         'accounting': { pt: 'Accounting', en: 'Accounting' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
-        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'ciencia-da-computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
         'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
         'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
@@ -246,7 +282,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             biologia: 'cursos/graduacao/biologia/biologia-data.json',
             accounting: 'cursos/graduacao/accounting/accounting-data.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
@@ -427,7 +463,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/',
             biologia: 'cursos/graduacao/biologia/',
             accounting: 'cursos/graduacao/accounting/',
-            computacao: 'cursos/graduacao/ciencia-computacao/',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/',
             matematica: 'cursos/graduacao/matematica/',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
             'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/',
@@ -471,7 +507,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/administracao-data.json',
             biologia: 'cursos/graduacao/biologia/biologia-data.json',
             accounting: 'cursos/graduacao/accounting/accounting-data.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
             matematica: 'cursos/graduacao/matematica/matematica-data.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
@@ -930,7 +966,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         { course: 'pedagogia', img: 'slides/Pedagogia.png', title: 'Pedagogia', desc: 'Formação de educadores, gestão escolar e práticas pedagógicas' },
         { course: 'letras', img: 'slides/Letras.png', title: 'Letras', desc: 'Língua, literatura, linguística e ensino de português' },
         { course: 'biologia', img: 'slides/Biologia.png', title: 'Biologia', desc: 'Fundamentos biológicos, pedagogia e práticas para o ensino de ciências' },
-        { course: 'computacao', img: 'slides/Ciência da Computação.png', title: 'Ciência da Computação', desc: 'Algoritmos, programação, sistemas e fundamentos da computação' },
+        { course: 'ciencia-da-computacao', img: 'slides/Ciência da Computação.png', title: 'Ciência da Computação', desc: 'Algoritmos, programação, sistemas e fundamentos da computação' },
         { course: 'ciencia-de-dados-bacharelado', img: 'slides/Ciência de Dados (Bacharelado).png', title: 'Ciência de Dados (Bacharelado)', desc: 'Programação, estatística, machine learning e análise de dados' },
         { course: 'computer-science', img: 'slides/Computer Science.png', title: 'Computer Science', desc: 'Full Computer Science curriculum in English' },
         { course: 'fisica', img: 'slides/Física.png', title: 'Física', desc: 'Fundamentos físicos, matemáticos e práticas para o ensino' },
@@ -2441,7 +2477,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/administracao-quiz.json',
             biologia: 'cursos/graduacao/biologia/biologia-quiz.json',
             accounting: 'cursos/graduacao/accounting/accounting-quiz.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
             matematica: 'cursos/graduacao/matematica/matematica-quiz.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-quiz.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-quiz.json',
@@ -2803,7 +2839,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const bookFiles = {
             administracao: 'cursos/graduacao/administracao/administracao-books.json',
             biologia: 'cursos/graduacao/biologia/biologia-books.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
@@ -2923,7 +2959,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             biologia: 'cursos/graduacao/biologia/team-biologia.json',
             accounting: 'cursos/graduacao/accounting/team-accounting.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
@@ -3171,7 +3207,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             administracao: 'cursos/graduacao/administracao/team-administracao.json',
             biologia: 'cursos/graduacao/biologia/team-biologia.json',
             accounting: 'cursos/graduacao/accounting/team-accounting.json',
-            computacao: 'cursos/graduacao/ciencia-computacao/team-computacao.json',
+            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/team-computacao.json',
             matematica: 'cursos/graduacao/matematica/team-matematica.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
@@ -3947,8 +3983,11 @@ console.log('[Main] Inicializando script.js v28.0...');
         await renderCourseCards();
         initHomeFilters();
         const sharedCourseId = new URLSearchParams(window.location.search).get('curso');
-        if (sharedCourseId && allCourses.some(course => course.id === sharedCourseId)) {
-            await openCourse(sharedCourseId);
+        const normalizedSharedCourseId = sharedCourseId === 'computacao'
+            ? 'ciencia-da-computacao'
+            : sharedCourseId;
+        if (normalizedSharedCourseId && allCourses.some(course => course.id === normalizedSharedCourseId)) {
+            await openCourse(normalizedSharedCourseId);
         }
     }
 
