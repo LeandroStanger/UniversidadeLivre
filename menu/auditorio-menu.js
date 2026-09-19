@@ -55,12 +55,20 @@
                 close();
                 return;
             }
+            window.UniversidadeLivreAnalytics?.navigation('auditorio', 'aba-aberta');
             document.dispatchEvent(new CustomEvent('dropdown:open', { detail: { source: 'auditorio' } }));
             positionMenu();
             menu.hidden = false;
             toggle.setAttribute('aria-expanded', 'true');
         });
-        menu.addEventListener('click', event => event.stopPropagation());
+        menu.addEventListener('click', event => {
+            const link = event.target.closest('a');
+            if (link) {
+                const type = new URL(link.href, window.location.href).searchParams.get('tipo') || 'all';
+                window.UniversidadeLivreAnalytics?.navigation('auditorio', 'item-selecionado', { type });
+            }
+            event.stopPropagation();
+        });
         document.addEventListener('click', close);
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape') close();
