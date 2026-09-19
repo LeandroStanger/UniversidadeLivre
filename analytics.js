@@ -143,8 +143,8 @@
         if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: payloadPath, event });
         else pending.push({
             payload: {
-            path: payloadPath,
-            title: payloadTitle,
+                path: payloadPath,
+                title: payloadTitle,
                 event,
                 referrer: document.referrer || SITE_URL
             },
@@ -173,6 +173,7 @@
         getLanguage,
         count,
         pageview,
+        view: pageview,
         course(courseId, courseName) {
             const normalizedCourseId = normalizeCourseId(courseId);
             pageview(coursePath(normalizedCourseId), courseName || `Curso ${normalizedCourseId}`);
