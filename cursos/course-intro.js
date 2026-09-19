@@ -36,9 +36,12 @@
 
     // ========== FUNÇÃO DE TRADUÇÃO (fallback) ==========
     function t(key, replacements = {}) {
-        if (window.getTranslation && typeof window.getTranslation === 'function') {
+        const translate = typeof window.t === 'function'
+            ? window.t
+            : window.getTranslation;
+        if (typeof translate === 'function' && translate !== t) {
             try {
-                return window.getTranslation(key, replacements);
+                return translate(key, replacements);
             } catch (e) { /* fallback */ }
         }
         const fallbacks = {
@@ -64,7 +67,8 @@
             'close': 'Fechar',
             'share_course': 'Compartilhar',
             'copy_course_link': 'Copiar link',
-            'course_link_copied': 'Link do curso copiado.'
+            'course_link_copied': 'Link do curso copiado.',
+            'course_share_copied': 'Descrição e link do curso copiados.'
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
