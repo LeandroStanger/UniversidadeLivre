@@ -92,6 +92,7 @@ body {
 .header-dropdown {
     display: inline-flex;
     align-items: stretch;
+    min-width: 0;
     vertical-align: middle;
 }
 
@@ -99,6 +100,8 @@ body {
     border: 0;
     cursor: pointer;
     font: inherit;
+    appearance: none;
+    -moz-appearance: none;
 }
 
 .library-dropdown-toggle,
@@ -110,6 +113,13 @@ body {
 
 .library-dropdown-toggle {
     margin: 0;
+}
+
+.library-dropdown-toggle,
+.header-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-dropdown-chevron {
@@ -3781,6 +3791,16 @@ a:hover {
         justify-content: center;
         white-space: normal;
         text-align: center;
+    }
+
+    .header > .stats > .library-dropdown,
+    .header > .stats > .header-dropdown {
+        display: flex;
+    }
+
+    .header > .stats > .library-dropdown > button,
+    .header > .stats > .header-dropdown > button {
+        width: 100%;
     }
 
     .header > .stats > .stat-item {

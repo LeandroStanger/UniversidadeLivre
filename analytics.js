@@ -107,9 +107,7 @@
 
     function flush() {
         if (!window.goatcounter || typeof window.goatcounter.count !== 'function') {
-            pending.forEach(event => { event.attempts += 1; });
-            while (pending.length && pending[0].attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
-            scheduleFlush();
+            scheduleFlush(Math.min(retryDelay, 5000));
             return;
         }
 
@@ -129,7 +127,9 @@
         } catch (error) {
             console.warn('[Analytics] Falha ao enviar evento:', error);
             queued.attempts += 1;
-            if (queued.attempts >= MAX_SEND_ATTEMPTS) saveLocalCount(pending.shift().payload);
+            if (queued.attempts >= MAX_SEND_ATTEMPTS) {
+                saveLocalCount(pending.shift().payload);
+            }
             scheduleFlush();
         }
     }
@@ -157,11 +157,15 @@
         count(path, title, false);
     }
 
+    function trackCurrentPage() {
+        const pagePath = location.pathname.replace(/^\/+/, '') || 'inicio';
+        pageview(`/pagina/${slug(pagePath)}`, document.title);
+    }
+
     function sendInitialPageview() {
         if (initialPageviewSent) return;
         initialPageviewSent = true;
-        const pagePath = location.pathname.replace(/^\/+/, '') || 'inicio';
-        pageview(`/pagina/${slug(pagePath)}`, document.title);
+        trackCurrentPage();
     }
 
     window.UniversidadeLivreAnalytics = {
@@ -206,6 +210,7 @@
     window.goatcounter.title = function () {
         return `${document.title} · ${getLanguage().label}`;
     };
+    window.goatcounter.allow_local = true;
 
     window.addEventListener('languageChanged', (event) => {
         const language = event.detail && event.detail.lang === 'en' ? 'English' : 'Português';
@@ -256,4 +261,8 @@
         }
         flush();
     }, { once: true });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') flush();
+    });
 })();
