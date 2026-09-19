@@ -3987,6 +3987,11 @@ console.log('[Main] Inicializando script.js v28.0...');
             ? 'ciencia-da-computacao'
             : sharedCourseId;
         if (normalizedSharedCourseId && allCourses.some(course => course.id === normalizedSharedCourseId)) {
+            const sharedCourse = allCourses.find(course => course.id === normalizedSharedCourseId);
+            window.UniversidadeLivreAnalytics?.sharedCourse(
+                normalizedSharedCourseId,
+                sharedCourse?.name
+            );
             await openCourse(normalizedSharedCourseId);
         }
     }

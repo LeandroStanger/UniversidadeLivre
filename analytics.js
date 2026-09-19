@@ -69,6 +69,8 @@
         if (context.stage !== undefined && context.stage !== null) parts.push(`etapa-${slug(context.stage)}`);
         if (context.game) parts.push(`jogo-${slug(context.game)}`);
         if (context.term) parts.push(`termo-${slug(context.term)}`);
+        if (context.type) parts.push(`tipo-${slug(context.type)}`);
+        if (context.item) parts.push(`item-${slug(context.item)}`);
         return parts.join('/');
     }
 
@@ -174,6 +176,13 @@
         count,
         pageview,
         view: pageview,
+        sharedCourse(courseId, courseName) {
+            const normalizedCourseId = normalizeCourseId(courseId);
+            pageview(
+                `${coursePath(normalizedCourseId)}/link-compartilhado`,
+                `${courseName || `Curso ${normalizedCourseId}`} · Link compartilhado`
+            );
+        },
         course(courseId, courseName) {
             const normalizedCourseId = normalizeCourseId(courseId);
             pageview(coursePath(normalizedCourseId), courseName || `Curso ${normalizedCourseId}`);
@@ -190,6 +199,9 @@
         action(area, actionName, context) {
             const suffix = context ? `/${slug(context)}` : '';
             count(`/${slug(area)}/${slug(actionName)}${suffix}`, `${actionName}${context ? ` · ${context}` : ''}`);
+        },
+        navigation(area, actionName, context = {}) {
+            this.event(area, actionName, context);
         },
         event(area, actionName, context = {}) {
             const suffix = contextPath(context);

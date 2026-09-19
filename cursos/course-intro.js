@@ -238,6 +238,11 @@
     async function shareCourse(action) {
         const url = getCourseShareUrl();
         const text = getCourseShareText();
+        window.UniversidadeLivreAnalytics?.action(
+            'curso',
+            'compartilhamento',
+            `${currentCardCourseId || 'desconhecido'}-${action || 'link'}`
+        );
         if (action === 'copy') {
             await copyCourseLink();
         } else if (action === 'whatsapp') {
@@ -276,6 +281,13 @@
         if (!shareButton || !shareMenu) return;
         shareButton.addEventListener('click', () => {
             const isOpen = !shareMenu.hidden;
+            if (isOpen) {
+                window.UniversidadeLivreAnalytics?.action(
+                    'curso',
+                    'menu-compartilhamento',
+                    currentCardCourseId || 'desconhecido'
+                );
+            }
             shareMenu.hidden = isOpen;
             shareButton.setAttribute('aria-expanded', String(!isOpen));
         });
