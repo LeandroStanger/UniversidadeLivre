@@ -22,6 +22,10 @@
   "no_results": "No results found.",
   "error_loading": "Error loading results. Please try again later.",
   "close": "Close",
+  "share_course": "Share",
+  "copy_course_link": "Copy link",
+  "course_link_copied": "Course link copied.",
+  "course_share_copied": "Course description and link copied.",
 
   "_cursos": "=== COURSES ===",
   "graduacao": "Undergraduate",
