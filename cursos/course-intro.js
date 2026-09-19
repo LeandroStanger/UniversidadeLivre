@@ -69,8 +69,15 @@
             'copy_course_link': 'Copiar link',
             'share_whatsapp': 'WhatsApp',
             'share_telegram': 'Telegram',
+            'share_facebook': 'Facebook',
+            'share_messenger': 'Messenger',
+            'share_linkedin': 'LinkedIn',
+            'share_x': 'X',
+            'share_discord': 'Discord',
             'course_link_copied': 'Link do curso copiado.',
-            'course_share_copied': 'Descrição e link do curso copiados.'
+            'course_share_copied': 'Descrição e link do curso copiados.',
+            'course_messenger_ready': 'Descrição e link copiados. Cole-os no Messenger.',
+            'course_discord_ready': 'Mensagem formatada copiada. Cole-a em uma conversa do Discord.'
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
@@ -180,6 +187,15 @@
             || 'Curso · Universidade Livre';
     }
 
+    function getDiscordShareMessage() {
+        const title = document.getElementById('courseIntroCardTitle')?.textContent?.trim() || 'Curso';
+        const institution = document.getElementById('courseIntroCardInstitution')?.textContent?.trim() || 'Universidade Livre';
+        const description = currentCardShareDescription
+            || document.getElementById('courseIntroCardDescription')?.textContent?.trim()
+            || 'Confira este curso gratuito da Universidade Livre.';
+        return `**${title}**\n🏫 **${institution}**\n\n${description}\n\n🔗 ${getCourseShareUrl()}`;
+    }
+
     function closeShareMenu() {
         if (!shareMenu || !shareButton) return;
         shareMenu.hidden = true;
@@ -231,6 +247,27 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'telegram') {
             window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+        } else if (action === 'facebook') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+        } else if (action === 'messenger') {
+            await copyToClipboard(`${text}\n${url}`);
+            if (window.showNotification) {
+                window.showNotification(t('course_messenger_ready'), 'success');
+            }
+            window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
+        } else if (action === 'linkedin') {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+        } else if (action === 'x') {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+        } else if (action === 'discord') {
+            const discordWindow = window.open('https://discord.com/channels/@me', '_blank', 'noopener,noreferrer');
+            await copyToClipboard(getDiscordShareMessage());
+            if (window.showNotification) {
+                window.showNotification(t('course_discord_ready'), 'success');
+            }
+            if (!discordWindow) {
+                window.open('https://discord.com/channels/@me', '_blank', 'noopener,noreferrer');
+            }
         } else if (action === 'native') {
             await copyCourseShareMessage();
         } else {
