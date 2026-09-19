@@ -2,11 +2,11 @@
     'use strict';
 
     const contentTypes = [
-        ['all', 'all'],
-        ['video', 'type_video'],
-        ['podcast', 'type_podcast'],
-        ['live', 'type_live'],
-        ['shorts', 'type_shorts']
+        ['all', 'all', 'fa-layer-group'],
+        ['video', 'type_video', 'fa-play-circle'],
+        ['podcast', 'type_podcast', 'fa-podcast'],
+        ['live', 'type_live', 'fa-circle'],
+        ['shorts', 'type_shorts', 'fa-film']
     ];
 
     function setupDropdown(wrapper) {
@@ -16,19 +16,18 @@
 
         const basePath = wrapper.dataset.auditorioBase || 'auditorio/auditorio.html';
         menu.innerHTML = '';
-        contentTypes.forEach(([type, translationKey]) => {
+        contentTypes.forEach(([type, translationKey, icon]) => {
             const link = document.createElement('a');
             link.href = type === 'all' ? basePath : `${basePath}?tipo=${type}`;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.role = 'menuitem';
-            link.dataset.i18n = translationKey;
-            link.textContent = translationKey === 'all' ? 'Todos' : ({
+            link.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i> <span data-i18n="${translationKey}">${translationKey === 'all' ? 'Todos' : ({
                 type_video: 'Vídeos',
                 type_podcast: 'Podcasts',
                 type_live: 'Lives',
                 type_shorts: 'Shorts'
-            }[translationKey]);
+            }[translationKey])}</span>`;
             menu.appendChild(link);
         });
 
@@ -54,6 +53,7 @@
                 close();
                 return;
             }
+            document.dispatchEvent(new CustomEvent('dropdown:open', { detail: { source: 'auditorio' } }));
             positionMenu();
             menu.hidden = false;
             toggle.setAttribute('aria-expanded', 'true');
@@ -62,6 +62,9 @@
         document.addEventListener('click', close);
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape') close();
+        });
+        document.addEventListener('dropdown:open', event => {
+            if (event.detail?.source !== 'auditorio') close();
         });
         window.addEventListener('resize', () => {
             if (!menu.hidden) positionMenu();

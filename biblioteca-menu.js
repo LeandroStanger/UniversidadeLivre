@@ -47,6 +47,7 @@
             toggle.addEventListener('click', event => {
                 event.stopPropagation();
                 if (!menu.hidden) return close();
+                document.dispatchEvent(new CustomEvent('dropdown:open', { detail: { source: 'biblioteca' } }));
                 positionMenu();
                 menu.hidden = false;
                 toggle.setAttribute('aria-expanded', 'true');
@@ -55,6 +56,9 @@
             document.addEventListener('click', close);
             document.addEventListener('keydown', event => {
                 if (event.key === 'Escape') close();
+            });
+            document.addEventListener('dropdown:open', event => {
+                if (event.detail?.source !== 'biblioteca') close();
             });
             window.addEventListener('resize', () => {
                 if (!menu.hidden) positionMenu();
