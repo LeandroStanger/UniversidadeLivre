@@ -24,6 +24,8 @@
   "close": "Close",
   "share_course": "Share",
   "copy_course_link": "Copy link",
+  "share_whatsapp": "WhatsApp",
+  "share_telegram": "Telegram",
   "course_link_copied": "Course link copied.",
   "course_share_copied": "Course description and link copied.",
 
