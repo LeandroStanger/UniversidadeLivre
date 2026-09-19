@@ -88,10 +88,28 @@ body {
     position: relative;
 }
 
+.library-dropdown,
+.header-dropdown {
+    display: inline-flex;
+    align-items: stretch;
+    vertical-align: middle;
+}
+
 .header-dropdown-toggle {
     border: 0;
     cursor: pointer;
     font: inherit;
+}
+
+.library-dropdown-toggle,
+.header-dropdown-toggle {
+    box-sizing: border-box;
+    min-height: 100%;
+    line-height: 1.2;
+}
+
+.library-dropdown-toggle {
+    margin: 0;
 }
 
 .header-dropdown-chevron {
