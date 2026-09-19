@@ -3081,6 +3081,14 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         setupMainTabs();
         setupTabs();
+        const requestedType = new URLSearchParams(window.location.search).get('tipo');
+        const validTypes = ['book', 'article', 'paper', 'tcc', 'dissertation', 'thesis'];
+        if (validTypes.includes(requestedType)) {
+            activeTab = requestedType;
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === activeTab);
+            });
+        }
         await loadExternalLibraries();
 
         localBooksCache = await loadLocalBooks();

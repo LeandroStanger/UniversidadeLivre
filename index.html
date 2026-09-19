@@ -37,12 +37,46 @@
             <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                 <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
             </a>
-            <a href="biblioteca/biblioteca.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" data-i18n="library_button">
-                <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span>
-            </a>
-            <a href="auditorio/auditorio.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" style="background: var(--accent-blue);" data-i18n="auditorio_title">
-                <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span>
-            </a>
+            <div class="library-dropdown" data-library-base="biblioteca/biblioteca.html">
+                <button type="button" class="btn-biblioteca library-dropdown-toggle" style="background: #2ea043;" aria-expanded="false" aria-controls="libraryTypeMenu">
+                    <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
+            </div>
+            <div class="header-dropdown">
+                <button type="button" class="btn-biblioteca header-dropdown-toggle" style="background: var(--accent-blue);" aria-expanded="false" aria-controls="auditorioSubjectMenu">
+                    <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden>
+                    <a href="auditorio/auditorio.html" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="all">Todos</a>
+                    <a href="auditorio/auditorio.html?assunto=arte" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_arte">Arte</a>
+                    <a href="auditorio/auditorio.html?assunto=ciencia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_ciencia">Ciência</a>
+                    <a href="auditorio/auditorio.html?assunto=tecnologia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_tecnologia">Tecnologia</a>
+                    <a href="auditorio/auditorio.html?assunto=matematica" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_matematica">Matemática</a>
+                    <a href="auditorio/auditorio.html?assunto=educacao" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_educacao">Educação</a>
+                    <a href="auditorio/auditorio.html?assunto=historia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_historia">História</a>
+                    <a href="auditorio/auditorio.html?assunto=literatura" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_literatura">Literatura</a>
+                    <a href="auditorio/auditorio.html?assunto=filosofia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_filosofia">Filosofia</a>
+                    <a href="auditorio/auditorio.html?assunto=psicologia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_psicologia">Psicologia</a>
+                    <a href="auditorio/auditorio.html?assunto=economia" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_economia">Economia</a>
+                    <a href="auditorio/auditorio.html?assunto=politica" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_politica">Política</a>
+                    <a href="auditorio/auditorio.html?assunto=saude" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_saude">Saúde</a>
+                    <a href="auditorio/auditorio.html?assunto=games" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_games">Jogos</a>
+                    <a href="auditorio/auditorio.html?assunto=esportes" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_esportes">Esportes</a>
+                    <a href="auditorio/auditorio.html?assunto=negocios" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_negocios">Negócios</a>
+                    <a href="auditorio/auditorio.html?assunto=viagem" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_viagem">Viagem</a>
+                    <a href="auditorio/auditorio.html?assunto=cinema" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_cinema">Cinema</a>
+                    <a href="auditorio/auditorio.html?assunto=entretenimento" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_entretenimento">Entretenimento</a>
+                    <a href="auditorio/auditorio.html?assunto=humor" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_humor">Humor</a>
+                    <a href="auditorio/auditorio.html?assunto=noticias" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_noticias">Notícias</a>
+                    <a href="auditorio/auditorio.html?assunto=automotive" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_automotive">Automotivo</a>
+                    <a href="auditorio/auditorio.html?assunto=religiao" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_religiao">Religião</a>
+                    <a href="auditorio/auditorio.html?assunto=autoajuda" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_autoajuda">Autoajuda</a>
+                    <a href="auditorio/auditorio.html?assunto=culinaria" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_culinaria">Culinária</a>
+                    <a href="auditorio/auditorio.html?assunto=shorts" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_shorts">Shorts</a>
+                    <a href="auditorio/auditorio.html?assunto=outros" target="_blank" rel="noopener noreferrer" role="menuitem" data-i18n="subject_outros">Outros</a>
+                </div>
+            </div>
             <a href="notas/notas.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" style="background: var(--accent-green);" data-i18n="notas_heading">
                 <i class="fas fa-pencil-alt"></i> <span data-i18n="notas_heading">Notas</span>
             </a>
@@ -662,6 +696,8 @@
 <!-- ========== SCRIPTS ========== -->
 <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
 <script src="analytics.js"></script>
+<script src="auditorio-menu.js"></script>
+<script src="biblioteca-menu.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
 <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
 <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
