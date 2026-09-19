@@ -25,6 +25,7 @@
     let currentCourseId = null;
     let currentCardCourseId = null;
     let currentCardCourseInfo = {};
+    let currentCardShareDescription = '';
     let introData = null;
     let _initialized = false;
     let _sliderInterval = null;
@@ -160,7 +161,8 @@
     function getCourseShareText() {
         const title = document.getElementById('courseIntroCardTitle')?.textContent?.trim();
         const institution = document.getElementById('courseIntroCardInstitution')?.textContent?.trim();
-        const description = document.getElementById('courseIntroCardDescription')?.textContent?.trim();
+        const description = currentCardShareDescription
+            || document.getElementById('courseIntroCardDescription')?.textContent?.trim();
         const shareTitle = title || 'Curso';
         const shareInstitution = institution || 'Universidade Livre';
         const shareDescription = description || 'Confira este curso gratuito da Universidade Livre.';
@@ -179,12 +181,20 @@
     }
 
     async function copyCourseLink() {
-        const url = getCourseShareUrl();
+        await copyToClipboard(getCourseShareUrl());
+        if (window.showNotification) {
+            window.showNotification(t('course_link_copied'), 'success');
+        } else {
+            alert(t('course_link_copied'));
+        }
+    }
+
+    async function copyToClipboard(value) {
         if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(url);
+            await navigator.clipboard.writeText(value);
         } else {
             const input = document.createElement('textarea');
-            input.value = url;
+            input.value = value;
             input.setAttribute('readonly', '');
             input.style.position = 'fixed';
             input.style.opacity = '0';
@@ -192,12 +202,17 @@
             input.select();
             const copied = document.execCommand('copy');
             input.remove();
-            if (!copied) throw new Error('Não foi possível copiar o link.');
+            if (!copied) throw new Error('Não foi possível copiar o conteúdo.');
         }
+    }
+
+    async function copyCourseShareMessage() {
+        const message = `${getCourseShareText()}\n${getCourseShareUrl()}`;
+        await copyToClipboard(message);
         if (window.showNotification) {
-            window.showNotification(t('course_link_copied'), 'success');
+            window.showNotification(t('course_share_copied'), 'success');
         } else {
-            alert(t('course_link_copied'));
+            alert(t('course_share_copied'));
         }
     }
 
@@ -210,8 +225,8 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'telegram') {
             window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-        } else if (navigator.share) {
-            await navigator.share({ title: getCourseShareTitle(), text, url });
+        } else if (action === 'native') {
+            await copyCourseShareMessage();
         } else {
             await copyCourseLink();
         }
@@ -529,6 +544,10 @@
             .filter(Boolean);
         const summary = paragraphTexts[0];
         const courseDetails = paragraphTexts.slice(1, 3).join(' ');
+        currentCardShareDescription = courseInfo.description?.trim()
+            || courseDetails
+            || summary
+            || '';
         const learningHeadingSource = Array.from(readme.querySelectorAll('strong'))
             .find(element => /(?:o que você vai aprender|what you will learn)/i.test(element.textContent || ''));
         const learningListSource = learningHeadingSource?.closest('p')?.nextElementSibling;
@@ -591,7 +610,7 @@
         premise.textContent = useEnglishLabels
             ? `Course premise: ${summary || 'learn at your own pace with curated, free content.'}`
             : `Premissa do curso: ${summary || 'aprender no seu ritmo, com conteúdo curado e gratuito.'}`;
-        description.textContent = courseDetails || (useEnglishLabels
+        description.textContent = currentCardShareDescription || (useEnglishLabels
             ? 'A learning journey with organized content and practical application.'
             : 'Uma jornada de aprendizagem com conteúdo organizado e aplicação prática.');
         learningList.replaceChildren(...learningItems.map(item => {
