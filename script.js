@@ -385,6 +385,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             setTimeout(() => notification.remove(), 400);
         }, 4000);
     }
+    window.showNotification = showNotification;
 
     function queueNotification(message, type = 'info') {
         notificationQueue.push({ message, type });
@@ -3945,6 +3946,10 @@ console.log('[Main] Inicializando script.js v28.0...');
         setupSliderLinks();
         await renderCourseCards();
         initHomeFilters();
+        const sharedCourseId = new URLSearchParams(window.location.search).get('curso');
+        if (sharedCourseId && allCourses.some(course => course.id === sharedCourseId)) {
+            await openCourse(sharedCourseId);
+        }
     }
 
     initProfile();
