@@ -93,7 +93,7 @@
         'biologia': 'biologia',
         'accounting': 'accounting',
         'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
-        'computacao': 'computacao',
+        'ciencia-da-computacao': 'ciencia-da-computacao',
         'computer-science': 'computer-science',
         'engenharia-producao': 'engenharia-producao',
         'engenharia_computacao': 'engenharia_computacao',

@@ -90,7 +90,7 @@
     ],
     "readmeContent": "<h1>Ciência de Dados</h1><h3>Universidade Livre</h3><p>Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados.</p><p>Este curso foi desenvolvido para profissionais que desejam aprofundar conhecimentos em ciência de dados, desde os fundamentos até a aplicação prática em projetos, utilizando materiais gratuitos e de alta qualidade.</p><p><strong>O que você vai aprender:</strong></p><ul><li>Como estudar do jeito certo</li><li>The Data Scientist’s Toolbox</li><li>Análise de Dados em Linguagem R</li><li>Estatística Descritiva Básica</li><li>Essence of Linear Algebra</li><li>Getting and Cleaning Data</li><li>Exploratory Data Analysis</li><li>Reproducible Research</li><li>Estatística computacional</li></ul><p>Bem-vindo à jornada de aprendizado em Ciência de Dados!</p>"
   },
-  "computacao": {
+  "ciencia-da-computacao": {
     "imageUrl": "cursos/graduacao/ciencia-computacao/imagen-card.png",
     "socialLinks": [
       {

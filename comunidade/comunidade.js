@@ -51,7 +51,7 @@
             directory: 'ciencia-de-dados',
             file: 'ciencia-de-dados-bacharelado'
         },
-        'computacao': {
+        'ciencia-da-computacao': {
             directory: 'ciencia-computacao',
             file: 'ciencia-computacao'
         }

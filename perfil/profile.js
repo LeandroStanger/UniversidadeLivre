@@ -111,7 +111,7 @@
         'biologia': { pt: 'Biologia', en: 'Biology' },
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
-        'computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'ciencia-da-computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
         'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
         'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
@@ -146,7 +146,7 @@
         administracao: 'bacharelado',
         biologia: 'licenciatura',
         'ciencia-de-dados-bacharelado': 'bacharelado',
-        computacao: 'bacharelado',
+        'ciencia-da-computacao': 'bacharelado',
         'computer-science': 'bacharelado',
         'engenharia-producao': 'bacharelado',
         engenharia_computacao: 'bacharelado',
@@ -2512,7 +2512,7 @@
                     totalStats.completedLessons += stats.completedLessons;
                     totalStats.completedDisciplines += stats.completedDisciplines;
                     totalStats.coursePoints += stats.points;
-                    const iconClass = course.id === 'computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
+                    const iconClass = course.id === 'ciencia-da-computacao' ? 'laptop-code' : (course.id === 'matematica' ? 'square-root-alt' : 'book');
                     listHtml +=
                         '<div class="profile-course-item">' +
                         '<div class="profile-course-name">' +

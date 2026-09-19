@@ -51,7 +51,7 @@
         'administracao': 'administracao',
         'ciencia_de_dados': 'ciencia_de_dados',
         'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
-        'computacao': 'computacao',
+        'ciencia-da-computacao': 'ciencia-da-computacao',
         'computacao_grafica': 'computacao_grafica',
         'computer-science': 'computer-science',
         'cybersecurity': 'cybersecurity',
