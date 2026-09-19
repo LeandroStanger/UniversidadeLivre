@@ -259,7 +259,33 @@
                         <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
                     </picture>
                     <div class="course-intro-card-body">
-                        <span id="courseIntroCardLabel" class="course-intro-card-label">Sobre o curso</span>
+                        <div class="course-intro-card-topline">
+                            <span id="courseIntroCardLabel" class="course-intro-card-label">Sobre o curso</span>
+                            <div class="course-share">
+                                <button type="button" id="courseShareBtn" class="course-share-button" aria-expanded="false" aria-controls="courseShareMenu">
+                                    <i class="fas fa-share-nodes" aria-hidden="true"></i>
+                                    <span data-i18n="share_course">Compartilhar</span>
+                                </button>
+                                <div id="courseShareMenu" class="course-share-menu" role="menu" hidden>
+                                    <button type="button" role="menuitem" data-share-action="native">
+                                        <i class="fas fa-share-nodes" aria-hidden="true"></i>
+                                        <span data-i18n="share_course">Compartilhar</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="copy">
+                                        <i class="fas fa-link" aria-hidden="true"></i>
+                                        <span data-i18n="copy_course_link">Copiar link</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="whatsapp">
+                                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                        <span>WhatsApp</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="telegram">
+                                        <i class="fab fa-telegram" aria-hidden="true"></i>
+                                        <span>Telegram</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <h2 id="courseIntroCardTitle"></h2>
                         <div id="courseIntroCardClassification" class="course-intro-card-classification" aria-label="Classificação do curso"></div>
                         <p id="courseIntroCardInstitution" class="course-intro-card-institution"></p>
