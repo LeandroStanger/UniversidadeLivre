@@ -1330,8 +1330,8 @@ function buildTypeChips() {
         {value:'live',label:t('type_live', 'Lives'),icon:'fa-circle'},
         {value:'shorts',label:t('type_shorts', 'Shorts'),icon:'fa-film'}
     ];
-    c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
+    c.innerHTML = types.map(type => `<button class="type-tab ${currentTypeFilter===type.value?'active':''}" type="button" role="tab" aria-selected="${currentTypeFilter===type.value}" data-type="${type.value}"><i class="fas ${type.icon}"></i> ${type.label}</button>`).join('');
+    c.querySelectorAll('.type-tab').forEach(ch => ch.addEventListener('click', async () => {
         currentTypeFilter = ch.dataset.type;
         buildTypeChips();
         await refreshAllItems(currentSearchTerm);
@@ -1342,24 +1342,30 @@ function buildTypeChips() {
 function buildSubjectChips() {
     const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
     const c = document.getElementById('subjectChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all', 'Todos')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentSubjectFilter = ch.dataset.subject;
-        buildSubjectChips();
+    const options = [{ value: 'all', label: t('all', 'Todos') }, ...subs.map(subject => ({ value: subject, label: getSubjectName(subject) }))];
+    c.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
+    c.value = currentSubjectFilter;
+    c.onchange = () => {
+        currentSubjectFilter = c.value;
         updateAllContent();
         applyTranslationsToUI();
-    }));
+    };
 }
 function buildLanguageChips(items = allItems) {
     const langs = [...new Set(items.map(i => normalizeLanguageCode(i.language)).filter(l => l))];
     const c = document.getElementById('languageChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all', 'Todos')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentLanguageFilter = ch.dataset.lang;
-        buildLanguageChips();
+    const options = [{ value: 'all', label: t('all', 'Todos') }, ...langs.map(language => ({ value: language, label: getLanguageName(language) }))];
+    c.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
+    if (options.some(option => option.value === currentLanguageFilter)) c.value = currentLanguageFilter;
+    else {
+        currentLanguageFilter = 'all';
+        c.value = 'all';
+    }
+    c.onchange = () => {
+        currentLanguageFilter = c.value;
         updateAllContent();
         applyTranslationsToUI();
-    }));
+    };
 }
 function playRandomItem() {
     if (!allItems.length) return;

@@ -647,9 +647,9 @@ console.log('[Main] Inicializando script.js v28.0...');
         // Filtros
         const searchTerm = document.getElementById('courseSearchInput')?.value?.trim().toLowerCase() || '';
         const normalizedSearch = searchTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const scopeFilter = document.querySelector('#scopeChips .chip.active')?.dataset.scope || 'all';
-        const levelFilter = document.querySelector('#levelChips .chip.active')?.dataset.level || 'all';
-        const languageFilter = document.querySelector('#languageChips .chip.active')?.dataset.language || 'all';
+        const scopeFilter = document.querySelector('#scopeChips .collection-tab.active')?.dataset.scope || 'all';
+        const levelFilter = document.getElementById('levelChips')?.value || 'all';
+        const languageFilter = document.getElementById('languageChips')?.value || 'all';
 
         let filteredCourses = allCourses.filter(course => {
             if (scopeFilter === 'my-courses' && !isCourseTrackedInProgress(course.id)) return false;
@@ -885,9 +885,9 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== FILTROS DA PÁGINA INICIAL ==========
     function initHomeFilters() {
         const searchInput = document.getElementById('courseSearchInput');
-        const scopeChips = document.querySelectorAll('#scopeChips .chip');
-        const levelChips = document.querySelectorAll('#levelChips .chip');
-        const languageChips = document.querySelectorAll('#languageChips .chip');
+        const scopeTabs = document.querySelectorAll('#scopeChips .collection-tab');
+        const levelSelect = document.getElementById('levelChips');
+        const languageSelect = document.getElementById('languageChips');
 
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
@@ -895,34 +895,26 @@ console.log('[Main] Inicializando script.js v28.0...');
             }, 300));
         }
 
-        if (scopeChips.length) {
-            scopeChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    scopeChips.forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
+        if (scopeTabs.length) {
+            scopeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    scopeTabs.forEach(item => {
+                        item.classList.remove('active');
+                        item.setAttribute('aria-selected', 'false');
+                    });
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
                     renderCourseCards();
                 });
             });
         }
 
-        if (levelChips.length) {
-            levelChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    levelChips.forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    renderCourseCards();
-                });
-            });
+        if (levelSelect) {
+            levelSelect.addEventListener('change', renderCourseCards);
         }
 
-        if (languageChips.length) {
-            languageChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    languageChips.forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    renderCourseCards();
-                });
-            });
+        if (languageSelect) {
+            languageSelect.addEventListener('change', renderCourseCards);
         }
     }
 
