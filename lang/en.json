@@ -30,11 +30,9 @@
   "share_messenger": "Messenger",
   "share_linkedin": "LinkedIn",
   "share_x": "X",
-  "share_discord": "Discord",
   "course_link_copied": "Course link copied.",
   "course_share_copied": "Course description and link copied.",
   "course_messenger_ready": "Description and link copied. Paste them into Messenger.",
-  "course_discord_ready": "Formatted message copied. Paste it into a Discord conversation.",
 
   "_cursos": "=== COURSES ===",
   "graduacao": "Undergraduate",
