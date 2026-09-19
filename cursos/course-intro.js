@@ -76,6 +76,7 @@
             'course_link_copied': 'Link do curso copiado.',
             'course_share_copied': 'Descrição e link do curso copiados.',
             'course_messenger_ready': 'Descrição e link copiados. Cole-os no Messenger.',
+            'course_social_ready': 'Descrição e link copiados. Cole-os na publicação.',
         };
         let text = fallbacks[key] || key;
         for (const [k, v] of Object.entries(replacements)) {
@@ -227,6 +228,13 @@
         }
     }
 
+    async function prepareSocialShare() {
+        await copyToClipboard(`${getCourseShareText()}\n${getCourseShareUrl()}`);
+        if (window.showNotification) {
+            window.showNotification(t('course_social_ready'), 'success');
+        }
+    }
+
     async function shareCourse(action) {
         const url = getCourseShareUrl();
         const text = getCourseShareText();
@@ -237,17 +245,25 @@
         } else if (action === 'telegram') {
             window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'facebook') {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+            const facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+            await prepareSocialShare();
+            if (!facebookWindow) {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+            }
         } else if (action === 'messenger') {
+            const messengerWindow = window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
             await copyToClipboard(`${text}\n${url}`);
             if (window.showNotification) {
                 window.showNotification(t('course_messenger_ready'), 'success');
             }
-            window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
+            if (!messengerWindow) {
+                window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
+            }
         } else if (action === 'linkedin') {
+            await prepareSocialShare();
             window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'x') {
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'native') {
             await copyCourseShareMessage();
         } else {
