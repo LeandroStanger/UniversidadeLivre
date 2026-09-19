@@ -366,6 +366,11 @@
   "subject_culinaria": "Cooking",
   "subject_shorts": "Shorts",
   "subject_outros": "Others",
+  "subject_cinema": "Cinema",
+  "subject_entretenimento": "Entertainment",
+  "subject_humor": "Humor",
+  "subject_noticias": "News",
+  "subject_automotive": "Automotive",
 
   "_idiomas_geral": "=== LANGUAGES (FOR AUDITORIUM FILTER) ===",
   "lang_pt": "Portuguese",

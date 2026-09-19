@@ -13,7 +13,6 @@
 let allVideos = [];
 let allItems = [];
 let currentTypeFilter = 'all';
-let currentSubjectFilter = 'all';
 let currentLanguageFilter = 'all';
 let currentSearchTerm = '';
 let currentLang = 'pt-br';
@@ -259,10 +258,6 @@ function applyTranslationsToUI() {
     // Rótulos dos filtros
     const typeFilterSpan = document.querySelector('.type-filter span');
     if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type', 'Filtrar por tipo:');
-    const subjectFilterSpan = document.querySelector('.subject-filter span');
-    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject', 'Filtrar por assunto:');
-    const languageFilterSpan = document.querySelector('.language-filter span');
-    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language', 'Filtrar por idioma:');
     const playerLabels = [
         ['playPauseBtn', 'player_play_pause'],
         ['muteUnmuteBtn', 'player_mute'],
@@ -910,8 +905,6 @@ async function refreshAllItems(term = '') {
         allItems = merged;
         console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
         // Reconstruir chips após atualização
-        buildSubjectChips();
-        buildLanguageChips(allItems);
         updateAllContent();
         // Aplicar traduções novamente para garantir
         applyTranslationsToUI();
@@ -1284,7 +1277,6 @@ function renderUnifiedGrid(items) {
     let html = '';
     for (const subj of subjects) {
         let subjItems = items.filter(i => i.subject === subj);
-        if (currentSubjectFilter === 'all') subjItems = subjItems.slice(0, 10);
         html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items', 'itens')}</div></div><div class="category-grid unified-grid">`;
         subjItems.forEach(item => html += createVideoCardHTML(item));
         html += `</div></div>`;
@@ -1311,14 +1303,10 @@ function updateAllContent() {
     let filtered = allItems.filter(item => {
         if (currentSearchTerm && !item.title.toLowerCase().includes(currentSearchTerm) && !(item.description||'').toLowerCase().includes(currentSearchTerm)) return false;
         if (currentTypeFilter !== 'all' && item.type !== currentTypeFilter) return false;
-        if (currentSubjectFilter !== 'all' && item.subject !== currentSubjectFilter) return false;
-        if (currentLanguageFilter !== 'all' && item.language !== currentLanguageFilter) return false;
         return true;
     });
-    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Assunto: ${currentSubjectFilter}, Idioma: ${currentLanguageFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
+    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
     renderUnifiedGrid(filtered);
-    buildLanguageChips(filtered);
-    // Garantir que as traduções sejam aplicadas aos chips
     applyTranslationsToUI();
 }
 function buildTypeChips() {
@@ -1338,18 +1326,6 @@ function buildTypeChips() {
         // Reaplicar traduções para garantir
         applyTranslationsToUI();
     }));
-}
-function buildSubjectChips() {
-    const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
-    const c = document.getElementById('subjectChips'); if (!c) return;
-    const options = [{ value: 'all', label: t('all', 'Todos') }, ...subs.map(subject => ({ value: subject, label: getSubjectName(subject) }))];
-    c.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
-    c.value = currentSubjectFilter;
-    c.onchange = () => {
-        currentSubjectFilter = c.value;
-        updateAllContent();
-        applyTranslationsToUI();
-    };
 }
 function buildLanguageChips(items = allItems) {
     const langs = [...new Set(items.map(i => normalizeLanguageCode(i.language)).filter(l => l))];
@@ -1424,7 +1400,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
     });
@@ -1437,7 +1412,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
     });
@@ -1448,9 +1422,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupPlayerControls();
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
+    const requestedType = new URLSearchParams(window.location.search).get('tipo');
+    if (['all', 'video', 'podcast', 'live', 'shorts'].includes(requestedType)) {
+        currentTypeFilter = requestedType;
+    }
     await refreshAllItems('');
     buildTypeChips();
-    buildSubjectChips();
     buildLanguageChips(allItems);
     updateAllContent();
 });
@@ -1465,7 +1442,6 @@ window.addEventListener('languageChanged', async function(e) {
         updateLanguageSelector(lang);
         // Reforça a reconstrução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         updateAllContent();
         // Atualiza o botão de perfil se necessário

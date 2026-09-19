@@ -1716,12 +1716,18 @@
                 <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                     <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
                 </a>
-                <a href="../biblioteca/biblioteca.html" class="btn-back" style="background: #2ea043;" target="_blank" rel="noopener noreferrer" data-i18n="library_button">
-                    <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span>
-                </a>
-                <a href="../auditorio/auditorio.html" class="btn-back" style="background: var(--com-accent-blue);" data-i18n="auditorio_title">
-                    <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span>
-                </a>
+                <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
+                    <button type="button" class="btn-back library-dropdown-toggle" style="background: #2ea043;" aria-expanded="false" aria-controls="libraryTypeMenu">
+                        <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
+                </div>
+                <div class="header-dropdown" data-auditorio-base="../auditorio/auditorio.html">
+                    <button type="button" class="btn-back header-dropdown-toggle" style="background: var(--com-accent-blue);" aria-expanded="false" aria-controls="auditorioSubjectMenu">
+                        <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden></div>
+                </div>
                 <a href="../notas/notas.html" class="btn-back" target="_blank" style="background: var(--com-accent-green);" data-i18n="notas_heading">
                     <i class="fas fa-pencil-alt"></i> <span data-i18n="notas_heading">Notas</span>
                 </a>
@@ -2255,6 +2261,8 @@
     <!-- SCRIPTS -->
     <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
     <script src="../analytics.js"></script>
+    <script src="../auditorio-menu.js"></script>
+    <script src="../biblioteca-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
     <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>

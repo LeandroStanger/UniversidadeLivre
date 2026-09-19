@@ -2364,6 +2364,9 @@
             const levelLabel = course.courseLevel === 'graduacao' ? t('graduacao') :
                                course.courseLevel === 'pos-graduacao' ? t('pos_graduacao') :
                                course.courseLevel === 'ensino-medio' ? t('ensino_medio') : t('idiomas');
+            const courseTypeLabel = course.courseLevel === 'graduacao' && course.courseType
+                ? ` · ${t(course.courseType)}`
+                : '';
 
             const imgUrl = getCourseImageUrl(course.id);
             const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
@@ -2375,7 +2378,7 @@
                     <div class="course-icon" style="background:${color}">${iconContent}</div>
                     <div class="course-info">
                         <div class="course-name">${escapeHtml(localizedCourseName)}</div>
-                        <div class="course-level">${levelLabel}</div>
+                        <div class="course-level">${levelLabel}${courseTypeLabel}</div>
                     </div>
                   </div>
                   <div class="discipline-list ${isActive ? 'open' : ''}" data-course-id="${course.id}">
