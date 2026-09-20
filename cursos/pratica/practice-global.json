@@ -303,6 +303,30 @@
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Slides",
       "link": "https://docs.google.com/presentation"
+    },
+    {
+      "titulo": {
+        "pt-br": "News in Levels",
+        "en": "News in Levels"
+      },
+      "descricao": {
+        "pt-br": "Notícias em inglês organizadas por níveis de dificuldade, com textos e áudio para praticar compreensão e vocabulário.",
+        "en": "English news organized by difficulty level, with text and audio to practice comprehension and vocabulary."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=News+in+Levels",
+      "link": "https://www.newsinlevels.com"
+    },
+    {
+      "titulo": {
+        "pt-br": "Reverso",
+        "en": "Reverso"
+      },
+      "descricao": {
+        "pt-br": "Ferramenta de tradução contextual para consultar traduções, exemplos de uso, conjugação e pronúncia em vários idiomas.",
+        "en": "Contextual translation tool for checking translations, usage examples, conjugation, and pronunciation in several languages."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Reverso",
+      "link": "https://www.reverso.net/text-translation"
     }
   ]
 }
