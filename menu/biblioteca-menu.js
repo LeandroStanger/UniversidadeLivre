@@ -3,6 +3,7 @@
 
     const libraryTypes = [
         ['all', 'tab_library', 'fa-book'],
+        ['audiobooks', 'tab_audiobooks', 'fa-headphones'],
         ['book', 'filter_books', 'fa-book'],
         ['article', 'filter_articles', 'fa-file-alt'],
         ['paper', 'filter_papers', 'fa-file-pdf'],
@@ -23,7 +24,11 @@
             menu.innerHTML = '';
             libraryTypes.forEach(([type, translationKey, icon]) => {
                 const link = document.createElement('a');
-                link.href = type === 'all' ? basePath : `${basePath}?tipo=${type}`;
+                link.href = type === 'all'
+                    ? basePath
+                    : type === 'audiobooks'
+                        ? `${basePath}?aba=audiobooks`
+                        : `${basePath}?tipo=${type}`;
                 link.target = '_blank';
                 link.rel = 'noopener noreferrer';
                 link.role = 'menuitem';
@@ -39,9 +44,10 @@
                 const rect = toggle.getBoundingClientRect();
                 const width = Math.min(260, window.innerWidth - 24);
                 const left = Math.min(Math.max(12, rect.right - width), window.innerWidth - width - 12);
-                menu.style.top = `${rect.bottom + 8}px`;
                 menu.style.left = `${left}px`;
                 menu.style.width = `${width}px`;
+                menu.style.bottom = 'auto';
+                menu.style.top = `${rect.bottom + 8}px`;
             };
 
             menu.hidden = true;

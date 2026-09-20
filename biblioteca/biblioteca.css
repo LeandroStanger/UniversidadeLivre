@@ -163,7 +163,7 @@ a:hover {
 
 .stats {
     display: flex;
-    gap: 1.2rem;
+    gap: 0;
     background: rgba(15, 22, 36, 0.8);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -1654,6 +1654,18 @@ a:hover {
     background: var(--accent-blue);
     color: white;
     border-color: var(--accent-blue);
+}
+
+.action-btn.audio-btn {
+    background: rgba(46, 160, 67, 0.16);
+    color: var(--accent-green);
+    border: 1px solid rgba(46, 160, 67, 0.5);
+}
+
+.action-btn.audio-btn:hover {
+    background: rgba(46, 160, 67, 0.28);
+    color: var(--accent-green);
+    border-color: var(--accent-green);
 }
 
 .disabled-btn {

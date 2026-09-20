@@ -694,13 +694,16 @@
         .logo-subtitle { font-size: 0.75rem; color: var(--com-text-secondary); }
         .app-actions {
             display: flex;
-            gap: 1.2rem;
+            gap: 0;
             background: rgba(15, 22, 36, 0.8);
             backdrop-filter: blur(8px);
             padding: 0.5rem 1.2rem;
             border-radius: 2rem;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: visible;
+            white-space: nowrap;
             border: 1px solid var(--com-border);
         }
         .language-switch {
@@ -1831,6 +1834,7 @@
                         <div class="modal-header"><h3><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></h3><button class="close-modal" id="closePollModal">&times;</button></div>
                         <div class="modal-body">
                             <input type="text" id="pollQuestionInput" placeholder="Pergunta da enquete..." data-i18n-placeholder="poll_question_placeholder" />
+                            <p class="latex-help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Você também pode usar <code>\( fórmula \)</code> nas perguntas e opções.</p>
                             <div id="pollOptions" class="poll-options">
                                 <input type="text" class="poll-option-input" placeholder="Opção 1" data-i18n-placeholder="poll_option_1" />
                                 <input type="text" class="poll-option-input" placeholder="Opção 2" data-i18n-placeholder="poll_option_2" />
@@ -2069,6 +2073,7 @@
                     </select>
                 </div>
                 <div id="postEditor" class="quill-editor-container"></div>
+                <p class="latex-help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Fórmulas LaTeX: use <code>\(x^2\)</code> para fórmula na linha ou <code>\[...\]</code> para fórmula destacada.</p>
                 <div class="modal-actions">
                     <button id="cancelPostBtn" class="btn-secondary"><span data-i18n="comunidade_cancel">Cancelar</span></button>
                     <button id="savePostBtn" class="btn-primary"><i class="fas fa-save"></i> <span data-i18n="comunidade_publish">Publicar</span></button>
@@ -2263,10 +2268,12 @@
     <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
     <script src="../menu/auditorio-menu.js"></script>
     <script src="../menu/biblioteca-menu.js"></script>
+    <script src="../menu/mobile-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
     <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>
     <script src="../lang/i18n.js"></script>          <!-- 1º: i18n central -->
+    <script src="../cursos/latex-renderer.js"></script>    <!-- Compilador LaTeX no navegador -->
     <script src="../perfil/profile.js"></script>    <!-- 2º: perfil -->
     <script src="../onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
     <script src="comunidade.js"></script>           <!-- 4º: comunidade -->

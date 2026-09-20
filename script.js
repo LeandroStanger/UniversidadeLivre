@@ -2674,6 +2674,8 @@ console.log('[Main] Inicializando script.js v28.0...');
                 <span>${escapeHtml(option)}</span>
             </label>
         `).join('');
+        window.renderLatex?.(questionEl);
+        window.renderLatex?.(optionsEl);
 
         optionsEl.querySelectorAll('input[name="disciplineQuizOption"]').forEach(input => {
             input.addEventListener('change', (event) => {
@@ -2774,6 +2776,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             statusEl.innerHTML = `<span>${autoTimeout ? t('quiz_time_expired') : t('quiz_final_result')}</span><strong>${score}/${state.questions.length}</strong>`;
             questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>${escapeHtml(t('quiz_result_score', { score, total: state.questions.length }))}</h3><p>${escapeHtml(t('quiz_result_percent', { percent }))}</p>${passed ? `<p><strong>${escapeHtml(state.finalExam ? t('final_exam_passed_result') : t('quiz_passed'))}</strong></p>` : `<p><strong>${escapeHtml(t('quiz_failed'))}</strong> ${escapeHtml(t('quiz_pass_requirement', { percent: DISCIPLINE_PASS_PERCENT }))}</p>`}</div>`;
             optionsEl.innerHTML = `<div class="discipline-quiz-summary">${summary}</div>`;
+            window.renderLatex?.(optionsEl);
             navEl.innerHTML = '<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizCloseBtn">Fechar</button>';
             document.getElementById('disciplineQuizCloseBtn')?.addEventListener('click', () => {
                 closeDisciplineQuiz();

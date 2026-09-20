@@ -42,9 +42,10 @@
             const rect = toggle.getBoundingClientRect();
             const width = Math.min(240, window.innerWidth - 24);
             const left = Math.min(Math.max(12, rect.right - width), window.innerWidth - width - 12);
-            menu.style.top = `${rect.bottom + 8}px`;
             menu.style.left = `${left}px`;
             menu.style.width = `${width}px`;
+            menu.style.bottom = 'auto';
+            menu.style.top = `${rect.bottom + 8}px`;
         };
 
         menu.hidden = true;

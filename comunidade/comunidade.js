@@ -2681,6 +2681,7 @@
             `;
         }
         feed.innerHTML = html;
+        window.renderLatex?.(feed);
         initializeCommunityVideoPlayers(feed);
 
         // Eventos
