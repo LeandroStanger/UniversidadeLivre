@@ -6179,6 +6179,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Estatística Descritiva Básica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Estatística Descritiva Básica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-001",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-002",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-003",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-004",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-005",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-006",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-007",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-008",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-009",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-010",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-011",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-012",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-013",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-014",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-015",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-016",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-017",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-018",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-019",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-descritiva-b-sica-latex-020",
+        "discipline": "Estatística Descritiva Básica",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Estatística Descritiva Básica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Estatística Descritiva Básica"
@@ -7725,6 +8005,286 @@
         "correctIndex": 3,
         "correctAnswer": "Aplicar os princípios centrais de Essence of Linear Algebra com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Essence of Linear Algebra, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-001",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-002",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-003",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-004",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-005",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-006",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-007",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-008",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-009",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-010",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-011",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-012",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-013",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-014",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-015",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-016",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-017",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-018",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-019",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "essence-of-linear-algebra-latex-020",
+        "discipline": "Essence of Linear Algebra",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Essence of Linear Algebra?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Essence of Linear Algebra"
@@ -13909,6 +14469,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Estatística computacional com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Estatística computacional, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "estat-stica-computacional-latex-001",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-002",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-003",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-004",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-005",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-006",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-007",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-008",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-009",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-010",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-011",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-012",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-013",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-014",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-015",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-016",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-017",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-018",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-019",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-computacional-latex-020",
+        "discipline": "Estatística computacional",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Estatística computacional?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Estatística computacional"

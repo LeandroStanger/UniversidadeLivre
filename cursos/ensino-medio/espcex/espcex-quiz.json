@@ -4633,6 +4633,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Funções com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Funções, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "fun-es-latex-001",
+        "discipline": "Funções",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "fun-es-latex-002",
+        "discipline": "Funções",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "fun-es-latex-003",
+        "discipline": "Funções",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "fun-es-latex-004",
+        "discipline": "Funções",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "fun-es-latex-005",
+        "discipline": "Funções",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "fun-es-latex-006",
+        "discipline": "Funções",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "fun-es-latex-007",
+        "discipline": "Funções",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "fun-es-latex-008",
+        "discipline": "Funções",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "fun-es-latex-009",
+        "discipline": "Funções",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "fun-es-latex-010",
+        "discipline": "Funções",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "fun-es-latex-011",
+        "discipline": "Funções",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "fun-es-latex-012",
+        "discipline": "Funções",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "fun-es-latex-013",
+        "discipline": "Funções",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "fun-es-latex-014",
+        "discipline": "Funções",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "fun-es-latex-015",
+        "discipline": "Funções",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "fun-es-latex-016",
+        "discipline": "Funções",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "fun-es-latex-017",
+        "discipline": "Funções",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "fun-es-latex-018",
+        "discipline": "Funções",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "fun-es-latex-019",
+        "discipline": "Funções",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "fun-es-latex-020",
+        "discipline": "Funções",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Funções?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Funções"
@@ -7725,6 +8005,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Análise Combinatória com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Análise Combinatória, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-001",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-002",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-003",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-004",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-005",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-006",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-007",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-008",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-009",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-010",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-011",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-012",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-013",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-014",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-015",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-016",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-017",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-018",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-019",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "an-lise-combinat-ria-latex-020",
+        "discipline": "Análise Combinatória",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Análise Combinatória?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Análise Combinatória"
@@ -9271,6 +9831,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Probabilidade com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Probabilidade, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "probabilidade-latex-001",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "probabilidade-latex-002",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "probabilidade-latex-003",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "probabilidade-latex-004",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "probabilidade-latex-005",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "probabilidade-latex-006",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "probabilidade-latex-007",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "probabilidade-latex-008",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "probabilidade-latex-009",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "probabilidade-latex-010",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "probabilidade-latex-011",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "probabilidade-latex-012",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "probabilidade-latex-013",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "probabilidade-latex-014",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "probabilidade-latex-015",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "probabilidade-latex-016",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "probabilidade-latex-017",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "probabilidade-latex-018",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "probabilidade-latex-019",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "probabilidade-latex-020",
+        "discipline": "Probabilidade",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Probabilidade?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Probabilidade"
@@ -10817,6 +11657,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Geometria Plana com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Geometria Plana, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "geometria-plana-latex-001",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-plana-latex-002",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-plana-latex-003",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-plana-latex-004",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-plana-latex-005",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-plana-latex-006",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-plana-latex-007",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-plana-latex-008",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-plana-latex-009",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "geometria-plana-latex-010",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "geometria-plana-latex-011",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "geometria-plana-latex-012",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-plana-latex-013",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-plana-latex-014",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-plana-latex-015",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-plana-latex-016",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-plana-latex-017",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-plana-latex-018",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-plana-latex-019",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-plana-latex-020",
+        "discipline": "Geometria Plana",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Geometria Plana?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Geometria Plana"
@@ -12363,6 +13483,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Geometria Espacial com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Geometria Espacial, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "geometria-espacial-latex-001",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-002",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-003",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-004",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-005",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-006",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-007",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-008",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-009",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-010",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-011",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-012",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-013",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-014",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-015",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-016",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-017",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-018",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-019",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-espacial-latex-020",
+        "discipline": "Geometria Espacial",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Geometria Espacial?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Geometria Espacial"
@@ -13909,6 +15309,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Geometria Analítica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Geometria Analítica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "geometria-anal-tica-latex-001",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-002",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-003",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-004",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-005",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-006",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-007",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-008",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-009",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-010",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-011",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-012",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-013",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-014",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-015",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-016",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-017",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-018",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-019",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-020",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Geometria Analítica"
@@ -23185,6 +24865,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Mecânica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Mecânica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "mec-nica-latex-001",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Mecânica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-002",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Mecânica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-003",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Mecânica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-004",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Mecânica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-005",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Mecânica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-006",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Mecânica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-007",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Mecânica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-008",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Mecânica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-009",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Mecânica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-010",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Mecânica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-011",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Mecânica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-012",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Mecânica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-013",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Mecânica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-014",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Mecânica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-015",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Mecânica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-016",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Mecânica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-017",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Mecânica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-018",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Mecânica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-019",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Mecânica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "mec-nica-latex-020",
+        "discipline": "Mecânica",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Mecânica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Mecânica"
@@ -24731,6 +26691,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Termologia com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Termologia, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "termologia-latex-001",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Termologia?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-002",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Termologia?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-003",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Termologia?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-004",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Termologia?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-005",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Termologia?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-006",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Termologia?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-007",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Termologia?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-008",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Termologia?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-009",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Termologia?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-010",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Termologia?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-011",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Termologia?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-012",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Termologia?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-013",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Termologia?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-014",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Termologia?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-015",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Termologia?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-016",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Termologia?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-017",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Termologia?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-018",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Termologia?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-019",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Termologia?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termologia-latex-020",
+        "discipline": "Termologia",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Termologia?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Termologia"
@@ -26277,6 +28517,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Óptica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Óptica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "ptica-latex-001",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Óptica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-002",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Óptica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-003",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Óptica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-004",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Óptica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-005",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Óptica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-006",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Óptica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-007",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Óptica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-008",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Óptica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-009",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Óptica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-010",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Óptica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-011",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Óptica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-012",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Óptica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-013",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Óptica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-014",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Óptica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-015",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Óptica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-016",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Óptica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-017",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Óptica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-018",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Óptica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-019",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Óptica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ptica-latex-020",
+        "discipline": "Óptica",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Óptica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Óptica"
@@ -27823,6 +30343,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Ondulatória com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Ondulatória, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "ondulat-ria-latex-001",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-002",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-003",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-004",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-005",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-006",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-007",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-008",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-009",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-010",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-011",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-012",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-013",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-014",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-015",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-016",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-017",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-018",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-019",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "ondulat-ria-latex-020",
+        "discipline": "Ondulatória",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Ondulatória?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Ondulatória"
@@ -29369,6 +32169,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Eletricidade com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Eletricidade, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "eletricidade-latex-001",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-002",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-003",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-004",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-005",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-006",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-007",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-008",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-009",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-010",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-011",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-012",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-013",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-014",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-015",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-016",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-017",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-018",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-019",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "eletricidade-latex-020",
+        "discipline": "Eletricidade",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Eletricidade?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Eletricidade"
@@ -34007,6 +37087,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Ligações Químicas com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Ligações Químicas, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-001",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Ligações Químicas?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-002",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Ligações Químicas?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-003",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Ligações Químicas?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-004",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Ligações Químicas?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-005",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Ligações Químicas?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-006",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Ligações Químicas?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-007",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Ligações Químicas?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-008",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Ligações Químicas?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-009",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Ligações Químicas?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-010",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Ligações Químicas?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-011",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Ligações Químicas?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-012",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Ligações Químicas?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-013",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Ligações Químicas?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-014",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Ligações Químicas?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-015",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Ligações Químicas?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-016",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Ligações Químicas?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-017",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Ligações Químicas?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-018",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Ligações Químicas?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-019",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Ligações Químicas?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "liga-es-qu-micas-latex-020",
+        "discipline": "Ligações Químicas",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Ligações Químicas?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Ligações Químicas"
@@ -35553,6 +38913,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Funções Inorgânicas com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Funções Inorgânicas, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-001",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-002",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-003",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-004",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-005",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-006",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-007",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-008",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-009",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-010",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-011",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-012",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-013",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-014",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-015",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-016",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-017",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-018",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-019",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "fun-es-inorg-nicas-latex-020",
+        "discipline": "Funções Inorgânicas",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Funções Inorgânicas?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Funções Inorgânicas"
@@ -37099,6 +40739,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Estequiometria com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Estequiometria, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "estequiometria-latex-001",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Estequiometria?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "estequiometria-latex-002",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Estequiometria?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "estequiometria-latex-003",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Estequiometria?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "estequiometria-latex-004",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Estequiometria?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "estequiometria-latex-005",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Estequiometria?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "estequiometria-latex-006",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Estequiometria?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "estequiometria-latex-007",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Estequiometria?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "estequiometria-latex-008",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Estequiometria?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "estequiometria-latex-009",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Estequiometria?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "estequiometria-latex-010",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Estequiometria?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "estequiometria-latex-011",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Estequiometria?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "estequiometria-latex-012",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Estequiometria?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "estequiometria-latex-013",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Estequiometria?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "estequiometria-latex-014",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Estequiometria?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "estequiometria-latex-015",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Estequiometria?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "estequiometria-latex-016",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Estequiometria?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "estequiometria-latex-017",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Estequiometria?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "estequiometria-latex-018",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Estequiometria?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "estequiometria-latex-019",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Estequiometria?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "estequiometria-latex-020",
+        "discipline": "Estequiometria",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Estequiometria?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Estequiometria"
@@ -40191,6 +44111,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Termoquímica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Termoquímica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "termoqu-mica-latex-001",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-002",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-003",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-004",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-005",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-006",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-007",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-008",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-009",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-010",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-011",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-012",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-013",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-014",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-015",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-016",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-017",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-018",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-019",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "termoqu-mica-latex-020",
+        "discipline": "Termoquímica",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Termoquímica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Termoquímica"
@@ -43283,6 +47483,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Equilíbrio Químico com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Equilíbrio Químico, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-001",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-002",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-003",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-004",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-005",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-006",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-007",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-008",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-009",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-010",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-011",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-012",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-013",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-014",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-015",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-016",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-017",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-018",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-019",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "equil-brio-qu-mico-latex-020",
+        "discipline": "Equilíbrio Químico",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Equilíbrio Químico?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Equilíbrio Químico"
@@ -44829,6 +49309,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Eletroquímica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Eletroquímica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "eletroqu-mica-latex-001",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Eletroquímica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-002",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Eletroquímica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-003",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Eletroquímica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-004",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Eletroquímica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-005",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Eletroquímica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-006",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Eletroquímica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-007",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Eletroquímica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-008",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Eletroquímica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-009",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Eletroquímica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-010",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Eletroquímica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-011",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Eletroquímica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-012",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Eletroquímica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-013",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Eletroquímica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-014",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Eletroquímica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-015",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Eletroquímica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-016",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Eletroquímica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-017",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Eletroquímica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-018",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Eletroquímica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-019",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Eletroquímica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "eletroqu-mica-latex-020",
+        "discipline": "Eletroquímica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Eletroquímica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Eletroquímica"
@@ -51013,6 +55773,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Geografia Física com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Geografia Física, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "geografia-f-sica-latex-001",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-002",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-003",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-004",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-005",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-006",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-007",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-008",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-009",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-010",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-011",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-012",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-013",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-014",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-015",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-016",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-017",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-018",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-019",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "geografia-f-sica-latex-020",
+        "discipline": "Geografia Física",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Geografia Física?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Geografia Física"
