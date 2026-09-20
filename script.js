@@ -2842,6 +2842,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const bookFiles = {
             administracao: 'cursos/graduacao/administracao/administracao-books.json',
             biologia: 'cursos/graduacao/biologia/biologia-books.json',
+            accounting: 'cursos/graduacao/accounting/accounting-books.json',
             'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
@@ -2851,7 +2852,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-books.json',
             devops: 'cursos/pos-graduacao/devops/devops-books.json',
             ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-books.json',
+            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
             'computer-science': 'cursos/graduacao/computer-science/computer-science-books.json',
             'enem': 'cursos/ensino-medio/enem/enem-books.json',
             'espcex': 'cursos/ensino-medio/espcex/espcex-books.json',
