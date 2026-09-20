@@ -194,7 +194,7 @@
             if (document.visibilityState === 'visible' || document.visibilityState === 'prerender') {
                 loadYouTubeApi();
             }
-        }, 1200);
+        }, 1800);
     }
 
     if (document.readyState === 'complete') startAudioAfterPageLoad();
