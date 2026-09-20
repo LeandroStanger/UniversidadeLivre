@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="cursos/course-intro.css">
     <link rel="stylesheet" href="onboarding/onboarding.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
+    <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -149,7 +151,7 @@
                             <iframe
                                 src="https://www.youtube.com/embed/j6hcALm0mLM?cc_load_policy=1&cc_lang_pref=pt"
                                 title="Player de vídeo"
-                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                allow="autoplay; fullscreen; picture-in-picture"
                                 allowfullscreen
                             ></iframe>
                         </div>
@@ -507,6 +509,7 @@
             </div>
             <div class="profile-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
                 <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
+                <button id="shareExportBtn" class="btn-secondary" type="button" disabled><i class="fas fa-share-nodes"></i> <span data-i18n="profile_share_export">Compartilhar arquivo</span></button>
                 <button id="importProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none;"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                 <input type="file" id="importFileInput" accept=".json" style="display: none;">
             </div>
@@ -681,8 +684,6 @@
 <script src="menu/auditorio-menu.js"></script>
 <script src="menu/biblioteca-menu.js"></script>
 <script src="menu/mobile-menu.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
-<link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
 <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js"></script>
 <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
