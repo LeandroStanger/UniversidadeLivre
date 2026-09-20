@@ -27,11 +27,11 @@
         </div>
         <div class="app-actions">
             <div class="language-switch">
-                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br" aria-label="Português">PT</button>
+                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br" data-i18n-aria="course_language_portuguese">PT</button>
                 <span class="lang-sep" aria-hidden="true">|</span>
-                <button id="langEnBtn" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                <button id="langEnBtn" class="lang-btn" data-lang="en" data-i18n-aria="course_language_english">EN</button>
             </div>
-            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button" aria-label="Doar">
+            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button" data-i18n-aria="donate_button">
                 <i class="fas fa-heart" aria-hidden="true"></i><span data-i18n="donate_text">Doar</span>
             </a>
             <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
@@ -49,7 +49,7 @@
             <a href="../comunidade/comunidade.html" class="btn-back notes-navigation-button community-resource-button" target="_blank" rel="noopener noreferrer" data-i18n="comunidade_title">
                 <i class="fas fa-users" aria-hidden="true"></i><span data-i18n="comunidade_title">Comunidade</span>
             </a>
-            <a href="../index.html" class="btn-back notes-navigation-button back-to-courses-button" data-i18n="back_to_courses" aria-label="Voltar para cursos">
+            <a href="../index.html" class="btn-back notes-navigation-button back-to-courses-button" data-i18n="back_to_courses" data-i18n-aria="back_to_courses">
                 <i class="fas fa-arrow-left" aria-hidden="true"></i><span data-i18n="back_to_courses">Voltar para cursos</span>
             </a>
             <button id="profileBtn" class="btn-back" style="background: var(--accent-purple); color: white;" data-profile-custom="false">
@@ -77,7 +77,7 @@
                 <i class="fas fa-eraser" aria-hidden="true"></i>
             </button>
         </div>
-        <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." aria-label="Título da nota">
+        <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." data-i18n-aria="notas_title_placeholder">
         <div id="notaTitleNotice" class="note-title-notice" role="alert" aria-live="polite" hidden>
             <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
             <span data-i18n="notas_title_required">Esqueceu o título da nota?</span>
@@ -85,7 +85,7 @@
 
         <div class="note-course-selector">
             <label for="notaTipoCursoSelect" data-i18n="notas_course_type_label">Tipo de curso</label>
-            <select id="notaTipoCursoSelect" aria-label="Tipo de curso">
+            <select id="notaTipoCursoSelect" data-i18n-aria="notas_course_type_label">
                 <option value="all" data-i18n="notas_course_type_all">Todos os tipos</option>
                 <option value="graduacao" data-i18n="graduacao">Graduação</option>
                 <option value="ensino-medio" data-i18n="ensino_medio">Ensino Médio</option>
@@ -93,15 +93,15 @@
                 <option value="idiomas" data-i18n="idiomas">Idiomas</option>
             </select>
             <label for="notaCursoSelect" data-i18n="notas_course_label">Curso</label>
-            <select id="notaCursoSelect" aria-label="Curso" disabled>
+            <select id="notaCursoSelect" data-i18n-aria="notas_course_label" disabled>
                 <option value="" data-i18n="notas_course_placeholder">Selecione um curso</option>
             </select>
             <label for="notaDisciplinaSelect" data-i18n="notas_discipline_label">Disciplina</label>
-            <select id="notaDisciplinaSelect" aria-label="Disciplina" disabled>
+            <select id="notaDisciplinaSelect" data-i18n-aria="notas_discipline_label" disabled>
                 <option value="" data-i18n="notas_discipline_placeholder">Selecione uma disciplina</option>
             </select>
             <label for="notaAulaSelect" data-i18n="notas_lesson_label">Aula</label>
-            <select id="notaAulaSelect" aria-label="Aula" disabled>
+            <select id="notaAulaSelect" data-i18n-aria="notas_lesson_label" disabled>
                 <option value="" data-i18n="notas_lesson_placeholder">Selecione uma aula</option>
             </select>
         </div>
@@ -113,13 +113,13 @@
             <button id="addTagToNoteBtn" class="icon-btn" title="Adicionar tag" data-i18n-title="notas_add_tag_to_note"><i class="fas fa-plus-circle"></i></button>
         </div>
 
-        <div id="quillEditor" class="quill-editor-container" aria-label="Editor de texto rico"></div>
-        <p class="latex-help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Fórmulas LaTeX: use <code>\(x^2\)</code> para fórmula na linha ou <code>\[...\]</code> para fórmula destacada. O texto original será preservado na nota.</p>
+        <div id="quillEditor" class="quill-editor-container" data-i18n-aria="notas_rich_text_editor"></div>
+        <p class="latex-help" data-i18n="notas_latex_help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Fórmulas LaTeX: use \(x^2\) para fórmula na linha ou \[...] para fórmula destacada. O texto original será preservado na nota.</p>
         <div class="editor-actions">
-            <button id="saveNotaBtn" class="btn-primary" aria-label="Salvar nota">
+            <button id="saveNotaBtn" class="btn-primary" data-i18n-aria="notas_save_note">
                 <i class="fas fa-save" aria-hidden="true"></i><span data-i18n="notas_save">Salvar</span>
             </button>
-            <button id="cancelEditBtn" class="btn-secondary" style="display: none;" aria-label="Cancelar edição">
+            <button id="cancelEditBtn" class="btn-secondary" style="display: none;" data-i18n-aria="notas_cancel_edit">
                 <i class="fas fa-times" aria-hidden="true"></i><span data-i18n="notas_cancel">Cancelar</span>
             </button>
         </div>
@@ -134,8 +134,8 @@
                 <span id="notasCount" class="count-badge" aria-live="polite">0</span>
             </h2>
             <div class="list-actions">
-                <input type="text" id="searchNotasInput" class="search-input" data-i18n-placeholder="notas_search_placeholder" placeholder="Buscar notas..." aria-label="Buscar notas">
-                <button id="manageTagsBtn" class="icon-btn" data-i18n-title="notas_manage_tags" title="Gerenciar tags" aria-label="Gerenciar tags">
+                <input type="text" id="searchNotasInput" class="search-input" data-i18n-placeholder="notas_search_placeholder" data-i18n-aria="notas_search_placeholder">
+                <button id="manageTagsBtn" class="icon-btn" data-i18n-title="notas_manage_tags" data-i18n-aria="notas_manage_tags">
                     <i class="fas fa-tags" aria-hidden="true"></i>
                 </button>
             </div>
@@ -147,7 +147,7 @@
             <div id="tagChips" class="chips-container"></div>
         </div>
 
-        <div id="notasList" class="notes-grid" role="feed" aria-label="Lista de notas">
+        <div id="notasList" class="notes-grid" role="feed" data-i18n-aria="notas_list">
             <div class="empty-state">
                 <i class="fas fa-book-open" aria-hidden="true"></i>
                 <p data-i18n="notas_empty">Nenhuma nota criada ainda.</p>
@@ -161,7 +161,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 data-i18n="notas_manage_tags_title">Gerenciar Tags</h3>
-            <button class="close-modal" id="closeTagManagerModal" aria-label="Fechar">&times;</button>
+            <button class="close-modal" id="closeTagManagerModal" data-i18n-aria="close">&times;</button>
         </div>
         <div class="modal-body">
             <div class="tag-create-section">

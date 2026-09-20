@@ -1667,6 +1667,41 @@
         closeShareArticleModal();
     }
 
+    async function shareArticleExternally(post, course, discipline) {
+        const contentElement = document.createElement('div');
+        contentElement.innerHTML = post.content || '';
+        const content = contentElement.textContent?.trim() || '';
+        const title = post.type === 'poll' ? post.question : post.title;
+        const options = post.type === 'poll' && Array.isArray(post.options)
+            ? `\n${post.options.map(option => `- ${option}`).join('\n')}`
+            : '';
+        const courseName = getLocalizedCourseName(course) || 'Curso';
+        const text = `${title || t('article')}\n${courseName} · ${discipline}\n\n${content}${options}\n\n${window.location.href}`;
+
+        try {
+            if (typeof navigator.share === 'function') {
+                await navigator.share({
+                    title: title || t('share_article_or_poll'),
+                    text
+                });
+                return;
+            }
+
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(text);
+                showToast(t('article_share_copied'), 'success');
+                return;
+            }
+
+            throw new Error('Compartilhamento e cópia indisponíveis.');
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error('[Comunidade] Erro ao compartilhar artigo/enquete:', error);
+                showToast(t('article_share_error'), 'error');
+            }
+        }
+    }
+
     // ========================================================================
     // MODAL DE COMPARTILHAR ARTIGO
     // ========================================================================
@@ -1742,6 +1777,9 @@
                         <button class="share-article-btn" data-post-id="${post.id}" data-course-id="${course.id}" data-discipline="${escapeHtml(group.discipline)}">
                             <i class="fas fa-share"></i> ${t('share')}
                         </button>
+                        <button class="share-article-btn share-article-external-btn" data-post-id="${post.id}" data-course-id="${course.id}" data-discipline="${escapeHtml(group.discipline)}">
+                            <i class="fas fa-share-nodes"></i> ${t('share_external')}
+                        </button>
                     </div>
                 `;
             }
@@ -1752,7 +1790,7 @@
         }
         container.innerHTML = html;
 
-        container.querySelectorAll('.share-article-btn').forEach(btn => {
+        container.querySelectorAll('.share-article-btn:not(.share-article-external-btn)').forEach(btn => {
             btn.addEventListener('click', function() {
                 const postId = this.dataset.postId;
                 const courseId = this.dataset.courseId;
@@ -1760,6 +1798,17 @@
                 const posts = loadPosts(courseId, discipline);
                 const post = posts.find(p => p.id === postId);
                 if (post) shareArticleInChat(post);
+            });
+        });
+        container.querySelectorAll('.share-article-external-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const postId = this.dataset.postId;
+                const courseId = this.dataset.courseId;
+                const discipline = this.dataset.discipline;
+                const posts = loadPosts(courseId, discipline);
+                const post = posts.find(p => p.id === postId);
+                const course = state.courses.find(item => item.id === courseId);
+                if (post && course) shareArticleExternally(post, course, discipline);
             });
         });
     }
@@ -2591,7 +2640,8 @@
                         <span class="post-time">${time}</span>
                         ${post.edited ? `<span class="post-edited">(${t('edited')})</span>` : ''}
                         ${post.censored ? `<span class="post-edited" style="color:var(--com-accent-orange);">(${t('censored')})</span>` : ''}
-                        ${isOwner ? `<button class="delete-post-btn" data-post-id="${post.id}" style="margin-left:auto;background:none;border:none;color:var(--com-text-tertiary);cursor:pointer;" aria-label="${t('delete')}"><i class="fas fa-trash-alt"></i></button>` : ''}
+                        <button class="post-share-btn" type="button" data-post-id="${post.id}" aria-label="${t('share_external')}" title="${t('share_external')}"><i class="fas fa-share-nodes"></i> <span>${t('share_external')}</span></button>
+                        ${isOwner ? `<button class="delete-post-btn" data-post-id="${post.id}" style="background:none;border:none;color:var(--com-text-tertiary);cursor:pointer;" aria-label="${t('delete')}"><i class="fas fa-trash-alt"></i></button>` : ''}
                     </div>
                     <div class="post-title">${escapeHtml(maskDigits(post.title))}</div>
                     ${post.type === 'poll' ? `
@@ -2714,6 +2764,16 @@
                 const postId = this.dataset.postId;
                 const section = document.getElementById(`comments-${postId}`);
                 if (section) section.style.display = section.style.display === 'none' ? 'block' : 'none';
+            });
+
+            feed.querySelectorAll('.post-share-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const post = state.posts.find(item => item.id === this.dataset.postId);
+                    const course = state.courses.find(item => item.id === state.currentCourseId);
+                    if (post && course) {
+                        shareArticleExternally(post, course, state.currentDiscipline);
+                    }
+                });
             });
         });
 
@@ -2937,7 +2997,7 @@
     function savePoll() {
         const question = document.getElementById('pollQuestionInput').value.trim();
         const options = [...document.querySelectorAll('.poll-option-input')].map(i => i.value.trim()).filter(Boolean);
-        if (!question || options.length < 2) { alert('Informe a pergunta e pelo menos duas opções.'); return; }
+        if (!question || options.length < 2) { alert(t('game_question_required')); return; }
         const newPoll = addPoll(state.currentCourseId, state.currentDiscipline, question, options);
         if (newPoll) {
             closePollModal();

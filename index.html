@@ -78,8 +78,8 @@
         <div class="home-slider-track">
             <!-- Preenchido pelo JavaScript -->
         </div>
-        <button class="home-slider-prev" aria-label="Slide anterior"><i class="fas fa-chevron-left"></i></button>
-        <button class="home-slider-next" aria-label="Próximo slide"><i class="fas fa-chevron-right"></i></button>
+        <button class="home-slider-prev" data-i18n-aria="slide_previous"><i class="fas fa-chevron-left"></i></button>
+        <button class="home-slider-next" data-i18n-aria="slide_next"><i class="fas fa-chevron-right"></i></button>
         <div class="home-slider-dots"></div>
     </div>
 
@@ -98,7 +98,7 @@
             <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
         </div>
         <div class="filter-group scope-group">
-            <div id="scopeChips" class="collection-tabs" role="tablist" aria-label="Coleção de cursos">
+            <div id="scopeChips" class="collection-tabs" role="tablist" data-i18n-aria="course_collection">
                 <button class="collection-tab active" type="button" role="tab" aria-selected="true" data-scope="all" data-i18n="all_courses">Todos</button>
                 <button class="collection-tab" type="button" role="tab" aria-selected="false" data-scope="my-courses" data-i18n="my_courses">Meus cursos</button>
             </div>
@@ -107,7 +107,7 @@
             <div class="filter-group">
                 <span class="filter-label" data-i18n="filter_by_level"><i class="fas fa-signal"></i> Filtrar por nível:</span>
                 <div class="select-wrapper">
-                    <select id="levelChips" class="filter-select" aria-label="Filtrar por nível">
+                    <select id="levelChips" class="filter-select" data-i18n-aria="filter_by_level">
                         <option value="all" data-i18n="filter_all">Todos</option>
                         <option value="graduacao" data-i18n="graduacao">Graduação</option>
                         <option value="pos-graduacao" data-i18n="pos_graduacao">Pós‑graduação</option>
@@ -119,7 +119,7 @@
             <div class="filter-group">
                 <span class="filter-label" data-i18n="filter_by_course_language"><i class="fas fa-globe"></i> Filtrar por idioma do curso:</span>
                 <div class="select-wrapper">
-                    <select id="languageChips" class="filter-select" aria-label="Filtrar por idioma do curso">
+                    <select id="languageChips" class="filter-select" data-i18n-aria="filter_by_course_language">
                         <option value="all" data-i18n="filter_all_languages">Todos</option>
                         <option value="pt" data-i18n="course_language_portuguese">Português</option>
                         <option value="en" data-i18n="course_language_english">Inglês</option>
@@ -150,14 +150,14 @@
                         <div id="youtube-player" class="plyr__video-embed">
                             <iframe
                                 src="https://www.youtube.com/embed/j6hcALm0mLM?cc_load_policy=1&cc_lang_pref=pt"
-                                title="Player de vídeo"
+                                data-i18n-title="video_player"
                                 allow="autoplay; fullscreen; picture-in-picture"
                                 allowfullscreen
                             ></iframe>
                         </div>
                         <video id="videojs-player" class="video-js vjs-default-skin" controls playsinline hidden></video>
                         <div id="externalLessonContainer" style="display: none;" class="external-lesson-container"></div>
-                        <button id="exitFullscreenBtn" class="exit-fullscreen-btn" type="button" hidden title="Sair da tela cheia" aria-label="Sair da tela cheia">
+                        <button id="exitFullscreenBtn" class="exit-fullscreen-btn" type="button" hidden data-i18n-title="exit_fullscreen" data-i18n-aria="exit_fullscreen">
                             <i class="fas fa-compress"></i>
                             <span>Sair da tela cheia</span>
                         </button>
@@ -173,18 +173,18 @@
                             <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
                         </div>
                         <div class="volume-control" id="volumeControl">
-                            <button class="ctrl-btn" id="muteUnmuteBtn" title="Mutar/Desmutar">
+                            <button class="ctrl-btn" id="muteUnmuteBtn" data-i18n-title="mute_unmute">
                                 <i class="fas fa-volume-up"></i>
                             </button>
                             <div class="volume-slider-group">
                                 <output id="volumePercentage" class="volume-percentage" for="volumeSlider">80%</output>
-                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" title="Volume">
+                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" data-i18n-title="volume">
                             </div>
                         </div>
-                        <div class="lesson-player-options" aria-label="Opções do reprodutor">
+                        <div class="lesson-player-options" data-i18n-aria="player_options">
                             <label class="lesson-player-select">
-                                <span class="sr-only">Velocidade</span>
-                                <select id="playbackSpeedSelect" title="Velocidade de reprodução" aria-label="Velocidade de reprodução">
+                                <span class="sr-only" data-i18n="playback_speed">Velocidade de reprodução</span>
+                                <select id="playbackSpeedSelect" data-i18n-title="playback_speed" data-i18n-aria="playback_speed">
                                     <option value="0.5">0,5x</option>
                                     <option value="0.75">0,75x</option>
                                     <option value="1" selected>Normal</option>
@@ -195,33 +195,33 @@
                                 </select>
                             </label>
                             <label class="lesson-player-select">
-                                <span class="sr-only">Qualidade</span>
-                                <select id="videoQualitySelect" title="Qualidade do vídeo" aria-label="Qualidade do vídeo">
+                                <span class="sr-only" data-i18n="video_quality">Qualidade do vídeo</span>
+                                <select id="videoQualitySelect" data-i18n-title="video_quality" data-i18n-aria="video_quality">
                                     <option value="auto" selected>Auto</option>
                                 </select>
                             </label>
                             <div class="audio-track-control" hidden>
-                                <button class="ctrl-btn" id="audioTrackBtn" type="button" title="Selecionar faixa de áudio" aria-label="Selecionar faixa de áudio" aria-expanded="false">
+                                <button class="ctrl-btn" id="audioTrackBtn" type="button" data-i18n-title="audio_track_select" data-i18n-aria="audio_track_select" aria-expanded="false">
                                     <i class="fas fa-language"></i>
                                 </button>
                                 <label class="lesson-player-select audio-track-menu">
-                                    <span class="sr-only">Faixa de áudio</span>
-                                    <select id="audioTrackSelect" title="Faixa de áudio" aria-label="Faixa de áudio">
+                                    <span class="sr-only" data-i18n="audio_track">Faixa de áudio</span>
+                                    <select id="audioTrackSelect" data-i18n-title="audio_track" data-i18n-aria="audio_track">
                                         <option value="original" selected>Original</option>
                                     </select>
                                 </label>
                             </div>
-                            <button class="ctrl-btn" id="captionsToggleBtn" type="button" title="Ativar/desativar legendas" aria-label="Ativar/desativar legendas">
+                            <button class="ctrl-btn" id="captionsToggleBtn" type="button" data-i18n-title="captions_toggle" data-i18n-aria="captions_toggle">
                                 <i class="fas fa-closed-captioning"></i>
                             </button>
                             <label class="lesson-player-select" id="captionLanguageControl">
-                                <span class="sr-only">Idioma da legenda</span>
-                                <select id="captionLanguageSelect" title="Idioma da legenda" aria-label="Idioma da legenda">
+                                <span class="sr-only" data-i18n="caption_language">Idioma da legenda</span>
+                                <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
                                     <option value="pt">Português</option>
                                     <option value="en">English</option>
                                 </select>
                             </label>
-                            <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" title="Tela cheia" aria-label="Tela cheia">
+                            <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen">
                                 <i class="fas fa-expand"></i>
                             </button>
                         </div>

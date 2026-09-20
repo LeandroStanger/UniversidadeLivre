@@ -829,13 +829,13 @@
                         <div class="note-card-header">
                             <div class="note-card-title">${Utils.escapeHtml(nota.titulo)}</div>
                             <div class="note-card-actions">
-                                <button class="favorite-btn" data-id="${nota.id}" title="${I18n.t('notas_favorite')}" aria-label="Favoritar nota">
+                                <button class="favorite-btn" data-id="${nota.id}" title="${I18n.t('notas_favorite')}" aria-label="${I18n.t('notas_favorite_note')}">
                                     <i class="fas fa-star${nota.favorite ? '' : '-o'}"></i>
                                 </button>
-                                <button class="edit-btn" data-id="${nota.id}" title="${I18n.t('notas_edit')}" aria-label="Editar nota">
+                                <button class="edit-btn" data-id="${nota.id}" title="${I18n.t('notas_edit')}" aria-label="${I18n.t('notas_edit_note')}">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </button>
-                                <button class="delete-btn" data-id="${nota.id}" title="${I18n.t('notas_delete')}" aria-label="Excluir nota">
+                                <button class="delete-btn" data-id="${nota.id}" title="${I18n.t('notas_delete')}" aria-label="${I18n.t('notas_delete_note')}">
                                     <i class="fas fa-trash-alt" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -1032,7 +1032,7 @@
         addBtn.addEventListener('click', () => {
             const name = nameInput.value.trim();
             if (!name) {
-                alert('O nome da tag é obrigatório.');
+                alert(I18n.t('notas_tag_name_required'));
                 return;
             }
             const color = colorInput.value;

@@ -1809,22 +1809,22 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                     </div>
                     <div class="player-settings-group">
                         <label class="player-select">
-                            <span class="sr-only">Velocidade</span>
-                            <select id="playerPlaybackSpeed" title="Qualidade de reprodução" aria-label="Qualidade de reprodução">
+                            <span class="sr-only">${t('playback_speed')}</span>
+                            <select id="playerPlaybackSpeed" title="${t('playback_speed')}" aria-label="${t('playback_speed')}">
                                 <option value="0.5">0,5x</option><option value="0.75">0,75x</option>
                                 <option value="1" selected>Normal</option><option value="1.25">1,25x</option>
                                 <option value="1.5">1,5x</option><option value="1.75">1,75x</option><option value="2">2x</option>
                             </select>
                         </label>
                         <label class="player-select">
-                            <span class="sr-only">Qualidade</span>
-                            <select id="playerVideoQuality" title="Qualidade do vídeo" aria-label="Qualidade do vídeo">
+                            <span class="sr-only">${t('video_quality')}</span>
+                            <select id="playerVideoQuality" title="${t('video_quality')}" aria-label="${t('video_quality')}">
                                 <option value="auto" selected>Auto</option>
                             </select>
                         </label>
                         <label class="player-select" id="playerAudioTrackControl" hidden>
-                            <span class="sr-only">Faixa de áudio</span>
-                            <select id="playerAudioTrack" title="Faixa de áudio" aria-label="Faixa de áudio">
+                            <span class="sr-only">${t('audio_track')}</span>
+                            <select id="playerAudioTrack" title="${t('audio_track')}" aria-label="${t('audio_track')}">
                                 <option value="original">Original</option>
                             </select>
                         </label>
@@ -1832,13 +1832,13 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                             <i class="fas fa-closed-captioning"></i><span class="player-subtitles-label">${t('subtitles', 'Legendas')}</span>
                         </button>
                         <label class="player-select">
-                            <span class="sr-only">Idioma da legenda</span>
-                            <select id="playerCaptionLanguage" title="Idioma da legenda" aria-label="Idioma da legenda">
+                            <span class="sr-only">${t('caption_language')}</span>
+                            <select id="playerCaptionLanguage" title="${t('caption_language')}" aria-label="${t('caption_language')}">
                                 <option value="pt">Português</option>
                                 <option value="en">English</option>
                             </select>
                         </label>
-                        <button id="playerFullscreen" class="player-ctrl-btn" title="Tela cheia" aria-label="Tela cheia">
+                        <button id="playerFullscreen" class="player-ctrl-btn" title="${t('fullscreen')}" aria-label="${t('fullscreen')}">
                             <i class="fas fa-expand"></i>
                         </button>
                     </div>
