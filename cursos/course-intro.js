@@ -186,6 +186,33 @@
             || 'Curso · Universidade Livre';
     }
 
+    function updateCourseShareMetadata() {
+        const url = getCourseShareUrl();
+        const title = getCourseShareTitle();
+        const description = currentCardShareDescription
+            || document.getElementById('courseIntroCardDescription')?.textContent?.trim()
+            || 'Confira este curso gratuito da Universidade Livre.';
+        const metadata = {
+            description,
+            'og:title': title,
+            'og:description': description,
+            'og:url': url,
+            'twitter:title': title,
+            'twitter:description': description
+        };
+
+        Object.entries(metadata).forEach(([key, content]) => {
+            const selector = key === 'description'
+                ? 'meta[name="description"]'
+                : `meta[property="${key}"], meta[name="${key}"]`;
+            const element = document.querySelector(selector);
+            if (element) element.setAttribute('content', content);
+        });
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.href = url;
+        document.title = `${title} · Universidade Livre`;
+    }
+
     function closeShareMenu() {
         if (!shareMenu || !shareButton) return;
         shareMenu.hidden = true;
@@ -270,7 +297,15 @@
         } else if (action === 'x') {
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
         } else if (action === 'native') {
-            await copyCourseShareMessage();
+            if (typeof navigator.share === 'function') {
+                await navigator.share({
+                    title: getCourseShareTitle(),
+                    text,
+                    url
+                });
+            } else {
+                await copyCourseShareMessage();
+            }
         } else {
             await copyCourseLink();
         }
@@ -673,6 +708,7 @@
             ? 'Open University offers undergraduate, postgraduate and language courses with curated, free content. Study at your own pace with community support.'
             : 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.';
         card.hidden = false;
+        updateCourseShareMetadata();
         closeShareMenu();
         return true;
     };
