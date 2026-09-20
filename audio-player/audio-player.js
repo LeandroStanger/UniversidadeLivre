@@ -14,6 +14,7 @@
     let wantsToPlay = false;
     let apiLoading = false;
     let progressTimer;
+    let audioStartScheduled = false;
     let savedState = {};
 
     const $ = id => document.getElementById(id);
@@ -72,6 +73,9 @@
             events: {
                 onReady: event => {
                     isReady = true;
+                    if (!progressTimer) {
+                        progressTimer = window.setInterval(() => { updateProgress(); saveState(); }, 1000);
+                    }
                     event.target.setVolume(Number(savedState.volume ?? 70));
                     updateVolumeDisplay(savedState.volume ?? 70);
                     loadTrack(currentIndex, wantsToPlay);
@@ -185,16 +189,22 @@
             saveState();
         });
         $('audioPlayerSeek').addEventListener('input', event => { if (isReady) player.seekTo((Number(event.target.value) / 100) * player.getDuration(), true); });
-        progressTimer = window.setInterval(() => { updateProgress(); saveState(); }, 1000);
         window.addEventListener('beforeunload', saveState);
     });
 
     function startAudioAfterPageLoad() {
-        window.setTimeout(() => {
+        if (audioStartScheduled) return;
+        audioStartScheduled = true;
+        const start = () => window.setTimeout(() => {
             if (document.visibilityState === 'visible' || document.visibilityState === 'prerender') {
                 loadYouTubeApi();
             }
-        }, 1800);
+        }, 2500);
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(start, { timeout: 6000 });
+        } else {
+            start();
+        }
     }
 
     if (document.readyState === 'complete') startAudioAfterPageLoad();
