@@ -1198,6 +1198,7 @@ function closePlayer() {
     document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
 }
 function playVideo(videoId, title, description) {
+    window.pauseFloatingAudio?.();
     window.UniversidadeLivreAnalytics?.media('auditorio', videoId, title);
     document.getElementById('playerTitle').textContent = title;
     document.getElementById('playerDescription').textContent = description;

@@ -2052,6 +2052,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function loadVideoInPlayer(videoObj) {
+        window.pauseFloatingAudio?.();
         youtubeEmbedFallbackActive = false;
         const youtubeMatch = getYouTubeVideoId(videoObj.url);
         const youtubeWrapper = document.getElementById('youtube-player');

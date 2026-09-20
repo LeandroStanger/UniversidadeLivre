@@ -2445,6 +2445,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0) {
+        window.pauseFloatingAudio?.();
         console.log('[Player] Play solicitado:', videoId, title, parts);
         window.UniversidadeLivreAnalytics?.media('biblioteca', videoId || title, title);
         currentAudiobookMeta = meta || currentAudiobookMeta || {
