@@ -334,7 +334,7 @@
             } catch (error) {
                 if (error.name !== 'AbortError') {
                     console.error('[Intro] Erro ao compartilhar curso:', error);
-                    alert('Não foi possível compartilhar o curso. Tente copiar o link.');
+                    alert(t('course_share_error'));
                 }
             }
         });
