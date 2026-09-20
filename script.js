@@ -1178,7 +1178,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const courseData = await loadCourseData(courseId);
             if (!courseData) {
                 console.error('[openCourse] Dados do curso não carregados para:', courseId);
-                alert('Não foi possível carregar os dados do curso. Tente novamente.');
+                alert(t('course_data_load_error'));
                 return;
             }
             const courseInfo = allCourses.find(c => c.id === courseId);
@@ -1272,7 +1272,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             }, 100);
         } catch (error) {
             console.error('[openCourse] Erro ao abrir curso:', error);
-            alert('Ocorreu um erro ao abrir o curso. Tente novamente.');
+            alert(t('course_open_error'));
         }
     };
 
@@ -2432,7 +2432,7 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function selectDiscipline(disciplineName) {
         if (!isDisciplineUnlocked(disciplineName)) {
-            alert('Conclua a etapa anterior para desbloquear esta disciplina.');
+            alert(t('discipline_locked'));
             return;
         }
         const lessonIds = disciplineToLessonsMap.get(disciplineName) || [];
