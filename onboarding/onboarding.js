@@ -15,6 +15,7 @@
 
     // ========== CONSTANTES ==========
     const ONBOARDING_COMPLETE_KEY = 'ulivre_onboarding_complete';
+    const HOME_URL = 'https://leandrostanger.github.io/UniversidadeLivre/';
     const TOTAL_STEPS = 5; // 0 a 4
 
     // ========== ESTADO GLOBAL ==========
@@ -501,14 +502,7 @@
         showToast(t('profile_import_success', { count: importedCount }), 'success');
 
         setTimeout(() => {
-            const currentPath = window.location.pathname;
-            const isHomePage = currentPath === '/' || currentPath.endsWith('/index.html');
-            const isCommunityPage = currentPath.endsWith('/comunidade/comunidade.html');
-            if (isHomePage || isCommunityPage) {
-                window.location.reload();
-                return;
-            }
-            window.location.href = new URL('../index.html', window.location.href).href;
+            window.location.href = HOME_URL;
         }, 1500);
     }
 
