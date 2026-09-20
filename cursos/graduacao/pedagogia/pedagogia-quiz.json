@@ -7725,6 +7725,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Matemática Básica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Matemática Básica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-001",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-002",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-003",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-004",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-005",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-006",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-007",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-008",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-009",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-010",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-011",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-012",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-013",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-014",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-015",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-016",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-017",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-018",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-019",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-b-sica-latex-020",
+        "discipline": "Matemática Básica",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Matemática Básica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Matemática Básica"
