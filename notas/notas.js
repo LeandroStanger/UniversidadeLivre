@@ -861,6 +861,7 @@
             this.attachCardEventListeners();
             this.renderTagFilterChips();
             I18n.applyTranslations();
+            window.renderLatex?.(elements.notasList);
         },
 
         attachCardEventListeners() {

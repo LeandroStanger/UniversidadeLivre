@@ -1198,6 +1198,29 @@ body {
     word-break: break-word;
 }
 
+.latex-help {
+    margin: 0.55rem 0 0;
+    color: var(--com-text-tertiary);
+    font-size: 0.78rem;
+}
+
+.latex-help code {
+    color: var(--com-accent-teal);
+    background: rgba(56, 189, 248, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.3rem;
+}
+
+.post-content mjx-container,
+.poll-question mjx-container,
+.poll-option mjx-container,
+.discipline-quiz-question mjx-container,
+.discipline-quiz-option mjx-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
 .post-content img {
     max-width: 100%;
     border-radius: 8px;
@@ -2221,6 +2244,8 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+
+
     .post-card { animation: none !important; }
     .page-header { animation: none !important; }
     .loading-skeleton { animation: none !important; background: var(--com-bg-tertiary) !important; }
@@ -2236,4 +2261,22 @@ body {
     .gif-preview img:hover { transform: none !important; }
     .gif-sites-section .gif-site-btn:hover { transform: none !important; }
     .chat-article-preview .chat-article-view-btn:hover { transform: none !important; }
+}
+
+@media (max-width: 768px) {
+    .app-header > .app-actions {
+        display: flex;
+        grid-template-columns: none;
+        flex-wrap: nowrap;
+        gap: 0;
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+
+    .app-header > .app-actions > * {
+        width: auto;
+        min-width: max-content;
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
 }
