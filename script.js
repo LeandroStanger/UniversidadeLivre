@@ -2887,6 +2887,22 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
+    function createBibliographyCover(title, discipline) {
+        const safeTitle = String(title || 'Livro').slice(0, 52);
+        const safeDiscipline = String(discipline || 'Bibliografia').slice(0, 34);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+            <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#13233f"/><stop offset="1" stop-color="#087f8c"/></linearGradient></defs>
+            <rect width="300" height="450" rx="18" fill="url(#bg)"/>
+            <rect x="22" y="22" width="256" height="406" rx="12" fill="none" stroke="#8be9fd" stroke-opacity=".55" stroke-width="2"/>
+            <circle cx="52" cy="64" r="19" fill="#8be9fd" fill-opacity=".9"/>
+            <path d="M43 64h18M52 55v18" stroke="#13233f" stroke-width="4" stroke-linecap="round"/>
+            <text x="32" y="158" fill="#fff" font-family="Arial,sans-serif" font-size="23" font-weight="700">${escapeHtml(safeTitle)}</text>
+            <text x="32" y="382" fill="#d7f9ff" font-family="Arial,sans-serif" font-size="14">${escapeHtml(safeDiscipline)}</text>
+            <text x="32" y="406" fill="#8be9fd" font-family="Arial,sans-serif" font-size="12">Universidade Livre</text>
+        </svg>`;
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
     function findBookInLibrary(bibliographyBook) { return libraryBooksMap.get(normalize(bibliographyBook.title)) || null; }
     function goToLibrary(bookTitle) { localStorage.setItem('highlightBook', bookTitle); window.open('biblioteca/biblioteca.html', '_blank'); }
 
@@ -2936,8 +2952,10 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (book.isbn) detailsHtml += `<span>ISBN: ${escapeHtml(book.isbn)}</span>`;
             if (book.category) detailsHtml += `<span>${escapeHtml(book.category)}</span>`;
             const existsInLibrary = !!findBookInLibrary(book);
+            const fallbackCover = createBibliographyCover(book.title, book.discipline || discipline);
+            const coverUrl = book.cover && !book.cover.includes('placehold.co') ? book.cover : fallbackCover;
             html += `<div class="book-card animate-in">
-                        <div class="book-left"><img class="book-cover" src="${escapeHtml(book.cover || '')}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/140x180/1F2933/9CA3AF?text=Sem+Imagem'"></div>
+                        <div class="book-left"><img class="book-cover" src="${escapeHtml(coverUrl)}" data-fallback-cover="${escapeHtml(fallbackCover)}" alt="${escapeHtml(book.title)}" loading="lazy"></div>
                         <div class="book-right">
                             <div class="book-title">${escapeHtml(book.title)}</div>
                             <div class="book-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
@@ -2952,6 +2970,13 @@ console.log('[Main] Inicializando script.js v28.0...');
         });
         html += `</div>`;
         container.innerHTML = html;
+        container.querySelectorAll('.book-cover[data-fallback-cover]').forEach(image => {
+            image.addEventListener('error', () => {
+                if (image.dataset.fallbackApplied) return;
+                image.dataset.fallbackApplied = 'true';
+                image.src = image.dataset.fallbackCover;
+            }, { once: true });
+        });
         document.querySelectorAll('.book-details-btn').forEach(btn => btn.addEventListener('click', () => { const link = btn.getAttribute('data-link'); if (link && isValidUrl(link)) window.open(link, '_blank'); else alert(t('book_link_unavailable')); }));
         document.querySelectorAll('.go-to-library-btn').forEach(btn => btn.addEventListener('click', () => goToLibrary(btn.getAttribute('data-title'))));
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
