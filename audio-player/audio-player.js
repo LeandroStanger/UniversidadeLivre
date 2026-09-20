@@ -149,7 +149,6 @@
         currentIndex = Number.isInteger(savedState.index) ? savedState.index % tracks.length : Math.floor(Math.random() * tracks.length);
         wantsToPlay = true;
         $('audioPlayerTitle').textContent = tracks[currentIndex][1];
-        loadYouTubeApi();
         $('audioPlayerToggle').addEventListener('click', () => {
             const panel = $('audioPlayerPanel');
             const isHidden = panel.hidden;
@@ -189,4 +188,15 @@
         progressTimer = window.setInterval(() => { updateProgress(); saveState(); }, 1000);
         window.addEventListener('beforeunload', saveState);
     });
+
+    function startAudioAfterPageLoad() {
+        window.setTimeout(() => {
+            if (document.visibilityState === 'visible' || document.visibilityState === 'prerender') {
+                loadYouTubeApi();
+            }
+        }, 1200);
+    }
+
+    if (document.readyState === 'complete') startAudioAfterPageLoad();
+    else window.addEventListener('load', startAudioAfterPageLoad, { once: true });
 })();
