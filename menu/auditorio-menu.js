@@ -40,7 +40,9 @@
 
         const positionMenu = () => {
             const rect = toggle.getBoundingClientRect();
-            const width = Math.min(240, window.innerWidth - 24);
+            menu.style.width = 'max-content';
+            const contentWidth = Math.ceil(menu.getBoundingClientRect().width);
+            const width = Math.min(Math.max(220, contentWidth), window.innerWidth - 24);
             const left = Math.min(Math.max(12, rect.right - width), window.innerWidth - width - 12);
             menu.style.left = `${left}px`;
             menu.style.width = `${width}px`;
