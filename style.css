@@ -431,6 +431,13 @@ a:hover {
     border-radius: 2rem;
 }
 
+@media (min-width: 769px) {
+    .header > .stats > .stat-item + .stat-item,
+    .header > .stats > .stat-item + .language-switch {
+        margin-left: 0.85rem;
+    }
+}
+
 .lang-btn {
     background: none;
     border: none;
