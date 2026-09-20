@@ -6179,6 +6179,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Matemática Discreta com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Matemática Discreta, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "matem-tica-discreta-latex-001",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-002",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-003",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-004",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-005",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-006",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-007",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-008",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-009",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-010",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-011",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-012",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-013",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-014",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-015",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-016",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-017",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-018",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-019",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-discreta-latex-020",
+        "discipline": "Matemática Discreta",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Matemática Discreta?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Matemática Discreta"
@@ -10817,6 +11097,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Geometria Analítica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Geometria Analítica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "geometria-anal-tica-latex-001",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-002",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-003",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-004",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-005",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-006",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-007",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-008",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-009",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-010",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-011",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-012",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-013",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-014",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-015",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-016",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-017",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-018",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-019",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "geometria-anal-tica-latex-020",
+        "discipline": "Geometria Analítica",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Geometria Analítica"
@@ -12363,6 +12923,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Cálculo I com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Cálculo I, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "c-lculo-i-latex-001",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-002",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-003",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-004",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-005",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-006",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-007",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-008",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-009",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-010",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-011",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-012",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-013",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-014",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-015",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-016",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-017",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-018",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-019",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-020",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Cálculo I"
@@ -13909,6 +14749,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Álgebra Linear I com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Álgebra Linear I, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "lgebra-linear-i-latex-001",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-002",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-003",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-004",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-005",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-006",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-007",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-008",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-009",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-010",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-011",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-012",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-013",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-014",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-015",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-016",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-017",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-018",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-019",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "lgebra-linear-i-latex-020",
+        "discipline": "Álgebra Linear I",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Álgebra Linear I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Álgebra Linear I"
@@ -23185,6 +24305,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Probabilidade e Estatística com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Probabilidade e Estatística, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-001",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-002",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-003",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-004",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-005",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-006",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-007",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-008",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-009",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-010",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-011",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-012",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-013",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-014",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-015",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-016",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-017",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-018",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-019",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "probabilidade-e-estat-stica-latex-020",
+        "discipline": "Probabilidade e Estatística",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Probabilidade e Estatística?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Probabilidade e Estatística"
@@ -24731,6 +26131,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Cálculo II com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Cálculo II, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "c-lculo-ii-latex-001",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-002",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-003",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-004",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-005",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-006",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-007",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-008",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-009",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-010",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-011",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-012",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-013",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-014",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-015",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-016",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-017",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-018",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-019",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-ii-latex-020",
+        "discipline": "Cálculo II",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Cálculo II?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Cálculo II"
@@ -26277,6 +27957,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Programação Funcional em Haskell com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Programação Funcional em Haskell, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-001",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-002",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-003",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-004",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-005",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-006",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-007",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-008",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-009",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-010",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-011",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-012",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-013",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-014",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-015",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-016",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-017",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-018",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-019",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "programa-o-funcional-em-haskell-latex-020",
+        "discipline": "Programação Funcional em Haskell",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Programação Funcional em Haskell?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Programação Funcional em Haskell"
@@ -40191,6 +42151,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Programação Matemática com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Programação Matemática, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-001",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-002",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-003",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-004",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-005",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-006",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-007",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-008",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-009",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-010",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-011",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-012",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-013",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-014",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-015",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-016",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-017",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-018",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-019",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "programa-o-matem-tica-latex-020",
+        "discipline": "Programação Matemática",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Programação Matemática?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Programação Matemática"
@@ -49467,6 +51707,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Cálculo III com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Cálculo III, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "c-lculo-iii-latex-001",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-002",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-003",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-004",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-005",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-006",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-007",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-008",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-009",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-010",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-011",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-012",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-013",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-014",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-015",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-016",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-017",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-018",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-019",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-iii-latex-020",
+        "discipline": "Cálculo III",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Cálculo III?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Cálculo III"
