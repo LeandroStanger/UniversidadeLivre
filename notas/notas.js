@@ -1196,9 +1196,17 @@
 
     // Inicializar quando o DOM estiver pronto
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => NoteApp.init());
+        document.addEventListener('DOMContentLoaded', () => {
+            Promise.resolve(NoteApp.init()).then(() => {
+                window.__applicationReady = true;
+                window.dispatchEvent(new Event('applicationReady'));
+            });
+        });
     } else {
-        NoteApp.init();
+        Promise.resolve(NoteApp.init()).then(() => {
+            window.__applicationReady = true;
+            window.dispatchEvent(new Event('applicationReady'));
+        });
     }
 
 })();

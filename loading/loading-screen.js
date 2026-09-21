@@ -44,16 +44,26 @@
         }, wait);
     }
 
+    function waitForApplicationReady() {
+        const pageLoaded = document.readyState === 'complete'
+            ? Promise.resolve()
+            : new Promise(resolve => window.addEventListener('load', resolve, { once: true }));
+        const translationsLoaded = window.i18nReady instanceof Promise
+            ? window.i18nReady.catch(() => undefined)
+            : Promise.resolve();
+        const applicationReady = window.__applicationReady
+            ? Promise.resolve()
+            : new Promise(resolve => window.addEventListener('applicationReady', resolve, { once: true }));
+
+        Promise.all([pageLoaded, translationsLoaded, applicationReady]).then(finishLoading);
+    }
+
     applyLoadingLanguage();
     window.addEventListener('languageChanged', applyLoadingLanguage);
     window.addEventListener('storage', event => {
         if (event.key === 'selectedLanguage') applyLoadingLanguage();
     });
 
-    if (document.readyState === 'complete') {
-        finishLoading();
-    } else {
-        window.addEventListener('load', finishLoading, { once: true });
-        window.setTimeout(finishLoading, 12000);
-    }
+    waitForApplicationReady();
+    window.setTimeout(finishLoading, 30000);
 })();

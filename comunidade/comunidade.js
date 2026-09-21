@@ -3602,9 +3602,17 @@
     // AUTOINICIALIZAÇÃO
     // ========================================================================
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', () => {
+            Promise.resolve(init()).then(() => {
+                window.__applicationReady = true;
+                window.dispatchEvent(new Event('applicationReady'));
+            });
+        });
     } else {
-        init();
+        Promise.resolve(init()).then(() => {
+            window.__applicationReady = true;
+            window.dispatchEvent(new Event('applicationReady'));
+        });
     }
 
 })();

@@ -3188,5 +3188,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         });
     });
 
-    init();
+    init().then(() => {
+        window.__applicationReady = true;
+        window.dispatchEvent(new Event('applicationReady'));
+    }).catch(error => {
+        console.error('[Biblioteca] Falha ao inicializar:', error);
+        window.__applicationReady = true;
+        window.dispatchEvent(new Event('applicationReady'));
+    });
 });

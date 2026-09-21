@@ -4281,4 +4281,6 @@ console.log('[Main] Inicializando script.js v28.0...');
     });
 
     console.log('[Main] Inicialização concluída com sucesso.');
+    window.__applicationReady = true;
+    window.dispatchEvent(new Event('applicationReady'));
 });

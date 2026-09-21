@@ -1431,6 +1431,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     buildTypeChips();
     buildLanguageChips(allItems);
     updateAllContent();
+    window.__applicationReady = true;
+    window.dispatchEvent(new Event('applicationReady'));
 });
 
 // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
