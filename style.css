@@ -78,6 +78,60 @@ body {
     overflow-x: hidden;
 }
 
+body.site-loading {
+    overflow: hidden;
+}
+
+.site-loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483646;
+    display: grid;
+    place-items: center;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    opacity: 1;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.site-loading-screen.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-loading-content {
+    display: grid;
+    justify-items: center;
+    gap: 0.8rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.site-loading-logo {
+    width: min(12rem, 48vw);
+    height: auto;
+    object-fit: contain;
+}
+
+.site-loading-spinner {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 3px solid rgba(108, 140, 255, 0.25);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: site-loading-spin 0.8s linear infinite;
+}
+
+.site-loading-text {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+@keyframes site-loading-spin {
+    to { transform: rotate(360deg); }
+}
+
 .container {
     max-width: 1400px;
     margin: 0 auto;

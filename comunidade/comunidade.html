@@ -1718,7 +1718,14 @@
     </style>
     <link rel="stylesheet" href="../onboarding/onboarding.css" />
 </head>
-<body>
+<body class="site-loading">
+<div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
+    <div class="site-loading-content">
+        <img class="site-loading-logo" src="../logo-da-universidade-livre.png" alt="Universidade Livre">
+        <div class="site-loading-spinner" aria-hidden="true"></div>
+        <span class="site-loading-text" data-loading-pt="Carregando a Comunidade..." data-loading-en="Loading Community...">Carregando a Comunidade...</span>
+    </div>
+</div>
     <div class="container">
         <!-- CABEÇALHO -->
         <header class="app-header">
@@ -2310,5 +2317,6 @@
     <script src="jogo/bingo/bingo.js"></script>
     <script src="jogo/bitcoin/bitcoin.js"></script>
     <script src="../audio-player/audio-player.js" defer></script>
+    <script src="../loading/loading-screen.js" defer></script>
 </body>
 </html>

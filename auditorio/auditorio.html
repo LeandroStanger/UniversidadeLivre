@@ -15,7 +15,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
-<body>
+<body class="site-loading">
+<div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
+    <div class="site-loading-content">
+        <img class="site-loading-logo" src="../logo-da-universidade-livre.png" alt="Universidade Livre">
+        <div class="site-loading-spinner" aria-hidden="true"></div>
+        <span class="site-loading-text" data-loading-pt="Carregando o Auditório..." data-loading-en="Loading Auditorium...">Carregando o Auditório...</span>
+    </div>
+</div>
 <div class="container">
     <!-- ========== CABEÇALHO ========== -->
     <div class="header">
@@ -402,5 +409,6 @@
 <script src="../perfil/profile.js"></script>
 <script src="../onboarding/onboarding.js"></script>
 <script src="../audio-player/audio-player.js" defer></script>
+<script src="../loading/loading-screen.js" defer></script>
 </body>
 </html>
