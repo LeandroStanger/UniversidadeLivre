@@ -6,7 +6,7 @@
     "edition": "3ª edição",
     "isbn": "9781593279509",
     "description": "Introdução profunda a JavaScript, DOM, eventos, módulos, programação assíncrona e aplicações web.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=JS",
+    "cover": "https://covers.openlibrary.org/b/id/7082166-L.jpg",
     "year": "2018",
     "publisher": "No Starch Press",
     "link": "https://www.amazon.com.br/Eloquent-JavaScript-3rd-Programming-Introduction/dp/1593279507"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9780596517748",
     "description": "Boas práticas, linguagem, padrões e qualidade em JavaScript.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Good+Parts",
+    "cover": "https://covers.openlibrary.org/b/id/9245523-L.jpg",
     "year": "2008",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742"
@@ -30,7 +30,7 @@
     "edition": "1ª edição",
     "isbn": "9781449372637",
     "description": "Técnicas avançadas de CSS, layout, responsividade e experiências visuais.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=CSS",
+    "cover": "https://covers.openlibrary.org/b/id/8763750-L.jpg",
     "year": "2015",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/CSS-Secrets-Lea-Verou/dp/1449372635"
@@ -42,9 +42,48 @@
     "edition": "2ª edição",
     "isbn": "9781838981956",
     "description": "Arquitetura, modularização e padrões para aplicações Node.js robustas.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Node.js",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781838981956-L.jpg",
     "year": "2020",
     "publisher": "Packt",
     "link": "https://www.amazon.com.br/Node-js-Design-Patterns-Server-side/dp/1838981956"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

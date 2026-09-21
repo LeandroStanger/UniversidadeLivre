@@ -6,7 +6,7 @@
     "edition": "1ª edição",
     "isbn": "9788520902517",
     "description": "Revisão sólida de norma, sintaxe e compreensão do texto para o ENEM e vestibulares.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Gramática",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788520902517-L.jpg",
     "year": "2019",
     "publisher": "Editora Ática",
     "link": "https://www.amazon.com.br/Gramática-aplicada-texto-Evanildo-Bechara/dp/8520902518"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9788540708611",
     "description": "Estudo dos autores, estilos e obras literárias com foco em provas e interpretação.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Literatura",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788540708611-L.jpg",
     "year": "2021",
     "publisher": "Editora do Brasil",
     "link": "https://www.amazon.com.br/Literatura-Brasileira-100-Questões/dp/8540708615"
@@ -30,7 +30,7 @@
     "edition": "1ª edição",
     "isbn": "9788540304011",
     "description": "Revisão de álgebra, geometria, estatística e resolução de questões objetivas.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Matemática",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788540304011-L.jpg",
     "year": "2020",
     "publisher": "Editora Objetiva",
     "link": "https://www.amazon.com.br/Matemática-para-ENEM-Mauro-César/dp/8540304011"
@@ -42,7 +42,7 @@
     "edition": "2ª edição",
     "isbn": "9788574425103",
     "description": "Estrutura, tese, argumentação, coerência e correção para o texto dissertativo.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Redação",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788574425103-L.jpg",
     "year": "2021",
     "publisher": "Editora Sol",
     "link": "https://www.amazon.com.br/Redação-ENEM-Técnicas-Estratégias/dp/8574425102"
@@ -54,7 +54,7 @@
     "edition": "1ª edição",
     "isbn": "9788531405828",
     "description": "Conteúdos de biologia, química e física com foco em provas de múltipla escolha.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Ciências",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788531405828-L.jpg",
     "year": "2019",
     "publisher": "Editora do Brasil",
     "link": "https://www.amazon.com.br/Biologia-para-ENEM-Sérgio-Augusto/dp/8531405828"
@@ -66,9 +66,48 @@
     "edition": "1ª edição",
     "isbn": "9788535935414",
     "description": "Período colonial, imperial e republicano com foco em temas recorrentes e análise crítica.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=História",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788535935414-L.jpg",
     "year": "2020",
     "publisher": "Companhia das Letras",
     "link": "https://www.amazon.com.br/História-Brasil-ENEM-José-Murilo/dp/8535935410"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]
