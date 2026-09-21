@@ -58,7 +58,6 @@
         hasNumber: /[0-9]/,
         hasSpecial: /[^A-Za-z0-9]/
     };
-    let lastExportedFile = null;
 
     // ========== LISTA DE AVATARES PADRÃO ==========
     const DEFAULT_AVATARS = [
@@ -2019,8 +2018,7 @@
                 const json = JSON.stringify(finalData, null, 2);
                 const suffix = isEncrypted ? '_criptografado' : '';
                 const fileName = 'dados_completos_' + data.user + '_' + new Date().toISOString().slice(0,10) + suffix + '.json';
-                lastExportedFile = new File([json], fileName, { type: 'application/json' });
-                const url = URL.createObjectURL(lastExportedFile);
+                const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = fileName;
@@ -2028,8 +2026,6 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                const shareBtn = document.getElementById('shareExportBtn');
-                if (shareBtn) shareBtn.disabled = false;
                 showToast(t('profile_export_success'), 'success');
             } catch (error) {
                 console.error('[Profile] Erro na exportação:', error);
@@ -2043,30 +2039,6 @@
             });
         } else {
             if (confirm(t('profile_no_password_confirm'))) await exportAction('');
-        }
-    }
-
-    async function handleShareExport() {
-        if (!lastExportedFile) {
-            showToast(t('profile_share_file_missing'), 'error');
-            return;
-        }
-        try {
-            if (typeof navigator.share !== 'function' || typeof navigator.canShare !== 'function' ||
-                !navigator.canShare({ files: [lastExportedFile] })) {
-                showToast(t('profile_share_file_unavailable'), 'error');
-                return;
-            }
-            await navigator.share({
-                title: t('profile_export_import'),
-                text: t('profile_share_file_text'),
-                files: [lastExportedFile]
-            });
-        } catch (error) {
-            if (error.name !== 'AbortError') {
-                console.error('[Profile] Erro ao compartilhar arquivo:', error);
-                showToast(t('profile_share_file_error'), 'error');
-            }
         }
     }
 
@@ -2411,9 +2383,6 @@
 
         const exportBtn = document.getElementById('generateExportBtn');
         if (exportBtn) exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
-        const shareExportBtn = document.getElementById('shareExportBtn');
-        if (shareExportBtn) shareExportBtn.innerHTML = '<i class="fas fa-share-nodes"></i> ' + t('profile_share_export');
-
         const importBtn = document.getElementById('importProgressBtn');
         if (importBtn) importBtn.innerHTML = '<i class="fas fa-file-import"></i> ' + t('profile_import_progress');
 
@@ -2938,13 +2907,6 @@
             exportBtn.innerHTML = '<i class="fas fa-file-export"></i> ' + t('profile_save_progress');
             exportBtn.removeEventListener('click', handleExport);
             exportBtn.addEventListener('click', handleExport);
-        }
-
-        const shareExportBtn = document.getElementById('shareExportBtn');
-        if (shareExportBtn) {
-            shareExportBtn.innerHTML = '<i class="fas fa-share-nodes"></i> ' + t('profile_share_export');
-            shareExportBtn.removeEventListener('click', handleShareExport);
-            shareExportBtn.addEventListener('click', handleShareExport);
         }
 
         const importBtn = document.getElementById('importProgressBtn');
