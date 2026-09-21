@@ -2824,6 +2824,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function closeMultimediaPlayer() {
+        window.finishFloatingMedia?.();
         // Salva o progresso final antes de fechar
         if (currentVideoId) {
             saveProgress();

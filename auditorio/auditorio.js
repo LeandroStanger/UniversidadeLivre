@@ -1185,6 +1185,7 @@ function setupPlayerControls() {
     if (closeBtn) closeBtn.addEventListener('click', closePlayer);
 }
 function closePlayer() {
+    window.finishFloatingMedia?.();
     const modal = document.getElementById('playerModal');
     if (modal) {
         modal.hidden = true;

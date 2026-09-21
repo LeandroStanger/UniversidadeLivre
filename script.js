@@ -1287,6 +1287,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== VOLTAR PARA HOME ==========
     function backToHome() {
         stopAllMedia();
+        window.finishFloatingMedia?.();
         if (window.CursorTimeset) window.CursorTimeset.registerExit();
 
         const homeScreen = document.getElementById("homeScreen");
@@ -2548,6 +2549,7 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function backToDiscipline() {
         stopAllMedia();
+        window.finishFloatingMedia?.();
         document.getElementById('courseView')?.classList.remove('lesson-open');
         const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
         if (backToDisciplineBtn) backToDisciplineBtn.hidden = true;
