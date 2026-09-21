@@ -6,7 +6,7 @@
     "edition": "8ª edição",
     "isbn": "9788522112586",
     "description": "Limites, derivadas, integrais, aplicações e análise de funções em nível universitário.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Cálculo",
+    "cover": "https://covers.openlibrary.org/b/id/364094-L.jpg",
     "year": "2016",
     "publisher": "Cengage",
     "link": "https://www.amazon.com.br/Cálculo-Volume-1-Stewart/dp/8522112584"
@@ -18,7 +18,7 @@
     "edition": "5ª edição",
     "isbn": "9788520105604",
     "description": "Vetores, matrizes, transformações lineares e aplicações em ciência e engenharia.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Álgebra+Linear",
+    "cover": "https://covers.openlibrary.org/b/id/725050-L.jpg",
     "year": "2020",
     "publisher": "Cengage",
     "link": "https://www.amazon.com.br/Álgebra-Linear-Gilbert-Strang/dp/8520105604"
@@ -30,7 +30,7 @@
     "edition": "2ª edição",
     "isbn": "9788521614311",
     "description": "Retas, planos, vetores, cônicas e aplicações no estudo do espaço geométrico.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Geometria",
+    "cover": "https://covers.openlibrary.org/b/id/13533544-L.jpg",
     "year": "2018",
     "publisher": "Pearson",
     "link": "https://www.amazon.com.br/Geometria-Analítica-Paulo-Winterle/dp/8521614319"
@@ -42,9 +42,48 @@
     "edition": "7ª edição",
     "isbn": "9788582600406",
     "description": "Lógica, teoria dos conjuntos, relações, grafos e fundamentos discretos da computação.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Discreta",
+    "cover": "https://covers.openlibrary.org/b/id/13214988-L.jpg",
     "year": "2016",
     "publisher": "McGraw Hill",
     "link": "https://www.amazon.com.br/Matemática-Discreta-Kenneth-Rosen/dp/8582600409"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

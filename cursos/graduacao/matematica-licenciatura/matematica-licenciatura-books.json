@@ -6,7 +6,7 @@
     "edition": "8ª edição",
     "isbn": "9788522112586",
     "description": "Estrutura do cálculo e sua aplicação em situações matemáticas e didáticas.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Cálculo",
+    "cover": "https://covers.openlibrary.org/b/id/364094-L.jpg",
     "year": "2016",
     "publisher": "Cengage",
     "link": "https://www.amazon.com.br/Cálculo-Volume-1-Stewart/dp/8522112584"
@@ -18,7 +18,7 @@
     "edition": "10ª edição",
     "isbn": "9788577802265",
     "description": "Desenvolvimento de álgebra linear em contexto didático e aplicações práticas.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Álgebra",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788577802265-L.jpg",
     "year": "2012",
     "publisher": "Bookman",
     "link": "https://www.amazon.com.br/Álgebra-Linear-Aplicações-Howard-Anton/dp/8577802269"
@@ -30,7 +30,7 @@
     "edition": "1ª edição",
     "isbn": "9788523311343",
     "description": "Fatores pedagógicos, planejamento, metodologias para o ensino da matemática.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Didática",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788523311343-L.jpg",
     "year": "2019",
     "publisher": "Editora UFSC",
     "link": "https://www.amazon.com.br/Didática-Matemática-Celia-Tolentino/dp/8523311344"
@@ -42,9 +42,48 @@
     "edition": "1ª edição",
     "isbn": "9788521202675",
     "description": "Fundamentos geométricos e estratégias de ensino na educação básica e superior.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Geometria",
+    "cover": "https://covers.openlibrary.org/b/id/10528823-L.jpg",
     "year": "2015",
     "publisher": "Thomson",
     "link": "https://www.amazon.com.br/Geometria-João-Lucas-Barbosa/dp/8521202675"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]
