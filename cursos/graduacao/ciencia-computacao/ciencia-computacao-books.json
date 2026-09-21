@@ -6,7 +6,7 @@
     "edition": "3ª edição",
     "isbn": "9780262033848",
     "description": "Referência clássica em algoritmos, complexidade, análise e estruturas fundamentais para computação.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Algorithms",
+    "cover": "https://covers.openlibrary.org/b/id/2341462-L.jpg",
     "year": "2009",
     "publisher": "MIT Press",
     "link": "https://www.amazon.com.br/Introduction-to-Algorithms-Thomas-Cormen/dp/0262033844"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9780132350884",
     "description": "Princípios de código limpo, manutenção, qualidade, design e boas práticas de programação.",
-    "cover": "https://placehold.co/300x420/1f2937/a5f3fc?text=Clean+Code",
+    "cover": "https://covers.openlibrary.org/b/id/8065615-L.jpg",
     "year": "2008",
     "publisher": "Prentice Hall",
     "link": "https://www.amazon.com.br/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"
@@ -30,7 +30,7 @@
     "edition": "6ª edição",
     "isbn": "9780128221457",
     "description": "Estruturas de computadores, arquitetura, pipeline, memória e desempenho computacional.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Arquitetura",
+    "cover": "https://covers.openlibrary.org/b/id/3935962-L.jpg",
     "year": "2021",
     "publisher": "Morgan Kaufmann",
     "link": "https://www.amazon.com.br/Computer-Organization-Design-ARM-Edition/dp/0128201096"
@@ -42,9 +42,48 @@
     "edition": "2ª edição",
     "isbn": "9788575225080",
     "description": "Introdução didática à programação com Python, conceitos de funções, estruturas de dados e pensamento computacional.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Python",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788575225080-L.jpg",
     "year": "2016",
     "publisher": "Novatec",
     "link": "https://www.amazon.com.br/Pense-Python-Allen-B-Downey/dp/8575225083"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como Estudar do Jeito Certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como Estudar do Jeito Certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como Estudar do Jeito Certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

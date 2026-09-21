@@ -6,7 +6,7 @@
     "edition": "3ª edição",
     "isbn": "9780262033848",
     "description": "Visão rigorosa de algoritmos, complexidade, grafos e estruturas essenciais para computação.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Algorithms",
+    "cover": "https://covers.openlibrary.org/b/id/2341462-L.jpg",
     "year": "2009",
     "publisher": "MIT Press",
     "link": "https://www.amazon.com.br/Introduction-to-Algorithms-Thomas-Cormen/dp/0262033844"
@@ -18,7 +18,7 @@
     "edition": "8ª edição",
     "isbn": "9780073383095",
     "description": "Conjuntos, lógica, provas, contagem, grafos e fundamentos discretos da computação.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Discrete+Math",
+    "cover": "https://covers.openlibrary.org/b/id/7083171-L.jpg",
     "year": "2018",
     "publisher": "McGraw Hill",
     "link": "https://www.amazon.com.br/Discrete-Mathematics-Its-Applications-Rosen/dp/0073383090"
@@ -30,7 +30,7 @@
     "edition": "6ª edição",
     "isbn": "9780128221457",
     "description": "Arquitetura, organização e desempenho de sistemas computacionais modernos.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Arquitetura",
+    "cover": "https://covers.openlibrary.org/b/id/3935962-L.jpg",
     "year": "2021",
     "publisher": "Morgan Kaufmann",
     "link": "https://www.amazon.com.br/Computer-Organization-Design-ARM-Edition/dp/0128201096"
@@ -42,7 +42,7 @@
     "edition": "7ª edição",
     "isbn": "9780133970777",
     "description": "Modelagem de dados, bancos relacionais, SQL e teoria de bancos de dados.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Databases",
+    "cover": "https://covers.openlibrary.org/b/id/3943051-L.jpg",
     "year": "2016",
     "publisher": "Pearson",
     "link": "https://www.amazon.com.br/Fundamentals-Database-Systems-Elmasri-Navathe/dp/0133970779"
