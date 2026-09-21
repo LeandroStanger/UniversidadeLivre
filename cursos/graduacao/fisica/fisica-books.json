@@ -6,7 +6,7 @@
     "edition": "10ª edição",
     "isbn": "9788521616467",
     "description": "Tratamento completo de mecânica, movimentos, forças, calor e termodinâmica.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Física",
+    "cover": "https://covers.openlibrary.org/b/id/1246724-L.jpg",
     "year": "2016",
     "publisher": "LTC",
     "link": "https://www.amazon.com.br/Fundamentos-Física-Halliday-Resnick/dp/8521616462"
@@ -18,7 +18,7 @@
     "edition": "9ª edição",
     "isbn": "9788582600837",
     "description": "Caderno completo com circuitos, eletricidade, magnetismo, ondas e óptica.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Eletricidade",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788582600837-L.jpg",
     "year": "2019",
     "publisher": "Cengage",
     "link": "https://www.amazon.com.br/Física-Cientistas-Engenheiros-Raymond-Serway/dp/8582600838"
@@ -30,7 +30,7 @@
     "edition": "4ª edição",
     "isbn": "9781108420419",
     "description": "Texto clássico e rigoroso para eletromagnetismo em nível universitário.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Eletromagnetismo",
+    "cover": "https://covers.openlibrary.org/b/id/92086-L.jpg",
     "year": "2017",
     "publisher": "Cambridge University Press",
     "link": "https://www.amazon.com.br/Introduction-Electrodynamics-David-Griffiths/dp/1108420419"
@@ -42,9 +42,48 @@
     "edition": "6ª edição",
     "isbn": "9788576051477",
     "description": "Estrutura da relatividade, quantização, átomos e conceitos fundamentais da física moderna.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Física+Moderna",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788576051477-L.jpg",
     "year": "2014",
     "publisher": "Bookman",
     "link": "https://www.amazon.com.br/Física-Moderna-Tipler-Llewellyn/dp/8576051474"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

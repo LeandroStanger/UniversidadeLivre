@@ -6,7 +6,7 @@
     "edition": "1ª edição",
     "isbn": "9788441533074",
     "description": "Estrutura gramatical, verbos, pronomes, tempo verbal e uso prático do espanhol.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Español",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788441533074-L.jpg",
     "year": "2017",
     "publisher": "EDELSA",
     "link": "https://www.amazon.com.br/Gramática-uso-español-María-José/dp/8441533074"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9780134968025",
     "description": "Gramática contextualizada e aprofundada para estudantes de espanhol intermediários e avançados.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Grammar",
+    "cover": "https://covers.openlibrary.org/b/isbn/9780134968025-L.jpg",
     "year": "2015",
     "publisher": "Pearson",
     "link": "https://www.amazon.com.br/Vox-Modern-Spanish-Grammar/dp/0134968021"
@@ -30,7 +30,7 @@
     "edition": "2ª edição",
     "isbn": "9780415488203",
     "description": "Materiais em contexto real para exercitar vocabulário, estrutura e pronúncia.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Contexto",
+    "cover": "https://covers.openlibrary.org/b/isbn/9780415488203-L.jpg",
     "year": "2018",
     "publisher": "Routledge",
     "link": "https://www.amazon.com.br/Spanish-Grammar-Context-Juan-Kattan-Ibarra/dp/0415488209"
@@ -42,9 +42,45 @@
     "edition": "1ª edição",
     "isbn": "9788478662458",
     "description": "Prática oral e escrita para estudantes de nível intermediário e avançado.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Práctica",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788478662458-L.jpg",
     "year": "2017",
     "publisher": "Difusión",
     "link": "https://www.amazon.com.br/Práctica-Español-para-extranjeros/dp/8478662455"
+  },
+  {
+    "title": "Aprender a aprender",
+    "author": "Héctor Ruiz Martín",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Métodos de aprendizaje basados en la ciencia cognitiva: recuperación, espaciado y comprensión profunda.",
+    "cover": "",
+    "year": "2017",
+    "publisher": "Graó",
+    "link": "https://www.amazon.es/s?k=Aprender+a+aprender+Héctor+Ruiz+Martín",
+    "language": "Español"
+  },
+  {
+    "title": "Hábitos atómicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Sistema práctico para construir rutinas de estudio constantes, reducir distracciones y mejorar progresivamente.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788551003428-L.jpg",
+    "year": "2019",
+    "publisher": "Diana",
+    "link": "https://www.amazon.es/s?k=Hábitos+atómicos+James+Clear",
+    "language": "Español"
+  },
+  {
+    "title": "Enfócate",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estrategias para proteger las sesiones de concentración y estudiar con profundidad.",
+    "cover": "",
+    "year": "2017",
+    "publisher": "Reverté",
+    "link": "https://www.amazon.es/s?k=Enfócate+Cal+Newport",
+    "language": "Español"
   }
 ]

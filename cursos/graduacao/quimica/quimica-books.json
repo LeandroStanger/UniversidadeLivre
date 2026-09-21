@@ -6,7 +6,7 @@
     "edition": "12ª edição",
     "isbn": "9788522116407",
     "description": "Estrutura dos princípios fundamentais da química, incluindo reações, equilibrios e propriedades.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Química",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788522116407-L.jpg",
     "year": "2017",
     "publisher": "McGraw Hill",
     "link": "https://www.amazon.com.br/Química-Geral-Raymond-Chang/dp/8522116409"
@@ -18,7 +18,7 @@
     "edition": "2ª edição",
     "isbn": "9788576054001",
     "description": "Estruturas, mecanismos e reações orgânicas em contexto científico e aplicado.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Orgânica",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788576054001-L.jpg",
     "year": "2015",
     "publisher": "Bookman",
     "link": "https://www.amazon.com.br/Química-Orgânica-Clayden-Greeves/dp/8576054009"
@@ -30,7 +30,7 @@
     "edition": "8ª edição",
     "isbn": "9788521202077",
     "description": "Fundamentos de análise química e técnicas instrumentais para laboratório e indústria.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Analítica",
+    "cover": "https://covers.openlibrary.org/b/id/7063702-L.jpg",
     "year": "2013",
     "publisher": "Thomson",
     "link": "https://www.amazon.com.br/Química-Analítica-Skoog-West-Holler/dp/8521202070"
@@ -42,9 +42,48 @@
     "edition": "5ª edição",
     "isbn": "9788576053479",
     "description": "Estrutura, comportamento e propriedades de compostos inorgânicos e suas aplicações.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Inorgânica",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788576053479-L.jpg",
     "year": "2014",
     "publisher": "Bookman",
     "link": "https://www.amazon.com.br/Química-Inorgânica-Miessler-Fischer/dp/8576053474"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

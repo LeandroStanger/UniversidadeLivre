@@ -6,7 +6,7 @@
     "edition": "12ª edição",
     "isbn": "9788582604588",
     "description": "Tratamento amplo e didático dos fundamentos da biologia, incluindo genética, evolução, fisiologia e ecologia.",
-    "cover": "https://placehold.co/300x420/052e16/86efac?text=Biologia",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788582604588-L.jpg",
     "year": "2021",
     "publisher": "Artmed",
     "link": "https://www.amazon.com.br/Biologia-12ª-edição-Campbell-Reece/dp/8582604586"
@@ -18,7 +18,7 @@
     "edition": "7ª edição",
     "isbn": "9788581438001",
     "description": "Base da genética mendeliana, molecular e aplicada em biotecnologia, hereditariedade e evolução.",
-    "cover": "https://placehold.co/300x420/166534/86efac?text=Genética",
+    "cover": "https://covers.openlibrary.org/b/id/4674465-L.jpg",
     "year": "2020",
     "publisher": "Artmed",
     "link": "https://www.amazon.com.br/Genética-Benjamin-Pierce/dp/8581438004"
@@ -30,7 +30,7 @@
     "edition": "8ª edição",
     "isbn": "9788521633771",
     "description": "Introdução a estrutura, reprodução, fisiologia e ecologia das plantas com abordagem ilustrada.",
-    "cover": "https://placehold.co/300x420/14532d/a7f3d0?text=Botânica",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788521633771-L.jpg",
     "year": "2014",
     "publisher": "Guanabara Koogan",
     "link": "https://www.amazon.com.br/Biologia-das-Plantas-Raven/dp/8521633770"
@@ -42,9 +42,48 @@
     "edition": "5ª edição",
     "isbn": "9788521201018",
     "description": "Estudo de populações, comunidades, ecossistemas e relações entre organismos e ambiente.",
-    "cover": "https://placehold.co/300x420/14532d/f0fdf4?text=Ecologia",
+    "cover": "https://covers.openlibrary.org/b/id/364053-L.jpg",
     "year": "2018",
     "publisher": "Thomson",
     "link": "https://www.amazon.com.br/Ecologia-Odum-Barrett/dp/8521201015"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

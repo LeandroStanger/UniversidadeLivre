@@ -6,7 +6,7 @@
     "edition": "2ª edição",
     "isbn": "9781942788003",
     "description": "Princípios de cultura DevOps, automação e melhora contínua de valor para software.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=DevOps",
+    "cover": "https://covers.openlibrary.org/b/id/10860557-L.jpg",
     "year": "2016",
     "publisher": "IT Revolution",
     "link": "https://www.amazon.com.br/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9781910749091",
     "description": "Fundamentos de containers, imagens, volumes, redes e implantação prática.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Docker",
+    "cover": "https://covers.openlibrary.org/b/id/10374157-L.jpg",
     "year": "2018",
     "publisher": "Leanpub",
     "link": "https://www.amazon.com.br/Docker-Deep-Dive-Nigel-Poulton/dp/1910749094"
@@ -30,7 +30,7 @@
     "edition": "1ª edição",
     "isbn": "9781491929124",
     "description": "Práticas de confiabilidade, monitoramento, escalabilidade e operação de sistemas modernos.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=SRE",
+    "cover": "https://covers.openlibrary.org/b/id/9196682-L.jpg",
     "year": "2016",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/Site-Reliability-Engineering-Betsy-Beyer/dp/149192912X"
@@ -42,9 +42,48 @@
     "edition": "3ª edição",
     "isbn": "9781098116747",
     "description": "Provisionamento automatizado de infraestrutura com Terraform e práticas de cloud.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Terraform",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781098116747-L.jpg",
     "year": "2022",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/Terraform-Running-Yevgeniy-Brikman/dp/1098116745"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

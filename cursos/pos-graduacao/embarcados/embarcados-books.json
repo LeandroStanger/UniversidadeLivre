@@ -6,7 +6,7 @@
     "edition": "5ª edição",
     "isbn": "9781477508992",
     "description": "Introdução a microcontroladores ARM Cortex-M e sistemas embarcados.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=ARM",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781477508992-L.jpg",
     "year": "2017",
     "publisher": "CreateSpace",
     "link": "https://www.amazon.com.br/Embedded-Systems-Introduction-Cortex-M-Microcontrollers/dp/1477508993"
@@ -18,7 +18,7 @@
     "edition": "3ª edição",
     "isbn": "9780124080829",
     "description": "Arquitetura, periféricos, memória e técnicas de depuração em processadores ARM.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=ARM+M3",
+    "cover": "https://covers.openlibrary.org/b/isbn/9780124080829-L.jpg",
     "year": "2014",
     "publisher": "Newnes",
     "link": "https://www.amazon.com.br/Definitive-Guide-Cortex-M3-Cortex-M4/dp/0124080824"
@@ -30,7 +30,7 @@
     "edition": "2ª edição",
     "isbn": "9780596009832",
     "description": "Estrutura, desenvolvimento e manutenção de firmware e sistemas embarcados.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Firmware",
+    "cover": "https://covers.openlibrary.org/b/isbn/9780596009832-L.jpg",
     "year": "2006",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/Programming-Embedded-Systems-Michael-Barr/dp/0596009836"
@@ -42,9 +42,48 @@
     "edition": "2ª edição",
     "isbn": "9780123944245",
     "description": "Fundamentos de design digital e arquitetura de computadores para sistemas embarcados.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Hardware",
+    "cover": "https://covers.openlibrary.org/b/id/10140705-L.jpg",
     "year": "2012",
     "publisher": "Morgan Kaufmann",
     "link": "https://www.amazon.com.br/Digital-Design-Computer-Architecture-Harris/dp/0123944244"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

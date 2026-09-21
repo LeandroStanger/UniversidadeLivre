@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function createBookCard(item) {
         if (!item || !item.title) return null;
         let normalized = normalizeBookFields(item);
-        const coverUrl = normalized.cover || generateEnhancedColorCover(normalized.title);
+        const coverUrl = sanitizeCoverUrl(normalized.cover) || '';
         normalized.cover = coverUrl;
         let typeTagHtml = '';
         const typeKey = `type_${normalized.type}`;
@@ -907,7 +907,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         card.style.cursor = 'pointer';
         card.dataset.id = normalized.id;
         card.innerHTML = `
-            <img class="mini-cover" src="${coverUrl}" alt="${escapeHtml(normalized.title)}" onerror="this.src='${generateEnhancedColorCover(normalized.title)}'">
+            <img class="mini-cover" src="${coverUrl || ''}" alt="${escapeHtml(normalized.title)}" onerror="this.style.display='none'">
             <div class="mini-title">${escapeHtml(normalized.title)}</div>
             <div class="mini-author">${escapeHtml(normalized.author)}</div>
             <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
@@ -922,7 +922,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function showModal(item) {
         if (!item) return;
         const enriched = await enrichBookMetadata(item);
-        const coverUrl = enriched.cover || generateEnhancedColorCover(enriched.title);
+        const coverUrl = sanitizeCoverUrl(enriched.cover) || '';
         const fullAuthor = enriched.rawAuthor || enriched.author;
         const isRead = isBookRead(enriched.id);
 
@@ -930,7 +930,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         modalBody.innerHTML = `
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <img class="modal-cover" src="${coverUrl}" alt="${escapeHtml(enriched.title)}" onerror="this.src='${generateEnhancedColorCover(enriched.title)}'">
+                <img class="modal-cover" src="${coverUrl || ''}" alt="${escapeHtml(enriched.title)}" onerror="this.style.display='none'">
                 <div class="modal-details">
                     <h2>${escapeHtml(enriched.title)}</h2>
                     <p><strong>${t('book_author')}:</strong> ${escapeHtml(fullAuthor)}</p>
@@ -1001,29 +1001,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function generateEnhancedColorCover(title) {
-        if (!title) title = 'Sem título';
-        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
-        const colorIndex = Math.abs(title.length * 7) % colors.length;
-        const bgColor = colors[colorIndex];
-        const canvas = document.createElement('canvas');
-        canvas.width = 300;
-        canvas.height = 450;
-        const ctx = canvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        grad.addColorStop(0, bgColor);
-        grad.addColorStop(1, bgColor + 'cc');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const words = title.split(' ').filter(w => w.length > 0);
-        let initials = words.map(w => w[0].toUpperCase()).join('');
-        if (initials.length > 3) initials = initials.slice(0, 3);
-        if (initials.length === 0) initials = '?';
-        ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
-        return canvas.toDataURL('image/png');
+        return '';
     }
 
     function normalizeBookFields(book) {
@@ -1038,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             publisher: book.publisher || '',
             year: book.year || null,
             description: book.description || '',
-            cover: book.cover || null,
+            cover: book.cover && !/placehold\.co|placeholder|via\.placeholder/i.test(String(book.cover)) ? book.cover : null,
             download: book.download || book.download_url || null,
             downloadLabel: finalLabel || t('access_online'),
             repositoryName: book.repositoryName || book.repository_name || null,
@@ -1134,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             html += `
                 <div class="library-card" data-url="${escapeHtml(lib.url)}">
-                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=${encodeURIComponent(title.substring(0,2))}'">
+                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">
                     <div class="library-info">
                         <div class="library-title">
                             ${escapeHtml(title)}
@@ -1322,13 +1300,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let html = '';
         audiobooks.forEach(book => {
-            const cover = book.cover || `https://i.ytimg.com/vi/${book.videoId}/hqdefault.jpg`;
+            const cover = /placehold\.co|placeholder|via\.placeholder/i.test(String(book.cover || '')) ? '' : (book.cover || `https://i.ytimg.com/vi/${book.videoId}/hqdefault.jpg`);
             const duration = book.duration || '';
             const year = book.year || '';
 
             html += `
                 <div class="audiobook-card" data-video-id="${book.videoId}" data-title="${escapeHtml(book.title)}" data-description="${escapeHtml(book.description)}">
-                    <img class="audiobook-cover" src="${cover}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/120x90/1F2933/6C8CFF?text=Audiobook'">
+                    <img class="audiobook-cover" src="${cover}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.style.display='none'">
                     <div class="audiobook-info">
                         <div class="audiobook-title">${escapeHtml(book.title)}</div>
                         <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>

@@ -145,6 +145,7 @@
   "disciplines_in_stage": "{{count}} discipline in this stage",
   "disciplines_in_stage_plural": "{{count}} disciplines in this stage",
   "discipline_content_progress": "{{percent}}% of content completed",
+  "discipline_bio_title": "Discipline biography",
   "view_lessons": "View lessons",
   "approved": "Passed",
   "stage_disciplines_approved": "{{completed}}/{{total}} disciplines passed",

@@ -6,7 +6,7 @@
     "courseType": "bacharelado",
     "icon": "fa-briefcase",
     "description": "Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico.",
-    "bio": "Administração é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico."
+    "bio": "Administração é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Administração com formação abrangente em gestão de pessoas, finanças, marketing, operações, estratégia, economia digital e inovação. Desenvolve competências para liderar organizações em um ambiente de negócios dinâmico e tecnológico. Bibliografia de apoio: Administração: uma Abordagem Contemporânea (Stephen P. Robbins; David A. DeCenzo): Visão contemporânea da administração com foco em planejamento, liderança, tomada de decisão, gestão de pessoas e desempenho organizacional; Administração de Recursos Humanos (Idalberto Chiavenato): Base essencial para recrutamento, seleção, desenvolvimento, motivação, clima organizacional e relações de trabalho; Matemática Financeira (José Dutra Vieira Sobrinho): Fundamentos de juros, descontos, rendimentos, fluxo de caixa e tomada de decisão financeira em negócios."
   },
   {
     "id": "accounting",
@@ -15,7 +15,7 @@
     "courseType": "bacharelado",
     "icon": "fa-calculator",
     "description": "A comprehensive Accounting bachelor's degree covering financial, managerial, tax, auditing, corporate, and international accounting, with business, finance, law, statistics, and data analytics foundations.",
-    "bio": "Accounting is an academic program structured to develop the knowledge, skills, and professional competencies needed for accounting, finance, auditing, taxation, management, and business analysis."
+    "bio": "Accounting is an academic program structured to develop the knowledge, skills, and professional competencies needed for accounting, finance, auditing, taxation, management, and business analysis. Bibliografia de apoio: Introduction to Accounting: recommended academic reading (Academic reference search): Recommended academic references and textbooks for Introduction to Accounting, with topics aligned to the Accounting program; Financial Accounting I: recommended academic reading (Academic reference search): Recommended academic references and textbooks for Financial Accounting I, with topics aligned to the Accounting program; Business Mathematics: recommended academic reading (Academic reference search): Recommended academic references and textbooks for Business Mathematics, with topics aligned to the Accounting program."
   },
   {
     "id": "biologia",
@@ -24,7 +24,7 @@
     "courseType": "licenciatura",
     "icon": "fa-leaf",
     "description": "Curso de Licenciatura em Biologia com formação sólida em fundamentos biológicos, pedagógicos e práticos, preparando para o ensino de Ciências e Biologia na Educação Básica.",
-    "bio": "Biologia é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Biologia com formação sólida em fundamentos biológicos, pedagógicos e práticos, preparando para o ensino de Ciências e Biologia na Educação Básica."
+    "bio": "Biologia é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Biologia com formação sólida em fundamentos biológicos, pedagógicos e práticos, preparando para o ensino de Ciências e Biologia na Educação Básica. Bibliografia de apoio: Biologia (Neil A. Campbell; Jane B. Reece; Lisa A. Urry; Michael L. Cain; Steven A. Wasserman; Peter V. Minorsky; Robert B. Jackson): Tratamento amplo e didático dos fundamentos da biologia, incluindo genética, evolução, fisiologia e ecologia; Genética (Benjamin A. Pierce): Base da genética mendeliana, molecular e aplicada em biotecnologia, hereditariedade e evolução; Biologia das Plantas (Raven; Evert; Eichhorn): Introdução a estrutura, reprodução, fisiologia e ecologia das plantas com abordagem ilustrada."
   },
   {
     "id": "ciencia-de-dados-bacharelado",
@@ -33,7 +33,7 @@
     "courseType": "bacharelado",
     "icon": "fa-database",
     "description": "Curso de Bacharelado em Ciência de Dados com formação abrangente em programação, matemática, estatística, aprendizado de máquina, visualização e infraestrutura para análise de dados. Preparação para atuar como cientista de dados em organizações de diversos setores.",
-    "bio": "Ciência de Dados (Bacharelado) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Bacharelado em Ciência de Dados com formação abrangente em programação, matemática, estatística, aprendizado de máquina, visualização e infraestrutura para análise de dados. Preparação para atuar como cientista de dados em organizações de diversos setores."
+    "bio": "Ciência de Dados (Bacharelado) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Bacharelado em Ciência de Dados com formação abrangente em programação, matemática, estatística, aprendizado de máquina, visualização e infraestrutura para análise de dados. Preparação para atuar como cientista de dados em organizações de diversos setores. Bibliografia de apoio: Python for Data Analysis (Wes McKinney): Uso de pandas, NumPy, visualização e manipulação de dados em projetos de análise aplicada; Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (Aurélien Géron): Modelagem preditiva, redes neurais, pipelines e prática em aprendizado de máquina; The Elements of Statistical Learning (Trevor Hastie; Robert Tibshirani; Jerome Friedman): Tratamento matemático de inferência estatística, predição e métodos de aprendizagem estatística."
   },
   {
     "id": "ciencia_de_dados",
@@ -42,7 +42,7 @@
     "courseType": null,
     "icon": "fa-database",
     "description": "Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados.",
-    "bio": "Ciência de Dados é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados."
+    "bio": "Ciência de Dados é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em análise de dados, estatística aplicada, limpeza de dados, exploração e reprodução de pesquisas com foco em ciência de dados. Bibliografia de apoio: Python for Data Analysis (Wes McKinney): Uso de pandas, NumPy, visualização e manipulação de dados em projetos de análise aplicada; Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow (Aurélien Géron): Modelagem preditiva, redes neurais, pipelines e prática em aprendizado de máquina; The Elements of Statistical Learning (Trevor Hastie; Robert Tibshirani; Jerome Friedman): Tratamento matemático de inferência estatística, predição e métodos de aprendizagem estatística."
   },
   {
     "id": "ciencia-da-computacao",
@@ -51,7 +51,7 @@
     "courseType": "bacharelado",
     "icon": "fa-laptop-code",
     "description": "Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software.",
-    "bio": "Ciência da Computação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software."
+    "bio": "Ciência da Computação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Formação completa em Ciência da Computação com foco em algoritmos, estruturas de dados, sistemas computacionais e engenharia de software. Bibliografia de apoio: Introduction to Algorithms (Thomas H. Cormen; Charles E. Leiserson; Ronald L. Rivest; Clifford Stein): Referência clássica em algoritmos, complexidade, análise e estruturas fundamentais para computação; Clean Code (Robert C. Martin): Princípios de código limpo, manutenção, qualidade, design e boas práticas de programação; Computer Organization and Design (David A. Patterson; John L. Hennessy): Estruturas de computadores, arquitetura, pipeline, memória e desempenho computacional."
   },
   {
     "id": "computacao_grafica",
@@ -60,7 +60,7 @@
     "courseType": null,
     "icon": "fa-cubes",
     "description": "Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional.",
-    "bio": "Computação Gráfica é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional."
+    "bio": "Computação Gráfica é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso especializado em Computação Gráfica abordando modelagem 2D e 3D, renderização, animação e visualização computacional. Bibliografia de apoio: The Digital Imaging Handbook (John C. Russ): Fundamentos de imagens digitais, pixels, processamento e visualização computacional; Real-Time Rendering (Tomas Akenine-Möller; Eric Haines; Naty Hoffman): Pipeline gráfico, iluminação, rasterização, shading e performance visual; Computer Graphics: Principles and Practice (John F. Hughes; Andries van Dam; Morgan McGuire; David Sklar): Princípios, pipeline gráfico, modelagem, renderização e visualização 3D."
   },
   {
     "id": "computer-science",
@@ -69,7 +69,7 @@
     "courseType": "bacharelado",
     "icon": "fa-laptop-code",
     "description": "A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering.",
-    "bio": "Computer Science é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering."
+    "bio": "Computer Science é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering. Bibliografia de apoio: Introduction to Algorithms (Thomas H. Cormen; Charles E. Leiserson; Ronald L. Rivest; Clifford Stein): Visão rigorosa de algoritmos, complexidade, grafos e estruturas essenciais para computação; Discrete Mathematics and Its Applications (Kenneth H. Rosen): Conjuntos, lógica, provas, contagem, grafos e fundamentos discretos da computação; Computer Organization and Design (David A. Patterson; John L. Hennessy): Arquitetura, organização e desempenho de sistemas computacionais modernos."
   },
   {
     "id": "cybersecurity",
@@ -78,7 +78,7 @@
     "courseType": null,
     "icon": "fa-shield-alt",
     "description": "Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança.",
-    "bio": "CyberSecurity é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança."
+    "bio": "CyberSecurity é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança. Bibliografia de apoio: Cybersecurity and Cyberwar (Peter W. Singer; Allan Friedman): Panorama estratégico da segurança digital, ataques, defesa e aspectos políticos e organizacionais; The Web Application Hacker's Handbook (Dafydd Stuttard; Marcus Pinto): Análise de vulnerabilidades e testes de penetração em aplicações web; Practical Malware Analysis (Michael Sikorski; Andrew Honig): Análise estática e dinâmica de malware, engenharia reversa e coleta de evidências."
   },
   {
     "id": "desenvolvimento_web",
@@ -87,7 +87,7 @@
     "courseType": null,
     "icon": "fa-code",
     "description": "Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino.",
-    "bio": "Desenvolvimento Web é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino."
+    "bio": "Desenvolvimento Web é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em desenvolvimento web moderno, incluindo HTML, CSS, JavaScript, frameworks front-end e back-end, com integração a plataformas externas de ensino. Bibliografia de apoio: Eloquent JavaScript (Marijn Haverbeke): Introdução profunda a JavaScript, DOM, eventos, módulos, programação assíncrona e aplicações web; JavaScript: The Good Parts (Douglas Crockford): Boas práticas, linguagem, padrões e qualidade em JavaScript; CSS Secrets (Lea Verou): Técnicas avançadas de CSS, layout, responsividade e experiências visuais."
   },
   {
     "id": "devops",
@@ -96,7 +96,7 @@
     "courseType": null,
     "icon": "fa-server",
     "description": "Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem.",
-    "bio": "DevOps é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem."
+    "bio": "DevOps é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em práticas modernas de DevOps, automação, integração contínua, entrega contínua, infraestrutura como código e computação em nuvem. Bibliografia de apoio: The DevOps Handbook (Gene Kim; Patrick Debois; John Willis; Jez Humble): Princípios de cultura DevOps, automação e melhora contínua de valor para software; Docker Deep Dive (Nigel Poulton): Fundamentos de containers, imagens, volumes, redes e implantação prática; Site Reliability Engineering (Betsy Beyer; Chris Jones; Jennifer Petoff; Niall Murphy): Práticas de confiabilidade, monitoramento, escalabilidade e operação de sistemas modernos."
   },
   {
     "id": "embarcados",
@@ -105,7 +105,7 @@
     "courseType": null,
     "icon": "fa-microchip",
     "description": "Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos.",
-    "bio": "Embarcados é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos."
+    "bio": "Embarcados é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Pós-graduação focada em microeletrônica e eletrônica embarcada, integrando teoria, hardware e software embarcado com conteúdos externos. Bibliografia de apoio: Embedded Systems: Introduction to ARM Cortex-M Microcontrollers (Jonathan Valvano): Introdução a microcontroladores ARM Cortex-M e sistemas embarcados; The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors (Joseph Yiu): Arquitetura, periféricos, memória e técnicas de depuração em processadores ARM; Programming Embedded Systems (Michael Barr; Anthony Massa): Estrutura, desenvolvimento e manutenção de firmware e sistemas embarcados."
   },
   {
     "id": "enem",
@@ -114,7 +114,7 @@
     "courseType": null,
     "icon": "fa-graduation-cap",
     "description": "Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática.",
-    "bio": "ENEM é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática."
+    "bio": "ENEM é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Preparação completa para o Exame Nacional do Ensino Médio, com videoaulas organizadas por áreas de conhecimento: Linguagens, Ciências Humanas, Redação, Ciências da Natureza e Matemática. Bibliografia de apoio: Gramática aplicada ao texto (Evanildo Bechara): Revisão sólida de norma, sintaxe e compreensão do texto para o ENEM e vestibulares; Literatura Brasileira em 100 Questões (Ana Clara Nunes): Estudo dos autores, estilos e obras literárias com foco em provas e interpretação; Matemática para o ENEM (Mauro César): Revisão de álgebra, geometria, estatística e resolução de questões objetivas."
   },
   {
     "id": "engenharia-producao",
@@ -123,7 +123,7 @@
     "courseType": "bacharelado",
     "icon": "fa-industry",
     "description": "Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores.",
-    "bio": "Engenharia de Produção é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores."
+    "bio": "Engenharia de Produção é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Engenharia de Produção com formação abrangente em gestão de operações, otimização de processos, logística, qualidade, planejamento estratégico, economia, finanças e sustentabilidade. Desenvolve competências para liderar e otimizar sistemas produtivos em organizações de diversos setores. Bibliografia de apoio: Administração da Produção e Operações (Everardo F. de A. C. Corrêa; Roberto Gianesi; Irineu de A. M. Ferreira): Gestão de processos produtivos, logística, capacidade, qualidade e decisões operacionais; Pesquisa Operacional para Cursos de Administração e Engenharia (Raul Garcia): Modelagem matemática, otimização e apoio à decisão em produção e logística; Gestão da Qualidade (Joseph M. Juran; A. Blanton Godfrey): Fundamentos de melhoria contínua, qualidade e foco no cliente para sistemas produtivos."
   },
   {
     "id": "engenharia_computacao",
@@ -132,7 +132,7 @@
     "courseType": "bacharelado",
     "icon": "fa-microchip",
     "description": "Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional.",
-    "bio": "Engenharia de Computação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional."
+    "bio": "Engenharia de Computação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Engenharia de Computação com formação sólida em hardware, software, sistemas embarcados, redes, automação e inteligência computacional. Bibliografia de apoio: Digital Design and Computer Architecture (David Harris; Sarah Harris): Fundamentos de lógica digital, arquitetura e organização de computadores com foco prático; Microelectronic Circuits (Adel S. Sedra; Kenneth C. Smith): Modelagem, análise e projeto de circuitos eletrônicos e sistemas microeletrônicos; Embedded Systems: Introduction to ARM Cortex-M Microcontrollers (Jonathan Valvano): Introdução a microcontroladores ARM, periféricos, temporização e aplicações embarcadas."
   },
   {
     "id": "espanhol",
@@ -141,7 +141,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português.",
-    "bio": "Espanhol é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
+    "bio": "Espanhol é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Espanhol do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português. Bibliografia de apoio: Gramática de uso del español (María José García; Jacinto B. Moreno): Estrutura gramatical, verbos, pronomes, tempo verbal e uso prático do espanhol; Vox Modern Spanish Grammar (M. V. L. Sandoval): Gramática contextualizada e aprofundada para estudantes de espanhol intermediários e avançados; Spanish Grammar in Context (Juan Kattán-Ibarra): Materiais em contexto real para exercitar vocabulário, estrutura e pronúncia."
   },
   {
     "id": "espanhol-ingles",
@@ -150,7 +150,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension.",
-    "bio": "Spanish (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+    "bio": "Spanish (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Spanish course from A1 to C2 level, designed for English speakers. Learn Spanish with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension. Bibliografia de apoio: Spanish Grammar in Context (Juan Kattán-Ibarra): Aprenda espanhol com foco em uso real, exemplos e explicações aplicadas ao contexto; Practice Makes Perfect: Spanish Verb Tenses (Dorothy Richmond): Tense, conjugação, uso verbal e prática de exercícios para aprender espanhol de forma sólida; Spanish for Dummies (Susana Wald): Introdução acessível ao espanhol, vocabulário e conversação para iniciantes."
   },
   {
     "id": "espcex",
@@ -159,7 +159,7 @@
     "courseType": null,
     "icon": "fa-shield-halbed",
     "description": "Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação.",
-    "bio": "EsPCEx é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação."
+    "bio": "EsPCEx é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército (EsPCEx). Matemática, Português, Física, Química, História, Geografia, Inglês e Redação. Bibliografia de apoio: Matemática para o EsPCEx (Leandro Ribeiro): Álgebra, geometria, trigonometria, análise combinatória e resolução de questões militares; Física para o EsPCEx (Márcio Azevedo): Mecânica, eletricidade, óptica, termologia e resolução de problemas selecionados; Português para o EsPCEx (Carla Mendes): Interpretação de textos, gramática, redação e recursos de linguagem."
   },
   {
     "id": "fisica",
@@ -168,7 +168,7 @@
     "courseType": "licenciatura",
     "icon": "fa-atom",
     "description": "Curso de Licenciatura em Física com formação sólida em fundamentos físicos, matemáticos, pedagógicos e práticos, preparando para o ensino de Física na Educação Básica.",
-    "bio": "Física é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Física com formação sólida em fundamentos físicos, matemáticos, pedagógicos e práticos, preparando para o ensino de Física na Educação Básica."
+    "bio": "Física é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Física com formação sólida em fundamentos físicos, matemáticos, pedagógicos e práticos, preparando para o ensino de Física na Educação Básica. Bibliografia de apoio: Fundamentos de Física (David Halliday; Robert Resnick; Jearl Walker): Tratamento completo de mecânica, movimentos, forças, calor e termodinâmica; Física para Cientistas e Engenheiros (Raymond A. Serway; John W. Jewett): Caderno completo com circuitos, eletricidade, magnetismo, ondas e óptica; Introduction to Electrodynamics (David J. Griffiths): Texto clássico e rigoroso para eletromagnetismo em nível universitário."
   },
   {
     "id": "gestao-publica",
@@ -177,7 +177,7 @@
     "courseType": "tecnologo",
     "icon": "fa-landmark",
     "description": "Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público.",
-    "bio": "Gestão Pública é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público."
+    "bio": "Gestão Pública é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Gestão Pública com formação em administração pública, políticas públicas, gestão financeira e orçamentária, licitações, contratos, ética no serviço público, logística, gestão de pessoas e tecnologia da informação aplicada ao setor público. Bibliografia de apoio: Administração Pública Brasileira (Hélio Beltrão): Estudo da estrutura, funções e desafios da administração pública no Brasil; Políticas Públicas: Conceitos, Instrumentos e Práticas (Jorge Abrahão): Formação, implementação e avaliação de políticas públicas em contexto estatal e social; Direito Administrativo (Maria Sylvia Zanella Di Pietro): Estrutura do Estado, atos administrativos, contratos e serviços públicos no Brasil."
   },
   {
     "id": "ingles",
@@ -186,7 +186,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português.",
-    "bio": "Inglês é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português."
+    "bio": "Inglês é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Inglês do nível A1 ao C2, com videoaulas organizadas por nível de proficiência. Para falantes de português. Bibliografia de apoio: English Grammar in Use (Raymond Murphy): Referência e prática de inglês para estudantes intermediários e avançados, com explicações e exercícios; Vocabulary in Use (Michael McCarthy; Felicity O'Dell): Ampliação de vocabulário com foco em contexto, uso e compreensão real do inglês; Business English (Nick Brieger): Comunicação profissional, e-mails, reuniões, apresentações e vocabulário corporativo."
   },
   {
     "id": "japones",
@@ -195,7 +195,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime.",
-    "bio": "Japonês é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime."
+    "bio": "Japonês é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Japonês do zero, com videoaulas organizadas por etapa. Inclui Hiragana, Katakana, vocabulário básico, gramática essencial e prática com anime. Bibliografia de apoio: Genki: An Integrated Course in Elementary Japanese (Eri Banno; Yoko Ikeda; Yutaka Ohno): Curso completo de hiragana, katakana, gramática básica e vocabulário funcional; Japanese for Busy People (AJALT): Livro prático para aprender japonês com foco em comunicação essencial e rotina; Minna no Nihongo (3A Network): Estrutura de frases, vocabulário cotidiano e leitura em nível básico."
   },
   {
     "id": "japones-ingles",
@@ -204,7 +204,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content.",
-    "bio": "Japanese (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content."
+    "bio": "Japanese (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Japanese course from zero to intermediate level, designed for English speakers. Learn Hiragana, Katakana, Kanji, grammar, vocabulary, and practice with anime and real-world content. Bibliografia de apoio: Genki: An Integrated Course in Elementary Japanese (Eri Banno; Yoko Ikeda; Yutaka Ohno): Estrutura, gramática, vocabulário e prática de leitura e escrita em japonês; Japanese from Zero! (George Trombley): Aprendizado gradual em alem de vocábulos, gramática e uso cotidiano; Japanese for Busy People (AJALT): Material direto e prático para comunicação básica e imersão inicial."
   },
   {
     "id": "letras",
@@ -213,7 +213,7 @@
     "courseType": "licenciatura",
     "icon": "fa-book-open",
     "description": "Curso de Licenciatura em Letras com formação ampla em língua, literatura e linguística, preparando para o ensino de língua portuguesa e literatura na Educação Básica. Abrange desde fundamentos da educação até práticas de ensino, com ênfase em análise linguística, produção textual e estudos literários.",
-    "bio": "Letras é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Letras com formação ampla em língua, literatura e linguística, preparando para o ensino de língua portuguesa e literatura na Educação Básica. Abrange desde fundamentos da educação até práticas de ensino, com ênfase em análise linguística, produção textual e estudos literários."
+    "bio": "Letras é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Letras com formação ampla em língua, literatura e linguística, preparando para o ensino de língua portuguesa e literatura na Educação Básica. Abrange desde fundamentos da educação até práticas de ensino, com ênfase em análise linguística, produção textual e estudos literários. Bibliografia de apoio: Gramática Normativa da Língua Portuguesa (Celso Cunha; Lindley Cintra): Fundamentos da norma culta, sintaxe, morfologia e uso da língua portuguesa; Literatura Brasileira (José Guilherme Merquior): Panorama dos movimentos, autores e temas da literatura brasileira; Manual de Redação para Concursos (Maria Tereza de Camargo): Estrutura de argumentos, coerência, coesão, revisão e produção textual formal."
   },
   {
     "id": "letras-portugues",
@@ -222,7 +222,7 @@
     "courseType": "licenciatura",
     "icon": "fa-book-open",
     "description": "Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas.",
-    "bio": "Letras – Habilitação em Língua Portuguesa é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas."
+    "bio": "Letras – Habilitação em Língua Portuguesa é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Letras com habilitação em Língua Portuguesa, formando professores para atuar no ensino fundamental e médio. Abrange linguística, literatura, gramática, produção textual, didática e práticas pedagógicas. Bibliografia de apoio: Gramática do Português (Cecília Meireles; Fernando Pestana): Fundamentos da estrutura gramatical do português e suas regras de uso; Introdução à Literatura Brasileira (Antonio Candido): Leitura de autores, escolas e movimentos da literatura brasileira; Análise do Discurso (E. Orlandi): Estudo do discurso, ideologia, contexto social e produção de sentido."
   },
   {
     "id": "matematica",
@@ -231,7 +231,7 @@
     "courseType": "bacharelado",
     "icon": "fa-square-root-alt",
     "description": "Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais.",
-    "bio": "Matemática é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais."
+    "bio": "Matemática é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso completo de Matemática abrangendo fundamentos teóricos, lógica matemática, cálculo, álgebra e aplicações computacionais. Bibliografia de apoio: Cálculo (James Stewart): Limites, derivadas, integrais, aplicações e análise de funções em nível universitário; Álgebra Linear (Gilbert Strang): Vetores, matrizes, transformações lineares e aplicações em ciência e engenharia; Geometria Analítica (Paulo Winterle): Retas, planos, vetores, cônicas e aplicações no estudo do espaço geométrico."
   },
   {
     "id": "matematica-licenciatura",
@@ -240,7 +240,7 @@
     "courseType": "licenciatura",
     "icon": "fa-square-root-alt",
     "description": "Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica.",
-    "bio": "Matemática (Licenciatura) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica."
+    "bio": "Matemática (Licenciatura) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Matemática com formação pedagógica e aprofundamento em conteúdos matemáticos, preparando para o ensino da Matemática na Educação Básica. Bibliografia de apoio: Cálculo (James Stewart): Estrutura do cálculo e sua aplicação em situações matemáticas e didáticas; Álgebra Linear com Aplicações (Howard Anton; Chris Rorres): Desenvolvimento de álgebra linear em contexto didático e aplicações práticas; Didática da Matemática (Célia Maria Carolino Tolentino): Fatores pedagógicos, planejamento, metodologias para o ensino da matemática."
   },
   {
     "id": "math",
@@ -249,7 +249,7 @@
     "courseType": "bacharelado",
     "icon": "fa-square-root-alt",
     "description": "A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning.",
-    "bio": "Math é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning."
+    "bio": "Math é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. A complete Mathematics degree covering calculus, algebra, topology, geometry, probability, statistics, and mathematical reasoning. Bibliografia de apoio: A First Course in Abstract Algebra (John B. Fraleigh): Grupos, anéis, corpos e fundamentos da álgebra abstrata; Discrete Mathematics and Its Applications (Kenneth H. Rosen): Lógica, combinatória, grafos e matemática discreta aplicada; Calculus (Michael Spivak): Introdução elegante e rigorosa ao cálculo diferencial e integral."
   },
   {
     "id": "pedagogia",
@@ -258,7 +258,7 @@
     "courseType": "licenciatura",
     "icon": "fa-chalkboard-teacher",
     "description": "Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais.",
-    "bio": "Pedagogia é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais."
+    "bio": "Pedagogia é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Pedagogia com formação sólida em fundamentos educacionais, práticas pedagógicas, gestão escolar, alfabetização, inclusão e desenvolvimento infantil. Prepara para atuar na Educação Infantil, anos iniciais do Ensino Fundamental, gestão educacional e espaços não formais. Bibliografia de apoio: Didática Geral (José Carlos Libâneo): Estrutura da prática docente, planejamento, mediação e avaliação em sala de aula; Pedagogia e Educação (Antônio Flávio Barbosa Moreira): Vertentes históricas, filosóficas e sociológicas da educação e da formação docente; Avaliação e Educação (José Carlos Libâneo): Critérios de avaliação diagnóstica, formativa e somativa em processos de aprendizagem."
   },
   {
     "id": "portugues-brasileiro",
@@ -267,7 +267,7 @@
     "courseType": null,
     "icon": "fa-language",
     "description": "Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension.",
-    "bio": "Brazilian Portuguese (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension."
+    "bio": "Brazilian Portuguese (for English Speakers) é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Complete Brazilian Portuguese course from A1 to C2 level, designed for English speakers. Learn Portuguese with lessons organized by proficiency level, covering grammar, vocabulary, pronunciation, listening and reading comprehension. Bibliografia de apoio: Português Básico para Estrangeiros (Vera Lúcia de Oliveira): Vocabulário, pronúncia, frases úteis e uso cotidiano do português brasileiro; Gramática do Português Brasileiro (Cecília Meireles; Fernando Pestana): Aprofundamento das regras e uso do português brasileiro em fala e escrita; Letramento e Escrita em Português (Celso Cunha): Leitura crítica, produção textual e estrutura da escrita em português."
   },
   {
     "id": "processos-gerenciais",
@@ -276,7 +276,7 @@
     "courseType": "tecnologo",
     "icon": "fa-briefcase",
     "description": "Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão.",
-    "bio": "Processos Gerenciais é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão."
+    "bio": "Processos Gerenciais é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Tecnologia em Processos Gerenciais com formação abrangente em gestão de pessoas, processos, finanças, marketing, estratégia e inovação. Desenvolve competências para atuar na gestão de organizações, com foco em melhoria de processos e tomada de decisão. Bibliografia de apoio: Gestão de Processos (Michael Hammer; James Champy): Fundamentos da melhoria de processos e reengenharia organizacional; Lean Thinking (James P. Womack; Daniel T. Jones): Metodologia lean, redução de desperdícios e melhoria contínua em processos; Administração de Produção e Operações (Corrêa; Gianesi; Caon): Planejamento, capacidade, logística, qualidade e gestão de operações em organizações."
   },
   {
     "id": "quimica",
@@ -285,7 +285,7 @@
     "courseType": "licenciatura",
     "icon": "fa-flask",
     "description": "Curso de Licenciatura em Química com formação sólida em fundamentos químicos, pedagógicos e práticos, preparando para o ensino de Química na Educação Básica.",
-    "bio": "Química é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Química com formação sólida em fundamentos químicos, pedagógicos e práticos, preparando para o ensino de Química na Educação Básica."
+    "bio": "Química é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Licenciatura em Química com formação sólida em fundamentos químicos, pedagógicos e práticos, preparando para o ensino de Química na Educação Básica. Bibliografia de apoio: Química Geral (Raymond Chang; Kenneth Goldsby): Estrutura dos princípios fundamentais da química, incluindo reações, equilibrios e propriedades; Química Orgânica (Clayden; Greeves; Warren): Estruturas, mecanismos e reações orgânicas em contexto científico e aplicado; Química Analítica (Douglas A. Skoog; Donald M. West; F. James Holler): Fundamentos de análise química e técnicas instrumentais para laboratório e indústria."
   },
   {
     "id": "tecnologia-informacao",
@@ -294,6 +294,6 @@
     "courseType": "bacharelado",
     "icon": "fa-laptop-code",
     "description": "Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores.",
-    "bio": "Tecnologia da Informação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores."
+    "bio": "Tecnologia da Informação é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. Curso de Bacharelado em Tecnologia da Informação com formação abrangente em programação, sistemas, redes, segurança, gestão e inovação. Prepara para atuar no desenvolvimento e gerenciamento de soluções tecnológicas em organizações de diversos setores. Bibliografia de apoio: Fundamentos de Sistemas de Informação (Kenneth C. Laudon; Jane P. Laudon): Estrutura dos sistemas de informação, tecnologia e gestão empresarial; Projeto de Sistemas de Informação (Paulo Henrique de Souza Bermejo): Modelagem de requisitos, processos de negócio e design de soluções digitais; Gestão de TI (Aline V. B. de Albuquerque): Arquitetura tecnológica, governança, segurança e gestão de serviços de TI."
   }
 ]

@@ -6,7 +6,7 @@
     "edition": "1ª edição",
     "isbn": "9780849325178",
     "description": "Fundamentos de imagens digitais, pixels, processamento e visualização computacional.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Imagem",
+    "cover": "https://covers.openlibrary.org/b/id/8661529-L.jpg",
     "year": "2006",
     "publisher": "CRC Press",
     "link": "https://www.amazon.com.br/Digital-Imaging-Handbook-John-Russ/dp/0849325178"
@@ -18,7 +18,7 @@
     "edition": "4ª edição",
     "isbn": "9781138627000",
     "description": "Pipeline gráfico, iluminação, rasterização, shading e performance visual.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Rendering",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781138627000-L.jpg",
     "year": "2018",
     "publisher": "A K Peters/CRC Press",
     "link": "https://www.amazon.com.br/Real-Time-Rendering-Tomas-Akenine-Möller/dp/1138627003"
@@ -30,7 +30,7 @@
     "edition": "3ª edição",
     "isbn": "9780321399526",
     "description": "Princípios, pipeline gráfico, modelagem, renderização e visualização 3D.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Graphics",
+    "cover": "https://covers.openlibrary.org/b/isbn/9780321399526-L.jpg",
     "year": "2014",
     "publisher": "Addison-Wesley",
     "link": "https://www.amazon.com.br/Computer-Graphics-Principles-Practice-Edition/dp/0321399528"
@@ -42,9 +42,48 @@
     "edition": "7ª edição",
     "isbn": "9780133987514",
     "description": "Biblioteca prática para gráficos 2D/3D e desenvolvimento com OpenGL.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=OpenGL",
+    "cover": "https://covers.openlibrary.org/b/id/10592290-L.jpg",
     "year": "2015",
     "publisher": "Addison-Wesley",
     "link": "https://www.amazon.com.br/OpenGL-SuperBible-Richard-Wright/dp/0133987513"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

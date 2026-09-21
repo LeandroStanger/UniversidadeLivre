@@ -6,7 +6,7 @@
     "edition": "2ª edição",
     "isbn": "9781491957660",
     "description": "Uso de pandas, NumPy, visualização e manipulação de dados em projetos de análise aplicada.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=Data+Analysis",
+    "cover": "https://covers.openlibrary.org/b/id/7548132-L.jpg",
     "year": "2018",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/Python-Data-Analysis-Wes-McKinney/dp/1491957662"
@@ -18,7 +18,7 @@
     "edition": "3ª edição",
     "isbn": "9781098122461",
     "description": "Modelagem preditiva, redes neurais, pipelines e prática em aprendizado de máquina.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=ML",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781098122461-L.jpg",
     "year": "2022",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1098122461"
@@ -30,7 +30,7 @@
     "edition": "2ª edição",
     "isbn": "9780387848570",
     "description": "Tratamento matemático de inferência estatística, predição e métodos de aprendizagem estatística.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Estatistica",
+    "cover": "https://covers.openlibrary.org/b/id/8643962-L.jpg",
     "year": "2009",
     "publisher": "Springer",
     "link": "https://www.amazon.com.br/Elements-Statistical-Learning-Prediction-Statistics/dp/0387848576"
@@ -42,9 +42,48 @@
     "edition": "1ª edição",
     "isbn": "9781491910399",
     "description": "Fluxo completo de importação, limpeza, transformação, modelagem e visualização de dados.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=R+for+Data+Science",
+    "cover": "https://covers.openlibrary.org/b/id/8512393-L.jpg",
     "year": "2017",
     "publisher": "O'Reilly",
     "link": "https://www.amazon.com.br/R-Data-Science-Hadley-Wickham/dp/1491910399"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

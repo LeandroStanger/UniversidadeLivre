@@ -6,7 +6,7 @@
     "edition": "1ª edição",
     "isbn": "9788547004218",
     "description": "Álgebra, geometria, trigonometria, análise combinatória e resolução de questões militares.",
-    "cover": "https://placehold.co/300x420/0f172a/7dd3fc?text=EsPCEx",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788547004218-L.jpg",
     "year": "2020",
     "publisher": "Editora Carranca",
     "link": "https://www.amazon.com.br/Matemática-EsPCEx-Leandro-Ribeiro/dp/8547004213"
@@ -18,7 +18,7 @@
     "edition": "1ª edição",
     "isbn": "9788577207038",
     "description": "Mecânica, eletricidade, óptica, termologia e resolução de problemas selecionados.",
-    "cover": "https://placehold.co/300x420/1f2937/f5d0fe?text=Física",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788577207038-L.jpg",
     "year": "2021",
     "publisher": "Editora MGT",
     "link": "https://www.amazon.com.br/Física-EsPCEx-Márcio-Azevedo/dp/8577207035"
@@ -30,7 +30,7 @@
     "edition": "1ª edição",
     "isbn": "9788562576722",
     "description": "Interpretação de textos, gramática, redação e recursos de linguagem.",
-    "cover": "https://placehold.co/300x420/111827/93c5fd?text=Português",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788562576722-L.jpg",
     "year": "2021",
     "publisher": "Editora Nova",
     "link": "https://www.amazon.com.br/Português-EsPCEx-Carla-Mendes/dp/8562576726"
@@ -42,9 +42,48 @@
     "edition": "1ª edição",
     "isbn": "9788564008109",
     "description": "Estrutura atômica, reações químicas, soluções e propriedades de materiais.",
-    "cover": "https://placehold.co/300x420/312e81/bbd0ff?text=Química",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788564008109-L.jpg",
     "year": "2020",
     "publisher": "Editora Institucional",
     "link": "https://www.amazon.com.br/Química-para-EsPCEx-Marcos-Pimenta/dp/8564008108"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
   }
 ]

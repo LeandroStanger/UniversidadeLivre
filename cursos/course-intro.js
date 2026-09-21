@@ -27,6 +27,7 @@
     let currentCardCourseInfo = {};
     let currentCardShareDescription = '';
     let introData = null;
+    let courseCatalog = null;
     let _initialized = false;
     let _sliderInterval = null;
     let _currentSlideIndex = 0;
@@ -44,6 +45,7 @@
                 return translate(key, replacements);
             } catch (e) { /* fallback */ }
         }
+
         const fallbacks = {
             'intro_start': 'Começar aula agora',
             'intro_dont_show': 'Não mostrar novamente',
@@ -358,6 +360,20 @@
         }
     }
 
+    async function loadCourseCatalog() {
+        if (courseCatalog) return courseCatalog;
+        try {
+            const response = await fetch('cursos/courses.json');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            courseCatalog = Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.error('[Intro] Erro ao carregar catálogo de cursos:', error);
+            courseCatalog = [];
+        }
+        return courseCatalog;
+    }
+
     // ========== ABRIR LINKS EM NOVA ABA ==========
     function makeLinksOpenInNewTab(container) {
         if (!container) return;
@@ -597,32 +613,41 @@
         const institution = document.getElementById('courseIntroCardInstitution');
         const premise = document.getElementById('courseIntroCardPremise');
         const description = document.getElementById('courseIntroCardDescription');
+        const bioHeading = document.getElementById('courseIntroCardBioHeading');
+        const bio = document.getElementById('courseIntroCardBio');
         const learningList = document.getElementById('courseIntroCardLearningList');
         const about = document.getElementById('courseIntroCardAbout');
         const label = document.getElementById('courseIntroCardLabel');
         const learningHeading = document.getElementById('courseIntroCardLearningHeading');
-        if (!card || !image || !title || !classification || !institution || !premise || !description || !learningList || !about || !label || !learningHeading) return false;
+        if (!card || !image || !title || !classification || !institution || !premise || !description || !bioHeading || !bio || !learningList || !about || !label || !learningHeading) return false;
 
-        const data = await loadIntroData();
+        const [data, catalog] = await Promise.all([loadIntroData(), loadCourseCatalog()]);
         const jsonKey = courseIdToJsonKey[courseId] || courseId;
         const courseData = data?.[jsonKey];
-        if (!courseData) {
+        const catalogCourse = catalog.find(course => course.id === courseId) || {};
+        const resolvedCourseInfo = {
+            ...catalogCourse,
+            ...courseInfo,
+            bio: courseInfo.bio || catalogCourse.bio
+        };
+        if (!courseData && !resolvedCourseInfo.name && !resolvedCourseInfo.bio) {
             card.hidden = true;
-            console.warn(`[Intro] Dados do resumo não encontrados para o curso: ${courseId}`);
+            console.warn(`[Intro] Dados do curso não encontrados: ${courseId}`);
             return false;
         }
 
         currentCardCourseId = courseId;
-        currentCardCourseInfo = { ...courseInfo };
+        currentCardCourseInfo = resolvedCourseInfo;
         const englishCourse = isEnglishCourse(courseId);
         // The course language takes precedence over the interface language.
         // This keeps the complete course summary consistent with its content.
         const useEnglishLabels = englishCourse;
         label.textContent = useEnglishLabels ? 'About the course' : 'Sobre o curso';
+        bioHeading.textContent = useEnglishLabels ? 'Biography' : 'Biografia';
         learningHeading.textContent = useEnglishLabels ? 'What you will learn' : 'O que você vai aprender';
 
         const readme = document.createElement('div');
-        readme.innerHTML = courseData.readmeContent || '';
+        readme.innerHTML = courseData?.readmeContent || '';
         const readmeTitle = readme.querySelector('h1')?.textContent?.trim();
         const paragraphs = Array.from(readme.querySelectorAll('p'));
         const paragraphTexts = paragraphs
@@ -630,7 +655,7 @@
             .filter(Boolean);
         const summary = paragraphTexts[0];
         const courseDetails = paragraphTexts.slice(1, 3).join(' ');
-        currentCardShareDescription = courseInfo.description?.trim()
+        currentCardShareDescription = resolvedCourseInfo.description?.trim()
             || courseDetails
             || summary
             || '';
@@ -641,11 +666,11 @@
             ? Array.from(learningListSource.querySelectorAll('li'))
             : [];
 
-        image.alt = `Imagem do curso ${readmeTitle || courseData.name || courseId}`;
+        image.alt = `Imagem do curso ${readmeTitle || courseData?.name || resolvedCourseInfo.name || courseId}`;
         if (mobileImage) {
-            mobileImage.srcset = courseData.imageUrl || '';
+            mobileImage.srcset = courseData?.imageUrl || '';
         }
-        const imageCandidates = getCourseIntroImageCandidates(courseData);
+        const imageCandidates = courseData ? getCourseIntroImageCandidates(courseData) : ['logo-da-universidade-livre.png'];
         let imageCandidateIndex = 0;
         image.onerror = () => {
             imageCandidateIndex += 1;
@@ -657,7 +682,7 @@
             image.src = 'logo-da-universidade-livre.png';
         };
         image.src = imageCandidates[imageCandidateIndex];
-        title.textContent = readmeTitle || courseData.name || courseId;
+        title.textContent = readmeTitle || courseData?.name || resolvedCourseInfo.name || courseId;
         const levelLabels = {
             graduacao: 'graduacao',
             'pos-graduacao': 'pos_graduacao',
@@ -669,9 +694,9 @@
             licenciatura: 'licenciatura',
             tecnologo: 'tecnologo'
         };
-        const levelKey = levelLabels[courseInfo.courseLevel];
-        const typeKey = courseInfo.courseLevel === 'graduacao'
-            ? typeLabels[courseInfo.courseType]
+        const levelKey = levelLabels[resolvedCourseInfo.courseLevel];
+        const typeKey = resolvedCourseInfo.courseLevel === 'graduacao'
+            ? typeLabels[resolvedCourseInfo.courseType]
             : null;
         const courseTypeLabels = {
             graduacao: 'Undergraduate',
@@ -699,6 +724,17 @@
         description.textContent = currentCardShareDescription || (useEnglishLabels
             ? 'A learning journey with organized content and practical application.'
             : 'Uma jornada de aprendizagem com conteúdo organizado e aplicação prática.');
+        const courseBio = String(
+            resolvedCourseInfo.bio
+            || courseData.bio?.trim()
+            || resolvedCourseInfo.description?.trim()
+            || courseData.description?.trim()
+            || summary
+            || (useEnglishLabels
+                ? 'An academic journey with curated content and practical application.'
+                : 'Uma formação acadêmica com conteúdo curado e aplicação prática.')
+        ).trim();
+        bio.textContent = courseBio;
         learningList.replaceChildren(...learningItems.map(item => {
             const listItem = document.createElement('li');
             listItem.textContent = item.textContent?.trim() || '';
