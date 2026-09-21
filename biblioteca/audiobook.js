@@ -1346,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Reproduzir audiobook reutilizando o player do Auditório
     function playAudiobook(videoId, title, description) {
-        window.pauseFloatingAudio?.();
+        window.beginFloatingMedia?.();
         // Verifica se o módulo do Auditório está disponível
         if (window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
             window.Auditorio.playVideo(videoId, title, description);

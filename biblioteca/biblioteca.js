@@ -2439,6 +2439,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             const button = document.getElementById('playerPlayPause');
             if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
         });
+        audio.addEventListener('ended', () => {
+            saveProgress();
+            window.finishFloatingMedia?.();
+        });
         audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
         startProgressSaving();
         startProgressUpdates();
@@ -2498,7 +2502,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0) {
-        window.pauseFloatingAudio?.();
+        window.beginFloatingMedia?.();
         console.log('[Player] Play solicitado:', videoId, title, parts);
         window.UniversidadeLivreAnalytics?.media('biblioteca', videoId || title, title);
         currentAudiobookMeta = meta || currentAudiobookMeta || {
@@ -2746,6 +2750,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                                 btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
                                 if (event.data === YT.PlayerState.ENDED) {
                                     saveProgress();
+                                    window.finishFloatingMedia?.();
                                 }
                             }
                             updatePlayerControlTranslations();

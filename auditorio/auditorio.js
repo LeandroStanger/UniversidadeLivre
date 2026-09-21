@@ -1112,6 +1112,7 @@ function onPlayerStateChange(event) {
         btn.innerHTML = '<i class="fas fa-play"></i>';
         stopProgressUpdate();
         stopWatchTimer();
+        window.finishFloatingMedia?.();
     }
     saveAllProgress();
 }
@@ -1198,7 +1199,7 @@ function closePlayer() {
     document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
 }
 function playVideo(videoId, title, description) {
-    window.pauseFloatingAudio?.();
+    window.beginFloatingMedia?.();
     window.UniversidadeLivreAnalytics?.media('auditorio', videoId, title);
     document.getElementById('playerTitle').textContent = title;
     document.getElementById('playerDescription').textContent = description;

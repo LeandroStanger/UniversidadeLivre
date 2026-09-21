@@ -16,6 +16,8 @@
     let progressTimer;
     let audioStartScheduled = false;
     let savedState = {};
+    let suspendedForMedia = false;
+    let externalMediaActive = false;
 
     const $ = id => document.getElementById(id);
     const formatTime = seconds => {
@@ -49,6 +51,21 @@
         if (isReady && player.getPlayerState() === YT.PlayerState.PLAYING) player.pauseVideo();
     }
 
+    function beginExternalMedia() {
+        const wasPlaying = isReady && player.getPlayerState() === YT.PlayerState.PLAYING;
+        suspendedForMedia = suspendedForMedia || wasPlaying || (!isReady && wantsToPlay);
+        externalMediaActive = true;
+        pauseAudio();
+    }
+
+    function finishExternalMedia() {
+        externalMediaActive = false;
+        if (!suspendedForMedia) return;
+        suspendedForMedia = false;
+        wantsToPlay = true;
+        if (isReady) player.playVideo();
+    }
+
     function loadTrack(index, autoplay) {
         currentIndex = (index + tracks.length) % tracks.length;
         const [videoId, title] = tracks[currentIndex];
@@ -78,7 +95,7 @@
                     }
                     event.target.setVolume(Number(savedState.volume ?? 70));
                     updateVolumeDisplay(savedState.volume ?? 70);
-                    loadTrack(currentIndex, wantsToPlay);
+                    loadTrack(currentIndex, wantsToPlay && !externalMediaActive);
                     updateProgress();
                 },
                 onStateChange: event => {
@@ -159,6 +176,8 @@
             panel.hidden = !isHidden;
             $('audioPlayerToggle').setAttribute('aria-expanded', String(isHidden));
             if (isHidden) {
+                externalMediaActive = false;
+                suspendedForMedia = false;
                 wantsToPlay = true;
                 if (!player) loadYouTubeApi();
                 else if (isReady) player.playVideo();
@@ -169,6 +188,8 @@
             $('audioPlayerToggle').setAttribute('aria-expanded', 'false');
         });
         $('audioPlayerPlay').addEventListener('click', () => {
+            externalMediaActive = false;
+            suspendedForMedia = false;
             if (!isReady) {
                 wantsToPlay = true;
                 loadYouTubeApi();
@@ -209,4 +230,7 @@
 
     if (document.readyState === 'complete') startAudioAfterPageLoad();
     else window.addEventListener('load', startAudioAfterPageLoad, { once: true });
+
+    window.beginFloatingMedia = beginExternalMedia;
+    window.finishFloatingMedia = finishExternalMedia;
 })();

@@ -2131,7 +2131,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function loadVideoInPlayer(videoObj) {
-        window.pauseFloatingAudio?.();
+        window.beginFloatingMedia?.();
         youtubeEmbedFallbackActive = false;
         const youtubeMatch = getYouTubeVideoId(videoObj.url);
         const youtubeWrapper = document.getElementById('youtube-player');
@@ -4097,7 +4097,10 @@ console.log('[Main] Inicializando script.js v28.0...');
             const playPauseBtn = document.getElementById("playPauseBtn");
             if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
             if (updateInterval) clearInterval(updateInterval);
-            if (state === 'ended' && lessons[currentLessonId]?.videos[currentVideoInLesson]) markCurrentVideoWatched();
+            if (state === 'ended') {
+                window.finishFloatingMedia?.();
+                if (lessons[currentLessonId]?.videos[currentVideoInLesson]) markCurrentVideoWatched();
+            }
         }
         saveAllProgress();
     }
