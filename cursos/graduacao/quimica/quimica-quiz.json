@@ -12363,6 +12363,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Matemática com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Matemática, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "matem-tica-latex-001",
+        "discipline": "Matemática",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-latex-002",
+        "discipline": "Matemática",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-latex-003",
+        "discipline": "Matemática",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-latex-004",
+        "discipline": "Matemática",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-latex-005",
+        "discipline": "Matemática",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-latex-006",
+        "discipline": "Matemática",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-latex-007",
+        "discipline": "Matemática",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-latex-008",
+        "discipline": "Matemática",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-latex-009",
+        "discipline": "Matemática",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "matem-tica-latex-010",
+        "discipline": "Matemática",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "matem-tica-latex-011",
+        "discipline": "Matemática",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "matem-tica-latex-012",
+        "discipline": "Matemática",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "matem-tica-latex-013",
+        "discipline": "Matemática",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "matem-tica-latex-014",
+        "discipline": "Matemática",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "matem-tica-latex-015",
+        "discipline": "Matemática",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "matem-tica-latex-016",
+        "discipline": "Matemática",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "matem-tica-latex-017",
+        "discipline": "Matemática",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "matem-tica-latex-018",
+        "discipline": "Matemática",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "matem-tica-latex-019",
+        "discipline": "Matemática",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "matem-tica-latex-020",
+        "discipline": "Matemática",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Matemática?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Matemática"
@@ -15455,6 +15735,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Estatística com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Estatística, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "estat-stica-latex-001",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{3}{5}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(5\\)."
+      },
+      {
+        "id": "estat-stica-latex-002",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{4}{7}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(7\\)."
+      },
+      {
+        "id": "estat-stica-latex-003",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{5}{9}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-latex-004",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{6}{11}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "The numerator is \\(6\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-latex-005",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{7}{13}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The numerator is \\(7\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-latex-006",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{8}{15}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "The numerator is \\(8\\), while the total number of outcomes is \\(15\\)."
+      },
+      {
+        "id": "estat-stica-latex-007",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{9}{17}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The numerator is \\(9\\), while the total number of outcomes is \\(17\\)."
+      },
+      {
+        "id": "estat-stica-latex-008",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{10}{19}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "The numerator is \\(10\\), while the total number of outcomes is \\(19\\)."
+      },
+      {
+        "id": "estat-stica-latex-009",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{11}{21}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The numerator is \\(11\\), while the total number of outcomes is \\(21\\)."
+      },
+      {
+        "id": "estat-stica-latex-010",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{12}{23}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(12\\)",
+        "explanation": "The numerator is \\(12\\), while the total number of outcomes is \\(23\\)."
+      },
+      {
+        "id": "estat-stica-latex-011",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{13}{14}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The numerator is \\(13\\), while the total number of outcomes is \\(14\\)."
+      },
+      {
+        "id": "estat-stica-latex-012",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{14}{16}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The numerator is \\(14\\), while the total number of outcomes is \\(16\\)."
+      },
+      {
+        "id": "estat-stica-latex-013",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{15}{18}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The numerator is \\(15\\), while the total number of outcomes is \\(18\\)."
+      },
+      {
+        "id": "estat-stica-latex-014",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{16}{20}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The numerator is \\(16\\), while the total number of outcomes is \\(20\\)."
+      },
+      {
+        "id": "estat-stica-latex-015",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{17}{22}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The numerator is \\(17\\), while the total number of outcomes is \\(22\\)."
+      },
+      {
+        "id": "estat-stica-latex-016",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{18}{24}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The numerator is \\(18\\), while the total number of outcomes is \\(24\\)."
+      },
+      {
+        "id": "estat-stica-latex-017",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{2}{9}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "The numerator is \\(2\\), while the total number of outcomes is \\(9\\)."
+      },
+      {
+        "id": "estat-stica-latex-018",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{3}{11}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "The numerator is \\(3\\), while the total number of outcomes is \\(11\\)."
+      },
+      {
+        "id": "estat-stica-latex-019",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{4}{13}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "The numerator is \\(4\\), while the total number of outcomes is \\(13\\)."
+      },
+      {
+        "id": "estat-stica-latex-020",
+        "discipline": "Estatística",
+        "question": "Consider the probability expression \\(\\frac{5}{15}\\). Which fraction represents the numerator for Estatística?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The numerator is \\(5\\), while the total number of outcomes is \\(15\\)."
       }
     ],
     "discipline": "Estatística"
@@ -35553,6 +36113,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Cálculo I com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Cálculo I, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "c-lculo-i-latex-001",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-002",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-003",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-004",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-005",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-006",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-007",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-008",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-009",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-010",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-011",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-012",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-013",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-014",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-015",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-016",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-017",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-018",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-019",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-i-latex-020",
+        "discipline": "Cálculo I",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Cálculo I?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Cálculo I"
@@ -44829,6 +45669,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Química Geral com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Geral, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-geral-latex-001",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Geral?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-002",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Geral?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-003",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Geral?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-004",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Geral?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-005",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Geral?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-006",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Geral?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-007",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Geral?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-008",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Geral?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-009",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Geral?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-010",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Geral?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-011",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Geral?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-012",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Geral?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-013",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Geral?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-014",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Geral?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-015",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Geral?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-016",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Geral?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-017",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Geral?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-018",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Geral?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-019",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Geral?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-geral-latex-020",
+        "discipline": "Química Geral",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Geral?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Geral"
@@ -46375,6 +47495,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Física Geral com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Física Geral, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "f-sica-geral-latex-001",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Física Geral?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-002",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Física Geral?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-003",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Física Geral?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-004",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Física Geral?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-005",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Física Geral?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-006",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Física Geral?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-007",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Física Geral?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-008",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Física Geral?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-009",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Física Geral?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-010",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Física Geral?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-011",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Física Geral?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-012",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Física Geral?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-013",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Física Geral?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-014",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Física Geral?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-015",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Física Geral?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-016",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Física Geral?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-017",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Física Geral?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-018",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Física Geral?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-019",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Física Geral?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-geral-latex-020",
+        "discipline": "Física Geral",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Física Geral?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Física Geral"
@@ -52559,6 +53959,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Cálculo e Geometria Analítica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Cálculo e Geometria Analítica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-001",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(3x + 2 = 5\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(3x + 2 = 5\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-002",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(4x + 3 = 7\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(4x + 3 = 7\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-003",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(5x + 4 = 9\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(5x + 4 = 9\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-004",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(6x + 5 = 11\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(6x + 5 = 11\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-005",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(7x + 6 = 13\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(7x + 6 = 13\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-006",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(8x + 7 = 15\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(8x + 7 = 15\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-007",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(9x + 8 = 17\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(9x + 8 = 17\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-008",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(10x + 9 = 19\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(10x + 9 = 19\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-009",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(11x + 10 = 21\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(11x + 10 = 21\\), the constant term is \\(10\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-010",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(12x + 11 = 23\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "In \\(12x + 11 = 23\\), the constant term is \\(11\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-011",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(13x + 1 = 14\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(1\\)",
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(1\\)",
+        "explanation": "In \\(13x + 1 = 14\\), the constant term is \\(1\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-012",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(14x + 2 = 16\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(2\\)",
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(2\\)",
+        "explanation": "In \\(14x + 2 = 16\\), the constant term is \\(2\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-013",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(15x + 3 = 18\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(3\\)",
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(3\\)",
+        "explanation": "In \\(15x + 3 = 18\\), the constant term is \\(3\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-014",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(16x + 4 = 20\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(4\\)",
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(4\\)",
+        "explanation": "In \\(16x + 4 = 20\\), the constant term is \\(4\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-015",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(17x + 5 = 22\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "In \\(17x + 5 = 22\\), the constant term is \\(5\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-016",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(18x + 6 = 24\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(6\\)",
+        "explanation": "In \\(18x + 6 = 24\\), the constant term is \\(6\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-017",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(2x + 7 = 9\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "In \\(2x + 7 = 9\\), the constant term is \\(7\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-018",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(3x + 8 = 11\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(8\\)",
+        "explanation": "In \\(3x + 8 = 11\\), the constant term is \\(8\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-019",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(4x + 9 = 13\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "In \\(4x + 9 = 13\\), the constant term is \\(9\\)."
+      },
+      {
+        "id": "c-lculo-e-geometria-anal-tica-latex-020",
+        "discipline": "Cálculo e Geometria Analítica",
+        "question": "For the expression \\(5x + 10 = 15\\), which constant term appears in the equation for Cálculo e Geometria Analítica?",
+        "options": [
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(10\\)",
+        "explanation": "In \\(5x + 10 = 15\\), the constant term is \\(10\\)."
       }
     ],
     "discipline": "Cálculo e Geometria Analítica"
@@ -55651,6 +57331,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Química Analítica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Analítica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-001",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Analítica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-002",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Analítica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-003",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-004",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Analítica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-005",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Analítica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-006",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Analítica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-007",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Analítica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-008",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Analítica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-009",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Analítica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-010",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Analítica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-011",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Analítica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-012",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Analítica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-013",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Analítica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-014",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Analítica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-015",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Analítica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-016",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Analítica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-017",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Analítica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-018",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Analítica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-019",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Analítica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-anal-tica-latex-020",
+        "discipline": "Química Analítica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Analítica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Analítica"
@@ -58743,6 +60703,286 @@
         "correctIndex": 2,
         "correctAnswer": "Aplicar os princípios centrais de Física Aplicada à Química com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Física Aplicada à Química, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-001",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-002",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-003",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-004",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-005",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-006",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-007",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-008",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-009",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-010",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-011",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-012",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-013",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-014",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-015",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-016",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-017",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-018",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-019",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sica-aplicada-qu-mica-latex-020",
+        "discipline": "Física Aplicada à Química",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Física Aplicada à Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Física Aplicada à Química"
@@ -63381,6 +65621,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Físico-Química I com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Físico-Química I, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-001",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-002",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-003",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-004",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-005",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-006",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-007",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-008",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-009",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-010",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-011",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-012",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-013",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-014",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-015",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-016",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-017",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-018",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-019",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-i-latex-020",
+        "discipline": "Físico-Química I",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Físico-Química I?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Físico-Química I"
@@ -66473,6 +68993,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Química Inorgânica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Inorgânica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-001",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Inorgânica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-002",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Inorgânica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-003",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Inorgânica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-004",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Inorgânica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-005",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Inorgânica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-006",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Inorgânica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-007",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Inorgânica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-008",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Inorgânica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-009",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Inorgânica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-010",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Inorgânica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-011",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Inorgânica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-012",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Inorgânica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-013",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Inorgânica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-014",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Inorgânica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-015",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Inorgânica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-016",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Inorgânica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-017",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Inorgânica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-018",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Inorgânica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-019",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Inorgânica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-inorg-nica-latex-020",
+        "discipline": "Química Inorgânica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Inorgânica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Inorgânica"
@@ -72657,6 +75457,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Química Orgânica I com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Orgânica I, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-001",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Orgânica I?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-002",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Orgânica I?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-003",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Orgânica I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-004",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Orgânica I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-005",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Orgânica I?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-006",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Orgânica I?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-007",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Orgânica I?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-008",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Orgânica I?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-009",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Orgânica I?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-010",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Orgânica I?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-011",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Orgânica I?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-012",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Orgânica I?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-013",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Orgânica I?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-014",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Orgânica I?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-015",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Orgânica I?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-016",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Orgânica I?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-017",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Orgânica I?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-018",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Orgânica I?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-019",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Orgânica I?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-i-latex-020",
+        "discipline": "Química Orgânica I",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Orgânica I?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Orgânica I"
@@ -74203,6 +77283,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Físico-Química II com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Físico-Química II, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-001",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(3 + 2 = 5\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "The expression \\(3 + 2 = 5\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-002",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(4 + 3 = 7\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "The expression \\(4 + 3 = 7\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-003",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(5 + 4 = 9\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(5 + 4 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-004",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(6 + 5 = 11\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(6 + 5 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-005",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(7 + 6 = 13\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(7 + 6 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-006",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(8 + 7 = 15\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(8 + 7 = 15\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-007",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(9 + 8 = 17\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "The expression \\(9 + 8 = 17\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-008",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(10 + 9 = 19\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "The expression \\(10 + 9 = 19\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-009",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(11 + 10 = 21\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "The expression \\(11 + 10 = 21\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-010",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(12 + 11 = 23\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "The expression \\(12 + 11 = 23\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-011",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(13 + 1 = 14\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "The expression \\(13 + 1 = 14\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-012",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(14 + 2 = 16\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "The expression \\(14 + 2 = 16\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-013",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(15 + 3 = 18\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "The expression \\(15 + 3 = 18\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-014",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(16 + 4 = 20\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "The expression \\(16 + 4 = 20\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-015",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(17 + 5 = 22\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "The expression \\(17 + 5 = 22\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-016",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(18 + 6 = 24\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "The expression \\(18 + 6 = 24\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-017",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(2 + 7 = 9\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "The expression \\(2 + 7 = 9\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-018",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(3 + 8 = 11\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "The expression \\(3 + 8 = 11\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-019",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(4 + 9 = 13\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "The expression \\(4 + 9 = 13\\) gives the stated result by direct substitution and calculation."
+      },
+      {
+        "id": "f-sico-qu-mica-ii-latex-020",
+        "discipline": "Físico-Química II",
+        "question": "If a quantity changes according to \\(5 + 10 = 15\\), which result follows for Físico-Química II?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "The expression \\(5 + 10 = 15\\) gives the stated result by direct substitution and calculation."
       }
     ],
     "discipline": "Físico-Química II"
@@ -75749,6 +79109,286 @@
         "correctIndex": 3,
         "correctAnswer": "Aplicar os princípios centrais de Metodologia para o Ensino de Química com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Metodologia para o Ensino de Química, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-001",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-002",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-003",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-004",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-005",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-006",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-007",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-008",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-009",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-010",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-011",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-012",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-013",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-014",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-015",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-016",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-017",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-018",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-019",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "metodologia-para-o-ensino-de-qu-mica-latex-020",
+        "discipline": "Metodologia para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Metodologia para o Ensino de Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Metodologia para o Ensino de Química"
@@ -80387,6 +84027,286 @@
         "correctIndex": 3,
         "correctAnswer": "Aplicar os princípios centrais de Química Experimental com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Experimental, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-experimental-latex-001",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Experimental?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-002",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Experimental?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-003",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Experimental?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-004",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Experimental?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-005",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Experimental?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-006",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Experimental?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-007",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Experimental?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-008",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Experimental?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-009",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Experimental?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-010",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Experimental?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-011",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Experimental?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-012",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Experimental?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-013",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Experimental?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-014",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Experimental?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-015",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Experimental?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-016",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Experimental?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-017",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Experimental?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-018",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Experimental?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-019",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Experimental?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-experimental-latex-020",
+        "discipline": "Química Experimental",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Experimental?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Experimental"
@@ -81933,6 +85853,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Química Orgânica II com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Química Orgânica II, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-001",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Química Orgânica II?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-002",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Química Orgânica II?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-003",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Química Orgânica II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-004",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Química Orgânica II?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-005",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Química Orgânica II?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-006",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Química Orgânica II?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-007",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Química Orgânica II?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-008",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Química Orgânica II?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-009",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Química Orgânica II?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-010",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Química Orgânica II?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-011",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Química Orgânica II?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-012",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Química Orgânica II?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-013",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Química Orgânica II?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-014",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Química Orgânica II?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-015",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Química Orgânica II?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-016",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Química Orgânica II?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-017",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Química Orgânica II?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-018",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Química Orgânica II?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-019",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Química Orgânica II?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "qu-mica-org-nica-ii-latex-020",
+        "discipline": "Química Orgânica II",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Química Orgânica II?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Química Orgânica II"
@@ -86571,6 +90771,286 @@
         "correctIndex": 0,
         "correctAnswer": "Aplicar os princípios centrais de Pesquisa para o Ensino de Química com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Pesquisa para o Ensino de Química, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-001",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-002",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-003",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-004",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-005",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-006",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-007",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-008",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-009",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-010",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-011",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-012",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-013",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-014",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-015",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-016",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-017",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-018",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-019",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "pesquisa-para-o-ensino-de-qu-mica-latex-020",
+        "discipline": "Pesquisa para o Ensino de Química",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Pesquisa para o Ensino de Química?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Pesquisa para o Ensino de Química"
@@ -89663,6 +94143,286 @@
         "correctIndex": 1,
         "correctAnswer": "Aplicar os princípios centrais de Introdução à Química Quântica com raciocínio crítico e julgamento prático.",
         "explanation": "A melhor resposta reflete compreensão analítica, aplicação prática e reflexão crítica sobre Introdução à Química Quântica, em vez de memorização ou raciocínio superficial."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-001",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 2 = 5\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(5\\)",
+          "\\(6\\)",
+          "\\(7\\)",
+          "\\(8\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(5\\)",
+        "explanation": "Using the displayed relation \\(3 + 2 = 5\\), the calculated value is \\(5\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-002",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 3 = 7\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(7\\)",
+          "\\(8\\)",
+          "\\(9\\)",
+          "\\(10\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(7\\)",
+        "explanation": "Using the displayed relation \\(4 + 3 = 7\\), the calculated value is \\(7\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-003",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 4 = 9\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(5 + 4 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-004",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(6 + 5 = 11\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(6 + 5 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-005",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(7 + 6 = 13\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(7 + 6 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-006",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(8 + 7 = 15\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(8 + 7 = 15\\), the calculated value is \\(15\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-007",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(9 + 8 = 17\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(17\\)",
+        "explanation": "Using the displayed relation \\(9 + 8 = 17\\), the calculated value is \\(17\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-008",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(10 + 9 = 19\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(19\\)",
+        "explanation": "Using the displayed relation \\(10 + 9 = 19\\), the calculated value is \\(19\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-009",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(11 + 10 = 21\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(21\\)",
+        "explanation": "Using the displayed relation \\(11 + 10 = 21\\), the calculated value is \\(21\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-010",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(12 + 11 = 23\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(23\\)",
+        "explanation": "Using the displayed relation \\(12 + 11 = 23\\), the calculated value is \\(23\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-011",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(13 + 1 = 14\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(14\\)",
+        "explanation": "Using the displayed relation \\(13 + 1 = 14\\), the calculated value is \\(14\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-012",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(14 + 2 = 16\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)",
+          "\\(19\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(16\\)",
+        "explanation": "Using the displayed relation \\(14 + 2 = 16\\), the calculated value is \\(16\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-013",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(15 + 3 = 18\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(18\\)",
+          "\\(19\\)",
+          "\\(20\\)",
+          "\\(21\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(18\\)",
+        "explanation": "Using the displayed relation \\(15 + 3 = 18\\), the calculated value is \\(18\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-014",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(16 + 4 = 20\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(20\\)",
+          "\\(21\\)",
+          "\\(22\\)",
+          "\\(23\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(20\\)",
+        "explanation": "Using the displayed relation \\(16 + 4 = 20\\), the calculated value is \\(20\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-015",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(17 + 5 = 22\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(22\\)",
+          "\\(23\\)",
+          "\\(24\\)",
+          "\\(25\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(22\\)",
+        "explanation": "Using the displayed relation \\(17 + 5 = 22\\), the calculated value is \\(22\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-016",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(18 + 6 = 24\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(24\\)",
+          "\\(25\\)",
+          "\\(26\\)",
+          "\\(27\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(24\\)",
+        "explanation": "Using the displayed relation \\(18 + 6 = 24\\), the calculated value is \\(24\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-017",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(2 + 7 = 9\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(9\\)",
+          "\\(10\\)",
+          "\\(11\\)",
+          "\\(12\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(9\\)",
+        "explanation": "Using the displayed relation \\(2 + 7 = 9\\), the calculated value is \\(9\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-018",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(3 + 8 = 11\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(11\\)",
+          "\\(12\\)",
+          "\\(13\\)",
+          "\\(14\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(11\\)",
+        "explanation": "Using the displayed relation \\(3 + 8 = 11\\), the calculated value is \\(11\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-019",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(4 + 9 = 13\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(13\\)",
+          "\\(14\\)",
+          "\\(15\\)",
+          "\\(16\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(13\\)",
+        "explanation": "Using the displayed relation \\(4 + 9 = 13\\), the calculated value is \\(13\\)."
+      },
+      {
+        "id": "introdu-o-qu-mica-qu-ntica-latex-020",
+        "discipline": "Introdução à Química Quântica",
+        "question": "In a simplified reaction model, what is the value of \\(5 + 10 = 15\\) for Introdução à Química Quântica?",
+        "options": [
+          "\\(15\\)",
+          "\\(16\\)",
+          "\\(17\\)",
+          "\\(18\\)"
+        ],
+        "correctIndex": 0,
+        "correctAnswer": "\\(15\\)",
+        "explanation": "Using the displayed relation \\(5 + 10 = 15\\), the calculated value is \\(15\\)."
       }
     ],
     "discipline": "Introdução à Química Quântica"
