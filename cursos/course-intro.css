@@ -106,6 +106,7 @@
     border: 1px solid var(--border, #2A3550);
     border-radius: 0.75rem;
     background: var(--bg-secondary, #121826);
+    max-width: min(18rem, calc(100vw - 2rem));
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 

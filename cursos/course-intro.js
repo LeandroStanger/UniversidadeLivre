@@ -257,11 +257,38 @@
         }
     }
 
-    async function prepareSocialShare() {
-        await copyToClipboard(`${getCourseShareText()}\n${getCourseShareUrl()}`);
-        if (window.showNotification) {
-            window.showNotification(t('course_social_ready'), 'success');
+    function isMobileDevice() {
+        return /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent)
+            || (navigator.maxTouchPoints > 1 && window.matchMedia('(max-width: 900px)').matches);
+    }
+
+    function openExternalUrl(url) {
+        const openedWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!openedWindow) {
+            window.location.assign(url);
         }
+        return openedWindow;
+    }
+
+    function openShareDestination(appUrl, webUrl) {
+        if (!isMobileDevice()) {
+            openExternalUrl(webUrl);
+            return;
+        }
+
+        // Open synchronously from the click event so mobile browsers do not block it.
+        const destination = window.open('', '_blank');
+        if (!destination) {
+            window.location.assign(webUrl);
+            return;
+        }
+        destination.opener = null;
+        destination.location.href = appUrl;
+
+        // If the app is not installed, reuse the already-authorized tab for the web fallback.
+        window.setTimeout(() => {
+            if (!destination.closed) destination.location.href = webUrl;
+        }, 1200);
     }
 
     async function shareCourse(action) {
@@ -275,29 +302,51 @@
         if (action === 'copy') {
             await copyCourseLink();
         } else if (action === 'whatsapp') {
-            window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
+            const message = encodeURIComponent(`${text}\n${url}`);
+            openShareDestination(
+                `whatsapp://send?text=${message}`,
+                `https://wa.me/?text=${message}`
+            );
         } else if (action === 'telegram') {
-            window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+            const encodedUrl = encodeURIComponent(url);
+            const encodedText = encodeURIComponent(text);
+            openShareDestination(
+                `tg://msg_url?url=${encodedUrl}&text=${encodedText}`,
+                `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`
+            );
         } else if (action === 'facebook') {
-            const facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-            await prepareSocialShare();
-            if (!facebookWindow) {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-            }
+            const encodedUrl = encodeURIComponent(url);
+            const webUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodeURIComponent(text)}`;
+            openShareDestination(
+                `fb://facewebmodal/f?href=${encodeURIComponent(webUrl)}`,
+                webUrl
+            );
         } else if (action === 'messenger') {
-            const messengerWindow = window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
-            await copyToClipboard(`${text}\n${url}`);
-            if (window.showNotification) {
-                window.showNotification(t('course_messenger_ready'), 'success');
-            }
-            if (!messengerWindow) {
-                window.open('https://www.messenger.com/', '_blank', 'noopener,noreferrer');
-            }
+            const encodedUrl = encodeURIComponent(url);
+            openShareDestination(
+                `fb-messenger://share?link=${encodedUrl}`,
+                `https://www.messenger.com/`
+            );
+            copyToClipboard(`${text}\n${url}`).then(() => {
+                if (window.showNotification) {
+                    window.showNotification(t('course_messenger_ready'), 'success');
+                }
+            }).catch(error => {
+                console.error('[Intro] Não foi possível preparar o compartilhamento no Messenger:', error);
+                if (window.showNotification) window.showNotification(t('course_share_error'), 'error');
+            });
         } else if (action === 'linkedin') {
-            await prepareSocialShare();
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+            const encodedUrl = encodeURIComponent(url);
+            openShareDestination(
+                `linkedin://shareArticle?mini=true&url=${encodedUrl}`,
+                `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+            );
         } else if (action === 'x') {
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener,noreferrer');
+            const message = encodeURIComponent(`${text}\n${url}`);
+            openShareDestination(
+                `twitter://post?message=${message}`,
+                `https://x.com/intent/post?text=${message}`
+            );
         } else if (action === 'native') {
             if (typeof navigator.share === 'function') {
                 await navigator.share({
