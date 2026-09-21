@@ -210,6 +210,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     let youtubeEmbedFallbackActive = false;
     let captionsEnabled = false;
     const CAPTION_LANGUAGE_STORAGE_KEY = 'captionLanguage';
+    const TEST_USER_MATRICULA = '20260815064514840';
     let currentDiscipline = null;
     const COMMUNITY_CONTEXT_KEY = 'comunidade_current_study_context';
 
@@ -316,7 +317,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
         try {
-            const response = await fetch(fileName);
+            const response = await fetch(fileName, { cache: 'no-store' });
             if (!response.ok) throw new Error('Erro ao carregar dados do curso');
             const data = await response.json();
             courseDataCache.set(courseId, data);
@@ -542,7 +543,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         if (!fileName) throw new Error('Curso inválido');
         currentCourseFolder = fileName.split('/').slice(0, -1).join('/') + '/';
         try {
-            const response = await fetch(fileName);
+            const response = await fetch(fileName, { cache: 'no-store' });
             if (!response.ok) throw new Error('Erro ao carregar dados do curso');
             return await response.json();
         } catch (error) {
@@ -1232,6 +1233,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             loadTeamAndContributors(courseId);
             if (window.setCurrentCourseForHelp) window.setCurrentCourseForHelp(courseId);
             await loadLibraryBooks();
+            await loadBooksForCourse(courseId);
             if (window.CursorTimeset) {
                 window.CursorTimeset.registerGraduationEntry(courseId);
             }
@@ -1258,6 +1260,10 @@ console.log('[Main] Inicializando script.js v28.0...');
                 currentDiscipline = ensureCurrentDiscipline();
             }
             persistCommunityStudyContext();
+            const courseContentList = document.getElementById('unifiedContentList');
+            if (courseContentList && stagesData[0]) {
+                courseContentList.dataset.stageSelected = 'true';
+            }
             if (window.renderCourseIntroCard) {
                 await window.renderCourseIntroCard(courseId, currentCourseDetails);
             }
@@ -1328,10 +1334,62 @@ console.log('[Main] Inicializando script.js v28.0...');
             name: stage.name,
             disciplines: stage.disciplines.map(discipline => ({
                 name: discipline.name,
-                bio: discipline.bio || '',
+                bio: buildDisciplineBioText(discipline),
                 videos: buildVideosFromDiscipline(discipline)
             }))
         }));
+    }
+
+    function buildDisciplineStudyGuidance(disciplineName) {
+        const name = String(disciplineName || '').trim() || 'a disciplina';
+        return [
+            `A disciplina ${name} combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais.`,
+            'Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer.',
+            'Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas.',
+            'Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria.',
+            'Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória.'
+        ].join(' ');
+    }
+
+    function getDisciplineBioFallback(disciplineName) {
+        const name = String(disciplineName || '').trim();
+        if (!name) return '';
+        return `${buildDisciplineStudyGuidance(name)}`;
+    }
+
+    function buildDisciplineBioText(discipline) {
+        const baseBio = String(discipline?.bio || '').trim();
+        const name = String(discipline?.name || '').trim();
+        const guidance = buildDisciplineStudyGuidance(name);
+        if (!baseBio) return guidance;
+        if (baseBio.includes('Como estudar') || baseBio.includes('Pesquisa na internet') || baseBio.includes('Biografia dos assuntos')) {
+            return baseBio;
+        }
+        return `${baseBio} ${guidance}`;
+    }
+
+    function getBooksForDiscipline(disciplineName) {
+        const books = booksCache.get(currentCourse) || [];
+        const normalizedDiscipline = normalize(disciplineName);
+        if (!normalizedDiscipline) return [];
+        return books.filter(book => {
+            const bookDiscipline = normalize(book.discipline);
+            return bookDiscipline === normalizedDiscipline
+                || bookDiscipline.includes(normalizedDiscipline)
+                || normalizedDiscipline.includes(bookDiscipline);
+        });
+    }
+
+    function buildDisciplineBioWithBooks(discipline) {
+        const bio = String(discipline?.bio || '').trim();
+        const books = getBooksForDiscipline(discipline?.name);
+        if (!books.length) return bio;
+
+        const readings = books
+            .slice(0, 6)
+            .map(book => `${book.title}${book.author ? `, de ${book.author}` : ''}`)
+            .join('; ');
+        return `${bio} Leituras recomendadas: ${readings}.`;
     }
 
     function buildVideosFromDiscipline(discipline) {
@@ -1435,6 +1493,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         allVideosFlat.forEach(v => v.watched = false);
         for (let i = 0; i < lessons.length; i++) { lessons[i].completed = false; lessons[i].unlocked = (i === 0); }
         notifiedDisciplines.clear();
+        refreshLessonUnlocks();
     }
 
     function updatePracticeTabVisibility() {
@@ -1553,7 +1612,10 @@ console.log('[Main] Inicializando script.js v28.0...');
         const progressPercent = total ? Math.floor((watched / total) * 100) : 0;
 
         updateFinalExamButton();
-        if (progressPercent >= 100 && areAllDisciplineExamsPassed() && getFinalExamState(currentCourse).passed && !_progressJustHit100) {
+        if (progressPercent >= 100
+            && (isExamExemptUser() || areAllDisciplineExamsPassed())
+            && (isExamExemptUser() || getFinalExamState(currentCourse).passed)
+            && !_progressJustHit100) {
             _progressJustHit100 = true;
             localStorage.setItem(`course_completed_${currentCourse}`, 'true');
             if (window._completionPopupTriggered) return;
@@ -1642,6 +1704,10 @@ console.log('[Main] Inicializando script.js v28.0...');
             && Boolean(localStorage.getItem('userMatricula')?.trim());
     }
 
+    function isExamExemptUser() {
+        return localStorage.getItem('userMatricula')?.trim() === TEST_USER_MATRICULA;
+    }
+
     function getFinalQuestionCount(courseId, disciplineName) {
         const level = currentCourseDetails?.courseLevel;
         const normalized = normalizeDisciplineKey(disciplineName);
@@ -1665,7 +1731,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         const card = document.querySelector('.final-exam-card');
         if (!card || !currentCourse) return;
         const videosComplete = allVideosFlat?.length > 0 && allVideosFlat.every(video => video.watched);
-        const eligible = isFinalExamUserAuthenticated() && videosComplete && areAllDisciplineExamsPassed();
+        const eligible = isFinalExamUserAuthenticated() && videosComplete
+            && (isExamExemptUser() || areAllDisciplineExamsPassed());
         const finalState = getFinalExamState(currentCourse);
         const available = eligible && !finalState.passed;
         card.disabled = !available;
@@ -1683,7 +1750,9 @@ console.log('[Main] Inicializando script.js v28.0...');
             alert(t('final_exam_login_required'));
             return;
         }
-        if (!currentCourse || !areAllDisciplineExamsPassed() || !allVideosFlat?.every(video => video.watched)) {
+        if (!currentCourse
+            || (!isExamExemptUser() && !areAllDisciplineExamsPassed())
+            || !allVideosFlat?.every(video => video.watched)) {
             alert(t('final_exam_requirements'));
             return;
         }
@@ -1728,6 +1797,10 @@ console.log('[Main] Inicializando script.js v28.0...');
     function refreshLessonUnlocks() {
         lessons.forEach((lesson, index) => {
             lesson.completed = lesson.videos.every(video => video.watched);
+            if (isExamExemptUser()) {
+                lesson.unlocked = true;
+                return;
+            }
             if (index === 0) {
                 lesson.unlocked = true;
                 return;
@@ -1738,7 +1811,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             const lessonDiscipline = getLessonDisciplineName(lesson);
             const sameDiscipline = previousDiscipline && previousDiscipline === lessonDiscipline;
             lesson.unlocked = previousLesson.completed &&
-                (sameDiscipline || isDisciplinePassed(previousDiscipline));
+                (sameDiscipline || isDisciplineRequirementSatisfied(previousDiscipline));
         });
 }
 
@@ -1755,17 +1828,21 @@ console.log('[Main] Inicializando script.js v28.0...');
         );
         return disciplineIndex >= 0 && stagesData[stageIndex].disciplines
             .slice(0, disciplineIndex)
-            .every(discipline => isDisciplinePassed(discipline.name));
+            .every(discipline => isDisciplineRequirementSatisfied(discipline.name));
     }
 
     function isStageComplete(stageIndex) {
         const stage = stagesData[stageIndex];
         return Boolean(stage?.disciplines?.length) &&
-            stage.disciplines.every(discipline => isDisciplinePassed(discipline.name));
+            stage.disciplines.every(discipline => isDisciplineRequirementSatisfied(discipline.name));
     }
 
     function isStageUnlocked(stageIndex) {
         return stageIndex === 0 || (stageIndex > 0 && isStageComplete(stageIndex - 1));
+    }
+
+    function isDisciplineRequirementSatisfied(disciplineName) {
+        return isExamExemptUser() || isDisciplinePassed(disciplineName);
     }
 
     function isDisciplineCompleted(disciplineName) {
@@ -2267,7 +2344,10 @@ console.log('[Main] Inicializando script.js v28.0...');
                 continueCard.className = 'continue-course-card';
                 continueCard.setAttribute('role', 'button');
                 continueCard.setAttribute('tabindex', '0');
-                const requiresExam = hasStartedCourse && isDisciplineCompleted(currentDiscipline) && !isDisciplinePassed(currentDiscipline);
+                const requiresExam = !isExamExemptUser()
+                    && hasStartedCourse
+                    && isDisciplineCompleted(currentDiscipline)
+                    && !isDisciplinePassed(currentDiscipline);
                 const continueLabel = !hasStartedCourse
                     ? t('start_course')
                     : requiresExam ? t('take_discipline_exam') : t('continue_course');
@@ -2379,9 +2459,10 @@ console.log('[Main] Inicializando script.js v28.0...');
             const disciplineUnlocked = isDisciplineUnlocked(discipline.name);
             const card = document.createElement('article');
             card.className = `discipline-card ${disciplineUnlocked ? '' : 'discipline-locked'} ${disciplinePassed ? 'discipline-passed' : ''}`;
+            const disciplineBio = buildDisciplineBioWithBooks(discipline);
             card.innerHTML = `
                 <button class="discipline-card-heading" type="button" ${disciplineUnlocked ? '' : 'disabled'}><span class="discipline-card-icon"><i class="fas ${disciplinePassed ? 'fa-check' : 'fa-book-open'}"></i></span><span><strong>${escapeHtml(discipline.name)}</strong><small>${t('discipline_content_progress', { percent: discPercent })}</small></span></button>
-                ${discipline.bio ? `<p class="discipline-card-bio">${escapeHtml(discipline.bio)}</p>` : ''}
+                ${disciplineBio ? `<div class="discipline-card-bio"><strong>${t('discipline_bio_title')}</strong><p>${escapeHtml(disciplineBio)}</p></div>` : ''}
                 <div class="discipline-progress-track"><span style="width:${discPercent}%"></span></div>
                 <div class="discipline-card-actions">
                     <button class="discipline-lessons-btn" type="button" ${disciplineUnlocked ? '' : 'disabled'}><i class="fas fa-play"></i> ${t('view_lessons')}</button>
@@ -2849,6 +2930,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
             matematica: 'cursos/graduacao/matematica/matematica-books.json',
             'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
+            math: 'cursos/graduacao/math/math-books.json',
             computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
             embarcados: 'cursos/pos-graduacao/embarcados/embarcados-books.json',
             desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-books.json',
@@ -2890,24 +2972,111 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
-    function createBibliographyCover(title, discipline) {
-        const safeTitle = String(title || 'Livro').slice(0, 52);
-        const safeDiscipline = String(discipline || 'Bibliografia').slice(0, 34);
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
-            <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#13233f"/><stop offset="1" stop-color="#087f8c"/></linearGradient></defs>
-            <rect width="300" height="450" rx="18" fill="url(#bg)"/>
-            <rect x="22" y="22" width="256" height="406" rx="12" fill="none" stroke="#8be9fd" stroke-opacity=".55" stroke-width="2"/>
-            <circle cx="52" cy="64" r="19" fill="#8be9fd" fill-opacity=".9"/>
-            <path d="M43 64h18M52 55v18" stroke="#13233f" stroke-width="4" stroke-linecap="round"/>
-            <text x="32" y="158" fill="#fff" font-family="Arial,sans-serif" font-size="23" font-weight="700">${escapeHtml(safeTitle)}</text>
-            <text x="32" y="382" fill="#d7f9ff" font-family="Arial,sans-serif" font-size="14">${escapeHtml(safeDiscipline)}</text>
-            <text x="32" y="406" fill="#8be9fd" font-family="Arial,sans-serif" font-size="12">Universidade Livre</text>
-        </svg>`;
-        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    function isPlaceholderCoverUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        const value = String(url).trim().toLowerCase();
+        return value.includes('placehold.co')
+            || value.includes('placeholder')
+            || value.includes('via.placeholder')
+            || value.includes('capa-generica')
+            || value.includes('sem-capa')
+            || value.includes('image_unavailable')
+            || value.includes('book-cover') && value.includes('data:image/svg+xml');
+    }
+
+    function sanitizeCoverUrl(url) {
+        if (!url || typeof url !== 'string') return null;
+        const value = String(url).trim();
+        if (!value || value === 'null' || value === 'undefined') return null;
+        return isPlaceholderCoverUrl(value) ? null : value;
+    }
+
+    function getIsbnCoverUrl(book) {
+        const isbn = String(book?.isbn || '').replace(/[^0-9Xx]/g, '');
+        return isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg` : null;
+    }
+
+    const curatedCoverUrls = {
+        'aprendendo a aprender': 'https://covers.openlibrary.org/b/id/13387593-L.jpg',
+        'hábitos atômicos': 'https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata',
+        'trabalho focado': 'https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata'
+    };
+
+    function getCuratedCoverUrl(book) {
+        const title = normalize(book?.title);
+        return title ? curatedCoverUrls[title] || null : null;
+    }
+
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 2500) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            return await fetch(url, { ...options, signal: controller.signal });
+        } finally {
+            clearTimeout(timeout);
+        }
+    }
+
+    async function fetchOfficialCoverForBook(book) {
+        const localCover = sanitizeCoverUrl(book?.cover);
+        const curatedCover = getCuratedCoverUrl(book);
+        if (curatedCover && curatedCover !== localCover) return curatedCover;
+
+        const isbnCover = getIsbnCoverUrl(book);
+        if (isbnCover && isbnCover !== localCover) {
+            try {
+                const verify = await fetchWithTimeout(isbnCover, { method: 'HEAD' });
+                if (verify.ok) return isbnCover;
+            } catch (error) {
+                // tenta a busca textual quando o ISBN não entrega capa válida
+            }
+        }
+        if (localCover) return null;
+
+        const query = [book?.title, book?.author].filter(Boolean).join(' ');
+        if (!query) return null;
+
+        try {
+            const googleResponse = await fetchWithTimeout(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1`);
+            if (googleResponse.ok) {
+                const googleData = await googleResponse.json();
+                const volume = googleData.items?.[0]?.volumeInfo;
+                const googleCover = volume?.imageLinks
+                    ? volume.imageLinks.extraLarge || volume.imageLinks.large || volume.imageLinks.medium || volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null
+                    : null;
+                if (googleCover) return googleCover;
+            }
+        } catch (error) {
+            console.debug('[Cover] Google Books sem capa oficial para este item.', error);
+        }
+
+        try {
+            const openLibraryResponse = await fetchWithTimeout(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=1`);
+            if (!openLibraryResponse.ok) return null;
+            const openLibraryData = await openLibraryResponse.json();
+            const doc = openLibraryData.docs?.[0];
+            if (!doc) return null;
+            if (doc.cover_i) return `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`;
+            if (Array.isArray(doc.isbn) && doc.isbn.length > 0) {
+                const coverIsbn = String(doc.isbn[0]).replace(/[^0-9Xx]/g, '');
+                if (coverIsbn) return `https://covers.openlibrary.org/b/isbn/${coverIsbn}-L.jpg`;
+            }
+        } catch (error) {
+            console.debug('[Cover] Open Library sem capa oficial para este item.', error);
+        }
+
+        return null;
     }
 
     function findBookInLibrary(bibliographyBook) { return libraryBooksMap.get(normalize(bibliographyBook.title)) || null; }
     function goToLibrary(bookTitle) { localStorage.setItem('highlightBook', bookTitle); window.open('biblioteca/biblioteca.html', '_blank'); }
+
+    function createEmptyBookCover(title) {
+        const fallback = document.createElement('div');
+        fallback.className = 'book-cover book-cover-empty';
+        fallback.innerHTML = `<i class="fas fa-book-open"></i><span>${escapeHtml(title || t('no_description'))}</span>`;
+        return fallback;
+    }
 
     function ensureCurrentDiscipline() {
         if (currentDiscipline) return currentDiscipline;
@@ -2939,14 +3108,23 @@ console.log('[Main] Inicializando script.js v28.0...');
             return;
         }
         const normalizedDiscipline = normalize(discipline);
-        const filteredBooks = books.filter(book => normalize(book.discipline) === normalizedDiscipline);
+        const filteredBooks = books.filter(book => {
+            const bookDiscipline = normalize(book.discipline);
+            return bookDiscipline === normalizedDiscipline
+                || bookDiscipline.includes(normalizedDiscipline)
+                || normalizedDiscipline.includes(bookDiscipline);
+        });
         const headingText = `${t('tab_bibliography')} — ${discipline}`;
-        if (filteredBooks.length === 0) {
+        const booksToRender = filteredBooks.length > 0 ? filteredBooks : books;
+        if (booksToRender.length === 0) {
             container.innerHTML = `<div class="bibliografia-heading">${escapeHtml(headingText)}</div><p>${t('no_books')}</p>`;
             return;
         }
-        let html = `<div class="bibliografia-heading animate-in">${escapeHtml(headingText)}</div><div class="books-container">`;
-        filteredBooks.forEach(book => {
+        const fallbackHeading = filteredBooks.length > 0
+            ? headingText
+            : `${t('tab_bibliography')} — Bibliografia do curso`;
+
+        const cardsHtml = await Promise.all(booksToRender.map(async book => {
             let detailsHtml = '';
             if (book.edition) detailsHtml += `<span>${escapeHtml(book.edition)}</span>`;
             if (book.year) detailsHtml += `<span>${escapeHtml(book.year)}</span>`;
@@ -2954,11 +3132,20 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (book.language) detailsHtml += `<span>${escapeHtml(book.language)}</span>`;
             if (book.isbn) detailsHtml += `<span>ISBN: ${escapeHtml(book.isbn)}</span>`;
             if (book.category) detailsHtml += `<span>${escapeHtml(book.category)}</span>`;
+
             const existsInLibrary = !!findBookInLibrary(book);
-            const fallbackCover = createBibliographyCover(book.title, book.discipline || discipline);
-            const coverUrl = book.cover && !book.cover.includes('placehold.co') ? book.cover : fallbackCover;
-            html += `<div class="book-card animate-in">
-                        <div class="book-left"><img class="book-cover" src="${escapeHtml(coverUrl)}" data-fallback-cover="${escapeHtml(fallbackCover)}" alt="${escapeHtml(book.title)}" loading="lazy"></div>
+            const officialCover = await fetchOfficialCoverForBook(book);
+            const primaryCover = sanitizeCoverUrl(book.cover) || officialCover || '';
+            const fallbackCover = primaryCover === officialCover ? getIsbnCoverUrl(book) : officialCover;
+            const fallbackAttribute = fallbackCover && fallbackCover !== primaryCover
+                ? ` data-fallback-cover="${safeAttr(fallbackCover)}"`
+                : '';
+            const coverMarkup = primaryCover
+                ? `<img class="book-cover" src="${escapeHtml(primaryCover)}" alt="${escapeHtml(book.title)}" loading="eager"${fallbackAttribute}>`
+                : `<div class="book-cover book-cover-empty"><i class="fas fa-book-open"></i><span>${escapeHtml(book.title)}</span></div>`;
+
+            return `<div class="book-card animate-in">
+                        <div class="book-left">${coverMarkup}</div>
                         <div class="book-right">
                             <div class="book-title">${escapeHtml(book.title)}</div>
                             <div class="book-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
@@ -2970,15 +3157,26 @@ console.log('[Main] Inicializando script.js v28.0...');
                             </div>
                         </div>
                     </div>`;
-        });
-        html += `</div>`;
-        container.innerHTML = html;
-        container.querySelectorAll('.book-cover[data-fallback-cover]').forEach(image => {
-            image.addEventListener('error', () => {
-                if (image.dataset.fallbackApplied) return;
-                image.dataset.fallbackApplied = 'true';
-                image.src = image.dataset.fallbackCover;
-            }, { once: true });
+        }));
+
+        container.innerHTML = `<div class="bibliografia-heading animate-in">${escapeHtml(fallbackHeading)}</div><div class="books-container">${cardsHtml.join('')}</div>`;
+        container.querySelectorAll('.book-cover').forEach(image => {
+            const replaceWithFallback = () => {
+                const fallback = image.dataset.fallbackCover;
+                if (!fallback || image.dataset.fallbackAttempted === 'true') {
+                    image.replaceWith(createEmptyBookCover(image.alt));
+                    return;
+                }
+                image.dataset.fallbackAttempted = 'true';
+                image.src = fallback;
+            };
+            image.addEventListener('error', replaceWithFallback);
+            image.addEventListener('load', () => {
+                if (image instanceof HTMLImageElement && image.naturalWidth <= 1) replaceWithFallback();
+            });
+            if (image instanceof HTMLImageElement && image.complete && image.naturalWidth <= 1) {
+                replaceWithFallback();
+            }
         });
         document.querySelectorAll('.book-details-btn').forEach(btn => btn.addEventListener('click', () => { const link = btn.getAttribute('data-link'); if (link && isValidUrl(link)) window.open(link, '_blank'); else alert(t('book_link_unavailable')); }));
         document.querySelectorAll('.go-to-library-btn').forEach(btn => btn.addEventListener('click', () => goToLibrary(btn.getAttribute('data-title'))));

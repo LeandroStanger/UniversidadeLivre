@@ -644,10 +644,78 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
     }
 
+    async     function isPlaceholderCoverUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        const value = url.trim().toLowerCase();
+        return value.includes('placehold.co')
+            || value.includes('placeholder')
+            || value.includes('via.placeholder')
+            || value.includes('capa-generica')
+            || value.includes('sem-capa')
+            || value.includes('image_unavailable');
+    }
+
+    function sanitizeCoverUrl(url) {
+        if (!url || typeof url !== 'string') return null;
+        const value = url.trim();
+        if (!value || value === 'null' || value === 'undefined') return null;
+        return isPlaceholderCoverUrl(value) ? null : value;
+    }
+
+    async function fetchOfficialCover(book) {
+        const sanitized = sanitizeCoverUrl(book.cover);
+        if (sanitized) return sanitized;
+
+        const isbn = (book.isbn || '').toString().replace(/[^0-9Xx]/g, '');
+        if (isbn) {
+            const isbnCover = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+            try {
+                const verify = await fetch(isbnCover, { method: 'HEAD' });
+                if (verify.ok) return isbnCover;
+            } catch (error) {
+                // tenta a busca textual se o ISBN não possuir capa válida
+            }
+        }
+
+        const query = [book.title, book.rawAuthor || book.author].filter(Boolean).join(' ');
+        if (!query) return null;
+
+        try {
+            const googleResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1`);
+            if (googleResponse.ok) {
+                const googleData = await googleResponse.json();
+                const volume = googleData.items?.[0]?.volumeInfo;
+                const googleCover = volume?.imageLinks
+                    ? volume.imageLinks.extraLarge || volume.imageLinks.large || volume.imageLinks.medium || volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null
+                    : null;
+                if (googleCover) return googleCover;
+            }
+        } catch (error) {
+            console.debug('[Cover] Google Books sem capa oficial para este item.', error);
+        }
+
+        try {
+            const openLibraryResponse = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=1`);
+            if (!openLibraryResponse.ok) return null;
+            const openLibraryData = await openLibraryResponse.json();
+            const doc = openLibraryData.docs?.[0];
+            if (!doc) return null;
+            if (doc.cover_i) return `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`;
+            if (Array.isArray(doc.isbn) && doc.isbn.length > 0) {
+                const coverIsbn = doc.isbn[0].replace(/[^0-9Xx]/g, '');
+                if (coverIsbn) return `https://covers.openlibrary.org/b/isbn/${coverIsbn}-L.jpg`;
+            }
+        } catch (error) {
+            console.debug('[Cover] Open Library sem capa oficial para este item.', error);
+        }
+        return null;
+    }
+
     async function enrichBookMetadata(book) {
         if (!book.title) return book;
         const isYouTubeCover = typeof book.cover === 'string' && book.cover.includes('ytimg.com');
         let enriched = isYouTubeCover ? { ...book, cover: '' } : book;
+        enriched.cover = sanitizeCoverUrl(enriched.cover);
         if (!googleBooksDisabled && hasGoogleBooksApiKey) {
             try {
                 enriched = await enrichWithGoogleBooks(enriched);
@@ -658,9 +726,14 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (!enriched.cover || !enriched.description || !enriched.year) {
             enriched = await enrichWithOpenLibrary(enriched);
         }
+        if (!enriched.cover || isPlaceholderCoverUrl(enriched.cover)) {
+            const officialCover = await fetchOfficialCover(enriched);
+            if (officialCover) {
+                enriched.cover = officialCover;
+            }
+        }
         return enriched;
     }
-
     // ========== APIS EXTERNAS ==========
     async function searchGoogleBooks(query) {
         if (!hasGoogleBooksApiKey || !query || query.length < MIN_SEARCH_LENGTH) return [];
@@ -1206,7 +1279,9 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     async function createBookCard(item) {
         if (!item || !item.title) return null;
         let normalized = normalizeBookFields(item);
-        const coverUrl = normalized.cover || generateEnhancedColorCover(normalized.title);
+        normalized.cover = sanitizeCoverUrl(normalized.cover);
+        const enriched = await enrichBookMetadata(normalized);
+        const coverUrl = enriched.cover || '';
         normalized.cover = coverUrl;
         let typeTagHtml = '';
         const typeKey = `type_${normalized.type}`;
@@ -1237,7 +1312,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         card.style.cursor = 'pointer';
         card.dataset.id = normalized.id;
         card.innerHTML = `
-            <img class="mini-cover" src="${coverUrl}" alt="${escapeHtml(normalized.title)}" onerror="this.src='${generateEnhancedColorCover(normalized.title)}'">
+            <img class="mini-cover" src="${coverUrl || ''}" alt="${escapeHtml(normalized.title)}" onerror="this.style.display='none'">
             <div class="mini-title">${escapeHtml(normalized.title)}</div>
             <div class="mini-author">${escapeHtml(normalized.author)}</div>
             <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
@@ -1252,7 +1327,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     async function showModal(item) {
         if (!item) return;
         const enriched = await enrichBookMetadata(item);
-        const coverUrl = enriched.cover || generateEnhancedColorCover(enriched.title);
+        const coverUrl = enriched.cover || '';
         const fullAuthor = enriched.rawAuthor || enriched.author;
         const isRead = isBookRead(enriched.id);
 
@@ -1260,7 +1335,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         modalBody.innerHTML = `
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <img class="modal-cover" src="${coverUrl}" alt="${escapeHtml(enriched.title)}" onerror="this.src='${generateEnhancedColorCover(enriched.title)}'">
+                <img class="modal-cover" src="${coverUrl || ''}" alt="${escapeHtml(enriched.title)}" onerror="this.style.display='none'">
                 <div class="modal-details">
                     <h2>${escapeHtml(enriched.title)}</h2>
                     <p><strong>${t('book_author')}:</strong> ${escapeHtml(fullAuthor)}</p>
@@ -1331,29 +1406,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function generateEnhancedColorCover(title) {
-        if (!title) title = 'Sem título';
-        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
-        const colorIndex = Math.abs(title.length * 7) % colors.length;
-        const bgColor = colors[colorIndex];
-        const canvas = document.createElement('canvas');
-        canvas.width = 300;
-        canvas.height = 450;
-        const ctx = canvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        grad.addColorStop(0, bgColor);
-        grad.addColorStop(1, bgColor + 'cc');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const words = title.split(' ').filter(w => w.length > 0);
-        let initials = words.map(w => w[0].toUpperCase()).join('');
-        if (initials.length > 3) initials = initials.slice(0, 3);
-        if (initials.length === 0) initials = '?';
-        ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
-        return canvas.toDataURL('image/png');
+        return '';
     }
 
     function normalizeBookFields(book) {
@@ -1369,7 +1422,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             publisher: book.publisher || '',
             year: book.year || null,
             description: book.description || '',
-            cover: book.cover || null,
+            cover: sanitizeCoverUrl(book.cover),
             download: book.download || book.download_url || null,
             downloadLabel: finalLabel || t('access_online'),
             repositoryName: book.repositoryName || book.repository_name || null,
@@ -1513,7 +1566,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
             html += `
                 <div class="library-card" data-url="${escapeHtml(lib.url)}">
-                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=${encodeURIComponent(title.substring(0,2))}'">
+                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">
                     <div class="library-info">
                         <div class="library-title">
                             ${escapeHtml(title)}
@@ -2212,13 +2265,13 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                     const percentage = Math.min(100, Math.max(0, ((progress / 900) * 100) || 0));
                     const title = (book.title || item.title || playback.title || 'Audiobook');
                     const description = (book.description || item.description || playback.description || 'Retome de onde parou.');
-                    const cover = book.cover || item.cover || 'https://placehold.co/240x360/1F2933/FBBF24?text=Audiobook';
+                    const cover = sanitizeCoverUrl(book.cover || item.cover) || '';
                     const author = book.author || item.author || 'Audiobook';
                     const safeId = book.id || item.id || playback.videoId || '';
                     return `
                         <article class="continue-listening-card">
                             <div class="continue-listening-cover-wrap">
-                                <img src="${cover}" alt="${title}" class="continue-listening-cover" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Audiobook'">
+                                <img src="${cover}" alt="${title}" class="continue-listening-cover" onerror="this.style.display='none'">
                             </div>
                             <div class="continue-listening-body">
                                 <span class="continue-listening-author">${author}</span>
@@ -2833,7 +2886,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         let html = '';
         audiobooks.forEach(book => {
-            const cover = book.cover || 'https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro';
+            const cover = sanitizeCoverUrl(book.cover) || '';
             const duration = book.duration || '';
             const year = book.year || '';
             const partsCount = book.parts ? book.parts.length : 1;
@@ -2841,7 +2894,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
             html += `
                 <div class="audiobook-card" data-audiobook-id="${escapeAttribute(book.id)}" data-title="${escapeAttribute(book.title)}" data-description="${escapeAttribute(book.description)}" data-video-id="${escapeAttribute(firstVideoId)}">
-                    <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.src='https://placehold.co/240x360/1F2933/FBBF24?text=Capa+do+livro'">
+                    <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.style.display='none'">
                     <div class="audiobook-info">
                         <div class="audiobook-title">${escapeHtml(book.title)}</div>
                         <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
