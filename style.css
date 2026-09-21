@@ -56,11 +56,11 @@
     --gradient-shimmer: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-card) 50%, var(--bg-tertiary) 75%);
 
     /* ===== ANIMACOES ===== */
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: 0.2s var(--ease-smooth);
-    --transition-medium: 0.4s var(--ease-spring);
-    --transition-slow: 0.6s var(--ease-spring);
+    --transition-fast: 0.16s var(--ease-smooth);
+    --transition-medium: 0.28s var(--ease-spring);
+    --transition-slow: 0.42s var(--ease-spring);
     --card-radius: 1rem;
     --success: #10b981;
     --danger: #ef4444;
@@ -621,7 +621,7 @@ a:hover {
 
 .home-slider-track {
     display: flex;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.42s var(--ease-spring);
     will-change: transform;
 }
 
@@ -3690,6 +3690,17 @@ a:hover {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 @keyframes pulse-glow {
