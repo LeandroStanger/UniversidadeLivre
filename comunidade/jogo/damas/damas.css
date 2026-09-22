@@ -1,5 +1,5 @@
 .checkers-panel[hidden] { display: none; }
-.checkers-card { color: var(--com-text-primary); background: linear-gradient(145deg, rgba(26, 38, 56, .98), rgba(15, 22, 36, .98)); border: 1px solid var(--com-border); border-radius: 16px; padding: 1.25rem; box-shadow: var(--com-shadow); }
+.checkers-card { color: var(--com-text-primary); background: linear-gradient(145deg, var(--com-bg-tertiary), var(--com-bg-secondary)); border: 1px solid var(--com-border); border-radius: 16px; padding: 1.25rem; box-shadow: var(--com-shadow); }
 .checkers-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
 .checkers-header h4 { margin: 0; font-size: 1.35rem; }.checkers-header p { margin: .25rem 0 0; color: var(--com-text-secondary); font-size: .9rem; }
 .checkers-create { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) auto; gap: .65rem; align-items: end; }.checkers-field { display: grid; gap: .3rem; color: var(--com-text-secondary); font-size: .78rem; font-weight: 700; }.checkers-select { width: 100%; padding: .7rem .75rem; border: 1px solid var(--com-border); border-radius: 10px; background: var(--com-bg-tertiary); color: var(--com-text-primary); font: inherit; }

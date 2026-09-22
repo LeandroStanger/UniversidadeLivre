@@ -158,7 +158,7 @@
 
     window.pauseFloatingAudio = pauseAudio;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function initializeAudioPlayer() {
         ensurePlayerMarkup();
         try {
             savedState = JSON.parse(localStorage.getItem(stateKey) || '{}');
@@ -211,7 +211,13 @@
         });
         $('audioPlayerSeek').addEventListener('input', event => { if (isReady) player.seekTo((Number(event.target.value) / 100) * player.getDuration(), true); });
         window.addEventListener('beforeunload', saveState);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeAudioPlayer, { once: true });
+    } else {
+        initializeAudioPlayer();
+    }
 
     function startAudioAfterPageLoad() {
         if (audioStartScheduled) return;

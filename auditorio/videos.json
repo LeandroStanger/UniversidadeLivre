@@ -1,5 +1,33 @@
 [
   {
+    "title": "Machado for the RICH and activism for the POOR: the logic behind LINGUISTIC PREJUDICE (Marcos Bagno)",
+    "url": "https://www.youtube.com/watch?v=e2f81rdSLn4",
+    "thumbnail": "https://i.ytimg.com/vi/e2f81rdSLn4/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "The Essentials of JULIUS CAESAR (Shakespeare)",
+    "url": "https://www.youtube.com/watch?v=UxGtSO0xEUo",
+    "thumbnail": "https://i.ytimg.com/vi/UxGtSO0xEUo/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "PISA: The diagnosis of planned STUPIDITY",
+    "url": "https://www.youtube.com/watch?v=-GHt8lAuNjU",
+    "thumbnail": "https://i.ytimg.com/vi/-GHt8lAuNjU/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "The essentials of AS IT IS ON EARTH AS IT IS BENEATH THE EARTH (Ana Paula Maia)",
+    "url": "https://www.youtube.com/watch?v=EBL52Hbxrps",
+    "thumbnail": "https://i.ytimg.com/vi/EBL52Hbxrps/hqdefault.jpg",
+    "type": "video",
+    "subject": "tecnologia"
+  },
+  {
     "title": "Supreme literature against supreme scandals",
     "url": "https://www.youtube.com/watch?v=1jHKCF9LqXU",
     "thumbnail": "https://i.ytimg.com/vi/1jHKCF9LqXU/hqdefault.jpg",
@@ -403,12 +431,11 @@
     "subject": "outros"
   },
   {
-    "title": "DAVID COPPERFIELD - Aula 03 (Calhamaços 2026)",
+    "title": "DAVID COPPERFIELD - Class 03 (Big Books 2026)",
     "url": "https://www.youtube.com/watch?v=OLIyHTDRrMc",
     "thumbnail": "https://i.ytimg.com/vi/OLIyHTDRrMc/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "The Pope, Trump, and the disorder of our time.",
@@ -1681,12 +1708,11 @@
     "language": "pt"
   },
   {
-    "title": "O que podemos aprender com O CAVALEIRO INEXISTENTE (Ítalo Calvino)",
+    "title": "What we can learn from THE NONEXISTENT KNIGHT (Italo Calvino)",
     "url": "https://www.youtube.com/watch?v=UaX_NH9LvUA",
     "thumbnail": "https://i.ytimg.com/vi/UaX_NH9LvUA/hqdefault.jpg",
     "type": "video",
-    "subject": "educacao",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Seja um AUTODIDATA: Aprenda a aprender! (Ultra-aprendizado, Scott H. Young)",
@@ -1830,12 +1856,11 @@
     "subject": "outros"
   },
   {
-    "title": "Frieren: animes, cultura pop e educação moral",
+    "title": "Frieren: Anime, Pop Culture, and Moral Education",
     "url": "https://www.youtube.com/watch?v=1QtLISdW62Q",
     "thumbnail": "https://i.ytimg.com/vi/1QtLISdW62Q/hqdefault.jpg",
     "type": "video",
-    "subject": "filosofia",
-    "language": "pt"
+    "subject": "filosofia"
   },
   {
     "title": "A mirror of our worst side! - Notes from Underground, by Dostoevsky",
@@ -2372,11 +2397,11 @@
     "subject": "outros"
   },
   {
-    "title": "Bate-Papo com Fernando Ulrich | Entendendo Economia",
+    "title": "Chat with Fernando Ulrich | Understanding Economics",
     "url": "https://www.youtube.com/watch?v=JVJHaefHPZ0",
     "thumbnail": "https://i.ytimg.com/vi/JVJHaefHPZ0/hqdefault.jpg",
     "type": "video",
-    "subject": "economia"
+    "subject": "outros"
   },
   {
     "title": "Understanding Mechanical Keyboards | My Collection - Part 1",
@@ -2912,24 +2937,44 @@
     "subject": "outros"
   },
   {
-    "title": "Recuperação automática do Mutter após reset da GPU | Cortes do Sextando",
-    "url": "https://www.youtube.com/watch?v=_kbc9QI5880",
-    "thumbnail": "https://i.ytimg.com/vi/_kbc9QI5880/hqdefault.jpg",
-    "type": "video",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Documentation: A Small Slice of Time | Sextando Clips",
-    "url": "https://www.youtube.com/watch?v=G8awq45rQ1w",
-    "thumbnail": "https://i.ytimg.com/vi/G8awq45rQ1w/hqdefault.jpg",
+    "title": "Is interest in technology declining? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=Zse7_G9yJBQ",
+    "thumbnail": "https://i.ytimg.com/vi/Zse7_G9yJBQ/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
   {
-    "title": "Flashbang, my new APP | Sextando Clips",
-    "url": "https://www.youtube.com/watch?v=fcfpIOS2IvQ",
-    "thumbnail": "https://i.ytimg.com/vi/fcfpIOS2IvQ/hqdefault.jpg",
+    "title": "Perguntas e respostas dos novos membros do Conselho do GNOME | Cortes do Sextando",
+    "url": "https://www.youtube.com/watch?v=diPswdu1Eak",
+    "thumbnail": "https://i.ytimg.com/vi/diPswdu1Eak/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "What is the current state of the Vala language? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=hgrx7hCFtJE",
+    "thumbnail": "https://i.ytimg.com/vi/hgrx7hCFtJE/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "My beginnings in GNOME | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=AFDcQit7u-I",
+    "thumbnail": "https://i.ytimg.com/vi/AFDcQit7u-I/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "How does GNOME handle residual Flatpak files on the system? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=g_4HMM7sH18",
+    "thumbnail": "https://i.ytimg.com/vi/g_4HMM7sH18/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "What would a more secure operating system look like? | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=-7BhJxNyGWg",
+    "thumbnail": "https://i.ytimg.com/vi/-7BhJxNyGWg/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
@@ -2942,9 +2987,16 @@
     "language": "pt"
   },
   {
-    "title": "Red Hat and the future of GNOME Builder | Sextando Clips",
-    "url": "https://www.youtube.com/watch?v=sALxZmPtNHI",
-    "thumbnail": "https://i.ytimg.com/vi/sALxZmPtNHI/hqdefault.jpg",
+    "title": "Podium, presentations without the fluff | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=aAXPvnUFj_o",
+    "thumbnail": "https://i.ytimg.com/vi/aAXPvnUFj_o/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "The investment in Flatpak holds a lot of promise | Sextando Highlights",
+    "url": "https://www.youtube.com/watch?v=52CSNYMkzqA",
+    "thumbnail": "https://i.ytimg.com/vi/52CSNYMkzqA/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
@@ -2952,6 +3004,20 @@
     "title": "GNOME is quietly evolving all the time | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=wMZyAo0N8Zs",
     "thumbnail": "https://i.ytimg.com/vi/wMZyAo0N8Zs/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Primeira rodada dos GNOME Fellowship | Cortes do Sextando",
+    "url": "https://www.youtube.com/watch?v=nWXZTln4PGo",
+    "thumbnail": "https://i.ytimg.com/vi/nWXZTln4PGo/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Community App News and Improvements | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=I6djDV0ycCE",
+    "thumbnail": "https://i.ytimg.com/vi/I6djDV0ycCE/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
@@ -2984,9 +3050,24 @@
     "subject": "outros"
   },
   {
-    "title": "Podium, presentations without the fluff | Sextando Clips",
-    "url": "https://www.youtube.com/watch?v=aAXPvnUFj_o",
-    "thumbnail": "https://i.ytimg.com/vi/aAXPvnUFj_o/hqdefault.jpg",
+    "title": "Recuperação automática do Mutter após reset da GPU | Cortes do Sextando",
+    "url": "https://www.youtube.com/watch?v=_kbc9QI5880",
+    "thumbnail": "https://i.ytimg.com/vi/_kbc9QI5880/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Documentation: A Small Slice of Time | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=G8awq45rQ1w",
+    "thumbnail": "https://i.ytimg.com/vi/G8awq45rQ1w/hqdefault.jpg",
+    "type": "video",
+    "subject": "outros"
+  },
+  {
+    "title": "Flashbang, my new APP | Sextando Clips",
+    "url": "https://www.youtube.com/watch?v=fcfpIOS2IvQ",
+    "thumbnail": "https://i.ytimg.com/vi/fcfpIOS2IvQ/hqdefault.jpg",
     "type": "video",
     "subject": "outros"
   },
@@ -3404,12 +3485,11 @@
     "language": "pt"
   },
   {
-    "title": "Existe um estilo de código entre os projetos do GNOME? | Cortes Sextando",
+    "title": "Is there a coding style across GNOME projects? | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=BM6cWrEd5po",
     "thumbnail": "https://i.ytimg.com/vi/BM6cWrEd5po/hqdefault.jpg",
     "type": "video",
-    "subject": "outros",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Como é a introspecção de outras linguagens de programação no GTK | Cortes do Sextando",
@@ -3428,12 +3508,11 @@
     "language": "pt"
   },
   {
-    "title": "GNOME Shell e memória RAM, informação direto da fonte | Cortes do Sextando",
+    "title": "GNOME Shell and RAM usage, straight from the source | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=7r61YPlT3eE",
     "thumbnail": "https://i.ytimg.com/vi/7r61YPlT3eE/hqdefault.jpg",
     "type": "video",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Learn to Develop GTK Interfaces with Workbench and Libadwaita | Sextando Clips",
@@ -3443,11 +3522,11 @@
     "subject": "outros"
   },
   {
-    "title": "Investimento no desktop Linux por empresas parece estar desaparecendo | Cortes do Sextando",
+    "title": "Corporate investment in Linux desktop seems to be disappearing | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=ja8QbjN9iR0",
     "thumbnail": "https://i.ytimg.com/vi/ja8QbjN9iR0/hqdefault.jpg",
     "type": "video",
-    "subject": "economia"
+    "subject": "tecnologia"
   },
   {
     "title": "Palestra sobre Portais Flatpak e seu funcionamento no Ubuntu Summit 2023 | Cortes do Sextando",
@@ -3653,12 +3732,11 @@
     "language": "pt"
   },
   {
-    "title": "Uma escolha do GNOME vai além de mera estética, existe mais por trás | Cortes do Sextando",
+    "title": "A GNOME design choice goes beyond mere aesthetics, there's more to it | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=jALM8TeW9J4",
     "thumbnail": "https://i.ytimg.com/vi/jALM8TeW9J4/hqdefault.jpg",
     "type": "video",
-    "subject": "filosofia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Suporte à DRM no GNOME Web | Cortes do Sextando",
@@ -3901,12 +3979,11 @@
     "subject": "outros"
   },
   {
-    "title": "Tutoriais para começar a desenvolver e contribuir com o GNOME | Cortes do Sextando",
+    "title": "Tutorials to start developing and contributing to GNOME | Sextando Clips",
     "url": "https://www.youtube.com/watch?v=2SxIk8fefPQ",
     "thumbnail": "https://i.ytimg.com/vi/2SxIk8fefPQ/hqdefault.jpg",
     "type": "video",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
     "title": "Por que tem poucas mulheres envolvidas no mundo do software livre | Cortes do Sextando",
@@ -4130,7 +4207,7 @@
     "subject": "outros"
   },
   {
-    "title": "Como o GNOME Shell renderiza o desktop | Cortes do Sextando com GNOME",
+    "title": "How GNOME Shell renders the desktop | Sextando com GNOME Highlights",
     "url": "https://www.youtube.com/watch?v=_mgg526vrzs",
     "thumbnail": "https://i.ytimg.com/vi/_mgg526vrzs/hqdefault.jpg",
     "type": "video",
@@ -4566,641 +4643,48 @@
     "language": "pt"
   },
   {
-    "title": "Mentimos para vocês: LINUX MINT é coisa de profissional! - Diocast",
-    "url": "https://www.youtube.com/watch?v=XE57W298ffw",
-    "thumbnail": "https://i.ytimg.com/vi/XE57W298ffw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Did Linux CRASH your DRIVER? You don't understand the REAL PROBLEM! - Diocast with PsyGreg",
-    "url": "https://www.youtube.com/watch?v=icCUDpZZ2t0",
-    "thumbnail": "https://i.ytimg.com/vi/icCUDpZZ2t0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Are Subscriptions DESTROYING Everything? - Diocast",
-    "url": "https://www.youtube.com/watch?v=ajczq5owpIs",
-    "thumbnail": "https://i.ytimg.com/vi/ajczq5owpIs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Not everything should run on your Homelab - Diocast",
-    "url": "https://www.youtube.com/watch?v=g1L31l4Bwhc",
-    "thumbnail": "https://i.ytimg.com/vi/g1L31l4Bwhc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "NVIDIA threatens to destroy the dominance of Intel, AMD, and Apple - Diocast",
-    "url": "https://www.youtube.com/watch?v=uoP4kED-DRo",
-    "thumbnail": "https://i.ytimg.com/vi/uoP4kED-DRo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Linux roda jogos, o problema é outro! - Diocast",
-    "url": "https://www.youtube.com/watch?v=HNhKQH_6Pq8",
-    "thumbnail": "https://i.ytimg.com/vi/HNhKQH_6Pq8/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "O Linux Desktop está mudando… e ninguém tá vendo! - Diocast",
-    "url": "https://www.youtube.com/watch?v=vkhfmVzn9vY",
-    "thumbnail": "https://i.ytimg.com/vi/vkhfmVzn9vY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "OBS Studio solves it! But this app is a game-changer - Diocast",
-    "url": "https://www.youtube.com/watch?v=7Hu8KAZGKr4",
-    "thumbnail": "https://i.ytimg.com/vi/7Hu8KAZGKr4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "If everyone uses extensions… why does GNOME ignore them? - Diocast with Georges Stavracas",
-    "url": "https://www.youtube.com/watch?v=oue1QhwJAYY",
-    "thumbnail": "https://i.ytimg.com/vi/oue1QhwJAYY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Programming got easy. The problem is the rest. - Diocast with Attekita Dev @attekitadev",
-    "url": "https://www.youtube.com/watch?v=UUJrN4nWm6Q",
-    "thumbnail": "https://i.ytimg.com/vi/UUJrN4nWm6Q/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "The Gaming PC Crisis - Diocast with Diego Kerber @Adrenaline",
-    "url": "https://www.youtube.com/watch?v=9W5SVOuUSc0",
-    "thumbnail": "https://i.ytimg.com/vi/9W5SVOuUSc0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Is Linux harder than building an electric Chevette? - Diocast with Gu Ferrarezi @Reset-hub",
-    "url": "https://www.youtube.com/watch?v=YwSvJwOoSqc",
-    "thumbnail": "https://i.ytimg.com/vi/YwSvJwOoSqc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Distros Imutáveis são tudo isso? PRÓS E CONTRAS REAIS - Diocast",
-    "url": "https://www.youtube.com/watch?v=Z7z4Wzu6m_c",
-    "thumbnail": "https://i.ytimg.com/vi/Z7z4Wzu6m_c/hqdefault.jpg",
+    "title": "Sem título",
+    "url": "https://www.youtube.com/watch?v=U4U6sZQ_xII",
+    "thumbnail": "https://i.ytimg.com/vi/U4U6sZQ_xII/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros",
     "language": "pt"
   },
   {
-    "title": "Tentamos parar, mas o Linux nos puxou de volta! - Diocast",
-    "url": "https://www.youtube.com/watch?v=eFpOezmvoCI",
-    "thumbnail": "https://i.ytimg.com/vi/eFpOezmvoCI/hqdefault.jpg",
+    "title": "Sem título",
+    "url": "https://www.youtube.com/watch?v=TOYVt-ailJ4",
+    "thumbnail": "https://i.ytimg.com/vi/TOYVt-ailJ4/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Linux vem forte em 2026. Mas o motivo está em 2025 - Diocast",
-    "url": "https://www.youtube.com/watch?v=-M-7loG48DU",
-    "thumbnail": "https://i.ytimg.com/vi/-M-7loG48DU/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
+    "subject": "outros",
     "language": "pt"
   },
   {
-    "title": "Affinity's jab that could CHANGE THE GAME - Diocast",
-    "url": "https://www.youtube.com/watch?v=2i29KyrMt1c",
-    "thumbnail": "https://i.ytimg.com/vi/2i29KyrMt1c/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Wayland will change Linux PROFOUNDLY - Diocast with Georges Stavracas",
-    "url": "https://www.youtube.com/watch?v=Nwi2NPCDXek",
-    "thumbnail": "https://i.ytimg.com/vi/Nwi2NPCDXek/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "The union of the absolute BEST of each System - Diocast",
-    "url": "https://www.youtube.com/watch?v=C-0sHtwO5zI",
-    "thumbnail": "https://i.ytimg.com/vi/C-0sHtwO5zI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "BAD code is SUPER common, but can YOU spot it? - Diocast with @FilipeDeschamps",
-    "url": "https://www.youtube.com/watch?v=Ca5bk1lc69Q",
-    "thumbnail": "https://i.ytimg.com/vi/Ca5bk1lc69Q/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "3D Printing from Hobby to Professional - Diocast with @3DGeekShow",
-    "url": "https://www.youtube.com/watch?v=_5IUTGvHgMg",
-    "thumbnail": "https://i.ytimg.com/vi/_5IUTGvHgMg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "What almost everyone gets wrong when buying a cheap gaming PC - Diocast with @tecnoart101",
-    "url": "https://www.youtube.com/watch?v=f19zgJ4AKZw",
-    "thumbnail": "https://i.ytimg.com/vi/f19zgJ4AKZw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "AMD Brasil abre o jogo sobre o Ryzen e o Futuro do Hardware  - Diocast",
-    "url": "https://www.youtube.com/watch?v=AsOoBlejPgk",
-    "thumbnail": "https://i.ytimg.com/vi/AsOoBlejPgk/hqdefault.jpg",
+    "title": "Why does this BR VIDEOGAME have 3 controller ports?",
+    "url": "https://www.youtube.com/watch?v=5IO2acLvWrk",
+    "thumbnail": "https://i.ytimg.com/vi/5IO2acLvWrk/hqdefault.jpg",
     "type": "podcast",
     "subject": "games"
   },
   {
-    "title": "Are you ready for Debian13? - Diocast",
-    "url": "https://www.youtube.com/watch?v=Qyl6-vy8mNE",
-    "thumbnail": "https://i.ytimg.com/vi/Qyl6-vy8mNE/hqdefault.jpg",
+    "title": "Why Linux Mint might no longer be the easiest distro",
+    "url": "https://www.youtube.com/watch?v=yQHTQzg1uaA",
+    "thumbnail": "https://i.ytimg.com/vi/yQHTQzg1uaA/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "O que é LinuxToys e por que você deveria testar - Diocast",
-    "url": "https://www.youtube.com/watch?v=VcMo5yOMYRA",
-    "thumbnail": "https://i.ytimg.com/vi/VcMo5yOMYRA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Manias, Bugs and Apps: Naval Battle on your Linux desktop - Diocast",
-    "url": "https://www.youtube.com/watch?v=WQq-tmPW0qU",
-    "thumbnail": "https://i.ytimg.com/vi/WQq-tmPW0qU/hqdefault.jpg",
+    "title": "Even Epic! Why are big companies now into Linux?",
+    "url": "https://www.youtube.com/watch?v=_kAyEoPC5lw",
+    "thumbnail": "https://i.ytimg.com/vi/_kAyEoPC5lw/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "Valve made a move and the competition moved! - Diocast",
-    "url": "https://www.youtube.com/watch?v=2IQeXFvDnGY",
-    "thumbnail": "https://i.ytimg.com/vi/2IQeXFvDnGY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "And that's how Ubuntu lost its throne... (Friendly distros?) - Diocast",
-    "url": "https://www.youtube.com/watch?v=ey4qsvMtTYo",
-    "thumbnail": "https://i.ytimg.com/vi/ey4qsvMtTYo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "PewDiePie usando Linux? O que está acontecendo? - Diocast",
-    "url": "https://www.youtube.com/watch?v=GH8dFxI6cQE",
-    "thumbnail": "https://i.ytimg.com/vi/GH8dFxI6cQE/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Sua distro preferida um dia vai acabar - Diocast",
-    "url": "https://www.youtube.com/watch?v=piCl8XRNl5A",
-    "thumbnail": "https://i.ytimg.com/vi/piCl8XRNl5A/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "O Grande Desafio de falar sobre Linux no Brasil - Diocast (Especial 14 anos)",
-    "url": "https://www.youtube.com/watch?v=z49pkBOHEVA",
-    "thumbnail": "https://i.ytimg.com/vi/z49pkBOHEVA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Você vai precisar de um pendrive maior - Diocast",
-    "url": "https://www.youtube.com/watch?v=9Wom9t588MM",
-    "thumbnail": "https://i.ytimg.com/vi/9Wom9t588MM/hqdefault.jpg",
+    "title": "Por que o Ubuntu não é mais a primeira opção de distro?",
+    "url": "https://www.youtube.com/watch?v=OsKUFlItZVc",
+    "thumbnail": "https://i.ytimg.com/vi/OsKUFlItZVc/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Por que nenhum Linux serve pra você? - Diocast",
-    "url": "https://www.youtube.com/watch?v=yhb-bUQttBg",
-    "thumbnail": "https://i.ytimg.com/vi/yhb-bUQttBg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Open source em chamas! E é só o começo de 2025 - Diocast",
-    "url": "https://www.youtube.com/watch?v=my2wTWI9tkI",
-    "thumbnail": "https://i.ytimg.com/vi/my2wTWI9tkI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Interfaces do Linux, porque a sua escolha importa! - Diocast",
-    "url": "https://www.youtube.com/watch?v=GVw_fxmUgmg",
-    "thumbnail": "https://i.ytimg.com/vi/GVw_fxmUgmg/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Memes do Linux: É meme, mas não é mentira 😂 - Diocast",
-    "url": "https://www.youtube.com/watch?v=xwopzQlZCcI",
-    "thumbnail": "https://i.ytimg.com/vi/xwopzQlZCcI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Onde Linux falhou em 2024 (e onde deu certo) - Diocast",
-    "url": "https://www.youtube.com/watch?v=QrjzW6_jEYc",
-    "thumbnail": "https://i.ytimg.com/vi/QrjzW6_jEYc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "As coisas que tentamos esconder, agora reveladas - Diocast",
-    "url": "https://www.youtube.com/watch?v=06Tx80Xmdeo",
-    "thumbnail": "https://i.ytimg.com/vi/06Tx80Xmdeo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Windows 10 vai acabar! O que fazer depois do fim do suporte? - Diocast",
-    "url": "https://www.youtube.com/watch?v=qCLaudgnrug",
-    "thumbnail": "https://i.ytimg.com/vi/qCLaudgnrug/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Guia (quase) definitivo do desktop Linux para Iniciantes - Diocast",
-    "url": "https://www.youtube.com/watch?v=63YMzfgW4TM",
-    "thumbnail": "https://i.ytimg.com/vi/63YMzfgW4TM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Sua distro sobreviveu? 32 sistemas e só um vai restar! - Diocast",
-    "url": "https://www.youtube.com/watch?v=QiVjY8Co86g",
-    "thumbnail": "https://i.ytimg.com/vi/QiVjY8Co86g/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Respondendo aos comentários: \"Arch é fácil\"? - Diocast",
-    "url": "https://www.youtube.com/watch?v=YzyGlL3xbsY",
-    "thumbnail": "https://i.ytimg.com/vi/YzyGlL3xbsY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Open Source is free but expensive - Diocast",
-    "url": "https://www.youtube.com/watch?v=rVipNIpwLrs",
-    "thumbnail": "https://i.ytimg.com/vi/rVipNIpwLrs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "O caso dos \"Designers que ODEIAM Linux\" - Diocast",
-    "url": "https://www.youtube.com/watch?v=aieB5TGX2J0",
-    "thumbnail": "https://i.ytimg.com/vi/aieB5TGX2J0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Qual o tipo de Linux certo pra você? - Diocast",
-    "url": "https://www.youtube.com/watch?v=S0ArPaTYaGI",
-    "thumbnail": "https://i.ytimg.com/vi/S0ArPaTYaGI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Linux ainda é um sistema hostil... será? - Diocast Responde",
-    "url": "https://www.youtube.com/watch?v=GP50WIW7Q74",
-    "thumbnail": "https://i.ytimg.com/vi/GP50WIW7Q74/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Linux ainda é um sistema operacional de nicho? - Diocast",
-    "url": "https://www.youtube.com/watch?v=QfljY9zxRKM",
-    "thumbnail": "https://i.ytimg.com/vi/QfljY9zxRKM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Um papo de nerds sobre IA em desktops e o fiasco do Windows Recall - Diocast com Coisa de Nerd",
-    "url": "https://www.youtube.com/watch?v=JBi_e-y8aho",
-    "thumbnail": "https://i.ytimg.com/vi/JBi_e-y8aho/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "O Snapdragon X Elite pode ter mudado o Desktop para sempre - Diocast",
-    "url": "https://www.youtube.com/watch?v=Mg2NkBcDB9g",
-    "thumbnail": "https://i.ytimg.com/vi/Mg2NkBcDB9g/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Diocast App Showcase - Essential Apps for your machine",
-    "url": "https://www.youtube.com/watch?v=JdIiZ3VpXDc",
-    "thumbnail": "https://i.ytimg.com/vi/JdIiZ3VpXDc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "O Meu Linux é Melhor que o Seu! E posso provar. - Diocast",
-    "url": "https://www.youtube.com/watch?v=LF3MAdbUsjc",
-    "thumbnail": "https://i.ytimg.com/vi/LF3MAdbUsjc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Será que Linux é tudo igual? O que faz cada distro ser única? - Diocast",
-    "url": "https://www.youtube.com/watch?v=s3O9TSLlJ8s",
-    "thumbnail": "https://i.ytimg.com/vi/s3O9TSLlJ8s/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Aprendendo a diminuir o Alvo nas suas Costas 🎯 - Diocast",
-    "url": "https://www.youtube.com/watch?v=JaUpqArd9tw",
-    "thumbnail": "https://i.ytimg.com/vi/JaUpqArd9tw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "O Wine realmente quebra o Linux? - Diocast",
-    "url": "https://www.youtube.com/watch?v=kDUKRGlXWXM",
-    "thumbnail": "https://i.ytimg.com/vi/kDUKRGlXWXM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "psicologia"
-  },
-  {
-    "title": "Migrar para Linux não precisa ser um show de horrores - Diocast",
-    "url": "https://www.youtube.com/watch?v=vNyzSysIXDA",
-    "thumbnail": "https://i.ytimg.com/vi/vNyzSysIXDA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Não atualize para o KDE 6 (ainda). É sério! - Diocast",
-    "url": "https://www.youtube.com/watch?v=BurgMxkSaG0",
-    "thumbnail": "https://i.ytimg.com/vi/BurgMxkSaG0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Linux Tier List: Em que nível fica sua distro preferida? - Diocast",
-    "url": "https://www.youtube.com/watch?v=UzT3v146hDo",
-    "thumbnail": "https://i.ytimg.com/vi/UzT3v146hDo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Linux para PC Gamers: O bom, o ruim e o feio - Diocast",
-    "url": "https://www.youtube.com/watch?v=ZQdjV14thNA",
-    "thumbnail": "https://i.ytimg.com/vi/ZQdjV14thNA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Linux é REALMENTE mais seguro que o Windows? - Diocast",
-    "url": "https://www.youtube.com/watch?v=79UyqM3y6Hs",
-    "thumbnail": "https://i.ytimg.com/vi/79UyqM3y6Hs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "psicologia",
-    "language": "pt"
-  },
-  {
-    "title": "Como Linux deu certo (e errado) em 2023 - Diocast",
-    "url": "https://www.youtube.com/watch?v=IpP5fSfOb8c",
-    "thumbnail": "https://i.ytimg.com/vi/IpP5fSfOb8c/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "How KDE Changed the Face of Linux! - Diocast",
-    "url": "https://www.youtube.com/watch?v=w2J3GZy3nB4",
-    "thumbnail": "https://i.ytimg.com/vi/w2J3GZy3nB4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "GNOME encheu o bolso e 2024 promete muito no mundo Linux - Diocast",
-    "url": "https://www.youtube.com/watch?v=mjO9iTQxOIM",
-    "thumbnail": "https://i.ytimg.com/vi/mjO9iTQxOIM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia"
-  },
-  {
-    "title": "Vale a pena fazer certificações para trabalhar em Tech? - Diocast com Mateus Müller",
-    "url": "https://www.youtube.com/watch?v=uUG2zEZtFKI",
-    "thumbnail": "https://i.ytimg.com/vi/uUG2zEZtFKI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Why you need to learn Python today! - Diocast with Dunossauro",
-    "url": "https://www.youtube.com/watch?v=wUsktbPQExk",
-    "thumbnail": "https://i.ytimg.com/vi/wUsktbPQExk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Os segredos de um Wi-Fi perfeito! - Diocast",
-    "url": "https://www.youtube.com/watch?v=tLWj8nVq794",
-    "thumbnail": "https://i.ytimg.com/vi/tLWj8nVq794/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Smartphone manufacturers don't want you to know this 👀 - Diocast with @marcelcampos",
-    "url": "https://www.youtube.com/watch?v=vZ0rR9E4vYw",
-    "thumbnail": "https://i.ytimg.com/vi/vZ0rR9E4vYw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Nobody is prepared for this: The problems of changing careers - Diocast",
-    "url": "https://www.youtube.com/watch?v=ZBfgM71hpSk",
-    "thumbnail": "https://i.ytimg.com/vi/ZBfgM71hpSk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Se depender dele, seu Smartphone não será mais o mesmo - Diocast",
-    "url": "https://www.youtube.com/watch?v=__gcL-4Vsok",
-    "thumbnail": "https://i.ytimg.com/vi/__gcL-4Vsok/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Um já foi, agora só falta o Windows (pode demorar um pouco) - Diocast",
-    "url": "https://www.youtube.com/watch?v=P8NhkyNIcN0",
-    "thumbnail": "https://i.ytimg.com/vi/P8NhkyNIcN0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Dev GNOME revela bastidores do mundo Open Source - Diocast com Georges Stavracas",
-    "url": "https://www.youtube.com/watch?v=9Rmnw_0WAAc",
-    "thumbnail": "https://i.ytimg.com/vi/9Rmnw_0WAAc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Precisamos falar sobre a Red Hat e a sua \"cartada\" - Diocast",
-    "url": "https://www.youtube.com/watch?v=kUo9AY4Fa5k",
-    "thumbnail": "https://i.ytimg.com/vi/kUo9AY4Fa5k/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Como assim um Snorkel de 3 mil dólares? Nossa visão sobre a WWDC 2023 da Apple - Diocast",
-    "url": "https://www.youtube.com/watch?v=Wnm8syxrG98",
-    "thumbnail": "https://i.ytimg.com/vi/Wnm8syxrG98/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Microsoft Build 2023: os novos recursos do Windows que vão te surpreender - Diocast",
-    "url": "https://www.youtube.com/watch?v=gxSBmHovSZw",
-    "thumbnail": "https://i.ytimg.com/vi/gxSBmHovSZw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Criar o seu próprio Linux é mais \"fácil\" do que você pensa - Diocast",
-    "url": "https://www.youtube.com/watch?v=WdB7t_HImtA",
-    "thumbnail": "https://i.ytimg.com/vi/WdB7t_HImtA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Sua Carreira em TI está REALMENTE AMEAÇADA pela IA? - Diocast com Código Fonte TV",
-    "url": "https://www.youtube.com/watch?v=-2ZXuQKKfs0",
-    "thumbnail": "https://i.ytimg.com/vi/-2ZXuQKKfs0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "psicologia",
-    "language": "pt"
-  },
-  {
-    "title": "Os Segredos do sucesso da Pichau - Diocast com Junior da Pichau",
-    "url": "https://www.youtube.com/watch?v=9XLjzdWqqFQ",
-    "thumbnail": "https://i.ytimg.com/vi/9XLjzdWqqFQ/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Com sorte a gente não se arrependa desse episódio! 😅  - Diocast",
-    "url": "https://www.youtube.com/watch?v=bvClBHbFbvs",
-    "thumbnail": "https://i.ytimg.com/vi/bvClBHbFbvs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "O mundo além do Adrenaline - Diocast com Diego Kerber",
-    "url": "https://www.youtube.com/watch?v=xmrgEZBuYuE",
-    "thumbnail": "https://i.ytimg.com/vi/xmrgEZBuYuE/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Os segredos do Hardware no Brasil - Diocast com Ronaldo Buassali do Teclab",
-    "url": "https://www.youtube.com/watch?v=jNjLJ3GIWzk",
-    "thumbnail": "https://i.ytimg.com/vi/jNjLJ3GIWzk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Largou o Laboratório pelo Código! - Diocast com Rafaella Ballerini",
-    "url": "https://www.youtube.com/watch?v=ULXX1nH7ITI",
-    "thumbnail": "https://i.ytimg.com/vi/ULXX1nH7ITI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Como ter uma carreira dev feliz  - Diocast com Marco Bruno",
-    "url": "https://www.youtube.com/watch?v=oifErj58gbs",
-    "thumbnail": "https://i.ytimg.com/vi/oifErj58gbs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Detonando mitos da carreira DEV - Diocast",
-    "url": "https://www.youtube.com/watch?v=oL5pMASc78w",
-    "thumbnail": "https://i.ytimg.com/vi/oL5pMASc78w/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Será isso que falta para projetos open source decolarem em 2023? - Diocast",
-    "url": "https://www.youtube.com/watch?v=hApiDakrUTY",
-    "thumbnail": "https://i.ytimg.com/vi/hApiDakrUTY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Metaverso  e o Setup sensacional do Akita - Diocast com Fábio Akita (Parte 2)",
-    "url": "https://www.youtube.com/watch?v=91E8L93zOD4",
-    "thumbnail": "https://i.ytimg.com/vi/91E8L93zOD4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "arte",
-    "language": "pt"
-  },
-  {
-    "title": "Um papo sobre IA e tecnologia - Diocast com Fábio Akita (Parte 1)",
-    "url": "https://www.youtube.com/watch?v=NAkC3GeigNY",
-    "thumbnail": "https://i.ytimg.com/vi/NAkC3GeigNY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Diocast - Do Zero ao Hackintosh com Gabriel Luchina do Universo Hackintosh",
-    "url": "https://www.youtube.com/watch?v=2T17p_XGYYs",
-    "thumbnail": "https://i.ytimg.com/vi/2T17p_XGYYs/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Diocast - Flávio Lima, criador do Heroic Games Launcher",
-    "url": "https://www.youtube.com/watch?v=cStqr2nQ7ws",
-    "thumbnail": "https://i.ytimg.com/vi/cStqr2nQ7ws/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
     "language": "pt"
   },
   {
@@ -5274,12 +4758,11 @@
     "subject": "outros"
   },
   {
-    "title": "Você não precisa querer IA. Ela vai chegar do mesmo jeito!",
+    "title": "You don't have to want AI. It's coming anyway!",
     "url": "https://www.youtube.com/watch?v=MV2gcYbIX5E",
     "thumbnail": "https://i.ytimg.com/vi/MV2gcYbIX5E/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
     "title": "Will NVIDIA Spark be able to get around Windows' problems?",
@@ -6532,12 +6015,11 @@
     "subject": "tecnologia"
   },
   {
-    "title": "Porque Linux é considerado O MAIS SEGURO",
+    "title": "Why Linux is considered THE MOST SECURE",
     "url": "https://www.youtube.com/watch?v=vSgw_ZfcplI",
     "thumbnail": "https://i.ytimg.com/vi/vSgw_ZfcplI/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
     "title": "Jogar no Linux NÃO é mais um problema 🕹️",
@@ -7146,12 +6628,11 @@
     "subject": "outros"
   },
   {
-    "title": "É muito fácil quebrar uma inteligência artificial!",
+    "title": "It's so easy to break an artificial intelligence!",
     "url": "https://www.youtube.com/watch?v=zRes7LoHlWo",
     "thumbnail": "https://i.ytimg.com/vi/zRes7LoHlWo/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
     "title": "Olha a Apple dando um 🔥CALOR na Intel e na AMD",
@@ -7183,11 +6664,11 @@
     "language": "pt"
   },
   {
-    "title": "Culpa da Steam! - Criador do Heroic Games Launcher fala sobre o nascimento do projeto",
+    "title": "Blame Steam! - Creator of Heroic Games Launcher talks about the birth of the project",
     "url": "https://www.youtube.com/watch?v=fosxZTj5epQ",
     "thumbnail": "https://i.ytimg.com/vi/fosxZTj5epQ/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia"
+    "subject": "games"
   },
   {
     "title": "O Heroic Games Launcher é maior do que a gente imagina 🤯",
@@ -7198,11 +6679,11 @@
     "language": "pt"
   },
   {
-    "title": "Como o open source pode se beneficiar da coleta de dados",
+    "title": "How open source can benefit from data collection",
     "url": "https://www.youtube.com/watch?v=6lfCStY65K0",
     "thumbnail": "https://i.ytimg.com/vi/6lfCStY65K0/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia"
+    "subject": "outros"
   },
   {
     "title": "O cenário de games é muito tóxico (e isso precisa acabar!)",
@@ -7714,423 +7195,663 @@
     "subject": "games"
   },
   {
-    "title": "Sem título",
-    "url": "https://www.youtube.com/watch?v=vCGjzQEodbA",
-    "thumbnail": "https://i.ytimg.com/vi/vCGjzQEodbA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Behind the Scenes of ALEXA IN BRAZIL (ft. Talita Bruzzi Taliberti) - TecInverso",
-    "url": "https://www.youtube.com/watch?v=cpXBWeE4Wno",
-    "thumbnail": "https://i.ytimg.com/vi/cpXBWeE4Wno/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "What is the NEXT luxury tech product? (ft. Geovanna Pedroso) – TechInverse",
-    "url": "https://www.youtube.com/watch?v=pjYTIV7yJmk",
-    "thumbnail": "https://i.ytimg.com/vi/pjYTIV7yJmk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Scientific method, pseudoscience vs. science, and more! TecInverso with @nuncavi1cientista",
-    "url": "https://www.youtube.com/watch?v=UsF8-JGFwOw",
-    "thumbnail": "https://i.ytimg.com/vi/UsF8-JGFwOw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "'Felca Law': Digital Child Statute, Linux and bans: what changes in your life? #TecInverso",
-    "url": "https://www.youtube.com/watch?v=F3wGDObxues",
-    "thumbnail": "https://i.ytimg.com/vi/F3wGDObxues/hqdefault.jpg",
+    "title": "The Brazilian Who Created a New Console - Diocast",
+    "url": "https://www.youtube.com/watch?v=VQMh0VJ5HIc",
+    "thumbnail": "https://i.ytimg.com/vi/VQMh0VJ5HIc/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "Sem título",
-    "url": "https://www.youtube.com/watch?v=i9fHy5RIO84",
-    "thumbnail": "https://i.ytimg.com/vi/i9fHy5RIO84/hqdefault.jpg",
+    "title": "Mentimos para vocês: LINUX MINT é coisa de profissional! - Diocast",
+    "url": "https://www.youtube.com/watch?v=XE57W298ffw",
+    "thumbnail": "https://i.ytimg.com/vi/XE57W298ffw/hqdefault.jpg",
     "type": "podcast",
-    "subject": "outros",
+    "subject": "tecnologia",
     "language": "pt"
   },
   {
-    "title": "How Technology Combats Fraud and Manipulation in Sports Betting #TechInverse",
-    "url": "https://www.youtube.com/watch?v=ktpnHM4xMwI",
-    "thumbnail": "https://i.ytimg.com/vi/ktpnHM4xMwI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "What did 2025 teach tech companies? #TecInverso",
-    "url": "https://www.youtube.com/watch?v=4lwDfzrC0Xk",
-    "thumbnail": "https://i.ytimg.com/vi/4lwDfzrC0Xk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Dá pra FAZER ISSO com código? Os projetos MAIS SURPREENDENTES da GambiConf  #TecInverso",
-    "url": "https://www.youtube.com/watch?v=sGTeW8NZ3l0",
-    "thumbnail": "https://i.ytimg.com/vi/sGTeW8NZ3l0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Is your company vulnerable to attacks? André Carneiro from Sophos explains #TecInverso",
-    "url": "https://www.youtube.com/watch?v=ZfuDk-90Bi4",
-    "thumbnail": "https://i.ytimg.com/vi/ZfuDk-90Bi4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "ELA VOLTOU? BASTIDORES de TECNOLOGIA com JOY MACEDO (TecMundo, Loop Infinito e Canaltech)#TecInverso",
-    "url": "https://www.youtube.com/watch?v=ylG2FGmvsnM",
-    "thumbnail": "https://i.ytimg.com/vi/ylG2FGmvsnM/hqdefault.jpg",
+    "title": "Did Linux CRASH your DRIVER? You don't understand the REAL PROBLEM! - Diocast with PsyGreg",
+    "url": "https://www.youtube.com/watch?v=icCUDpZZ2t0",
+    "thumbnail": "https://i.ytimg.com/vi/icCUDpZZ2t0/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "EXTRATERRESTRES, MISTÉRIOS e CONSPIRAÇÕES: Affonso Solano e Afonso Tresdê no #TecInverso @bunkerx",
-    "url": "https://www.youtube.com/watch?v=wq0j5Xzb3cY",
-    "thumbnail": "https://i.ytimg.com/vi/wq0j5Xzb3cY/hqdefault.jpg",
+    "title": "Are Subscriptions DESTROYING Everything? - Diocast",
+    "url": "https://www.youtube.com/watch?v=ajczq5owpIs",
+    "thumbnail": "https://i.ytimg.com/vi/ajczq5owpIs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Not everything should run on your Homelab - Diocast",
+    "url": "https://www.youtube.com/watch?v=g1L31l4Bwhc",
+    "thumbnail": "https://i.ytimg.com/vi/g1L31l4Bwhc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "NVIDIA threatens to destroy the dominance of Intel, AMD, and Apple - Diocast",
+    "url": "https://www.youtube.com/watch?v=uoP4kED-DRo",
+    "thumbnail": "https://i.ytimg.com/vi/uoP4kED-DRo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Linux roda jogos, o problema é outro! - Diocast",
+    "url": "https://www.youtube.com/watch?v=HNhKQH_6Pq8",
+    "thumbnail": "https://i.ytimg.com/vi/HNhKQH_6Pq8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "O Linux Desktop está mudando… e ninguém tá vendo! - Diocast",
+    "url": "https://www.youtube.com/watch?v=vkhfmVzn9vY",
+    "thumbnail": "https://i.ytimg.com/vi/vkhfmVzn9vY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "OBS Studio solves it! But this app is a game-changer - Diocast",
+    "url": "https://www.youtube.com/watch?v=7Hu8KAZGKr4",
+    "thumbnail": "https://i.ytimg.com/vi/7Hu8KAZGKr4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "If everyone uses extensions… why does GNOME ignore them? - Diocast with Georges Stavracas",
+    "url": "https://www.youtube.com/watch?v=oue1QhwJAYY",
+    "thumbnail": "https://i.ytimg.com/vi/oue1QhwJAYY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Programming got easy. The problem is the rest. - Diocast with Attekita Dev @attekitadev",
+    "url": "https://www.youtube.com/watch?v=UUJrN4nWm6Q",
+    "thumbnail": "https://i.ytimg.com/vi/UUJrN4nWm6Q/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "The Gaming PC Crisis - Diocast with Diego Kerber @Adrenaline",
+    "url": "https://www.youtube.com/watch?v=9W5SVOuUSc0",
+    "thumbnail": "https://i.ytimg.com/vi/9W5SVOuUSc0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Is Linux harder than building an electric Chevette? - Diocast with Gu Ferrarezi @Reset-hub",
+    "url": "https://www.youtube.com/watch?v=YwSvJwOoSqc",
+    "thumbnail": "https://i.ytimg.com/vi/YwSvJwOoSqc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Distros Imutáveis são tudo isso? PRÓS E CONTRAS REAIS - Diocast",
+    "url": "https://www.youtube.com/watch?v=Z7z4Wzu6m_c",
+    "thumbnail": "https://i.ytimg.com/vi/Z7z4Wzu6m_c/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros",
     "language": "pt"
   },
   {
-    "title": "Do Brasil para o MUNDO: como é COMPETIR no campeonato MUNDIAL de CPU?  #TecInverso",
-    "url": "https://www.youtube.com/watch?v=1NrENp1zsPE",
-    "thumbnail": "https://i.ytimg.com/vi/1NrENp1zsPE/hqdefault.jpg",
+    "title": "Tentamos parar, mas o Linux nos puxou de volta! - Diocast",
+    "url": "https://www.youtube.com/watch?v=eFpOezmvoCI",
+    "thumbnail": "https://i.ytimg.com/vi/eFpOezmvoCI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Linux vem forte em 2026. Mas o motivo está em 2025 - Diocast",
+    "url": "https://www.youtube.com/watch?v=-M-7loG48DU",
+    "thumbnail": "https://i.ytimg.com/vi/-M-7loG48DU/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia",
     "language": "pt"
   },
   {
-    "title": "From Smartphone to Computer: The New Era of Qualcomm and AI #TecInverso",
-    "url": "https://www.youtube.com/watch?v=_VxGuZ35Mi8",
-    "thumbnail": "https://i.ytimg.com/vi/_VxGuZ35Mi8/hqdefault.jpg",
+    "title": "Affinity's jab that could CHANGE THE GAME - Diocast",
+    "url": "https://www.youtube.com/watch?v=2i29KyrMt1c",
+    "thumbnail": "https://i.ytimg.com/vi/2i29KyrMt1c/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros"
   },
   {
-    "title": "Daiane Santos em VÍRUS E MALWARE NO WHATSAPP: COMO SE PROTEGER? #TecInverso",
-    "url": "https://www.youtube.com/watch?v=wXIBdy60WEE",
-    "thumbnail": "https://i.ytimg.com/vi/wXIBdy60WEE/hqdefault.jpg",
+    "title": "Wayland will change Linux PROFOUNDLY - Diocast with Georges Stavracas",
+    "url": "https://www.youtube.com/watch?v=Nwi2NPCDXek",
+    "thumbnail": "https://i.ytimg.com/vi/Nwi2NPCDXek/hqdefault.jpg",
     "type": "podcast",
-    "subject": "religiao",
-    "language": "pt"
+    "subject": "tecnologia"
   },
   {
-    "title": "Nilton Kleina em HISTÓRIA DA TECNOLOGIA, TECMUNDO e NZN #tecinverso",
-    "url": "https://www.youtube.com/watch?v=n9UIYx33AvY",
-    "thumbnail": "https://i.ytimg.com/vi/n9UIYx33AvY/hqdefault.jpg",
+    "title": "The union of the absolute BEST of each System - Diocast",
+    "url": "https://www.youtube.com/watch?v=C-0sHtwO5zI",
+    "thumbnail": "https://i.ytimg.com/vi/C-0sHtwO5zI/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
-    "title": "Nina Talks em UX DESIGN, EXPERIÊNCIA do USUÁRIO e COMO COMEÇAR ft @NinaTalksToYou",
-    "url": "https://www.youtube.com/watch?v=LRLY1PLXI_Y",
-    "thumbnail": "https://i.ytimg.com/vi/LRLY1PLXI_Y/hqdefault.jpg",
+    "title": "BAD code is SUPER common, but can YOU spot it? - Diocast with @FilipeDeschamps",
+    "url": "https://www.youtube.com/watch?v=Ca5bk1lc69Q",
+    "thumbnail": "https://i.ytimg.com/vi/Ca5bk1lc69Q/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
-    "title": "SKY DUST e o FUTURO dos JOGOS BRASILEIROS ft. Orbit Studio #TecInverso",
-    "url": "https://www.youtube.com/watch?v=FMIQ8Hu7ihY",
-    "thumbnail": "https://i.ytimg.com/vi/FMIQ8Hu7ihY/hqdefault.jpg",
+    "title": "3D Printing from Hobby to Professional - Diocast with @3DGeekShow",
+    "url": "https://www.youtube.com/watch?v=_5IUTGvHgMg",
+    "thumbnail": "https://i.ytimg.com/vi/_5IUTGvHgMg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "What almost everyone gets wrong when buying a cheap gaming PC - Diocast with @tecnoart101",
+    "url": "https://www.youtube.com/watch?v=f19zgJ4AKZw",
+    "thumbnail": "https://i.ytimg.com/vi/f19zgJ4AKZw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "AMD Brasil abre o jogo sobre o Ryzen e o Futuro do Hardware  - Diocast",
+    "url": "https://www.youtube.com/watch?v=AsOoBlejPgk",
+    "thumbnail": "https://i.ytimg.com/vi/AsOoBlejPgk/hqdefault.jpg",
     "type": "podcast",
     "subject": "games"
   },
   {
-    "title": "TERROR, efeitos especiais e TECNOLOGIA no CINEMA BRASILEIRO ft. Kapel Furman #TecInverso",
-    "url": "https://www.youtube.com/watch?v=caUQPj1OZCM",
-    "thumbnail": "https://i.ytimg.com/vi/caUQPj1OZCM/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "cinema"
-  },
-  {
-    "title": "Família IPHONE 17: feia DEMAIS, mas faz TOTAL sentido #TecInverso",
-    "url": "https://www.youtube.com/watch?v=u6rFUgF_eoo",
-    "thumbnail": "https://i.ytimg.com/vi/u6rFUgF_eoo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "A NOVA era dos CRIMES chegou? ft. Delegado Jorge Lordello @NaCenaDoCrime_ #TecInverso",
-    "url": "https://www.youtube.com/watch?v=pQ3gmRjb1l4",
-    "thumbnail": "https://i.ytimg.com/vi/pQ3gmRjb1l4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "ISSO O TECMUNDO NÃO MOSTRA ft. Leo Rocha",
-    "url": "https://www.youtube.com/watch?v=bsFTlrG_Z2Y",
-    "thumbnail": "https://i.ytimg.com/vi/bsFTlrG_Z2Y/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "o FIM da INTERNET como CONHECEMOS ft. @profricardomarcilio e @Ayubio",
-    "url": "https://www.youtube.com/watch?v=2YRHUBU9zyE",
-    "thumbnail": "https://i.ytimg.com/vi/2YRHUBU9zyE/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "PERIFÉRICO, NOTEBOOK GAMER: qual o MELHOR? ft. @Lucas Ishii",
-    "url": "https://www.youtube.com/watch?v=vG10Ujp88-E",
-    "thumbnail": "https://i.ytimg.com/vi/vG10Ujp88-E/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "religiao",
-    "language": "pt"
-  },
-  {
-    "title": "GPS brasileiro é \"salvação\" contra TRUMP? ft. Ayub e Teske",
-    "url": "https://www.youtube.com/watch?v=2bkrMuk26S8",
-    "thumbnail": "https://i.ytimg.com/vi/2bkrMuk26S8/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Is FACIAL BIOMETRICS really SECURE? with THALLITA LIMA AND TIRONI PAZ ORTIZ - TecInverso",
-    "url": "https://www.youtube.com/watch?v=AmO3sQrlXIo",
-    "thumbnail": "https://i.ytimg.com/vi/AmO3sQrlXIo/hqdefault.jpg",
+    "title": "Are you ready for Debian13? - Diocast",
+    "url": "https://www.youtube.com/watch?v=Qyl6-vy8mNE",
+    "thumbnail": "https://i.ytimg.com/vi/Qyl6-vy8mNE/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "BETS ABREM O JOGO com Antonio Forjaz, Fernando Vieira e Guilherme Figueiredo",
-    "url": "https://www.youtube.com/watch?v=NmwcnpW8u2I",
-    "thumbnail": "https://i.ytimg.com/vi/NmwcnpW8u2I/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "games"
-  },
-  {
-    "title": "The Problem of Bets with Edilson Braga - Reverse Technology",
-    "url": "https://www.youtube.com/watch?v=47SqalCRUn4",
-    "thumbnail": "https://i.ytimg.com/vi/47SqalCRUn4/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "GAMBIARRAS TECNOLÓGICAS com LETRAJOTA",
-    "url": "https://www.youtube.com/watch?v=P9iBZjR5jQ4",
-    "thumbnail": "https://i.ytimg.com/vi/P9iBZjR5jQ4/hqdefault.jpg",
+    "title": "O que é LinuxToys e por que você deveria testar - Diocast",
+    "url": "https://www.youtube.com/watch?v=VcMo5yOMYRA",
+    "thumbnail": "https://i.ytimg.com/vi/VcMo5yOMYRA/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia",
     "language": "pt"
   },
   {
-    "title": "CRIMES DIGITAIS com João de Senzi",
-    "url": "https://www.youtube.com/watch?v=fo8sPorf93s",
-    "thumbnail": "https://i.ytimg.com/vi/fo8sPorf93s/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "HARDWARE HACKING com Penegui e Lucas Teske",
-    "url": "https://www.youtube.com/watch?v=0gXRuHTfe1c",
-    "thumbnail": "https://i.ytimg.com/vi/0gXRuHTfe1c/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Cigarro Eletrônico no Brasil: por que é proibido? Papo com Alexandro Lucian",
-    "url": "https://www.youtube.com/watch?v=k_v91DXhsGY",
-    "thumbnail": "https://i.ytimg.com/vi/k_v91DXhsGY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "OS CAÇADORES DE INFLUENCERS DO CRIME - feat. Will O Perito, Guga Figueiredo e Renato Cunha",
-    "url": "https://www.youtube.com/watch?v=V88MsmBpGmc",
-    "thumbnail": "https://i.ytimg.com/vi/V88MsmBpGmc/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Elon Musk x Alexandre de Moraes: QUEM ESTÁ CERTO? Todas as questões envolvendo essa treta",
-    "url": "https://www.youtube.com/watch?v=zgkS66pPSCk",
-    "thumbnail": "https://i.ytimg.com/vi/zgkS66pPSCk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Como funcionam os golpes PIX e outros meios de pagamento — Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=DfwbkZMVz5Q",
-    "thumbnail": "https://i.ytimg.com/vi/DfwbkZMVz5Q/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "ANONYMOUS fala sobre Elon Musk, Alexandre de Moraes, Brasil e ações - TecInverso AO VIVO",
-    "url": "https://www.youtube.com/watch?v=M8ZvzVCbNLo",
-    "thumbnail": "https://i.ytimg.com/vi/M8ZvzVCbNLo/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Aprendendo a escolher peças para montar um PC novo - Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=tG1x9naqvV0",
-    "thumbnail": "https://i.ytimg.com/vi/tG1x9naqvV0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Hackers and Electronic Voting Machines: A Chat with WSS Security - Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=eXW71VHJb7U",
-    "thumbnail": "https://i.ytimg.com/vi/eXW71VHJb7U/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Tec Inverso AO VIVO: bastidores Realidade Violada com TecMundo e Avast",
-    "url": "https://www.youtube.com/watch?v=3dhuhBUdtB0",
-    "thumbnail": "https://i.ytimg.com/vi/3dhuhBUdtB0/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros"
-  },
-  {
-    "title": "Atendimento ao cliente das empresas é bom? Um papo sobre cuidado",
-    "url": "https://www.youtube.com/watch?v=L35c7u-SHVY",
-    "thumbnail": "https://i.ytimg.com/vi/L35c7u-SHVY/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "negocios",
-    "language": "pt"
-  },
-  {
-    "title": "Você é livre na internet ou é vigiado? Um papo sobre privacidade - Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=O-Y91aHNhXw",
-    "thumbnail": "https://i.ytimg.com/vi/O-Y91aHNhXw/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Cannabis medicinal pode revolucionar o mundo e você – Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=s4D_dDNFnfQ",
-    "thumbnail": "https://i.ytimg.com/vi/s4D_dDNFnfQ/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "saude",
-    "language": "pt"
-  },
-  {
-    "title": "Carol Moreira fala sobre Oscar, True Crime e histórias de vida – Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=F22vJK-YPig",
-    "thumbnail": "https://i.ytimg.com/vi/F22vJK-YPig/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Da periferia para Harvard, Google, Nubank e Netflix com André Menezes – Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=esf2nJl0RXk",
-    "thumbnail": "https://i.ytimg.com/vi/esf2nJl0RXk/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "cinema",
-    "language": "pt"
-  },
-  {
-    "title": "Tecnologia na Perícia Criminal com Telma Rocha e Raquel Lopes - Tec Inverso",
-    "url": "https://www.youtube.com/watch?v=eUaogJmo8VI",
-    "thumbnail": "https://i.ytimg.com/vi/eUaogJmo8VI/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "O celular está destruindo nosso cérebro? Papo com Álvaro Machado Dias",
-    "url": "https://www.youtube.com/watch?v=pEOWe0noP0w",
-    "thumbnail": "https://i.ytimg.com/vi/pEOWe0noP0w/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "Todas DÚVIDAS sobre internet foram respondidas! Papo com Thiago Ayub",
-    "url": "https://www.youtube.com/watch?v=sXnNfnU55qU",
-    "thumbnail": "https://i.ytimg.com/vi/sXnNfnU55qU/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
-  },
-  {
-    "title": "A chat involving hackers, Minecraft, and even mitochondria! - @GabrielPato and @multioficial",
-    "url": "https://www.youtube.com/watch?v=23jgoD69FtE",
-    "thumbnail": "https://i.ytimg.com/vi/23jgoD69FtE/hqdefault.jpg",
+    "title": "Manias, Bugs and Apps: Naval Battle on your Linux desktop - Diocast",
+    "url": "https://www.youtube.com/watch?v=WQq-tmPW0qU",
+    "thumbnail": "https://i.ytimg.com/vi/WQq-tmPW0qU/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia"
   },
   {
-    "title": "Você sabe o que é METAVERSO? Spoiler: não é um lugar – Tec Inverso e Ronaldo Lemos",
-    "url": "https://www.youtube.com/watch?v=bol16uawQN8",
-    "thumbnail": "https://i.ytimg.com/vi/bol16uawQN8/hqdefault.jpg",
+    "title": "Valve made a move and the competition moved! - Diocast",
+    "url": "https://www.youtube.com/watch?v=2IQeXFvDnGY",
+    "thumbnail": "https://i.ytimg.com/vi/2IQeXFvDnGY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "And that's how Ubuntu lost its throne... (Friendly distros?) - Diocast",
+    "url": "https://www.youtube.com/watch?v=ey4qsvMtTYo",
+    "thumbnail": "https://i.ytimg.com/vi/ey4qsvMtTYo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "PewDiePie usando Linux? O que está acontecendo? - Diocast",
+    "url": "https://www.youtube.com/watch?v=GH8dFxI6cQE",
+    "thumbnail": "https://i.ytimg.com/vi/GH8dFxI6cQE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Sua distro preferida um dia vai acabar - Diocast",
+    "url": "https://www.youtube.com/watch?v=piCl8XRNl5A",
+    "thumbnail": "https://i.ytimg.com/vi/piCl8XRNl5A/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "O Grande Desafio de falar sobre Linux no Brasil - Diocast (Especial 14 anos)",
+    "url": "https://www.youtube.com/watch?v=z49pkBOHEVA",
+    "thumbnail": "https://i.ytimg.com/vi/z49pkBOHEVA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Você vai precisar de um pendrive maior - Diocast",
+    "url": "https://www.youtube.com/watch?v=9Wom9t588MM",
+    "thumbnail": "https://i.ytimg.com/vi/9Wom9t588MM/hqdefault.jpg",
     "type": "podcast",
     "subject": "outros",
     "language": "pt"
   },
   {
-    "title": "\"Era dos Buracos Negros...\", fim do Universo e mistérios do espaço - Roberta Duarte",
-    "url": "https://www.youtube.com/watch?v=S6v3e8xTnns",
-    "thumbnail": "https://i.ytimg.com/vi/S6v3e8xTnns/hqdefault.jpg",
+    "title": "Por que nenhum Linux serve pra você? - Diocast",
+    "url": "https://www.youtube.com/watch?v=yhb-bUQttBg",
+    "thumbnail": "https://i.ytimg.com/vi/yhb-bUQttBg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Open source em chamas! E é só o começo de 2025 - Diocast",
+    "url": "https://www.youtube.com/watch?v=my2wTWI9tkI",
+    "thumbnail": "https://i.ytimg.com/vi/my2wTWI9tkI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Linux Desktop Environments: Why Your Choice Matters! - Diocast",
+    "url": "https://www.youtube.com/watch?v=GVw_fxmUgmg",
+    "thumbnail": "https://i.ytimg.com/vi/GVw_fxmUgmg/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Memes do Linux: É meme, mas não é mentira 😂 - Diocast",
+    "url": "https://www.youtube.com/watch?v=xwopzQlZCcI",
+    "thumbnail": "https://i.ytimg.com/vi/xwopzQlZCcI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Onde Linux falhou em 2024 (e onde deu certo) - Diocast",
+    "url": "https://www.youtube.com/watch?v=QrjzW6_jEYc",
+    "thumbnail": "https://i.ytimg.com/vi/QrjzW6_jEYc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "As coisas que tentamos esconder, agora reveladas - Diocast",
+    "url": "https://www.youtube.com/watch?v=06Tx80Xmdeo",
+    "thumbnail": "https://i.ytimg.com/vi/06Tx80Xmdeo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Windows 10 vai acabar! O que fazer depois do fim do suporte? - Diocast",
+    "url": "https://www.youtube.com/watch?v=qCLaudgnrug",
+    "thumbnail": "https://i.ytimg.com/vi/qCLaudgnrug/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Guia (quase) definitivo do desktop Linux para Iniciantes - Diocast",
+    "url": "https://www.youtube.com/watch?v=63YMzfgW4TM",
+    "thumbnail": "https://i.ytimg.com/vi/63YMzfgW4TM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Sua distro sobreviveu? 32 sistemas e só um vai restar! - Diocast",
+    "url": "https://www.youtube.com/watch?v=QiVjY8Co86g",
+    "thumbnail": "https://i.ytimg.com/vi/QiVjY8Co86g/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Respondendo aos comentários: \"Arch é fácil\"? - Diocast",
+    "url": "https://www.youtube.com/watch?v=YzyGlL3xbsY",
+    "thumbnail": "https://i.ytimg.com/vi/YzyGlL3xbsY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Open Source is free but expensive - Diocast",
+    "url": "https://www.youtube.com/watch?v=rVipNIpwLrs",
+    "thumbnail": "https://i.ytimg.com/vi/rVipNIpwLrs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "O caso dos \"Designers que ODEIAM Linux\" - Diocast",
+    "url": "https://www.youtube.com/watch?v=aieB5TGX2J0",
+    "thumbnail": "https://i.ytimg.com/vi/aieB5TGX2J0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Qual o tipo de Linux certo pra você? - Diocast",
+    "url": "https://www.youtube.com/watch?v=S0ArPaTYaGI",
+    "thumbnail": "https://i.ytimg.com/vi/S0ArPaTYaGI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Linux ainda é um sistema hostil... será? - Diocast Responde",
+    "url": "https://www.youtube.com/watch?v=GP50WIW7Q74",
+    "thumbnail": "https://i.ytimg.com/vi/GP50WIW7Q74/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Linux ainda é um sistema operacional de nicho? - Diocast",
+    "url": "https://www.youtube.com/watch?v=QfljY9zxRKM",
+    "thumbnail": "https://i.ytimg.com/vi/QfljY9zxRKM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Um papo de nerds sobre IA em desktops e o fiasco do Windows Recall - Diocast com Coisa de Nerd",
+    "url": "https://www.youtube.com/watch?v=JBi_e-y8aho",
+    "thumbnail": "https://i.ytimg.com/vi/JBi_e-y8aho/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "O Snapdragon X Elite pode ter mudado o Desktop para sempre - Diocast",
+    "url": "https://www.youtube.com/watch?v=Mg2NkBcDB9g",
+    "thumbnail": "https://i.ytimg.com/vi/Mg2NkBcDB9g/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Diocast App Showcase - Essential Apps for your machine",
+    "url": "https://www.youtube.com/watch?v=JdIiZ3VpXDc",
+    "thumbnail": "https://i.ytimg.com/vi/JdIiZ3VpXDc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "O Meu Linux é Melhor que o Seu! E posso provar. - Diocast",
+    "url": "https://www.youtube.com/watch?v=LF3MAdbUsjc",
+    "thumbnail": "https://i.ytimg.com/vi/LF3MAdbUsjc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Será que Linux é tudo igual? O que faz cada distro ser única? - Diocast",
+    "url": "https://www.youtube.com/watch?v=s3O9TSLlJ8s",
+    "thumbnail": "https://i.ytimg.com/vi/s3O9TSLlJ8s/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Aprendendo a diminuir o Alvo nas suas Costas 🎯 - Diocast",
+    "url": "https://www.youtube.com/watch?v=JaUpqArd9tw",
+    "thumbnail": "https://i.ytimg.com/vi/JaUpqArd9tw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "O Wine realmente quebra o Linux? - Diocast",
+    "url": "https://www.youtube.com/watch?v=kDUKRGlXWXM",
+    "thumbnail": "https://i.ytimg.com/vi/kDUKRGlXWXM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "psicologia"
+  },
+  {
+    "title": "Migrar para Linux não precisa ser um show de horrores - Diocast",
+    "url": "https://www.youtube.com/watch?v=vNyzSysIXDA",
+    "thumbnail": "https://i.ytimg.com/vi/vNyzSysIXDA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Não atualize para o KDE 6 (ainda). É sério! - Diocast",
+    "url": "https://www.youtube.com/watch?v=BurgMxkSaG0",
+    "thumbnail": "https://i.ytimg.com/vi/BurgMxkSaG0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Linux Tier List: Em que nível fica sua distro preferida? - Diocast",
+    "url": "https://www.youtube.com/watch?v=UzT3v146hDo",
+    "thumbnail": "https://i.ytimg.com/vi/UzT3v146hDo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Linux para PC Gamers: O bom, o ruim e o feio - Diocast",
+    "url": "https://www.youtube.com/watch?v=ZQdjV14thNA",
+    "thumbnail": "https://i.ytimg.com/vi/ZQdjV14thNA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Linux é REALMENTE mais seguro que o Windows? - Diocast",
+    "url": "https://www.youtube.com/watch?v=79UyqM3y6Hs",
+    "thumbnail": "https://i.ytimg.com/vi/79UyqM3y6Hs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "psicologia",
+    "language": "pt"
+  },
+  {
+    "title": "Como Linux deu certo (e errado) em 2023 - Diocast",
+    "url": "https://www.youtube.com/watch?v=IpP5fSfOb8c",
+    "thumbnail": "https://i.ytimg.com/vi/IpP5fSfOb8c/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "How KDE Changed the Face of Linux! - Diocast",
+    "url": "https://www.youtube.com/watch?v=w2J3GZy3nB4",
+    "thumbnail": "https://i.ytimg.com/vi/w2J3GZy3nB4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "GNOME encheu o bolso e 2024 promete muito no mundo Linux - Diocast",
+    "url": "https://www.youtube.com/watch?v=mjO9iTQxOIM",
+    "thumbnail": "https://i.ytimg.com/vi/mjO9iTQxOIM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Vale a pena fazer certificações para trabalhar em Tech? - Diocast com Mateus Müller",
+    "url": "https://www.youtube.com/watch?v=uUG2zEZtFKI",
+    "thumbnail": "https://i.ytimg.com/vi/uUG2zEZtFKI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Why you need to learn Python today! - Diocast with Dunossauro",
+    "url": "https://www.youtube.com/watch?v=wUsktbPQExk",
+    "thumbnail": "https://i.ytimg.com/vi/wUsktbPQExk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Os segredos de um Wi-Fi perfeito! - Diocast",
+    "url": "https://www.youtube.com/watch?v=tLWj8nVq794",
+    "thumbnail": "https://i.ytimg.com/vi/tLWj8nVq794/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Smartphone manufacturers don't want you to know this 👀 - Diocast with @marcelcampos",
+    "url": "https://www.youtube.com/watch?v=vZ0rR9E4vYw",
+    "thumbnail": "https://i.ytimg.com/vi/vZ0rR9E4vYw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Nobody is prepared for this: The problems of changing careers - Diocast",
+    "url": "https://www.youtube.com/watch?v=ZBfgM71hpSk",
+    "thumbnail": "https://i.ytimg.com/vi/ZBfgM71hpSk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Se depender dele, seu Smartphone não será mais o mesmo - Diocast",
+    "url": "https://www.youtube.com/watch?v=__gcL-4Vsok",
+    "thumbnail": "https://i.ytimg.com/vi/__gcL-4Vsok/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Um já foi, agora só falta o Windows (pode demorar um pouco) - Diocast",
+    "url": "https://www.youtube.com/watch?v=P8NhkyNIcN0",
+    "thumbnail": "https://i.ytimg.com/vi/P8NhkyNIcN0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Dev GNOME revela bastidores do mundo Open Source - Diocast com Georges Stavracas",
+    "url": "https://www.youtube.com/watch?v=9Rmnw_0WAAc",
+    "thumbnail": "https://i.ytimg.com/vi/9Rmnw_0WAAc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "We need to talk about Red Hat and their \"big move\" - Diocast",
+    "url": "https://www.youtube.com/watch?v=kUo9AY4Fa5k",
+    "thumbnail": "https://i.ytimg.com/vi/kUo9AY4Fa5k/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Como assim um Snorkel de 3 mil dólares? Nossa visão sobre a WWDC 2023 da Apple - Diocast",
+    "url": "https://www.youtube.com/watch?v=Wnm8syxrG98",
+    "thumbnail": "https://i.ytimg.com/vi/Wnm8syxrG98/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Microsoft Build 2023: os novos recursos do Windows que vão te surpreender - Diocast",
+    "url": "https://www.youtube.com/watch?v=gxSBmHovSZw",
+    "thumbnail": "https://i.ytimg.com/vi/gxSBmHovSZw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Criar o seu próprio Linux é mais \"fácil\" do que você pensa - Diocast",
+    "url": "https://www.youtube.com/watch?v=WdB7t_HImtA",
+    "thumbnail": "https://i.ytimg.com/vi/WdB7t_HImtA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Sua Carreira em TI está REALMENTE AMEAÇADA pela IA? - Diocast com Código Fonte TV",
+    "url": "https://www.youtube.com/watch?v=-2ZXuQKKfs0",
+    "thumbnail": "https://i.ytimg.com/vi/-2ZXuQKKfs0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "psicologia",
+    "language": "pt"
+  },
+  {
+    "title": "Os Segredos do sucesso da Pichau - Diocast com Junior da Pichau",
+    "url": "https://www.youtube.com/watch?v=9XLjzdWqqFQ",
+    "thumbnail": "https://i.ytimg.com/vi/9XLjzdWqqFQ/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Com sorte a gente não se arrependa desse episódio! 😅  - Diocast",
+    "url": "https://www.youtube.com/watch?v=bvClBHbFbvs",
+    "thumbnail": "https://i.ytimg.com/vi/bvClBHbFbvs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "O mundo além do Adrenaline - Diocast com Diego Kerber",
+    "url": "https://www.youtube.com/watch?v=xmrgEZBuYuE",
+    "thumbnail": "https://i.ytimg.com/vi/xmrgEZBuYuE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Os segredos do Hardware no Brasil - Diocast com Ronaldo Buassali do Teclab",
+    "url": "https://www.youtube.com/watch?v=jNjLJ3GIWzk",
+    "thumbnail": "https://i.ytimg.com/vi/jNjLJ3GIWzk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Largou o Laboratório pelo Código! - Diocast com Rafaella Ballerini",
+    "url": "https://www.youtube.com/watch?v=ULXX1nH7ITI",
+    "thumbnail": "https://i.ytimg.com/vi/ULXX1nH7ITI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Como ter uma carreira dev feliz  - Diocast com Marco Bruno",
+    "url": "https://www.youtube.com/watch?v=oifErj58gbs",
+    "thumbnail": "https://i.ytimg.com/vi/oifErj58gbs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Detonando mitos da carreira DEV - Diocast",
+    "url": "https://www.youtube.com/watch?v=oL5pMASc78w",
+    "thumbnail": "https://i.ytimg.com/vi/oL5pMASc78w/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Será isso que falta para projetos open source decolarem em 2023? - Diocast",
+    "url": "https://www.youtube.com/watch?v=hApiDakrUTY",
+    "thumbnail": "https://i.ytimg.com/vi/hApiDakrUTY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Metaverso  e o Setup sensacional do Akita - Diocast com Fábio Akita (Parte 2)",
+    "url": "https://www.youtube.com/watch?v=91E8L93zOD4",
+    "thumbnail": "https://i.ytimg.com/vi/91E8L93zOD4/hqdefault.jpg",
     "type": "podcast",
     "subject": "arte",
     "language": "pt"
   },
   {
-    "title": "DEEPFAKE: uma conversa com o bruxão dos vídeos falsos - com Bruno Sartori",
-    "url": "https://www.youtube.com/watch?v=rvoR-xXjtNA",
-    "thumbnail": "https://i.ytimg.com/vi/rvoR-xXjtNA/hqdefault.jpg",
-    "type": "podcast",
-    "subject": "outros",
-    "language": "pt"
-  },
-  {
-    "title": "Crimes digitais, hackers e ciberpolícia – com Delegado Vitor Luna e Investigador Sergio Hussein",
-    "url": "https://www.youtube.com/watch?v=keCPxQLdAEM",
-    "thumbnail": "https://i.ytimg.com/vi/keCPxQLdAEM/hqdefault.jpg",
+    "title": "Um papo sobre IA e tecnologia - Diocast com Fábio Akita (Parte 1)",
+    "url": "https://www.youtube.com/watch?v=NAkC3GeigNY",
+    "thumbnail": "https://i.ytimg.com/vi/NAkC3GeigNY/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia",
     "language": "pt"
   },
   {
-    "title": "Histórias emocionantes de pilotos que você nunca ouviu - Aviação",
-    "url": "https://www.youtube.com/watch?v=Ju4MkumFG9c",
-    "thumbnail": "https://i.ytimg.com/vi/Ju4MkumFG9c/hqdefault.jpg",
+    "title": "Diocast - Do Zero ao Hackintosh com Gabriel Luchina do Universo Hackintosh",
+    "url": "https://www.youtube.com/watch?v=2T17p_XGYYs",
+    "thumbnail": "https://i.ytimg.com/vi/2T17p_XGYYs/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Diocast - Flávio Lima, criador do Heroic Games Launcher",
+    "url": "https://www.youtube.com/watch?v=cStqr2nQ7ws",
+    "thumbnail": "https://i.ytimg.com/vi/cStqr2nQ7ws/hqdefault.jpg",
     "type": "podcast",
     "subject": "tecnologia",
     "language": "pt"
   },
   {
-    "title": "É possível 'ouvir espíritos' pela tecnologia? EVPs com @SpookyHousesCasasAssombradas",
-    "url": "https://www.youtube.com/watch?v=Fo3vVy9JnJY",
-    "thumbnail": "https://i.ytimg.com/vi/Fo3vVy9JnJY/hqdefault.jpg",
+    "title": "iPhone 18 Pro in hand + Qualcomm Snapdragon Summit and Meta Connect 2026 expectations #NoManual 51",
+    "url": "https://www.youtube.com/watch?v=E0HzGsqUbEk",
+    "thumbnail": "https://i.ytimg.com/vi/E0HzGsqUbEk/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia",
-    "language": "pt"
+    "subject": "outros"
   },
   {
-    "title": "OVNIs no Brasil e tecnologias \"extraterrestres\" com @EdisonBoaventura #TecVerso01",
-    "url": "https://www.youtube.com/watch?v=ardZWn7pOuI",
-    "thumbnail": "https://i.ytimg.com/vi/ardZWn7pOuI/hqdefault.jpg",
+    "title": "iPhone Duo, 18 Pro, Apple Watch Series 12 e Ultra 4, Airpods 5 e mais! TUDO SOBRE #SemManual 50",
+    "url": "https://www.youtube.com/watch?v=gbCkRH51CdA",
+    "thumbnail": "https://i.ytimg.com/vi/gbCkRH51CdA/hqdefault.jpg",
     "type": "podcast",
-    "subject": "tecnologia"
+    "subject": "outros"
   },
   {
     "title": "NEW IPHONES under the leadership of JOHN TERNUS: what to expect from this NEW APPLE ERA? #SemManu...",
@@ -8446,7 +8167,7 @@
     "language": "pt"
   },
   {
-    "title": "BRASIL precisa de uma BOMBA NUCLEAR? MICROSOFT vs PROCON, SORA passando dos LIMITES - #SemManual 010",
+    "title": "Does BRAZIL need a NUCLEAR BOMB? MICROSOFT vs. PROCON, SORA crossing the LINE - #SemManual 010",
     "url": "https://www.youtube.com/watch?v=BO4koUV0y6s",
     "thumbnail": "https://i.ytimg.com/vi/BO4koUV0y6s/hqdefault.jpg",
     "type": "podcast",
@@ -8558,6 +8279,423 @@
     "subject": "outros"
   },
   {
+    "title": "Will AI REPLACE people? Creativity, work, and the future ft. PAULO AGUIAR",
+    "url": "https://www.youtube.com/watch?v=vCGjzQEodbA",
+    "thumbnail": "https://i.ytimg.com/vi/vCGjzQEodbA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Behind the Scenes of ALEXA IN BRAZIL (ft. Talita Bruzzi Taliberti) - TecInverso",
+    "url": "https://www.youtube.com/watch?v=cpXBWeE4Wno",
+    "thumbnail": "https://i.ytimg.com/vi/cpXBWeE4Wno/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "What is the NEXT luxury tech product? (ft. Geovanna Pedroso) – TechInverse",
+    "url": "https://www.youtube.com/watch?v=pjYTIV7yJmk",
+    "thumbnail": "https://i.ytimg.com/vi/pjYTIV7yJmk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Scientific method, pseudoscience vs. science, and more! TecInverso with @nuncavi1cientista",
+    "url": "https://www.youtube.com/watch?v=UsF8-JGFwOw",
+    "thumbnail": "https://i.ytimg.com/vi/UsF8-JGFwOw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "'Felca Law': Digital Child Statute, Linux and bans: what changes in your life? #TecInverso",
+    "url": "https://www.youtube.com/watch?v=F3wGDObxues",
+    "thumbnail": "https://i.ytimg.com/vi/F3wGDObxues/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Sem título",
+    "url": "https://www.youtube.com/watch?v=i9fHy5RIO84",
+    "thumbnail": "https://i.ytimg.com/vi/i9fHy5RIO84/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "How Technology Combats Fraud and Manipulation in Sports Betting #TechInverse",
+    "url": "https://www.youtube.com/watch?v=ktpnHM4xMwI",
+    "thumbnail": "https://i.ytimg.com/vi/ktpnHM4xMwI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "What did 2025 teach tech companies? #TecInverso",
+    "url": "https://www.youtube.com/watch?v=4lwDfzrC0Xk",
+    "thumbnail": "https://i.ytimg.com/vi/4lwDfzrC0Xk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Dá pra FAZER ISSO com código? Os projetos MAIS SURPREENDENTES da GambiConf  #TecInverso",
+    "url": "https://www.youtube.com/watch?v=sGTeW8NZ3l0",
+    "thumbnail": "https://i.ytimg.com/vi/sGTeW8NZ3l0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Is your company vulnerable to attacks? André Carneiro from Sophos explains #TecInverso",
+    "url": "https://www.youtube.com/watch?v=ZfuDk-90Bi4",
+    "thumbnail": "https://i.ytimg.com/vi/ZfuDk-90Bi4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "ELA VOLTOU? BASTIDORES de TECNOLOGIA com JOY MACEDO (TecMundo, Loop Infinito e Canaltech)#TecInverso",
+    "url": "https://www.youtube.com/watch?v=ylG2FGmvsnM",
+    "thumbnail": "https://i.ytimg.com/vi/ylG2FGmvsnM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "EXTRATERRESTRES, MISTÉRIOS e CONSPIRAÇÕES: Affonso Solano e Afonso Tresdê no #TecInverso @bunkerx",
+    "url": "https://www.youtube.com/watch?v=wq0j5Xzb3cY",
+    "thumbnail": "https://i.ytimg.com/vi/wq0j5Xzb3cY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Do Brasil para o MUNDO: como é COMPETIR no campeonato MUNDIAL de CPU?  #TecInverso",
+    "url": "https://www.youtube.com/watch?v=1NrENp1zsPE",
+    "thumbnail": "https://i.ytimg.com/vi/1NrENp1zsPE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "From Smartphone to Computer: The New Era of Qualcomm and AI #TecInverso",
+    "url": "https://www.youtube.com/watch?v=_VxGuZ35Mi8",
+    "thumbnail": "https://i.ytimg.com/vi/_VxGuZ35Mi8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Daiane Santos em VÍRUS E MALWARE NO WHATSAPP: COMO SE PROTEGER? #TecInverso",
+    "url": "https://www.youtube.com/watch?v=wXIBdy60WEE",
+    "thumbnail": "https://i.ytimg.com/vi/wXIBdy60WEE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "religiao",
+    "language": "pt"
+  },
+  {
+    "title": "Nilton Kleina em HISTÓRIA DA TECNOLOGIA, TECMUNDO e NZN #tecinverso",
+    "url": "https://www.youtube.com/watch?v=n9UIYx33AvY",
+    "thumbnail": "https://i.ytimg.com/vi/n9UIYx33AvY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Nina Talks em UX DESIGN, EXPERIÊNCIA do USUÁRIO e COMO COMEÇAR ft @NinaTalksToYou",
+    "url": "https://www.youtube.com/watch?v=LRLY1PLXI_Y",
+    "thumbnail": "https://i.ytimg.com/vi/LRLY1PLXI_Y/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "SKY DUST e o FUTURO dos JOGOS BRASILEIROS ft. Orbit Studio #TecInverso",
+    "url": "https://www.youtube.com/watch?v=FMIQ8Hu7ihY",
+    "thumbnail": "https://i.ytimg.com/vi/FMIQ8Hu7ihY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "games"
+  },
+  {
+    "title": "TERROR, efeitos especiais e TECNOLOGIA no CINEMA BRASILEIRO ft. Kapel Furman #TecInverso",
+    "url": "https://www.youtube.com/watch?v=caUQPj1OZCM",
+    "thumbnail": "https://i.ytimg.com/vi/caUQPj1OZCM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "cinema"
+  },
+  {
+    "title": "Família IPHONE 17: feia DEMAIS, mas faz TOTAL sentido #TecInverso",
+    "url": "https://www.youtube.com/watch?v=u6rFUgF_eoo",
+    "thumbnail": "https://i.ytimg.com/vi/u6rFUgF_eoo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "A NOVA era dos CRIMES chegou? ft. Delegado Jorge Lordello @NaCenaDoCrime_ #TecInverso",
+    "url": "https://www.youtube.com/watch?v=pQ3gmRjb1l4",
+    "thumbnail": "https://i.ytimg.com/vi/pQ3gmRjb1l4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "ISSO O TECMUNDO NÃO MOSTRA ft. Leo Rocha",
+    "url": "https://www.youtube.com/watch?v=bsFTlrG_Z2Y",
+    "thumbnail": "https://i.ytimg.com/vi/bsFTlrG_Z2Y/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "o FIM da INTERNET como CONHECEMOS ft. @profricardomarcilio e @Ayubio",
+    "url": "https://www.youtube.com/watch?v=2YRHUBU9zyE",
+    "thumbnail": "https://i.ytimg.com/vi/2YRHUBU9zyE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "PERIFÉRICO, NOTEBOOK GAMER: qual o MELHOR? ft. @Lucas Ishii",
+    "url": "https://www.youtube.com/watch?v=vG10Ujp88-E",
+    "thumbnail": "https://i.ytimg.com/vi/vG10Ujp88-E/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "religiao",
+    "language": "pt"
+  },
+  {
+    "title": "GPS brasileiro é \"salvação\" contra TRUMP? ft. Ayub e Teske",
+    "url": "https://www.youtube.com/watch?v=2bkrMuk26S8",
+    "thumbnail": "https://i.ytimg.com/vi/2bkrMuk26S8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Is FACIAL BIOMETRICS really SECURE? with THALLITA LIMA AND TIRONI PAZ ORTIZ - TecInverso",
+    "url": "https://www.youtube.com/watch?v=AmO3sQrlXIo",
+    "thumbnail": "https://i.ytimg.com/vi/AmO3sQrlXIo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "BETS OPEN UP with Antonio Forjaz, Fernando Vieira, and Guilherme Figueiredo",
+    "url": "https://www.youtube.com/watch?v=NmwcnpW8u2I",
+    "thumbnail": "https://i.ytimg.com/vi/NmwcnpW8u2I/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "The Problem of Bets with Edilson Braga - Reverse Technology",
+    "url": "https://www.youtube.com/watch?v=47SqalCRUn4",
+    "thumbnail": "https://i.ytimg.com/vi/47SqalCRUn4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "GAMBIARRAS TECNOLÓGICAS com LETRAJOTA",
+    "url": "https://www.youtube.com/watch?v=P9iBZjR5jQ4",
+    "thumbnail": "https://i.ytimg.com/vi/P9iBZjR5jQ4/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "CRIMES DIGITAIS com João de Senzi",
+    "url": "https://www.youtube.com/watch?v=fo8sPorf93s",
+    "thumbnail": "https://i.ytimg.com/vi/fo8sPorf93s/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "HARDWARE HACKING com Penegui e Lucas Teske",
+    "url": "https://www.youtube.com/watch?v=0gXRuHTfe1c",
+    "thumbnail": "https://i.ytimg.com/vi/0gXRuHTfe1c/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Cigarro Eletrônico no Brasil: por que é proibido? Papo com Alexandro Lucian",
+    "url": "https://www.youtube.com/watch?v=k_v91DXhsGY",
+    "thumbnail": "https://i.ytimg.com/vi/k_v91DXhsGY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "OS CAÇADORES DE INFLUENCERS DO CRIME - feat. Will O Perito, Guga Figueiredo e Renato Cunha",
+    "url": "https://www.youtube.com/watch?v=V88MsmBpGmc",
+    "thumbnail": "https://i.ytimg.com/vi/V88MsmBpGmc/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Elon Musk x Alexandre de Moraes: QUEM ESTÁ CERTO? Todas as questões envolvendo essa treta",
+    "url": "https://www.youtube.com/watch?v=zgkS66pPSCk",
+    "thumbnail": "https://i.ytimg.com/vi/zgkS66pPSCk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "How PIX and other payment scams work — Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=DfwbkZMVz5Q",
+    "thumbnail": "https://i.ytimg.com/vi/DfwbkZMVz5Q/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "ANONYMOUS fala sobre Elon Musk, Alexandre de Moraes, Brasil e ações - TecInverso AO VIVO",
+    "url": "https://www.youtube.com/watch?v=M8ZvzVCbNLo",
+    "thumbnail": "https://i.ytimg.com/vi/M8ZvzVCbNLo/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Aprendendo a escolher peças para montar um PC novo - Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=tG1x9naqvV0",
+    "thumbnail": "https://i.ytimg.com/vi/tG1x9naqvV0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "Hackers and Electronic Voting Machines: A Chat with WSS Security - Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=eXW71VHJb7U",
+    "thumbnail": "https://i.ytimg.com/vi/eXW71VHJb7U/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Tec Inverso AO VIVO: bastidores Realidade Violada com TecMundo e Avast",
+    "url": "https://www.youtube.com/watch?v=3dhuhBUdtB0",
+    "thumbnail": "https://i.ytimg.com/vi/3dhuhBUdtB0/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Atendimento ao cliente das empresas é bom? Um papo sobre cuidado",
+    "url": "https://www.youtube.com/watch?v=L35c7u-SHVY",
+    "thumbnail": "https://i.ytimg.com/vi/L35c7u-SHVY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "negocios",
+    "language": "pt"
+  },
+  {
+    "title": "Você é livre na internet ou é vigiado? Um papo sobre privacidade - Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=O-Y91aHNhXw",
+    "thumbnail": "https://i.ytimg.com/vi/O-Y91aHNhXw/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Cannabis medicinal pode revolucionar o mundo e você – Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=s4D_dDNFnfQ",
+    "thumbnail": "https://i.ytimg.com/vi/s4D_dDNFnfQ/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "saude",
+    "language": "pt"
+  },
+  {
+    "title": "Carol Moreira fala sobre Oscar, True Crime e histórias de vida – Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=F22vJK-YPig",
+    "thumbnail": "https://i.ytimg.com/vi/F22vJK-YPig/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Da periferia para Harvard, Google, Nubank e Netflix com André Menezes – Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=esf2nJl0RXk",
+    "thumbnail": "https://i.ytimg.com/vi/esf2nJl0RXk/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "cinema",
+    "language": "pt"
+  },
+  {
+    "title": "Tecnologia na Perícia Criminal com Telma Rocha e Raquel Lopes - Tec Inverso",
+    "url": "https://www.youtube.com/watch?v=eUaogJmo8VI",
+    "thumbnail": "https://i.ytimg.com/vi/eUaogJmo8VI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "O celular está destruindo nosso cérebro? Papo com Álvaro Machado Dias",
+    "url": "https://www.youtube.com/watch?v=pEOWe0noP0w",
+    "thumbnail": "https://i.ytimg.com/vi/pEOWe0noP0w/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Todas DÚVIDAS sobre internet foram respondidas! Papo com Thiago Ayub",
+    "url": "https://www.youtube.com/watch?v=sXnNfnU55qU",
+    "thumbnail": "https://i.ytimg.com/vi/sXnNfnU55qU/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "A chat involving hackers, Minecraft, and even mitochondria! - @GabrielPato and @multioficial",
+    "url": "https://www.youtube.com/watch?v=23jgoD69FtE",
+    "thumbnail": "https://i.ytimg.com/vi/23jgoD69FtE/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
+    "title": "Você sabe o que é METAVERSO? Spoiler: não é um lugar – Tec Inverso e Ronaldo Lemos",
+    "url": "https://www.youtube.com/watch?v=bol16uawQN8",
+    "thumbnail": "https://i.ytimg.com/vi/bol16uawQN8/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "\"Era dos Buracos Negros...\", fim do Universo e mistérios do espaço - Roberta Duarte",
+    "url": "https://www.youtube.com/watch?v=S6v3e8xTnns",
+    "thumbnail": "https://i.ytimg.com/vi/S6v3e8xTnns/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "arte",
+    "language": "pt"
+  },
+  {
+    "title": "DEEPFAKES: A conversation with the wizard of fake videos - with Bruno Sartori",
+    "url": "https://www.youtube.com/watch?v=rvoR-xXjtNA",
+    "thumbnail": "https://i.ytimg.com/vi/rvoR-xXjtNA/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "outros"
+  },
+  {
+    "title": "Crimes digitais, hackers e ciberpolícia – com Delegado Vitor Luna e Investigador Sergio Hussein",
+    "url": "https://www.youtube.com/watch?v=keCPxQLdAEM",
+    "thumbnail": "https://i.ytimg.com/vi/keCPxQLdAEM/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "Histórias emocionantes de pilotos que você nunca ouviu - Aviação",
+    "url": "https://www.youtube.com/watch?v=Ju4MkumFG9c",
+    "thumbnail": "https://i.ytimg.com/vi/Ju4MkumFG9c/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "É possível 'ouvir espíritos' pela tecnologia? EVPs com @SpookyHousesCasasAssombradas",
+    "url": "https://www.youtube.com/watch?v=Fo3vVy9JnJY",
+    "thumbnail": "https://i.ytimg.com/vi/Fo3vVy9JnJY/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
+    "title": "OVNIs no Brasil e tecnologias \"extraterrestres\" com @EdisonBoaventura #TecVerso01",
+    "url": "https://www.youtube.com/watch?v=ardZWn7pOuI",
+    "thumbnail": "https://i.ytimg.com/vi/ardZWn7pOuI/hqdefault.jpg",
+    "type": "podcast",
+    "subject": "tecnologia"
+  },
+  {
     "title": "Entendendo o Básico de IA e Redes Neurais - IAs vão te substituir??",
     "url": "https://www.youtube.com/watch?v=UDrDg6uUOVs",
     "thumbnail": "https://i.ytimg.com/vi/UDrDg6uUOVs/hqdefault.jpg",
@@ -8589,6 +8727,21 @@
     "language": "pt"
   },
   {
+    "title": "Fri-yay with GNOME",
+    "url": "https://www.youtube.com/watch?v=AmXivZ_jViI",
+    "thumbnail": "https://i.ytimg.com/vi/AmXivZ_jViI/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros"
+  },
+  {
+    "title": "Programação ao Vivo GNOME | Calendário & lançamento 51!!! (PT)",
+    "url": "https://www.youtube.com/watch?v=I3MLbg2RFlA",
+    "thumbnail": "https://i.ytimg.com/vi/I3MLbg2RFlA/hqdefault.jpg",
+    "type": "live",
+    "subject": "tecnologia",
+    "language": "pt"
+  },
+  {
     "title": "Fri-nally with GNOME (PT-BR)",
     "url": "https://www.youtube.com/watch?v=7ds7HtFrl5o",
     "thumbnail": "https://i.ytimg.com/vi/7ds7HtFrl5o/hqdefault.jpg",
@@ -8602,13 +8755,6 @@
     "type": "live",
     "subject": "outros",
     "language": "en"
-  },
-  {
-    "title": "Friday vibes with GNOME",
-    "url": "https://www.youtube.com/watch?v=qoxPrAFbLuA",
-    "thumbnail": "https://i.ytimg.com/vi/qoxPrAFbLuA/hqdefault.jpg",
-    "type": "live",
-    "subject": "outros"
   },
   {
     "title": "GNOME Live Coding | Calendar (EN)",
@@ -9911,6 +10057,22 @@
     "subject": "outros"
   },
   {
+    "title": "EVENTO da Qualcomm AO VIVO – PT-BR Tradução simultânea – Snapdragon 8 Elite EXTREME Gen 6 e mais!",
+    "url": "https://www.youtube.com/watch?v=Ax1O0gCQD-c",
+    "thumbnail": "https://i.ytimg.com/vi/Ax1O0gCQD-c/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
+    "title": "EVENTO da Apple AO VIVO – PT-BR Tradução simultânea – iPhone dobrável, iPhone 18 Pro Max e mais!",
+    "url": "https://www.youtube.com/watch?v=dzB7dPH-iTY",
+    "thumbnail": "https://i.ytimg.com/vi/dzB7dPH-iTY/hqdefault.jpg",
+    "type": "live",
+    "subject": "outros",
+    "language": "pt"
+  },
+  {
     "title": "GTA 6: GAMEPLAY COM IMAGENS GRÁTIS! Acompanhe o Olhar Estendido AO VIVO",
     "url": "https://www.youtube.com/watch?v=1YM9Lx0E55A",
     "thumbnail": "https://i.ytimg.com/vi/1YM9Lx0E55A/hqdefault.jpg",
@@ -9919,7 +10081,7 @@
     "language": "pt"
   },
   {
-    "title": "Google Event LIVE – Simultaneous Translation – Made by Google 2026: Pixel 11 lineup and more!",
+    "title": "Google EVENT LIVE – Simultaneous translation into PT-BR – Made by Google 2026: Pixel 11 lineup an...",
     "url": "https://www.youtube.com/watch?v=rxiVzFgzo5Y",
     "thumbnail": "https://i.ytimg.com/vi/rxiVzFgzo5Y/hqdefault.jpg",
     "type": "live",

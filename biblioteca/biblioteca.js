@@ -64,6 +64,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const GLOBAL_TIMEOUT = 20000;
     const MIN_SEARCH_LENGTH = 2;
     const MAX_EXTERNAL_RESULTS = 20;
+    const LOCAL_DATA_PATHS = {
+        books: ['./books.json', '../biblioteca/books.json', '/biblioteca/books.json'],
+        audiobooks: ['./audiobooks.json', '../biblioteca/audiobooks.json', '/biblioteca/audiobooks.json']
+    };
+
+    function getLocalDataPaths(kind) {
+        const meta = document.querySelector(`meta[name="library-${kind}-api"]`);
+        const configuredPath = meta?.content?.trim();
+        return configuredPath ? [configuredPath, ...LOCAL_DATA_PATHS[kind]] : LOCAL_DATA_PATHS[kind];
+    }
 
     const CORS_PROXIES = [
         'https://corsproxy.io/?',
@@ -145,7 +155,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 'audio_mode': 'Modo Áudio',
                 'video_mode': 'Modo Vídeo',
                 'part': 'Parte',
-                'pdf_download': 'Baixar PDF'
+                'pdf_download': 'Baixar PDF',
+                'retry': 'Tentar novamente',
+                'local_data_error': 'Não foi possível carregar a API local da biblioteca.',
+                'local_data_hint': 'Verifique se o servidor local está ativo e se o arquivo de dados está acessível.'
             };
             if (hardcoded[key]) text = hardcoded[key];
         }
@@ -644,7 +657,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
     }
 
-    async     function isPlaceholderCoverUrl(url) {
+    function isPlaceholderCoverUrl(url) {
         if (!url || typeof url !== 'string') return false;
         const value = url.trim().toLowerCase();
         return value.includes('placehold.co')
@@ -713,6 +726,9 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     async function enrichBookMetadata(book) {
         if (!book.title) return book;
+        if (book.sourceType === 'local') {
+            return { ...book, cover: sanitizeCoverUrl(book.cover) };
+        }
         const isYouTubeCover = typeof book.cover === 'string' && book.cover.includes('ytimg.com');
         let enriched = isYouTubeCover ? { ...book, cover: '' } : book;
         enriched.cover = sanitizeCoverUrl(enriched.cover);
@@ -1130,6 +1146,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (loadingMinTimer) clearTimeout(loadingMinTimer);
         uiState.isLoading = true;
         if (!grid) return;
+        grid.setAttribute('aria-busy', 'true');
         grid.innerHTML = '';
         const skeleton = document.createElement('div');
         skeleton.className = 'loading-skeleton';
@@ -1167,6 +1184,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         });
         minTimePromise.then(() => {
             uiState.isLoading = false;
+            grid?.setAttribute('aria-busy', 'false');
             const skeleton = document.querySelector('.loading-skeleton');
             if (skeleton) {
                 if (skeleton._loadingInterval) clearInterval(skeleton._loadingInterval);
@@ -1192,7 +1210,18 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         grid.innerHTML = '';
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-state';
-        errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${t('error_loading')}`;
+        errorDiv.innerHTML = `
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <strong>${t('local_data_error')}</strong>
+            <p>${t('local_data_hint')}</p>
+            <button type="button" class="retry-btn" id="retryLibraryBtn">
+                <i class="fas fa-rotate-right" aria-hidden="true"></i> ${t('retry')}
+            </button>
+        `;
+        document.getElementById('retryLibraryBtn')?.addEventListener('click', () => {
+            localBooksCache = [];
+            performSearchWithFilters(currentSearchTerm);
+        });
         grid.appendChild(errorDiv);
         document.getElementById('bookCount').innerText = '0';
     }
@@ -1650,20 +1679,20 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     // ========== CARREGAMENTO LOCAL ==========
     async function loadLocalBooks() {
-        const paths = ['books.json', './books.json', '../books.json', 'data/books.json'];
-        for (const path of paths) {
+        for (const path of getLocalDataPaths('books')) {
             try {
-                const response = await fetch(path, { cache: 'no-store' });
+                const response = await fetch(new URL(path, document.baseURI), { cache: 'no-store' });
                 if (response.ok) {
                     const data = await response.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        console.log(`[Biblioteca] ${data.length} livros carregados de ${path}`);
-                        return data.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
+                    const books = Array.isArray(data) ? data : data.books || data.data;
+                    if (Array.isArray(books) && books.length > 0) {
+                        console.log(`[Biblioteca] ${books.length} livros carregados da API local: ${response.url}`);
+                        return books.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
                     }
                 }
             } catch (e) { /* tenta próximo */ }
         }
-        console.warn('[Biblioteca] Nenhum arquivo books.json encontrado. A biblioteca local estará vazia.');
+        console.warn('[Biblioteca] API local de livros indisponível. A biblioteca local estará vazia.');
         return [];
     }
 
@@ -1706,18 +1735,15 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     async function loadAudiobooks() {
-        const paths = [
-            'audiobooks.json',
-            '../audiobooks.json',
-            '/biblioteca/audiobooks.json'
-        ];
-        for (const path of paths) {
+        for (const path of getLocalDataPaths('audiobooks')) {
             try {
                 console.log(`[Biblioteca] Tentando carregar audiobooks de: ${path}`);
-                const response = await fetch(path);
+                const response = await fetch(new URL(path, document.baseURI), { cache: 'no-store' });
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log(`[Biblioteca] Audiobooks carregados de ${path}: ${data.length} itens`);
+                    const payload = await response.json();
+                    const data = Array.isArray(payload) ? payload : payload.audiobooks || payload.data;
+                    if (!Array.isArray(data)) throw new Error('Formato inválido da API local');
+                    console.log(`[Biblioteca] Audiobooks carregados da API local: ${response.url} (${data.length} itens)`);
                     const enriched = await Promise.all(data.map(async item => {
                         // Se tem parts, processa cada part
                         let parts = item.parts || [];
@@ -1751,7 +1777,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 console.warn(`[Biblioteca] Falha ao carregar ${path}:`, e.message);
             }
         }
-        console.warn('[Biblioteca] Nenhum arquivo audiobooks.json encontrado. A aba de audiobooks ficará vazia.');
+        console.warn('[Biblioteca] API local de audiobooks indisponível. A aba de audiobooks ficará vazia.');
         return [];
     }
 
@@ -2978,7 +3004,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 </div>
             </div>
             <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
-            <div id="audiobooksGrid" class="audiobooks-grid"></div>
+            <div id="audiobooksGrid" class="audiobooks-grid" aria-live="polite" aria-busy="false"></div>
         `;
 
         renderAudiobooks(audiobooks);

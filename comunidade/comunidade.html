@@ -47,21 +47,21 @@
 
         /* Variáveis de cor (fallback) */
         :root {
-            --com-bg-primary: #070B14;
-            --com-bg-secondary: #0F1624;
-            --com-bg-tertiary: #1A2638;
-            --com-bg-card: rgba(26, 38, 56, 0.75);
-            --com-text-primary: #F5F9FF;
-            --com-text-secondary: #B0C4DE;
-            --com-text-tertiary: #7A94B8;
-            --com-border: rgba(42, 58, 90, 0.4);
-            --com-border-light: rgba(58, 74, 106, 0.25);
-            --com-accent-blue: #6C8CFF;
-            --com-accent-blue-hover: #5A7AEE;
-            --com-accent-green: #10b981;
-            --com-accent-orange: #FBBF24;
-            --com-accent-purple: #A78BFA;
-            --com-accent-teal: #38BDF8;
+            --com-bg-primary: #0f0f0f;
+            --com-bg-secondary: #181818;
+            --com-bg-tertiary: #212121;
+            --com-bg-card: rgba(33, 33, 33, 0.92);
+            --com-text-primary: #f1f1f1;
+            --com-text-secondary: #aaa;
+            --com-text-tertiary: #717171;
+            --com-border: rgba(255, 255, 255, 0.14);
+            --com-border-light: rgba(255, 255, 255, 0.09);
+            --com-accent-blue: #3ea6ff;
+            --com-accent-blue-hover: #68b9ff;
+            --com-accent-green: #30a539;
+            --com-accent-orange: #f2b35f;
+            --com-accent-purple: #a78bfa;
+            --com-accent-teal: #2aa7a1;
             --com-shadow: 0 8px 32px rgba(0,0,0,0.5);
             --com-shadow-modal: 0 24px 64px rgba(0,0,0,0.8);
             --com-radius: 16px;
@@ -99,7 +99,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(7, 11, 20, 0.85);
+            background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 9999;
@@ -684,7 +684,7 @@
             padding: 1.2rem 0;
             border-bottom: 1px solid var(--com-border);
             margin-bottom: 1.5rem;
-            background: rgba(7, 11, 20, 0.85);
+            background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
@@ -697,7 +697,7 @@
         .app-actions {
             display: flex;
             gap: 0;
-            background: rgba(15, 22, 36, 0.8);
+            background: color-mix(in srgb, var(--com-bg-secondary) 80%, transparent);
             backdrop-filter: blur(8px);
             padding: 0.5rem 1.2rem;
             border-radius: 2rem;
@@ -730,7 +730,7 @@
         .lang-btn.active {
             background: var(--com-accent-blue);
             color: white;
-            box-shadow: 0 2px 8px rgba(108, 140, 255, 0.3);
+            box-shadow: 0 2px 8px color-mix(in srgb, var(--com-accent-blue) 30%, transparent);
         }
         .lang-btn:hover:not(.active) { color: var(--com-accent-teal); }
         .lang-sep { color: var(--com-text-tertiary); font-size: 0.75rem; }
@@ -748,11 +748,11 @@
             cursor: pointer;
         }
         .donate-button {
-            background: linear-gradient(135deg, #FBBF24, #10b981);
+            background: var(--gradient-donate, linear-gradient(135deg, var(--com-accent-green), var(--com-accent-orange)));
             color: white;
         }
         .donate-button:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 6px 24px rgba(16,185,129,0.35); }
-        .btn-back { background: var(--com-accent-green); color: #070B14; }
+        .btn-back { background: var(--com-accent-green); color: var(--com-bg-primary); }
         .btn-back:hover { transform: scale(1.05) translateY(-2px); }
         .btn-back[style*="accent-blue"] { background: var(--com-accent-blue); color: white; }
         .btn-back[style*="accent-purple"] { background: var(--com-accent-purple); color: white; }
@@ -1746,7 +1746,7 @@
                     <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
                 </a>
                 <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
-                    <button type="button" class="btn-back library-dropdown-toggle" style="background: #2ea043;" aria-expanded="false" aria-controls="libraryTypeMenu">
+                    <button type="button" class="btn-back library-dropdown-toggle" style="background: var(--com-accent-green);" aria-expanded="false" aria-controls="libraryTypeMenu">
                         <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
                     </button>
                     <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>

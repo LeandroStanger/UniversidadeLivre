@@ -1,5 +1,5 @@
 .slots-panel[hidden] { display: none; }
-.slots-card { color: var(--com-text-primary); background: linear-gradient(145deg, rgba(44, 20, 58, .98), rgba(15, 22, 36, .98)); border: 1px solid rgba(217, 70, 239, .32); border-radius: 16px; padding: 1.25rem; box-shadow: var(--com-shadow); }
+.slots-card { color: var(--com-text-primary); background: linear-gradient(145deg, color-mix(in srgb, var(--com-accent-purple) 22%, var(--com-bg-secondary)), var(--com-bg-secondary)); border: 1px solid color-mix(in srgb, var(--com-accent-purple) 32%, transparent); border-radius: 16px; padding: 1.25rem; box-shadow: var(--com-shadow); }
 .slots-header, .slots-room, .slots-actions, .slots-balance, .slots-create { display: flex; gap: .7rem; align-items: center; }
 .slots-header { justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
 .slots-header h4 { margin: 0; font-size: 1.35rem; }.slots-header p { margin: .25rem 0 0; color: var(--com-text-secondary); font-size: .9rem; }

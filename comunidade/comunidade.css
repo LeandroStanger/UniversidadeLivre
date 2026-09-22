@@ -15,22 +15,22 @@
 
 /* ========== VARIÁVEIS ========== */
 :root {
-    --com-bg-primary: #070B14;
-    --com-bg-secondary: #0F1624;
-    --com-bg-tertiary: #1A2638;
-    --com-bg-card: rgba(26, 38, 56, 0.75);
-    --com-text-primary: #F5F9FF;
-    --com-text-secondary: #B0C4DE;
-    --com-text-tertiary: #7A94B8;
-    --com-border: rgba(42, 58, 90, 0.4);
-    --com-border-light: rgba(58, 74, 106, 0.25);
-    --com-accent-blue: #6C8CFF;
-    --com-accent-blue-hover: #5A7AEE;
-    --com-accent-green: #10b981;
-    --com-accent-green-hover: #0ea575;
-    --com-accent-orange: #FBBF24;
-    --com-accent-purple: #A78BFA;
-    --com-accent-teal: #38BDF8;
+    --com-bg-primary: var(--bg-primary, #0f0f0f);
+    --com-bg-secondary: var(--bg-secondary, #181818);
+    --com-bg-tertiary: var(--bg-tertiary, #212121);
+    --com-bg-card: var(--bg-card, rgba(33, 33, 33, 0.92));
+    --com-text-primary: var(--text-primary, #f1f1f1);
+    --com-text-secondary: var(--text-secondary, #aaa);
+    --com-text-tertiary: var(--text-tertiary, #717171);
+    --com-border: var(--border, rgba(255, 255, 255, 0.14));
+    --com-border-light: var(--border-light, rgba(255, 255, 255, 0.09));
+    --com-accent-blue: var(--accent-blue, #3ea6ff);
+    --com-accent-blue-hover: var(--accent-blue-hover, #68b9ff);
+    --com-accent-green: var(--accent-green, #30a539);
+    --com-accent-green-hover: var(--accent-green-hover, #278b2f);
+    --com-accent-orange: var(--accent-orange, #f2b35f);
+    --com-accent-purple: var(--accent-purple, #a78bfa);
+    --com-accent-teal: var(--accent-teal, #2aa7a1);
     --com-shadow: 0 8px 32px rgba(0,0,0,0.5);
     --com-shadow-hover: 0 16px 48px rgba(0,0,0,0.7);
     --com-shadow-modal: 0 24px 64px rgba(0,0,0,0.8);
@@ -89,7 +89,7 @@ body {
     padding: 1.2rem 0;
     border-bottom: 1px solid var(--com-border);
     margin-bottom: 1.5rem;
-    background: rgba(7, 11, 20, 0.85);
+    background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     position: sticky;
@@ -128,7 +128,7 @@ body {
 .app-actions {
     display: flex;
     gap: 1.2rem;
-    background: rgba(15, 22, 36, 0.8);
+    background: color-mix(in srgb, var(--com-bg-secondary) 80%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: 0.5rem 1.2rem;
@@ -1004,7 +1004,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #6C8CFF, #A78BFA);
+    background: var(--gradient-new-badge, linear-gradient(135deg, var(--com-accent-blue), var(--com-accent-purple)));
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
@@ -1075,7 +1075,7 @@ body {
 }
 
 .feed-tab.active {
-    background: linear-gradient(135deg, #6C8CFF, #A78BFA);
+    background: var(--gradient-new-badge, linear-gradient(135deg, var(--com-accent-blue), var(--com-accent-purple)));
     color: white;
     border-color: transparent;
     box-shadow: 0 2px 12px rgba(108, 140, 255, 0.2);
@@ -1598,7 +1598,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(7, 11, 20, 0.85);
+    background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
     display: none;
     align-items: center;
     justify-content: center;
