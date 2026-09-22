@@ -17,7 +17,7 @@
     justify-content: center;
     border: 1px solid var(--com-border);
     border-radius: 0.9rem;
-    background: rgba(26, 38, 56, 0.9);
+    background: color-mix(in srgb, var(--com-bg-tertiary) 90%, transparent);
     color: var(--com-text-primary);
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;

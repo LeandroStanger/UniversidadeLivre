@@ -8,8 +8,8 @@ body.site-loading {
     z-index: 2147483646;
     display: grid;
     place-items: center;
-    background: #070B14;
-    color: #F5F9FF;
+    background: var(--bg-primary, #0f0f0f);
+    color: var(--text-primary, #f1f1f1);
     opacity: 1;
     visibility: visible;
     transition: opacity 0.35s ease, visibility 0.35s ease;
@@ -38,14 +38,14 @@ body.site-loading {
 .site-loading-spinner {
     width: 2.4rem;
     height: 2.4rem;
-    border: 3px solid rgba(108, 140, 255, 0.25);
-    border-top-color: #6C8CFF;
+    border: 3px solid rgba(48, 165, 57, 0.22);
+    border-top-color: var(--brand-green, #30a539);
     border-radius: 50%;
     animation: site-loading-spin 0.9s linear infinite;
 }
 
 .site-loading-text {
-    color: #B0C4DE;
+    color: var(--text-secondary, #aaa);
     font-size: 0.85rem;
 }
 

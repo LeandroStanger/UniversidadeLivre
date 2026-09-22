@@ -6,7 +6,7 @@
 
 .impostor-panel[hidden] { display: none; }
 .impostor-card {
-    background: linear-gradient(145deg, rgba(26, 38, 56, 0.96), rgba(15, 22, 36, 0.96));
+    background: linear-gradient(145deg, var(--com-bg-tertiary), var(--com-bg-secondary));
     border: 1px solid var(--com-border);
     border-radius: 16px;
     padding: 1.25rem;
@@ -22,7 +22,7 @@
 .impostor-create-room .impostor-select { margin-top: 0; }
 .impostor-room-list { display: grid; gap: 0.65rem; margin-top: 1.25rem; }
 .impostor-room-list h5 { margin: 0; color: var(--com-text-secondary); font-size: 0.95rem; }
-.impostor-room { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 0.8rem; border: 1px solid var(--com-border); border-radius: 10px; background: rgba(7, 11, 20, 0.42); }
+.impostor-room { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 0.8rem; border: 1px solid var(--com-border); border-radius: 10px; background: color-mix(in srgb, var(--com-bg-primary) 42%, transparent); }
 .impostor-room div { display: grid; gap: 0.2rem; }
 .impostor-room-actions { display: flex; gap: 0.45rem; }
 .impostor-room .impostor-primary { padding: 0.55rem 0.8rem; }
@@ -40,7 +40,7 @@
 .impostor-muted { color: var(--com-text-tertiary); font-size: 0.85rem; }
 .impostor-reveal-list, .impostor-clue-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.65rem; margin: 1rem 0; }
 .impostor-player {
-    border: 1px solid var(--com-border); border-radius: 12px; padding: 0.8rem; background: rgba(7, 11, 20, 0.42);
+    border: 1px solid var(--com-border); border-radius: 12px; padding: 0.8rem;     background: color-mix(in srgb, var(--com-bg-primary) 42%, transparent);
 }
 .impostor-player, .impostor-active-player { display: flex; align-items: center; gap: 0.65rem; }
 .impostor-avatar { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 50%; object-fit: cover; background: var(--com-bg-tertiary); }

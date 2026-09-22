@@ -233,9 +233,9 @@ console.log('[Main] Inicializando script.js v28.0...');
     let practiceSearchInput = null;
     let courseNoteQuill = null;
     const courseNotePalette = [
-        '#F5F9FF', '#B0C4DE', '#7A94B8', '#38BDF8',
-        '#6C8CFF', '#10B981', '#14B8A6', '#FBBF24',
-        '#FB7185', '#F97316', '#A78BFA', '#070B14'
+        '#F1F1F1', '#AAAAAA', '#717171', '#3EA6FF',
+        '#30A539', '#2AA7A1', '#F2B35F', '#F25F5C',
+        '#A78BFA', '#0F0F0F', '#181818', '#212121'
     ];
 
     // ========== CONTROLE DE VOLUME ==========

@@ -21,38 +21,47 @@
 }
 
 :root {
-    /* ===== FUNDOS ===== */
-    --bg-primary: #070B14;
-    --bg-secondary: #0F1624;
-    --bg-tertiary: #1A2638;
-    --bg-card: rgba(26, 38, 56, 0.7);
+    /* ===== UNIVERSIDADE LIVRE / YOUTUBE DARK ===== */
+    --brand-green: #30a539;
+    --brand-green-hover: #3bbd45;
+    --brand-green-soft: rgba(48, 165, 57, 0.16);
+    --accent-sky: #3ea6ff;
+    --accent-teal-soft: #2aa7a1;
+    --accent-violet: #a78bfa;
+    --accent-gold: #f2b35f;
+
+    /* A hierarquia segue o tema escuro do YouTube. */
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #181818;
+    --bg-tertiary: #212121;
+    --bg-card: rgba(33, 33, 33, 0.92);
 
     /* ===== TEXTOS ===== */
-    --text-primary: #F5F9FF;
-    --text-secondary: #B0C4DE;
-    --text-tertiary: #7A94B8;
+    --text-primary: #f1f1f1;
+    --text-secondary: #aaa;
+    --text-tertiary: #717171;
 
     /* ===== ACENTOS ===== */
-    --accent-blue: #6C8CFF;
-    --accent-blue-hover: #5A7AEE;
-    --accent-green: #10b981;
-    --accent-green-hover: #0ea575;
-    --accent-orange: #FBBF24;
-    --accent-purple: #A78BFA;
-    --accent-teal: #38BDF8;
+    --accent-blue: var(--accent-sky);
+    --accent-blue-hover: #68b9ff;
+    --accent-green: #30a539;
+    --accent-green-hover: #278b2f;
+    --accent-orange: var(--accent-gold);
+    --accent-purple: var(--accent-violet);
+    --accent-teal: var(--accent-teal-soft);
 
     /* ===== BORDAS E SOMBRAS ===== */
-    --border: rgba(42, 58, 90, 0.4);
-    --border-light: rgba(58, 74, 106, 0.3);
-    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.7);
-    --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.08);
+    --border: rgba(255, 255, 255, 0.14);
+    --border-light: rgba(255, 255, 255, 0.09);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.44);
+    --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.62);
+    --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.76);
+    --shadow-glow: 0 0 40px rgba(48, 165, 57, 0.14);
 
     /* ===== GRADIENTES ===== */
-    --gradient-primary: linear-gradient(135deg, #6C8CFF, #A78BFA);
-    --gradient-donate: linear-gradient(135deg, #FBBF24, #10b981);
-    --gradient-new-badge: linear-gradient(135deg, #10b981, #38BDF8);
+    --gradient-primary: linear-gradient(135deg, #30a539 0%, #2aa7a1 52%, #3ea6ff 100%);
+    --gradient-donate: linear-gradient(135deg, #30a539 0%, #f2b35f 100%);
+    --gradient-new-badge: linear-gradient(135deg, #3ea6ff 0%, #a78bfa 100%);
     --gradient-shimmer: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-card) 50%, var(--bg-tertiary) 75%);
 
     /* ===== ANIMACOES ===== */
@@ -62,9 +71,13 @@
     --transition-medium: 0.28s var(--ease-spring);
     --transition-slow: 0.42s var(--ease-spring);
     --card-radius: 1rem;
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #FBBF24;
+    --success: #30a539;
+    --danger: #f25f5c;
+    --warning: #f2c94c;
+}
+
+html[data-theme="youtube-dark"] {
+    color-scheme: dark;
 }
 
 /* ========== ESTILOS GLOBAIS ========== */
@@ -76,6 +89,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    transition: background-color var(--transition-medium), color var(--transition-medium);
 }
 
 body.site-loading {
@@ -264,7 +278,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(7, 11, 20, 0.85);
+    background: rgba(15, 15, 15, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: background var(--transition-fast);
@@ -316,7 +330,7 @@ a:hover {
     display: flex;
     margin-left: auto;
     gap: 0;
-    background: rgba(15, 22, 36, 0.8);
+    background: rgba(24, 24, 24, 0.88);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: 0.5rem 1.2rem;
@@ -522,7 +536,7 @@ a:hover {
 /* ========== BOTÕES DO CABEÇALHO ========== */
 .btn-biblioteca {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
     padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
@@ -555,7 +569,7 @@ a:hover {
 
 .btn-biblioteca[style*="accent-green"] {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
 }
 
 .btn-biblioteca[style*="accent-green"]:hover {
@@ -662,7 +676,7 @@ a:hover {
     transform: none;
     text-align: center;
     padding: 0.6rem 1rem;
-    background: rgba(7, 11, 20, 0.75);
+    background: rgba(15, 15, 15, 0.78);
     backdrop-filter: blur(6px);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 0 0 12px 12px;
@@ -768,7 +782,7 @@ a:hover {
     border-radius: 24px;
     background:
         radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.12), transparent 34%),
-        linear-gradient(145deg, rgba(26, 38, 56, 0.92), rgba(15, 22, 36, 0.96));
+        linear-gradient(145deg, rgba(33, 33, 33, 0.96), rgba(24, 24, 24, 0.98));
     box-shadow: 0 18px 45px rgba(4, 8, 18, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     overflow: hidden;
 }
@@ -846,7 +860,7 @@ a:hover {
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 4rem 0.9rem 2.7rem;
-    background: rgba(7, 11, 20, 0.54);
+    background: rgba(15, 15, 15, 0.58);
     border: 1px solid rgba(148, 163, 184, 0.18);
     border-radius: 14px;
     color: var(--text-primary);
@@ -902,7 +916,7 @@ a:hover {
     padding: 0.3rem;
     border: 2px solid rgba(108, 140, 255, 0.28);
     border-radius: 13px;
-    background: rgba(7, 11, 20, 0.3);
+    background: rgba(15, 15, 15, 0.34);
 }
 
 .collection-tab {
@@ -957,7 +971,7 @@ a:hover {
     border-radius: 11px;
     padding: 0.58rem 2.2rem 0.58rem 0.85rem;
     color: var(--text-primary);
-    background: rgba(7, 11, 20, 0.42);
+    background: rgba(15, 15, 15, 0.46);
     font: inherit;
     font-size: 0.8rem;
     text-align: center;
@@ -1001,7 +1015,7 @@ a:hover {
 }
 
 .chip {
-    background: rgba(7, 11, 20, 0.3);
+    background: rgba(15, 15, 15, 0.34);
     border: 1px solid rgba(148, 163, 184, 0.16);
     padding: 0.48rem 0.85rem;
     border-radius: 11px;
@@ -1478,7 +1492,7 @@ a:hover {
     padding: 0.55rem 0.8rem;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 0.45rem;
-    background: rgba(7, 11, 20, 0.82);
+    background: rgba(15, 15, 15, 0.86);
     color: #fff;
     cursor: pointer;
     font: inherit;
@@ -1820,7 +1834,7 @@ a:hover {
 
 .mark-watched-btn {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
     border: none;
     padding: 0.4rem 1rem;
     border-radius: 2rem;
@@ -1957,14 +1971,14 @@ a:hover {
 }
 
 .course-note-editor .ql-toolbar.ql-snow button:hover {
-    background: rgba(16, 185, 129, 0.14) !important;
-    color: var(--accent-green) !important;
+    background: var(--bg-tertiary) !important;
+    color: var(--accent-blue) !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow button.ql-active {
-    background: var(--accent-green) !important;
-    color: #07130f !important;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.28);
+    background: var(--gradient-primary) !important;
+    color: #fff !important;
+    box-shadow: var(--shadow-glow);
 }
 
 .course-note-editor .ql-container.ql-snow {
@@ -1993,19 +2007,29 @@ a:hover {
 }
 
 .course-note-editor .ql-toolbar.ql-snow button:hover .ql-stroke {
-    stroke: var(--accent-green) !important;
+    stroke: var(--accent-blue) !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow button.ql-active .ql-stroke {
-    stroke: #07130f !important;
+    stroke: #fff !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow button:hover .ql-fill {
-    fill: var(--accent-green) !important;
+    fill: var(--accent-blue) !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow button.ql-active .ql-fill {
-    fill: #07130f !important;
+    fill: #fff !important;
+}
+
+.course-note-editor .ql-snow .ql-picker-label .ql-stroke,
+.course-note-editor .ql-snow .ql-picker-item .ql-stroke {
+    stroke: currentColor !important;
+}
+
+.course-note-editor .ql-snow .ql-picker-label .ql-fill,
+.course-note-editor .ql-snow .ql-picker-item .ql-fill {
+    fill: currentColor !important;
 }
 
 .course-note-editor .ql-snow .ql-picker,
@@ -2040,8 +2064,8 @@ a:hover {
 }
 
 .course-note-editor .ql-toolbar.ql-snow .ql-picker-item:hover {
-    background: rgba(56, 189, 248, 0.12) !important;
-    color: var(--accent-teal) !important;
+    background: var(--bg-tertiary) !important;
+    color: var(--accent-blue) !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow .ql-color-picker .ql-picker-label,
@@ -2064,7 +2088,7 @@ a:hover {
     width: 24px;
     height: 24px;
     padding: 0;
-    border: 1px solid rgba(245, 249, 255, 0.25);
+    border: 1px solid var(--border);
     border-radius: 4px;
 }
 
@@ -2072,6 +2096,12 @@ a:hover {
 .course-note-editor .ql-toolbar.ql-snow .ql-background .ql-picker-item:hover {
     border-color: var(--accent-teal) !important;
     transform: scale(1.08);
+}
+
+.course-note-editor .ql-toolbar.ql-snow .ql-picker-label:hover .ql-stroke,
+.course-note-editor .ql-toolbar.ql-snow .ql-picker-label:hover .ql-fill {
+    stroke: var(--accent-blue) !important;
+    fill: var(--accent-blue) !important;
 }
 
 .course-note-editor .ql-toolbar.ql-snow .ql-formats {
@@ -2413,7 +2443,7 @@ a:hover {
 
 .go-to-library-btn {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
 }
 
 .go-to-library-btn:hover {
@@ -2562,7 +2592,7 @@ a:hover {
 .new-badge {
     display: inline-block;
     background: var(--gradient-new-badge);
-    color: #070B14;
+    color: var(--bg-primary);
     font-size: 0.55rem;
     font-weight: 700;
     padding: 0.1rem 0.5rem;
@@ -3012,7 +3042,7 @@ a:hover {
 .stage-card-locked {
     cursor: not-allowed;
     opacity: .52;
-    background: rgba(15, 22, 36, .65);
+    background: rgba(24, 24, 24, .72);
     border-color: var(--border);
 }
 
@@ -3082,7 +3112,7 @@ a:hover {
 .discipline-card {
     padding: .75rem;
     border-radius: 14px;
-    background: rgba(26, 38, 56, .72);
+    background: color-mix(in srgb, var(--bg-tertiary) 72%, transparent);
     border: 1px solid var(--border-light);
 }
 
@@ -3260,7 +3290,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    background: rgba(7, 11, 20, .86);
+    background: rgba(15, 15, 15, .9);
 }
 .certificate-modal-content {
     width: min(960px, 100%);
@@ -3290,16 +3320,16 @@ a:hover {
     min-width: 720px;
     box-sizing: border-box;
     position: relative;
-    color: #172033;
+    color: var(--bg-primary);
     background: #ffffff;
-    border: 10px solid #10b981;
-    box-shadow: inset 0 0 0 4px #d1fae5, inset 0 0 0 7px #10b981, 0 12px 30px rgba(16, 185, 129, .16);
+    border: 10px solid var(--brand-green);
+    box-shadow: inset 0 0 0 4px #d9f5dc, inset 0 0 0 7px var(--brand-green), 0 12px 30px rgba(48, 165, 57, .2);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.certificate-preview .certificate-seal { display: grid; width: 58px; height: 58px; margin: 0 auto 1rem; place-items: center; color: #ffffff; background: #10b981; border: 5px solid #d1fae5; border-radius: 50%; box-shadow: 0 0 0 3px #10b981; font-size: 1.5rem; }
+.certificate-preview .certificate-seal { display: grid; width: 58px; height: 58px; margin: 0 auto 1rem; place-items: center; color: #ffffff; background: var(--brand-green); border: 5px solid #d9f5dc; border-radius: 50%; box-shadow: 0 0 0 3px var(--brand-green); font-size: 1.5rem; }
 .certificate-preview .certificate-logo { display: block; width: 220px; max-height: 90px; object-fit: contain; margin: .75rem auto 1rem; }
 .certificate-preview .certificate-kicker { color: #047857; font-size: .76rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
 .certificate-preview h1 { margin: .35rem 0 1.2rem; color: #065f46; font-size: clamp(1.5rem, 4vw, 2.7rem); letter-spacing: .02em; }
@@ -3310,7 +3340,7 @@ a:hover {
 .certificate-preview .certificate-result { display: grid; gap: .45rem; }
 .certificate-preview .certificate-details p { display: grid; gap: .2rem; margin: 0; padding: .3rem 0; border-bottom: 1px solid #ecfdf5; }
 .certificate-preview .certificate-details strong { color: #047857; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase; }
-.certificate-preview .certificate-details span { color: #172033; font-size: .95rem; }
+.certificate-preview .certificate-details span { color: var(--bg-primary); font-size: .95rem; }
 .certificate-preview .certificate-result { padding-left: 1.5rem; border-left: 1px solid #a7f3d0; }
 .certificate-preview .certificate-certificate-note { margin: .55rem 0 0; color: #374151; }
 .certificate-preview .certificate-disclaimer { position: absolute; right: 0; bottom: 0; width: 100%; max-width: none; box-sizing: border-box; margin: 0; padding: .55rem 1rem; color: #6b7280; background: #f0fdf4; border-top: 1px solid #a7f3d0; font-size: .68rem; text-align: center; }
@@ -4145,7 +4175,7 @@ a:hover {
         flex-wrap: wrap;
         overflow: visible;
         border-radius: 0.8rem;
-        background: rgba(15, 22, 36, 0.8);
+        background: rgba(24, 24, 24, 0.88);
     }
 
     .header > .stats > :not(.stat-item),
@@ -4694,7 +4724,7 @@ a:hover {
 .unified-content .discipline-card {
     padding: .75rem;
     border-radius: 14px;
-    background: rgba(26, 38, 56, .72);
+    background: color-mix(in srgb, var(--bg-tertiary) 72%, transparent);
     border: 1px solid var(--border-light);
 }
 
@@ -4752,7 +4782,7 @@ a:hover {
 
 .discipline-quiz-modal-content {
     width: min(760px, 100%);
-    background: rgba(15, 22, 36, 0.96);
+    background: rgba(24, 24, 24, 0.98);
     border: 1px solid rgba(108, 140, 255, 0.28);
     border-radius: 24px;
     box-shadow: 0 28px 80px rgba(0, 0, 0, 0.7);

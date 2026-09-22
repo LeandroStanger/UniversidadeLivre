@@ -19,37 +19,43 @@
 
 :root {
     /* ===== FUNDOS ===== */
-    --bg-primary: #070B14;
-    --bg-secondary: #0F1624;
-    --bg-tertiary: #1A2638;
-    --bg-card: rgba(26, 38, 56, 0.7);
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #181818;
+    --bg-tertiary: #212121;
+    --bg-card: rgba(33, 33, 33, 0.92);
 
     /* ===== TEXTOS ===== */
-    --text-primary: #F5F9FF;
-    --text-secondary: #B0C4DE;
-    --text-tertiary: #7A94B8;
+    --text-primary: #f1f1f1;
+    --text-secondary: #aaa;
+    --text-tertiary: #717171;
 
     /* ===== ACENTOS ===== */
-    --accent-blue: #6C8CFF;
-    --accent-blue-hover: #5A7AEE;
-    --accent-green: #10b981;
-    --accent-green-hover: #0ea575;
-    --accent-orange: #FBBF24;
-    --accent-purple: #A78BFA;
-    --accent-teal: #38BDF8;
+    --accent-blue: #3ea6ff;
+    --accent-blue-hover: #68b9ff;
+    --accent-green: #30a539;
+    --accent-green-hover: #278b2f;
+    --accent-orange: #f2b35f;
+    --accent-purple: #a78bfa;
+    --accent-teal: #2aa7a1;
+    --brand-rgb: 48, 165, 57;
+    --blue-rgb: 62, 166, 255;
+    --accent-sky-soft: rgba(62, 166, 255, 0.12);
+    --accent-teal-soft: rgba(42, 167, 161, 0.12);
+    --accent-green-soft: rgba(48, 165, 57, 0.12);
+    --accent-gold-soft: rgba(242, 179, 95, 0.14);
 
     /* ===== BORDAS E SOMBRAS ===== */
-    --border: rgba(42, 58, 90, 0.4);
-    --border-light: rgba(58, 74, 106, 0.3);
+    --border: rgba(255, 255, 255, 0.14);
+    --border-light: rgba(255, 255, 255, 0.09);
     --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.7);
     --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
-    --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.08);
+    --shadow-glow: 0 0 40px rgba(var(--brand-rgb), 0.12);
 
     /* ===== GRADIENTES ===== */
-    --gradient-primary: linear-gradient(135deg, #6C8CFF, #A78BFA);
-    --gradient-donate: linear-gradient(135deg, #FBBF24, #10b981);
-    --gradient-new-badge: linear-gradient(135deg, #10b981, #38BDF8);
+    --gradient-primary: linear-gradient(135deg, var(--accent-green), var(--accent-teal), var(--accent-blue));
+    --gradient-donate: linear-gradient(135deg, var(--accent-green), var(--accent-orange));
+    --gradient-new-badge: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
     --gradient-shimmer: linear-gradient(90deg,
         var(--bg-tertiary) 25%,
         var(--bg-card) 50%,
@@ -65,9 +71,9 @@
 
     /* ===== OUTROS ===== */
     --card-radius: 1rem;
-    --success: #10b981;
-    --danger: #10b981;
-    --warning: #FBBF24;
+    --success: #30a539;
+    --danger: #f25f5c;
+    --warning: #f2c94c;
 }
 
 /* ========== ESTILOS GLOBAIS ========== */
@@ -130,7 +136,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(7, 11, 20, 0.85);
+    background: color-mix(in srgb, var(--bg-primary) 85%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: background var(--transition-fast);
@@ -148,12 +154,12 @@ a:hover {
     display: block;
     object-fit: contain;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(var(--brand-rgb), 0.15));
     transition: filter var(--transition-fast);
 }
 
 .logo-universidade:hover {
-    filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.3));
+    filter: drop-shadow(0 4px 20px rgba(var(--brand-rgb), 0.3));
 }
 
 .logo p {
@@ -164,7 +170,7 @@ a:hover {
 .stats {
     display: flex;
     gap: 0;
-    background: rgba(15, 22, 36, 0.8);
+    background: color-mix(in srgb, var(--bg-secondary) 80%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: 0.5rem 1.2rem;
@@ -188,7 +194,7 @@ a:hover {
 /* ========== BOTÕES DO CABEÇALHO ========== */
 .btn-biblioteca {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
     padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
@@ -204,7 +210,7 @@ a:hover {
 
 .btn-biblioteca:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+    box-shadow: 0 6px 20px rgba(var(--brand-rgb), 0.25);
 }
 
 .btn-biblioteca[style*="accent-blue"] {
@@ -239,7 +245,7 @@ a:hover {
 
 .donate-button:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 6px 24px rgba(var(--brand-rgb), 0.35);
 }
 
 .donate-button:active {
@@ -354,7 +360,7 @@ a:hover {
     border-radius: 24px;
     background:
         radial-gradient(circle at 100% 0%, rgba(167, 139, 250, 0.12), transparent 34%),
-        linear-gradient(145deg, rgba(26, 38, 56, 0.92), rgba(15, 22, 36, 0.96));
+        linear-gradient(145deg, var(--bg-tertiary), var(--bg-secondary));
     box-shadow: 0 18px 45px rgba(4, 8, 18, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     overflow: hidden;
 }
@@ -433,7 +439,7 @@ a:hover {
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 4rem 0.9rem 2.7rem;
-    background: rgba(7, 11, 20, 0.54);
+    background: color-mix(in srgb, var(--bg-primary) 54%, transparent);
     border: 1px solid rgba(148, 163, 184, 0.18);
     border-radius: 14px;
     color: var(--text-primary);
@@ -489,7 +495,7 @@ a:hover {
     padding: 0.3rem;
     border: 2px solid rgba(108, 140, 255, 0.28) !important;
     border-radius: 13px;
-    background: rgba(7, 11, 20, 0.3) !important;
+    background: color-mix(in srgb, var(--bg-primary) 30%, transparent) !important;
 }
 
 #libraryTabContent .tab-btn {
@@ -520,7 +526,7 @@ a:hover {
 }
 
 #libraryTabContent .tab-btn.active {
-    background: linear-gradient(135deg, var(--accent-blue), #7c5cff) !important;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)) !important;
     color: white !important;
     box-shadow: 0 5px 14px rgba(108, 140, 255, 0.22);
 }
@@ -560,7 +566,7 @@ a:hover {
     inset: 0;
     border-radius: 16px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+                rgba(var(--brand-rgb), 0.06) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -572,7 +578,7 @@ a:hover {
     inset: -1px;
     border-radius: 16px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), transparent, rgba(167, 139, 250, 0.15));
+    background: linear-gradient(135deg, rgba(var(--brand-rgb), 0.15), transparent, rgba(167, 139, 250, 0.15));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -592,8 +598,8 @@ a:hover {
 .book-mini-card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(16, 185, 129, 0.06);
-    border-color: rgba(16, 185, 129, 0.3);
+                0 0 40px rgba(var(--brand-rgb), 0.06);
+    border-color: rgba(var(--brand-rgb), 0.3);
 }
 
 .book-mini-card:active {
@@ -648,13 +654,13 @@ a:hover {
 
 .mini-type-tag {
     font-size: 0.6rem;
-    background: rgba(56, 189, 248, 0.1);
+    background: var(--accent-sky-soft);
     display: inline-block;
     padding: 0.15rem 0.6rem;
     border-radius: 12px;
     margin-top: 0.3rem;
     color: var(--accent-teal);
-    border: 1px solid rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(62, 166, 255, 0.2);
     backdrop-filter: blur(4px);
 }
 
@@ -688,7 +694,7 @@ a:hover {
     inset: 0;
     border-radius: 18px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(16, 185, 129, 0.04) 0%, transparent 70%);
+                rgba(var(--brand-rgb), 0.04) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -700,7 +706,7 @@ a:hover {
     inset: -1px;
     border-radius: 18px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(var(--brand-rgb), 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -720,8 +726,8 @@ a:hover {
 .library-card:hover {
     transform: translateY(-8px) scale(1.01);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35),
-                0 0 40px rgba(16, 185, 129, 0.04);
-    border-color: rgba(16, 185, 129, 0.25);
+                0 0 40px rgba(var(--brand-rgb), 0.04);
+    border-color: rgba(var(--brand-rgb), 0.25);
 }
 
 .library-cover {
@@ -773,7 +779,7 @@ a:hover {
 
 .library-type-tag {
     font-size: 0.7rem;
-    background: rgba(56, 189, 248, 0.08);
+    background: var(--accent-sky-soft);
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
     display: inline-block;
@@ -781,7 +787,7 @@ a:hover {
     color: var(--accent-teal);
     font-weight: 500;
     letter-spacing: 0.3px;
-    border: 1px solid rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(62, 166, 255, 0.2);
 }
 
 .library-price-tag {
@@ -789,13 +795,13 @@ a:hover {
     font-weight: 600;
     padding: 0.2rem 0.8rem;
     border-radius: 20px;
-    background: linear-gradient(135deg, #10b981, #38BDF8);
-    color: #070B14;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+    color: var(--bg-primary);
+    box-shadow: 0 4px 12px rgba(var(--brand-rgb), 0.2);
 }
 
 .library-price-tag.paid {
-    background: linear-gradient(135deg, #FBBF24, #10b981);
+    background: linear-gradient(135deg, var(--warning), var(--accent-green));
     color: white;
 }
 
@@ -911,7 +917,7 @@ a:hover {
     inset: 0;
     border-radius: 16px;
     background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(16, 185, 129, 0.04) 0%, transparent 70%);
+                rgba(var(--brand-rgb), 0.04) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s;
@@ -923,7 +929,7 @@ a:hover {
     inset: -1px;
     border-radius: 16px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), transparent, rgba(167, 139, 250, 0.1));
+    background: linear-gradient(135deg, rgba(var(--brand-rgb), 0.1), transparent, rgba(167, 139, 250, 0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -943,8 +949,8 @@ a:hover {
 .audiobook-card:hover {
     transform: translateY(-6px) scale(1.01);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35),
-                0 0 40px rgba(16, 185, 129, 0.04);
-    border-color: rgba(16, 185, 129, 0.25);
+                0 0 40px rgba(var(--brand-rgb), 0.04);
+    border-color: rgba(var(--brand-rgb), 0.25);
 }
 
 .audiobook-card:active {
@@ -960,6 +966,20 @@ a:hover {
     flex-shrink: 0;
     border: 1px solid var(--border-light);
     transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.mini-cover,
+.audiobook-cover,
+.library-cover,
+.modal-cover {
+    display: block;
+    object-position: center;
+}
+
+.mini-cover[src=""],
+.audiobook-cover[src=""] {
+    display: block;
+    opacity: 0;
 }
 
 .audiobook-card:hover .audiobook-cover {
@@ -1158,7 +1178,7 @@ a:hover {
     display: block;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, #10b981, #38BDF8);
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
 }
 
 .continue-listening-button {
@@ -1520,7 +1540,7 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(7, 11, 20, 0.85);
+    background: color-mix(in srgb, var(--bg-primary) 85%, transparent);
     display: none;
     align-items: center;
     justify-content: center;
@@ -1637,7 +1657,7 @@ a:hover {
 
 .action-btn.download-btn {
     background: var(--accent-green);
-    color: #070B14;
+    color: var(--bg-primary);
 }
 
 .action-btn.download-btn:hover {
@@ -1755,6 +1775,14 @@ a:hover {
     border: 1px dashed var(--border);
 }
 
+.empty-state p,
+.error-state p {
+    max-width: 42rem;
+    margin: 0.5rem auto 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
 .empty-state i,
 .error-state i {
     font-size: 2.5rem;
@@ -1763,12 +1791,35 @@ a:hover {
 }
 
 .error-state {
-    border-color: var(--accent-green);
-    color: #f87171;
+    border-color: rgba(242, 95, 92, 0.45);
+    color: #ff8d89;
 }
 
 .error-state i {
-    color: var(--accent-green);
+    color: var(--danger);
+}
+
+.retry-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(62, 166, 255, 0.45);
+    border-radius: 999px;
+    background: rgba(62, 166, 255, 0.12);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.retry-btn:hover {
+    border-color: var(--accent-blue);
+    background: rgba(62, 166, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 /* ========== ANIMAÇÕES GLOBAIS ========== */
@@ -1786,10 +1837,10 @@ a:hover {
 
 @keyframes pulse-glow {
     0%, 100% {
-        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.2));
+        filter: drop-shadow(0 0 8px rgba(var(--brand-rgb), 0.2));
     }
     50% {
-        filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.5));
+        filter: drop-shadow(0 0 24px rgba(var(--brand-rgb), 0.5));
     }
 }
 

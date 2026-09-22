@@ -13,10 +13,10 @@
 .audio-player-panel {
     width: min(22rem, calc(100vw - 2rem));
     padding: 1rem;
-    border: 1px solid rgba(108, 140, 255, 0.35);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    background: rgba(15, 22, 36, 0.96);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 28px rgba(108, 140, 255, 0.12);
+    background: color-mix(in srgb, var(--bg-secondary) 96%, transparent);
+    box-shadow: var(--modal-shadow), var(--shadow-glow);
     backdrop-filter: blur(14px);
     transform: translateZ(0);
 }
@@ -114,7 +114,7 @@
     align-items: center;
     gap: 0.55rem;
     padding: 0.8rem 1rem;
-    border: 1px solid rgba(108, 140, 255, 0.45);
+    border: 1px solid var(--border);
     border-radius: 2rem;
     color: #fff;
     background: var(--gradient-primary);
@@ -126,7 +126,7 @@
     will-change: transform;
 }
 
-.audio-player-toggle:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(108, 140, 255, 0.35); }
+.audio-player-toggle:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
 .audio-player-toggle i { transform: rotate(-18deg); }
 .youtube-audio-source { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
 
