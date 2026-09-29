@@ -343,6 +343,10 @@ body {
     min-width: 0;
 }
 
+.course-card {
+    position: relative;
+}
+
 /* Item de curso */
 .course-item {
     display: flex;
@@ -369,6 +373,7 @@ body {
 }
 
 .course-item .course-icon {
+    position: relative;
     width: 100%;
     height: 112px;
     border-radius: var(--com-radius-sm) var(--com-radius-sm) 0 0;
@@ -398,13 +403,165 @@ body {
 }
 .course-info {
     min-width: 0;
-    padding: 0.9rem 1rem 0.95rem;
+    padding: 0.9rem 3.25rem 0.95rem 1rem;
+}
+
+.course-expand-toggle {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--com-border);
+    border-radius: 50%;
+    background: var(--com-bg-secondary);
+    color: var(--com-text-secondary);
+    cursor: pointer;
+    transition: var(--com-transition);
+}
+
+.course-expand-toggle:hover,
+.course-expand-toggle:focus-visible {
+    border-color: var(--com-accent-blue);
+    color: var(--com-text-primary);
+}
+
+.course-expand-toggle:focus-visible {
+    outline: 2px solid var(--com-accent-blue);
+    outline-offset: 2px;
 }
 
 .course-item .course-level {
-    margin-top: 0.25rem;
+    margin-top: 0;
     font-size: 0.75rem;
     color: var(--com-text-tertiary);
+}
+
+.course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.course-language-badge {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    min-height: 1.25rem;
+    padding: 0.1rem 0.45rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    background: var(--com-bg-secondary);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.course-language-pt {
+    color: var(--com-accent-teal);
+    background: color-mix(in srgb, var(--com-accent-teal) 12%, var(--com-bg-secondary));
+}
+
+.course-language-en {
+    color: var(--com-accent-blue);
+    background: color-mix(in srgb, var(--com-accent-blue) 12%, var(--com-bg-secondary));
+}
+
+.course-language-es {
+    color: var(--com-accent-purple);
+    background: color-mix(in srgb, var(--com-accent-purple) 14%, var(--com-bg-secondary));
+}
+
+.course-language-filter,
+.course-level-filter {
+    position: relative;
+    z-index: 20;
+    padding: 0.55rem 0.85rem 0;
+}
+
+.course-language-filter.is-open,
+.course-level-filter.is-open {
+    z-index: 40;
+}
+
+.course-language-filter-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: 100%;
+    min-height: 2.45rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--com-border);
+    border-radius: 0.65rem;
+    background: var(--com-bg-secondary);
+    color: var(--com-text-secondary);
+    font: inherit;
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.course-language-filter-toggle strong {
+    margin-left: auto;
+    color: var(--com-text-primary);
+}
+
+.course-language-filter-chevron {
+    color: var(--com-text-tertiary);
+    font-size: 0.68rem;
+    transition: transform var(--com-transition);
+}
+
+.course-language-filter-toggle[aria-expanded="true"] .course-language-filter-chevron {
+    transform: rotate(180deg);
+}
+
+.course-language-filter-menu {
+    position: absolute;
+    top: calc(100% + 0.3rem);
+    left: 0.85rem;
+    right: 0.85rem;
+    z-index: 30;
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.35rem;
+    border: 1px solid var(--com-border);
+    border-radius: 0.7rem;
+    background: var(--com-bg-secondary);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.course-language-filter-menu[hidden] {
+    display: none;
+}
+
+.course-language-filter-option {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    color: var(--com-text-secondary);
+    font: inherit;
+    font-size: 0.78rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.course-language-filter-option:hover,
+.course-language-filter-option:focus-visible,
+.course-language-filter-option.active {
+    background: color-mix(in srgb, var(--com-accent-blue) 16%, transparent);
+    color: var(--com-text-primary);
+    outline: none;
 }
 
 /* Lista de disciplinas */

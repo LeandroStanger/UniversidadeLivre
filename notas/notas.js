@@ -186,10 +186,10 @@
 
             // Fallback: tenta carregar o arquivo JSON diretamente
             const paths = [
-                `../lang/${lang}.json`,
-                `./lang/${lang}.json`,
-                `lang/${lang}.json`,
-                `/lang/${lang}.json`
+                `../base/lang/${lang}.json`,
+                `./base/lang/${lang}.json`,
+                `base/lang/${lang}.json`,
+                `/base/lang/${lang}.json`
             ];
             for (const path of paths) {
                 try {
@@ -317,10 +317,11 @@
             // Atualiza o seletor de idioma
             const langPtBtn = document.getElementById('langPtBtn');
             const langEnBtn = document.getElementById('langEnBtn');
-            if (langPtBtn && langEnBtn) {
-                langPtBtn.classList.toggle('active', lang === 'pt-br');
-                langEnBtn.classList.toggle('active', lang === 'en');
-            }
+            const langEsBtn = document.getElementById('langEsBtn');
+            langPtBtn?.classList.toggle('active', lang === 'pt-br');
+            langEnBtn?.classList.toggle('active', lang === 'en');
+            langEsBtn?.classList.toggle('active', lang === 'es');
+            window.updateLanguageSelector?.(lang);
             localStorage.setItem('selectedLanguage', lang);
             // Dispara evento global para sincronizar outros módulos
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
@@ -976,6 +977,19 @@
 
     // ========== INICIALIZAÇÃO DO QUILL ==========
     function initQuill() {
+        const Font = Quill.import('formats/font');
+        Font.whitelist = [
+            'inter',
+            'dm-sans',
+            'manrope',
+            'plus-jakarta',
+            'source-sans',
+            'ibm-plex-serif',
+            'merriweather',
+            'fira-code'
+        ];
+        Quill.register(Font, true);
+
         quill = new Quill('#quillEditor', {
             theme: 'snow',
             placeholder: 'Escreva sua anotação aqui...',
@@ -990,7 +1004,16 @@
                         [{ 'indent': '-1' }, { 'indent': '+1' }],
                         [{ 'size': ['small', false, 'large', 'huge'] }],
                         [{ 'color': [] }, { 'background': [] }],
-                        [{ 'font': [] }],
+                        [{ 'font': [
+                            'inter',
+                            'dm-sans',
+                            'manrope',
+                            'plus-jakarta',
+                            'source-sans',
+                            'ibm-plex-serif',
+                            'merriweather',
+                            'fira-code'
+                        ] }],
                         [{ 'align': [] }],
                         ['link', 'image', 'video', 'formula'],
                         ['clean']
@@ -1054,24 +1077,6 @@
         });
     }
 
-    // ========== PERFIL E EXPORTAÇÃO ==========
-    function initProfile() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            profileBtn.addEventListener('click', () => {
-                if (window.openProfileModal) {
-                    window.openProfileModal();
-                } else {
-                    const modal = document.getElementById('profileModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        if (window.updateProfileModal) window.updateProfileModal();
-                    }
-                }
-            });
-        }
-    }
-
     // ========== REAGIR A MUDANÇAS DE IDIOMA GLOBAIS ==========
     function initGlobalLanguageListener() {
         window.addEventListener('languageChanged', function(e) {
@@ -1106,7 +1111,7 @@
 
         // Carregar idioma salvo ou do navegador
         const savedLang = localStorage.getItem('selectedLanguage') || 
-            (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
+            (navigator.language?.startsWith('pt') ? 'pt-br' : navigator.language?.startsWith('es') ? 'es' : 'en');
         state.currentLang = savedLang;
         await I18n.loadTranslations(savedLang);
         I18n.applyTranslations();
@@ -1117,7 +1122,6 @@
         UIRenderer.renderNotasList();
 
         initTagManagerModal();
-        initProfile();
         initGlobalLanguageListener();
 
         // Event listeners
@@ -1158,11 +1162,15 @@
         // Botões de idioma locais
         const langPtBtn = document.getElementById('langPtBtn');
         const langEnBtn = document.getElementById('langEnBtn');
+        const langEsBtn = document.getElementById('langEsBtn');
         if (langPtBtn) {
             langPtBtn.addEventListener('click', () => I18n.setLanguage('pt-br'));
         }
         if (langEnBtn) {
             langEnBtn.addEventListener('click', () => I18n.setLanguage('en'));
+        }
+        if (langEsBtn) {
+            langEsBtn.addEventListener('click', () => I18n.setLanguage('es'));
         }
 
         // Sincronizar com outras abas

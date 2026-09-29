@@ -72,6 +72,26 @@
     "bio": "Computer Science é uma formação acadêmica estruturada para desenvolver conhecimentos, habilidades e competências profissionais. A comprehensive Computer Science degree covering programming, mathematics, systems, security, networking, artificial intelligence, and software engineering. Bibliografia de apoio: Introduction to Algorithms (Thomas H. Cormen; Charles E. Leiserson; Ronald L. Rivest; Clifford Stein): Visão rigorosa de algoritmos, complexidade, grafos e estruturas essenciais para computação; Discrete Mathematics and Its Applications (Kenneth H. Rosen): Conjuntos, lógica, provas, contagem, grafos e fundamentos discretos da computação; Computer Organization and Design (David A. Patterson; John L. Hennessy): Arquitetura, organização e desempenho de sistemas computacionais modernos."
   },
   {
+    "id": "ciencias-de-la-computacion",
+    "name": "Ciencias de la Computación",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "language": "es",
+    "icon": "fa-laptop-code",
+    "description": "Licenciatura en Ciencias de la Computación con formación progresiva en matemáticas, algoritmos, programación, sistemas, redes e inteligencia artificial.",
+    "bio": "Ciencias de la Computación es una licenciatura organizada en ocho etapas que recorre matemáticas, estructuras de datos, programación, algoritmos, arquitectura de computadoras, inteligencia artificial y redes."
+  },
+  {
+    "id": "matematica-em-espanhol",
+    "name": "Matemáticas",
+    "courseLevel": "graduacao",
+    "courseType": "licenciatura",
+    "language": "es",
+    "icon": "fa-square-root-alt",
+    "description": "Licenciatura en Matemáticas con formación progresiva en álgebra, cálculo, geometría, estadística y didáctica para la educación matemática.",
+    "bio": "Matemáticas es una licenciatura organizada en etapas que recorre álgebra, geometría, cálculo, estadística, lógica y didáctica de la matemática, con enfoque en la formación docente y la resolución de problemas."
+  },
+  {
     "id": "cybersecurity",
     "name": "CyberSecurity",
     "courseLevel": "pos-graduacao",

@@ -20,9 +20,10 @@
     <!-- Estilos da comunidade -->
     <link rel="stylesheet" href="comunidade.css" />
     <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../perfil/profile.css" />
-    <link rel="stylesheet" href="../audio-player/audio-player.css" />
-    <link rel="stylesheet" href="../loading/loading-screen.css" />
+    <script src="../base/theme/theme.js"></script>
+    <link rel="stylesheet" href="../base/perfil/profile.css" />
+    <link rel="stylesheet" href="../base/audio-player/audio-player.css" />
+    <link rel="stylesheet" href="../base/loading/loading-screen.css" />
     <link rel="stylesheet" href="jogo/jogo-da-velha/jogo-da-velha.css" />
     <link rel="stylesheet" href="jogo/xadrez/xadrez.css" />
     <link rel="stylesheet" href="jogo/impostor/impostor.css" />
@@ -708,32 +709,6 @@
             white-space: nowrap;
             border: 1px solid var(--com-border);
         }
-        .language-switch {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            background: var(--com-bg-tertiary);
-            padding: 0.25rem 0.5rem;
-            border-radius: 2rem;
-        }
-        .lang-btn {
-            background: none;
-            border: none;
-            color: var(--com-text-secondary);
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.2rem 0.4rem;
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            transition: var(--com-transition);
-        }
-        .lang-btn.active {
-            background: var(--com-accent-blue);
-            color: white;
-            box-shadow: 0 2px 8px color-mix(in srgb, var(--com-accent-blue) 30%, transparent);
-        }
-        .lang-btn:hover:not(.active) { color: var(--com-accent-teal); }
-        .lang-sep { color: var(--com-text-tertiary); font-size: 0.75rem; }
         .donate-button, .btn-back {
             display: inline-flex;
             align-items: center;
@@ -1717,12 +1692,13 @@
             .profile-stats { grid-template-columns:1fr; }
         }
     </style>
-    <link rel="stylesheet" href="../onboarding/onboarding.css" />
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css" />
+    <link rel="stylesheet" href="../base/theme/theme.css" />
 </head>
 <body class="site-loading">
 <div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
     <div class="site-loading-content">
-        <img class="site-loading-logo" src="../logo-da-universidade-livre.png" alt="Universidade Livre">
+        <img class="site-loading-logo" src="../base/logo-da-universidade-livre.png" alt="Universidade Livre">
         <div class="site-loading-spinner" aria-hidden="true"></div>
         <span class="site-loading-text" data-i18n="loading_community" data-loading-pt="Carregando a Comunidade..." data-loading-en="Loading Community...">Carregando a Comunidade...</span>
     </div>
@@ -1732,15 +1708,22 @@
         <header class="app-header">
             <div class="logo">
                 <a href="../index.html" class="logo-link">
-                    <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" />
+                    <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" />
                 </a>
                 <p class="logo-subtitle" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
             </div>
             <div class="app-actions">
                 <div class="language-switch">
-                    <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
-                    <span class="lang-sep">|</span>
-                    <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+                    <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span id="selectedLanguageLabel">Português</span>
+                        <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                        <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                        <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                        <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                    </div>
                 </div>
                 <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                     <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
@@ -1785,6 +1768,35 @@
                 <div class="course-scope-tabs" role="tablist" aria-label="Filtro de cursos">
                     <button type="button" class="course-scope-tab active" data-course-scope="my" role="tab" aria-selected="true" data-i18n="community_my_courses">Meus cursos</button>
                     <button type="button" class="course-scope-tab" data-course-scope="all" role="tab" aria-selected="false" data-i18n="community_all_courses">Todos os cursos</button>
+                </div>
+                <div class="course-language-filter">
+                    <button type="button" id="courseLanguageFilterToggle" class="course-language-filter-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="courseLanguageFilterMenu">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span data-i18n="filter_by_course_language">Filtrar por idioma do curso:</span>
+                        <strong id="selectedCourseLanguageLabel" data-i18n="filter_all_languages">Todos</strong>
+                        <i class="fas fa-chevron-down course-language-filter-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="courseLanguageFilterMenu" class="course-language-filter-menu" role="listbox" aria-label="Idioma dos cursos" data-i18n-aria="filter_by_course_language" hidden>
+                        <button type="button" class="course-language-filter-option active" role="option" aria-selected="true" data-course-language="all" data-i18n="filter_all_languages">Todos</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="pt" data-i18n="course_language_portuguese">Português</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="en" data-i18n="course_language_english">Inglês</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="es" data-i18n="course_language_spanish">Espanhol</button>
+                    </div>
+                </div>
+                <div class="course-level-filter">
+                    <button type="button" id="courseLevelFilterToggle" class="course-language-filter-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="courseLevelFilterMenu">
+                        <i class="fas fa-layer-group" aria-hidden="true"></i>
+                        <span data-i18n="filter_by_level">Filtrar por nível:</span>
+                        <strong id="selectedCourseLevelLabel" data-i18n="all_courses">Todos</strong>
+                        <i class="fas fa-chevron-down course-language-filter-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="courseLevelFilterMenu" class="course-language-filter-menu" role="listbox" aria-label="Nível dos cursos" data-i18n-aria="filter_by_level" hidden>
+                        <button type="button" class="course-language-filter-option active" role="option" aria-selected="true" data-course-level="all" data-i18n="all_courses">Todos</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="graduacao" data-i18n="graduacao">Graduação</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="pos-graduacao" data-i18n="pos_graduacao">Pós-graduação</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="ensino-medio" data-i18n="ensino_medio">Ensino Médio</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="idiomas" data-i18n="idiomas">Idiomas</button>
+                    </div>
                 </div>
                 <div id="courseList" class="course-list">
                     <div class="loading-skeleton"><div class="spinner"></div><p data-i18n="loading">Carregando cursos...</p></div>
@@ -1867,6 +1879,21 @@
                             </div>
                             <button id="addPollOptionBtn" class="btn-secondary" type="button"><i class="fas fa-plus"></i> <span data-i18n="add_poll_option">Adicionar opção</span></button>
                             <div class="modal-actions"><button id="cancelPollBtn" class="btn-secondary" data-i18n="cancel">Cancelar</button><button id="savePollBtn" class="btn-primary"><i class="fas fa-check"></i> <span data-i18n="publish">Publicar</span></button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="communityAlertModal" class="modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="communityAlertTitle"><i class="fas fa-circle-exclamation"></i> Atenção</h3>
+                            <button class="close-modal" id="closeCommunityAlertModal" aria-label="Fechar aviso">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="communityAlertMessage" style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;">Mensagem.</p>
+                            <div class="modal-actions">
+                                <button id="confirmCommunityAlertBtn" class="btn-primary" type="button"><i class="fas fa-check"></i> OK</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2230,13 +2257,22 @@
                     </div>
                     <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
                     <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+                    <div class="profile-status-actions">
+                        <button type="button" id="profileActivityBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-clock"></i> <span data-i18n="profile_activity_summary">Tempo e sequência</span></button>
+                        <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+                    </div>
+                    <div id="profileActivityDetails" class="profile-activity-details" hidden></div>
+                    <div id="profileGameStatus" class="profile-game-status" hidden></div>
                     <div class="livre-coins-profile-convert"><span>5 pontos = 1<br><span class="livre-coin-name"><img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coin</span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button">Trocar pontos por <img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coins</button></div>
                     <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
                     <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+                    <button type="button" id="profileTranscriptBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Ver boletim</span></button>
+                    <div id="profileTranscript" class="profile-transcript" hidden>
+                        <div id="profileTranscriptCourses" class="profile-transcript-courses"></div>
+                        <div id="profileTranscriptStages" class="profile-transcript-stages"></div>
+                    </div>
                     <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
                     <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
-                    <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
-                    <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
                     <!-- Cursos salvos -->
                     <div id="profileCoursesList">
@@ -2247,32 +2283,24 @@
                     <!-- Resumo de cursos em andamento -->
                     <div id="ongoingCoursesContainer"></div>
 
-                    <!-- Exportação / Importação -->
-                    <hr />
-                    <h4><i class="fas fa-file-export"></i> Exportar / Importar dados</h4>
-                    <div class="export-options">
-                        <p data-i18n="profile_select_data">Selecione quais dados exportar:</p>
-                        <label><input type="checkbox" id="exportCourses" checked /> Cursos</label>
-                        <label><input type="checkbox" id="exportVideos" checked /> Vídeos</label>
-                        <label><input type="checkbox" id="exportBooks" checked /> Livros lidos</label>
-                        <label><input type="checkbox" id="exportNotes" checked /> Notas</label>
+                    <h4 data-i18n="profile_export_import"><i class="fas fa-file-export"></i> Exportar / Importar dados</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
+                        <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
+                        <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
+                        <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
                     </div>
-
-                    <!-- Seleção de notas para exportação -->
-                    <div id="notesSelectionContainer">
-                        <p>Selecione quais notas exportar:</p>
+                    <div id="notesSelectionContainer" style="margin-bottom: 0.8rem; display: block;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
                         <div id="notesCheckboxes"></div>
                     </div>
-
-                    <div class="profile-actions">
-                        <button id="generateExportBtn"><i class="fas fa-file-export"></i> Salvar Progresso</button>
-                        <button id="importProgressBtn"><i class="fas fa-file-import"></i> Importar Progresso</button>
-                        <input type="file" id="importFileInput" accept=".json" style="display: none;" />
+                    <div class="profile-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                        <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
+                        <button id="importProgressBtn" class="btn-secondary" type="button"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                        <input type="file" id="importFileInput" accept=".json" style="display: none;">
                     </div>
+                    <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
 
-                    <div class="profile-note">
-                        <i class="fas fa-database"></i> Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.
-                    </div>
                 </div>
             </div>
         </div>
@@ -2285,23 +2313,30 @@
             <div class="certificate-modal-actions"><button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button><button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button></div>
         </div>
     </div>
+    <div id="transcriptModal" class="certificate-modal" hidden aria-hidden="true">
+        <div class="certificate-modal-content transcript-modal-content" role="dialog" aria-modal="true" aria-labelledby="transcriptTitle">
+            <div class="certificate-modal-header"><h2 id="transcriptTitle"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Boletim</span></h2><button type="button" id="closeTranscriptModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button></div>
+            <div id="transcriptPreview" class="transcript-preview"></div>
+            <div class="certificate-modal-actions"><button type="button" id="downloadTranscriptBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_transcript_download">Baixar PNG</span></button><button type="button" id="downloadTranscriptPdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_transcript_download_pdf">Baixar PDF</span></button></div>
+        </div>
+    </div>
 
     <!-- ONBOARDING MODAL (vazio, apenas para compatibilidade) -->
     <div id="onboardingModal" class="onboarding-modal" style="display: none;" aria-hidden="true" inert></div>
 
     <!-- SCRIPTS -->
-    <script src="../analytics.js"></script>
+    <script src="../base/analytics.js"></script>
     <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
-    <script src="../menu/auditorio-menu.js"></script>
-    <script src="../menu/biblioteca-menu.js"></script>
-    <script src="../menu/mobile-menu.js"></script>
+    <script src="../base/menu/auditorio-menu.js"></script>
+    <script src="../base/menu/biblioteca-menu.js"></script>
+    <script src="../base/menu/mobile-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
     <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js"></script>
-    <script src="../lang/i18n.js"></script>          <!-- 1º: i18n central -->
+    <script src="../base/lang/i18n.js"></script>          <!-- 1º: i18n central -->
     <script src="../cursos/latex-renderer.js"></script>    <!-- Compilador LaTeX no navegador -->
-    <script src="../perfil/profile.js"></script>    <!-- 2º: perfil -->
-    <script src="../onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
+    <script src="../base/perfil/profile.js"></script>    <!-- 2º: perfil -->
+    <script src="../base/onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
     <script src="comunidade.js"></script>           <!-- 4º: comunidade -->
     <script src="jogo/jogo-da-velha/jogo-da-velha.js"></script> <!-- 5º: jogo da velha -->
     <script src="jogo/xadrez/xadrez.js"></script>   <!-- 6º: xadrez -->
@@ -2317,7 +2352,7 @@
     <script src="jogo/bacara/bacara.js"></script>
     <script src="jogo/bingo/bingo.js"></script>
     <script src="jogo/bitcoin/bitcoin.js"></script>
-    <script src="../audio-player/audio-player.js" defer></script>
-    <script src="../loading/loading-screen.js" defer></script>
+    <script src="../base/audio-player/audio-player.js" defer></script>
+    <script src="../base/loading/loading-screen.js" defer></script>
 </body>
 </html>

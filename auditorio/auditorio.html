@@ -6,20 +6,22 @@
     <title data-i18n="auditorio_page_title">Auditório · Universidade Livre</title>
     <meta name="description" content="Assista a vídeos selecionados pela comunidade. Compartilhe conhecimento através de vídeos educativos.">
     <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/auditorio/auditorio.html">
-    <meta name="theme-color" content="#0f0f0f">
+    <meta name="theme-color" content="#0B0D10">
+    <script src="../base/theme/theme.js"></script>
     <link rel="stylesheet" href="auditorio.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../perfil/profile.css">
-    <link rel="stylesheet" href="../onboarding/onboarding.css">
-    <link rel="stylesheet" href="../audio-player/audio-player.css">
-    <link rel="stylesheet" href="../loading/loading-screen.css">
+    <link rel="stylesheet" href="../base/perfil/profile.css">
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css">
+    <link rel="stylesheet" href="../base/audio-player/audio-player.css">
+    <link rel="stylesheet" href="../base/loading/loading-screen.css">
+    <link rel="stylesheet" href="../base/theme/theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body class="site-loading">
 <div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
     <div class="site-loading-content">
-        <img class="site-loading-logo" src="../logo-da-universidade-livre.png" alt="Universidade Livre">
+        <img class="site-loading-logo" src="../base/logo-da-universidade-livre.png" alt="Universidade Livre">
         <div class="site-loading-spinner" aria-hidden="true"></div>
         <span class="site-loading-text" data-i18n="loading_auditorium" data-loading-pt="Carregando o Auditório..." data-loading-en="Loading Auditorium...">Carregando o Auditório...</span>
     </div>
@@ -29,21 +31,28 @@
     <div class="header">
         <div class="logo">
             <a href="../index.html">
-                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+                <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
             </a>
             <p data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
         </div>
         <div class="stats">
             <div class="stat-item language-switch">
-                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
-                <span class="lang-sep">|</span>
-                <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+                <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <span id="selectedLanguageLabel">Português</span>
+                    <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                    <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                    <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                    <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                </div>
             </div>
             <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                 <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
             </a>
             <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
-                <button type="button" class="btn-biblioteca library-dropdown-toggle" style="background: #2ea043;" aria-expanded="false" aria-controls="libraryTypeMenu">
+                <button type="button" class="btn-biblioteca library-dropdown-toggle" style="background: var(--accent-green);" aria-expanded="false" aria-controls="libraryTypeMenu">
                     <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
                 </button>
                 <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
@@ -159,6 +168,8 @@
                         <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
                             <option value="pt">Português</option>
                             <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="ja">日本語</option>
                         </select>
                     </label>
                     <button id="fullscreenToggleBtn" class="ctrl-btn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen"><i class="fas fa-expand"></i></button>
@@ -229,8 +240,6 @@
                 <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
             </div>
-            <hr>
-
             <!-- Cursos em andamento -->
             <div id="ongoingCoursesContainer" style="margin: 0.5rem 0;"></div>
 
@@ -254,7 +263,6 @@
             <div id="profileCoursesList" style="margin: 1rem 0;"></div>
 
             <!-- Exportação/Importação -->
-            <hr style="margin: 1rem 0;">
             <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
                 <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
@@ -291,12 +299,15 @@
                     <button id="onboardingLangEn" class="lang-select-btn" data-lang="en" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
                         🇺🇸 English
                     </button>
+                    <button id="onboardingLangEs" class="lang-select-btn" data-lang="es" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇪🇸 Español
+                    </button>
                 </div>
                 <div id="onboardingLangError" class="form-error" style="display:none; text-align: center;" data-i18n="onboarding_error_language_required">Por favor, selecione um idioma.</div>
             </div>
             <!-- Passo 1: Boas-vindas -->
             <div class="step" data-step="1">
-                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
+                <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
                 <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
                 <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
                 <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
@@ -397,19 +408,19 @@
 </div>
 
 <!-- ========== SCRIPTS ========== -->
-<script src="../analytics.js"></script>
+<script src="../base/analytics.js"></script>
 <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
 <script src="https://www.youtube.com/iframe_api" async></script>
 <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
 <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js" defer></script>
-<script src="../lang/i18n.js"></script>
-<script src="../menu/auditorio-menu.js"></script>
-<script src="../menu/biblioteca-menu.js"></script>
-<script src="../menu/mobile-menu.js"></script>
+<script src="../base/lang/i18n.js"></script>
+<script src="../base/menu/auditorio-menu.js"></script>
+<script src="../base/menu/biblioteca-menu.js"></script>
+<script src="../base/menu/mobile-menu.js"></script>
 <script src="auditorio.js"></script>
-<script src="../perfil/profile.js"></script>
-<script src="../onboarding/onboarding.js"></script>
-<script src="../audio-player/audio-player.js" defer></script>
-<script src="../loading/loading-screen.js" defer></script>
+<script src="../base/perfil/profile.js"></script>
+<script src="../base/onboarding/onboarding.js"></script>
+<script src="../base/audio-player/audio-player.js" defer></script>
+<script src="../base/loading/loading-screen.js" defer></script>
 </body>
 </html>

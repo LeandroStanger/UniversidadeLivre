@@ -71,6 +71,8 @@
         'letras-portugues': 'letras-portugues',
         'matematica': 'matematica',
         'matematica-licenciatura': 'matematica-licenciatura',
+        'matematica-em-espanhol': 'matematicas',
+        'matematicas': 'matematicas',
         'math': 'math',
         'pedagogia': 'pedagogia',
         'portugues-brasileiro': 'portugues-brasileiro',

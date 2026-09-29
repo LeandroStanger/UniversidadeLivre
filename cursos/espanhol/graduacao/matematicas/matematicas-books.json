@@ -1,0 +1,304 @@
+[
+  {
+    "title": "Cálculo: Trascendentes tempranas",
+    "author": "James Stewart",
+    "discipline": "Cálculo diferencial e integral I",
+    "description": "Texto de referencia para límites, continuidad, derivadas, aplicaciones e introducción a la integración.",
+    "edition": "7.ª edición",
+    "publisher": "Cengage",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=calculo+stewart+trascendentes+tempranas"
+  },
+  {
+    "title": "Álgebra superior",
+    "author": "Armando O. Rojo",
+    "discipline": "Álgebra superior I",
+    "description": "Desarrolla herramientas algebraicas, polinomios, ecuaciones y razonamiento matemático.",
+    "publisher": "El Ateneo",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=algebra+superior+Armando+Rojo"
+  },
+  {
+    "title": "Geometría analítica",
+    "author": "Charles H. Lehmann",
+    "discipline": "Geometría analítica I",
+    "description": "Presenta coordenadas, rectas, cónicas y métodos algebraicos para resolver problemas geométricos.",
+    "publisher": "Limusa",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=geometria+analitica+Lehmann"
+  },
+  {
+    "title": "Geometría moderna",
+    "author": "Edwin E. Moise y Floyd L. Downs",
+    "discipline": "Geometría moderna I",
+    "description": "Estudia geometría euclidiana, transformaciones, congruencia y demostraciones geométricas.",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=geometria+moderna+Moise+Downs"
+  },
+  {
+    "title": "Cálculo",
+    "author": "Tom M. Apostol",
+    "discipline": "Cálculo diferencial e integral II",
+    "description": "Tratamiento riguroso del cálculo de una variable, integración, sucesiones y series.",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=calculo+Tom+Apostol+volumen+1"
+  },
+  {
+    "title": "Álgebra superior",
+    "author": "Armando O. Rojo",
+    "discipline": "Álgebra superior II",
+    "description": "Profundiza en polinomios, raíces, ecuaciones algebraicas y técnicas de demostración.",
+    "publisher": "El Ateneo",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=algebra+superior+Armando+Rojo"
+  },
+  {
+    "title": "Geometría analítica",
+    "author": "Charles H. Lehmann",
+    "discipline": "Geometría analítica II",
+    "description": "Referencia para cónicas, coordenadas y representaciones analíticas de objetos geométricos.",
+    "publisher": "Limusa",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=geometria+analitica+Lehmann"
+  },
+  {
+    "title": "Matemáticas discretas y sus aplicaciones",
+    "author": "Kenneth H. Rosen",
+    "discipline": "Conjuntos y Lógica",
+    "description": "Introducción a lógica, conjuntos, relaciones, funciones, conteo y métodos de demostración.",
+    "edition": "8.ª edición",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=matematicas+discretas+Rosen+logica"
+  },
+  {
+    "title": "Cálculo: Trascendentes tempranas",
+    "author": "James Stewart",
+    "discipline": "Cálculo diferencial e integral III",
+    "description": "Capítulos de cálculo multivariable sobre derivadas parciales, optimización e integración múltiple.",
+    "edition": "7.ª edición",
+    "publisher": "Cengage",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=calculo+multivariable+Stewart"
+  },
+  {
+    "title": "Álgebra lineal y sus aplicaciones",
+    "author": "David C. Lay, Steven R. Lay y Judi J. McDonald",
+    "discipline": "Álgebra lineal I",
+    "description": "Explica sistemas lineales, matrices, espacios vectoriales y transformaciones con aplicaciones.",
+    "edition": "5.ª edición",
+    "publisher": "Pearson",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=algebra+lineal+y+sus+aplicaciones+Lay"
+  },
+  {
+    "title": "Matemáticas discretas y sus aplicaciones",
+    "author": "Kenneth H. Rosen",
+    "discipline": "Matemáticas discretas",
+    "description": "Texto amplio sobre lógica, combinatoria, algoritmos, recurrencias y teoría de grafos.",
+    "edition": "8.ª edición",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=matematicas+discretas+Rosen"
+  },
+  {
+    "title": "Fundamentos de programación: algoritmos, estructuras de datos y objetos",
+    "author": "Luis Joyanes Aguilar",
+    "discipline": "Introducción a Ciencias de la Computación I",
+    "description": "Introduce algoritmos, programación estructurada y resolución computacional de problemas.",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=fundamentos+de+programacion+Joyanes+Aguilar"
+  },
+  {
+    "title": "Cálculo vectorial",
+    "author": "Jerrold E. Marsden y Anthony J. Tromba",
+    "discipline": "Cálculo diferencial e integral IV",
+    "description": "Desarrolla cálculo vectorial, integrales de línea y superficie, y los teoremas de Green, Gauss y Stokes.",
+    "edition": "5.ª edición",
+    "publisher": "Pearson",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=calculo+vectorial+Marsden+Tromba"
+  },
+  {
+    "title": "Álgebra lineal",
+    "author": "Kenneth Hoffman y Ray Kunze",
+    "discipline": "Álgebra lineal II",
+    "description": "Tratamiento teórico de espacios vectoriales, operadores lineales, valores propios y formas canónicas.",
+    "publisher": "Prentice Hall",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=algebra+lineal+Hoffman+Kunze"
+  },
+  {
+    "title": "Ecuaciones diferenciales con aplicaciones de modelado",
+    "author": "Dennis G. Zill",
+    "discipline": "Ecuaciones Diferenciales I",
+    "description": "Presenta ecuaciones diferenciales ordinarias, métodos de solución y aplicaciones de modelado.",
+    "edition": "11.ª edición",
+    "publisher": "Cengage",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=ecuaciones+diferenciales+Zill+espanol"
+  },
+  {
+    "title": "Introducción a la teoría de números",
+    "author": "Ivan Niven, Herbert S. Zuckerman y Hugh L. Montgomery",
+    "discipline": "Teoría de los Números I",
+    "description": "Estudia divisibilidad, números primos, congruencias y problemas diofánticos.",
+    "publisher": "Limusa",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=introduccion+teoria+de+numeros+Niven+Zuckerman"
+  },
+  {
+    "title": "Principios de análisis matemático",
+    "author": "Walter Rudin",
+    "discipline": "Análisis matemático I",
+    "description": "Texto riguroso sobre números reales, sucesiones, continuidad, diferenciación e integración.",
+    "edition": "3.ª edición",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=principios+de+analisis+matematico+Rudin"
+  },
+  {
+    "title": "Álgebra moderna",
+    "author": "I. N. Herstein",
+    "discipline": "Álgebra moderna I",
+    "description": "Introducción a grupos, anillos, campos y estructuras algebraicas mediante demostraciones.",
+    "publisher": "Trillas",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=algebra+moderna+Herstein"
+  },
+  {
+    "title": "Variable compleja y aplicaciones",
+    "author": "James Ward Brown y Ruel V. Churchill",
+    "discipline": "Variable compleja I",
+    "description": "Expone funciones analíticas, integración compleja, series y aplicaciones conformes.",
+    "edition": "9.ª edición",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=variable+compleja+y+aplicaciones+Churchill+Brown"
+  },
+  {
+    "title": "Análisis numérico",
+    "author": "Richard L. Burden, J. Douglas Faires y Annette M. Burden",
+    "discipline": "Análisis numérico",
+    "description": "Presenta algoritmos numéricos, aproximación, análisis de error y métodos computacionales.",
+    "edition": "10.ª edición",
+    "publisher": "Cengage",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=analisis+numerico+Burden+Faires"
+  },
+  {
+    "title": "Análisis real y complejo",
+    "author": "Walter Rudin",
+    "discipline": "Análisis matemático II",
+    "description": "Profundiza en análisis real, espacios métricos, medida e integración y análisis complejo.",
+    "publisher": "McGraw Hill",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=analisis+real+y+complejo+Rudin"
+  },
+  {
+    "title": "Introducción a la teoría de la probabilidad",
+    "author": "Sheldon M. Ross",
+    "discipline": "Probabilidad II",
+    "description": "Estudia variables aleatorias, distribuciones, esperanza y resultados límite de probabilidad.",
+    "edition": "4.ª edición",
+    "publisher": "Pearson",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=introduccion+teoria+probabilidad+Ross"
+  },
+  {
+    "title": "Ecuaciones diferenciales y problemas con valores en la frontera",
+    "author": "William E. Boyce, Richard C. DiPrima y Douglas B. Meade",
+    "discipline": "Ecuaciones Diferenciales II",
+    "description": "Aborda sistemas, estabilidad y problemas de valores iniciales y de frontera.",
+    "edition": "11.ª edición",
+    "publisher": "Wiley",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=ecuaciones+diferenciales+Boyce+DiPrima"
+  },
+  {
+    "title": "Topología",
+    "author": "James R. Munkres",
+    "discipline": "Topología I",
+    "description": "Referencia sistemática sobre espacios topológicos, continuidad, compacidad y conexidad.",
+    "edition": "2.ª edición",
+    "publisher": "Pearson",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=topologia+Munkres+espanol"
+  },
+  {
+    "title": "Series de Fourier",
+    "author": "Georgi P. Tolstov",
+    "discipline": "Análisis de Fourier I",
+    "description": "Desarrolla series trigonométricas, convergencia y representación de funciones periódicas.",
+    "publisher": "Dover Publications",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=series+de+Fourier+Tolstov"
+  },
+  {
+    "title": "Análisis de Fourier",
+    "author": "Elias M. Stein y Rami Shakarchi",
+    "discipline": "Análisis de Fourier II",
+    "description": "Introduce transformadas de Fourier y herramientas del análisis armónico moderno.",
+    "publisher": "Princeton University Press",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=analisis+de+Fourier+Stein+Shakarchi"
+  },
+  {
+    "title": "Ecuaciones en derivadas parciales: introducción",
+    "author": "Walter A. Strauss",
+    "discipline": "Ecuaciones Diferenciales Parciales I",
+    "description": "Presenta ecuaciones de ondas, calor y Laplace con métodos y modelos fundamentales.",
+    "edition": "2.ª edición",
+    "publisher": "Wiley",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=ecuaciones+derivadas+parciales+Strauss"
+  },
+  {
+    "title": "Introducción al análisis de regresión lineal",
+    "author": "Douglas C. Montgomery, Elizabeth A. Peck y G. Geoffrey Vining",
+    "discipline": "Análisis de Regresión",
+    "description": "Explica regresión lineal, estimación, inferencia, diagnóstico y evaluación de modelos.",
+    "edition": "5.ª edición",
+    "publisher": "Wiley",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=analisis+de+regresion+Montgomery+Peck+Vining"
+  },
+  {
+    "title": "Introducción a la teoría de la computación",
+    "author": "Michael Sipser",
+    "discipline": "Complejidad computacional",
+    "description": "Estudia autómatas, computabilidad, clases de complejidad y límites de los algoritmos.",
+    "edition": "3.ª edición",
+    "publisher": "Cengage",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=introduccion+teoria+computacion+Sipser"
+  },
+  {
+    "title": "Una introducción matemática a la lógica",
+    "author": "Herbert B. Enderton",
+    "discipline": "Lógica matemática II",
+    "description": "Introduce lógica de primer orden, teorías formales, modelos y fundamentos matemáticos.",
+    "publisher": "UNAM",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=introduccion+matematica+logica+Enderton"
+  },
+  {
+    "title": "Teoría de juegos",
+    "author": "Guillermo Owen",
+    "discipline": "Teoría de juegos I",
+    "description": "Presenta juegos estratégicos, cooperación, soluciones y aplicaciones de la teoría de juegos.",
+    "publisher": "Academic Press",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=teoria+de+juegos+Guillermo+Owen"
+  },
+  {
+    "title": "Teoría de grafos",
+    "author": "Reinhard Diestel",
+    "discipline": "Teoría de redes",
+    "description": "Estudia grafos, conectividad, árboles, recorridos y estructuras fundamentales de redes.",
+    "publisher": "Springer",
+    "language": "Español",
+    "link": "https://www.amazon.com/s?k=teoria+de+grafos+Diestel"
+  }
+]

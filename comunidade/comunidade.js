@@ -47,6 +47,14 @@
             directory: 'accounting',
             file: 'accounting'
         },
+        'ciencias-de-la-computacion': {
+            directory: 'ciencias-de-la-computacion',
+            file: 'ciencias-de-la-computacion'
+        },
+        'matematica-em-espanhol': {
+            directory: 'matematicas',
+            file: 'matematicas'
+        },
         'ciencia-de-dados-bacharelado': {
             directory: 'ciencia-de-dados',
             file: 'ciencia-de-dados-bacharelado'
@@ -56,6 +64,14 @@
             file: 'ciencia-computacao'
         }
     };
+    const ENGLISH_COURSE_IDS = new Set([
+        'computer-science',
+        'accounting',
+        'math',
+        'espanhol-ingles',
+        'japones-ingles',
+        'portugues-brasileiro'
+    ]);
     const MAX_CHAT_MESSAGES = 100;
     const MAX_CHAT_MESSAGE_LENGTH = 500;
     const COMMUNITY_CONTEXT_KEY = 'comunidade_current_study_context';
@@ -72,6 +88,7 @@
     const PRESENCE_STORAGE_KEY = 'comunidade_presence';
     const PRESENCE_INTERVAL = 15000;
     const PRESENCE_TIMEOUT = 45000;
+    const CHAT_NOTIFICATION_AUDIO_URL = 'livechat.mp3';
 
     const IMG_URL_REGEX = /(https?:\/\/[^\s]+\.(?:gif|png|jpg|jpeg|webp|bmp|svg)(?:\?[^\s]*)?)/gi;
     const EMOJIS = [
@@ -175,14 +192,49 @@
 
     function getLocalizedCourseName(course) {
         if (!course) return '';
-        if (course.id === 'accounting') return 'Accounting';
+        const localizedNames = {
+            accounting: { pt: 'Accounting', en: 'Accounting', es: 'Accounting' },
+            'ciencias-de-la-computacion': {
+                pt: 'Ciencias de la Computación',
+                en: 'Computer Science',
+                es: 'Ciencias de la Computación'
+            },
+            'matematica-em-espanhol': {
+                pt: 'Matemáticas',
+                en: 'Mathematics in Spanish',
+                es: 'Matemáticas'
+            }
+        };
+        const currentLanguage = window.getCurrentLanguage?.() || localStorage.getItem('selectedLanguage') || 'pt-br';
+        const language = currentLanguage === 'en' ? 'en' : currentLanguage === 'es' ? 'es' : 'pt';
+        if (localizedNames[course.id]) {
+            return localizedNames[course.id][language] || course.name;
+        }
         return typeof window.getCourseName === 'function'
             ? window.getCourseName(course.id)
             : course.name;
     }
 
+    function getCourseLanguage(course) {
+        if (course?.language === 'en' || course?.language === 'es' || course?.language === 'pt') {
+            return course.language;
+        }
+        return ENGLISH_COURSE_IDS.has(course?.id) ? 'en' : 'pt';
+    }
+
+    function getCourseLanguageLabel(course) {
+        const language = getCourseLanguage(course);
+        if (language === 'en') return t('course_language_english');
+        if (language === 'es') return t('course_language_spanish');
+        return t('course_language_portuguese');
+    }
+
     function normalizeCourseId(courseId) {
-        return courseId === 'contabilidade' ? 'accounting' : courseId;
+        const aliases = {
+            contabilidade: 'accounting',
+            matematicas: 'matematica-em-espanhol'
+        };
+        return aliases[courseId] || courseId;
     }
 
     function getLocalizedDisciplineName(discipline) {
@@ -264,6 +316,7 @@
                 existingMessages.splice(0, existingMessages.length - MAX_CHAT_MESSAGES);
             }
             saveChatMessages(courseId, discipline, existingMessages);
+            playChatNotification(message);
 
             if (state.currentCourseId === courseId && state.currentDiscipline === discipline) {
                 renderChatMessages();
@@ -379,6 +432,7 @@
     // ========================================================================
     const state = {
         courses: [],
+        coursesLoaded: false,
         disciplines: {},
         currentCourseId: null,
         currentDiscipline: null,
@@ -390,6 +444,13 @@
         chatMessages: [],
         activeTab: 'all',
         courseScope: localStorage.getItem('comunidade_course_scope') === 'all' ? 'all' : 'my',
+        courseLanguage: ['pt', 'en', 'es'].includes(localStorage.getItem('comunidade_course_language'))
+            ? localStorage.getItem('comunidade_course_language')
+            : 'all',
+        courseLevel: ['graduacao', 'pos-graduacao', 'ensino-medio', 'idiomas'].includes(localStorage.getItem('comunidade_course_level'))
+            ? localStorage.getItem('comunidade_course_level')
+            : 'all',
+        collapsedCourseIds: new Set(),
         notes: [],
         selectedNoteId: null,
         chatBlocked: false,
@@ -417,6 +478,27 @@
 
     const elements = {};
     let coursesRefreshTimer = null;
+    let chatNotificationAudio = null;
+    const notifiedChatMessageIds = new Set();
+
+    function playChatNotification(message) {
+        if (!message || message.user === state.currentUser.name || !message.id) return;
+        if (notifiedChatMessageIds.has(message.id)) return;
+        notifiedChatMessageIds.add(message.id);
+
+        if (!chatNotificationAudio) {
+            chatNotificationAudio = new Audio(CHAT_NOTIFICATION_AUDIO_URL);
+            chatNotificationAudio.preload = 'auto';
+        }
+
+        chatNotificationAudio.currentTime = 0;
+        const playback = chatNotificationAudio.play();
+        if (playback && typeof playback.catch === 'function') {
+            playback.catch(() => {
+                // O navegador pode bloquear áudio até que o usuário interaja com a página.
+            });
+        }
+    }
 
     const GAME_SCOPE_KEY = 'ulivre_game_matchmaking_scope';
 
@@ -656,7 +738,7 @@
             const d = new Date(iso);
             if (isNaN(d)) return '';
             const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) || 'pt-br';
-            const locale = lang === 'en' ? 'en-US' : 'pt-BR';
+            const locale = lang === 'en' ? 'en-US' : lang === 'es' ? 'es-ES' : 'pt-BR';
             return d.toLocaleString(locale, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         } catch (_) { return ''; }
     }
@@ -794,7 +876,7 @@
             new Notification(COMMUNITY_NOTIFICATION_TITLE, {
                 body: `${total} novo(s) conteúdo(s) em ${first.discipline}${unread.length > 1 ? ` e mais ${unread.length - 1} disciplina(s)` : ''}.`,
                 tag: 'universidade-livre-comunidade',
-                icon: '../logo-da-universidade-livre.png'
+                icon: '../base/logo-da-universidade-livre.png'
             });
         }
         renderSidebar();
@@ -835,8 +917,8 @@
             const key = users.size === 1 ? 'community_online_count_one' : 'community_online_count_many';
             const translated = t(key, { count: users.size });
             const fallback = users.size === 1
-                ? `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'person online' : 'pessoa online'}`
-                : `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'people online' : 'pessoas online'}`;
+                ? `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'person online' : window.getCurrentLanguage?.() === 'es' ? 'persona en línea' : 'pessoa online'}`
+                : `${users.size} ${window.getCurrentLanguage?.() === 'en' ? 'people online' : window.getCurrentLanguage?.() === 'es' ? 'personas en línea' : 'pessoas online'}`;
             count.textContent = translated === key ? fallback : translated;
         }
     }
@@ -913,15 +995,18 @@
 
     function getCourseImageUrl(courseId) {
         const course = state.courses.find(c => c.id === courseId);
-        if (!course) return '';
+        if (!course) return '../cursos/imagen-card.png';
         const alias = COURSE_PATH_ALIASES[courseId];
         const directory = alias ? alias.directory : courseId.replace(/_/g, '-');
-        let basePath = '';
-        if (course.courseLevel === 'graduacao') basePath = `../cursos/graduacao/${directory}/`;
-        else if (course.courseLevel === 'pos-graduacao') basePath = `../cursos/pos-graduacao/${directory}/`;
-        else if (course.courseLevel === 'ensino-medio') basePath = `../cursos/ensino-medio/${directory}/`;
-        else if (course.courseLevel === 'idiomas') basePath = `../cursos/idiomas/${directory}/`;
-        return basePath ? basePath + 'imagen-card.png' : '';
+        const language = course.language === 'es'
+            ? 'espanhol'
+            : ENGLISH_COURSE_IDS.has(course.id)
+                ? 'ingles'
+                : 'portugues';
+        const basePath = course.courseLevel
+            ? `../cursos/${language}/${course.courseLevel}/${directory}/`
+            : '';
+        return basePath ? basePath + 'imagen-card.png' : '../cursos/imagen-card.png';
     }
 
     // ========================================================================
@@ -970,10 +1055,15 @@
                 const alias = COURSE_PATH_ALIASES[id];
                 const directory = alias ? alias.directory : id.replace(/_/g, '-');
                 const file = alias ? alias.file : directory;
-                if (level === 'graduacao') dataPath = `graduacao/${directory}/${file}-data.json`;
-                else if (level === 'pos-graduacao') dataPath = `pos-graduacao/${directory}/${file}-data.json`;
-                else if (level === 'ensino-medio') dataPath = `ensino-medio/${directory}/${file}-data.json`;
-                else if (level === 'idiomas') dataPath = `idiomas/${directory}/${file}-data.json`;
+                const language = course.language === 'es'
+                    ? 'espanhol'
+                    : ENGLISH_COURSE_IDS.has(id)
+                        ? 'ingles'
+                        : 'portugues';
+                if (level === 'graduacao') dataPath = `${language}/graduacao/${directory}/${file}-data.json`;
+                else if (level === 'pos-graduacao') dataPath = `${language}/pos-graduacao/${directory}/${file}-data.json`;
+                else if (level === 'ensino-medio') dataPath = `${language}/ensino-medio/${directory}/${file}-data.json`;
+                else if (level === 'idiomas') dataPath = `${language}/idiomas/${directory}/${file}-data.json`;
                 else continue;
 
                 try {
@@ -1003,6 +1093,8 @@
 
             state.courses = Object.values(courseMap);
             state.disciplines = disciplinesMap;
+            state.coursesLoaded = true;
+            updateCourseLevelFilter();
             return true;
         } catch (error) {
             console.error('[Comunidade] Erro ao carregar cursos:', error);
@@ -1013,7 +1105,8 @@
     async function refreshCourses() {
         const success = await loadCoursesAndDisciplines();
         if (!success) return;
-        if (state.courseScope === 'my' && state.courses.length > 0 && getVisibleCourses().length === 0) {
+        if (state.courseScope === 'my' && state.courseLanguage === 'all' && state.courseLevel === 'all' &&
+            state.courses.length > 0 && getVisibleCourses().length === 0) {
             state.courseScope = 'all';
             localStorage.setItem('comunidade_course_scope', 'all');
             document.querySelectorAll('.course-scope-tab').forEach(tab => {
@@ -2407,6 +2500,7 @@
         for (const course of visibleCourses) {
             const disciplines = state.disciplines[course.id] || [];
             const isActive = state.currentCourseId === course.id;
+            const isExpanded = isActive && !state.collapsedCourseIds.has(course.id);
             const localizedCourseName = getLocalizedCourseName(course);
             const initial = getCourseInitial(localizedCourseName);
             const color = getCourseColor(course.id);
@@ -2416,21 +2510,32 @@
             const courseTypeLabel = course.courseLevel === 'graduacao' && course.courseType
                 ? ` · ${t(course.courseType)}`
                 : '';
+            const courseLanguage = getCourseLanguage(course);
 
             const imgUrl = getCourseImageUrl(course.id);
-            const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
+            const safeOnError = `if(!this.dataset.fallbackTried){this.dataset.fallbackTried='true';this.src='../cursos/imagen-card.png';}else{this.onerror=null;if(this.parentNode){this.style.display='none';this.parentNode.textContent='${initial}';this.parentNode.style.background='${color}';}}`;
             const iconContent = imgUrl ? `<img src="${imgUrl}" alt="${escapeHtml(localizedCourseName)}" onerror="${safeOnError}" />` : initial;
 
             html += `
                 <div class="course-entry">
-                  <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}" role="button" tabindex="0" aria-expanded="${isActive ? 'true' : 'false'}">
-                    <div class="course-icon" style="background:${color}">${iconContent}</div>
+                  <div class="course-card">
+                  <div class="course-item ${isActive ? 'active' : ''}" data-course-id="${course.id}" role="button" tabindex="0" aria-expanded="${isExpanded ? 'true' : 'false'}">
+                    <div class="course-icon" style="background:${color}">
+                        ${iconContent}
+                        <span class="course-language-badge course-language-${courseLanguage}">${escapeHtml(getCourseLanguageLabel(course))}</span>
+                    </div>
                     <div class="course-info">
                         <div class="course-name">${escapeHtml(localizedCourseName)}</div>
-                        <div class="course-level">${levelLabel}${courseTypeLabel}</div>
+                        <div class="course-meta">
+                            <span class="course-level">${levelLabel}${courseTypeLabel}</span>
+                        </div>
                     </div>
                   </div>
-                  <div class="discipline-list ${isActive ? 'open' : ''}" data-course-id="${course.id}">
+                  <button type="button" class="course-expand-toggle" data-course-id="${course.id}" aria-label="${escapeHtml(t(isExpanded ? 'community_collapse_disciplines' : 'community_expand_disciplines'))}" aria-expanded="${isExpanded ? 'true' : 'false'}" title="${escapeHtml(t(isExpanded ? 'community_collapse_disciplines' : 'community_expand_disciplines'))}">
+                    <i class="fas fa-chevron-${isExpanded ? 'up' : 'down'}" aria-hidden="true"></i>
+                  </button>
+                  </div>
+                  <div class="discipline-list ${isExpanded ? 'open' : ''}" data-course-id="${course.id}">
             `;
             if (disciplines.length === 0) {
                 html += `<div class="discipline-item" style="color:var(--com-text-tertiary);font-size:0.75rem;">${t('no_courses_found')}</div>`;
@@ -2456,6 +2561,10 @@
             });
         });
 
+        container.querySelectorAll('.course-expand-toggle').forEach(button => {
+            button.addEventListener('click', () => toggleCourse(button.dataset.courseId));
+        });
+
         container.querySelectorAll('.discipline-item').forEach(el => {
             el.addEventListener('click', function() {
                 const courseId = this.dataset.courseId;
@@ -2466,21 +2575,182 @@
     }
 
     function getVisibleCourses() {
-        if (state.courseScope === 'all') return state.courses;
-        const activeCourseIds = new Set();
-        for (let index = 0; index < localStorage.length; index++) {
-            const key = localStorage.key(index);
-            if (!key || !key.startsWith('ulivre_course_')) continue;
-            try {
-                const data = JSON.parse(localStorage.getItem(key) || '{}');
-                const hasWatchedVideo = Array.isArray(data.watchedMap) && data.watchedMap.some(Boolean);
-                const hasExamProgress = Object.keys(data).some(name => /exam|discipline/i.test(name) && data[name]);
-                if (hasWatchedVideo || hasExamProgress) {
-                    activeCourseIds.add(normalizeCourseId(key.replace('ulivre_course_', '')));
-                }
-            } catch (_) {}
+        let courses = state.courses;
+        if (state.courseScope !== 'all') {
+            const activeCourseIds = new Set();
+            for (let index = 0; index < localStorage.length; index++) {
+                const key = localStorage.key(index);
+                if (!key || !key.startsWith('ulivre_course_')) continue;
+                try {
+                    const data = JSON.parse(localStorage.getItem(key) || '{}');
+                    const hasWatchedVideo = Array.isArray(data.watchedMap) && data.watchedMap.some(Boolean);
+                    const hasExamProgress = Object.keys(data).some(name => /exam|discipline/i.test(name) && data[name]);
+                    if (hasWatchedVideo || hasExamProgress) {
+                        activeCourseIds.add(normalizeCourseId(key.replace('ulivre_course_', '')));
+                    }
+                } catch (_) {}
+            }
+            courses = courses.filter(course => activeCourseIds.has(course.id));
         }
-        return state.courses.filter(course => activeCourseIds.has(course.id));
+        if (state.courseLanguage !== 'all') {
+            courses = courses.filter(course => getCourseLanguage(course) === state.courseLanguage);
+        }
+        if (state.courseLevel !== 'all') {
+            courses = courses.filter(course => course.courseLevel === state.courseLevel);
+        }
+        return courses;
+    }
+
+    function updateCourseLanguageFilter() {
+        const toggle = document.getElementById('courseLanguageFilterToggle');
+        const label = document.getElementById('selectedCourseLanguageLabel');
+        const menu = document.getElementById('courseLanguageFilterMenu');
+        const labelKeys = {
+            all: 'filter_all_languages',
+            pt: 'course_language_portuguese',
+            en: 'course_language_english',
+            es: 'course_language_spanish'
+        };
+        if (label) {
+            const labelKey = labelKeys[state.courseLanguage] || labelKeys.all;
+            label.dataset.i18n = labelKey;
+            label.textContent = t(labelKey);
+        }
+        menu?.querySelectorAll('[data-course-language]').forEach(option => {
+            const selected = option.dataset.courseLanguage === state.courseLanguage;
+            option.classList.toggle('active', selected);
+            option.setAttribute('aria-selected', String(selected));
+        });
+        const isOpen = Boolean(menu && !menu.hidden);
+        toggle?.setAttribute('aria-expanded', String(isOpen));
+        toggle?.closest('.course-language-filter')?.classList.toggle('is-open', isOpen);
+    }
+
+    function refreshVisibleCourseSelection() {
+        const visibleCourses = getVisibleCourses();
+        const selectedIsVisible = visibleCourses.some(course => course.id === state.currentCourseId);
+        if (!selectedIsVisible) {
+            state.currentCourseId = null;
+            state.currentDiscipline = null;
+        }
+        renderSidebar();
+        if (!selectedIsVisible && visibleCourses.length > 0) {
+            const first = visibleCourses[0];
+            const disciplines = state.disciplines[first.id] || [];
+            selectDiscipline(first.id, disciplines[0] || null);
+        } else if (!selectedIsVisible) {
+            selectDiscipline(null, null);
+        }
+    }
+
+    function initCourseLanguageFilter() {
+        const toggle = document.getElementById('courseLanguageFilterToggle');
+        const menu = document.getElementById('courseLanguageFilterMenu');
+        if (!toggle || !menu) return;
+
+        const closeMenu = () => {
+            menu.hidden = true;
+            updateCourseLanguageFilter();
+        };
+        toggle.addEventListener('click', event => {
+            event.stopPropagation();
+            const levelMenu = document.getElementById('courseLevelFilterMenu');
+            if (levelMenu) {
+                levelMenu.hidden = true;
+                updateCourseLevelFilter();
+            }
+            menu.hidden = !menu.hidden;
+            updateCourseLanguageFilter();
+        });
+        menu.querySelectorAll('[data-course-language]').forEach(option => {
+            option.addEventListener('click', () => {
+                state.courseLanguage = option.dataset.courseLanguage || 'all';
+                localStorage.setItem('comunidade_course_language', state.courseLanguage);
+                updateCourseLevelFilter();
+                closeMenu();
+                refreshVisibleCourseSelection();
+            });
+        });
+        document.addEventListener('click', event => {
+            if (!menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !menu.hidden) {
+                closeMenu();
+                toggle.focus();
+            }
+        });
+        updateCourseLanguageFilter();
+    }
+
+    function updateCourseLevelFilter() {
+        const toggle = document.getElementById('courseLevelFilterToggle');
+        const label = document.getElementById('selectedCourseLevelLabel');
+        const menu = document.getElementById('courseLevelFilterMenu');
+        const availableLevels = new Set(state.courses
+            .filter(course => state.courseLanguage === 'all' || getCourseLanguage(course) === state.courseLanguage)
+            .map(course => course.courseLevel));
+        const options = menu?.querySelectorAll('[data-course-level]');
+        options?.forEach(option => {
+            const available = !state.coursesLoaded || option.dataset.courseLevel === 'all' || availableLevels.has(option.dataset.courseLevel);
+            option.hidden = !available;
+        });
+        if (state.coursesLoaded && state.courseLevel !== 'all' && !availableLevels.has(state.courseLevel)) {
+            state.courseLevel = 'all';
+            localStorage.setItem('comunidade_course_level', 'all');
+        }
+        const labelKey = state.courseLevel === 'all' ? 'all_courses' : state.courseLevel.replace('-', '_');
+        if (label) {
+            label.dataset.i18n = labelKey;
+            label.textContent = t(labelKey);
+        }
+        options?.forEach(option => {
+            const selected = option.dataset.courseLevel === state.courseLevel;
+            option.classList.toggle('active', selected);
+            option.setAttribute('aria-selected', String(selected));
+        });
+        const isOpen = Boolean(menu && !menu.hidden);
+        toggle?.setAttribute('aria-expanded', String(isOpen));
+        toggle?.closest('.course-level-filter')?.classList.toggle('is-open', isOpen);
+    }
+
+    function initCourseLevelFilter() {
+        const toggle = document.getElementById('courseLevelFilterToggle');
+        const menu = document.getElementById('courseLevelFilterMenu');
+        if (!toggle || !menu) return;
+
+        const closeMenu = () => {
+            menu.hidden = true;
+            updateCourseLevelFilter();
+        };
+        toggle.addEventListener('click', event => {
+            event.stopPropagation();
+            const languageMenu = document.getElementById('courseLanguageFilterMenu');
+            if (languageMenu) {
+                languageMenu.hidden = true;
+                updateCourseLanguageFilter();
+            }
+            menu.hidden = !menu.hidden;
+            updateCourseLevelFilter();
+        });
+        menu.querySelectorAll('[data-course-level]').forEach(option => {
+            option.addEventListener('click', () => {
+                state.courseLevel = option.dataset.courseLevel || 'all';
+                localStorage.setItem('comunidade_course_level', state.courseLevel);
+                closeMenu();
+                refreshVisibleCourseSelection();
+            });
+        });
+        document.addEventListener('click', event => {
+            if (!menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !menu.hidden) {
+                closeMenu();
+                toggle.focus();
+            }
+        });
+        updateCourseLevelFilter();
     }
 
     function initCourseScopeTabs() {
@@ -2496,35 +2766,46 @@
                     item.classList.toggle('active', active);
                     item.setAttribute('aria-selected', String(active));
                 });
-                const visibleCourses = getVisibleCourses();
-                const selectedIsVisible = visibleCourses.some(course => course.id === state.currentCourseId);
-                if (!selectedIsVisible) {
-                    state.currentCourseId = null;
-                    state.currentDiscipline = null;
-                }
-                renderSidebar();
-                if (!selectedIsVisible && visibleCourses.length > 0) {
-                    const first = visibleCourses[0];
-                    const disciplines = state.disciplines[first.id] || [];
-                    selectDiscipline(first.id, disciplines[0] || null);
-                }
+                refreshVisibleCourseSelection();
             });
         });
     }
 
     function toggleCourse(courseId) {
         const list = document.querySelector(`.discipline-list[data-course-id="${courseId}"]`);
-        if (list) list.classList.toggle('open');
-        document.querySelectorAll('.course-item').forEach(el => {
-            el.classList.toggle('active', el.dataset.courseId === courseId);
-            el.setAttribute('aria-expanded', el.dataset.courseId === courseId ? 'true' : 'false');
-        });
+        const isCurrentCourse = state.currentCourseId === courseId;
+        if (isCurrentCourse && list?.classList.contains('open')) {
+            list.classList.remove('open');
+            state.collapsedCourseIds.add(courseId);
+            syncCourseExpansionControls();
+            return;
+        }
+
         const disciplines = state.disciplines[courseId] || [];
-        selectDiscipline(courseId, disciplines.length > 0 ? disciplines[0] : null);
+        const discipline = isCurrentCourse && state.currentDiscipline
+            ? state.currentDiscipline
+            : disciplines[0] || null;
+        selectDiscipline(courseId, discipline);
+    }
+
+    function syncCourseExpansionControls() {
+        document.querySelectorAll('.course-item').forEach(item => {
+            const courseId = item.dataset.courseId;
+            const expanded = Boolean(document.querySelector(`.discipline-list[data-course-id="${courseId}"]`)?.classList.contains('open'));
+            const label = t(expanded ? 'community_collapse_disciplines' : 'community_expand_disciplines');
+            const button = document.querySelector(`.course-expand-toggle[data-course-id="${courseId}"]`);
+            item.setAttribute('aria-expanded', String(expanded));
+            button?.setAttribute('aria-expanded', String(expanded));
+            button?.setAttribute('aria-label', label);
+            button?.setAttribute('title', label);
+            const icon = button?.querySelector('i');
+            if (icon) icon.className = `fas fa-chevron-${expanded ? 'up' : 'down'}`;
+        });
     }
 
     function selectDiscipline(courseId, discipline, scrollToPostId) {
         courseId = normalizeCourseId(courseId);
+        state.collapsedCourseIds.delete(courseId);
         state.currentCourseId = courseId;
         state.currentDiscipline = discipline;
         window.UniversidadeLivreAnalytics?.discipline(courseId, discipline);
@@ -2539,7 +2820,6 @@
 
         document.querySelectorAll('.course-item').forEach(el => {
             el.classList.toggle('active', el.dataset.courseId === courseId);
-            el.setAttribute('aria-expanded', el.dataset.courseId === courseId ? 'true' : 'false');
         });
         document.querySelectorAll('.discipline-item').forEach(el => {
             const isActive = el.dataset.courseId === courseId && el.dataset.discipline === discipline;
@@ -2547,6 +2827,7 @@
         });
         const list = document.querySelector(`.discipline-list[data-course-id="${courseId}"]`);
         if (list) list.classList.add('open');
+        syncCourseExpansionControls();
 
         renderDisciplineHeader(courseId, discipline);
 
@@ -2585,7 +2866,7 @@
         if (imgEl) {
             const imgUrl = course ? getCourseImageUrl(courseId) : '';
             if (imgUrl) {
-                const safeOnError = `try{ if(this.parentNode) { this.style.display='none'; this.parentNode.textContent='${initial}'; this.parentNode.style.background='${color}'; } }catch(e){}`;
+                const safeOnError = `if(!this.dataset.fallbackTried){this.dataset.fallbackTried='true';this.src='../cursos/imagen-card.png';}else{this.onerror=null;if(this.parentNode){this.style.display='none';this.parentNode.textContent='${initial}';this.parentNode.style.background='${color}';}}`;
                 imgEl.innerHTML = `<img src="${imgUrl}" alt="${escapeHtml(courseName)}" onerror="${safeOnError}" />`;
                 imgEl.style.background = 'transparent';
             } else {
@@ -2894,13 +3175,44 @@
     let quill = null;
     let quillInitialized = false;
 
+    function showCommunityAlert(message, title = 'Atenção') {
+        const modal = document.getElementById('communityAlertModal');
+        if (!modal) {
+            console.warn('[Comunidade] Alerta integrado não encontrado:', message);
+            return;
+        }
+
+        const titleNode = document.getElementById('communityAlertTitle');
+        const messageNode = document.getElementById('communityAlertMessage');
+        if (titleNode) titleNode.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${title}`;
+        if (messageNode) {
+            messageNode.textContent = message;
+        }
+
+        modal.style.display = 'flex';
+        modal.removeAttribute('aria-hidden');
+        modal.removeAttribute('inert');
+        const confirmBtn = document.getElementById('confirmCommunityAlertBtn');
+        if (confirmBtn) {
+            confirmBtn.focus();
+        }
+    }
+
+    function closeCommunityAlert() {
+        const modal = document.getElementById('communityAlertModal');
+        if (!modal) return;
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('inert', '');
+    }
+
     function openNewPostModal() {
         if (!state.currentCourseId || !state.currentDiscipline) {
-            alert(t('select_discipline_first'));
+            showCommunityAlert(t('select_discipline_first'), 'Atenção');
             return;
         }
         if (state.postBlocked) {
-            alert(t('post_blocked_msg'));
+            showCommunityAlert(t('post_blocked_msg'), 'Atenção');
             return;
         }
         document.getElementById('postModalTitle').innerHTML = `<i class="fas fa-pen"></i> ${t('comunidade_new_post')}`;
@@ -2953,13 +3265,13 @@
 
     function savePost() {
         if (state.postBlocked) {
-            alert(t('post_blocked_msg'));
+            showCommunityAlert(t('post_blocked_msg'), 'Atenção');
             return;
         }
         const title = document.getElementById('postTitleInput').value.trim();
         const content = quill ? quill.root.innerHTML : '';
         if (!title || !content || content === '<p><br></p>') {
-            alert(t('fill_title_content'));
+            showCommunityAlert(t('fill_title_content'), 'Atenção');
             return;
         }
         const noteSelect = document.getElementById('noteAttachmentSelect');
@@ -2970,7 +3282,7 @@
                 closePostModal();
                 renderPosts();
             } else {
-                alert(t('edit_post_error'));
+                showCommunityAlert(t('edit_post_error'), 'Atenção');
             }
         } else {
             const newPost = addPost(state.currentCourseId, state.currentDiscipline, title, content, noteId);
@@ -2983,7 +3295,7 @@
     }
 
     function openPollModal() {
-        if (!state.currentCourseId || !state.currentDiscipline) { alert(t('select_discipline_first')); return; }
+        if (!state.currentCourseId || !state.currentDiscipline) { showCommunityAlert(t('select_discipline_first'), 'Atenção'); return; }
         const modal = document.getElementById('pollModal');
         document.getElementById('pollQuestionInput').value = '';
         document.getElementById('pollOptions').innerHTML = '<input type="text" class="poll-option-input" placeholder="Opção 1"><input type="text" class="poll-option-input" placeholder="Opção 2">';
@@ -2997,7 +3309,7 @@
     function savePoll() {
         const question = document.getElementById('pollQuestionInput').value.trim();
         const options = [...document.querySelectorAll('.poll-option-input')].map(i => i.value.trim()).filter(Boolean);
-        if (!question || options.length < 2) { alert(t('game_question_required')); return; }
+        if (!question || options.length < 2) { showCommunityAlert(t('game_question_required'), 'Atenção'); return; }
         const newPoll = addPoll(state.currentCourseId, state.currentDiscipline, question, options);
         if (newPoll) {
             closePollModal();
@@ -3065,6 +3377,14 @@
     // ========================================================================
     // TOAST
     // ========================================================================
+    function sanitizeToastMessage(message) {
+        return String(message ?? '')
+            .replace(/\p{Extended_Pictographic}|\p{Regional_Indicator}/gu, '')
+            .replace(/[\uFE0F\u200D]/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
+
     function showToast(message, type = 'info') {
         if (window.showNotification && typeof window.showNotification === 'function') {
             window.showNotification(message, type);
@@ -3090,7 +3410,7 @@
         if (type === 'success') toast.style.borderLeft = '4px solid #22c55e';
         else if (type === 'error') toast.style.borderLeft = '4px solid #ef4444';
         else toast.style.borderLeft = '4px solid #6C8CFF';
-        toast.textContent = message;
+        toast.textContent = sanitizeToastMessage(message);
         document.body.appendChild(toast);
         setTimeout(() => {
             toast.style.opacity = '0';
@@ -3176,6 +3496,15 @@
 
     function setupSync() {
         window.addEventListener('storage', function(e) {
+            if (e.key && e.key.startsWith(STORAGE_KEY_CHAT) && e.newValue) {
+                try {
+                    const messages = JSON.parse(e.newValue);
+                    const latestMessage = Array.isArray(messages) ? messages[messages.length - 1] : null;
+                    playChatNotification(latestMessage);
+                } catch (_) {
+                    console.warn('[Comunidade] Não foi possível ler a mensagem sincronizada entre abas.');
+                }
+            }
             if (e.key && e.key.startsWith('comunidade_sync_')) {
                 if (state.currentCourseId && state.currentDiscipline) {
                     state.posts = loadPosts(state.currentCourseId, state.currentDiscipline);
@@ -3233,33 +3562,11 @@
     function setupProfileButton() {
         const profileBtn = document.getElementById('profileBtn');
         if (!profileBtn) return;
-
-        // Remove listeners antigos para evitar duplicação
-        const newBtn = profileBtn.cloneNode(true);
-        profileBtn.parentNode.replaceChild(newBtn, profileBtn);
-
-        newBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('[Comunidade] Botão de perfil clicado.');
-            if (typeof window.openProfileModal === 'function') {
-                window.openProfileModal();
-            } else {
-                console.warn('[Comunidade] window.openProfileModal não disponível.');
-                // Fallback: tenta abrir o modal manualmente
-                const modal = document.getElementById('profileModal');
-                if (modal) {
-                    modal.style.display = 'flex';
-                    modal.classList.add('show');
-                    modal.removeAttribute('inert');
-                    modal.setAttribute('aria-hidden', 'false');
-                    if (typeof window.updateProfileModal === 'function') {
-                        window.updateProfileModal();
-                    }
-                }
-            }
-        });
-
-        console.log('[Comunidade] Listener do perfil configurado.');
+        // O módulo de perfil já registra o dropdown e seus itens no botão.
+        // Não substitua o botão aqui, pois isso removeria seus listeners.
+        if (profileBtn.dataset.profileMenuBound !== 'true') {
+            console.warn('[Comunidade] Dropdown do perfil ainda não foi inicializado.');
+        }
     }
 
     // ========================================================================
@@ -3277,6 +3584,8 @@
         elements.savePostBtn = document.getElementById('savePostBtn');
         elements.refreshCoursesBtn = document.getElementById('refreshCoursesBtn');
         initCourseScopeTabs();
+        initCourseLanguageFilter();
+        initCourseLevelFilter();
 
         state.currentUser = getCurrentUser();
         setupProfileButton();
@@ -3380,9 +3689,10 @@
         renderSidebar();
 
         const preferred = getPreferredStudyContext();
-        const preferredCourse = preferred && state.courses.find(course => course.id === preferred.courseId);
         const visibleCourses = getVisibleCourses();
-        const initialCourse = preferredCourse || visibleCourses[0] || state.courses[0];
+        const preferredCourse = preferred && visibleCourses.find(course => course.id === preferred.courseId);
+        const initialCourse = preferredCourse || visibleCourses[0] ||
+            (state.courseLanguage === 'all' ? state.courses[0] : null);
         if (initialCourse) {
             const disciplines = state.disciplines[initialCourse.id] || [];
             const initialDiscipline = preferredCourse && disciplines.includes(preferred.discipline)
@@ -3433,6 +3743,11 @@
         document.getElementById('closePollModal')?.addEventListener('click', closePollModal);
         document.getElementById('cancelPollBtn')?.addEventListener('click', closePollModal);
         document.getElementById('savePollBtn')?.addEventListener('click', savePoll);
+        document.getElementById('closeCommunityAlertModal')?.addEventListener('click', closeCommunityAlert);
+        document.getElementById('confirmCommunityAlertBtn')?.addEventListener('click', closeCommunityAlert);
+        document.getElementById('communityAlertModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeCommunityAlert();
+        });
         document.getElementById('addPollOptionBtn')?.addEventListener('click', function() {
             const count = document.querySelectorAll('.poll-option-input').length + 1;
             if (count <= 8) {
@@ -3484,9 +3799,10 @@
             if (e.key === 'Escape') {
                 const modal = document.getElementById('postModal');
                 if (modal && modal.style.display === 'flex') closePostModal();
-                if (document.getElementById('gifModal').style.display === 'flex') closeGifModal();
-                if (document.getElementById('shareArticleModal').style.display === 'flex') closeShareArticleModal();
-                if (document.getElementById('pollModal').style.display === 'flex') closePollModal();
+                if (document.getElementById('gifModal') && document.getElementById('gifModal').style.display === 'flex') closeGifModal();
+                if (document.getElementById('shareArticleModal') && document.getElementById('shareArticleModal').style.display === 'flex') closeShareArticleModal();
+                if (document.getElementById('pollModal') && document.getElementById('pollModal').style.display === 'flex') closePollModal();
+                if (document.getElementById('communityAlertModal') && document.getElementById('communityAlertModal').style.display === 'flex') closeCommunityAlert();
             }
         });
 
@@ -3518,6 +3834,8 @@
             console.log('[Comunidade] Idioma alterado para:', lang);
             
             // Atualizar textos estáticos
+            updateCourseLanguageFilter();
+            updateCourseLevelFilter();
             renderSidebar();
             renderDisciplineHeader(state.currentCourseId, state.currentDiscipline);
             renderPosts();

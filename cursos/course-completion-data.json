@@ -163,5 +163,10 @@
     "text": "💻 Parabéns por concluir o curso de Tecnologia da Informação! Você é um profissional capacitado para desenvolver, gerenciar e inovar em soluções tecnológicas, dominando programação, redes, segurança e gestão de sistemas. O mundo digital está em suas mãos!",
     "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Tecnologia+da+Informa%C3%A7%C3%A3o",
     "level": "graduacao"
+  },
+  "matematicas": {
+    "text": "🎓 ¡Felicitaciones por concluir el curso de Matemáticas! Has consolidado fundamentos esenciales de álgebra, geometría, cálculo y didáctica matemática, y ahora estás preparado para enseñar y aplicar estas ideas con claridad y rigor.",
+    "image": "https://placehold.co/400x200/1F2933/6C8CFF?text=Matem%C3%A1ticas",
+    "level": "graduacao"
   }
 }
