@@ -1,0 +1,98 @@
+{
+  "course": "ENEM",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "url": "https://www.youtube.com/@pgdinamica",
+      "role": "Como estudar do jeito certo",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Prof. Wilson Rochenbach",
+      "url": "https://www.youtube.com/@ProfWilsonRochenbach",
+      "role": "Gramática aplicada ao texto",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_naGfsMywKaeieqv9rz4bMhYVnW90CT96yZxcN4Pqlp=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Noslen",
+      "url": "https://www.youtube.com/@ProfessorNoslen",
+      "role": "Literatura, Gêneros textuais, Redação",
+      "image": "https://yt3.ggpht.com/12a76Za8ElTlzhyGF2TIYQT99F9XXMe0FVdOaq6-D9-iBiVAgb73XhQVWiiOP1_fcnb-7zmf0A=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Curso Enem Gratuito",
+      "url": "https://www.youtube.com/@CursoEnemGratuito",
+      "role": "Língua Estrangeira Inglês, Língua Estrangeira Espanhol, Artes, Geografia, Filosofia",
+      "image": "https://yt3.ggpht.com/6NsrkSmcK-tfZ9rxR-8SAgsfI8rlust9gmfaCMmevxrkMIQicFT68kkzaKhFl-0kegUBk9kE=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Kultivi",
+      "url": "https://www.youtube.com/@Kultivi",
+      "role": "Educação Física",
+      "image": "https://yt3.ggpht.com/ceSNNxBQ4TNr_egBCvoROlo9O8p_HXsVqZcgZo0aNUVMB8CfW9ecn3EzNLkFp2CV5Fd8KYQO=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Parabólica",
+      "url": "https://www.youtube.com/@Parab%C3%B3lica",
+      "role": "História",
+      "image": "https://yt3.ggpht.com/v8ZRvXwkHv_Gycj-hHpaxvd2RJHzdr8dAbto-BsjFLKORG1i6i9TAd3k8mlwQ5XcJFLsPees=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MundoEdu - Videoaulas para ENEM e Ensino Médio",
+      "url": "https://www.youtube.com/@MundoeduBrOficial",
+      "role": "Biologia",
+      "image": "https://yt3.ggpht.com/2KSogW2Ew-WhHxW7Tz5j26l3lqnGv4d_kI8NrnCiQRaVte1cHbwxG6ei8gmWav7r-9WGQqQo4Q=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Prof. Marx - Mundo da Química",
+      "url": "https://www.youtube.com/@mundodaquimica",
+      "role": "Química",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mr5T39V9HvPz8oKo1aw1ik2c037zFslP0U4m27J_Diu_c=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Ferretto | ENEM e Vestibulares",
+      "url": "https://www.youtube.com/@professorferretto",
+      "role": "Matemática Básica, Conjuntos, Geometria Plana",
+      "image": "https://yt3.ggpht.com/QAdMny0vm59qHIvVVjm-uuSA8Dc0Cq-faD-tjrh3eJrVcNzF0Oi73f9_pvbs-DVvUAjy2bmhQA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Só números",
+      "url": "https://www.youtube.com/@SoNumeros",
+      "role": "Funções",
+      "image": "https://yt3.ggpht.com/dFu_DRjGbna8Hxw3dqHZ4fOHGkFx-76C8F2m6rV8sT3Rx0KA2MgoqAFUhQ4S0CMruDUHaeeIHQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Matemática no Papel",
+      "url": "https://www.youtube.com/@Matem%C3%A1ticanoPapel",
+      "role": "Geometria Espacial, Análise Combinatória",
+      "image": "https://yt3.ggpht.com/dgvCN-WC1qncrESxeFzn61NTdXAua8Oh_JoEQTzNZg9X9KS0xh8rWzSg6i1t_4uB4WTI34qQxjQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Douglas Maioli",
+      "url": "https://www.youtube.com/@ProfessorDouglasMaioli",
+      "role": "Estatística e Probabilidade",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kMosdggxqGD_i0OM_YFvY6bhqxJMqGQS-L5gyTLN1CIQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "TecConcursos",
+      "url": "https://www.youtube.com/@Tec.Concursos",
+      "role": "Matemática Financeira",
+      "image": "https://yt3.ggpht.com/ZgnCTVJpbSV2GATtOf0RoVU-U6tILyyXfMEWWbb3qTOpkDbL4lDPQWG8ssvcic30olwVi9ZY=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Quiz ENEM",
+      "url": "https://quizenem.com/",
+      "role": "Simulado ENEM",
+      "image": "https://cdn.teuquiz.com/enem/quiz-enem-quadrado.jpg"
+    }
+  ]
+}

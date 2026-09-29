@@ -1,0 +1,200 @@
+{
+  "course": "EsPCEx",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "url": "https://www.youtube.com/@pgdinamica",
+      "role": "Como estudar do jeito certo",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Ferretto | ENEM e Vestibulares",
+      "url": "https://www.youtube.com/@professorferretto",
+      "role": "Conjuntos",
+      "image": "https://yt3.ggpht.com/QAdMny0vm59qHIvVVjm-uuSA8Dc0Cq-faD-tjrh3eJrVcNzF0Oi73f9_pvbs-DVvUAjy2bmhQA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Só números",
+      "url": "https://www.youtube.com/@SoNumeros",
+      "role": "Funções",
+      "image": "https://yt3.ggpht.com/dFu_DRjGbna8Hxw3dqHZ4fOHGkFx-76C8F2m6rV8sT3Rx0KA2MgoqAFUhQ4S0CMruDUHaeeIHQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Equaciona Com Paulo Pereira",
+      "url": "https://www.youtube.com/@equacionamatematica",
+      "role": "Progressões, Análise Combinatória, Geometria Plana",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mzDQAY2Ys4dxaW05IHqY5O2mk-Ji92l11FbouCOQOUucI=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Prof. MURAKAMI - MATEMÁTICA RAPIDOLA",
+      "url": "https://www.youtube.com/@Murakami.",
+      "role": "Probabilidade",
+      "image": "https://yt3.ggpht.com/8X4l7ubXawuo-zuRqn9r8GtruvdK5Mc7BlVyOTQL6nWarl8qYcoRWltrd9JbBY5wz8gPL_F4Pw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Matemática no Papel",
+      "url": "https://www.youtube.com/@Matem%C3%A1ticanoPapel",
+      "role": "Geometria Espacial",
+      "image": "https://yt3.ggpht.com/dgvCN-WC1qncrESxeFzn61NTdXAua8Oh_JoEQTzNZg9X9KS0xh8rWzSg6i1t_4uB4WTI34qQxjQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Aquino - Matemática",
+      "url": "https://www.youtube.com/@LCMAquino",
+      "role": "Geometria Analítica",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k20GyprMPyc8-rC8WDXR2onTSE6DxETWpY5lpVcFvih74=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "300 segundos de Matemática",
+      "url": "https://www.youtube.com/@300segundosdematematica",
+      "role": "Números Complexos, Polinômios",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nB9QcY48VPjyHdt0y0474YrhrKRsC117MhaWjQWPkD_eg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professora Pamba",
+      "url": "https://www.youtube.com/@ProfessoraPamba",
+      "role": "Gramática, Coesão e Coerência",
+      "image": "https://yt3.ggpht.com/3WihJXo46rxSA9NWw_7qqBEACrOlCZO1EVYBQXV6MXDPvh9FSYofHjJ1mCU5lvjAFURe513rtg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Aula De",
+      "url": "https://www.youtube.com/@AulaDeOnline",
+      "role": "Literatura",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lyLMusJCpXn2hn53V_BtgTb35yA4kjcIAYE6kiT6I1NA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Mecânica Clássica UFF",
+      "url": "https://www.youtube.com/@mecanicaclassicauff957",
+      "role": "Mecânica",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n7Ol5jyvOddDFY3byLWq46oBT30TsqruSLh3crcTMXuw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Coelho",
+      "url": "https://www.youtube.com/@profcoelho",
+      "role": "Termologia",
+      "image": "https://yt3.ggpht.com/qR1Vkuqb7Kef5GuxJM4fRLPKr1wUsMwRjkvqIP_JodHXkyvEayifIDr0jJvzpBHnjkM06p3JAg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Boaro",
+      "url": "https://www.youtube.com/@professorboaro",
+      "role": "Óptica",
+      "image": "https://yt3.ggpht.com/rZ1ZbLTtdlBtNa9stsZPwB9kSLHR2N_WJ0x2dhA3DuxGO2sy3YxG_zKD7LZ1k1rtEcUXSxX5SA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Maurício Física",
+      "url": "https://www.youtube.com/@mauriciofisica",
+      "role": "Ondulatória",
+      "image": "https://yt3.ggpht.com/-WpBcAw-Zmi5cXIBC715ON6HeL2xxreNjY3gktgHNd7zCUdeErev_NS0uYXXT-dqv-jYGoMkCNw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "omatematico.com",
+      "url": "https://www.youtube.com/@OmatematicoGrings",
+      "role": "Eletricidade",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kuCpxK6zzuZ8RxysdGts4N-vKwfQ78_5TlDoK_RZoSDuY_=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Kennedy Ramos",
+      "url": "https://www.youtube.com/@bioexplica",
+      "role": "Estrutura Atômica",
+      "image": "https://yt3.ggpht.com/FsW4dOahfAfBRYgLaJa8oufD6YR9UBGqxFojg_pp8LE0ArhSLYRr_V7gXEzkXRk26fnR2O4q-kA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Igor Química",
+      "url": "https://www.youtube.com/@IgorQuimica",
+      "role": "Tabela Periódica, Termoquímica, Cinética, Equilíbrio Químico, Eletroquímica",
+      "image": "https://yt3.ggpht.com/40LT5cs818PHnmExKg1Jty_6t8axZFJjgPODez5e3SAQto-XKQ0hqnHMHKwQDQgXrAlZ1txdty0=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Café com química - Prof Michel",
+      "url": "https://www.youtube.com/@profmichelquimica",
+      "role": "Ligações Químicas, Soluções",
+      "image": "https://yt3.ggpht.com/_idDYvyBk1aJWDz9b24m2GedRq8VCJKAjwcEhp4HQfzCVhb8ECv3B5uI9ravtPjRWMk2TQrY4A=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Química com Prof. Paulo Valim",
+      "url": "https://www.youtube.com/@paulovalim",
+      "role": "Funções Inorgânicas, Radioatividade",
+      "image": "https://yt3.ggpht.com/cGb8EICvtszMCpDYnH6EPiHDcCu-49eRh_K40blvXpYRjrEffqDYzA2_q32YPBuql3g321C1ww=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Gabriel Cabral",
+      "url": "https://www.youtube.com/@ProfessorGabrielCabral",
+      "role": "Estequiometria",
+      "image": "https://yt3.ggpht.com/s-Yn8CVJhH_K0NDzoezUIuf1TgaBTPprKiPmLWRBFS_sTEKm9HqTF4DmZQ12-u6JT04cDcZUug=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Profa Anelize",
+      "url": "https://www.youtube.com/@profanelize",
+      "role": "História Geral",
+      "image": "https://yt3.ggpht.com/H9G74zGG_0NIvc1EzOAeMAVMm2JIjpoEof5oFY9fL2Vcwfq9_4LzB9MGbqg4pwMxQck7QuD5=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Alicerces da História",
+      "url": "https://www.youtube.com/@alicercesdahistoria",
+      "role": "História do Brasil",
+      "image": "https://yt3.ggpht.com/xT8X6OVr0zJOz2lpemo7X3WK3hM_zEW6rVFj3n8b9PpSCwSA-vR-HwSXrIoQ5PjZGBf4cWsx9e8=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Quadro Livre",
+      "url": "https://www.youtube.com/@QuadroLivre",
+      "role": "Geografia Física",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kMYtjiWexLomOL-gM2M-mx9ah1Jak_0vML2ea-sogfxXc=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Desvendando a Geografia",
+      "url": "https://www.youtube.com/@DesvendandoaGeografia",
+      "role": "Geografia Humana",
+      "image": "https://yt3.ggpht.com/34kxbhSgD1Uxf1QH-4gjQtgLIaabtCVLZjBbdM9hJ0rO9MSD4z0bLDImRiuBjEaPHcLVBNg-BQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "CFC Digital Rafael Almeida",
+      "url": "https://www.youtube.com/@CFCDigitalRafaelAlmeida",
+      "role": "Meio Ambiente",
+      "image": "https://yt3.ggpht.com/svkkcPbtYJ16Ma_i_8GJj2Y90ZAPYLPmm8bv177voQNsWjVAqqw1xUanvIVwt4ltrz6qTAHWpg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Professor Ricardo Marcílio",
+      "url": "https://www.youtube.com/@profricardomarcilio",
+      "role": "Cartografia",
+      "image": "https://yt3.ggpht.com/CHTH-Y2iJbiPm6QsJsQlu3hnAzQgZCWEsTLuCPXvo4wUK3Lv_6wK-_6h4Idm1EBNYrX1bSX0k2s=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Teacher Fernanda - Let's speak English",
+      "url": "https://www.youtube.com/@TeacherFernandab",
+      "role": "Interpretação de Texto",
+      "image": "https://yt3.ggpht.com/mObkfWb4w6wlVHlfpAhkjhHh1aM0H7phC-T2nXME5AsviDNf3Y3GXW7k9eqIh3N9wJYR9wYd=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Inglês Minuto",
+      "url": "https://www.youtube.com/@InglesMinuto",
+      "role": "Vocabulário, Gramática Básica",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nekH20eopMdchKQZrYOHZFdpTVEDS9P6QDzZwFQhWk4w=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Curso Enem Gratuito",
+      "url": "https://www.youtube.com/@CursoEnemGratuito",
+      "role": "Texto Dissertativo-Argumentativo",
+      "image": "https://yt3.ggpht.com/6NsrkSmcK-tfZ9rxR-8SAgsfI8rlust9gmfaCMmevxrkMIQicFT68kkzaKhFl-0kegUBk9kE=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Português On-line l Profa. Aline",
+      "url": "https://www.youtube.com/@portuguesonlinealine",
+      "role": "Norma Culta da Língua Portuguesa",
+      "image": "https://yt3.ggpht.com/6MgGCcHINQNUjBopxP14WcdrXjLiglVSndbcsFl-YQSVwQXJBdpDY2AvkE5lygxN5bC4C9xU=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Específico Online",
+      "url": "https://onlineespecifico.com.br/",
+      "role": "Provas EsPCEx",
+      "image": "https://onlineespecifico.com.br/wp-content/uploads/2024/05/Prancheta-8.png"
+    }
+  ]
+}
