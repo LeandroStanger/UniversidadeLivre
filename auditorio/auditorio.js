@@ -216,7 +216,7 @@ function normalizeLanguageCode(language) {
     return code && (Object.prototype.hasOwnProperty.call(LANG_STOPWORDS, code) || SCRIPT_LANGUAGE_CODES.has(code)) ? code : null;
 }
 
-function updateLanguageSelector(lang) {
+function updateAuditorioLanguageSelector(lang) {
     if (typeof window.updateLanguageSelector === 'function') {
         window.updateLanguageSelector(lang);
         return;
@@ -1408,7 +1408,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadTranslations(currentLang);
     await loadFrancDetector();
     applyTranslationsToUI();
-    updateLanguageSelector(currentLang);
+    updateAuditorioLanguageSelector(currentLang);
     
     const langPtBtn = document.getElementById('langPtBtn'), langEnBtn = document.getElementById('langEnBtn');
     const langEsBtn = document.getElementById('langEsBtn');
@@ -1417,7 +1417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentLang = 'pt-br';
         localStorage.setItem('selectedLanguage', 'pt-br');
         applyTranslationsToUI();
-        updateLanguageSelector('pt-br');
+        updateAuditorioLanguageSelector('pt-br');
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
@@ -1429,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentLang = 'en';
         localStorage.setItem('selectedLanguage', 'en');
         applyTranslationsToUI();
-        updateLanguageSelector('en');
+        updateAuditorioLanguageSelector('en');
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
@@ -1441,13 +1441,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentLang = 'es';
         localStorage.setItem('selectedLanguage', 'es');
         applyTranslationsToUI();
-        updateLanguageSelector('es');
+        updateAuditorioLanguageSelector('es');
         await refreshAllItems(currentSearchTerm);
         buildTypeChips();
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'es' } }));
     });
-    updateLanguageSelector(currentLang);
+    updateAuditorioLanguageSelector(currentLang);
     
     await loadChannelFilters();
     setupPlayerControls();
@@ -1472,7 +1472,7 @@ window.addEventListener('languageChanged', async function(e) {
         currentLang = lang;
         await loadTranslations(lang);
         applyTranslationsToUI();
-        updateLanguageSelector(lang);
+        updateAuditorioLanguageSelector(lang);
         // Reforça a reconstrução dos filtros
         buildTypeChips();
         buildLanguageChips(allItems);
