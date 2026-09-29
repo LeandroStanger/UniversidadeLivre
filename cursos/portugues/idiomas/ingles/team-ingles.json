@@ -1,0 +1,32 @@
+{
+  "course": "Inglês",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "url": "https://www.youtube.com/@pgdinamica",
+      "role": "Como estudar do jeito certo",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Teacher Lory",
+      "url": "https://www.youtube.com/@TeacherLory",
+      "role": "Inglês para Iniciantes (Nível A1)",
+      "image": "https://yt3.ggpht.com/C-o5DNZLBi-MVcZbNebbYVom91B22qcjp_-QytUV_vX4VhOisNYUaGsd5iZ138eOHWNd_T7K=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Learn English Lab",
+      "url": "https://www.youtube.com/@LearnEnglishLabYT",
+      "role": "Inglês Básico e Intermediário (Níveis A2 e B1)",
+      "image": "https://yt3.ggpht.com/__d_MFamZWH41Bd4WxzWjUEJVfqLQsaBPrQ8C3WGiOO01h2xYLXmkNPKnL3g9W0ao8cDeHgTQQ=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}

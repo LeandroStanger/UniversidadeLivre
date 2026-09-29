@@ -1,0 +1,50 @@
+{
+  "course": "Japones",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Founder of Universidade Livre",
+      "description": "Founder of Universidade Livre, responsible for the structure and vision of the project.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Nihongando com Nanda",
+      "url": "https://www.youtube.com/@NihongandocomNanda",
+      "role": "Hiragana, Katakana and Basic Japanese",
+      "image": "https://yt3.ggpht.com/jnR8gbFWcx-8c2o-4jLZ38KWaI44jyVNJ8Z0NVHbueZ9cdXSjh5oyu6FoVdNF2HqSgRzZ9GSWA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "HeyJapan",
+      "url": "https://japanese.heylearning.net/?hl=pt",
+      "role": "Language Learning Platform",
+      "image": "https://play-lh.googleusercontent.com/1x_Job8GDLjYQ1tn6SShplIlncaA-KOzrK2TKaJIOXqKVjSu4PsQNVggzyBz3YsUPrwC"
+    },
+    {
+      "name": "My Nihongo Lessons",
+      "url": "https://www.youtube.com/@MyNihongoLessons-kp9zx",
+      "role": "Basic Japanese Lessons",
+      "image": "https://yt3.ggpht.com/MSj7l4MS2p3fEOp15T4w5otEgqyvpePiAT1140H-N_5xSUi6M5VMuTVInDkIcTIQFCjdrIiXI1Y=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Duolingo",
+      "url": "https://www.duolingo.com/",
+      "role": "Language Learning Platform",
+      "image": "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2023/09/duolingo-generic-hero.jpg"
+    },
+    {
+      "name": "Memrise",
+      "url": "https://www.memrise.com/pt-br/",
+      "role": "Language Learning Platform",
+      "image": "https://www.langoly.com/wp-content/uploads/2020/03/Memrise-Logo.png"
+    },
+    {
+      "name": "Babi san | Hora do Japonês",
+      "url": "https://www.youtube.com/@Babisan",
+      "role": "Japanese with Anime",
+      "image": "https://yt3.ggpht.com/RUeKkH_CjHu1k2aK8LWYj-ip3BpbvDFF-_-2bYDZjsrM5qmg4dw-2QHdUQDOQSVNjqp7Wm8XpA=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}
