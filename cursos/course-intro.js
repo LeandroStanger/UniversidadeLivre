@@ -26,6 +26,8 @@
     let currentCardCourseId = null;
     let currentCardCourseInfo = {};
     let currentCardShareDescription = '';
+    let courseIntroImageMediaQuery = null;
+    let courseIntroImageMediaHandler = null;
     let introData = null;
     let courseCatalog = null;
     let _initialized = false;
@@ -96,6 +98,7 @@
         'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
         'ciencia-da-computacao': 'ciencia-da-computacao',
         'computer-science': 'computer-science',
+        'ciencias-de-la-computacion': 'ciencias-de-la-computacion',
         'engenharia-producao': 'engenharia-producao',
         'engenharia_computacao': 'engenharia_computacao',
         'fisica': 'fisica',
@@ -103,6 +106,8 @@
         'letras-portugues': 'letras-portugues',
         'matematica': 'matematica',
         'matematica-licenciatura': 'matematica-licenciatura',
+        'matematica-em-espanhol': 'matematicas',
+        'matematicas': 'matematicas',
         'math': 'math',
         'pedagogia': 'pedagogia',
         'processos-gerenciais': 'processos-gerenciais',
@@ -423,6 +428,46 @@
         return courseCatalog;
     }
 
+    const curriculumCourseIds = new Set([
+        'ciencias-de-la-computacion',
+        'matematica-em-espanhol',
+        'matematicas',
+        'matematica',
+        'matematica-licenciatura',
+        'espanhol',
+        'espanhol-ingles'
+    ]);
+    const courseCurriculumMap = {
+        'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-data.json',
+        'matematica-em-espanhol': 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+        'matematicas': 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+        'matematica': 'cursos/portugues/graduacao/matematica/matematica-data.json',
+        'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+        'espanhol': 'cursos/portugues/idiomas/espanhol/espanhol-data.json',
+        'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/espanhol-ingles-data.json'
+    };
+    const courseCurriculumCache = {};
+
+    async function loadCourseCurriculum(courseId) {
+        const curriculumUrl = courseCurriculumMap[courseId];
+        if (!curriculumUrl) return null;
+        if (courseCurriculumCache[courseId]) return courseCurriculumCache[courseId];
+
+        const response = await fetch(curriculumUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (!Array.isArray(data.stages) || data.stages.some(stage =>
+            typeof stage.name !== 'string' ||
+            !Array.isArray(stage.disciplines) ||
+            stage.disciplines.some(discipline => typeof discipline.name !== 'string')
+        )) {
+            throw new Error('Estrutura inválida nos dados do plano de estudos');
+        }
+
+        courseCurriculumCache[courseId] = data.stages;
+        return data.stages;
+    }
+
     // ========== ABRIR LINKS EM NOVA ABA ==========
     function makeLinksOpenInNewTab(container) {
         if (!container) return;
@@ -441,20 +486,22 @@
         return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
     }
 
-    function getCourseIntroImageCandidates(courseData) {
+    function getCourseImageFolder(courseData) {
         const imageUrl = typeof courseData?.imageUrl === 'string' ? courseData.imageUrl : '';
-        const folder = imageUrl.slice(0, imageUrl.lastIndexOf('/') + 1);
+        return imageUrl.slice(0, imageUrl.lastIndexOf('/') + 1);
+    }
+
+    function getCourseDesktopImageCandidates(courseData) {
+        const configuredImage = typeof courseData?.desktopImageUrl === 'string'
+            ? courseData.desktopImageUrl.trim()
+            : '';
+        const imageFolder = getCourseImageFolder(courseData);
         const candidates = [];
 
-        if (folder) {
-            candidates.push(`${folder}sobre o curso.png`);
-            candidates.push(`${folder}Sobre o curso.png`);
-        }
-
-        candidates.push('cursos/sobre o curso.png');
-        // Mantém compatibilidade com a imagem padrão já existente no repositório.
+        if (configuredImage) candidates.push(configuredImage);
+        if (imageFolder) candidates.push(`${imageFolder}Sobre o curso.png`);
         candidates.push('cursos/Sobre o curso.png');
-        return candidates;
+        return [...new Set(candidates)];
     }
 
     // ========== RENDERIZAR SLIDER ==========
@@ -612,7 +659,7 @@
 
         // Logo/imagem
         if (logoImg) {
-            logoImg.src = courseData.imageUrl || 'logo-da-universidade-livre.png';
+            logoImg.src = courseData.imageUrl || 'base/logo-da-universidade-livre.png';
             logoImg.alt = `Universidade Livre - ${courseData.name || 'Curso'}`;
         }
 
@@ -656,7 +703,6 @@
     window.renderCourseIntroCard = async function(courseId, courseInfo = {}) {
         const card = document.getElementById('courseIntroCard');
         const image = document.getElementById('courseIntroCardImage');
-        const mobileImage = document.getElementById('courseIntroCardMobileImage');
         const title = document.getElementById('courseIntroCardTitle');
         const classification = document.getElementById('courseIntroCardClassification');
         const institution = document.getElementById('courseIntroCardInstitution');
@@ -665,10 +711,13 @@
         const bioHeading = document.getElementById('courseIntroCardBioHeading');
         const bio = document.getElementById('courseIntroCardBio');
         const learningList = document.getElementById('courseIntroCardLearningList');
+        const curriculum = document.getElementById('courseIntroCardCurriculum');
+        const curriculumHeading = document.getElementById('courseIntroCardCurriculumHeading');
+        const curriculumStages = document.getElementById('courseIntroCardCurriculumStages');
         const about = document.getElementById('courseIntroCardAbout');
         const label = document.getElementById('courseIntroCardLabel');
         const learningHeading = document.getElementById('courseIntroCardLearningHeading');
-        if (!card || !image || !title || !classification || !institution || !premise || !description || !bioHeading || !bio || !learningList || !about || !label || !learningHeading) return false;
+        if (!card || !image || !title || !classification || !institution || !premise || !description || !bioHeading || !bio || !learningList || !curriculum || !curriculumHeading || !curriculumStages || !about || !label || !learningHeading) return false;
 
         const [data, catalog] = await Promise.all([loadIntroData(), loadCourseCatalog()]);
         const jsonKey = courseIdToJsonKey[courseId] || courseId;
@@ -688,12 +737,13 @@
         currentCardCourseId = courseId;
         currentCardCourseInfo = resolvedCourseInfo;
         const englishCourse = isEnglishCourse(courseId);
+        const spanishCourse = ['ciencias-de-la-computacion', 'matematica-em-espanhol', 'matematicas', 'espanhol', 'espanhol-ingles'].includes(courseId);
         // The course language takes precedence over the interface language.
         // This keeps the complete course summary consistent with its content.
         const useEnglishLabels = englishCourse;
-        label.textContent = useEnglishLabels ? 'About the course' : 'Sobre o curso';
-        bioHeading.textContent = useEnglishLabels ? 'Biography' : 'Biografia';
-        learningHeading.textContent = useEnglishLabels ? 'What you will learn' : 'O que você vai aprender';
+        label.textContent = useEnglishLabels ? 'About the course' : spanishCourse ? 'Sobre el curso' : 'Sobre o curso';
+        bioHeading.textContent = useEnglishLabels ? 'Biography' : spanishCourse ? 'Biografía' : 'Biografia';
+        learningHeading.textContent = useEnglishLabels ? 'What you will learn' : spanishCourse ? 'Qué aprenderás' : 'O que você vai aprender';
 
         const readme = document.createElement('div');
         readme.innerHTML = courseData?.readmeContent || '';
@@ -716,21 +766,35 @@
             : [];
 
         image.alt = `Imagem do curso ${readmeTitle || courseData?.name || resolvedCourseInfo.name || courseId}`;
-        if (mobileImage) {
-            mobileImage.srcset = courseData?.imageUrl || '';
-        }
-        const imageCandidates = courseData ? getCourseIntroImageCandidates(courseData) : ['logo-da-universidade-livre.png'];
-        let imageCandidateIndex = 0;
-        image.onerror = () => {
-            imageCandidateIndex += 1;
-            if (imageCandidateIndex < imageCandidates.length) {
-                image.src = imageCandidates[imageCandidateIndex];
-                return;
-            }
-            image.onerror = null;
-            image.src = 'logo-da-universidade-livre.png';
+        const courseImageFolder = getCourseImageFolder(courseData);
+        const mobileImageCandidates = [
+            `${courseImageFolder}imagen-card.png`,
+            'cursos/imagen-card.png'
+        ];
+        const desktopImageCandidates = getCourseDesktopImageCandidates(courseData);
+        courseIntroImageMediaQuery?.removeEventListener('change', courseIntroImageMediaHandler);
+        window.removeEventListener('resize', courseIntroImageMediaHandler);
+        courseIntroImageMediaQuery = window.matchMedia('(min-width: 601px)');
+        const setCourseIntroImage = () => {
+            const imageCandidates = courseIntroImageMediaQuery.matches
+                ? desktopImageCandidates
+                : mobileImageCandidates;
+            let imageCandidateIndex = 0;
+            image.onerror = () => {
+                imageCandidateIndex += 1;
+                if (imageCandidateIndex < imageCandidates.length) {
+                    image.src = encodeURI(imageCandidates[imageCandidateIndex]);
+                    return;
+                }
+                image.onerror = null;
+                image.src = 'base/logo-da-universidade-livre.png';
+            };
+            image.src = encodeURI(imageCandidates[imageCandidateIndex]);
         };
-        image.src = imageCandidates[imageCandidateIndex];
+        courseIntroImageMediaHandler = setCourseIntroImage;
+        courseIntroImageMediaQuery.addEventListener('change', courseIntroImageMediaHandler);
+        window.addEventListener('resize', courseIntroImageMediaHandler);
+        setCourseIntroImage();
         title.textContent = readmeTitle || courseData?.name || resolvedCourseInfo.name || courseId;
         const levelLabels = {
             graduacao: 'graduacao',
@@ -789,9 +853,32 @@
             listItem.textContent = item.textContent?.trim() || '';
             return listItem;
         }));
+        curriculum.hidden = true;
+        curriculumStages.replaceChildren();
+        if (curriculumCourseIds.has(courseId)) {
+            try {
+                const stages = await loadCourseCurriculum(courseId);
+                if (stages) {
+                    curriculumHeading.textContent = spanishCourse ? 'Plan de estudios' : 'Plano de estudos';
+                    const curriculumList = document.createElement('ol');
+                    curriculumList.className = 'course-intro-curriculum-list course-intro-curriculum-list--two-columns';
+                    stages.flatMap(stage => stage.disciplines).forEach(discipline => {
+                        const disciplineItem = document.createElement('li');
+                        disciplineItem.textContent = discipline.name;
+                        curriculumList.append(disciplineItem);
+                    });
+                    curriculumStages.replaceChildren(curriculumList);
+                    curriculum.hidden = false;
+                }
+            } catch (error) {
+                console.error('[Intro] Erro ao carregar o plano de estudos do curso:', error);
+            }
+        }
         about.textContent = useEnglishLabels
             ? 'Open University offers undergraduate, postgraduate and language courses with curated, free content. Study at your own pace with community support.'
-            : 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.';
+            : spanishCourse
+                ? 'Universidad Libre ofrece cursos de grado, posgrado e idiomas con contenido seleccionado y gratuito. Estudia a tu ritmo con el apoyo de la comunidad.'
+                : 'A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.';
         card.hidden = false;
         updateCourseShareMetadata();
         closeShareMenu();

@@ -14,7 +14,8 @@
         "en": "Tracks with hands‑on projects in Web, JS, APIs, and data to build your portfolio."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=freeCodeCamp",
-      "link": "https://www.freecodecamp.org/learn"
+      "link": "https://www.freecodecamp.org/learn",
+      "category": "programming"
     },
     {
       "titulo": {
@@ -26,7 +27,8 @@
         "en": "Exercises in dozens of languages with mentorship and CLI for structured feedback."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Exercism",
-      "link": "https://exercism.org/"
+      "link": "https://exercism.org/",
+      "category": "programming"
     },
     {
       "titulo": {
@@ -38,7 +40,8 @@
         "en": "Hands‑on Data Science and AI projects. Offers courses, competitions, and interactive notebooks with Python and SQL."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Kaggle",
-      "link": "https://www.kaggle.com/learn"
+      "link": "https://www.kaggle.com/learn",
+      "category": "data_science"
     },
     {
       "titulo": {
@@ -50,7 +53,8 @@
         "en": "Preparation for technical interviews. Focused on algorithm challenges, data structures, and multiple languages including Java and SQL."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=HackerRank",
-      "link": "https://www.hackerrank.com/"
+      "link": "https://www.hackerrank.com/",
+      "category": "algorithms"
     },
     {
       "titulo": {
@@ -62,7 +66,8 @@
         "en": "Intensive training for job interviews at big tech companies. Offers a vast problem bank, study plans, and forum discussions."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=LeetCode",
-      "link": "https://leetcode.com/"
+      "link": "https://leetcode.com/",
+      "category": "algorithms"
     },
     {
       "titulo": {
@@ -74,7 +79,8 @@
         "en": "Troubleshooting Linux servers. Simulates real‑world error scenarios to practice system administration, infrastructure, and log analysis."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=SadServers",
-      "link": "https://sadservers.com/"
+      "link": "https://sadservers.com/",
+      "category": "systems"
     },
     {
       "titulo": {
@@ -86,7 +92,8 @@
         "en": "Progressive SQL exercises directly in the browser, ideal for mastering queries and joins."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=SQLZoo",
-      "link": "https://sqlzoo.net/"
+      "link": "https://sqlzoo.net/",
+      "category": "databases"
     },
     {
       "titulo": {
@@ -98,7 +105,8 @@
         "en": "Interactive mathematics tool for geometry, algebra, calculus, and statistics. Ideal for visualizing concepts and creating dynamic constructions."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=GeoGebra",
-      "link": "https://www.geogebra.org/classic"
+      "link": "https://www.geogebra.org/classic",
+      "category": "mathematics"
     },
     {
       "titulo": {
@@ -110,7 +118,8 @@
         "en": "Free interactive physics simulations developed by the University of Colorado. Explore phenomena like motion, energy, electricity, and more."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+F%C3%ADsica",
-      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=physics&type=html"
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=physics&type=html",
+      "category": "physics"
     },
     {
       "titulo": {
@@ -122,7 +131,8 @@
         "en": "Simulations to visualize mathematical and statistical concepts, from fractions to probability and distributions."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Matem%C3%A1tica",
-      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html",
+      "category": "mathematics"
     },
     {
       "titulo": {
@@ -134,7 +144,8 @@
         "en": "Chemistry simulations to understand reactions, chemical equilibrium, states of matter, and more."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Qu%C3%ADmica",
-      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=chemistry&type=html"
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=chemistry&type=html",
+      "category": "chemistry"
     },
     {
       "titulo": {
@@ -146,7 +157,8 @@
         "en": "Simulations about astronomy, climate, seasons, and terrestrial phenomena."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Terra",
-      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html"
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?type=html",
+      "category": "earth_space"
     },
     {
       "titulo": {
@@ -158,7 +170,8 @@
         "en": "Biology simulations to explore genetics, ecology, evolution, and biological processes."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=PhET:+Biologia",
-      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=biology&type=html"
+      "link": "https://phet.colorado.edu/pt_BR/simulations/filter?subjects=biology&type=html",
+      "category": "biology"
     },
     {
       "titulo": {
@@ -170,7 +183,8 @@
         "en": "Online financial calculator to simulate interest, amortization, cash flow, and financial mathematics."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=HP+12C",
-      "link": "https://www.accountcontabilidade.com.br/hp12c/"
+      "link": "https://www.accountcontabilidade.com.br/hp12c/",
+      "category": "finance"
     },
     {
       "titulo": {
@@ -182,7 +196,8 @@
         "en": "Online simulator for electronic circuits and Arduino. Ideal for practicing electronics, microcontroller programming, and virtual prototyping."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Tinkercad+Circuits",
-      "link": "https://www.tinkercad.com/circuits"
+      "link": "https://www.tinkercad.com/circuits",
+      "category": "electronics"
     },
     {
       "titulo": {
@@ -194,7 +209,8 @@
         "en": "Portuguese language dictionary with definitions, synonyms, examples, and verb conjugation. Essential tool for improving writing and interpretation."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Michaelis",
-      "link": "https://michaelis.uol.com.br/"
+      "link": "https://michaelis.uol.com.br/",
+      "category": "languages"
     },
     {
       "titulo": {
@@ -206,7 +222,8 @@
         "en": "Portuguese dictionary by Porto Editora, with definitions, etymology, syllabic division, and synonyms. Great for quick reference and lexical deepening."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Infop%C3%A9dia",
-      "link": "https://www.infopedia.pt/"
+      "link": "https://www.infopedia.pt/",
+      "category": "languages"
     },
     {
       "titulo": {
@@ -218,7 +235,8 @@
         "en": "Online tool to generate academic paper templates in ABNT, IEEE, or ACM formats. Useful for students and researchers who need to format scientific papers."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Paper+Template",
-      "link": "https://nordnord.github.io/paper_template_generator/"
+      "link": "https://nordnord.github.io/paper_template_generator/",
+      "category": "academic_writing"
     },
     {
       "titulo": {
@@ -230,7 +248,8 @@
         "en": "Free and in‑depth course on modern web development with React, Node.js, GraphQL, TypeScript, and MongoDB. Offers practical exercises and certification."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Fullstack+Open",
-      "link": "https://fullstackopen.com/ptbr/"
+      "link": "https://fullstackopen.com/ptbr/",
+      "category": "programming"
     },
     {
       "titulo": {
@@ -242,7 +261,8 @@
         "en": "Free document editor from Microsoft, accessible directly from the browser. Ideal for creating reports, academic papers, and notes."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+Word",
-      "link": "https://word.cloud.microsoft.com/pt-br/"
+      "link": "https://word.cloud.microsoft.com/pt-br/",
+      "category": "productivity"
     },
     {
       "titulo": {
@@ -254,7 +274,8 @@
         "en": "Online spreadsheets from Microsoft. Perfect for calculations, charts, data analysis, and financial control."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+Excel",
-      "link": "https://excel.cloud.microsoft.com/pt-br/"
+      "link": "https://excel.cloud.microsoft.com/pt-br/",
+      "category": "data_science"
     },
     {
       "titulo": {
@@ -266,7 +287,8 @@
         "en": "Create slide presentations directly in the browser with Microsoft tools."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Microsoft+PowerPoint",
-      "link": "https://powerpoint.cloud.microsoft.com/pt-br/"
+      "link": "https://powerpoint.cloud.microsoft.com/pt-br/",
+      "category": "productivity"
     },
     {
       "titulo": {
@@ -278,7 +300,8 @@
         "en": "Collaborative document editor from Google. Allows creating and editing texts in real time with others."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Docs",
-      "link": "https://docs.google.com/document"
+      "link": "https://docs.google.com/document",
+      "category": "productivity"
     },
     {
       "titulo": {
@@ -290,7 +313,8 @@
         "en": "Online spreadsheets with real-time collaboration, formulas, and integration with other Google services."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Sheets",
-      "link": "https://docs.google.com/spreadsheets"
+      "link": "https://docs.google.com/spreadsheets",
+      "category": "data_science"
     },
     {
       "titulo": {
@@ -302,7 +326,8 @@
         "en": "Free tool to create collaborative slide presentations, with templates and animations."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Google+Slides",
-      "link": "https://docs.google.com/presentation"
+      "link": "https://docs.google.com/presentation",
+      "category": "productivity"
     },
     {
       "titulo": {
@@ -314,7 +339,8 @@
         "en": "English news organized by difficulty level, with text and audio to practice comprehension and vocabulary."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=News+in+Levels",
-      "link": "https://www.newsinlevels.com"
+      "link": "https://www.newsinlevels.com",
+      "category": "languages"
     },
     {
       "titulo": {
@@ -326,7 +352,8 @@
         "en": "Contextual translation tool for checking translations, usage examples, conjugation, and pronunciation in several languages."
       },
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Reverso",
-      "link": "https://www.reverso.net/text-translation"
+      "link": "https://www.reverso.net/text-translation",
+      "category": "languages"
     }
   ]
 }

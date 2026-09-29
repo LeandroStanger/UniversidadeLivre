@@ -339,6 +339,62 @@
       }
     ]
   },
+  "ciencias_de_la_computacion": {
+    "title": "Ajuda do Curso Ciencias de la Computación",
+    "sections": [
+      {
+        "heading": "Introducción",
+        "content": "Bienvenido al curso de Ciencias de la Computación de la Universidad Libre. Este curso fue creado para ofrecer una formación sólida en fundamentos de computación, matemáticas, programación, algoritmos, sistemas y pensamiento computacional, con recursos gratuitos y de calidad."
+      },
+      {
+        "heading": "Canales de la Comunidad",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre/13"
+          }
+        ]
+      },
+      {
+        "heading": "Preguntas Frecuentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "¿Necesito conocimientos previos para comenzar?",
+            "content": "No. El curso parte desde fundamentos de matemáticas, lógica y programación, y avanza progresivamente hasta temas más avanzados de algoritmos, sistemas, redes e inteligencia artificial."
+          },
+          {
+            "heading": "¿La Universidad Libre ofrece diploma o certificado?",
+            "content": "No. La Universidad Libre es una guía de recursos educativos. No emitimos certificados ni diplomas. El objetivo es orientar tu aprendizaje con materiales gratuitos y de calidad."
+          },
+          {
+            "heading": "¿Cuánto tiempo tarda en completarse el curso?",
+            "content": "Depende de tu ritmo de estudio. Con dedicación regular de 1 a 3 horas por día, suele requerir entre 3 y 5 años para concluir todas las etapas en profundidad."
+          },
+          {
+            "heading": "¿Qué áreas se estudian?",
+            "content": "El curso cubre matemáticas, estructuras de datos, algoritmos, programación, lenguajes, lógica, arquitectura, sistemas operativos, redes, bases de datos, inteligencia artificial, seguridad y computación distribuida."
+          }
+        ]
+      },
+      {
+        "heading": "Estructura del Curso",
+        "content": "El curso está organizado en etapas progresivas. Cada etapa incluye disciplinas dedicadas a temas fundamentales y avanzados de la computación, con videoaulas y materiales complementarios para seguir un camino lógico de aprendizaje."
+      },
+      {
+        "heading": "Metodología de Estudio",
+        "content": "Para sacar el mayor provecho del curso, recomendamos:\n• Seguir el orden sugerido de las etapas\n• Practicar con ejercicios y proyectos personales\n• Revisar conceptos matemáticos y de programación con regularidad\n• Participar de la comunidad para resolver dudas\n• Consultar la biblioteca para materiales complementarios"
+      },
+      {
+        "heading": "Consejos para Principiantes",
+        "content": "Si estás empezando desde cero, no te preocupes. Empieza por la etapa 0 y construye una base sólida en matemáticas y programación. La constancia, la práctica y la paciencia son clave para avanzar con éxito en Ciencias de la Computación."
+      }
+    ]
+  },
   "computer-science": {
     "title": "Computer Science Course Help",
     "sections": [
@@ -1782,6 +1838,62 @@
       {
         "heading": "Tips for Beginners",
         "content": "Start with Stage 0 and focus on understanding the accounting cycle, double-entry bookkeeping, financial statements, and basic business mathematics. Progress consistently, practice with examples, and do not skip foundational topics before moving to advanced accounting."
+      }
+    ]
+  },
+  "matematicas": {
+    "title": "Ayuda del Curso Matemáticas",
+    "sections": [
+      {
+        "heading": "Introducción",
+        "content": "Bienvenido al curso de Matemáticas de la Universidad Libre. Este curso ofrece una formación progresiva en álgebra, geometría, cálculo, lógica y didáctica matemática, con foco en la comprensión profunda y la capacidad de enseñar con claridad."
+      },
+      {
+        "heading": "Canales de la comunidad",
+        "links": [
+          {
+            "text": "Discord",
+            "url": "https://discord.com/channels/866378348368625704/866387782170574888"
+          },
+          {
+            "text": "Telegram",
+            "url": "https://t.me/universidadebrasileiralivre"
+          }
+        ]
+      },
+      {
+        "heading": "Preguntas frecuentes",
+        "content": "",
+        "subsections": [
+          {
+            "heading": "¿Necesito conocimientos previos?",
+            "content": "No. El curso parte desde fundamentos de aritmética, álgebra y razonamiento matemático, y avanza progresivamente hacia temas de cálculo, geometría y modelación."
+          },
+          {
+            "heading": "¿La Universidad Libre ofrece diploma o certificado?",
+            "content": "No. La Universidad Libre es una guía de recursos educativos. No emitimos certificados ni diplomas."
+          },
+          {
+            "heading": "¿Cuánto tiempo tarda en completarse?",
+            "content": "Depende del ritmo de estudio. Con dedicación regular, la conclusión del curso puede llevar varios años por la cantidad de etapas y contenidos."
+          },
+          {
+            "heading": "¿Qué áreas se estudian?",
+            "content": "El curso cubre álgebra, geometría, cálculo, estadística, lógica, análisis y didáctica de la matemática."
+          }
+        ]
+      },
+      {
+        "heading": "Estructura del curso",
+        "content": "El curso está organizado por etapas progresivas. Cada etapa incluye disciplinas orientadas a contenidos matemáticos fundamentales y avanzados, con videoaulas y actividades de práctica."
+      },
+      {
+        "heading": "Metodología de estudio",
+        "content": "Para aprovechar mejor el curso, recomendamos seguir el orden de las etapas, practicar con ejercicios, revisar los conceptos básicos con frecuencia y participar de la comunidad para aclarar dudas."
+      },
+      {
+        "heading": "Consejos para principiantes",
+        "content": "Si comienzas desde cero, no te preocupes. Empieza por la etapa inicial y construye una base sólida en aritmética y álgebra antes de avanzar a cálculo y geometría."
       }
     ]
   }
