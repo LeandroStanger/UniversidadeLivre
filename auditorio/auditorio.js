@@ -155,10 +155,10 @@ async function loadTranslations(lang) {
 
     // Fallback: tenta carregar o arquivo JSON diretamente
     const paths = [
-        `/lang/${lang}.json`,
-        `../lang/${lang}.json`,
-        `lang/${lang}.json`,
-        `./lang/${lang}.json`
+        `/base/lang/${lang}.json`,
+        `../base/lang/${lang}.json`,
+        `base/lang/${lang}.json`,
+        `./base/lang/${lang}.json`
     ];
     for (const path of paths) {
         try {
@@ -217,12 +217,16 @@ function normalizeLanguageCode(language) {
 }
 
 function updateLanguageSelector(lang) {
+    if (typeof window.updateLanguageSelector === 'function') {
+        window.updateLanguageSelector(lang);
+        return;
+    }
     const ptBtn = document.getElementById('langPtBtn');
     const enBtn = document.getElementById('langEnBtn');
-    if (ptBtn && enBtn) {
-        ptBtn.classList.toggle('active', lang === 'pt-br');
-        enBtn.classList.toggle('active', lang === 'en');
-    }
+    const esBtn = document.getElementById('langEsBtn');
+    ptBtn?.classList.toggle('active', lang === 'pt-br');
+    enBtn?.classList.toggle('active', lang === 'en');
+    esBtn?.classList.toggle('active', lang === 'es');
 }
 
 function applyTranslationsToUI() {
@@ -937,7 +941,7 @@ function useFallbackPlayer() {
     if (!existingMsg) {
         const msgDiv = document.createElement('div'); msgDiv.className = 'fallback-message';
         msgDiv.style.cssText = 'padding:0.5rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);';
-        msgDiv.innerHTML = `${t('player_fallback_active', '⚠️ Player simplificado ativo.')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player', 'Tentar player completo')}</button>`;
+        msgDiv.innerHTML = `${t('player_fallback_active', 'Player simplificado ativo.')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player', 'Tentar player completo')}</button>`;
         wrapper.parentNode.insertBefore(msgDiv, wrapper.nextSibling);
         document.getElementById('retryPlayerBtn').addEventListener('click', () => {
             apiLoadAttempts = 0;
@@ -1068,6 +1072,15 @@ function toggleFullscreen() {
         container.requestFullscreen?.();
     }
 }
+function updateAvailableCaptionLanguages() {
+    const select = document.getElementById('captionLanguageSelect');
+    if (!select) return;
+    Array.from(select.options).forEach(option => {
+        option.hidden = false;
+    });
+    select.disabled = false;
+}
+
 function onPlayerReady(event) {
     playerReady = true;
     const duration = player.getDuration();
@@ -1079,9 +1092,12 @@ function onPlayerReady(event) {
     updateAuditorioVolumePercentage(volSlider?.value || player.getVolume?.() || 100);
     scheduleQualityOptions();
     populateAudioOptions();
+    updateAvailableCaptionLanguages();
+    setTimeout(updateAvailableCaptionLanguages, 500);
     player.addEventListener?.('onApiChange', () => {
         populateQualityOptions();
         populateAudioOptions();
+        updateAvailableCaptionLanguages();
     });
     setTimeout(() => {
         populateQualityOptions();
@@ -1093,6 +1109,7 @@ function onPlayerReady(event) {
         if (document.getElementById('audioTrackSelect')?.options.length <= 1 && attempts++ < 20) {
             setTimeout(refreshAudio, 500);
         }
+
     };
     refreshAudio();
     startProgressUpdate();
@@ -1386,7 +1403,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     if (!window.YT) { const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
     
-    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt')?'pt-br':'en');
+    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : navigator.language?.startsWith('es') ? 'es' : 'en');
     currentLang = savedLang;
     await loadTranslations(currentLang);
     await loadFrancDetector();
@@ -1394,6 +1411,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateLanguageSelector(currentLang);
     
     const langPtBtn = document.getElementById('langPtBtn'), langEnBtn = document.getElementById('langEnBtn');
+    const langEsBtn = document.getElementById('langEsBtn');
     if (langPtBtn) langPtBtn.addEventListener('click', async () => {
         await loadTranslations('pt-br');
         currentLang = 'pt-br';
@@ -1418,8 +1436,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
     });
-    if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
-    else langEnBtn?.classList.add('active');
+    if (langEsBtn) langEsBtn.addEventListener('click', async () => {
+        await loadTranslations('es');
+        currentLang = 'es';
+        localStorage.setItem('selectedLanguage', 'es');
+        applyTranslationsToUI();
+        updateLanguageSelector('es');
+        await refreshAllItems(currentSearchTerm);
+        buildTypeChips();
+        buildLanguageChips(allItems);
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'es' } }));
+    });
+    updateLanguageSelector(currentLang);
     
     await loadChannelFilters();
     setupPlayerControls();

@@ -105,10 +105,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========== I18N ==========
     async function loadTranslations(lang) {
         const paths = [
-            `../lang/${lang}.json`,
-            `lang/${lang}.json`,
-            `/lang/${lang}.json`,
-            `./lang/${lang}.json`
+            `../base/lang/${lang}.json`,
+            `base/lang/${lang}.json`,
+            `/base/lang/${lang}.json`,
+            `./base/lang/${lang}.json`
         ];
         for (const path of paths) {
             try {
@@ -126,12 +126,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function updateLanguageSelector(lang) {
+        if (typeof window.updateLanguageSelector === 'function') {
+            window.updateLanguageSelector(lang);
+            return;
+        }
         const ptBtn = document.getElementById('langPtBtn');
         const enBtn = document.getElementById('langEnBtn');
-        if (ptBtn && enBtn) {
-            ptBtn.classList.toggle('active', lang === 'pt-br');
-            enBtn.classList.toggle('active', lang === 'en');
-        }
+        const esBtn = document.getElementById('langEsBtn');
+        ptBtn?.classList.toggle('active', lang === 'pt-br');
+        enBtn?.classList.toggle('active', lang === 'en');
+        esBtn?.classList.toggle('active', lang === 'es');
     }
 
     function applyAllTranslations() {
@@ -1445,24 +1449,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ========== PERFIL ==========
-    function initProfile() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            profileBtn.addEventListener('click', () => {
-                if (window.openProfileModal) {
-                    window.openProfileModal();
-                } else {
-                    const modal = document.getElementById('profileModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        if (window.updateProfileModal) window.updateProfileModal();
-                    }
-                }
-            });
-        }
-    }
-
     // ========== INICIALIZAÇÃO ==========
     async function init() {
         grid = document.getElementById('booksGrid');
@@ -1477,7 +1463,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let initialLang = savedLang;
         if (!initialLang) {
             const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
-            initialLang = browserLang.startsWith('pt') ? 'pt-br' : 'en';
+            initialLang = browserLang.startsWith('pt') ? 'pt-br' : browserLang.startsWith('es') ? 'es' : 'en';
         }
         currentLang = initialLang;
         await loadTranslations(currentLang);
@@ -1487,6 +1473,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Configurar botões de idioma
         const langPtBtn = document.getElementById('langPtBtn');
         const langEnBtn = document.getElementById('langEnBtn');
+        const langEsBtn = document.getElementById('langEsBtn');
         if (langPtBtn) langPtBtn.addEventListener('click', async () => {
             await loadTranslations('pt-br');
             currentLang = 'pt-br';
@@ -1513,6 +1500,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             langEnBtn.classList.add('active');
             langPtBtn.classList.remove('active');
         });
+        if (langEsBtn) langEsBtn.addEventListener('click', async () => {
+            await loadTranslations('es');
+            currentLang = 'es';
+            localStorage.setItem('selectedLanguage', 'es');
+            applyAllTranslations();
+            updateLanguageSelector('es');
+            loadAudiobooksTab();
+        });
 
         setupMainTabs();
         setupTabs();
@@ -1526,8 +1521,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 debouncedPerformSearch(currentSearchTerm);
             });
         }
-
-        initProfile();
 
         if (activeMainTab === 'library') {
             await performSearchWithFilters('');
