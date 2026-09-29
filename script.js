@@ -5,7 +5,6 @@
 // CORREÇÃO: Carregamento assíncrono sequencial (i18n → courses → render)
 // CORREÇÃO: Logs detalhados para depuração
 // CORREÇÃO: Tratamento de erros robusto
-// CORREÇÃO: Fallback para perfil se openProfileModal não existir
 // CORREÇÃO: Slider com loop infinito e preview lateral
 // CORREÇÃO: Todos os cursos com imagem de fallback via placehold.co
 
@@ -50,7 +49,12 @@ console.log('[Main] Inicializando script.js v28.0...');
             ['ulivre_discipline_exam_computacao_', 'ulivre_discipline_exam_ciencia-da-computacao_'],
             ['ulivre_final_exam_computacao', 'ulivre_final_exam_ciencia-da-computacao'],
             ['course_completed_computacao', 'course_completed_ciencia-da-computacao'],
-            ['intro_seen_computacao', 'intro_seen_ciencia-da-computacao']
+            ['intro_seen_computacao', 'intro_seen_ciencia-da-computacao'],
+            ['ulivre_course_matematicas', 'ulivre_course_matematica-em-espanhol'],
+            ['ulivre_discipline_exam_matematicas_', 'ulivre_discipline_exam_matematica-em-espanhol_'],
+            ['ulivre_final_exam_matematicas', 'ulivre_final_exam_matematica-em-espanhol'],
+            ['course_completed_matematicas', 'course_completed_matematica-em-espanhol'],
+            ['intro_seen_matematicas', 'intro_seen_matematica-em-espanhol']
         ];
         courseIdPrefixes.forEach(([oldPrefix, newPrefix]) => {
             const keysToMigrate = [];
@@ -76,6 +80,10 @@ console.log('[Main] Inicializando script.js v28.0...');
                     context.courseId = 'ciencia-da-computacao';
                     localStorage.setItem('comunidade_current_study_context', JSON.stringify(context));
                 }
+                if (context.courseId === 'matematicas' || context.courseId === 'matematica-em-espanhol') {
+                    context.courseId = 'matematica-em-espanhol';
+                    localStorage.setItem('comunidade_current_study_context', JSON.stringify(context));
+                }
             } catch (_) {}
         }
         const notes = localStorage.getItem('ulivre_notas_estudo');
@@ -83,12 +91,45 @@ console.log('[Main] Inicializando script.js v28.0...');
             try {
                 const parsedNotes = JSON.parse(notes);
                 if (Array.isArray(parsedNotes)) {
-                    const migratedNotes = parsedNotes.map(note => note.courseId === 'computacao'
-                        ? { ...note, courseId: 'ciencia-da-computacao', courseName: 'Ciência da Computação' }
-                        : note);
+                    const migratedNotes = parsedNotes.map(note => {
+                        if (note.courseId === 'computacao') {
+                            return { ...note, courseId: 'ciencia-da-computacao', courseName: 'Ciência da Computação' };
+                        }
+                        if (note.courseId === 'matematicas' || note.courseId === 'matematica-em-espanhol') {
+                            return { ...note, courseId: 'matematica-em-espanhol', courseName: 'Matemáticas' };
+                        }
+                        return note;
+                    });
                     localStorage.setItem('ulivre_notas_estudo', JSON.stringify(migratedNotes));
                 }
             } catch (_) {}
+        }
+    }
+
+    function updateAvailableCaptionLanguages() {
+        const select = document.getElementById('captionLanguageSelect');
+        if (!select) return;
+        const options = Array.from(select.options);
+        if (activePlayerType !== 'videojs' || !videojsPlayer) {
+            options.forEach(option => {
+                option.hidden = false;
+            });
+            select.disabled = false;
+            return;
+        }
+
+        const available = new Set(
+            Array.from(videojsPlayer.textTracks?.() || [])
+                .filter(track => track.kind === 'captions' || track.kind === 'subtitles')
+                .map(track => track.language?.split('-')[0].toLowerCase())
+                .filter(Boolean)
+        );
+        options.forEach(option => {
+            option.hidden = !available.has(option.value);
+        });
+        select.disabled = available.size === 0;
+        if (available.size > 0 && !available.has(select.value)) {
+            select.value = available.has('pt') ? 'pt' : [...available][0];
         }
     }
 
@@ -134,6 +175,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         'ciencia_de_dados': { pt: 'Ciência de Dados', en: 'Data Science' },
         'ciencia-de-dados-bacharelado': { pt: 'Ciência de Dados (Bacharelado)', en: 'Data Science (Bachelor)' },
         'ciencia-da-computacao': { pt: 'Ciência da Computação', en: 'Computer Science' },
+        'ciencias-de-la-computacion': { pt: 'Ciencias de la Computación', en: 'Ciencias de la Computación', es: 'Ciencias de la Computación' },
         'computacao_grafica': { pt: 'Computação Gráfica', en: 'Computer Graphics' },
         'computer-science': { pt: 'Computer Science', en: 'Computer Science' },
         'cybersecurity': { pt: 'CyberSecurity', en: 'CyberSecurity' },
@@ -155,6 +197,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         'letras-portugues': { pt: 'Letras – Habilitação em Língua Portuguesa', en: 'Portuguese Language and Literature' },
         'matematica': { pt: 'Matemática', en: 'Mathematics' },
         'matematica-licenciatura': { pt: 'Matemática (Licenciatura)', en: 'Mathematics (Teaching Degree)' },
+        'matematica-em-espanhol': { pt: 'Matemáticas', en: 'Mathematics in Spanish', es: 'Matemáticas' },
+        'matematicas': { pt: 'Matemáticas', en: 'Mathematics in Spanish', es: 'Matemáticas' },
         'math': { pt: 'Math', en: 'Math' },
         'pedagogia': { pt: 'Pedagogia', en: 'Pedagogy' },
         'portugues-brasileiro': { pt: 'Português Brasileiro', en: 'Brazilian Portuguese' },
@@ -174,14 +218,15 @@ console.log('[Main] Inicializando script.js v28.0...');
     ]);
 
     function getCourseLanguage(course) {
-        if (course?.language === 'en' || course?.language === 'pt') return course.language;
+        if (course?.language === 'en' || course?.language === 'es' || course?.language === 'pt') return course.language;
         return ENGLISH_COURSE_IDS.has(course?.id) ? 'en' : 'pt';
     }
 
     function getCourseLanguageLabel(course) {
-        return getCourseLanguage(course) === 'en'
-            ? t('course_language_english')
-            : t('course_language_portuguese');
+        const language = getCourseLanguage(course);
+        if (language === 'en') return t('course_language_english');
+        if (language === 'es') return t('course_language_spanish');
+        return t('course_language_portuguese');
     }
 
     function getCourseName(courseId) {
@@ -231,6 +276,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     let practiceTabContent = document.getElementById('pratica-tab');
     let currentPracticeData = null;
     let practiceSearchInput = null;
+    let practiceCategoryFilter = 'all';
     let courseNoteQuill = null;
     const courseNotePalette = [
         '#F1F1F1', '#AAAAAA', '#717171', '#3EA6FF',
@@ -280,39 +326,42 @@ console.log('[Main] Inicializando script.js v28.0...');
     async function computeCourseTotalMinutes(courseId) {
         if (courseDurationCache.has(courseId)) return courseDurationCache.get(courseId);
         const courseMap = {
-            administracao: 'cursos/graduacao/administracao/administracao-data.json',
-            biologia: 'cursos/graduacao/biologia/biologia-data.json',
-            accounting: 'cursos/graduacao/accounting/accounting-data.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
-            matematica: 'cursos/graduacao/matematica/matematica-data.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-data.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-data.json',
-            devops: 'cursos/pos-graduacao/devops/devops-data.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
-            'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
-            'math': 'cursos/graduacao/math/math-data.json',
-            'enem': 'cursos/ensino-medio/enem/enem-data.json',
-            'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
-            'ingles': 'cursos/idiomas/ingles/ingles-data.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
-            'japones': 'cursos/idiomas/japones/japones-data.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
-            'letras': 'cursos/graduacao/letras/letras-data.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json',
-            'fisica': 'cursos/graduacao/fisica/fisica-data.json',
-            'quimica': 'cursos/graduacao/quimica/quimica-data.json'
+            administracao: 'cursos/portugues/graduacao/administracao/administracao-data.json',
+            biologia: 'cursos/portugues/graduacao/biologia/biologia-data.json',
+            accounting: 'cursos/ingles/graduacao/accounting/accounting-data.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-data.json',
+            matematica: 'cursos/portugues/graduacao/matematica/matematica-data.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+            'matematica-em-espanhol': 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/embarcados-data.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/cybersecurity-data.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/devops-data.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/computer-science-data.json',
+            'math': 'cursos/ingles/graduacao/math/math-data.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/enem-data.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/espcex-data.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/ingles-data.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/espanhol-data.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+            'japones': 'cursos/portugues/idiomas/japones/japones-data.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/japones-ingles-data.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/engenharia-producao-data.json',
+            'letras': 'cursos/portugues/graduacao/letras/letras-data.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/letras-portugues-data.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/pedagogia-data.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/gestao-publica-data.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/fisica-data.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/quimica-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) return 0;
@@ -387,17 +436,40 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     // ========== NOTIFICAÇÕES ==========
+    function sanitizeNotificationMessage(message) {
+        return String(message ?? '')
+            .replace(/\p{Extended_Pictographic}|\p{Regional_Indicator}/gu, '')
+            .replace(/[\uFE0F\u200D]/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
+
     function showNotification(message, type = 'info') {
         const container = document.getElementById('notificationContainer');
         if (!container) return;
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
-        notification.innerHTML = `<div class="notification-content"><i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i><span>${escapeHtml(message)}</span></div>`;
+        const cleanMessage = sanitizeNotificationMessage(message);
+        const notificationIcons = {
+            success: 'fa-check-circle',
+            error: 'fa-circle-exclamation',
+            warning: 'fa-triangle-exclamation',
+            info: 'fa-circle-info'
+        };
+        const icon = notificationIcons[type] || notificationIcons.info;
+        const accentColors = {
+            success: '#10b981',
+            error: '#ef4444',
+            warning: '#f59e0b',
+            info: '#6C8CFF'
+        };
+        const accentColor = accentColors[type] || accentColors.info;
+        notification.innerHTML = `<div class="notification-content"><i class="fas ${icon}" aria-hidden="true"></i><span>${escapeHtml(cleanMessage)}</span></div>`;
         notification.style.cssText = `
             background: var(--bg-card);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-left: 4px solid ${type === 'success' ? '#10b981' : '#6C8CFF'};
+            border-left: 4px solid ${accentColor};
             border-radius: 16px;
             padding: 16px 24px;
             box-shadow: var(--card-shadow), var(--shadow-glow);
@@ -461,83 +533,89 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== IMAGENS DOS CURSOS (SIMPLIFICADO) ==========
     function getCourseImagePath(courseId) {
         const folderMap = {
-            administracao: 'cursos/graduacao/administracao/',
-            biologia: 'cursos/graduacao/biologia/',
-            accounting: 'cursos/graduacao/accounting/',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/',
-            matematica: 'cursos/graduacao/matematica/',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/',
-            'computer-science': 'cursos/graduacao/computer-science/',
-            'math': 'cursos/graduacao/math/',
-            'computacao_grafica': 'cursos/pos-graduacao/computacao-grafica/',
-            'embarcados': 'cursos/pos-graduacao/embarcados/',
-            'desenvolvimento_web': 'cursos/pos-graduacao/desenvolvimento-web/',
-            'cybersecurity': 'cursos/pos-graduacao/cybersecurity/',
-            'devops': 'cursos/pos-graduacao/devops/',
-            'ciencia_de_dados': 'cursos/pos-graduacao/ciencia-de-dados/',
-            'enem': 'cursos/ensino-medio/enem/',
-            'espcex': 'cursos/ensino-medio/espcex/',
-            'ingles': 'cursos/idiomas/ingles/',
-            'espanhol': 'cursos/idiomas/espanhol/',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/',
-            'japones': 'cursos/idiomas/japones/',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/',
-            'letras': 'cursos/graduacao/letras/',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/',
-            'pedagogia': 'cursos/graduacao/pedagogia/',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/',
-            'fisica': 'cursos/graduacao/fisica/',
-            'quimica': 'cursos/graduacao/quimica/'
+            administracao: 'cursos/portugues/graduacao/administracao/',
+            biologia: 'cursos/portugues/graduacao/biologia/',
+            accounting: 'cursos/ingles/graduacao/accounting/',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/',
+            matematica: 'cursos/portugues/graduacao/matematica/',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/',
+            'matematica-em-espanhol': 'cursos/espanhol/graduacao/matematicas/',
+            'matematicas': 'cursos/espanhol/graduacao/matematicas/',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/',
+            'math': 'cursos/ingles/graduacao/math/',
+            'computacao_grafica': 'cursos/portugues/pos-graduacao/computacao-grafica/',
+            'embarcados': 'cursos/portugues/pos-graduacao/embarcados/',
+            'desenvolvimento_web': 'cursos/portugues/pos-graduacao/desenvolvimento-web/',
+            'cybersecurity': 'cursos/portugues/pos-graduacao/cybersecurity/',
+            'devops': 'cursos/portugues/pos-graduacao/devops/',
+            'ciencia_de_dados': 'cursos/portugues/pos-graduacao/ciencia-de-dados/',
+            'enem': 'cursos/portugues/ensino-medio/enem/',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/',
+            'ingles': 'cursos/portugues/idiomas/ingles/',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/',
+            'japones': 'cursos/portugues/idiomas/japones/',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/',
+            'letras': 'cursos/portugues/graduacao/letras/',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/',
+            'fisica': 'cursos/portugues/graduacao/fisica/',
+            'quimica': 'cursos/portugues/graduacao/quimica/'
         };
         const basePath = folderMap[courseId] || '';
         if (basePath) {
             return `${basePath}imagen-card.png`;
         }
-        return null;
+        return 'cursos/imagen-card.png';
     }
 
     // ========== CARREGAMENTO DE DADOS ==========
     async function loadCourseData(courseId) {
         const courseMap = {
-            administracao: 'cursos/graduacao/administracao/administracao-data.json',
-            biologia: 'cursos/graduacao/biologia/biologia-data.json',
-            accounting: 'cursos/graduacao/accounting/accounting-data.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-data.json',
-            matematica: 'cursos/graduacao/matematica/matematica-data.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-data.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-data.json',
-            devops: 'cursos/pos-graduacao/devops/devops-data.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
-            'computer-science': 'cursos/graduacao/computer-science/computer-science-data.json',
-            'math': 'cursos/graduacao/math/math-data.json',
-            'enem': 'cursos/ensino-medio/enem/enem-data.json',
-            'espcex': 'cursos/ensino-medio/espcex/espcex-data.json',
-            'ingles': 'cursos/idiomas/ingles/ingles-data.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-data.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-data.json',
-            'japones': 'cursos/idiomas/japones/japones-data.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-data.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-data.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-data.json',
-            'letras': 'cursos/graduacao/letras/letras-data.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-data.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-data.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-data.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-data.json',
-            'fisica': 'cursos/graduacao/fisica/fisica-data.json',
-            'quimica': 'cursos/graduacao/quimica/quimica-data.json'
+            administracao: 'cursos/portugues/graduacao/administracao/administracao-data.json',
+            biologia: 'cursos/portugues/graduacao/biologia/biologia-data.json',
+            accounting: 'cursos/ingles/graduacao/accounting/accounting-data.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-data.json',
+            matematica: 'cursos/portugues/graduacao/matematica/matematica-data.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+            'matematica-em-espanhol': 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/matematicas-data.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/embarcados-data.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/cybersecurity-data.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/devops-data.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/computer-science-data.json',
+            'math': 'cursos/ingles/graduacao/math/math-data.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/enem-data.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/espcex-data.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/ingles-data.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/espanhol-data.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+            'japones': 'cursos/portugues/idiomas/japones/japones-data.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/japones-ingles-data.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/engenharia-producao-data.json',
+            'letras': 'cursos/portugues/graduacao/letras/letras-data.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/letras-portugues-data.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/pedagogia-data.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/gestao-publica-data.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/fisica-data.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/quimica-data.json'
         };
         const fileName = courseMap[courseId];
         if (!fileName) throw new Error('Curso inválido');
@@ -558,8 +636,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         card.className = 'course-card animate-in';
         card.dataset.course = course.id;
 
-        const imagePath = getCourseImagePath(course.id);
-        const imageUrl = imagePath || `https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(course.name)}`;
+        const imageUrl = getCourseImagePath(course.id);
 
         const totalMinutes = await computeCourseTotalMinutes(course.id);
         const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours_estimated')}: ${formatDuration(totalMinutes)}</div>` : '';
@@ -597,10 +674,11 @@ console.log('[Main] Inicializando script.js v28.0...');
         card.innerHTML = `
             <div class="course-image-wrapper">
                 <img class="course-image" src="${imageUrl}" alt="${escapeHtml(course.name)}" 
-                     onerror="this.src='https://placehold.co/600x300/1A2638/6C8CFF?text=${encodeURIComponent(course.name)}'">
+                     onerror="this.onerror=null;this.src='cursos/imagen-card.png'">
+                ${languageBadge}
             </div>
             <h2>${escapeHtml(course.name)}</h2>
-            <div class="course-badges">${levelBadge}${typeBadge}${languageBadge}</div>
+            <div class="course-badges">${levelBadge}${typeBadge}</div>
             ${roomHtml}
             <p class="course-description" style="overflow: visible; -webkit-line-clamp: unset;">${escapeHtml(course.description)}</p>
             ${durationText}
@@ -924,6 +1002,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     function initHomeFilters() {
         const searchInput = document.getElementById('courseSearchInput');
         const scopeTabs = document.querySelectorAll('#scopeChips .collection-tab');
+        const studyCalendarHomeBtn = document.getElementById('studyCalendarHomeBtn');
         const levelSelect = document.getElementById('levelChips');
         const languageSelect = document.getElementById('languageChips');
 
@@ -943,9 +1022,25 @@ console.log('[Main] Inicializando script.js v28.0...');
                     tab.classList.add('active');
                     tab.setAttribute('aria-selected', 'true');
                     renderCourseCards();
+                    if (tab.dataset.scope === 'my-courses') {
+                        document.body.dataset.studyCalendarContext = 'my-courses';
+                        document.getElementById('studyCalendarToggle')?.style.setProperty('display', 'flex', 'important');
+                        studyCalendarHomeBtn?.removeAttribute('hidden');
+                        window.showStudentCalendar?.();
+                    } else {
+                        delete document.body.dataset.studyCalendarContext;
+                        document.getElementById('studyCalendarToggle')?.style.setProperty('display', 'none', 'important');
+                        studyCalendarHomeBtn?.setAttribute('hidden', '');
+                        window.hideStudyCalendar?.();
+                    }
                 });
             });
         }
+        studyCalendarHomeBtn?.addEventListener('click', () => {
+            document.body.dataset.studyCalendarContext = 'my-courses';
+            document.getElementById('studyCalendarToggle')?.style.setProperty('display', 'flex', 'important');
+            window.showStudentCalendar?.();
+        });
 
         if (levelSelect) {
             levelSelect.addEventListener('change', renderCourseCards);
@@ -958,38 +1053,41 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== SLIDER ALEATÓRIO COM LOOP INFINITO E PREVIEW LATERAL ==========
     const ALL_SLIDES = [
-        { course: 'enem', img: 'slides/ENEM.png', title: 'ENEM', desc: 'Preparação completa para o Exame Nacional do Ensino Médio' },
-        { course: 'engenharia_computacao', img: 'slides/Engenharia de Computação.png', title: 'Engenharia de Computação', desc: 'Hardware, software, sistemas embarcados e automação' },
-        { course: 'administracao', img: 'slides/Administração.png', title: 'Administração', desc: 'Gestão de pessoas, finanças, marketing e estratégia' },
-        { course: 'engenharia-producao', img: 'slides/Engenharia de Produção.png', title: 'Engenharia de Produção', desc: 'Otimização de processos, logística, qualidade e sustentabilidade' },
-        { course: 'gestao-publica', img: 'slides/Gestão Pública.png', title: 'Gestão Pública', desc: 'Administração pública, políticas públicas, gestão financeira e ética' },
-        { course: 'matematica', img: 'slides/Matemática.png', title: 'Matemática', desc: 'Raciocínio lógico, álgebra, cálculo e fundamentos matemáticos' },
-        { course: 'pedagogia', img: 'slides/Pedagogia.png', title: 'Pedagogia', desc: 'Formação de educadores, gestão escolar e práticas pedagógicas' },
-        { course: 'letras', img: 'slides/Letras.png', title: 'Letras', desc: 'Língua, literatura, linguística e ensino de português' },
-        { course: 'biologia', img: 'slides/Biologia.png', title: 'Biologia', desc: 'Fundamentos biológicos, pedagogia e práticas para o ensino de ciências' },
-        { course: 'ciencia-da-computacao', img: 'slides/Ciência da Computação.png', title: 'Ciência da Computação', desc: 'Algoritmos, programação, sistemas e fundamentos da computação' },
-        { course: 'ciencia-de-dados-bacharelado', img: 'slides/Ciência de Dados (Bacharelado).png', title: 'Ciência de Dados (Bacharelado)', desc: 'Programação, estatística, machine learning e análise de dados' },
-        { course: 'computer-science', img: 'slides/Computer Science.png', title: 'Computer Science', desc: 'Full Computer Science curriculum in English' },
-        { course: 'fisica', img: 'slides/Física.png', title: 'Física', desc: 'Fundamentos físicos, matemáticos e práticas para o ensino' },
-        { course: 'letras-portugues', img: 'slides/Letras – Habilitação em Língua Portuguesa.png', title: 'Letras – Habilitação em Língua Portuguesa', desc: 'Linguística, literatura, gramática e ensino de português' },
-        { course: 'matematica-licenciatura', img: 'slides/Matemática (Licenciatura).png', title: 'Matemática (Licenciatura)', desc: 'Formação pedagógica e aprofundamento em conteúdos matemáticos' },
-        { course: 'math', img: 'slides/Mathematics.png', title: 'Mathematics', desc: 'Complete Mathematics curriculum in English' },
-        { course: 'processos-gerenciais', img: 'slides/Processos Gerenciais.png', title: 'Processos Gerenciais', desc: 'Gestão de processos, pessoas, finanças e estratégia' },
-        { course: 'quimica', img: 'slides/Química.png', title: 'Química', desc: 'Fundamentos químicos, pedagógicos e práticas para o ensino' },
-        { course: 'tecnologia-informacao', img: 'slides/Tecnologia da Informação.png', title: 'Tecnologia da Informação', desc: 'Programação, sistemas, redes, segurança e gestão de TI' },
-        { course: 'espcex', img: 'slides/EsPCEx.png', title: 'EsPCEx', desc: 'Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército' },
-        { course: 'ciencia_de_dados', img: 'slides/Ciência de Dados.png', title: 'Ciência de Dados (Pós)', desc: 'Análise de dados, estatística aplicada e reprodução de pesquisas' },
-        { course: 'computacao_grafica', img: 'slides/Computação Gráfica.png', title: 'Computação Gráfica', desc: 'Renderização, modelagem, GPU, OpenGL e ray tracing' },
-        { course: 'cybersecurity', img: 'slides/CyberSecurity.png', title: 'CyberSecurity', desc: 'Segurança cibernética, testes de invasão, engenharia reversa e conformidade' },
-        { course: 'desenvolvimento_web', img: 'slides/Desenvolvimento Web.png', title: 'Desenvolvimento Web', desc: 'HTML, CSS, JavaScript, React, Node.js e TypeScript' },
-        { course: 'devops', img: 'slides/DevOps.png', title: 'DevOps', desc: 'Automação, CI/CD, containers, orquestração e infraestrutura como código' },
-        { course: 'embarcados', img: 'slides/Embarcados.png', title: 'Embarcados', desc: 'Microeletrônica, sistemas em tempo real, FPGA e IoT' },
-        { course: 'portugues-brasileiro', img: 'slides/Brazilian Portuguese (for English Speakers).png', title: 'Brazilian Portuguese', desc: 'Complete Portuguese course from A1 to C2 for English speakers' },
-        { course: 'espanhol', img: 'slides/Espanhol.png', title: 'Espanhol', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
-        { course: 'ingles', img: 'slides/Inglês.png', title: 'Inglês', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
-        { course: 'japones-ingles', img: 'slides/Japanese (for English Speakers).png', title: 'Japanese (for English Speakers)', desc: 'Complete Japanese course from zero to intermediate for English speakers' },
-        { course: 'japones', img: 'slides/Japonês.png', title: 'Japonês', desc: 'Curso completo de japonês do zero com Hiragana, Katakana e prática com animes' },
-        { course: 'espanhol-ingles', img: 'slides/Spanish (for English Speakers).png', title: 'Spanish (for English Speakers)', desc: 'Complete Spanish course from A1 to C2 for English speakers' }
+        { course: 'enem', img: 'cursos/portugues/ensino-medio/enem/slides.png', title: 'ENEM', desc: 'Preparação completa para o Exame Nacional do Ensino Médio' },
+        { course: 'accounting', img: 'cursos/ingles/graduacao/accounting/slides.png', title: 'Accounting', desc: 'Financial accounting, management, taxation, auditing and business analysis' },
+        { course: 'engenharia_computacao', img: 'cursos/portugues/graduacao/engenharia-computacao/slides.png', title: 'Engenharia de Computação', desc: 'Hardware, software, sistemas embarcados e automação' },
+        { course: 'administracao', img: 'cursos/portugues/graduacao/administracao/slides.png', title: 'Administração', desc: 'Gestão de pessoas, finanças, marketing e estratégia' },
+        { course: 'engenharia-producao', img: 'cursos/portugues/graduacao/engenharia-producao/slides.png', title: 'Engenharia de Produção', desc: 'Otimização de processos, logística, qualidade e sustentabilidade' },
+        { course: 'gestao-publica', img: 'cursos/portugues/graduacao/gestao-publica/slides.png', title: 'Gestão Pública', desc: 'Administração pública, políticas públicas, gestão financeira e ética' },
+        { course: 'matematica', img: 'cursos/portugues/graduacao/matematica/slides.png', title: 'Matemática', desc: 'Raciocínio lógico, álgebra, cálculo e fundamentos matemáticos' },
+        { course: 'pedagogia', img: 'cursos/portugues/graduacao/pedagogia/slides.png', title: 'Pedagogia', desc: 'Formação de educadores, gestão escolar e práticas pedagógicas' },
+        { course: 'letras', img: 'cursos/portugues/graduacao/letras/slides.png', title: 'Letras', desc: 'Língua, literatura, linguística e ensino de português' },
+        { course: 'biologia', img: 'cursos/portugues/graduacao/biologia/slides.png', title: 'Biologia', desc: 'Fundamentos biológicos, pedagogia e práticas para o ensino de ciências' },
+        { course: 'ciencia-da-computacao', img: 'cursos/portugues/graduacao/ciencia-computacao/slides.png', title: 'Ciência da Computação', desc: 'Algoritmos, programação, sistemas e fundamentos da computação' },
+        { course: 'ciencias-de-la-computacion', img: 'cursos/espanhol/graduacao/ciencias-de-la-computacion/slides.png', title: 'Ciencias de la Computación', desc: 'Licenciatura en algoritmos, programación, matemáticas y sistemas computacionales' },
+        { course: 'ciencia-de-dados-bacharelado', img: 'cursos/portugues/graduacao/ciencia-de-dados/slides.png', title: 'Ciência de Dados (Bacharelado)', desc: 'Programação, estatística, machine learning e análise de dados' },
+        { course: 'computer-science', img: 'cursos/ingles/graduacao/computer-science/slides.png', title: 'Computer Science', desc: 'Full Computer Science curriculum in English' },
+        { course: 'fisica', img: 'cursos/portugues/graduacao/fisica/slides.png', title: 'Física', desc: 'Fundamentos físicos, matemáticos e práticas para o ensino' },
+        { course: 'letras-portugues', img: 'cursos/portugues/graduacao/letras-portugues/slides.png', title: 'Letras – Habilitação em Língua Portuguesa', desc: 'Linguística, literatura, gramática e ensino de português' },
+        { course: 'matematica-licenciatura', img: 'cursos/portugues/graduacao/matematica-licenciatura/slides.png', title: 'Matemática (Licenciatura)', desc: 'Formação pedagógica e aprofundamento em conteúdos matemáticos' },
+        { course: 'matematica-em-espanhol', img: 'cursos/espanhol/graduacao/matematicas/slides.png', title: 'Matemáticas en Español', desc: 'Licenciatura en álgebra, cálculo, geometría y didáctica matemática' },
+        { course: 'math', img: 'cursos/ingles/graduacao/math/slides.png', title: 'Mathematics', desc: 'Complete Mathematics curriculum in English' },
+        { course: 'processos-gerenciais', img: 'cursos/portugues/graduacao/processos-gerenciais/slides.png', title: 'Processos Gerenciais', desc: 'Gestão de processos, pessoas, finanças e estratégia' },
+        { course: 'quimica', img: 'cursos/portugues/graduacao/quimica/slides.png', title: 'Química', desc: 'Fundamentos químicos, pedagógicos e práticas para o ensino' },
+        { course: 'tecnologia-informacao', img: 'cursos/portugues/graduacao/tecnologia-informacao/slides.png', title: 'Tecnologia da Informação', desc: 'Programação, sistemas, redes, segurança e gestão de TI' },
+        { course: 'espcex', img: 'cursos/portugues/ensino-medio/espcex/slides.png', title: 'EsPCEx', desc: 'Preparação completa para o concurso da Escola Preparatória de Cadetes do Exército' },
+        { course: 'ciencia_de_dados', img: 'cursos/portugues/pos-graduacao/ciencia-de-dados/slides.png', title: 'Ciência de Dados (Pós)', desc: 'Análise de dados, estatística aplicada e reprodução de pesquisas' },
+        { course: 'computacao_grafica', img: 'cursos/portugues/pos-graduacao/computacao-grafica/slides.png', title: 'Computação Gráfica', desc: 'Renderização, modelagem, GPU, OpenGL e ray tracing' },
+        { course: 'cybersecurity', img: 'cursos/portugues/pos-graduacao/cybersecurity/slides.png', title: 'CyberSecurity', desc: 'Segurança cibernética, testes de invasão, engenharia reversa e conformidade' },
+        { course: 'desenvolvimento_web', img: 'cursos/portugues/pos-graduacao/desenvolvimento-web/slides.png', title: 'Desenvolvimento Web', desc: 'HTML, CSS, JavaScript, React, Node.js e TypeScript' },
+        { course: 'devops', img: 'cursos/portugues/pos-graduacao/devops/slides.png', title: 'DevOps', desc: 'Automação, CI/CD, containers, orquestração e infraestrutura como código' },
+        { course: 'embarcados', img: 'cursos/portugues/pos-graduacao/embarcados/slides.png', title: 'Embarcados', desc: 'Microeletrônica, sistemas em tempo real, FPGA e IoT' },
+        { course: 'portugues-brasileiro', img: 'cursos/ingles/idiomas/portugues-brasileiro/slides.png', title: 'Brazilian Portuguese', desc: 'Complete Portuguese course from A1 to C2 for English speakers' },
+        { course: 'espanhol', img: 'cursos/portugues/idiomas/espanhol/slides.png', title: 'Espanhol', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
+        { course: 'ingles', img: 'cursos/portugues/idiomas/ingles/slides.png', title: 'Inglês', desc: 'Curso completo do nível A1 ao C2 para falantes de português' },
+        { course: 'japones-ingles', img: 'cursos/ingles/idiomas/japones-ingles/slides.png', title: 'Japanese (for English Speakers)', desc: 'Complete Japanese course from zero to intermediate for English speakers' },
+        { course: 'japones', img: 'cursos/portugues/idiomas/japones/slides.png', title: 'Japonês', desc: 'Curso completo de japonês do zero com Hiragana, Katakana e prática com animes' },
+        { course: 'espanhol-ingles', img: 'cursos/ingles/idiomas/espanhol-ingles/slides.png', title: 'Spanish (for English Speakers)', desc: 'Complete Spanish course from A1 to C2 for English speakers' }
     ];
 
     let sliderCurrentIndex = 0;
@@ -1195,6 +1293,9 @@ console.log('[Main] Inicializando script.js v28.0...');
                 };
             currentCourse = courseId;
             document.body.dataset.course = courseId;
+            const studyCalendarToggle = document.getElementById('studyCalendarToggle');
+            studyCalendarToggle?.style.setProperty('display', 'flex', 'important');
+            studyCalendarToggle?.setAttribute('aria-hidden', 'false');
             document.getElementById('courseView')?.classList.remove('lesson-open');
             const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
             if (backToDisciplineBtn) backToDisciplineBtn.hidden = true;
@@ -1284,11 +1385,27 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     };
 
+    window.showCurrentCourseStudyCalendar = function () {
+        if (!currentCourse || !lessons.length) return false;
+        window.showStudyCalendar?.(
+            currentCourse,
+            currentCourseDetails?.name || getCourseName(currentCourse),
+            lessons
+        );
+        return true;
+    };
+
     // ========== VOLTAR PARA HOME ==========
     function backToHome() {
         stopAllMedia();
         window.finishFloatingMedia?.();
         if (window.CursorTimeset) window.CursorTimeset.registerExit();
+        window.hideStudyCalendar?.();
+        delete document.body.dataset.course;
+        delete document.body.dataset.studyCalendarContext;
+        const studyCalendarToggle = document.getElementById('studyCalendarToggle');
+        studyCalendarToggle?.style.setProperty('display', 'none', 'important');
+        studyCalendarToggle?.setAttribute('aria-hidden', 'false');
 
         const homeScreen = document.getElementById("homeScreen");
         const courseView = document.getElementById("courseView");
@@ -1363,6 +1480,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const name = String(discipline?.name || '').trim();
         const guidance = buildDisciplineStudyGuidance(name);
         if (!baseBio) return guidance;
+        if (currentCourse === 'matematica-em-espanhol' || currentCourse === 'matematicas') return baseBio;
         if (baseBio.includes('Como estudar') || baseBio.includes('Pesquisa na internet') || baseBio.includes('Biografia dos assuntos')) {
             return baseBio;
         }
@@ -1390,7 +1508,12 @@ console.log('[Main] Inicializando script.js v28.0...');
             .slice(0, 6)
             .map(book => `${book.title}${book.author ? `, de ${book.author}` : ''}`)
             .join('; ');
-        return `${bio} Leituras recomendadas: ${readings}.`;
+        const readingLabel = books[0]?.language === 'Español'
+            ? 'Lecturas recomendadas'
+            : books[0]?.language === 'English'
+                ? 'Recommended readings'
+                : 'Leituras recomendadas';
+        return `${bio} ${readingLabel}: ${readings}.`;
     }
 
     function buildVideosFromDiscipline(discipline) {
@@ -1458,10 +1581,78 @@ console.log('[Main] Inicializando script.js v28.0...');
                 if (current.videos.length) lessons.push({ ...current, id: lessons.length, completed: false, unlocked: lessons.length === 0 });
                 current = { videos: [v], totalDuration: dur };
             }
+
         }
         if (current.videos.length) lessons.push({ ...current, id: lessons.length, completed: false, unlocked: lessons.length === 0 });
         for (let i = 1; i < lessons.length; i++) lessons[i].unlocked = false;
         return lessons;
+    }
+
+    window.getStudyCalendarCourses = function() {
+        return allCourses
+            .filter(course => isCourseTrackedInProgress(course.id))
+            .map(course => ({ id: course.id, name: course.name }));
+    };
+
+    window.getStudyCalendarDisciplines = function() {
+        return stagesData.flatMap(stage => stage.disciplines || [])
+            .filter(discipline => isDisciplineUnlocked(discipline.name))
+            .map(discipline => ({
+                id: discipline.name,
+                name: discipline.name,
+                lessons: (disciplineLessonsMap.get(discipline.name) || [])
+                    .map(index => lessons[index])
+                    .filter(Boolean)
+            }));
+    };
+
+    window.loadStudyCalendarCourse = async function(courseId) {
+        const courseData = await loadCourseData(courseId);
+        if (!courseData) throw new Error('Não foi possível carregar o curso.');
+        const courseInfo = allCourses.find(course => course.id === courseId);
+        const temporaryStages = convertStages(courseData.stages);
+        const disciplines = [];
+        const videos = [];
+        const disciplineIsUnlocked = (stageIndex, disciplineIndex) => {
+            if (isExamExemptUser()) return true;
+            const stage = temporaryStages[stageIndex];
+            const previousStageComplete = temporaryStages
+                .slice(0, stageIndex)
+                .every(previous => previous.disciplines.every(item =>
+                    isDisciplineRequirementSatisfiedForCourse(courseId, item.name)
+                ));
+            const previousDisciplinesComplete = stage.disciplines
+                .slice(0, disciplineIndex)
+                .every(item => isDisciplineRequirementSatisfiedForCourse(courseId, item.name));
+            return previousStageComplete && previousDisciplinesComplete;
+        };
+        temporaryStages.forEach((stage, stageIndex) => stage.disciplines.forEach((discipline, disciplineIndex) => {
+            if (!disciplineIsUnlocked(stageIndex, disciplineIndex)) return;
+            const disciplineVideos = discipline.videos.map(video => ({
+                ...video,
+                stageIdx: stageIndex,
+                disciplineIdx: disciplineIndex
+            }));
+            const disciplineLessons = groupVideosIntoLessons(disciplineVideos, 60, 18);
+            disciplineLessons.forEach((lesson, index) => { lesson.id = index; });
+            disciplines.push({
+                id: `${stageIndex}-${disciplineIndex}`,
+                name: discipline.name,
+                lessons: disciplineLessons
+            });
+            videos.push(...disciplineVideos);
+        }));
+        return {
+            id: courseId,
+            name: courseInfo?.name || courseData.name || courseId,
+            lessons: groupVideosIntoLessons(videos, 60, 18),
+            disciplines
+        };
+    };
+
+    function isDisciplineRequirementSatisfiedForCourse(courseId, disciplineName) {
+        if (isExamExemptUser()) return true;
+        return getDisciplineExamState(courseId, disciplineName).passed;
     }
 
     function loadProgressForCourse(courseId) {
@@ -1524,12 +1715,14 @@ console.log('[Main] Inicializando script.js v28.0...');
         const timeUpdated = now;
         const newData = {
             watchedMap,
+            completedLessons: lessons.map(lesson => lesson.completed === true),
             currentLessonId,
             currentVideoInLesson,
             time_created: timeCreated,
             time_updated: timeUpdated
         };
         localStorage.setItem(progressKey, JSON.stringify(newData));
+        window.dispatchEvent(new CustomEvent('studyProgressUpdated', { detail: { courseId: currentCourse } }));
         syncCoursePointsToGameWallet();
         updateGlobalStats();
         updatePracticeTabVisibility();
@@ -2152,6 +2345,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             scheduleQualityOptions();
             updateAvailableAudioTracks();
             scheduleAudioTrackOptions();
+            updateAvailableCaptionLanguages();
+            setTimeout(updateAvailableCaptionLanguages, 500);
             if (videoObj.time > 5) player.once('loadedmetadata', () => { player.currentTime = videoObj.time; });
         } else if (videojsPlayer && videojsElement) {
             activateDirectVideoPlayer();
@@ -2160,6 +2355,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             videojsPlayer.ready(() => {
                 videojsPlayer.volume(playerVolume / 100);
                 if (videoObj.time > 5) videojsPlayer.currentTime(videoObj.time);
+                updateAvailableCaptionLanguages();
+                setTimeout(updateAvailableCaptionLanguages, 500);
                 videojsPlayer.focus();
             });
         }
@@ -2288,6 +2485,15 @@ console.log('[Main] Inicializando script.js v28.0...');
                     </div>`;
         });
         html += `</div>`;
+        const lessonDiscipline = stagesData
+            .flatMap(stage => stage.disciplines)
+            .find(discipline => normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(currentDiscipline));
+        if (lessonDiscipline) {
+            const disciplineBio = buildDisciplineBioWithBooks(lessonDiscipline);
+            if (disciplineBio) {
+                html += `<div class="discipline-card-bio lesson-discipline-bio"><strong>${t('discipline_bio_title')}</strong><p>${escapeHtml(disciplineBio)}</p></div>`;
+            }
+        }
         container.innerHTML = html;
         container.querySelectorAll('.current-video-item').forEach(el => {
             let idx = parseInt(el.dataset.videoIndex, 10);
@@ -2560,39 +2766,41 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function getCourseQuizFile(courseId) {
         const courseMap = {
-            administracao: 'cursos/graduacao/administracao/administracao-quiz.json',
-            biologia: 'cursos/graduacao/biologia/biologia-quiz.json',
-            accounting: 'cursos/graduacao/accounting/accounting-quiz.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
-            matematica: 'cursos/graduacao/matematica/matematica-quiz.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-quiz.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-quiz.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-quiz.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-quiz.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-quiz.json',
-            devops: 'cursos/pos-graduacao/devops/devops-quiz.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-quiz.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-quiz.json',
-            'computer-science': 'cursos/graduacao/computer-science/computer-science-quiz.json',
-            'math': 'cursos/graduacao/math/math-quiz.json',
-            'enem': 'cursos/ensino-medio/enem/enem-quiz.json',
-            'espcex': 'cursos/ensino-medio/espcex/espcex-quiz.json',
-            'ingles': 'cursos/idiomas/ingles/ingles-quiz.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-quiz.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-quiz.json',
-            'japones': 'cursos/idiomas/japones/japones-quiz.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-quiz.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-quiz.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-quiz.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-quiz.json',
-            'letras': 'cursos/graduacao/letras/letras-quiz.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-quiz.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-quiz.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-quiz.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-quiz.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-quiz.json',
-            'fisica': 'cursos/graduacao/fisica/fisica-quiz.json',
-            'quimica': 'cursos/graduacao/quimica/quimica-quiz.json'
+            administracao: 'cursos/portugues/graduacao/administracao/administracao-quiz.json',
+            biologia: 'cursos/portugues/graduacao/biologia/biologia-quiz.json',
+            accounting: 'cursos/ingles/graduacao/accounting/accounting-quiz.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/ciencia-computacao-quiz.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-quiz.json',
+            matematica: 'cursos/portugues/graduacao/matematica/matematica-quiz.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/matematica-licenciatura-quiz.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/matematicas-quiz.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/computacao-grafica-quiz.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/embarcados-quiz.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-quiz.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/cybersecurity-quiz.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/devops-quiz.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-quiz.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-quiz.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/computer-science-quiz.json',
+            'math': 'cursos/ingles/graduacao/math/math-quiz.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/enem-quiz.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/espcex-quiz.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/ingles-quiz.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/espanhol-quiz.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/espanhol-ingles-quiz.json',
+            'japones': 'cursos/portugues/idiomas/japones/japones-quiz.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/portugues-brasileiro-quiz.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/japones-ingles-quiz.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/engenharia-computacao-quiz.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/engenharia-producao-quiz.json',
+            'letras': 'cursos/portugues/graduacao/letras/letras-quiz.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/letras-portugues-quiz.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/pedagogia-quiz.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/gestao-publica-quiz.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/tecnologia-informacao-quiz.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/processos-gerenciais-quiz.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/fisica-quiz.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/quimica-quiz.json'
         };
         return courseMap[courseId] || null;
     }
@@ -2926,39 +3134,42 @@ console.log('[Main] Inicializando script.js v28.0...');
     async function loadBooksForCourse(courseId) {
         if (booksCache.has(courseId)) return booksCache.get(courseId);
         const bookFiles = {
-            administracao: 'cursos/graduacao/administracao/administracao-books.json',
-            biologia: 'cursos/graduacao/biologia/biologia-books.json',
-            accounting: 'cursos/graduacao/accounting/accounting-books.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/ciencia-computacao-books.json',
-            matematica: 'cursos/graduacao/matematica/matematica-books.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
-            math: 'cursos/graduacao/math/math-books.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/embarcados-books.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/desenvolvimento-web-books.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/cybersecurity-books.json',
-            devops: 'cursos/pos-graduacao/devops/devops-books.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
-            'computer-science': 'cursos/graduacao/computer-science/computer-science-books.json',
-            'enem': 'cursos/ensino-medio/enem/enem-books.json',
-            'espcex': 'cursos/ensino-medio/espcex/espcex-books.json',
-            'ingles': 'cursos/idiomas/ingles/ingles-books.json',
-            'espanhol': 'cursos/idiomas/espanhol/espanhol-books.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/espanhol-ingles-books.json',
-            'japones': 'cursos/idiomas/japones/japones-books.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/portugues-brasileiro-books.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/japones-ingles-books.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/engenharia-computacao-books.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/engenharia-producao-books.json',
-            'letras': 'cursos/graduacao/letras/letras-books.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/letras-portugues-books.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/pedagogia-books.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/gestao-publica-books.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/tecnologia-informacao-books.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/processos-gerenciais-books.json',
-            'fisica': 'cursos/graduacao/fisica/fisica-books.json',
-            'quimica': 'cursos/graduacao/quimica/quimica-books.json'
+            administracao: 'cursos/portugues/graduacao/administracao/administracao-books.json',
+            biologia: 'cursos/portugues/graduacao/biologia/biologia-books.json',
+            accounting: 'cursos/ingles/graduacao/accounting/accounting-books.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/ciencia-computacao-books.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-books.json',
+            matematica: 'cursos/portugues/graduacao/matematica/matematica-books.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/matematica-licenciatura-books.json',
+            'matematica-em-espanhol': 'cursos/espanhol/graduacao/matematicas/matematicas-books.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/matematicas-books.json',
+            math: 'cursos/ingles/graduacao/math/math-books.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/computacao-grafica-books.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/embarcados-books.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-books.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/cybersecurity-books.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/devops-books.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/ciencia-de-dados-books.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/computer-science-books.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/enem-books.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/espcex-books.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/ingles-books.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/espanhol-books.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/espanhol-ingles-books.json',
+            'japones': 'cursos/portugues/idiomas/japones/japones-books.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/portugues-brasileiro-books.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/japones-ingles-books.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/engenharia-computacao-books.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/engenharia-producao-books.json',
+            'letras': 'cursos/portugues/graduacao/letras/letras-books.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/letras-portugues-books.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/pedagogia-books.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/gestao-publica-books.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/tecnologia-informacao-books.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/processos-gerenciais-books.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/fisica-books.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/quimica-books.json'
         };
         const fileName = bookFiles[courseId];
         if (!fileName) return [];
@@ -3188,39 +3399,41 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== TIME E CONTRIBUIDORES ==========
     async function loadTeamAndContributors(courseId) {
         const teamFiles = {
-            administracao: 'cursos/graduacao/administracao/team-administracao.json',
-            biologia: 'cursos/graduacao/biologia/team-biologia.json',
-            accounting: 'cursos/graduacao/accounting/team-accounting.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/team-computacao.json',
-            matematica: 'cursos/graduacao/matematica/team-matematica.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/team-embarcados.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/team-cybersecurity.json',
-            devops: 'cursos/pos-graduacao/devops/team-devops.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
-            'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
-            'math': 'cursos/graduacao/math/team-math.json',
-            'enem': 'cursos/ensino-medio/enem/team-enem.json',
-            'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
-            'ingles': 'cursos/idiomas/ingles/team-ingles.json',
-            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
-            'japones': 'cursos/idiomas/japones/team-japones.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
-            'letras': 'cursos/graduacao/letras/team-letras.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json',
-            'fisica': 'cursos/graduacao/fisica/team-fisica.json',
-            'quimica': 'cursos/graduacao/quimica/team-quimica.json'
+            administracao: 'cursos/portugues/graduacao/administracao/team-administracao.json',
+            biologia: 'cursos/portugues/graduacao/biologia/team-biologia.json',
+            accounting: 'cursos/ingles/graduacao/accounting/team-accounting.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/team-computacao.json',
+            matematica: 'cursos/portugues/graduacao/matematica/team-matematica.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/team-matematicas.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/team-embarcados.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/team-cybersecurity.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/team-devops.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/team-computer-science.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/team-ciencias-de-la-computacion.json',
+            'math': 'cursos/ingles/graduacao/math/team-math.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/team-enem.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/team-espcex.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/team-ingles.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/team-espanhol.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/team-espanhol-ingles.json',
+            'japones': 'cursos/portugues/idiomas/japones/team-japones.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/team-japones-ingles.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/team-engenharia-computacao.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/team-engenharia-producao.json',
+            'letras': 'cursos/portugues/graduacao/letras/team-letras.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/team-letras-portugues.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/team-pedagogia.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/team-gestao-publica.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/team-processos-gerenciais.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/team-fisica.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/team-quimica.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return;
@@ -3262,7 +3475,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         container.innerHTML = '';
         let practiceData = null;
         try {
-            const specificUrl = `cursos/ensino-medio/enem/pratica-enem.json`;
+            const specificUrl = `cursos/portugues/ensino-medio/enem/pratica-enem.json`;
             const specificResponse = await fetch(specificUrl);
             if (specificResponse.ok) {
                 practiceData = await specificResponse.json();
@@ -3288,8 +3501,12 @@ console.log('[Main] Inicializando script.js v28.0...');
         const searchHtml = `
             <div class="practice-search-wrapper">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="practiceSearchInput" class="practice-search-input" placeholder="${t('search_practice_placeholder')}">
+                <input type="text" id="practiceSearchInput" class="practice-search-input" placeholder="${t('search_practice_placeholder')}" data-i18n-placeholder="search_practice_placeholder">
             </div>
+            <label class="practice-category-filter">
+                <span data-i18n="practice_category_filter">${t('practice_category_filter')}</span>
+                <select id="practiceCategorySelect" class="practice-category-select" data-i18n-aria="practice_category_filter"></select>
+            </label>
         `;
         let introHtml = '';
         if (currentPracticeData.intro) {
@@ -3304,11 +3521,35 @@ console.log('[Main] Inicializando script.js v28.0...');
         const gridContainerHtml = '<div id="practiceGridContainer" class="practice-grid"></div>';
         container.innerHTML = searchHtml + introHtml + gridContainerHtml;
         practiceSearchInput = document.getElementById('practiceSearchInput');
+        updatePracticeCategoryOptions();
         renderPracticeGrid(currentPracticeData);
         if (practiceSearchInput) {
             practiceSearchInput.addEventListener('input', debounce(() => filterPracticeGrid(), 300));
         }
+        document.getElementById('practiceCategorySelect')?.addEventListener('change', event => {
+            practiceCategoryFilter = event.target.value;
+            filterPracticeGrid();
+        });
         if (typeof window.applyTranslations === 'function') window.applyTranslations();
+    }
+
+    function updatePracticeCategoryOptions() {
+        const select = document.getElementById('practiceCategorySelect');
+        if (!select || !currentPracticeData?.platforms) return;
+        const categories = [...new Set(currentPracticeData.platforms
+            .map(platform => platform.category)
+            .filter(category => typeof category === 'string' && category))];
+        if (practiceCategoryFilter !== 'all' && !categories.includes(practiceCategoryFilter)) {
+            practiceCategoryFilter = 'all';
+        }
+        select.innerHTML = [
+            `<option value="all" data-i18n="practice_category_all">${t('practice_category_all')}</option>`,
+            ...categories.map(category => {
+                const key = `practice_category_${category}`;
+                return `<option value="${escapeHtml(category)}" data-i18n="${escapeHtml(key)}">${t(key)}</option>`;
+            })
+        ].join('');
+        select.value = practiceCategoryFilter;
     }
 
     function renderPracticeGrid(practiceData) {
@@ -3352,12 +3593,8 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     function filterPracticeGrid() {
         if (activeTab !== 'pratica') return;
-        if (!currentPracticeData || !practiceSearchInput) return;
-        const searchTerm = practiceSearchInput.value.trim().toLowerCase();
-        if (searchTerm === '') {
-            renderPracticeGrid(currentPracticeData);
-            return;
-        }
+        if (!currentPracticeData) return;
+        const searchTerm = practiceSearchInput?.value.trim().toLowerCase() || '';
         const lang = getCurrentLanguage();
         const filteredPlatforms = currentPracticeData.platforms.filter(platform => {
             let titulo = '';
@@ -3372,7 +3609,9 @@ console.log('[Main] Inicializando script.js v28.0...');
             } else {
                 descricao = platform.descricao || '';
             }
-            return titulo.toLowerCase().includes(searchTerm) || descricao.toLowerCase().includes(searchTerm);
+            const matchesSearch = !searchTerm || titulo.toLowerCase().includes(searchTerm) || descricao.toLowerCase().includes(searchTerm);
+            const matchesCategory = practiceCategoryFilter === 'all' || platform.category === practiceCategoryFilter;
+            return matchesSearch && matchesCategory;
         });
         renderPracticeGrid({ intro: currentPracticeData.intro, platforms: filteredPlatforms });
     }
@@ -3436,39 +3675,41 @@ console.log('[Main] Inicializando script.js v28.0...');
     // ========== CONTRIBUIDORES ==========
     async function loadContributors(courseId) {
         const teamFiles = {
-            administracao: 'cursos/graduacao/administracao/team-administracao.json',
-            biologia: 'cursos/graduacao/biologia/team-biologia.json',
-            accounting: 'cursos/graduacao/accounting/team-accounting.json',
-            'ciencia-da-computacao': 'cursos/graduacao/ciencia-computacao/team-computacao.json',
-            matematica: 'cursos/graduacao/matematica/team-matematica.json',
-            'matematica-licenciatura': 'cursos/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
-            computacao_grafica: 'cursos/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
-            embarcados: 'cursos/pos-graduacao/embarcados/team-embarcados.json',
-            desenvolvimento_web: 'cursos/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',
-            cybersecurity: 'cursos/pos-graduacao/cybersecurity/team-cybersecurity.json',
-            devops: 'cursos/pos-graduacao/devops/team-devops.json',
-            ciencia_de_dados: 'cursos/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
-            'ciencia-de-dados-bacharelado': 'cursos/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
-            'computer-science': 'cursos/graduacao/computer-science/team-computer-science.json',
-            'math': 'cursos/graduacao/math/team-math.json',
-            'enem': 'cursos/ensino-medio/enem/team-enem.json',
-            'espcex': 'cursos/ensino-medio/espcex/team-espcex.json',
-            'ingles': 'cursos/idiomas/ingles/team-ingles.json',
-            'espanhol': 'cursos/idiomas/espanhol/team-espanhol.json',
-            'espanhol-ingles': 'cursos/idiomas/espanhol-ingles/team-espanhol-ingles.json',
-            'japones': 'cursos/idiomas/japones/team-japones.json',
-            'portugues-brasileiro': 'cursos/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
-            'japones-ingles': 'cursos/idiomas/japones-ingles/team-japones-ingles.json',
-            'engenharia_computacao': 'cursos/graduacao/engenharia-computacao/team-engenharia-computacao.json',
-            'engenharia-producao': 'cursos/graduacao/engenharia-producao/team-engenharia-producao.json',
-            'letras': 'cursos/graduacao/letras/team-letras.json',
-            'letras-portugues': 'cursos/graduacao/letras-portugues/team-letras-portugues.json',
-            'pedagogia': 'cursos/graduacao/pedagogia/team-pedagogia.json',
-            'gestao-publica': 'cursos/graduacao/gestao-publica/team-gestao-publica.json',
-            'tecnologia-informacao': 'cursos/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
-            'processos-gerenciais': 'cursos/graduacao/processos-gerenciais/team-processos-gerenciais.json',
-            'fisica': 'cursos/graduacao/fisica/team-fisica.json',
-            'quimica': 'cursos/graduacao/quimica/team-quimica.json'
+            administracao: 'cursos/portugues/graduacao/administracao/team-administracao.json',
+            biologia: 'cursos/portugues/graduacao/biologia/team-biologia.json',
+            accounting: 'cursos/ingles/graduacao/accounting/team-accounting.json',
+            'ciencia-da-computacao': 'cursos/portugues/graduacao/ciencia-computacao/team-computacao.json',
+            matematica: 'cursos/portugues/graduacao/matematica/team-matematica.json',
+            'matematica-licenciatura': 'cursos/portugues/graduacao/matematica-licenciatura/team-matematica-licenciatura.json',
+            matematicas: 'cursos/espanhol/graduacao/matematicas/team-matematicas.json',
+            computacao_grafica: 'cursos/portugues/pos-graduacao/computacao-grafica/team-computacao-grafica.json',
+            embarcados: 'cursos/portugues/pos-graduacao/embarcados/team-embarcados.json',
+            desenvolvimento_web: 'cursos/portugues/pos-graduacao/desenvolvimento-web/team-desenvolvimento-web.json',
+            cybersecurity: 'cursos/portugues/pos-graduacao/cybersecurity/team-cybersecurity.json',
+            devops: 'cursos/portugues/pos-graduacao/devops/team-devops.json',
+            ciencia_de_dados: 'cursos/portugues/pos-graduacao/ciencia-de-dados/team-ciencia-de-dados.json',
+            'ciencia-de-dados-bacharelado': 'cursos/portugues/graduacao/ciencia-de-dados/team-ciencia-de-dados-bacharelado.json',
+            'computer-science': 'cursos/ingles/graduacao/computer-science/team-computer-science.json',
+            'ciencias-de-la-computacion': 'cursos/espanhol/graduacao/ciencias-de-la-computacion/team-ciencias-de-la-computacion.json',
+            'math': 'cursos/ingles/graduacao/math/team-math.json',
+            'enem': 'cursos/portugues/ensino-medio/enem/team-enem.json',
+            'espcex': 'cursos/portugues/ensino-medio/espcex/team-espcex.json',
+            'ingles': 'cursos/portugues/idiomas/ingles/team-ingles.json',
+            'espanhol': 'cursos/portugues/idiomas/espanhol/team-espanhol.json',
+            'espanhol-ingles': 'cursos/ingles/idiomas/espanhol-ingles/team-espanhol-ingles.json',
+            'japones': 'cursos/portugues/idiomas/japones/team-japones.json',
+            'portugues-brasileiro': 'cursos/ingles/idiomas/portugues-brasileiro/team-portugues-brasileiro.json',
+            'japones-ingles': 'cursos/ingles/idiomas/japones-ingles/team-japones-ingles.json',
+            'engenharia_computacao': 'cursos/portugues/graduacao/engenharia-computacao/team-engenharia-computacao.json',
+            'engenharia-producao': 'cursos/portugues/graduacao/engenharia-producao/team-engenharia-producao.json',
+            'letras': 'cursos/portugues/graduacao/letras/team-letras.json',
+            'letras-portugues': 'cursos/portugues/graduacao/letras-portugues/team-letras-portugues.json',
+            'pedagogia': 'cursos/portugues/graduacao/pedagogia/team-pedagogia.json',
+            'gestao-publica': 'cursos/portugues/graduacao/gestao-publica/team-gestao-publica.json',
+            'tecnologia-informacao': 'cursos/portugues/graduacao/tecnologia-informacao/team-tecnologia-informacao.json',
+            'processos-gerenciais': 'cursos/portugues/graduacao/processos-gerenciais/team-processos-gerenciais.json',
+            'fisica': 'cursos/portugues/graduacao/fisica/team-fisica.json',
+            'quimica': 'cursos/portugues/graduacao/quimica/team-quimica.json'
         };
         const fileName = teamFiles[courseId];
         if (!fileName) return [];
@@ -3492,12 +3733,15 @@ console.log('[Main] Inicializando script.js v28.0...');
         contributors.forEach(contributor => {
             const isNew = contributor.isNew === true;
             const link = contributor.github || contributor.url || '#';
+            const role = typeof contributor.role === 'string' ? contributor.role.trim() : '';
+            const year = typeof contributor.year === 'string' ? contributor.year.trim() : '';
+            const description = typeof contributor.description === 'string' ? contributor.description.trim() : '';
             html += `<div class="member-card ${isNew ? 'new-contributor' : ''} animate-in">
                         <img class="member-photo" src="${escapeHtml(contributor.image || 'https://placehold.co/60x60/1F2933/9CA3AF?text=?')}" alt="${escapeHtml(contributor.name)}" onerror="this.src='https://placehold.co/60x60/1F2933/9CA3AF?text=?'">
                         <div class="member-name"><a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(contributor.name)}</a>${isNew ? `<span class="new-badge">${t('new_badge')}</span>` : ''}</div>
-                        <div class="member-role">${escapeHtml(contributor.role)}</div>
-                        <div class="member-year">${escapeHtml(contributor.year)}</div>
-                        <div class="member-desc">${escapeHtml(contributor.description)}</div>
+                        ${role ? `<div class="member-role">${escapeHtml(role)}</div>` : ''}
+                        ${year ? `<div class="member-year">${escapeHtml(year)}</div>` : ''}
+                        ${description ? `<div class="member-desc">${escapeHtml(description)}</div>` : ''}
                     </div>`;
         });
         container.innerHTML = html;
@@ -3737,6 +3981,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 isPlayerReady = true;
                 player.volume = playerVolume / 100;
                 enableCaptionsWhenAvailable();
+                updateAvailableCaptionLanguages();
                 const shouldStartLesson = window._startLessonScheduled;
                 window._startLessonScheduled = false;
                 if (pendingVideoObj) {
@@ -3929,7 +4174,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             if (!tracks) return;
             for (let index = 0; index < tracks.length; index += 1) {
                 const track = tracks[index];
-                track.mode = track.language === language ? 'showing' : 'disabled';
+                const trackLanguage = track.language?.split('-')[0].toLowerCase();
+                track.mode = trackLanguage === language.toLowerCase() ? 'showing' : 'disabled';
             }
         }
     }
@@ -4135,34 +4381,6 @@ console.log('[Main] Inicializando script.js v28.0...');
         else window._startLessonScheduled = true;
     }
 
-    // ========== PERFIL ==========
-    function initProfile() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (!profileBtn) {
-            console.warn('[Profile] Botão #profileBtn não encontrado');
-            return;
-        }
-        profileBtn.addEventListener('click', () => {
-            console.log('[Profile] Clique no botão de perfil');
-            if (window.openProfileModal && typeof window.openProfileModal === 'function') {
-                window.openProfileModal();
-            } else {
-                console.warn('[Profile] openProfileModal não definido, abrindo modal manualmente');
-                const modal = document.getElementById('profileModal');
-                if (modal) {
-                    modal.style.display = 'flex';
-                    if (window.updateProfileModal) {
-                        window.updateProfileModal();
-                    } else {
-                        console.warn('[Profile] updateProfileModal não definido');
-                    }
-                } else {
-                    console.error('[Profile] Modal #profileModal não encontrado');
-                }
-            }
-        });
-    }
-
     // ========== ONBOARDING ==========
     function initOnboarding() {
         const onboardingComplete = localStorage.getItem('ulivre_onboarding_complete');
@@ -4191,7 +4409,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         console.warn('[Main] i18n central não disponível, usando fallback.');
         // Fallback: carregar traduções manualmente
         try {
-            const response = await fetch(`lang/${savedLang}.json`);
+            const response = await fetch(`base/lang/${savedLang}.json`);
             if (response.ok) {
                 window.__translations = await response.json();
                 if (window.applyTranslations) window.applyTranslations();
@@ -4231,7 +4449,6 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
-    initProfile();
     // O acesso às páginas é livre; o cadastro/login é aberto pelo botão do menu.
 
     const backToHomeBtn = document.getElementById("backToHomeBtn");
@@ -4377,10 +4594,17 @@ console.log('[Main] Inicializando script.js v28.0...');
                 }
             } else if (activePlayerType === 'videojs' && videojsPlayer) {
                 const tracks = videojsPlayer.textTracks();
-                const captionsTrack = Array.from(tracks).find(track => track.kind === 'captions' || track.kind === 'subtitles');
-                if (captionsTrack) {
-                    captionsTrack.mode = captionsTrack.mode === 'showing' ? 'hidden' : 'showing';
-                    captionsToggleBtn.classList.toggle('active', captionsTrack.mode === 'showing');
+                const captionTracks = Array.from(tracks).filter(track => track.kind === 'captions' || track.kind === 'subtitles');
+                const selectedLanguage = captionLanguageSelect?.value || 'pt';
+                const selectedTrack = captionTracks.find(track =>
+                    track.language?.split('-')[0].toLowerCase() === selectedLanguage.toLowerCase()
+                );
+                if (selectedTrack) {
+                    const shouldShow = selectedTrack.mode !== 'showing';
+                    captionTracks.forEach(track => {
+                        track.mode = track === selectedTrack && shouldShow ? 'showing' : 'disabled';
+                    });
+                    captionsToggleBtn.classList.toggle('active', shouldShow);
                 }
             }
         });
@@ -4467,7 +4691,9 @@ console.log('[Main] Inicializando script.js v28.0...');
                     loadTeamAndContributors(currentCourse);
                 }
             } else if (activeTab === 'pratica' && typeof currentPracticeData !== 'undefined' && currentPracticeData && typeof renderPracticeGrid === 'function') {
+                updatePracticeCategoryOptions();
                 renderPracticeGrid(currentPracticeData);
+                filterPracticeGrid();
             }
         }
         const homeScreen = document.getElementById('homeScreen');

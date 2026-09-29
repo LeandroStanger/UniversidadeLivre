@@ -10,29 +10,22 @@
     <meta property="og:title" content="Universidade Livre · Cursos de Graduação e Pós-graduação">
     <meta property="og:description" content="Cursos de graduação e pós-graduação com conteúdo curado e gratuito.">
     <meta property="og:url" content="https://leandrostanger.github.io/UniversidadeLivre/">
-    <meta property="og:image" content="https://leandrostanger.github.io/UniversidadeLivre/logo-da-universidade-livre.png">
+    <meta property="og:image" content="https://leandrostanger.github.io/UniversidadeLivre/base/logo-da-universidade-livre.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Universidade Livre · Cursos de Graduação e Pós-graduação">
     <meta name="twitter:description" content="Cursos de graduação e pós-graduação com conteúdo curado e gratuito.">
-    <meta name="twitter:image" content="https://leandrostanger.github.io/UniversidadeLivre/logo-da-universidade-livre.png">
-    <meta name="theme-color" content="#0f0f0f">
-    <script>
-        (function () {
-            const themeKey = 'ulivre-theme';
-            const savedTheme = localStorage.getItem(themeKey);
-            const theme = savedTheme === 'youtube-dark' ? savedTheme : 'youtube-dark';
-            document.documentElement.dataset.theme = theme;
-            localStorage.setItem(themeKey, theme);
-        }());
-    </script>
+    <meta name="twitter:image" content="https://leandrostanger.github.io/UniversidadeLivre/base/logo-da-universidade-livre.png">
+    <meta name="theme-color" content="#0B0D10">
+    <link rel="stylesheet" href="base/theme/theme.css">
+    <script src="base/theme/theme.js"></script>
     <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="perfil/profile.css">
+    <link rel="stylesheet" href="base/perfil/profile.css">
     <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
     <link rel="stylesheet" href="cursos/course-intro.css">
-    <link rel="stylesheet" href="onboarding/onboarding.css">
-    <link rel="stylesheet" href="audio-player/audio-player.css">
-    <link rel="stylesheet" href="loading/loading-screen.css">
+    <link rel="stylesheet" href="base/onboarding/onboarding.css">
+    <link rel="stylesheet" href="base/audio-player/audio-player.css">
+    <link rel="stylesheet" href="base/loading/loading-screen.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
     <link rel="stylesheet" href="https://vjs.zencdn.net/10.0.0-rc.2/video-js.css">
@@ -42,9 +35,9 @@
 <body class="site-loading">
 <div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
     <div class="site-loading-content">
-        <img class="site-loading-logo" src="logo-da-universidade-livre.png" alt="Universidade Livre">
+        <img class="site-loading-logo" src="base/logo-da-universidade-livre.png" alt="Universidade Livre">
         <div class="site-loading-spinner" aria-hidden="true"></div>
-        <span class="site-loading-text" data-i18n="loading_home" data-loading-pt="Carregando a Universidade Livre..." data-loading-en="Loading Open University...">Carregando a Universidade Livre...</span>
+        <span class="site-loading-text" data-i18n="loading_home" data-loading-pt="Carregando a Universidade Livre..." data-loading-en="Loading Open University..." data-loading-es="Cargando la Universidad Libre...">Carregando a Universidade Livre...</span>
     </div>
 </div>
 <div class="container">
@@ -52,7 +45,7 @@
     <div class="header">
         <div class="logo">
             <a href="https://leandrostanger.github.io/UniversidadeLivre/" style="text-decoration: none; display: block;">
-                <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+                <img src="base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
             </a>
             <p data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
         </div>
@@ -60,9 +53,16 @@
             <div class="stat-item"><i class="fas fa-clock"></i> <span id="totalTimeDisplay">0h 0m</span></div>
             <div class="stat-item"><i class="fas fa-fire"></i> <span id="streakDisplay">0</span> <span data-i18n="streak_days">dias</span></div>
             <div class="stat-item language-switch">
-                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br">PT</button>
-                <span class="lang-sep">|</span>
-                <button id="langEnBtn" class="lang-btn" data-lang="en">EN</button>
+                <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <span id="selectedLanguageLabel">Português</span>
+                    <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                    <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                    <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                    <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                </div>
             </div>
             <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button">
                 <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
@@ -86,7 +86,7 @@
                 <i class="fas fa-users"></i> <span data-i18n="comunidade_title">Comunidade</span>
             </a>
             <button id="profileBtn" class="btn-biblioteca" style="background: var(--accent-purple);" data-profile-custom="false">
-                <i class="fas fa-user"></i> <span data-i18n="profile">Perfil</span>
+                <i class="fas fa-user"></i> <span data-i18n="profile">Perfil</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
             </button>
         </div>
     </div>
@@ -141,6 +141,7 @@
                         <option value="all" data-i18n="filter_all_languages">Todos</option>
                         <option value="pt" data-i18n="course_language_portuguese">Português</option>
                         <option value="en" data-i18n="course_language_english">Inglês</option>
+                        <option value="es" data-i18n="course_language_spanish">Espanhol</option>
                     </select>
                 </div>
             </div>
@@ -237,6 +238,8 @@
                                 <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
                                     <option value="pt">Português</option>
                                     <option value="en">English</option>
+                                    <option value="es">Español</option>
+                                    <option value="ja">日本語</option>
                                 </select>
                             </label>
                             <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen">
@@ -282,7 +285,53 @@
             <div class="right-sidebar">
                 <!-- Progresso -->
                 <div id="progressChartContainer" class="chart-container"></div>
-                
+                <section id="studyCalendar" class="study-calendar" hidden aria-labelledby="studyCalendarTitle">
+                    <div class="study-calendar-header">
+                        <div>
+                            <span class="study-calendar-kicker" data-i18n="study_calendar_kicker">Planejamento</span>
+                            <h3 id="studyCalendarTitle" data-i18n="study_calendar_title">Calendário de estudos</h3>
+                        </div>
+                        <button id="studyScheduleOpenBtn" class="study-calendar-header-action" type="button" data-i18n-aria="study_calendar_schedule_button" aria-controls="studyCalendarForm" aria-expanded="false">
+                            <i class="fas fa-calendar-plus" aria-hidden="true"></i>
+                            <span data-i18n="study_calendar_schedule_button">Agendar aula</span>
+                        </button>
+                        <i class="fas fa-calendar-days" aria-hidden="true"></i>
+                    </div>
+                    <p id="studyCalendarEmptyState" class="study-calendar-empty" data-i18n="study_calendar_select_course" hidden></p>
+                    <div class="study-calendar-navigation">
+                        <button type="button" id="studyCalendarPrevious" data-i18n-aria="study_calendar_previous_month" aria-label="Mês anterior"><i class="fas fa-chevron-left"></i></button>
+                        <strong id="studyCalendarMonth"></strong>
+                        <button type="button" id="studyCalendarNext" data-i18n-aria="study_calendar_next_month" aria-label="Próximo mês"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div id="studyCalendarGrid" class="study-calendar-grid" role="grid"></div>
+                    <div id="studyCalendarEvents" class="study-calendar-events"></div>
+                    <div id="studyCalendarForm" class="study-calendar-form" role="dialog" aria-modal="true" aria-labelledby="studyCalendarFormTitle" hidden>
+                        <div class="study-calendar-form-header">
+                            <h4 id="studyCalendarFormTitle" data-i18n="study_calendar_schedule_title">Agendar aula</h4>
+                            <button type="button" id="studyScheduleCloseBtn" class="study-calendar-form-close" data-i18n-aria="close" aria-label="Fechar">
+                                <i class="fas fa-xmark" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <label class="study-calendar-course-label" for="studyCourseSelect" data-i18n="study_calendar_course">Curso</label>
+                        <select id="studyCourseSelect" class="study-calendar-course-select" data-i18n-aria="study_calendar_course_select" aria-label="Selecionar curso"></select>
+                        <p id="studyCalendarCourse" class="study-calendar-course"></p>
+                        <label for="studyDisciplineSelect" data-i18n="study_calendar_discipline">Disciplina</label>
+                        <select id="studyDisciplineSelect" class="study-calendar-course-select" data-i18n-aria="study_calendar_discipline_select" aria-label="Selecionar disciplina" disabled></select>
+                        <label for="studyStartDate" data-i18n="study_calendar_first_day">Primeiro dia</label>
+                        <input id="studyStartDate" class="study-calendar-date" type="date" data-i18n-aria="study_calendar_first_day" aria-label="Primeiro dia">
+                        <span class="study-calendar-label" data-i18n="study_calendar_days">Dias da semana</span>
+                        <div id="studyWeekdayPicker" class="study-weekday-picker"></div>
+                        <output id="studyWeeklyLessons" class="study-calendar-count" aria-live="polite"></output>
+                        <output id="studyWeeklyHours" class="study-calendar-hours" aria-live="polite"></output>
+                        <label for="studyEndDate" data-i18n="study_calendar_end_date">Fim</label>
+                        <input id="studyEndDate" class="study-calendar-date" type="date" data-i18n-aria="study_calendar_end_date" aria-label="Fim" readonly>
+                        <button type="button" id="studyScheduleButton" class="study-calendar-submit">
+                            <i class="fas fa-calendar-plus"></i> <span data-i18n="study_calendar_schedule">Agendar aula</span>
+                        </button>
+                    </div>
+                    <small class="study-calendar-locale" data-i18n="study_calendar_locale">Calendário ajustado à configuração do seu navegador.</small>
+                </section>
+
                 <!-- Aula Atual -->
                 <div class="current-lesson-panel" id="currentLessonPanel">
                     <button class="help-button" id="helpButton" style="display: none;" data-i18n="help_button" aria-label="Ajuda">Ajuda</button>
@@ -291,7 +340,6 @@
                 </div>
                 <article id="courseIntroCard" class="course-intro-card" aria-labelledby="courseIntroCardTitle" hidden>
                     <picture>
-                        <source id="courseIntroCardMobileImage" media="(max-width: 600px)" srcset="">
                         <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
                     </picture>
                     <div class="course-intro-card-body">
@@ -351,6 +399,10 @@
                             <strong id="courseIntroCardLearningHeading">O que você vai aprender</strong>
                             <ul id="courseIntroCardLearningList"></ul>
                         </div>
+                        <section id="courseIntroCardCurriculum" class="course-intro-card-curriculum" aria-labelledby="courseIntroCardCurriculumHeading" hidden>
+                            <strong id="courseIntroCardCurriculumHeading"></strong>
+                            <div id="courseIntroCardCurriculumStages"></div>
+                        </section>
                         <p id="courseIntroCardAbout" class="course-intro-card-about"></p>
                     </div>
                 </article>
@@ -452,6 +504,17 @@
                 </div>
             </div>
 
+            <nav class="profile-tabs" role="tablist" aria-label="Seções do perfil" data-i18n-aria="profile_sections_label">
+                <button type="button" class="profile-tab active" role="tab" aria-selected="true" aria-controls="profileTabPersonal" data-profile-tab="profileTabPersonal"><i class="fas fa-user"></i> <span data-i18n="profile_tab_personal">Perfil</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabStatus" data-profile-tab="profileTabStatus"><i class="fas fa-chart-line"></i> <span data-i18n="profile_tab_status">Status</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabSecretary" data-profile-tab="profileTabSecretary"><i class="fas fa-landmark"></i> <span data-i18n="profile_tab_secretary">Secretaria</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabCourses" data-profile-tab="profileTabCourses"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_tab_courses">Cursos</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabLivreCoin" data-profile-tab="profileTabLivreCoin"><i class="fas fa-coins"></i> <span data-i18n="profile_tab_livrecoin">Livre Coin</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabTheme" data-profile-tab="profileTabTheme"><i class="fas fa-palette"></i> <span data-i18n="profile_tab_theme">Tema</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabExport" data-profile-tab="profileTabExport"><i class="fas fa-file-export"></i> <span data-i18n="profile_tab_export">Salvar / Exportar</span></button>
+            </nav>
+
+            <section id="profileTabPersonal" class="profile-tab-panel active" role="tabpanel">
             <div class="profile-account-fields">
             <!-- Nome -->
             <div class="profile-user-section">
@@ -483,8 +546,8 @@
                 <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
             </div>
-            <hr>
-
+            </section>
+            <section id="profileTabStatus" class="profile-tab-panel" role="tabpanel" hidden>
             <!-- Cursos em andamento -->
             <div id="ongoingCoursesContainer" style="margin: 0.5rem 0;"></div>
 
@@ -499,8 +562,23 @@
             </div>
             <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
             <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+            <div class="profile-status-actions">
             <button type="button" id="profileActivityBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-clock"></i> <span data-i18n="profile_activity_summary">Tempo e sequência</span></button>
+            <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+            </div>
             <div id="profileActivityDetails" class="profile-activity-details" hidden></div>
+            <div id="profileGameStatus" class="profile-game-status" hidden></div>
+            </section>
+
+            <section id="profileTabLivreCoin" class="profile-tab-panel" role="tabpanel" hidden>
+            <div class="profile-stats">
+                <div class="stat-item livre-coins-profile-stat"><span><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Total Livre Coins</span> <span id="profileLivreCoins">0</span></div>
+                <div class="stat-item livre-coins-profile-stat"><span>Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
+            </div>
+            <div class="livre-coins-profile-convert"><span>5 pontos = 1<br><span class="livre-coin-name"><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coin</span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button">Trocar pontos por <img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coins</button></div>
+            </section>
+
+            <section id="profileTabSecretary" class="profile-tab-panel" role="tabpanel" hidden>
             <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
             <div id="profileExamDetails" class="profile-exam-details" hidden></div>
             <button type="button" id="profileTranscriptBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Ver boletim</span></button>
@@ -510,14 +588,30 @@
             </div>
             <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
             <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
-            <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
-            <div id="profileGameStatus" class="profile-game-status" hidden></div>
+            </section>
 
+            <section id="profileTabCourses" class="profile-tab-panel" role="tabpanel" hidden>
             <!-- Lista de cursos -->
             <div id="profileCoursesList" style="margin: 1rem 0;"></div>
-
+            </section>
+            <section id="profileTabTheme" class="profile-tab-panel" role="tabpanel" hidden>
+                <div class="profile-theme-settings">
+                    <h3><i class="fas fa-palette" aria-hidden="true"></i> <span data-i18n="profile_tab_theme">Tema</span></h3>
+                    <p class="profile-theme-description" data-i18n="profile_theme_description">Escolha a aparência da Universidade Livre.</p>
+                    <div class="profile-theme-options" role="radiogroup" aria-label="Tema" data-i18n-aria="profile_tab_theme">
+                        <label class="profile-theme-option">
+                            <input type="radio" name="profileTheme" data-theme-option="light">
+                            <i class="fas fa-sun" aria-hidden="true"></i><span data-i18n="theme_light">Claro</span>
+                        </label>
+                        <label class="profile-theme-option">
+                            <input type="radio" name="profileTheme" data-theme-option="dark">
+                            <i class="fas fa-moon" aria-hidden="true"></i><span data-i18n="theme_dark">Escuro</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <section id="profileTabExport" class="profile-tab-panel" role="tabpanel" hidden>
             <!-- Exportação/Importação -->
-            <hr style="margin: 1rem 0;">
             <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
                 <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
@@ -535,6 +629,7 @@
                 <input type="file" id="importFileInput" accept=".json" style="display: none;">
             </div>
             <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+            </section>
         </div>
     </div>
 </div>
@@ -591,6 +686,10 @@
             <label class="audio-player-volume" aria-label="Volume"><i class="fas fa-volume-high"></i><input id="audioPlayerVolume" type="range" min="0" max="100" value="70"><span id="audioPlayerVolumeValue">70%</span></label>
         </div>
     </div>
+    <button id="studyCalendarToggle" class="study-calendar-floating-toggle" type="button" aria-label="Calendário de estudos" aria-controls="studyCalendar" aria-expanded="false">
+        <i class="fas fa-calendar-days" aria-hidden="true"></i>
+        <span class="study-calendar-floating-toggle-label">Calendário<br>de estudos</span>
+    </button>
     <button id="audioPlayerToggle" class="audio-player-toggle" type="button" aria-expanded="false" aria-controls="audioPlayerPanel" aria-label="Abrir player de música">
         <i class="fas fa-music" aria-hidden="true"></i>
         <span class="audio-player-toggle-label">Música</span>
@@ -618,12 +717,15 @@
                     <button id="onboardingLangEn" class="lang-select-btn" data-lang="en" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
                         🇺🇸 English
                     </button>
+                    <button id="onboardingLangEs" class="lang-select-btn" data-lang="es" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇪🇸 Español
+                    </button>
                 </div>
                 <div id="onboardingLangError" class="form-error" style="display:none; text-align: center;" data-i18n="onboarding_error_language_required">Por favor, selecione um idioma.</div>
             </div>
             <!-- Passo 1: Boas-vindas -->
             <div class="step" data-step="1">
-                <img src="logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
+                <img src="base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
                 <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
                 <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
                 <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
@@ -691,7 +793,7 @@
                     </div>
                     <div class="form-group">
                         <label data-i18n="onboarding_form_avatar_label">Escolha seu avatar</label>
-                        <div id="avatarSelectorContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-top: 6px; padding: 4px 0; max-height: 280px; overflow-y: auto; overflow-x: hidden;"></div>
+                        <div id="avatarSelectorContainer" style="margin-top: 6px; padding: 4px 0;"></div>
                         <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                             <button type="button" id="onboardingUploadAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem;">
                                 <i class="fas fa-upload"></i> <span data-i18n="onboarding_form_avatar_upload">Enviar foto</span>
@@ -728,17 +830,17 @@
 </div>
 
 <!-- ========== SCRIPTS ========== -->
-<script src="analytics.js" defer></script>
+<script src="base/analytics.js" defer></script>
 <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true,"https_only":true}' async src="https://gc.zgo.at/count.js"></script>
-<script src="menu/auditorio-menu.js" defer></script>
-<script src="menu/biblioteca-menu.js" defer></script>
-<script src="menu/mobile-menu.js" defer></script>
+<script src="base/menu/auditorio-menu.js" defer></script>
+<script src="base/menu/biblioteca-menu.js" defer></script>
+<script src="base/menu/mobile-menu.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js" defer></script>
 <script src="https://vjs.zencdn.net/10.0.0-rc.2/video.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" defer></script>
 <!-- ========== MÓDULO CENTRAL DE TRADUÇÃO (i18n) ========== -->
-<script src="lang/i18n.js" defer></script>
+<script src="base/lang/i18n.js" defer></script>
 <script src="cursos/latex-renderer.js" defer></script>
 <!-- ========== DEMAIS MÓDULOS ========== -->
 <script src="cursos/cursor-timeset.js" defer></script>
@@ -746,10 +848,11 @@
 <script src="cursos/ajuda/help-modal.js" defer></script>
 <script src="cursos/course-intro.js" defer></script>
 <script src="cursos/final-completion.js" defer></script>
-<script src="perfil/profile.js" defer></script>
-<script src="onboarding/onboarding.js" defer></script>
-<script src="audio-player/audio-player.js" defer></script>
-<script src="loading/loading-screen.js" defer></script>
+<script src="cursos/study-calendar.js" defer></script>
+<script src="base/perfil/profile.js" defer></script>
+<script src="base/onboarding/onboarding.js" defer></script>
+<script src="base/audio-player/audio-player.js" defer></script>
+<script src="base/loading/loading-screen.js" defer></script>
 
 </body>
 </html>

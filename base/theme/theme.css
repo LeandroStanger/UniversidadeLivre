@@ -1,0 +1,451 @@
+html[data-theme="light"] {
+    --page-bg: #f8fafc;
+    color-scheme: light;
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+    --brand-green: #4f46e5;
+    --brand-green-hover: #4338ca;
+    --accent-blue: #0369a1;
+    --accent-blue-hover: #0284c7;
+    --accent-green: #4f46e5;
+    --accent-green-hover: #4338ca;
+    --accent-orange: #f59e0b;
+    --accent-purple: #6366f1;
+    --accent-teal: #0f766e;
+    --success: #15803d;
+    --warning: #b45309;
+    --danger: #dc2626;
+    --gradient-primary: linear-gradient(135deg, #4f46e5, #0f766e);
+    --gradient-donate: linear-gradient(135deg, #f59e0b, #d97706);
+    --card-shadow: 0 8px 24px rgb(15 23 42 / 8%);
+    --card-shadow-hover: 0 16px 40px rgb(15 23 42 / 14%);
+    --modal-shadow: 0 24px 64px rgb(15 23 42 / 18%);
+}
+
+html[data-theme="dark"] {
+    --page-bg: #0b0d10;
+    color-scheme: dark;
+    --bg-primary: #0b0d10;
+    --bg-secondary: #11151b;
+    --bg-tertiary: #171c24;
+    --bg-card: #171c24;
+    --text-primary: #f8fafc;
+    --text-secondary: #b8c1d1;
+    --text-tertiary: #94a3b8;
+    --border: #2b3442;
+    --border-light: #202732;
+    --brand-green: #6366f1;
+    --brand-green-hover: #818cf8;
+    --accent-blue: #38bdf8;
+    --accent-blue-hover: #7dd3fc;
+    --accent-green: #6366f1;
+    --accent-green-hover: #818cf8;
+    --accent-orange: #fbbf24;
+    --accent-purple: #818cf8;
+    --accent-teal: #2dd4bf;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --gradient-primary: linear-gradient(135deg, #6366f1, #2dd4bf);
+    --gradient-donate: linear-gradient(135deg, #fbbf24, #d97706);
+    --card-shadow: 0 8px 28px rgb(0 0 0 / 28%);
+    --card-shadow-hover: 0 16px 48px rgb(0 0 0 / 40%);
+    --modal-shadow: 0 24px 72px rgb(0 0 0 / 48%);
+}
+
+/* O certificado é um documento claro e mantém sua identidade verde nos dois temas. */
+.certificate-preview {
+    color: #172033 !important;
+    background: #ffffff !important;
+    border-color: #16a34a !important;
+    box-shadow: inset 0 0 0 4px #dcfce7, inset 0 0 0 7px #16a34a, 0 12px 30px rgba(22, 163, 74, 0.2) !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.certificate-preview .certificate-seal {
+    background: #16a34a !important;
+    border-color: #dcfce7 !important;
+    box-shadow: 0 0 0 3px #16a34a !important;
+}
+
+.certificate-preview .certificate-kicker,
+.certificate-preview h3,
+.certificate-preview .certificate-details strong {
+    color: #047857 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.certificate-preview > p,
+.certificate-preview .certificate-certificate-note,
+.certificate-preview .certificate-details,
+.certificate-preview .certificate-details span {
+    color: #374151 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.certificate-preview .certificate-details {
+    border-top-color: #a7f3d0 !important;
+}
+
+.certificate-preview .certificate-details p {
+    border-bottom-color: #ecfdf5 !important;
+}
+
+.certificate-preview .certificate-result {
+    border-left-color: #a7f3d0 !important;
+}
+
+.certificate-preview .certificate-disclaimer {
+    color: #6b7280 !important;
+    background: #f0fdf4 !important;
+    border-top-color: #a7f3d0 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+}
+
+.stats > *,
+.app-actions > * {
+    font-family: inherit;
+}
+
+.stats .btn-biblioteca,
+.stats .donate-button,
+.app-actions .btn-biblioteca,
+.app-actions .btn-back,
+.app-actions .donate-button {
+    min-height: 2.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+}
+
+body,
+button,
+a,
+input,
+select,
+textarea {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+}
+
+html[data-theme="light"] .site-loading-screen,
+html[data-theme="light"] body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+html[data-theme="dark"] .site-loading-screen,
+html[data-theme="dark"] body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+html[data-theme="light"] {
+    --com-bg-primary: #f8fafc;
+    --com-bg-secondary: #ffffff;
+    --com-bg-tertiary: #f1f5f9;
+    --com-bg-card: #ffffff;
+    --com-text-primary: #0f172a;
+    --com-text-secondary: #475569;
+    --com-text-tertiary: #64748b;
+    --com-border: #e2e8f0;
+    --com-border-light: #f1f5f9;
+    --com-accent-blue: #0369a1;
+    --com-accent-blue-hover: #0284c7;
+    --com-accent-green: #4f46e5;
+    --com-accent-orange: #f59e0b;
+    --com-accent-purple: #6366f1;
+    --com-accent-teal: #0f766e;
+}
+
+html[data-theme="dark"] {
+    --com-bg-primary: #0b0d10;
+    --com-bg-secondary: #11151b;
+    --com-bg-tertiary: #171c24;
+    --com-bg-card: #171c24;
+    --com-text-primary: #f8fafc;
+    --com-text-secondary: #b8c1d1;
+    --com-text-tertiary: #94a3b8;
+    --com-border: #2b3442;
+    --com-border-light: #202732;
+    --com-accent-blue: #38bdf8;
+    --com-accent-blue-hover: #7dd3fc;
+    --com-accent-green: #6366f1;
+    --com-accent-orange: #fbbf24;
+    --com-accent-purple: #818cf8;
+    --com-accent-teal: #2dd4bf;
+}
+
+/* Componentes compartilhados que antes tinham cores fixas do tema escuro. */
+html[data-theme] .site-loading-spinner {
+    border-color: color-mix(in srgb, var(--accent-blue) 24%, transparent);
+    border-top-color: var(--accent-blue);
+}
+
+html[data-theme] .profile-modal {
+    background: color-mix(in srgb, var(--bg-primary) 78%, transparent);
+}
+
+html[data-theme] .profile-modal-content,
+html[data-theme] .profile-modal-header,
+html[data-theme] .profile-modal-body,
+html[data-theme] .profile-form-section,
+html[data-theme] .profile-card,
+html[data-theme] .profile-stat-card {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+html[data-theme] .profile-modal-header,
+html[data-theme] .profile-form-section {
+    background-color: var(--bg-tertiary);
+}
+
+html[data-theme] .profile-modal input,
+html[data-theme] .profile-modal select,
+html[data-theme] .profile-modal textarea,
+html[data-theme] .profile-modal .form-control {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+html[data-theme] .chat-widget-panel,
+html[data-theme] .p2p-chat-section,
+html[data-theme] .chat-messages {
+    background-color: var(--com-bg-secondary);
+    color: var(--com-text-primary);
+    border-color: var(--com-border);
+}
+
+html[data-theme] .p2p-chat-section .chat-messages .msg.msg-own {
+    background: color-mix(in srgb, var(--com-accent-teal) 16%, var(--com-bg-tertiary));
+    border-color: color-mix(in srgb, var(--com-accent-teal) 42%, var(--com-border));
+}
+
+html[data-theme] .p2p-chat-section .chat-messages .msg.msg-other {
+    background: color-mix(in srgb, var(--com-accent-blue) 12%, var(--com-bg-tertiary));
+    border-color: color-mix(in srgb, var(--com-accent-blue) 36%, var(--com-border));
+}
+
+html[data-theme] .chat-input-main textarea,
+html[data-theme] .msg-edit-area .chat-edit-input {
+    background: var(--com-bg-tertiary);
+    color: var(--com-text-primary);
+    border-color: var(--com-border);
+}
+
+html[data-theme] .livre-coins-wallet {
+    background: color-mix(in srgb, var(--color-accent-500) 12%, var(--com-bg-secondary));
+    border-color: color-mix(in srgb, var(--color-accent-500) 48%, var(--com-border));
+}
+
+html[data-theme] .livre-coins-label,
+html[data-theme] .livre-coins-wallet strong {
+    color: var(--com-text-primary);
+}
+
+html[data-theme] .livre-points-label {
+    color: var(--com-accent-blue);
+}
+
+html[data-theme] .uno-player-card,
+html[data-theme] .game-card,
+html[data-theme] .player-badge {
+    background: color-mix(in srgb, var(--com-bg-secondary) 82%, var(--com-bg-tertiary));
+    border-color: var(--com-border);
+    color: var(--com-text-primary);
+}
+
+html[data-theme] .uno-player-card.is-active,
+html[data-theme] .game-card.active {
+    background: color-mix(in srgb, var(--color-accent-500) 14%, var(--com-bg-secondary));
+    border-color: var(--color-accent-500);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent-500) 30%, transparent);
+}
+
+html[data-theme] .uno-player-info span,
+html[data-theme] .uno-player-info em,
+html[data-theme] .uno-player-count,
+html[data-theme] .player-label,
+html[data-theme] .player-badge small {
+    color: var(--com-text-secondary);
+}
+
+html[data-theme] .library-filters,
+html[data-theme] .auditorio-filters,
+html[data-theme] .library-card,
+html[data-theme] .auditorio-card,
+html[data-theme] .book-card,
+html[data-theme] .audio-card,
+html[data-theme] .course-card {
+    border-color: var(--border);
+}
+
+html[data-theme="light"] .transcript-preview {
+    background: var(--color-gray-200);
+}
+
+html[data-theme="dark"] .transcript-preview {
+    background: var(--bg-primary);
+}
+
+/* Editor de notas: toolbar e área de escrita com contraste separado do card. */
+html[data-theme="light"] .note-editor-section {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 8px 24px rgb(15 23 42 / 8%);
+}
+
+html[data-theme="light"] .quill-editor-container {
+    background: #ffffff;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .ql-toolbar.ql-snow {
+    background: #f1f5f9 !important;
+    border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .ql-container.ql-snow {
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] .ql-toolbar.ql-snow .ql-picker-label {
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .ql-toolbar.ql-snow button:hover,
+html[data-theme="light"] .ql-toolbar.ql-snow .ql-picker-label:hover {
+    background: #e0e7ff !important;
+    color: #3730a3 !important;
+}
+
+html[data-theme="dark"] .note-editor-section {
+    background: #11151b;
+    border-color: #2b3442;
+}
+
+html[data-theme="dark"] .quill-editor-container {
+    background: #11151b;
+    border-color: #2b3442;
+}
+
+html[data-theme="dark"] .ql-toolbar.ql-snow {
+    background: #171c24 !important;
+    border-bottom-color: #2b3442 !important;
+}
+
+html[data-theme="dark"] .ql-container.ql-snow {
+    background: #11151b !important;
+}
+
+html[data-theme="dark"] .ql-toolbar.ql-snow .ql-picker-label {
+    background: #11151b !important;
+    color: #b8c1d1 !important;
+}
+
+html[data-theme="dark"] .ql-toolbar.ql-snow button:hover,
+html[data-theme="dark"] .ql-toolbar.ql-snow .ql-picker-label:hover {
+    background: #202732 !important;
+    color: #a5b4fc !important;
+}
+
+html[data-theme] .note-editor-section:hover {
+    border-color: color-mix(in srgb, var(--accent-teal) 35%, var(--border));
+}
+
+html[data-theme] .quill-editor-container:focus-within {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 18%, transparent);
+}
+
+/* Uniformiza os controles do menu mesmo quando o HTML possui estilos inline antigos. */
+.header .btn-biblioteca,
+.header .btn-back,
+.header .donate-button,
+.app-header .btn-biblioteca,
+.app-header .btn-back,
+.app-header .donate-button {
+    min-height: 2.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+/* Menu: texto escuro no estado padrão e branco ao interagir. */
+html[data-theme] .header .btn-biblioteca,
+html[data-theme] .header .btn-back,
+html[data-theme] .header .donate-button,
+html[data-theme] .app-header .btn-biblioteca,
+html[data-theme] .app-header .btn-back,
+html[data-theme] .app-header .donate-button,
+html[data-theme] .app-header .notes-navigation-button,
+html[data-theme] .app-header .community-resource-button,
+html[data-theme] .app-header #profileBtn {
+    color: #000000 !important;
+}
+
+html[data-theme] .header .btn-biblioteca *,
+html[data-theme] .header .btn-back *,
+html[data-theme] .header .donate-button *,
+html[data-theme] .app-header .btn-biblioteca *,
+html[data-theme] .app-header .btn-back *,
+html[data-theme] .app-header .donate-button *,
+html[data-theme] .app-header .notes-navigation-button *,
+html[data-theme] .app-header .community-resource-button *,
+html[data-theme] .app-header #profileBtn * {
+    color: inherit !important;
+}
+
+html[data-theme] .header .btn-biblioteca:hover,
+html[data-theme] .header .btn-biblioteca:focus-visible,
+html[data-theme] .header .btn-back:hover,
+html[data-theme] .header .btn-back:focus-visible,
+html[data-theme] .header .donate-button:hover,
+html[data-theme] .header .donate-button:focus-visible,
+html[data-theme] .app-header .btn-biblioteca:hover,
+html[data-theme] .app-header .btn-biblioteca:focus-visible,
+html[data-theme] .app-header .btn-back:hover,
+html[data-theme] .app-header .btn-back:focus-visible,
+html[data-theme] .app-header .donate-button:hover,
+html[data-theme] .app-header .donate-button:focus-visible,
+html[data-theme] .app-header .notes-navigation-button:hover,
+html[data-theme] .app-header .notes-navigation-button:focus-visible,
+html[data-theme] .app-header .community-resource-button:hover,
+html[data-theme] .app-header .community-resource-button:focus-visible,
+html[data-theme] .app-header #profileBtn:hover,
+html[data-theme] .app-header #profileBtn:focus-visible {
+    color: #ffffff !important;
+}
+
+html[data-theme] .header .btn-biblioteca:hover *,
+html[data-theme] .header .btn-biblioteca:focus-visible *,
+html[data-theme] .header .btn-back:hover *,
+html[data-theme] .header .btn-back:focus-visible *,
+html[data-theme] .header .donate-button:hover *,
+html[data-theme] .header .donate-button:focus-visible *,
+html[data-theme] .app-header .btn-biblioteca:hover *,
+html[data-theme] .app-header .btn-biblioteca:focus-visible *,
+html[data-theme] .app-header .btn-back:hover *,
+html[data-theme] .app-header .btn-back:focus-visible *,
+html[data-theme] .app-header .donate-button:hover *,
+html[data-theme] .app-header .donate-button:focus-visible *,
+html[data-theme] .app-header .notes-navigation-button:hover *,
+html[data-theme] .app-header .notes-navigation-button:focus-visible *,
+html[data-theme] .app-header .community-resource-button:hover *,
+html[data-theme] .app-header .community-resource-button:focus-visible *,
+html[data-theme] .app-header #profileBtn:hover *,
+html[data-theme] .app-header #profileBtn:focus-visible * {
+    color: inherit !important;
+}
