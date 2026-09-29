@@ -1,0 +1,50 @@
+{
+  "course": "Computer Science",
+  "time": [
+    {
+      "name": "Eric Douglas",
+      "github": "https://github.com/ericdouglas",
+      "role": "Founder of OSSU",
+      "image": "https://avatars.githubusercontent.com/u/4119931?v=4"
+    },
+    {
+      "name": "Josh Hanson",
+      "github": "https://github.com/joshmhanson",
+      "role": "Lead Technical Maintainer",
+      "image": "https://avatars.githubusercontent.com/u/5695330?v=4"
+    },
+    {
+      "name": "Waciuma Wanjohi",
+      "github": "https://github.com/waciumawanjohi",
+      "role": "Lead Academic Maintainer",
+      "image": "https://avatars.githubusercontent.com/u/18407643?v=4"
+    },
+    {
+      "name": "Flomza",
+      "github": "https://github.com/Flomza",
+      "image": "https://avatars.githubusercontent.com/u/83545712?v=4"
+    },
+    {
+      "name": "Pulkit Krishna",
+      "github": "https://github.com/pulkitkrishna00",
+      "image": "https://avatars.githubusercontent.com/u/72264063?v=4"
+    },
+    {
+      "name": "Bradley Grant",
+      "github": "https://github.com/bradleygrant",
+      "image": "https://avatars.githubusercontent.com/u/38932484?v=4"
+    },
+    {
+      "name": "Zach Meyer",
+      "github": "https://github.com/zachmmeyer",
+      "image": "https://avatars.githubusercontent.com/u/34407561?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Contributors",
+      "github": "https://github.com/ossu/computer-science/graphs/contributors",
+      "image": "https://avatars.githubusercontent.com/u/3744192?s=64&v=4"
+    }
+  ]
+}
