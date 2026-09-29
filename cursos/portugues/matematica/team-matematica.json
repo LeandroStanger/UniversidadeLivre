@@ -1,0 +1,215 @@
+{
+  "course": "Matematica",
+  "time": [
+    {
+      "name": "Camilo Cunha de Azevedo",
+      "github": "https://github.com/Camilotk",
+      "role": "Fundador da ULivre",
+      "year": "2024",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/30880723?v=4"
+    },
+    {
+      "name": "Jefferson Quesado",
+      "github": "https://github.com/jeffque",
+      "role": "Responsável pelo Currículo de Matemática",
+      "year": "2024",
+      "description": "Responsável pela organização e desenvolvimento do currículo de Matemática.",
+      "image": "https://avatars.githubusercontent.com/u/4756392?v=4"
+    },
+    {
+      "name": "Emanuel Elias",
+      "github": "https://github.com/elvcastelo",
+      "role": "Mantenedor do Currículo de Matemática",
+      "year": "2024",
+      "description": "Manutenção e atualização do conteúdo do curso.",
+      "image": "https://avatars.githubusercontent.com/u/91682516?v=4"
+    },
+    {
+      "name": "Pedro Henrique",
+      "github": "https://github.com/Shnrqpdr",
+      "role": "Mantenedor do Currículo de Matemática",
+      "year": "2024",
+      "description": "Manutenção e atualização do conteúdo do curso.",
+      "image": "https://avatars.githubusercontent.com/u/89036203?v=4"
+    },
+    {
+      "name": "Mateus Roveda",
+      "github": "https://github.com/mateusrovedaa",
+      "role": "Mantenedor do Currículo de Matemática",
+      "year": "2024",
+      "description": "Manutenção e atualização do conteúdo do curso.",
+      "image": "https://avatars.githubusercontent.com/u/13920205?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Claudio Possani",
+      "github": "http://lattes.cnpq.br/6310330875239899",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4783283E5"
+    },
+    {
+      "name": "Jaime Edmundo Apaza Rodriguez",
+      "github": "http://lattes.cnpq.br/1404319585967080",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4701759H0"
+    },
+    {
+      "name": "Pedro Luiz Fagundes",
+      "github": "http://lattes.cnpq.br/8080571420519073",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4707544D9"
+    },
+    {
+      "name": "Gustavo Guanabara",
+      "github": "https://github.com/professorguanabara",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Vídeos sobre programação, JavaScript e tecnologias web.",
+      "image": "https://avatars.githubusercontent.com/u/66076428?v=4"
+    },
+    {
+      "name": "Karina Valdivia Delgado",
+      "github": "http://lattes.cnpq.br/8420771612707965",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4734732U0"
+    },
+    {
+      "name": "Fernanda Oliveira Simon",
+      "github": "http://lattes.cnpq.br/5346869639052361",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4769680H4"
+    },
+    {
+      "name": "Luiz Marco Brescansin",
+      "github": "http://lattes.cnpq.br/1667173956630341",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4781361D6"
+    },
+    {
+      "name": "Alberto Saa",
+      "github": "http://lattes.cnpq.br/0039310040138543",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4727959T9"
+    },
+    {
+      "name": "Adriano Thomaz",
+      "github": "http://lattes.cnpq.br/2781134206611998",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4775292T3"
+    },
+    {
+      "name": "Marcelo Viana",
+      "github": "http://lattes.cnpq.br/6233887751567079",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4793910D1"
+    },
+    {
+      "name": "Peter Alexander Bleinroth Schulz",
+      "github": "http://lattes.cnpq.br/6073974259027393",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4797873T6"
+    },
+    {
+      "name": "Mikhail Viktorovich Belolipetskiy",
+      "github": "http://lattes.cnpq.br/4059027716181803",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4331917E2"
+    },
+    {
+      "name": "Dione Andrade Lara",
+      "github": "https://www.youtube.com/channel/UChFaA_970KgH9KHS3yy7o9A",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Vídeos sobre matemática e educação.",
+      "image": "https://yt3.googleusercontent.com/ytc/AIdro_mjMofZ61go_CQNvB9WM5MxHcZMjTK-z8B2D5exNJPTiQ=s160-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "José Sérgio",
+      "github": "https://www.youtube.com/channel/UCivX7J1U24pzmiiMryD4ScA",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Vídeos sobre matemática e educação.",
+      "image": "https://yt3.googleusercontent.com/KdiC4lTh0eGr7VNeUYZpyazJsI0GVU8DF3RXBfmDKxvy71v1ckXd9ZcJ1iduse74yvNancPKPqQ=s160-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Vinícius de Carvalho Rispoli",
+      "github": "http://lattes.cnpq.br/1386396456867682",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4732789Y7"
+    },
+    {
+      "name": "Ronni Geraldo Gomes de Amorim",
+      "github": "http://lattes.cnpq.br/4086384842130773",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4131108J5"
+    },
+    {
+      "name": "Victor Campos",
+      "github": "https://www.youtube.com/channel/UCzdbMD-Ah5ZMLMOyoZI3V2g",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Vídeos sobre matemática e educação.",
+      "image": "https://yt3.googleusercontent.com/ytc/AIdro_mDXY7Vlc8zPrbHHnhroUhL6iuyCl5Hp-MSCzr8XAsFJ2o=s160-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Vanderlei S. Bagnato",
+      "github": "http://lattes.cnpq.br/4947860249518663",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4783134Y5"
+    },
+    {
+      "name": "Thiago Filipe da Silva",
+      "github": "http://lattes.cnpq.br/5049713215002090",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4460908Z3"
+    },
+    {
+      "name": "Manoel Bezerra Campêlo Neto",
+      "github": "http://lattes.cnpq.br/7207626266770213",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Contribuiu com conteúdo educacional.",
+      "image": "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4728178U7"
+    },
+    {
+      "name": "Canal É isso aí!",
+      "github": "https://www.youtube.com/channel/UCt5QdEuPyd-X8pA0K7LHa0Q/featured",
+      "role": "Contribuidor",
+      "year": "2024",
+      "description": "Vídeos sobre matemática e educação.",
+      "image": "https://yt3.googleusercontent.com/ytc/AIdro_kU5A-9ol2h2MmPpBcJULAtsnvHrMVg0-ICxmMLfVTQxA=s160-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}
