@@ -2946,10 +2946,10 @@ a:hover {
 
 .study-calendar {
     position: fixed;
-    right: clamp(0.75rem, 2vw, 2rem);
+    right: clamp(1rem, 4vw, 4rem);
     bottom: 1rem;
     z-index: 10010;
-    width: min(860px, calc(100vw - 1.5rem));
+    width: min(720px, calc(100vw - 2rem));
     max-height: calc(100dvh - 2rem);
     overflow-y: auto;
     padding: 1.1rem;
@@ -2958,7 +2958,6 @@ a:hover {
     border-radius: var(--card-radius);
     background: var(--bg-card);
     box-shadow: var(--card-shadow);
-    transform: translateX(-2.25cm);
 }
 
 .study-calendar-empty {
@@ -3129,67 +3128,16 @@ a:hover {
 
 @media (max-width: 600px) {
     .study-calendar {
-        position: fixed;
-        inset: 0;
-        z-index: 10030;
-        width: 100vw;
-        max-width: none;
-        max-height: 100dvh;
-        height: 100dvh;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        padding: 1rem 0.75rem 0.75rem;
-        border-radius: 0;
-        border: 0;
-        box-shadow: none;
-        transform: none;
-        overflow-y: auto;
-        background: var(--bg-card);
-    }
-
-    .study-calendar[hidden] {
-        display: none;
-    }
-
-    .study-calendar:not([hidden]) {
-        display: block;
-        width: 100vw;
-    }
-
-    .study-calendar-header {
-        flex-wrap: wrap;
-        align-items: flex-start;
-    }
-
-    .study-calendar-navigation {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .study-calendar-views {
-        justify-content: center;
-        flex-wrap: wrap;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        width: calc(100% - 1.5rem);
+        max-height: calc(100dvh - 1rem);
+        padding: 0.8rem;
     }
 
     .study-calendar-grid {
-        height: clamp(320px, 46vh, 460px);
-        min-height: 320px;
-    }
-
-    .study-calendar-event {
-        align-items: flex-start;
-    }
-
-    .study-calendar-save {
-        margin-left: auto;
-    }
-
-    .study-calendar-save-menu {
-        right: 0;
-        left: auto;
-        min-width: 9.25rem;
+        height: min(48vh, 390px);
+        min-height: 260px;
     }
 
     .study-calendar-header-action span {
@@ -3373,12 +3321,6 @@ a:hover {
 }
 
 .study-calendar-event {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.4rem;
     padding: 0.45rem;
     border-left: 3px solid var(--accent-teal);
     background: var(--bg-tertiary);
@@ -3451,43 +3393,6 @@ a:hover {
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
-}
-
-.study-calendar-save {
-    flex: 0 0 auto;
-    padding: 0.28rem 0.55rem;
-    border: 1px solid var(--border);
-    border-radius: 0.35rem;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    font-size: 0.65rem;
-    font-weight: 700;
-}
-
-.study-calendar-save-menu {
-    position: absolute;
-    top: calc(100% + 0.25rem);
-    right: 0.15rem;
-    z-index: 10020;
-    display: grid;
-    gap: 0.25rem;
-    min-width: 10.5rem;
-    padding: 0.35rem;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    background: var(--bg-card);
-    box-shadow: var(--card-shadow);
-}
-
-.study-calendar-save-menu button {
-    padding: 0.45rem 0.55rem;
-    border: 1px solid var(--border);
-    border-radius: 0.35rem;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    text-align: left;
-    font: inherit;
-    font-size: 0.68rem;
 }
 
 .chart-container {
