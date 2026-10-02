@@ -1337,12 +1337,6 @@ a:hover {
         grid-template-columns: repeat(5, 1fr) !important;
     }
 }
-        max-height: calc(100dvh - 6.5rem);
-    }
-}
-
-    }
-}
 @media (max-width: 992px) {
     .carousel-slide,
     .simple-grid {
@@ -3065,6 +3059,58 @@ a:hover {
     color: var(--text-primary);
 }
 
+.study-calendar-grid .toastui-calendar-layout {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.study-calendar-grid .toastui-calendar-day-names {
+    position: relative;
+    height: 31px;
+    padding: 0 10px;
+}
+
+.study-calendar-grid .toastui-calendar-day-name-container {
+    position: relative;
+    height: 100%;
+}
+
+.study-calendar-grid .toastui-calendar-day-name-item {
+    position: absolute;
+    top: 0;
+    height: 31px;
+    padding: 0 10px;
+    line-height: 31px;
+    box-sizing: border-box;
+}
+
+.study-calendar-grid .toastui-calendar-month-daygrid {
+    position: relative;
+    height: calc(100% - 31px);
+}
+
+.study-calendar-grid .toastui-calendar-month-week-item,
+.study-calendar-grid .toastui-calendar-weekday {
+    position: relative;
+    height: 100%;
+}
+
+.study-calendar-grid .toastui-calendar-weekday-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.study-calendar-grid .toastui-calendar-daygrid-cell {
+    position: absolute;
+    height: 100%;
+    padding: 3px 0;
+    box-sizing: border-box;
+}
+
 .study-calendar-grid .toastui-calendar-layout,
 .study-calendar-grid .toastui-calendar-weekday-grid,
 .study-calendar-grid .toastui-calendar-week {
@@ -4036,6 +4082,45 @@ a:hover {
 
 @media (max-width: 900px) {
     .profile-certificates-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+    .study-calendar {
+        right: 13rem;
+        bottom: 0.75rem;
+        width: calc(100% - 13.5rem);
+        max-height: calc(100dvh - 1.5rem);
+    }
+}
+
+@media (max-height: 480px) {
+    .study-calendar {
+        top: 0.5rem;
+        bottom: 0.5rem;
+        max-height: calc(100dvh - 1rem);
+        padding: 0.6rem;
+    }
+
+    .study-calendar-kicker,
+    .study-calendar-header > i,
+    .study-calendar-empty,
+    .study-calendar-events,
+    .study-calendar-locale {
+        display: none !important;
+    }
+
+    .study-calendar h3 {
+        margin-top: 0;
+    }
+
+    .study-calendar-navigation {
+        margin: 0.25rem 0;
+    }
+
+    .study-calendar-grid {
+        height: 190px;
+        min-height: 190px;
+    }
 }
 
 @media (max-width: 600px) {
