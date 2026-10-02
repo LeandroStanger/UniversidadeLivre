@@ -163,6 +163,8 @@ body[data-study-calendar-context="my-courses"] .study-calendar-floating-toggle {
 
 @media (max-width: 600px) {
     .floating-audio-player { right: 0.75rem; bottom: 0.75rem; }
+    .floating-audio-player { flex-direction: row; align-items: flex-end; gap: 0.5rem; }
+    .audio-player-panel { position: absolute; right: 0; bottom: calc(100% + 0.5rem); }
     .audio-player-toggle-label { display: none; }
     .audio-player-toggle { width: 3.25rem; height: 3.25rem; justify-content: center; padding: 0; font-size: 1.15rem; }
     .study-calendar-floating-toggle-label { display: none; }

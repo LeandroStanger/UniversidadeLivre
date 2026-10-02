@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="base/theme/theme.css">
     <script src="base/theme/theme.js"></script>
     <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/">
+    <link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="base/perfil/profile.css">
     <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
@@ -302,8 +303,14 @@
                         <button type="button" id="studyCalendarPrevious" data-i18n-aria="study_calendar_previous_month" aria-label="Mês anterior"><i class="fas fa-chevron-left"></i></button>
                         <strong id="studyCalendarMonth"></strong>
                         <button type="button" id="studyCalendarNext" data-i18n-aria="study_calendar_next_month" aria-label="Próximo mês"><i class="fas fa-chevron-right"></i></button>
+                        <button type="button" id="studyCalendarToday" data-i18n="study_calendar_today_button">Hoje</button>
                     </div>
-                    <div id="studyCalendarGrid" class="study-calendar-grid" role="grid"></div>
+                    <div class="study-calendar-views" role="group" data-i18n-aria="study_calendar_views" aria-label="Visualização do calendário">
+                        <button type="button" data-study-view="month" data-i18n="study_calendar_view_month" aria-pressed="true">Mês</button>
+                        <button type="button" data-study-view="week" data-i18n="study_calendar_view_week" aria-pressed="false">Semana</button>
+                        <button type="button" data-study-view="day" data-i18n="study_calendar_view_day" aria-pressed="false">Dia</button>
+                    </div>
+                    <div id="studyCalendarGrid" class="study-calendar-grid" data-i18n-aria="study_calendar_title" aria-label="Calendário de estudos"></div>
                     <div id="studyCalendarEvents" class="study-calendar-events"></div>
                     <div id="studyCalendarForm" class="study-calendar-form" role="dialog" aria-modal="true" aria-labelledby="studyCalendarFormTitle" hidden>
                         <div class="study-calendar-form-header">
@@ -319,7 +326,7 @@
                         <select id="studyDisciplineSelect" class="study-calendar-course-select" data-i18n-aria="study_calendar_discipline_select" aria-label="Selecionar disciplina" disabled></select>
                         <label for="studyStartDate" data-i18n="study_calendar_first_day">Primeiro dia</label>
                         <input id="studyStartDate" class="study-calendar-date" type="date" data-i18n-aria="study_calendar_first_day" aria-label="Primeiro dia">
-                        <span class="study-calendar-label" data-i18n="study_calendar_days">Dias da semana</span>
+                        <span class="study-calendar-label" data-i18n="study_calendar_days_times">Dias e horários</span>
                         <div id="studyWeekdayPicker" class="study-weekday-picker"></div>
                         <output id="studyWeeklyLessons" class="study-calendar-count" aria-live="polite"></output>
                         <output id="studyWeeklyHours" class="study-calendar-hours" aria-live="polite"></output>
@@ -848,6 +855,7 @@
 <script src="cursos/ajuda/help-modal.js" defer></script>
 <script src="cursos/course-intro.js" defer></script>
 <script src="cursos/final-completion.js" defer></script>
+<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js" defer></script>
 <script src="cursos/study-calendar.js" defer></script>
 <script src="base/perfil/profile.js" defer></script>
 <script src="base/onboarding/onboarding.js" defer></script>
