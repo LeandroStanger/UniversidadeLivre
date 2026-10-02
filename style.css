@@ -2940,7 +2940,7 @@ a:hover {
 
 .study-calendar {
     position: fixed;
-    right: clamp(1rem, 4vw, 4rem);
+    right: clamp(min(54px, calc(100vw - 736px)), calc(34vw - 453px), calc(100vw - 736px));
     bottom: 1rem;
     z-index: 10010;
     width: min(720px, calc(100vw - 2rem));
