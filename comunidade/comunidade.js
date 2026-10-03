@@ -622,10 +622,25 @@
         const bonuses = { ...(wallet.bonuses || {}), [gameId]: true };
         return writeLivreWallet({ ...wallet, activeGame: gameId, coins: wallet.coins + bonus, bonuses });
     }
+    function claimDailyLivreGameBonus(gameId, amount) {
+        const wallet = readLivreWallet();
+        const now = new Date();
+        const today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+        if (wallet.dailyBonuses?.[gameId] === today) return { wallet, awarded: false };
+        const dailyBonuses = { ...(wallet.dailyBonuses || {}), [gameId]: today };
+        const updatedWallet = writeLivreWallet({
+            ...wallet,
+            activeGame: gameId,
+            coins: wallet.coins + Math.max(0, Math.floor(Number(amount) || 0)),
+            dailyBonuses
+        });
+        return { wallet: updatedWallet, awarded: true };
+    }
     window.UniversidadeLivreWallet = {
         get: readLivreWallet,
         update: writeLivreWallet,
         claimGameBonus: claimLivreGameBonus,
+        claimDailyGameBonus: claimDailyLivreGameBonus,
         syncAcademicPoints(totalPoints = 0) {
             const wallet = readLivreWallet();
             const total = Math.max(0, Math.floor(totalPoints));

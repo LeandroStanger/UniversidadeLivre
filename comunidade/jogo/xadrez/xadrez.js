@@ -147,11 +147,11 @@
     }
 
     function getSelectedGame() {
-        return ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo'].includes(currentGameSelection) ? currentGameSelection : 'chess';
+        return ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo', 'country-life-meadows', 'buteco-fighting'].includes(currentGameSelection) ? currentGameSelection : 'chess';
     }
 
     function setSelectedGame(game) {
-        currentGameSelection = ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo'].includes(game) ? game : 'chess';
+        currentGameSelection = ['tictactoe', 'impostor', 'hangman', 'checkers', 'roulette', 'uno', 'bicho', 'slots', 'poker', 'blackjack', 'bacara', 'bingo', 'country-life-meadows', 'buteco-fighting'].includes(game) ? game : 'chess';
     }
 
     function getActiveRoomIdForSelection() {
@@ -1297,6 +1297,8 @@
 
     function closeGamesModal() {
         closePromotionModal();
+        window.CountryLifeMeadowsGame?.close();
+        window.ButecoFightingGame?.close();
         const modal = document.getElementById('gamesModal');
         if (!modal) return;
 
@@ -1330,6 +1332,8 @@
         const bacaraPanel = document.getElementById('bacaraPanel');
         const bingoPanel = document.getElementById('bingoPanel');
         const bitcoinPanel = document.getElementById('bitcoinPanel');
+        const countryLifePanel = document.getElementById('countryLifeMeadowsPanel');
+        const butecoFightingPanel = document.getElementById('butecoFightingPanel');
         const chessPanel = document.getElementById('chessPanel');
         const menuCards = document.querySelectorAll('.game-card[data-game]');
         if (menuScreen) menuScreen.hidden = false;
@@ -1371,6 +1375,10 @@
             bitcoinPanel.hidden = true;
             bitcoinPanel.style.setProperty('display', 'none', 'important');
         }
+        if (butecoFightingPanel) butecoFightingPanel.hidden = true;
+        window.CountryLifeMeadowsGame?.close();
+        window.ButecoFightingGame?.close();
+        if (countryLifePanel) countryLifePanel.hidden = true;
         [chessPanel, impostorPanel, hangmanPanel, checkersPanel, roulettePanel].forEach(panel => panel?.style.removeProperty('display'));
         if (chessPanel) chessPanel.hidden = false;
         document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
@@ -1772,7 +1780,9 @@
 
         modal.querySelectorAll('.game-card[data-game]').forEach(card => {
             card.addEventListener('click', function() {
-                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel', 'bitcoinPanel'].forEach(id => {
+                if (this.dataset.game !== 'country-life-meadows') window.CountryLifeMeadowsGame?.close();
+                if (this.dataset.game !== 'buteco-fighting') window.ButecoFightingGame?.close();
+                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel', 'bitcoinPanel', 'countryLifeMeadowsPanel'].forEach(id => {
                     const panel = document.getElementById(id);
                     panel?.setAttribute('hidden', '');
                     panel?.style.setProperty('display', 'none', 'important');
@@ -1781,10 +1791,23 @@
                     element.hidden = true;
                     element.style.display = 'none';
                 });
-                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : this.dataset.game === 'bitcoin' ? 'bitcoin' : 'chess';
+                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : this.dataset.game === 'bitcoin' ? 'bitcoin' : this.dataset.game === 'country-life-meadows' ? 'country-life-meadows' : this.dataset.game === 'buteco-fighting' ? 'buteco-fighting' : 'chess';
                 setSelectedGame(selectedGameName);
-                window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
                 modal.querySelectorAll('.game-card[data-game]').forEach(item => item.classList.toggle('active', item === this));
+
+                if (selectedGameName === 'country-life-meadows') {
+                    const claim = window.UniversidadeLivreWallet?.claimDailyGameBonus(selectedGameName, 250);
+                    if (claim?.awarded) window.queueNotification?.(t('game_country_life_reward'), 'success');
+                    window.CountryLifeMeadowsGame?.show();
+                    return;
+                }
+                if (selectedGameName === 'buteco-fighting') {
+                    const claim = window.UniversidadeLivreWallet?.claimDailyGameBonus(selectedGameName, 500);
+                    if (claim?.awarded) window.queueNotification?.(t('game_buteco_fighting_reward'), 'success');
+                    window.ButecoFightingGame?.show();
+                    return;
+                }
+                window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
 
                 if (selectedGameName === 'impostor') {
                     window.ImpostorGame?.show();
@@ -1867,6 +1890,18 @@
         });
 
         document.getElementById('gameBackBtn')?.addEventListener('click', () => {
+            if (getSelectedGame() === 'country-life-meadows') {
+                window.CountryLifeMeadowsGame?.close();
+                showGamesMenuScreen();
+                setSelectedGame('chess');
+                return;
+            }
+            if (getSelectedGame() === 'buteco-fighting') {
+                window.ButecoFightingGame?.close();
+                showGamesMenuScreen();
+                setSelectedGame('chess');
+                return;
+            }
             if (getSelectedGame() === 'impostor') {
                 showGamesMenuScreen();
                 return;

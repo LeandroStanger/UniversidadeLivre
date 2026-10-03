@@ -1989,6 +1989,18 @@
                                         <span class="game-title" data-i18n="game_bitcoin_title">Bitcoin: sobe ou desce</span>
                                         <span class="game-subtitle" data-i18n="game_bitcoin_subtitle">Aposte na variação com moedas virtuais</span>
                                     </button>
+                                    <button class="game-card" data-game="country-life-meadows" type="button">
+                                        <img class="game-icon game-icon-image" src="jogo/country-life-meadows/logo.png" alt="" aria-hidden="true">
+                                        <span class="game-title" data-i18n="game_country_life_title">Country Life Meadows</span>
+                                        <span class="game-subtitle" data-i18n="game_country_life_subtitle">Ganhe 250 Livre Coins por dia ao jogar</span>
+                                        <span class="game-third-party-tag" data-i18n="game_country_life_third_party">Jogo de terceiros · itch.io</span>
+                                    </button>
+                                    <button class="game-card" data-game="buteco-fighting" type="button">
+                                        <span class="game-icon game-logo-icon" aria-hidden="true"><img src="https://fighting.butecodosdevs.com/assets/title/buteco-fighting-logo.png" alt=""></span>
+                                        <span class="game-title" data-i18n="game_buteco_fighting_title">Buteco Fighting</span>
+                                        <span class="game-subtitle" data-i18n="game_buteco_fighting_subtitle">Jogo de luta online do Buteco dos Devs.</span>
+                                        <span class="game-third-party-tag" data-i18n="game_third_party">Jogo de terceiros · Buteco dos Devs</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -2074,6 +2086,20 @@
                                 <div id="bacaraPanel" class="bacara-panel" hidden></div>
                                 <div id="bingoPanel" class="bingo-panel" hidden></div>
                                 <div id="bitcoinPanel" class="bitcoin-panel" hidden></div>
+                                <section id="countryLifeMeadowsPanel" class="country-life-meadows-panel" hidden>
+                                    <a class="country-life-meadows-link" href="https://beetreegames.itch.io/country-life-meadows" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                                        <span data-i18n="game_country_life_open_itch">Abrir no itch.io</span>
+                                    </a>
+                                    <iframe id="countryLifeMeadowsFrame" title="Country Life Meadows" src="about:blank" allow="fullscreen; autoplay" allowfullscreen></iframe>
+                                </section>
+                                <section id="butecoFightingPanel" class="buteco-fighting-panel" hidden>
+                                    <a class="buteco-fighting-link" href="https://fighting.butecodosdevs.com/" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                                        <span data-i18n="game_buteco_fighting_open">Abrir em uma nova aba</span>
+                                    </a>
+                                    <iframe id="butecoFightingFrame" title="Buteco Fighting" src="about:blank" allow="fullscreen; autoplay; gamepad" allowfullscreen></iframe>
+                                </section>
                             </div>
 
                             <div id="chessPromotionModal" class="chess-promotion-modal" hidden>
@@ -2284,22 +2310,22 @@
                     <div id="ongoingCoursesContainer"></div>
 
                     <h4 data-i18n="profile_export_import"><i class="fas fa-file-export"></i> Exportar / Importar dados</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+                    <div class="profile-export-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
                         <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
                         <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
                         <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
                         <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
                     </div>
-                    <div id="notesSelectionContainer" style="margin-bottom: 0.8rem; display: block;">
+                    <div id="notesSelectionContainer" class="profile-export-notes" style="margin-bottom: 0.8rem; display: block;">
                         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
                         <div id="notesCheckboxes"></div>
                     </div>
-                    <div class="profile-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                    <div class="profile-actions profile-export-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
                         <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
                         <button id="importProgressBtn" class="btn-secondary" type="button"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                         <input type="file" id="importFileInput" accept=".json" style="display: none;">
                     </div>
-                    <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+                    <p class="profile-note profile-export-disclaimer"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
 
                 </div>
             </div>
@@ -2352,6 +2378,8 @@
     <script src="jogo/bacara/bacara.js"></script>
     <script src="jogo/bingo/bingo.js"></script>
     <script src="jogo/bitcoin/bitcoin.js"></script>
+    <script src="jogo/country-life-meadows/country-life-meadows.js"></script>
+    <script src="jogo/buteco-fighting/buteco-fighting.js"></script>
     <script src="../base/audio-player/audio-player.js" defer></script>
     <script src="../base/loading/loading-screen.js" defer></script>
 </body>
