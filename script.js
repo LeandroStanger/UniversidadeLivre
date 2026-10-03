@@ -1005,6 +1005,37 @@ console.log('[Main] Inicializando script.js v28.0...');
         const studyCalendarHomeBtn = document.getElementById('studyCalendarHomeBtn');
         const levelSelect = document.getElementById('levelChips');
         const languageSelect = document.getElementById('languageChips');
+        const levelOptions = [
+            { value: 'all', key: 'filter_all' },
+            { value: 'graduacao', key: 'graduacao' },
+            { value: 'pos-graduacao', key: 'pos_graduacao' },
+            { value: 'ensino-medio', key: 'ensino_medio' },
+            { value: 'idiomas', key: 'idiomas' }
+        ];
+
+        function syncAvailableLevelOptions() {
+            if (!levelSelect) return;
+            const selectedLanguage = languageSelect?.value || 'all';
+            const availableLevels = new Set(allCourses
+                .filter(course => selectedLanguage === 'all' || getCourseLanguage(course) === selectedLanguage)
+                .map(course => course.courseLevel));
+            const selectedLevel = levelSelect.value;
+            const options = levelOptions
+                .filter(option => option.value === 'all' || availableLevels.has(option.value))
+                .map(option => {
+                    const element = document.createElement('option');
+                    element.value = option.value;
+                    element.dataset.i18n = option.key;
+                    element.textContent = t(option.key);
+                    return element;
+                });
+            levelSelect.replaceChildren(...options);
+            levelSelect.value = selectedLevel === 'all' || availableLevels.has(selectedLevel)
+                ? selectedLevel
+                : 'all';
+        }
+
+        syncAvailableLevelOptions();
 
         if (searchInput) {
             searchInput.addEventListener('input', debounce(() => {
@@ -1047,7 +1078,10 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
 
         if (languageSelect) {
-            languageSelect.addEventListener('change', renderCourseCards);
+            languageSelect.addEventListener('change', () => {
+                syncAvailableLevelOptions();
+                renderCourseCards();
+            });
         }
     }
 
