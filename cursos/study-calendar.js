@@ -281,6 +281,129 @@
         localStorage.setItem(STORAGE_PREFIX + courseId, JSON.stringify(events));
     }
 
+    function escapeICalendarText(value) {
+        return String(value || '')
+            .replace(/\\/g, '\\\\')
+            .replace(/\r?\n/g, '\\n')
+            .replace(/,/g, '\\,')
+            .replace(/;/g, '\\;');
+    }
+
+    function foldICalendarLine(line) {
+        const folded = [];
+        let chunk = '';
+        let byteLength = 0;
+        for (const character of line) {
+            const characterLength = new TextEncoder().encode(character).length;
+            if (byteLength + characterLength > 75) {
+                folded.push(chunk);
+                chunk = ' ';
+                byteLength = 1;
+            }
+            chunk += character;
+            byteLength += characterLength;
+        }
+        folded.push(chunk);
+        return folded.join('\r\n');
+    }
+
+    function calendarDateTime(date, time) {
+        return `${date.replace(/-/g, '')}T${time.replace(':', '')}00`;
+    }
+
+    function eventCalendarRange(event) {
+        if (event.time) {
+            const end = dateTimeAfterMinutes(event.date, event.time, Number(event.duration) || 60);
+            const [endDate, endTime] = end.split('T');
+            return {
+                startDateTime: `${event.date}T${event.time}:00`,
+                endDateTime: `${endDate}T${endTime}`,
+                googleStart: calendarDateTime(event.date, event.time),
+                googleEnd: calendarDateTime(endDate, endTime.slice(0, 5))
+            };
+        }
+        const nextDate = parseDate(event.date);
+        nextDate.setDate(nextDate.getDate() + 1);
+        const endDate = dateKey(nextDate);
+        return {
+            startDateTime: `${event.date}T00:00:00`,
+            endDateTime: `${endDate}T00:00:00`,
+            googleStart: event.date.replace(/-/g, ''),
+            googleEnd: endDate.replace(/-/g, '')
+        };
+    }
+
+    function providerCalendarUrl(provider, event) {
+        const range = eventCalendarRange(event);
+        const title = event.lessonTitle || t('study_calendar_lesson');
+        const courseName = event.courseName || state.courseName || '';
+        const url = provider === 'google'
+            ? new URL('https://calendar.google.com/calendar/render')
+            : new URL('https://outlook.live.com/calendar/0/deeplink/compose');
+        if (provider === 'google') {
+            url.searchParams.set('action', 'TEMPLATE');
+            url.searchParams.set('text', title);
+            url.searchParams.set('dates', `${range.googleStart}/${range.googleEnd}`);
+            url.searchParams.set('details', courseName);
+            url.searchParams.set('ctz', Intl.DateTimeFormat().resolvedOptions().timeZone);
+        } else {
+            url.searchParams.set('subject', title);
+            url.searchParams.set('startdt', range.startDateTime);
+            url.searchParams.set('enddt', range.endDateTime);
+            url.searchParams.set('body', courseName);
+            url.searchParams.set('allday', String(!event.time));
+        }
+        return url.href;
+    }
+
+    function buildICalendar(events) {
+        const lines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Universidade Livre//Calendario de Estudos//PT-BR',
+            'CALSCALE:GREGORIAN',
+            'METHOD:PUBLISH'
+        ];
+        const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+        events.forEach(event => {
+            lines.push('BEGIN:VEVENT');
+            lines.push(`UID:${encodeURIComponent(String(event.id))}@universidadelivre`);
+            lines.push(`DTSTAMP:${timestamp}`);
+            if (event.time) {
+                lines.push(`DTSTART:${calendarDateTime(event.date, event.time)}`);
+                const end = dateTimeAfterMinutes(event.date, event.time, Number(event.duration) || 60);
+                const [endDate, endTime] = end.split('T');
+                lines.push(`DTEND:${calendarDateTime(endDate, endTime.slice(0, 5))}`);
+            } else {
+                const nextDate = parseDate(event.date);
+                nextDate.setDate(nextDate.getDate() + 1);
+                lines.push(`DTSTART;VALUE=DATE:${event.date.replace(/-/g, '')}`);
+                lines.push(`DTEND;VALUE=DATE:${dateKey(nextDate).replace(/-/g, '')}`);
+            }
+            lines.push(`SUMMARY:${escapeICalendarText(event.lessonTitle || t('study_calendar_lesson'))}`);
+            if (event.courseName) lines.push(`DESCRIPTION:${escapeICalendarText(event.courseName)}`);
+            lines.push('END:VEVENT');
+        });
+        lines.push('END:VCALENDAR');
+        return `${lines.map(foldICalendarLine).join('\r\n')}\r\n`;
+    }
+
+    function downloadCalendarFile(file) {
+        const url = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = file.name;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function exportCalendar(events) {
+        const file = new File([buildICalendar(events)], 'universidade-livre-estudos.ics', {
+            type: 'text/calendar;charset=utf-8'
+        });
+        downloadCalendarFile(file);
+    }
+
     function renderCalendar(resetDate = false) {
         if (!state || !ensureCalendar()) {
             console.error('[StudyCalendar] Toast UI Calendar não foi carregado.');
@@ -369,9 +492,24 @@
         const container = document.getElementById('studyCalendarEvents');
         if (!container) return;
         const events = loadEvents();
-        container.innerHTML = `<h4>${t('study_calendar_scheduled')}</h4>`;
+        const header = document.createElement('div');
+        header.className = 'study-calendar-events-header';
+        const heading = document.createElement('h4');
+        heading.textContent = t('study_calendar_scheduled');
+        header.appendChild(heading);
+        if (events.length) {
+            const exportButton = document.createElement('button');
+            exportButton.type = 'button';
+            exportButton.className = 'study-calendar-export';
+            exportButton.innerHTML = `<i class="fas fa-calendar-plus" aria-hidden="true"></i><span>${t('study_calendar_add_to_calendar')}</span>`;
+            exportButton.addEventListener('click', () => exportCalendar(events));
+            header.appendChild(exportButton);
+        }
+        container.replaceChildren(header);
         if (!events.length) {
-            container.insertAdjacentHTML('beforeend', `<p>${t('study_calendar_empty')}</p>`);
+            const empty = document.createElement('p');
+            empty.textContent = t('study_calendar_empty');
+            container.appendChild(empty);
             return;
         }
         events.slice(0, 8).forEach(event => {
@@ -392,6 +530,42 @@
             courseTag.textContent = event.courseName || state.courseName || '';
             if (courseTag.textContent) details.append(courseTag);
             row.appendChild(details);
+            const calendarOptions = document.createElement('details');
+            calendarOptions.className = 'study-calendar-provider-menu';
+            const calendarOptionsButton = document.createElement('summary');
+            calendarOptionsButton.setAttribute('aria-label', t('study_calendar_add_lesson_to_calendar'));
+            calendarOptionsButton.title = t('study_calendar_add_lesson_to_calendar');
+            const calendarOptionsIcon = document.createElement('i');
+            calendarOptionsIcon.className = 'fas fa-calendar-plus';
+            calendarOptionsIcon.setAttribute('aria-hidden', 'true');
+            const calendarOptionsLabel = document.createElement('span');
+            calendarOptionsLabel.textContent = t('study_calendar_add_lesson_short');
+            calendarOptionsButton.append(calendarOptionsIcon, calendarOptionsLabel);
+            const calendarOptionsList = document.createElement('div');
+            calendarOptionsList.className = 'study-calendar-provider-options';
+            [['google', 'study_calendar_google'], ['outlook', 'study_calendar_outlook']].forEach(([provider, labelKey]) => {
+                const link = document.createElement('a');
+                link.className = 'study-calendar-provider-option';
+                link.href = providerCalendarUrl(provider, event);
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.textContent = t(labelKey);
+                calendarOptionsList.appendChild(link);
+            });
+            const icsButton = document.createElement('button');
+            icsButton.type = 'button';
+            icsButton.className = 'study-calendar-provider-option';
+            icsButton.textContent = t('study_calendar_apple_ics');
+            icsButton.addEventListener('click', () => {
+                const file = new File([buildICalendar([event])], 'aula-universidade-livre.ics', {
+                    type: 'text/calendar;charset=utf-8'
+                });
+                downloadCalendarFile(file);
+                calendarOptions.open = false;
+            });
+            calendarOptionsList.appendChild(icsButton);
+            calendarOptions.append(calendarOptionsButton, calendarOptionsList);
+            row.appendChild(calendarOptions);
             if (today && !completed) {
                 const todayLabel = document.createElement('span');
                 todayLabel.className = 'study-calendar-today-label';
