@@ -3366,11 +3366,109 @@ a:hover {
     font-size: 0.8rem;
 }
 
+.study-calendar-events-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.study-calendar-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.68rem;
+}
+
+.study-calendar-export:hover,
+.study-calendar-export:focus-visible {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+}
+
+.study-calendar-provider-menu {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.study-calendar-provider-menu summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    list-style: none;
+}
+
+.study-calendar-provider-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.study-calendar-provider-menu summary:hover,
+.study-calendar-provider-menu[open] summary {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+}
+
+.study-calendar-provider-options {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 0.25rem);
+    right: 0;
+    display: grid;
+    width: max-content;
+    max-width: min(15rem, 75vw);
+    padding: 0.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    background: var(--bg-card);
+    box-shadow: 0 5px 18px rgb(0 0 0 / 16%);
+}
+
+.study-calendar-provider-option {
+    display: block;
+    padding: 0.5rem 0.65rem;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.72rem;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.study-calendar-provider-option:hover,
+.study-calendar-provider-option:focus-visible {
+    background: var(--bg-tertiary);
+    color: var(--accent-teal);
+}
+
 .study-calendar-event {
     padding: 0.45rem;
     border-left: 3px solid var(--accent-teal);
     background: var(--bg-tertiary);
     font-size: 0.72rem;
+}
+
+.study-calendar-event > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .study-calendar-event.is-completed {
