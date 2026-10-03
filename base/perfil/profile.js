@@ -36,6 +36,7 @@
     };
 
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+    const STUDY_CALENDAR_STORAGE_PREFIX = 'ulivre_study_schedule_';
     const GAME_PROGRESS_KEYS = [
         'ulivre_ttt_scores',
         'ulivre_chess_scores',
@@ -1825,7 +1826,7 @@
         return getProgressStorageEntries(['comunidade_posts_', 'comunidade_chat_']);
     }
 
-    function generateExportData(includeCourses, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
+    function generateExportData(includeCourses, includeStudyCalendar, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
         const exportData = {
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
@@ -1867,6 +1868,9 @@
                 acc.points += c.stats.points;
                 return acc;
             }, { watchedVideos: 0, totalVideos: 0, points: 0 });
+        }
+        if (includeStudyCalendar) {
+            exportData.data.studyCalendar = getProgressStorageEntries([STUDY_CALENDAR_STORAGE_PREFIX]);
         }
         if (includeVideos) exportData.data.videos = getVideosProgress();
         if (includeBooks) exportData.data.booksRead = getBooksRead();
@@ -2027,16 +2031,18 @@
     // ========== EXPORTAÇÃO ==========
     async function handleExport() {
         const includeCourses = document.getElementById('exportCourses');
+        const includeStudyCalendar = ensureStudyCalendarExportOption();
         const includeVideos = document.getElementById('exportVideos');
         const includeBooks = document.getElementById('exportBooks');
         const includeNotes = document.getElementById('exportNotes');
 
-        if (!includeCourses || !includeVideos || !includeBooks || !includeNotes) {
+        if (!includeCourses || !includeStudyCalendar || !includeVideos || !includeBooks || !includeNotes) {
             showToast('Erro ao carregar opções de exportação.', 'error');
             return;
         }
 
         const includeCoursesChecked = includeCourses.checked;
+        const includeStudyCalendarChecked = includeStudyCalendar.checked;
         const includeVideosChecked = includeVideos.checked;
         const includeBooksChecked = includeBooks.checked;
         const includeNotesChecked = includeNotes.checked;
@@ -2050,7 +2056,7 @@
 
         const exportAction = async (password) => {
             try {
-                const data = generateExportData(includeCoursesChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
+                const data = generateExportData(includeCoursesChecked, includeStudyCalendarChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
                 let finalData = data;
                 let isEncrypted = false;
                 if (password && password.length > 0) {
@@ -2241,6 +2247,13 @@
                     }
                 }
             }
+            if (data.studyCalendar && typeof data.studyCalendar === 'object' && !Array.isArray(data.studyCalendar)) {
+                Object.entries(data.studyCalendar).forEach(([key, events]) => {
+                    if (key.startsWith(STUDY_CALENDAR_STORAGE_PREFIX) && Array.isArray(events)) {
+                        localStorage.setItem(key, JSON.stringify(events));
+                    }
+                });
+            }
 
             if (data.videos) localStorage.setItem('yt_video_progress', JSON.stringify(data.videos));
             if (data.booksRead) localStorage.setItem('ulivre_livros_lidos', JSON.stringify(data.booksRead));
@@ -2320,7 +2333,28 @@
     }
 
     // ========== ATUALIZAR TRADUÇÕES DO MODAL ==========
+    function ensureStudyCalendarExportOption() {
+        let checkbox = document.getElementById('exportStudyCalendar');
+        if (checkbox) return checkbox;
+
+        const coursesLabel = document.getElementById('exportCourses')?.closest('label');
+        const optionsContainer = coursesLabel?.parentElement;
+        if (!optionsContainer) return null;
+
+        const label = document.createElement('label');
+        checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'exportStudyCalendar';
+        checkbox.checked = true;
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-calendar-alt';
+        label.append(checkbox, document.createTextNode(' '), icon, document.createTextNode(` ${t('study_calendar_title')}`));
+        optionsContainer.appendChild(label);
+        return checkbox;
+    }
+
     function updateProfileTranslations() {
+        ensureStudyCalendarExportOption();
         const modalHeader = document.querySelector('.profile-modal-header h2');
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
 
@@ -2438,6 +2472,7 @@
 
         const exportItems = [
             { id: 'exportCourses', key: 'profile_export_courses' },
+            { id: 'exportStudyCalendar', key: 'study_calendar_title' },
             { id: 'exportVideos', key: 'profile_export_videos' },
             { id: 'exportBooks', key: 'profile_export_books' },
             { id: 'exportNotes', key: 'profile_export_notes' }
