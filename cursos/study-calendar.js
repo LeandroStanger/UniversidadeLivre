@@ -177,6 +177,7 @@
             week: { dayNames: weekdayNames, startDayOfWeek: 0, hourStart: 7, hourEnd: 22, eventView: ['allday', 'time'], taskView: false },
             theme: calendarTheme()
         });
+        container.addEventListener('mousedown', () => calendarInstance.clearGridSelections(), true);
         calendarInstance.on('selectDateTime', ({ start }) => updateSelectedDate(start));
         calendarInstance.on('clickEvent', ({ event }) => updateSelectedDate(event.start));
         container.addEventListener('click', event => {
@@ -495,7 +496,13 @@
         const header = document.createElement('div');
         header.className = 'study-calendar-events-header';
         const heading = document.createElement('h4');
-        heading.textContent = t('study_calendar_scheduled');
+        const selectedDate = state?.selectedDate;
+        const selectedDateLabel = selectedDate
+            ? new Intl.DateTimeFormat(locale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(parseDate(selectedDate))
+            : '';
+        heading.textContent = selectedDateLabel
+            ? t('study_calendar_day_schedule', { date: selectedDateLabel })
+            : t('study_calendar_scheduled');
         header.appendChild(heading);
         if (events.length) {
             const exportButton = document.createElement('button');
@@ -506,13 +513,16 @@
             header.appendChild(exportButton);
         }
         container.replaceChildren(header);
-        if (!events.length) {
+        const selectedDateEvents = selectedDate
+            ? events.filter(event => event.date === selectedDate)
+            : events;
+        if (!selectedDateEvents.length) {
             const empty = document.createElement('p');
-            empty.textContent = t('study_calendar_empty');
+            empty.textContent = t('study_calendar_no_day_schedule');
             container.appendChild(empty);
             return;
         }
-        events.slice(0, 8).forEach(event => {
+        selectedDateEvents.forEach(event => {
             const row = document.createElement('div');
             row.className = 'study-calendar-event';
             const completed = isLessonCompleted(event);
