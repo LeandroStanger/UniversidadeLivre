@@ -516,6 +516,8 @@
   "study_calendar_view_day": "Día",
   "study_calendar_select_day": "Seleccionar día",
   "study_calendar_scheduled": "Clases programadas",
+  "study_calendar_day_schedule": "Clases del {{date}}",
+  "study_calendar_no_day_schedule": "No hay clases programadas para este día.",
   "study_calendar_add_to_calendar": "Exportar calendario (.ics)",
   "study_calendar_add_lesson_to_calendar": "Añadir esta clase a un calendario",
   "study_calendar_add_lesson_short": "Añadir",
