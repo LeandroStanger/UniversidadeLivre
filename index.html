@@ -579,10 +579,10 @@
 
             <section id="profileTabLivreCoin" class="profile-tab-panel" role="tabpanel" hidden>
             <div class="profile-stats">
-                <div class="stat-item livre-coins-profile-stat"><span><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Total Livre Coins</span> <span id="profileLivreCoins">0</span></div>
-                <div class="stat-item livre-coins-profile-stat"><span>Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
+                <div class="stat-item livre-coins-profile-stat"><span><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_total_livre_coins">Total Livre Coins</span></span> <span id="profileLivreCoins">0</span></div>
+                <div class="stat-item livre-coins-profile-stat"><span data-i18n="profile_exchange_points">Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
             </div>
-            <div class="livre-coins-profile-convert"><span>5 pontos = 1<br><span class="livre-coin-name"><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coin</span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button">Trocar pontos por <img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coins</button></div>
+            <div class="livre-coins-profile-convert"><span><span data-i18n="profile_livre_coin_ratio">5 pontos = 1</span><br><span class="livre-coin-name"><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_livre_coin">Livre Coin</span></span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button"><span data-i18n="profile_convert_livre_points">Trocar pontos por</span> <img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_livre_coins">Livre Coins</span></button></div>
             </section>
 
             <section id="profileTabSecretary" class="profile-tab-panel" role="tabpanel" hidden>
@@ -619,23 +619,23 @@
             </section>
             <section id="profileTabExport" class="profile-tab-panel" role="tabpanel" hidden>
             <!-- Exportação/Importação -->
-            <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+            <h4 class="profile-export-title" style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
+            <div class="profile-export-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
                 <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
                 <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
                 <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
                 <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
             </div>
-            <div id="notesSelectionContainer" style="margin-bottom: 0.8rem; display: block;">
+            <div id="notesSelectionContainer" class="profile-export-notes" style="margin-bottom: 0.8rem; display: block;">
                 <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
                 <div id="notesCheckboxes"></div>
             </div>
-            <div class="profile-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <div class="profile-actions profile-export-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
                 <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
                 <button id="importProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: var(--bg-primary); border: none;"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                 <input type="file" id="importFileInput" accept=".json" style="display: none;">
             </div>
-            <p class="profile-note"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+            <p class="profile-note profile-export-disclaimer"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
             </section>
         </div>
     </div>

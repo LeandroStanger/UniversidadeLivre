@@ -25,6 +25,10 @@
         '../logo-da-universidade-livre.png',
         document.currentScript?.src || document.baseURI
     ).href;
+    const LIVRE_COIN_LOGO_URL = new URL(
+        '../../comunidade/Livre Coin/Livre Coin.png',
+        document.currentScript?.src || document.baseURI
+    ).href;
     const STORAGE_KEYS = {
         NAME: 'userProfileName',
         AVATAR: 'userAvatar',
@@ -36,6 +40,8 @@
     };
 
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
+    const COUNTRY_LIFE_PLAYTIME_KEY = 'ulivre_country_life_playtime_ms';
+    const BUTECO_FIGHTING_PLAYTIME_KEY = 'ulivre_buteco_fighting_playtime_ms';
     const STUDY_CALENDAR_STORAGE_PREFIX = 'ulivre_study_schedule_';
     const GAME_PROGRESS_KEYS = [
         'ulivre_ttt_scores',
@@ -52,6 +58,8 @@
         'ulivre_bacara_wallets',
         'ulivre_bingo_wallets',
         'ulivre_bitcoin_stats',
+        COUNTRY_LIFE_PLAYTIME_KEY,
+        BUTECO_FIGHTING_PLAYTIME_KEY,
         'ulivre_livre_coins_wallet'
     ];
     const TEST_ADMIN_MATRICULA = '20260815064514840';
@@ -1700,6 +1708,12 @@
                 return { points: 0, wins: 0, draws: 0, losses: 0 };
             }
         })();
+        const language = window.getCurrentLanguage?.();
+        const locale = language === 'en' ? 'en-US' : language === 'es' ? 'es-ES' : 'pt-BR';
+        const formatPlaytimeHours = key => {
+            const milliseconds = Math.max(0, Number(localStorage.getItem(key)) || 0);
+            return new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(milliseconds / 3600000);
+        };
         const normalizeScore = (score, key) => ({
             points: Number(score.points) || 0,
             wins: Number(score.wins) || 0,
@@ -1720,11 +1734,19 @@
             { name: t('games_score_bacara'), icon: 'fa-diamond', score: normalizeScore(rawScore('ulivre_bacara_wallets'), 'ulivre_bacara_wallets') },
             { name: t('games_score_bingo'), icon: 'fa-ticket', score: normalizeScore(rawScore('ulivre_bingo_wallets'), 'ulivre_bingo_wallets') }
             , { name: t('games_score_bitcoin'), iconSymbol: '₿', score: bitcoinScore }
+            , { name: t('game_country_life_title'), icon: 'fa-seedling', playtimeHours: formatPlaytimeHours(COUNTRY_LIFE_PLAYTIME_KEY) }
+            , { name: t('game_buteco_fighting_title'), icon: 'fa-hand-fist', playtimeHours: formatPlaytimeHours(BUTECO_FIGHTING_PLAYTIME_KEY), playtimeKey: BUTECO_FIGHTING_PLAYTIME_KEY }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
-            const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
             const icon = game.iconSymbol ? `<span class="profile-game-status-icon profile-game-status-suit">${game.iconSymbol}</span>` : `<i class="fas ${game.icon}"></i>`;
+            if (game.playtimeHours !== undefined) {
+                const playtimeLabel = game.playtimeKey === BUTECO_FIGHTING_PLAYTIME_KEY
+                    ? 'profile_buteco_fighting_playtime'
+                    : 'profile_country_life_playtime';
+                return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${t(playtimeLabel, { hours: game.playtimeHours })}</span></article>`;
+            }
+            const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
             return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
         }).join('');
     }
@@ -3036,6 +3058,174 @@
     let _initialized = false;
     let profileOpener = null;
 
+    function createProfileActionButton(id, icon, translationKey) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = id;
+        button.className = 'profile-details-button';
+        button.setAttribute('aria-expanded', 'false');
+        const iconElement = document.createElement('i');
+        iconElement.className = `fas ${icon}`;
+        iconElement.setAttribute('aria-hidden', 'true');
+        const label = document.createElement('span');
+        label.dataset.i18n = translationKey;
+        label.textContent = t(translationKey);
+        button.append(iconElement, label);
+        return button;
+    }
+
+    function ensureProfileComponents() {
+        const modalBody = document.querySelector('#profileModal .profile-modal-body');
+        if (!modalBody) return;
+
+        const avatarSection = modalBody.querySelector('.profile-avatar-section');
+        if (avatarSection && !modalBody.querySelector('#avatarInput')) {
+            const avatarInput = document.createElement('input');
+            avatarInput.type = 'file';
+            avatarInput.id = 'avatarInput';
+            avatarInput.accept = 'image/*';
+            avatarInput.hidden = true;
+            avatarSection.appendChild(avatarInput);
+        }
+        if (avatarSection && !modalBody.querySelector('#profileMatriculaDisplay')) {
+            const matricula = document.createElement('div');
+            matricula.className = 'profile-matricula';
+            const label = document.createElement('span');
+            label.dataset.i18n = 'profile_matricula';
+            label.textContent = t('profile_matricula');
+            const value = document.createElement('strong');
+            value.id = 'profileMatriculaDisplay';
+            matricula.append(label, value);
+            avatarSection.appendChild(matricula);
+        }
+
+        let statusActions = modalBody.querySelector('.profile-status-actions');
+        if (!statusActions) {
+            statusActions = document.createElement('div');
+            statusActions.className = 'profile-status-actions';
+            const insertionPoint = modalBody.querySelector('#profileExamDetailsBtn') || modalBody.querySelector('#profileCoursesList');
+            if (insertionPoint) modalBody.insertBefore(statusActions, insertionPoint);
+            else modalBody.appendChild(statusActions);
+        }
+        let activityButton = modalBody.querySelector('#profileActivityBtn');
+        if (!activityButton) activityButton = createProfileActionButton('profileActivityBtn', 'fa-clock', 'profile_activity_summary');
+        let gameStatusButton = modalBody.querySelector('#profileGameStatusBtn');
+        if (!gameStatusButton) gameStatusButton = createProfileActionButton('profileGameStatusBtn', 'fa-chart-line', 'profile_game_status');
+        if (activityButton.parentElement !== statusActions) statusActions.appendChild(activityButton);
+        if (gameStatusButton.parentElement !== statusActions) statusActions.appendChild(gameStatusButton);
+
+        if (!modalBody.querySelector('#profileActivityDetails')) {
+            const activityDetails = document.createElement('div');
+            activityDetails.id = 'profileActivityDetails';
+            activityDetails.className = 'profile-activity-details';
+            activityDetails.hidden = true;
+            statusActions.after(activityDetails);
+        }
+        if (!modalBody.querySelector('#profileGameStatus')) {
+            const gameStatus = document.createElement('div');
+            gameStatus.id = 'profileGameStatus';
+            gameStatus.className = 'profile-game-status';
+            gameStatus.hidden = true;
+            modalBody.querySelector('#profileActivityDetails').after(gameStatus);
+        }
+
+        const insertBeforeCourses = element => {
+            const courses = modalBody.querySelector('#profileCoursesList');
+            if (courses) modalBody.insertBefore(element, courses);
+            else modalBody.appendChild(element);
+        };
+        if (!modalBody.querySelector('#profileTranscriptBtn')) {
+            insertBeforeCourses(createProfileActionButton('profileTranscriptBtn', 'fa-file-alt', 'profile_transcript'));
+        }
+        if (!modalBody.querySelector('#profileTranscript')) {
+            const transcript = document.createElement('div');
+            transcript.id = 'profileTranscript';
+            transcript.className = 'profile-transcript';
+            transcript.hidden = true;
+            transcript.innerHTML = '<div id="profileTranscriptCourses" class="profile-transcript-courses"></div><div id="profileTranscriptStages" class="profile-transcript-stages"></div>';
+            insertBeforeCourses(transcript);
+        }
+        if (!modalBody.querySelector('#profileCertificatesBtn')) {
+            insertBeforeCourses(createProfileActionButton('profileCertificatesBtn', 'fa-certificate', 'profile_certificates'));
+        }
+        if (!modalBody.querySelector('#profileCertificatesList')) {
+            const certificates = document.createElement('div');
+            certificates.id = 'profileCertificatesList';
+            certificates.className = 'profile-certificates-list';
+            certificates.hidden = true;
+            insertBeforeCourses(certificates);
+        }
+
+        const createCoinStat = (id, labelKey) => {
+            const stat = document.createElement('div');
+            stat.className = 'stat-item livre-coins-profile-stat';
+            const label = document.createElement('span');
+            const logo = document.createElement('img');
+            logo.className = 'livre-coin-logo';
+            logo.src = LIVRE_COIN_LOGO_URL;
+            logo.alt = '';
+            logo.setAttribute('aria-hidden', 'true');
+            const text = document.createElement('span');
+            text.dataset.i18n = labelKey;
+            text.textContent = t(labelKey);
+            label.append(logo, text);
+            const value = document.createElement('span');
+            value.id = id;
+            value.textContent = '0';
+            stat.append(label, value);
+            insertBeforeCourses(stat);
+        };
+        if (!modalBody.querySelector('#profileLivreCoins')) createCoinStat('profileLivreCoins', 'profile_total_livre_coins');
+        if (!modalBody.querySelector('#profileLivrePoints')) createCoinStat('profileLivrePoints', 'profile_exchange_points');
+        if (!modalBody.querySelector('#profileConvertLivrePoints')) {
+            const conversion = document.createElement('div');
+            conversion.className = 'livre-coins-profile-convert';
+            const ratio = document.createElement('span');
+            ratio.dataset.i18n = 'profile_livre_coin_ratio';
+            ratio.textContent = t('profile_livre_coin_ratio');
+            const coinName = document.createElement('span');
+            coinName.className = 'livre-coin-name';
+            const coinLogo = document.createElement('img');
+            coinLogo.className = 'livre-coin-logo';
+            coinLogo.src = LIVRE_COIN_LOGO_URL;
+            coinLogo.alt = '';
+            coinLogo.setAttribute('aria-hidden', 'true');
+            const coinNameLabel = document.createElement('span');
+            coinNameLabel.dataset.i18n = 'profile_livre_coin';
+            coinNameLabel.textContent = t('profile_livre_coin');
+            coinName.append(coinLogo, coinNameLabel);
+            const summary = document.createElement('span');
+            summary.append(ratio, document.createElement('br'), coinName);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.id = 'profileConvertLivrePoints';
+            button.className = 'profile-details-button';
+            const actionLabel = document.createElement('span');
+            actionLabel.dataset.i18n = 'profile_convert_livre_points';
+            actionLabel.textContent = t('profile_convert_livre_points');
+            const actionLogo = coinLogo.cloneNode();
+            const actionCoinLabel = document.createElement('span');
+            actionCoinLabel.dataset.i18n = 'profile_livre_coins';
+            actionCoinLabel.textContent = t('profile_livre_coins');
+            button.append(actionLabel, actionLogo, actionCoinLabel);
+            conversion.append(summary, button);
+            insertBeforeCourses(conversion);
+        }
+
+        const exportTitle = Array.from(modalBody.querySelectorAll('h4')).find(heading =>
+            heading.matches('h4[data-i18n="profile_export_import"]')
+            || heading.querySelector('[data-i18n="profile_export_import"]')
+        );
+        exportTitle?.classList.add('profile-export-title');
+
+        const exportOptions = modalBody.querySelector('.profile-export-options')
+            || modalBody.querySelector('#exportCourses')?.closest('label')?.parentElement;
+        exportOptions?.classList.add('profile-export-options');
+        modalBody.querySelector('#notesSelectionContainer')?.classList.add('profile-export-notes');
+        modalBody.querySelector('.profile-actions')?.classList.add('profile-export-actions');
+        modalBody.querySelector('.profile-note')?.classList.add('profile-export-disclaimer');
+    }
+
     function initProfileTabs() {
         const modalBody = document.querySelector('#profileModal .profile-modal-body');
         if (!modalBody) return;
@@ -3097,11 +3287,19 @@
             ['#profileExamDetailsBtn', '#profileExamDetails', '#profileTranscriptBtn', '#profileTranscript',
                 '#profileCertificatesBtn', '#profileCertificatesList'].forEach(selector => move(selector, 'profileTabSecretary'));
             move('#profileCoursesList', 'profileTabCourses');
-            ['#exportCourses', '#exportVideos', '#exportBooks', '#exportNotes', '#notesSelectionContainer',
-                '.profile-actions', '.profile-note', 'h4[data-i18n="profile_export_import"]'].forEach(selector => {
-                const element = selector.startsWith('#export')
-                    ? modalBody.querySelector(selector)?.closest('label')
-                    : modalBody.querySelector(selector);
+            const exportTitle = modalBody.querySelector('.profile-export-title');
+            if (exportTitle) panels.get('profileTabExport').appendChild(exportTitle);
+            const exportOptions = modalBody.querySelector('.profile-export-options');
+            if (exportOptions) {
+                panels.get('profileTabExport').appendChild(exportOptions);
+            } else {
+                ['#exportCourses', '#exportVideos', '#exportBooks', '#exportNotes'].forEach(selector => {
+                    const element = modalBody.querySelector(selector)?.closest('label');
+                    if (element) panels.get('profileTabExport').appendChild(element);
+                });
+            }
+            ['#notesSelectionContainer', '.profile-actions', '.profile-note'].forEach(selector => {
+                const element = modalBody.querySelector(selector);
                 if (element) panels.get('profileTabExport').appendChild(element);
             });
         }
@@ -3210,6 +3408,7 @@
             await window.i18nReady;
         }
         await detectImageBasePath();
+        ensureProfileComponents();
         initProfileTabs();
 
         // ===== ATUALIZAR BOTÃO DE PERFIL =====
@@ -3462,6 +3661,16 @@
         }
     });
 
+    window.addEventListener('countryLifePlaytimeUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex' && !document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+    });
+
+    window.addEventListener('butecoFightingPlaytimeUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex' && !document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+    });
+
     window.addEventListener('tttScoreUpdated', () => {
         const modal = document.getElementById('profileModal');
         if (modal?.style?.display === 'flex') {
@@ -3501,7 +3710,7 @@
                 el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
             }
         }
-        if ((e.key === 'ulivre_ttt_scores' || e.key === 'ulivre_chess_scores') && document.getElementById('profileModal')?.style?.display === 'flex') {
+        if ((e.key === 'ulivre_ttt_scores' || e.key === 'ulivre_chess_scores' || e.key === COUNTRY_LIFE_PLAYTIME_KEY || e.key === BUTECO_FIGHTING_PLAYTIME_KEY) && document.getElementById('profileModal')?.style?.display === 'flex') {
             updateProfileModal();
             if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
         }
