@@ -3173,19 +3173,6 @@ a:hover {
 }
 
 @media (max-width: 600px) {
-    .study-calendar {
-        right: 0.5rem;
-        bottom: 0.5rem;
-        width: calc(100% - 1.5rem);
-        max-height: calc(100dvh - 1rem);
-        padding: 0.8rem;
-    }
-
-    .study-calendar-grid {
-        height: min(48vh, 390px);
-        min-height: 260px;
-    }
-
     .study-calendar-header-action span {
         display: none;
     }
@@ -4223,22 +4210,21 @@ a:hover {
 
 @media (max-width: 600px) {
     .study-calendar {
-        right: calc(0.75rem + 3.25rem + 0.5rem + 3.25rem + 1rem + 0.625rem);
-        bottom: 0.75rem;
-        width: min(15rem, calc(100% - 9.625rem));
-        max-height: calc(100dvh - 1.5rem);
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+        max-height: none;
+        box-sizing: border-box;
+        padding: max(0.8rem, env(safe-area-inset-top)) max(0.8rem, env(safe-area-inset-right)) max(0.8rem, env(safe-area-inset-bottom)) max(0.8rem, env(safe-area-inset-left));
+        border-radius: 0;
+    }
+
+    .study-calendar-grid {
+        height: min(62dvh, 560px);
+        min-height: min(400px, 56dvh);
     }
 
     .profile-certificates-list { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 360px) {
-    .study-calendar {
-        right: 0.75rem;
-        bottom: 5.5rem;
-        width: calc(100% - 1.5rem);
-        max-height: calc(100dvh - 6.5rem);
-    }
 }
 
 @media (max-width: 700px) {
