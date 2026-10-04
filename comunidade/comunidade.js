@@ -829,6 +829,19 @@
         return { name, avatar };
     }
 
+    function syncCurrentUser() {
+        const nextUser = getCurrentUser();
+        if (nextUser.name === state.currentUser.name && nextUser.avatar === state.currentUser.avatar) return;
+        state.currentUser = nextUser;
+        renderPosts();
+        renderChatMessages();
+    }
+
+    window.addEventListener('profileUpdated', syncCurrentUser);
+    window.addEventListener('storage', event => {
+        if (event.key === 'userProfileName' || event.key === 'userAvatar') syncCurrentUser();
+    });
+
     function getPreferredStudyContext() {
         try {
             const saved = JSON.parse(localStorage.getItem(COMMUNITY_CONTEXT_KEY) || 'null');
@@ -2925,7 +2938,9 @@
             const likeCount = post.likes.length;
             const commentCount = post.comments.length;
             const isOwner = post.author === state.currentUser.name;
-            const avatar = post.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=6C8CFF&color=fff&size=40`;
+            const avatar = (post.author === state.currentUser.name && state.currentUser.avatar)
+                ? state.currentUser.avatar
+                : post.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=6C8CFF&color=fff&size=40`;
             const time = formatDate(post.timestamp);
 
             html += `
