@@ -495,9 +495,9 @@
             <h2><i class="fas fa-user-circle"></i> <span data-i18n="profile_title">Meu Perfil</span></h2>
             <button class="close-profile-modal" id="closeProfileModal">&times;</button>
         </div>
-        <div class="profile-modal-body">
-            <!-- Avatar -->
-            <div class="profile-avatar-section">
+        <div class="profile-cover-preview">
+            <img id="profileCoverPreviewImage" alt="">
+            <div class="profile-cover-identity">
                 <div class="avatar-wrapper" id="avatarWrapper">
                     <img id="profileAvatar" src="https://ui-avatars.com/api/?name=Usuario&background=6C8CFF&color=fff&size=80" alt="Avatar">
                     <div class="avatar-overlay">
@@ -505,13 +505,18 @@
                         <span data-i18n="profile_change_photo">Alterar foto</span>
                     </div>
                 </div>
-                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
                 <div class="profile-matricula">
                     <span data-i18n="profile_matricula">Matrícula:</span>
                     <strong id="profileMatriculaDisplay"></strong>
                 </div>
             </div>
-
+            <button type="button" id="profileCoverChooseBtn" class="profile-cover-change">
+                <i class="fas fa-image" aria-hidden="true"></i>
+                <span data-i18n="profile_choose_cover">Escolher capa</span>
+            </button>
+        </div>
+        <div class="profile-modal-body">
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             <nav class="profile-tabs" role="tablist" aria-label="Seções do perfil" data-i18n-aria="profile_sections_label">
                 <button type="button" class="profile-tab active" role="tab" aria-selected="true" aria-controls="profileTabPersonal" data-profile-tab="profileTabPersonal"><i class="fas fa-user"></i> <span data-i18n="profile_tab_personal">Perfil</span></button>
                 <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabStatus" data-profile-tab="profileTabStatus"><i class="fas fa-chart-line"></i> <span data-i18n="profile_tab_status">Status</span></button>
