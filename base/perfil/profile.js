@@ -67,6 +67,7 @@
         { file: 'capa-amanhecer-na-costa.jpg', labelKey: 'profile_cover_dawn_coast' },
         { file: 'capa-falesia-marinha.jpg', labelKey: 'profile_cover_sea_cliffs' }
     ];
+    const DEFAULT_PROFILE_COVER = PROFILE_COVERS.find(cover => cover.file === 'capa-floresta-neblina.webp') || PROFILE_COVERS[0];
     const LIVRE_COIN_LOGO_URL = new URL(
         '../../comunidade/Livre Coin/Livre Coin.png',
         document.currentScript?.src || document.baseURI
@@ -720,7 +721,7 @@
         }
         const cover = PROFILE_COVERS.find(option => option.file === savedFile || option.file === savedFile?.replace(/\.png$/i, '.webp'));
         if (cover && cover.file !== savedFile) localStorage.setItem(STORAGE_KEYS.COVER, cover.file);
-        return cover || PROFILE_COVERS[0];
+        return cover || DEFAULT_PROFILE_COVER;
     }
 
     function updateProfileCover() {
