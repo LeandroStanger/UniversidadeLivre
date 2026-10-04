@@ -794,11 +794,11 @@
         if (avatarBasePath) return avatarBasePath;
         const testFile = 'Aguia.png';
         const paths = [
-            '/base/perfil/img/',
-            'base/perfil/img/',
-            '../base/perfil/img/',
-            './base/perfil/img/',
-            window.location.origin + '/base/perfil/img/'
+            '/base/perfil/img/perfil/',
+            'base/perfil/img/perfil/',
+            '../base/perfil/img/perfil/',
+            './base/perfil/img/perfil/',
+            window.location.origin + '/base/perfil/img/perfil/'
         ];
         for (const path of paths) {
             try {
@@ -810,7 +810,7 @@
                 }
             } catch (e) { /* ignora */ }
         }
-        avatarBasePath = '/base/perfil/img/';
+        avatarBasePath = '/base/perfil/img/perfil/';
         console.warn('[Onboarding] Fallback avatar path:', avatarBasePath);
         return avatarBasePath;
     }
