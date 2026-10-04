@@ -25,6 +25,48 @@
         '../logo-da-universidade-livre.png',
         document.currentScript?.src || document.baseURI
     ).href;
+    const PROFILE_COVER_BASE_URL = new URL(
+        'img/capa/',
+        document.currentScript?.src || document.baseURI
+    ).href;
+    const PROFILE_COVERS = [
+        { file: 'capa-campo-aberto.webp', labelKey: 'profile_cover_field' },
+        { file: 'capa-trator-por-do-sol.webp', labelKey: 'profile_cover_tractor_sunset' },
+        { file: 'capa-trilha-bosque.webp', labelKey: 'profile_cover_forest_trail' },
+        { file: 'capa-floresta-neblina.webp', labelKey: 'profile_cover_forest_mist' },
+        { file: 'capa-lago-azul.webp', labelKey: 'profile_cover_blue_lake' },
+        { file: 'capa-montanhas-nevadas.webp', labelKey: 'profile_cover_snowy_mountains' },
+        { file: 'capa-paisagem-natural.webp', labelKey: 'profile_cover_open_landscape' },
+        { file: 'capa-moinhos-de-vento.webp', labelKey: 'profile_cover_wind_turbines' },
+        { file: 'capa-trem-na-serra.webp', labelKey: 'profile_cover_mountain_train' },
+        { file: 'capa-montanhas-do-himalaia.webp', labelKey: 'profile_cover_himalayan_mountains' },
+        { file: 'capa-picos-da-serra.webp', labelKey: 'profile_cover_mountain_peaks' },
+        { file: 'capa-floresta-verde.webp', labelKey: 'profile_cover_green_forest' },
+        { file: 'capa-campo-de-trigo.webp', labelKey: 'profile_cover_wheat_field' },
+        { file: 'capa-lago-banff.webp', labelKey: 'profile_cover_banff_lake' },
+        { file: 'capa-trilhos-na-floresta.webp', labelKey: 'profile_cover_forest_railway' },
+        { file: 'capa-monte-machhapuchhre.webp', labelKey: 'profile_cover_machhapuchhre' },
+        { file: 'capa-floresta-iluminada.webp', labelKey: 'profile_cover_sunlit_forest' },
+        { file: 'capa-rio-entre-montanhas.webp', labelKey: 'profile_cover_mountain_river' },
+        { file: 'capa-colinas-verdes.webp', labelKey: 'profile_cover_green_hills' },
+        { file: 'capa-arvore-solitaria.webp', labelKey: 'profile_cover_lone_tree' },
+        { file: 'capa-lago-da-montanha.webp', labelKey: 'profile_cover_mountain_lake' },
+        { file: 'capa-campo-agricola.webp', labelKey: 'profile_cover_farmland' },
+        { file: 'capa-lago-alpino.webp', labelKey: 'profile_cover_alpine_lake' },
+        { file: 'capa-ponte-na-neblina.webp', labelKey: 'profile_cover_foggy_bridge' },
+        { file: 'capa-casa-a-beira-dagua.webp', labelKey: 'profile_cover_lakeside_house' },
+        { file: 'capa-colinas-douradas.webp', labelKey: 'profile_cover_golden_hills' },
+        { file: 'capa-cachorros.webp', labelKey: 'profile_cover_dogs' },
+        { file: 'capa-lago-turquesa.webp', labelKey: 'profile_cover_turquoise_lake' },
+        { file: 'capa-montanhas-verdes.webp', labelKey: 'profile_cover_green_mountains' },
+        { file: 'capa-cachoeira.webp', labelKey: 'profile_cover_waterfall' },
+        { file: 'capa-montanha-ao-amanhecer.webp', labelKey: 'profile_cover_mountain_dawn' },
+        { file: 'capa-vale-das-montanhas.webp', labelKey: 'profile_cover_mountain_valley' },
+        { file: 'capa-praia-dos-penhascos.jpg', labelKey: 'profile_cover_rocky_beach' },
+        { file: 'capa-costa-azul.jpg', labelKey: 'profile_cover_blue_coast' },
+        { file: 'capa-amanhecer-na-costa.jpg', labelKey: 'profile_cover_dawn_coast' },
+        { file: 'capa-falesia-marinha.jpg', labelKey: 'profile_cover_sea_cliffs' }
+    ];
     const LIVRE_COIN_LOGO_URL = new URL(
         '../../comunidade/Livre Coin/Livre Coin.png',
         document.currentScript?.src || document.baseURI
@@ -32,6 +74,7 @@
     const STORAGE_KEYS = {
         NAME: 'userProfileName',
         AVATAR: 'userAvatar',
+        COVER: 'userProfileCover',
         GENDER: 'userGender',
         COUNTRY: 'userCountry',
         PASSWORD: 'userPasswordHash',
@@ -670,6 +713,199 @@
         }
     }
 
+    function getProfileCover() {
+        const savedFile = localStorage.getItem(STORAGE_KEYS.COVER);
+        if (savedFile?.startsWith('data:image/')) {
+            return { file: savedFile, labelKey: 'profile_cover_uploaded' };
+        }
+        const cover = PROFILE_COVERS.find(option => option.file === savedFile || option.file === savedFile?.replace(/\.png$/i, '.webp'));
+        if (cover && cover.file !== savedFile) localStorage.setItem(STORAGE_KEYS.COVER, cover.file);
+        return cover || PROFILE_COVERS[0];
+    }
+
+    function updateProfileCover() {
+        const image = document.getElementById('profileCoverPreviewImage');
+        if (!image) return;
+        const cover = getProfileCover();
+        if (cover.file.startsWith('data:image/')) {
+            image.src = cover.file;
+        } else {
+            image.src = new URL(cover.file, PROFILE_COVER_BASE_URL).href;
+        }
+        image.alt = t(cover.labelKey);
+        const chooseButton = document.getElementById('profileCoverChooseBtn');
+        if (chooseButton) chooseButton.setAttribute('aria-label', `${t('profile_choose_cover')}: ${t(cover.labelKey)}`);
+    }
+
+    function handleCoverUpload(file, callback) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            showToast(t('profile_select_image'), 'error');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            showToast(t('profile_image_too_big'), 'error');
+            return;
+        }
+        showToast(t('profile_processing'), 'info');
+        resizeImage(file, 1600, 1000, 0.82)
+            .then((dataUrl) => {
+                try {
+                    localStorage.setItem(STORAGE_KEYS.COVER, dataUrl);
+                } catch (error) {
+                    console.error('[Profile] Erro ao salvar a capa:', error);
+                    const isQuotaError = error.name === 'QuotaExceededError' || error.code === 22;
+                    showToast(t(isQuotaError ? 'profile_avatar_storage_error' : 'profile_avatar_save_error'), 'error');
+                    return;
+                }
+                updateProfileCover();
+                if (typeof callback === 'function') callback();
+                showToast(t('profile_cover_updated'), 'success');
+            })
+            .catch((err) => {
+                console.error('[Profile] Erro ao processar imagem da capa:', err);
+                showToast(t('profile_avatar_upload_error'), 'error');
+            });
+    }
+
+    function showCoverSelector() {
+        document.getElementById('profileCoverSelectorModal')?.remove();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'profileCoverSelectorModal';
+        overlay.className = 'profile-cover-selector-overlay';
+        const modal = document.createElement('section');
+        modal.className = 'profile-cover-selector';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'profileCoverSelectorTitle');
+        modal.innerHTML = `
+            <div class="profile-cover-selector__header">
+                <h3 id="profileCoverSelectorTitle">${t('profile_choose_cover')}</h3>
+                <button type="button" class="profile-cover-selector__close" aria-label="${t('close')}">
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <label class="profile-cover-search-label" for="profileCoverSearch">${t('profile_cover_search_label')}</label>
+            <input id="profileCoverSearch" class="profile-cover-search" type="search" placeholder="${t('profile_cover_search_placeholder')}" autocomplete="off">
+            <div class="profile-cover-actions profile-cover-actions--split">
+                <button type="button" id="profileCoverLocalBtn" class="profile-cover-upload">
+                    <i class="fas fa-upload" aria-hidden="true"></i>
+                    <span>${t('profile_cover_upload_local')}</span>
+                </button>
+                <button type="button" id="profileCoverConsorteBtn" class="profile-cover-upload profile-cover-consorte">
+                    <i class="fas fa-random" aria-hidden="true"></i>
+                    <span>${t('profile_cover_consorte')}</span>
+                </button>
+            </div>
+            <div class="profile-cover-options" role="list"></div>
+            <div class="profile-cover-license-wrap">
+                <button type="button" id="profileCoverLicenseBtn" class="profile-cover-license">
+                    <i class="fas fa-balance-scale" aria-hidden="true"></i>
+                    <span>${t('profile_license')}</span>
+                </button>
+            </div>
+            <p class="profile-cover-no-results" hidden>${t('profile_cover_no_results')}</p>
+        `;
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const previousFocus = document.activeElement;
+        const searchInput = modal.querySelector('#profileCoverSearch');
+        const optionsContainer = modal.querySelector('.profile-cover-options');
+        const noResults = modal.querySelector('.profile-cover-no-results');
+        const close = () => {
+            overlay.remove();
+            previousFocus?.focus?.();
+        };
+        const renderOptions = () => {
+            const query = searchInput.value.trim().toLocaleLowerCase();
+            const matches = PROFILE_COVERS.filter(cover =>
+                `${t(cover.labelKey)} ${cover.file}`.toLocaleLowerCase().includes(query)
+            );
+            optionsContainer.replaceChildren(...matches.map(cover => {
+                const option = document.createElement('button');
+                option.type = 'button';
+                option.className = 'profile-cover-option';
+                option.setAttribute('role', 'listitem');
+                option.setAttribute('aria-pressed', String(getProfileCover().file === cover.file));
+                const image = document.createElement('img');
+                image.src = new URL(cover.file, PROFILE_COVER_BASE_URL).href;
+                image.alt = '';
+                image.loading = 'lazy';
+                const label = document.createElement('span');
+                label.textContent = t(cover.labelKey);
+                option.append(image, label);
+                option.addEventListener('click', () => {
+                    localStorage.setItem(STORAGE_KEYS.COVER, cover.file);
+                    updateProfileCover();
+                    close();
+                    showToast(t('profile_cover_updated'), 'success');
+                });
+                return option;
+            }));
+            noResults.hidden = matches.length > 0;
+        };
+
+        const localBtn = modal.querySelector('#profileCoverLocalBtn');
+        if (localBtn) {
+            const localInput = document.createElement('input');
+            localInput.type = 'file';
+            localInput.accept = 'image/*';
+            localInput.style.display = 'none';
+            modal.appendChild(localInput);
+
+            localBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                localInput.click();
+            });
+
+            localInput.addEventListener('change', event => {
+                const file = event.target.files?.[0];
+                if (file) {
+                    handleCoverUpload(file, () => close());
+                }
+                localInput.value = '';
+            });
+        }
+
+        const consorteBtn = modal.querySelector('#profileCoverConsorteBtn');
+        if (consorteBtn) {
+            consorteBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                const randomIndex = Math.floor(Math.random() * PROFILE_COVERS.length);
+                const selected = PROFILE_COVERS[randomIndex];
+                if (!selected) return;
+                localStorage.setItem(STORAGE_KEYS.COVER, selected.file);
+                updateProfileCover();
+                close();
+                showToast(t('profile_cover_updated'), 'success');
+            });
+        }
+
+        const licenseBtn = modal.querySelector('#profileCoverLicenseBtn');
+        if (licenseBtn) {
+            licenseBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                window.open('https://pixabay.com/service/license-summary/', '_blank', 'noopener,noreferrer');
+            });
+        }
+
+        searchInput.addEventListener('input', renderOptions);
+        modal.querySelector('.profile-cover-selector__close').addEventListener('click', close);
+        overlay.addEventListener('click', event => {
+            if (event.target === overlay) close();
+        });
+        overlay.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                event.stopPropagation();
+                close();
+            }
+        });
+        renderOptions();
+        searchInput.focus();
+    }
+
     // ========== DETECÇÃO AUTOMÁTICA DO CAMINHO DAS IMAGENS ==========
     let imageBasePath = null;
 
@@ -678,12 +914,12 @@
 
         // Resolve avatares tanto na página inicial quanto em páginas internas.
         const paths = [
-            '../base/perfil/img/',
-            './base/perfil/img/',
-            '/base/perfil/img/',
-            'base/perfil/img/',
-            window.location.origin + '/base/perfil/img/',
-            window.location.origin + '/universidade/base/perfil/img/'
+            '../base/perfil/img/perfil/',
+            './base/perfil/img/perfil/',
+            '/base/perfil/img/perfil/',
+            'base/perfil/img/perfil/',
+            window.location.origin + '/base/perfil/img/perfil/',
+            window.location.origin + '/universidade/base/perfil/img/perfil/'
         ];
 
         for (const path of paths) {
@@ -698,7 +934,7 @@
             } catch (_) { /* ignora */ }
         }
 
-        imageBasePath = '../base/perfil/img/';
+        imageBasePath = '../base/perfil/img/perfil/';
         console.warn('[Profile] Nenhum caminho válido encontrado, usando fallback: ' + imageBasePath);
         return imageBasePath;
     }
@@ -1855,6 +2091,7 @@
             country: getProfileCountry() || '',
             timestamp: new Date().toISOString(),
             avatar: getUserAvatar() || null,
+            cover: getProfileCover().file,
             matricula: getMatricula(),
             auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
             version: '2.3',
@@ -2240,6 +2477,7 @@
 
         const data = importedData.data;
         let importedCount = 0;
+        let coverImportFailed = false;
 
         if (!confirm(t('profile_import_confirm'))) return;
 
@@ -2252,6 +2490,17 @@
                     localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
                 } catch (e) {
                     console.warn('[Import] Erro ao salvar avatar:', e);
+                }
+            }
+            const importedCover = importedData.cover;
+            const isUploadedCover = typeof importedCover === 'string'
+                && /^data:image\/(?:png|jpe?g|webp|gif);base64,[A-Za-z0-9+/]+={0,2}$/.test(importedCover);
+            if (PROFILE_COVERS.some(cover => cover.file === importedCover) || isUploadedCover) {
+                try {
+                    localStorage.setItem(STORAGE_KEYS.COVER, importedCover);
+                } catch (error) {
+                    coverImportFailed = true;
+                    console.warn('[Import] Não foi possível restaurar a capa:', error);
                 }
             }
             if (importedData.matricula) localStorage.setItem(STORAGE_KEYS.MATRICULA, importedData.matricula);
@@ -2336,10 +2585,15 @@
                 });
             }
 
-            showToast(t('profile_import_success', { count: importedCount }), 'success');
+            if (coverImportFailed) {
+                showToast(t('profile_avatar_storage_error'), 'error');
+            } else {
+                showToast(t('profile_import_success', { count: importedCount }), 'success');
+            }
             if (window.updateProfileModal) window.updateProfileModal();
             if (window.updateProfileButton) window.updateProfileButton();
             if (window.loadAvatarToModal) window.loadAvatarToModal();
+            updateProfileCover();
 
             if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
                 setTimeout(() => location.reload(), 1000);
@@ -2640,6 +2894,7 @@
         const matricula = getMatricula();
         const matriculaDisplay = document.getElementById('profileMatriculaDisplay');
         if (matriculaDisplay) matriculaDisplay.textContent = matricula;
+        updateProfileCover();
 
         const listContainer = document.getElementById('profileCoursesList');
         if (listContainer) {
@@ -3098,6 +3353,27 @@
             matricula.append(label, value);
             avatarSection.appendChild(matricula);
         }
+        if (avatarSection && !modalBody.querySelector('#profileCoverPreviewImage')) {
+            const coverPreview = document.createElement('div');
+            coverPreview.className = 'profile-cover-preview';
+            const image = document.createElement('img');
+            image.id = 'profileCoverPreviewImage';
+            image.alt = '';
+            const identity = document.createElement('div');
+            identity.className = 'profile-cover-identity';
+            const avatarWrapper = modalBody.querySelector('#avatarWrapper');
+            const matricula = modalBody.querySelector('.profile-matricula');
+            if (avatarWrapper) identity.appendChild(avatarWrapper);
+            if (matricula) identity.appendChild(matricula);
+            const chooseButton = document.createElement('button');
+            chooseButton.type = 'button';
+            chooseButton.id = 'profileCoverChooseBtn';
+            chooseButton.className = 'profile-cover-change';
+            chooseButton.setAttribute('aria-label', t('profile_choose_cover'));
+            chooseButton.innerHTML = `<i class="fas fa-image" aria-hidden="true"></i><span data-i18n="profile_choose_cover">${t('profile_choose_cover')}</span>`;
+            coverPreview.append(image, identity, chooseButton);
+            avatarSection.appendChild(coverPreview);
+        }
 
         let statusActions = modalBody.querySelector('.profile-status-actions');
         if (!statusActions) {
@@ -3436,6 +3712,8 @@
         } else {
             console.warn('[Profile] Área do avatar não encontrada. O seletor de avatar não funcionará.');
         }
+        const coverButton = document.getElementById('profileCoverChooseBtn');
+        if (coverButton) coverButton.addEventListener('click', showCoverSelector);
 
         // ===== FECHAR MODAL DE PERFIL =====
         const closeBtn = document.getElementById('closeProfileModal');
