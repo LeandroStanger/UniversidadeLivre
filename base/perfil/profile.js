@@ -1172,6 +1172,7 @@
 
     // ========== ATUALIZAR BOTÃO DE PERFIL ==========
     function updateProfileButton() {
+        window.dispatchEvent(new CustomEvent('profileUpdated'));
         const btn = document.getElementById('profileBtn');
         if (!btn) {
             console.warn('[Profile] Botão #profileBtn não encontrado');
@@ -3363,7 +3364,13 @@
             identity.className = 'profile-cover-identity';
             const avatarWrapper = modalBody.querySelector('#avatarWrapper');
             const matricula = modalBody.querySelector('.profile-matricula');
-            if (avatarWrapper) identity.appendChild(avatarWrapper);
+            const avatarElement = avatarWrapper === avatarSection
+                ? avatarSection.querySelector('.avatar-wrapper, .avatar-container')
+                : avatarWrapper;
+            if (avatarElement) {
+                if (avatarWrapper === avatarSection) avatarElement.id = 'avatarWrapper';
+                identity.appendChild(avatarElement);
+            }
             if (matricula) identity.appendChild(matricula);
             const chooseButton = document.createElement('button');
             chooseButton.type = 'button';
@@ -3372,7 +3379,10 @@
             chooseButton.setAttribute('aria-label', t('profile_choose_cover'));
             chooseButton.innerHTML = `<i class="fas fa-image" aria-hidden="true"></i><span data-i18n="profile_choose_cover">${t('profile_choose_cover')}</span>`;
             coverPreview.append(image, identity, chooseButton);
-            avatarSection.appendChild(coverPreview);
+            const avatarInput = avatarSection.querySelector('#avatarInput');
+            if (avatarInput) modalBody.appendChild(avatarInput);
+            modalBody.parentElement?.insertBefore(coverPreview, modalBody);
+            avatarSection.remove();
         }
 
         let statusActions = modalBody.querySelector('.profile-status-actions');
