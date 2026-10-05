@@ -3502,6 +3502,63 @@
         openJitsiModal(roomUrl.toString());
     }
 
+    let externalLinkTargetUrl = '';
+
+    function openExternalLinkModal({ title, description, url, iconClass = 'fa-external-link-alt' }) {
+        const modal = document.getElementById('externalLinkModal');
+        const titleEl = document.getElementById('externalLinkTitle');
+        const descriptionEl = document.getElementById('externalLinkDescription');
+        const frame = document.getElementById('externalLinkFrame');
+        if (!modal || !titleEl || !descriptionEl || !frame) return;
+
+        externalLinkTargetUrl = url || '';
+        titleEl.innerHTML = `<i class="fas ${iconClass}"></i> ${escapeHtml(title)}`;
+
+        if (description && description.trim()) {
+            descriptionEl.textContent = description;
+            descriptionEl.hidden = false;
+        } else {
+            descriptionEl.textContent = '';
+            descriptionEl.hidden = true;
+        }
+
+        frame.src = externalLinkTargetUrl;
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+        modal.removeAttribute('inert');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeExternalLinkModal() {
+        const modal = document.getElementById('externalLinkModal');
+        const frame = document.getElementById('externalLinkFrame');
+        if (!modal) return;
+        if (frame) frame.src = '';
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('inert', 'true');
+        externalLinkTargetUrl = '';
+    }
+
+    function openTvPage() {
+        openExternalLinkModal({
+            title: 'TV',
+            description: '',
+            url: 'https://famelack.com/tv',
+            iconClass: 'fa-tv'
+        });
+    }
+
+    function openRadioPage() {
+        openExternalLinkModal({
+            title: 'Rádio',
+            description: '',
+            url: 'https://famelack.com/radio',
+            iconClass: 'fa-broadcast-tower'
+        });
+    }
+
     // ========================================================================
     // SINCRONIZAÇÃO ENTRE ABAS
     // ========================================================================
@@ -3793,6 +3850,12 @@
         }
         document.getElementById('openJitsiBtn')?.addEventListener('click', openJitsiRoom);
         document.getElementById('closeJitsiBtn')?.addEventListener('click', closeJitsiModal);
+        document.getElementById('openTvBtn')?.addEventListener('click', openTvPage);
+        document.getElementById('openRadioBtn')?.addEventListener('click', openRadioPage);
+        document.getElementById('closeExternalLinkModal')?.addEventListener('click', closeExternalLinkModal);
+        document.getElementById('externalLinkModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeExternalLinkModal();
+        });
         document.getElementById('openGamesBtn')?.addEventListener('click', () => {
             window.UniversidadeLivreAnalytics?.action('comunidade', 'jogos', state.currentDiscipline || 'sala');
         });
