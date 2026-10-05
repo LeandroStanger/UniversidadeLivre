@@ -45,6 +45,19 @@
     },
     {
       "titulo": {
+        "pt-br": "Astra AI",
+        "en": "Astra AI"
+      },
+      "descricao": {
+        "pt-br": "Tutor de IA que transforma anotações, slides e provas anteriores em planos de estudo, aulas, quizzes, flashcards e simulados personalizados.",
+        "en": "AI tutor that turns notes, slides, and past papers into personalized study plans, lessons, quizzes, flashcards, and mock exams."
+      },
+      "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=Astra+AI",
+      "link": "https://astra-ai.co/",
+      "category": "productivity"
+    },
+    {
+      "titulo": {
         "pt-br": "HackerRank",
         "en": "HackerRank"
       },
@@ -341,6 +354,19 @@
       "imagem": "https://placehold.co/400x200/1F2933/9CA3AF?text=News+in+Levels",
       "link": "https://www.newsinlevels.com",
       "category": "languages"
+    },
+    {
+      "titulo": {
+        "pt-br": "Muted",
+        "en": "Muted"
+      },
+      "descricao": {
+        "pt-br": "Ferramentas gratuitas de teoria musical para praticar leitura, intervalos, escalas e audição musical em um ambiente visual e interativo.",
+        "en": "Free music theory tools to practice reading, intervals, scales, and ear training in a visual, interactive environment."
+      },
+      "imagem": "https://muted.io/favicon.ico",
+      "link": "https://muted.io/",
+      "category": "music"
     },
     {
       "titulo": {

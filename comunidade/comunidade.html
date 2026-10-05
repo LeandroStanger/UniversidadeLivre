@@ -860,8 +860,11 @@
         }
         .discipline-info { display: flex; flex-direction: column; align-items: stretch; gap: 0.75rem; }
         .discipline-course-image {
+            position: relative;
             width: 100%;
-            height: 128px;
+            height: 180px;
+            min-height: 180px;
+            flex: 0 0 180px;
             border-radius: var(--com-radius);
             border: 0;
             display: flex;
@@ -874,7 +877,7 @@
             flex-shrink: 0;
             overflow: hidden;
         }
-        .discipline-course-image img { width: 100%; height: 100%; object-fit: cover; }
+        .discipline-course-image img { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; }
         .discipline-info h2 { font-size: 1.4rem; color: var(--com-text-primary); margin: 0; }
         .discipline-title-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
         .header-create-actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); align-items:stretch; gap:0.45rem; flex-shrink:0; }
@@ -1644,7 +1647,7 @@
             .discipline-title-row { flex-direction:column; align-items:stretch; gap:0.75rem; }
             .discipline-title-row h2 { overflow-wrap:anywhere; line-height:1.25; }
             .header-create-actions button { min-width:0; min-height:44px; white-space:normal; line-height:1.2; }
-            .discipline-course-image { height:96px; }
+            .discipline-course-image { height:150px; min-height:150px; flex-basis:150px; }
             .discipline-title-row { align-items:flex-start; }
             .p2p-chat-section .chat-messages { max-height:80px; }
             .emoji-picker { max-width:200px; }
@@ -1853,7 +1856,9 @@
                                     <button id="newPostBtn" class="btn-primary" type="button"><i class="fas fa-plus-circle"></i> <span data-i18n="comunidade_new_post">Novo Post</span></button>
                                     <button id="openJitsiBtn" class="btn-secondary jitsi-btn" type="button" title="Sala de vídeo da disciplina" data-i18n-title="discipline_video_room"><i class="fas fa-video"></i> <span data-i18n="video_room">Sala de vídeo</span></button>
                                     <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
+                                    <button id="openTvBtn" class="btn-secondary" type="button"><i class="fas fa-tv"></i> <span>TV</span></button>
                                     <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><i class="fas fa-chess-knight"></i> <span data-i18n="games_button">Jogos</span></button>
+                                    <button id="openRadioBtn" class="btn-secondary" type="button"><i class="fas fa-broadcast-tower"></i> <span>Rádio</span></button>
                                 </div>
                             </div>
                             <p id="disciplineCourseName"></p>
@@ -1894,6 +1899,21 @@
                             <p id="communityAlertMessage" style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;">Mensagem.</p>
                             <div class="modal-actions">
                                 <button id="confirmCommunityAlertBtn" class="btn-primary" type="button"><i class="fas fa-check"></i> OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="externalLinkModal" class="modal external-link-modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="modal-content external-link-modal-content">
+                        <div class="modal-header">
+                            <h3 id="externalLinkTitle"><i class="fas fa-external-link-alt"></i> Abrir página</h3>
+                            <button class="close-modal" id="closeExternalLinkModal" aria-label="Fechar página externa">&times;</button>
+                        </div>
+                        <div class="modal-body external-link-modal-body">
+                            <p id="externalLinkDescription" hidden style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;"></p>
+                            <div class="external-link-iframe-wrap">
+                                <iframe id="externalLinkFrame" title="Página externa da comunidade" loading="lazy" allow="fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                             </div>
                         </div>
                     </div>
