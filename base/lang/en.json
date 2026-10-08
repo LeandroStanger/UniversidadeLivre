@@ -979,6 +979,7 @@
   "poll_option_2": "Option 2",
   "poll_option_placeholder": "Option {{number}}",
   "add_poll_option": "Add option",
+  "attention": "Attention",
   "cancel": "Cancel",
   "publish": "Publish",
   "no_my_articles": "You have not published any article in this discipline yet.",

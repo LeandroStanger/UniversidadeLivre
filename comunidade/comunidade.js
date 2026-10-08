@@ -2063,10 +2063,15 @@
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const msgId = this.dataset.msgId;
-                if (confirm(t('comunidade_confirm_delete'))) {
-                    deleteChatMessage(state.currentCourseId, state.currentDiscipline, msgId);
-                    renderChatMessages();
-                }
+                showCommunityConfirm({
+                    title: t('attention'),
+                    message: t('comunidade_confirm_delete'),
+                    confirmText: t('delete'),
+                    onConfirm: () => {
+                        deleteChatMessage(state.currentCourseId, state.currentDiscipline, msgId);
+                        renderChatMessages();
+                    }
+                });
             });
         });
 
@@ -3201,11 +3206,16 @@
         feed.querySelectorAll('.delete-post-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const postId = this.dataset.postId;
-                if (confirm(t('comunidade_confirm_delete'))) {
-                    if (deletePost(state.currentCourseId, state.currentDiscipline, postId)) {
-                        refreshPostsAfterDeletion();
+                showCommunityConfirm({
+                    title: t('attention'),
+                    message: t('comunidade_confirm_delete'),
+                    confirmText: t('delete'),
+                    onConfirm: () => {
+                        if (deletePost(state.currentCourseId, state.currentDiscipline, postId)) {
+                            refreshPostsAfterDeletion();
+                        }
                     }
-                }
+                });
             });
         });
 
@@ -3221,10 +3231,15 @@
             btn.addEventListener('click', function() {
                 const postId = this.dataset.postId;
                 const commentId = this.dataset.commentId;
-                if (confirm(t('delete_comment_confirm'))) {
-                    deleteComment(state.currentCourseId, state.currentDiscipline, postId, commentId);
-                    renderPosts();
-                }
+                showCommunityConfirm({
+                    title: t('attention'),
+                    message: t('delete_comment_confirm'),
+                    confirmText: t('delete'),
+                    onConfirm: () => {
+                        deleteComment(state.currentCourseId, state.currentDiscipline, postId, commentId);
+                        renderPosts();
+                    }
+                });
             });
         });
     }
@@ -3234,8 +3249,12 @@
     // ========================================================================
     let quill = null;
     let quillInitialized = false;
+    let pendingConfirmAction = null;
 
-    function showCommunityAlert(message, title = 'Atenção') {
+    function showCommunityAlert(message, title = null) {
+        pendingConfirmAction = null;
+        const resolvedTitle = title || t('attention');
+
         const modal = document.getElementById('communityAlertModal');
         if (!modal) {
             console.warn('[Comunidade] Alerta integrado não encontrado:', message);
@@ -3244,19 +3263,56 @@
 
         const titleNode = document.getElementById('communityAlertTitle');
         const messageNode = document.getElementById('communityAlertMessage');
-        if (titleNode) titleNode.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${title}`;
+        const confirmBtn = document.getElementById('confirmCommunityAlertBtn');
+        const cancelBtn = document.getElementById('cancelCommunityAlertBtn');
+
+        if (titleNode) titleNode.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${resolvedTitle}`;
         if (messageNode) {
             messageNode.textContent = message;
+        }
+        if (confirmBtn) {
+            confirmBtn.innerHTML = '<i class="fas fa-check"></i> OK';
+            confirmBtn.hidden = false;
+        }
+        if (cancelBtn) {
+            cancelBtn.hidden = true;
         }
 
         modal.style.display = 'flex';
         modal.style.zIndex = '2200';
         modal.removeAttribute('aria-hidden');
         modal.removeAttribute('inert');
+        confirmBtn?.focus();
+    }
+
+    function showCommunityConfirm({ title = null, message, confirmText = 'Excluir', onConfirm }) {
+        pendingConfirmAction = typeof onConfirm === 'function' ? onConfirm : null;
+        const resolvedTitle = title || t('attention');
+
+        const modal = document.getElementById('communityAlertModal');
+        if (!modal) return;
+
+        const titleNode = document.getElementById('communityAlertTitle');
+        const messageNode = document.getElementById('communityAlertMessage');
         const confirmBtn = document.getElementById('confirmCommunityAlertBtn');
+        const cancelBtn = document.getElementById('cancelCommunityAlertBtn');
+
+        if (titleNode) titleNode.innerHTML = `<i class="fas fa-triangle-exclamation"></i> ${resolvedTitle}`;
+        if (messageNode) messageNode.textContent = message;
         if (confirmBtn) {
-            confirmBtn.focus();
+            confirmBtn.innerHTML = `<i class="fas fa-check"></i> ${confirmText}`;
+            confirmBtn.hidden = false;
         }
+        if (cancelBtn) {
+            cancelBtn.hidden = false;
+            cancelBtn.textContent = t('cancel');
+        }
+
+        modal.style.display = 'flex';
+        modal.style.zIndex = '2200';
+        modal.removeAttribute('aria-hidden');
+        modal.removeAttribute('inert');
+        confirmBtn?.focus();
     }
 
     function closeCommunityAlert() {
@@ -3265,15 +3321,28 @@
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
         modal.setAttribute('inert', '');
+
+        const confirmBtn = document.getElementById('confirmCommunityAlertBtn');
+        const cancelBtn = document.getElementById('cancelCommunityAlertBtn');
+        if (confirmBtn) {
+            confirmBtn.innerHTML = '<i class="fas fa-check"></i> OK';
+            confirmBtn.hidden = false;
+        }
+        if (cancelBtn) {
+            cancelBtn.hidden = true;
+            cancelBtn.textContent = 'Cancelar';
+        }
+
+        pendingConfirmAction = null;
     }
 
     function openNewPostModal() {
         if (!state.currentCourseId || !state.currentDiscipline) {
-            showCommunityAlert(t('select_discipline_first'), 'Atenção');
+            showCommunityAlert(t('select_discipline_first'));
             return;
         }
         if (state.postBlocked) {
-            showCommunityAlert(t('post_blocked_msg'), 'Atenção');
+            showCommunityAlert(t('post_blocked_msg'));
             return;
         }
         document.getElementById('postModalTitle').innerHTML = `<i class="fas fa-pen"></i> ${t('comunidade_new_post')}`;
@@ -3326,13 +3395,13 @@
 
     function savePost() {
         if (state.postBlocked) {
-            showCommunityAlert(t('post_blocked_msg'), 'Atenção');
+            showCommunityAlert(t('post_blocked_msg'));
             return;
         }
         const title = document.getElementById('postTitleInput').value.trim();
         const content = quill ? quill.root.innerHTML : '';
         if (!title || !content || content === '<p><br></p>') {
-            showCommunityAlert(t('fill_title_content'), 'Atenção');
+            showCommunityAlert(t('fill_title_content'));
             return;
         }
         const noteSelect = document.getElementById('noteAttachmentSelect');
@@ -3343,7 +3412,7 @@
                 closePostModal();
                 renderPosts();
             } else {
-                showCommunityAlert(t('edit_post_error'), 'Atenção');
+                showCommunityAlert(t('edit_post_error'));
             }
         } else {
             const newPost = addPost(state.currentCourseId, state.currentDiscipline, title, content, noteId);
@@ -3356,7 +3425,7 @@
     }
 
     function openPollModal() {
-        if (!state.currentCourseId || !state.currentDiscipline) { showCommunityAlert(t('select_discipline_first'), 'Atenção'); return; }
+        if (!state.currentCourseId || !state.currentDiscipline) { showCommunityAlert(t('select_discipline_first')); return; }
         const modal = document.getElementById('pollModal');
         document.getElementById('pollQuestionInput').value = '';
         document.getElementById('pollOptions').innerHTML = '<input type="text" class="poll-option-input" placeholder="Opção 1"><input type="text" class="poll-option-input" placeholder="Opção 2">';
@@ -3370,7 +3439,7 @@
     function savePoll() {
         const question = document.getElementById('pollQuestionInput').value.trim();
         const options = [...document.querySelectorAll('.poll-option-input')].map(i => i.value.trim()).filter(Boolean);
-        if (!question || options.length < 2) { showCommunityAlert(t('game_question_required'), 'Atenção'); return; }
+        if (!question || options.length < 2) { showCommunityAlert(t('game_question_required')); return; }
         const newPoll = addPoll(state.currentCourseId, state.currentDiscipline, question, options);
         if (newPoll) {
             closePollModal();
@@ -3845,7 +3914,12 @@
         document.getElementById('cancelPollBtn')?.addEventListener('click', closePollModal);
         document.getElementById('savePollBtn')?.addEventListener('click', savePoll);
         document.getElementById('closeCommunityAlertModal')?.addEventListener('click', closeCommunityAlert);
-        document.getElementById('confirmCommunityAlertBtn')?.addEventListener('click', closeCommunityAlert);
+        document.getElementById('cancelCommunityAlertBtn')?.addEventListener('click', closeCommunityAlert);
+        document.getElementById('confirmCommunityAlertBtn')?.addEventListener('click', function() {
+            const action = pendingConfirmAction;
+            closeCommunityAlert();
+            if (typeof action === 'function') action();
+        });
         document.getElementById('communityAlertModal')?.addEventListener('click', function(e) {
             if (e.target === this) closeCommunityAlert();
         });

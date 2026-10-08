@@ -960,6 +960,7 @@
   "poll_option_2": "Opción 2",
   "poll_option_placeholder": "Opción {{number}}",
   "add_poll_option": "Añadir opción",
+  "attention": "Atención",
   "cancel": "Cancelar",
   "publish": "Publicar",
   "no_my_articles": "Aún no ha publicado ningún artículo sobre este tema.",
