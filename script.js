@@ -730,6 +730,24 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
+    function addLoadMoreButton(container, cards, renderCardList, limit = 10) {
+        if (cards.length <= limit) return;
+
+        const hiddenCards = cards.slice(limit);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'load-more-btn';
+        button.textContent = `Ver mais (${hiddenCards.length})`;
+        button.setAttribute('aria-label', 'Ver mais cursos da categoria');
+
+        button.addEventListener('click', () => {
+            renderCardList(hiddenCards);
+            button.remove();
+        });
+
+        container.appendChild(button);
+    }
+
     // ========== RENDERIZAR CURSOS ==========
     const debouncedRenderCourseCards = debounce(renderCourseCards, 200);
 
@@ -844,12 +862,19 @@ console.log('[Main] Inicializando script.js v28.0...');
 
                     const slide = document.createElement('div');
                     slide.className = 'carousel-slide';
-                    for (const card of cards) {
+                    const visibleCards = cards.slice(0, 10);
+                    for (const card of visibleCards) {
                         slide.appendChild(card);
                     }
                     track.appendChild(slide);
 
                     carouselContainer.appendChild(track);
+
+                    addLoadMoreButton(slide, cards, (extraCards) => {
+                        for (const card of extraCards) {
+                            slide.appendChild(card);
+                        }
+                    });
 
                     const prevBtn = document.createElement('button');
                     prevBtn.className = 'carousel-btn prev';
@@ -908,12 +933,19 @@ console.log('[Main] Inicializando script.js v28.0...');
 
                 const slide = document.createElement('div');
                 slide.className = 'carousel-slide';
-                for (const card of cards) {
+                const visibleCards = cards.slice(0, 10);
+                for (const card of visibleCards) {
                     slide.appendChild(card);
                 }
                 track.appendChild(slide);
 
                 carouselContainer.appendChild(track);
+
+                addLoadMoreButton(slide, cards, (extraCards) => {
+                    for (const card of extraCards) {
+                        slide.appendChild(card);
+                    }
+                });
 
                 const prevBtn = document.createElement('button');
                 prevBtn.className = 'carousel-btn prev';
@@ -955,7 +987,8 @@ console.log('[Main] Inicializando script.js v28.0...');
                 gridWrapper.className = 'simple-grid';
                 gridWrapper.style.marginBottom = '2rem';
 
-                for (const course of courses) {
+                const visibleCourses = courses.slice(0, 10);
+                for (const course of visibleCourses) {
                     const card = await createCourseCard(course);
                     if (card) {
                         card.classList.remove('animate-in');
@@ -966,6 +999,17 @@ console.log('[Main] Inicializando script.js v28.0...');
                 }
 
                 container.appendChild(gridWrapper);
+                addLoadMoreButton(gridWrapper, courses, async (extraCourses) => {
+                    for (const course of extraCourses) {
+                        const card = await createCourseCard(course);
+                        if (card) {
+                            card.classList.remove('animate-in');
+                            card.style.opacity = '1';
+                            card.style.transform = 'none';
+                            gridWrapper.appendChild(card);
+                        }
+                    }
+                });
             }
         }
 

@@ -1331,6 +1331,31 @@ a:hover {
     width: 100%;
 }
 
+.load-more-btn {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 0.5rem auto 1.5rem;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(108, 140, 255, 0.5);
+    box-shadow: 0 12px 28px rgba(108, 140, 255, 0.18);
+}
+
 @media (min-width: 1600px) {
     .carousel-slide,
     .simple-grid {
