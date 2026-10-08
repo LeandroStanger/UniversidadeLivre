@@ -737,8 +737,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'load-more-btn';
-        button.textContent = `Ver mais (${hiddenCards.length})`;
-        button.setAttribute('aria-label', 'Ver mais cursos da categoria');
+        button.textContent = `${t('load_more')} (${hiddenCards.length})`;
+        button.setAttribute('aria-label', `${t('load_more')} (${hiddenCards.length})`);
 
         button.addEventListener('click', () => {
             renderCardList(hiddenCards);
