@@ -3384,7 +3384,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
             <div id="audiobooksGrid" class="audiobooks-grid" aria-live="polite" aria-busy="false"></div>
             <div class="library-load-more-wrap">
-                <button id="loadMoreAudiobooksBtn" class="load-more-books-button" type="button" aria-controls="audiobooksGrid" hidden>
+                <button id="loadMoreAudiobooksBtn" class="load-more-books-button" type="button" aria-controls="audiobooksGrid" data-i18n="load_more" hidden>
                     <i class="fas fa-plus" aria-hidden="true"></i> Ver mais
                 </button>
             </div>
