@@ -1267,6 +1267,40 @@ body {
     font-size: 1.1rem;
 }
 
+.community-load-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.load-more-community-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--com-border);
+    background: var(--com-bg-card);
+    color: var(--com-text-primary);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.load-more-community-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(108, 140, 255, 0.5);
+    box-shadow: 0 12px 28px rgba(108, 140, 255, 0.18);
+}
+
+.load-more-community-button:focus-visible {
+    outline: 2px solid rgba(108, 140, 255, 0.8);
+    outline-offset: 2px;
+}
+
 /* Cartão de post */
 .post-card {
     background: var(--com-bg-card);
@@ -1769,6 +1803,14 @@ body {
     padding: 1rem;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+}
+
+#communityAlertModal {
+    z-index: 2200;
+}
+
+#postModal {
+    z-index: 2000;
 }
 
 .modal-content {

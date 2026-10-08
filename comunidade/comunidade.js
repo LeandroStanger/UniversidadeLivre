@@ -443,6 +443,8 @@
         currentUser: { name: 'Anônimo', avatar: null },
         chatMessages: [],
         activeTab: 'all',
+        feedVisibleCount: 10,
+        pageSize: 10,
         courseScope: localStorage.getItem('comunidade_course_scope') === 'all' ? 'all' : 'my',
         courseLanguage: ['pt', 'en', 'es'].includes(localStorage.getItem('comunidade_course_language'))
             ? localStorage.getItem('comunidade_course_language')
@@ -2861,6 +2863,7 @@
 
         if (courseId && discipline) {
             state.posts = loadPosts(courseId, discipline);
+            state.feedVisibleCount = state.pageSize;
             markPostsAsRead(courseId, discipline, state.posts);
             renderPosts();
             renderChatMessages();
@@ -2922,6 +2925,9 @@
             filteredPosts = filteredPosts.filter(p => p.type === 'poll' && p.author === state.currentUser.name);
         }
 
+        const maxVisibleCount = filteredPosts.length || state.pageSize;
+        state.feedVisibleCount = Math.min(Math.max(state.feedVisibleCount, state.pageSize), maxVisibleCount);
+
         if (filteredPosts.length === 0) {
             const msg = state.activeTab === 'my' 
                 ? t('no_my_articles')
@@ -2932,8 +2938,9 @@
             return;
         }
 
+        const visiblePosts = filteredPosts.slice(0, state.feedVisibleCount);
         let html = '';
-        for (const post of filteredPosts) {
+        for (const post of visiblePosts) {
             const isLiked = (post.likes || []).includes(state.currentUser.name);
             const likeCount = post.likes.length;
             const commentCount = post.comments.length;
@@ -3041,7 +3048,30 @@
                 </div>
             `;
         }
+
+        if (filteredPosts.length > visiblePosts.length) {
+            html += `
+                <div class="community-load-more-wrap">
+                    <button type="button" class="load-more-community-button" data-community-load-more="true">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        <span>${t('load_more')}</span>
+                    </button>
+                </div>
+            `;
+        }
+
         feed.innerHTML = html;
+
+        const loadMoreBtn = feed.querySelector('[data-community-load-more="true"]');
+        loadMoreBtn?.addEventListener('click', () => {
+            const remaining = filteredPosts.length - state.feedVisibleCount;
+            state.feedVisibleCount = Math.min(state.feedVisibleCount + state.pageSize, filteredPosts.length);
+            if (remaining <= 0) {
+                state.feedVisibleCount = filteredPosts.length;
+            }
+            renderPosts();
+        });
+
         window.renderLatex?.(feed);
         initializeCommunityVideoPlayers(feed);
 
@@ -3220,6 +3250,7 @@
         }
 
         modal.style.display = 'flex';
+        modal.style.zIndex = '2200';
         modal.removeAttribute('aria-hidden');
         modal.removeAttribute('inert');
         const confirmBtn = document.getElementById('confirmCommunityAlertBtn');
@@ -3601,6 +3632,7 @@
                 tabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
                 state.activeTab = this.dataset.tab;
+                state.feedVisibleCount = state.pageSize;
                 renderPosts();
             });
         });
