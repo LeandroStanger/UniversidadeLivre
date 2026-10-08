@@ -1296,9 +1296,46 @@
     }
 
     const PES6_PLAYTIME_STORAGE_KEY = 'ulivre_pes6_playtime_ms';
+    const PES6_PROGRESS_STORAGE_KEY = 'ulivre_pes6_progress';
     const PES6_PLAYTIME_SAVE_INTERVAL = 15000;
     let pes6PlaySessionStartedAt = 0;
     let pes6PlaytimeInterval = null;
+
+    function readPES6Progress() {
+        try {
+            return JSON.parse(localStorage.getItem(PES6_PROGRESS_STORAGE_KEY) || '{}');
+        } catch (_) {
+            return {};
+        }
+    }
+
+    function savePES6Progress() {
+        const frame = document.getElementById('pes6WebFrame');
+        const panel = document.getElementById('pes6WebPanel');
+        const payload = {
+            lastSavedAt: new Date().toISOString(),
+            playtimeMs: Math.max(0, Number(localStorage.getItem(PES6_PLAYTIME_STORAGE_KEY)) || 0),
+            isOpen: Boolean(panel && !panel.hidden),
+            lastUrl: frame && frame.src && frame.src !== 'about:blank' ? frame.src : 'https://pes6.optijuegos.net/'
+        };
+        try {
+            localStorage.setItem(PES6_PROGRESS_STORAGE_KEY, JSON.stringify(payload));
+        } catch (_) {}
+    }
+
+    function restorePES6Progress() {
+        const frame = document.getElementById('pes6WebFrame');
+        const panel = document.getElementById('pes6WebPanel');
+        const progress = readPES6Progress();
+        const lastUrl = progress.lastUrl || 'https://pes6.optijuegos.net/';
+        if (frame && typeof lastUrl === 'string' && lastUrl.trim()) {
+            frame.src = lastUrl;
+        }
+        if (panel && progress.isOpen) {
+            panel.hidden = false;
+            panel.style.removeProperty('display');
+        }
+    }
 
     function savePES6Playtime() {
         if (!pes6PlaySessionStartedAt) return;
@@ -1335,6 +1372,7 @@
         const panel = document.getElementById('pes6WebPanel');
         const frame = document.getElementById('pes6WebFrame');
         stopPES6Playtime();
+        savePES6Progress();
         if (panel) panel.hidden = true;
         if (frame && frame.src !== 'about:blank') frame.src = 'about:blank';
     }
@@ -1457,6 +1495,7 @@
         panel.style.removeProperty('display');
         panel.hidden = false;
         if (frame.src === 'about:blank') frame.src = 'https://pes6.optijuegos.net/';
+        savePES6Progress();
         startPES6Playtime();
     }
 
@@ -1466,8 +1505,15 @@
     });
     window.addEventListener('blur', stopPES6Playtime);
     window.addEventListener('focus', startPES6Playtime);
-    window.addEventListener('pagehide', stopPES6Playtime);
-    window.addEventListener('pageshow', startPES6Playtime);
+    window.addEventListener('pagehide', () => {
+        stopPES6Playtime();
+        savePES6Progress();
+    });
+    window.addEventListener('pageshow', () => {
+        restorePES6Progress();
+        startPES6Playtime();
+    });
+    window.addEventListener('beforeunload', savePES6Progress);
 
     function closeGamesModal() {
         closePromotionModal();
