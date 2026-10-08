@@ -1890,12 +1890,13 @@
                 <div id="communityAlertModal" class="modal" style="display:none;" aria-hidden="true" inert>
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 id="communityAlertTitle"><i class="fas fa-circle-exclamation"></i> Atenção</h3>
+                            <h3 id="communityAlertTitle"><i class="fas fa-circle-exclamation"></i> <span data-i18n="attention">Atenção</span></h3>
                             <button class="close-modal" id="closeCommunityAlertModal" aria-label="Fechar aviso">&times;</button>
                         </div>
                         <div class="modal-body">
                             <p id="communityAlertMessage" style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;">Mensagem.</p>
                             <div class="modal-actions">
+                                <button id="cancelCommunityAlertBtn" class="btn-secondary" type="button" hidden><i class="fas fa-times"></i> Cancelar</button>
                                 <button id="confirmCommunityAlertBtn" class="btn-primary" type="button"><i class="fas fa-check"></i> OK</button>
                             </div>
                         </div>
