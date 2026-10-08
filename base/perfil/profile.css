@@ -459,14 +459,86 @@
     text-align: center;
 }
 
+.profile-account-fields .profile-user-section input,
+.profile-account-fields .profile-user-section select {
+    height: 44px;
+    padding: 0.55rem 0.85rem !important;
+    font: inherit !important;
+    line-height: 1.2;
+}
+
 .profile-account-fields .profile-user-section button {
+    height: 44px;
+    min-height: 44px;
+    padding: 0.45rem 0.85rem !important;
     justify-content: center;
+    font: inherit !important;
+    line-height: 1.2;
 }
 
 .profile-account-fields .profile-input-group {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 0.6rem;
+}
+
+.profile-demographic-fields {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.55rem;
+    max-width: 900px;
+    min-width: 0;
+}
+
+.profile-location-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 0.6rem 0.8rem;
+    min-width: 0;
+}
+
+.profile-demographic-fields .profile-user-section {
+    min-width: 0;
+    margin: 0;
+}
+
+.profile-demographic-fields .profile-user-section input,
+.profile-demographic-fields .profile-user-section select {
+    text-align: center;
+}
+
+.profile-birth-date-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+}
+
+.profile-account-fields .profile-birth-date-controls > button {
+    width: auto;
+    min-width: 112px;
+}
+
+.profile-birth-date-field {
+    max-width: none;
+}
+
+.profile-date-format-hint {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .profile-location-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .profile-birth-date-field {
+        max-width: none;
+    }
+
 }
 
 .profile-user-section label {

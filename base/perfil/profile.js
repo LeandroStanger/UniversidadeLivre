@@ -78,6 +78,8 @@
         COVER: 'userProfileCover',
         GENDER: 'userGender',
         COUNTRY: 'userCountry',
+        BIRTH_DATE: 'userBirthDate',
+        REGION: 'userRegion',
         PASSWORD: 'userPasswordHash',
         MATRICULA: 'userMatricula',
         USER_NUMBER: 'userNumber'
@@ -86,6 +88,7 @@
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
     const COUNTRY_LIFE_PLAYTIME_KEY = 'ulivre_country_life_playtime_ms';
     const BUTECO_FIGHTING_PLAYTIME_KEY = 'ulivre_buteco_fighting_playtime_ms';
+    const PES6_PLAYTIME_KEY = 'ulivre_pes6_playtime_ms';
     const STUDY_CALENDAR_STORAGE_PREFIX = 'ulivre_study_schedule_';
     const GAME_PROGRESS_KEYS = [
         'ulivre_ttt_scores',
@@ -104,6 +107,7 @@
         'ulivre_bitcoin_stats',
         COUNTRY_LIFE_PLAYTIME_KEY,
         BUTECO_FIGHTING_PLAYTIME_KEY,
+        PES6_PLAYTIME_KEY,
         'ulivre_livre_coins_wallet'
     ];
     const TEST_ADMIN_MATRICULA = '20260815064514840';
@@ -145,6 +149,15 @@
     ];
 
     const COUNTRY_CODES = 'AF AL DZ AS AD AO AI AQ AG AR AM AW AU AT AZ BS BH BD BB BY BE BZ BJ BM BT BO BQ BA BW BV BR IO BN BG BF BI CV KH CM CA KY CF TD CL CN CX CC CO KM CG CD CK CR CI HR CU CW CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FK FO FJ FI FR GF PF TF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HM VA HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MO MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL NC NZ NI NE NG NU NF MK MP NO OM PK PW PS PA PG PY PE PH PN PL PT PR QA RE RO RU RW BL SH KN LC MF PM VC WS SM ST SA SN RS SC SL SG SX SK SI SB SO ZA GS SS ES LK SD SR SJ SE CH SY TW TJ TZ TH TL TG TK TO TT TN TR TM TC TV UG UA AE GB US UM UY UZ VU VE VN VG VI WF EH YE ZM ZW'.split(' ');
+
+    const COUNTRY_SUBDIVISIONS = {
+        BR: 'Acre|Alagoas|Amapá|Amazonas|Bahia|Ceará|Distrito Federal|Espírito Santo|Goiás|Maranhão|Mato Grosso|Mato Grosso do Sul|Minas Gerais|Pará|Paraíba|Paraná|Pernambuco|Piauí|Rio de Janeiro|Rio Grande do Norte|Rio Grande do Sul|Rondônia|Roraima|Santa Catarina|São Paulo|Sergipe|Tocantins'.split('|'),
+        US: 'Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|District of Columbia'.split('|'),
+        CA: 'Alberta|British Columbia|Manitoba|New Brunswick|Newfoundland and Labrador|Northwest Territories|Nova Scotia|Nunavut|Ontario|Prince Edward Island|Quebec|Saskatchewan|Yukon'.split('|'),
+        AU: 'Australian Capital Territory|New South Wales|Northern Territory|Queensland|South Australia|Tasmania|Victoria|Western Australia'.split('|'),
+        MX: 'Aguascalientes|Baja California|Baja California Sur|Campeche|Chiapas|Chihuahua|Ciudad de México|Coahuila|Colima|Durango|Guanajuato|Guerrero|Hidalgo|Jalisco|México|Michoacán|Morelos|Nayarit|Nuevo León|Oaxaca|Puebla|Querétaro|Quintana Roo|San Luis Potosí|Sinaloa|Sonora|Tabasco|Tamaulipas|Tlaxcala|Veracruz|Yucatán|Zacatecas'.split('|'),
+        AR: 'Buenos Aires|Catamarca|Chaco|Chubut|Córdoba|Corrientes|Entre Ríos|Formosa|Jujuy|La Pampa|La Rioja|Mendoza|Misiones|Neuquén|Río Negro|Salta|San Juan|San Luis|Santa Cruz|Santa Fe|Santiago del Estero|Tierra del Fuego|Tucumán|Ciudad Autónoma de Buenos Aires'.split('|')
+    };
 
     function getCountryOptions(language, selectedCountry = '') {
         const locale = language === 'en' ? 'en' : language === 'es' ? 'es' : 'pt-BR';
@@ -596,11 +609,178 @@
 
     function getProfileGender() { return localStorage.getItem(STORAGE_KEYS.GENDER) || ''; }
     function getProfileCountry() { return localStorage.getItem(STORAGE_KEYS.COUNTRY) || ''; }
+    function getProfileBirthDate() { return localStorage.getItem(STORAGE_KEYS.BIRTH_DATE) || ''; }
+    function getProfileRegion() { return localStorage.getItem(STORAGE_KEYS.REGION) || ''; }
+
+    function isValidProfileBirthDate(value) {
+        if (!value) return true;
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+        if (!match) return false;
+        const [, year, month, day] = match;
+        const date = new Date(0);
+        date.setFullYear(Number(year), Number(month) - 1, Number(day));
+        date.setHours(0, 0, 0, 0);
+        if (date.getFullYear() !== Number(year) || date.getMonth() !== Number(month) - 1 || date.getDate() !== Number(day)) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return date <= today;
+    }
+
+    function getProfileDateLocale() {
+        const selectedLanguage = window.getCurrentLanguage?.() || localStorage.getItem('selectedLanguage') || 'pt-br';
+        const language = selectedLanguage === 'en' ? 'en' : selectedLanguage === 'es' ? 'es' : 'pt';
+        const countrySelect = document.getElementById('profileCountry');
+        const country = countrySelect ? countrySelect.value : getProfileCountry();
+        const fallbackCountry = language === 'en' ? 'US' : language === 'es' ? 'ES' : 'BR';
+        return `${language}-${country || fallbackCountry}`;
+    }
+
+    function getProfileDateFormat(locale) {
+        const countrySelect = document.getElementById('profileCountry');
+        const country = countrySelect ? countrySelect.value : getProfileCountry();
+        const countryFormats = {
+            US: 'MM/DD/YYYY',
+            CA: 'YYYY-MM-DD',
+            CN: 'YYYY/MM/DD',
+            JP: 'YYYY/MM/DD',
+            KR: 'YYYY/MM/DD'
+        };
+        if (countryFormats[country]) return countryFormats[country];
+        try {
+            return new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })
+                .formatToParts(new Date(2006, 0, 2))
+                .filter(part => ['day', 'month', 'year'].includes(part.type))
+                .map(part => ({ day: 'DD', month: 'MM', year: 'YYYY' })[part.type])
+                .join('/');
+        } catch (_) {
+            return 'DD/MM/YYYY';
+        }
+    }
+
+    function updateProfileDemographicFields({ resetRegion = false, preferredRegion } = {}) {
+        const regionLabel = document.querySelector('label[for="profileRegionSelect"] span');
+        const countrySelect = document.getElementById('profileCountry');
+        const selectedCountry = countrySelect ? countrySelect.value : getProfileCountry();
+        const regionKey = ['CA', 'AR'].includes(selectedCountry) ? 'profile_province'
+            : selectedCountry === 'AU' ? 'profile_state_territory'
+                : ['BR', 'US', 'MX'].includes(selectedCountry) ? 'profile_state'
+                : 'profile_region';
+        if (regionLabel) regionLabel.textContent = t(regionKey);
+
+        const regionSelect = document.getElementById('profileRegionSelect');
+        const customRegionInput = document.getElementById('profileRegionCustomInput');
+        if (regionSelect && customRegionInput) {
+            const currentRegion = regionSelect.value === '__other__' ? customRegionInput.value.trim() : regionSelect.value;
+            const regionToSelect = preferredRegion !== undefined
+                ? preferredRegion
+                : resetRegion ? '' : currentRegion || getProfileRegion();
+            const subdivisions = COUNTRY_SUBDIVISIONS[selectedCountry] || [];
+            regionSelect.replaceChildren(new Option(t('profile_region_select'), ''));
+            subdivisions.forEach(region => regionSelect.add(new Option(region, region)));
+            if (selectedCountry) regionSelect.add(new Option(t('profile_region_other'), '__other__'));
+            regionSelect.disabled = !selectedCountry;
+
+            if (regionToSelect && subdivisions.includes(regionToSelect)) {
+                regionSelect.value = regionToSelect;
+                customRegionInput.value = '';
+                customRegionInput.hidden = true;
+            } else if (regionToSelect || (selectedCountry && subdivisions.length === 0)) {
+                regionSelect.value = '__other__';
+                customRegionInput.value = regionToSelect || '';
+                customRegionInput.hidden = false;
+            } else {
+                regionSelect.value = '';
+                customRegionInput.value = '';
+                customRegionInput.hidden = true;
+            }
+        }
+
+        const dateInput = document.getElementById('profileBirthDateInput');
+        if (!dateInput) return;
+        const locale = getProfileDateLocale();
+        dateInput.lang = locale;
+        const formatHint = document.getElementById('profileBirthDateFormat');
+        if (formatHint) formatHint.textContent = `${t('profile_birth_date_format')}: ${getProfileDateFormat(locale)}`;
+        const today = new Date();
+        dateInput.max = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+    }
+
+    function ensureProfileDemographicFields() {
+        const countrySection = document.getElementById('profileCountry')?.closest('.profile-user-section');
+        if (!countrySection) return;
+        if (document.getElementById('profileDemographicFields')) {
+            updateProfileDemographicFields();
+            return;
+        }
+
+        const fields = document.createElement('div');
+        fields.id = 'profileDemographicFields';
+        fields.className = 'profile-demographic-fields';
+        fields.innerHTML = `
+            <div class="profile-location-fields" id="profileLocationFields">
+                <div class="profile-user-section profile-region-section">
+                    <label for="profileRegionSelect"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> <span>${t('profile_region')}</span></label>
+                    <select id="profileRegionSelect" autocomplete="address-level1"></select>
+                    <input type="text" id="profileRegionCustomInput" maxlength="100" autocomplete="address-level1" placeholder="${t('profile_region_placeholder')}" hidden>
+                </div>
+                <div class="profile-user-section profile-birth-date-field">
+                    <label for="profileBirthDateInput"><i class="fas fa-calendar-alt" aria-hidden="true"></i> ${t('profile_birth_date')}</label>
+                    <div class="profile-birth-date-controls">
+                        <input type="date" id="profileBirthDateInput" autocomplete="bday">
+                        <button type="button" id="profileSaveDemographicBtn" class="btn-secondary profile-field-save"><i class="fas fa-save" aria-hidden="true"></i> ${t('profile_save')}</button>
+                    </div>
+                    <small id="profileBirthDateFormat" class="profile-date-format-hint"></small>
+                </div>
+            </div>
+        `;
+        countrySection.parentElement.insertBefore(fields, countrySection);
+        countrySection.querySelector('#profileSaveCountryBtn')?.remove();
+        const countrySelect = countrySection.querySelector('#profileCountry');
+        const countryInputGroup = countrySection.querySelector('.profile-input-group');
+        if (countrySelect && countryInputGroup) countryInputGroup.replaceWith(countrySelect);
+        countrySection.style.marginTop = '0';
+        document.getElementById('profileLocationFields').prepend(countrySection);
+        document.getElementById('profileBirthDateInput').value = getProfileBirthDate();
+        document.getElementById('profileCountry')?.addEventListener('change', () => updateProfileDemographicFields({ resetRegion: true }));
+        document.getElementById('profileRegionSelect')?.addEventListener('change', () => {
+            const customRegionInput = document.getElementById('profileRegionCustomInput');
+            customRegionInput.hidden = document.getElementById('profileRegionSelect').value !== '__other__';
+            if (!customRegionInput.hidden) customRegionInput.focus();
+            else customRegionInput.value = '';
+        });
+        document.getElementById('profileSaveDemographicBtn')?.addEventListener('click', () => {
+            const countrySelect = document.getElementById('profileCountry');
+            const regionSelect = document.getElementById('profileRegionSelect');
+            const customRegionInput = document.getElementById('profileRegionCustomInput');
+            const birthDateInput = document.getElementById('profileBirthDateInput');
+            const birthDate = birthDateInput?.value || '';
+            if (!isValidProfileBirthDate(birthDate)) {
+                showToast(t('profile_birth_date_invalid'), 'error');
+                return;
+            }
+            const region = regionSelect?.value === '__other__' ? customRegionInput?.value.trim() || '' : regionSelect?.value || '';
+            localStorage.setItem(STORAGE_KEYS.COUNTRY, countrySelect?.value || '');
+            localStorage.setItem(STORAGE_KEYS.REGION, region);
+            localStorage.setItem(STORAGE_KEYS.BIRTH_DATE, birthDate);
+            updateProfileModal();
+            showToast(t('profile_demographics_saved'), 'success');
+        });
+        updateProfileDemographicFields();
+    }
 
     function saveProfileCountry(country) {
         localStorage.setItem(STORAGE_KEYS.COUNTRY, country || '');
         updateProfileModal();
         showToast(t('profile_country_saved'), 'success');
+    }
+
+    function saveProfileBirthDate(birthDate) {
+        if (!birthDate || !isValidProfileBirthDate(birthDate)) return false;
+        localStorage.setItem(STORAGE_KEYS.BIRTH_DATE, birthDate);
+        const birthDateInput = document.getElementById('profileBirthDateInput');
+        if (birthDateInput) birthDateInput.value = birthDate;
+        updateProfileDemographicFields();
+        return true;
     }
 
     function saveProfileGender(gender) {
@@ -1974,6 +2154,7 @@
             , { name: t('games_score_bitcoin'), iconSymbol: '₿', score: bitcoinScore }
             , { name: t('game_country_life_title'), icon: 'fa-seedling', playtimeHours: formatPlaytimeHours(COUNTRY_LIFE_PLAYTIME_KEY) }
             , { name: t('game_buteco_fighting_title'), icon: 'fa-hand-fist', playtimeHours: formatPlaytimeHours(BUTECO_FIGHTING_PLAYTIME_KEY), playtimeKey: BUTECO_FIGHTING_PLAYTIME_KEY }
+            , { name: t('game_pes6_title'), icon: 'fa-futbol', playtimeHours: formatPlaytimeHours(PES6_PLAYTIME_KEY), playtimeKey: PES6_PLAYTIME_KEY }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
@@ -1981,7 +2162,9 @@
             if (game.playtimeHours !== undefined) {
                 const playtimeLabel = game.playtimeKey === BUTECO_FIGHTING_PLAYTIME_KEY
                     ? 'profile_buteco_fighting_playtime'
-                    : 'profile_country_life_playtime';
+                    : game.playtimeKey === PES6_PLAYTIME_KEY
+                        ? 'profile_pes6_playtime'
+                        : 'profile_country_life_playtime';
                 return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${t(playtimeLabel, { hours: game.playtimeHours })}</span></article>`;
             }
             const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
@@ -2091,6 +2274,8 @@
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
             country: getProfileCountry() || '',
+            birthDate: getProfileBirthDate() || '',
+            region: getProfileRegion() || '',
             timestamp: new Date().toISOString(),
             avatar: getUserAvatar() || null,
             cover: getProfileCover().file,
@@ -2487,6 +2672,19 @@
             if (importedData.user) localStorage.setItem(STORAGE_KEYS.NAME, importedData.user);
             if (importedData.gender) localStorage.setItem(STORAGE_KEYS.GENDER, importedData.gender);
             if (importedData.country) localStorage.setItem(STORAGE_KEYS.COUNTRY, importedData.country);
+            const importedCountrySelect = document.getElementById('profileCountry');
+            if (importedData.country && importedCountrySelect) importedCountrySelect.value = importedData.country;
+            if (typeof importedData.birthDate === 'string') {
+                if (isValidProfileBirthDate(importedData.birthDate)) {
+                    localStorage.setItem(STORAGE_KEYS.BIRTH_DATE, importedData.birthDate);
+                    const birthDateInput = document.getElementById('profileBirthDateInput');
+                    if (birthDateInput) birthDateInput.value = importedData.birthDate;
+                }
+            }
+            if (typeof importedData.region === 'string') {
+                localStorage.setItem(STORAGE_KEYS.REGION, importedData.region);
+                updateProfileDemographicFields({ preferredRegion: importedData.region });
+            }
             if (importedData.avatar) {
                 try {
                     localStorage.setItem(STORAGE_KEYS.AVATAR, importedData.avatar);
@@ -2632,6 +2830,7 @@
     }
 
     function updateProfileTranslations() {
+        ensureProfileDemographicFields();
         ensureStudyCalendarExportOption();
         const modalHeader = document.querySelector('.profile-modal-header h2');
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
@@ -2718,6 +2917,14 @@
             countrySelect.innerHTML = `<option value="">${t('profile_country_not_informed')}</option>` + getCountryOptions(window.getCurrentLanguage?.() || 'pt-br', selectedCountry);
             countrySelect.value = selectedCountry;
         }
+        const regionSelect = document.getElementById('profileRegionSelect');
+        const customRegionInput = document.getElementById('profileRegionCustomInput');
+        if (customRegionInput) customRegionInput.placeholder = t('profile_region_placeholder');
+        const birthDateLabel = document.querySelector('label[for="profileBirthDateInput"]');
+        if (birthDateLabel) birthDateLabel.innerHTML = '<i class="fas fa-calendar-alt" aria-hidden="true"></i> ' + t('profile_birth_date');
+        const saveDemographicBtn = document.getElementById('profileSaveDemographicBtn');
+        if (saveDemographicBtn) saveDemographicBtn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> ' + t('profile_save');
+        if (regionSelect) updateProfileDemographicFields();
 
         const statItems = document.querySelectorAll('.profile-stats .stat-item');
         if (statItems.length >= 6) {
@@ -2882,6 +3089,7 @@
             countrySelect.innerHTML = `<option value="">${t('profile_country_not_informed')}</option>` + getCountryOptions(window.getCurrentLanguage?.() || 'pt-br', getProfileCountry());
             countrySelect.value = getProfileCountry();
         }
+        ensureProfileDemographicFields();
 
         const passwordInput = document.getElementById('profilePassword');
         if (passwordInput) {
@@ -3773,6 +3981,8 @@
             saveCountryBtn.addEventListener('click', handleSaveCountry);
         }
 
+        ensureProfileDemographicFields();
+
         const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) {
             savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
@@ -3896,7 +4106,9 @@
     window.saveProfileGender = saveProfileGender;
     window.getProfileCountry = getProfileCountry;
     window.saveProfileCountry = saveProfileCountry;
+    window.saveProfileBirthDate = saveProfileBirthDate;
     window.getCountryOptions = getCountryOptions;
+    window.getCountrySubdivisionOptions = country => [...(COUNTRY_SUBDIVISIONS[country] || [])];
     window.saveProfilePassword = saveProfilePassword;
     window.saveUserAvatar = saveUserAvatar;
     window.setDefaultAvatar = setDefaultAvatar;
@@ -3960,6 +4172,11 @@
         if (modal?.style?.display === 'flex' && !document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
     });
 
+    window.addEventListener('pes6PlaytimeUpdated', () => {
+        const modal = document.getElementById('profileModal');
+        if (modal?.style?.display === 'flex' && !document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
+    });
+
     window.addEventListener('tttScoreUpdated', () => {
         const modal = document.getElementById('profileModal');
         if (modal?.style?.display === 'flex') {
@@ -3999,7 +4216,7 @@
                 el.textContent = hours > 0 ? hours + 'h ' + minutes + 'min' : minutes + 'min';
             }
         }
-        if ((e.key === 'ulivre_ttt_scores' || e.key === 'ulivre_chess_scores' || e.key === COUNTRY_LIFE_PLAYTIME_KEY || e.key === BUTECO_FIGHTING_PLAYTIME_KEY) && document.getElementById('profileModal')?.style?.display === 'flex') {
+        if ((e.key === 'ulivre_ttt_scores' || e.key === 'ulivre_chess_scores' || e.key === COUNTRY_LIFE_PLAYTIME_KEY || e.key === BUTECO_FIGHTING_PLAYTIME_KEY || e.key === PES6_PLAYTIME_KEY) && document.getElementById('profileModal')?.style?.display === 'flex') {
             updateProfileModal();
             if (!document.getElementById('profileGameStatus')?.hidden) renderGameStatus();
         }
