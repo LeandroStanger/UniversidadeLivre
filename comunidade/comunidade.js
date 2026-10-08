@@ -3541,24 +3541,6 @@
         externalLinkTargetUrl = '';
     }
 
-    function openTvPage() {
-        openExternalLinkModal({
-            title: 'TV',
-            description: '',
-            url: 'https://famelack.com/tv',
-            iconClass: 'fa-tv'
-        });
-    }
-
-    function openRadioPage() {
-        openExternalLinkModal({
-            title: 'Rádio',
-            description: '',
-            url: 'https://famelack.com/radio',
-            iconClass: 'fa-broadcast-tower'
-        });
-    }
-
     // ========================================================================
     // SINCRONIZAÇÃO ENTRE ABAS
     // ========================================================================
@@ -3850,8 +3832,6 @@
         }
         document.getElementById('openJitsiBtn')?.addEventListener('click', openJitsiRoom);
         document.getElementById('closeJitsiBtn')?.addEventListener('click', closeJitsiModal);
-        document.getElementById('openTvBtn')?.addEventListener('click', openTvPage);
-        document.getElementById('openRadioBtn')?.addEventListener('click', openRadioPage);
         document.getElementById('closeExternalLinkModal')?.addEventListener('click', closeExternalLinkModal);
         document.getElementById('externalLinkModal')?.addEventListener('click', function(e) {
             if (e.target === this) closeExternalLinkModal();

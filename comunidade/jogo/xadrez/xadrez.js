@@ -1295,10 +1295,186 @@
         renderChessBoard();
     }
 
+    const PES6_PLAYTIME_STORAGE_KEY = 'ulivre_pes6_playtime_ms';
+    const PES6_PLAYTIME_SAVE_INTERVAL = 15000;
+    let pes6PlaySessionStartedAt = 0;
+    let pes6PlaytimeInterval = null;
+
+    function savePES6Playtime() {
+        if (!pes6PlaySessionStartedAt) return;
+        const now = Date.now();
+        const elapsed = Math.max(0, now - pes6PlaySessionStartedAt);
+        if (elapsed > 0) {
+            try {
+                const stored = Math.max(0, Number(localStorage.getItem(PES6_PLAYTIME_STORAGE_KEY)) || 0);
+                localStorage.setItem(PES6_PLAYTIME_STORAGE_KEY, String(stored + elapsed));
+                window.dispatchEvent(new Event('pes6PlaytimeUpdated'));
+            } catch (_) {}
+        }
+        pes6PlaySessionStartedAt = now;
+    }
+
+    function startPES6Playtime() {
+        const panel = document.getElementById('pes6WebPanel');
+        if (pes6PlaySessionStartedAt || document.visibilityState === 'hidden' || !panel || panel.hidden) return;
+        pes6PlaySessionStartedAt = Date.now();
+        pes6PlaytimeInterval = window.setInterval(savePES6Playtime, PES6_PLAYTIME_SAVE_INTERVAL);
+    }
+
+    function stopPES6Playtime() {
+        if (!pes6PlaySessionStartedAt) return;
+        savePES6Playtime();
+        pes6PlaySessionStartedAt = 0;
+        if (pes6PlaytimeInterval !== null) {
+            window.clearInterval(pes6PlaytimeInterval);
+            pes6PlaytimeInterval = null;
+        }
+    }
+
+    function closePES6WebGame() {
+        const panel = document.getElementById('pes6WebPanel');
+        const frame = document.getElementById('pes6WebFrame');
+        stopPES6Playtime();
+        if (panel) panel.hidden = true;
+        if (frame && frame.src !== 'about:blank') frame.src = 'about:blank';
+    }
+
+    function getPES6Age(birthDate) {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(birthDate || '');
+        if (!match) return null;
+        const [, yearText, monthText, dayText] = match;
+        const year = Number(yearText);
+        const month = Number(monthText) - 1;
+        const day = Number(dayText);
+        const birthday = new Date(year, month, day);
+        if (birthday.getFullYear() !== year || birthday.getMonth() !== month || birthday.getDate() !== day) return null;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (birthday > today) return null;
+        let age = today.getFullYear() - year;
+        if (today.getMonth() < month || (today.getMonth() === month && today.getDate() < day)) age -= 1;
+        return age;
+    }
+
+    function closePES6AgeGate(restoreFocus = true) {
+        const ageGate = document.getElementById('pes6AgeGate');
+        if (!ageGate) return;
+        ageGate.hidden = true;
+        ageGate.setAttribute('aria-hidden', 'true');
+        ageGate.setAttribute('inert', '');
+        document.querySelector('#gamesModal .games-modal-content')?.removeAttribute('inert');
+        if (restoreFocus) document.querySelector('.game-card[data-game="pes6-web"]')?.focus();
+    }
+
+    function showPES6AgeGate(underage = false) {
+        const ageGate = document.getElementById('pes6AgeGate');
+        const ageMessage = document.getElementById('pes6AgeMessage');
+        const ageForm = document.getElementById('pes6AgeForm');
+        const birthDateInput = document.getElementById('pes6AgeBirthDate');
+        const error = document.getElementById('pes6AgeError');
+        const saveButton = document.getElementById('pes6AgeSave');
+        if (!ageGate || !ageMessage || !ageForm || !birthDateInput || !saveButton) return;
+
+        const messageKey = underage ? 'game_pes6_age_denied' : 'game_pes6_age_required';
+        ageMessage.dataset.i18n = messageKey;
+        ageMessage.textContent = t(messageKey);
+        ageForm.hidden = underage;
+        saveButton.hidden = underage;
+        birthDateInput.value = '';
+        error.hidden = true;
+        error.textContent = '';
+
+        const language = window.getCurrentLanguage?.() || localStorage.getItem('selectedLanguage') || 'pt-br';
+        const country = localStorage.getItem('userCountry') || (language === 'en' ? 'US' : language === 'es' ? 'ES' : 'BR');
+        birthDateInput.lang = `${language === 'en' ? 'en' : language === 'es' ? 'es' : 'pt'}-${country}`;
+        const today = new Date();
+        birthDateInput.max = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+
+        ageGate.hidden = false;
+        ageGate.setAttribute('aria-hidden', 'false');
+        ageGate.removeAttribute('inert');
+        document.querySelector('#gamesModal .games-modal-content')?.setAttribute('inert', '');
+        if (!underage) requestAnimationFrame(() => birthDateInput.focus());
+        else document.getElementById('pes6AgeClose')?.focus();
+    }
+
+    function requestPES6Access() {
+        const birthDate = localStorage.getItem('userBirthDate') || '';
+        const age = getPES6Age(birthDate);
+        if (age === null) {
+            showPES6AgeGate();
+        } else if (age < 18) {
+            showPES6AgeGate(true);
+        } else {
+            showPES6WebGame();
+        }
+    }
+
+    function savePES6AgeAndContinue() {
+        const birthDateInput = document.getElementById('pes6AgeBirthDate');
+        const error = document.getElementById('pes6AgeError');
+        if (!birthDateInput || !error) return;
+        const age = getPES6Age(birthDateInput.value);
+        if (age === null) {
+            error.textContent = t('profile_birth_date_invalid');
+            error.hidden = false;
+            birthDateInput.focus();
+            return;
+        }
+
+        const saved = typeof window.saveProfileBirthDate === 'function'
+            ? window.saveProfileBirthDate(birthDateInput.value)
+            : (localStorage.setItem('userBirthDate', birthDateInput.value), true);
+        if (!saved) {
+            error.textContent = t('profile_birth_date_invalid');
+            error.hidden = false;
+            birthDateInput.focus();
+            return;
+        }
+
+        if (age < 18) {
+            showPES6AgeGate(true);
+            return;
+        }
+
+        closePES6AgeGate(false);
+        showPES6WebGame();
+    }
+
+    function showPES6WebGame() {
+        const panel = document.getElementById('pes6WebPanel');
+        const frame = document.getElementById('pes6WebFrame');
+        const menu = document.getElementById('gamesMenuScreen');
+        const shell = document.getElementById('gameShellScreen');
+        const title = document.querySelector('.game-shell-title-wrap strong');
+        const status = document.getElementById('chessStatusText');
+        if (!panel || !frame || !menu || !shell) return;
+
+        if (title) title.textContent = t('game_pes6_title');
+        if (status) status.textContent = t('game_pes6_status');
+        menu.hidden = true;
+        shell.hidden = false;
+        panel.style.removeProperty('display');
+        panel.hidden = false;
+        if (frame.src === 'about:blank') frame.src = 'https://pes6.optijuegos.net/';
+        startPES6Playtime();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') stopPES6Playtime();
+        else startPES6Playtime();
+    });
+    window.addEventListener('blur', stopPES6Playtime);
+    window.addEventListener('focus', startPES6Playtime);
+    window.addEventListener('pagehide', stopPES6Playtime);
+    window.addEventListener('pageshow', startPES6Playtime);
+
     function closeGamesModal() {
         closePromotionModal();
+        closePES6AgeGate(false);
         window.CountryLifeMeadowsGame?.close();
         window.ButecoFightingGame?.close();
+        closePES6WebGame();
         const modal = document.getElementById('gamesModal');
         if (!modal) return;
 
@@ -1334,6 +1510,7 @@
         const bitcoinPanel = document.getElementById('bitcoinPanel');
         const countryLifePanel = document.getElementById('countryLifeMeadowsPanel');
         const butecoFightingPanel = document.getElementById('butecoFightingPanel');
+        const pes6WebPanel = document.getElementById('pes6WebPanel');
         const chessPanel = document.getElementById('chessPanel');
         const menuCards = document.querySelectorAll('.game-card[data-game]');
         if (menuScreen) menuScreen.hidden = false;
@@ -1378,7 +1555,9 @@
         if (butecoFightingPanel) butecoFightingPanel.hidden = true;
         window.CountryLifeMeadowsGame?.close();
         window.ButecoFightingGame?.close();
+        closePES6WebGame();
         if (countryLifePanel) countryLifePanel.hidden = true;
+        if (pes6WebPanel) pes6WebPanel.hidden = true;
         [chessPanel, impostorPanel, hangmanPanel, checkersPanel, roulettePanel].forEach(panel => panel?.style.removeProperty('display'));
         if (chessPanel) chessPanel.hidden = false;
         document.querySelector('.chess-opponent-panel')?.removeAttribute('hidden');
@@ -1773,6 +1952,19 @@
         if (!modal || modal.dataset.chessInitialized === 'true') return;
         modal.dataset.chessInitialized = 'true';
 
+        document.getElementById('pes6AgeSave')?.addEventListener('click', savePES6AgeAndContinue);
+        document.getElementById('pes6AgeClose')?.addEventListener('click', () => closePES6AgeGate());
+        document.getElementById('pes6AgeBirthDate')?.addEventListener('input', () => {
+            const error = document.getElementById('pes6AgeError');
+            if (error) error.hidden = true;
+        });
+        document.getElementById('pes6AgeGate')?.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            event.preventDefault();
+            event.stopPropagation();
+            closePES6AgeGate();
+        });
+
         const openButton = document.getElementById('openGamesBtn');
         if (openButton) {
             openButton.addEventListener('click', openGamesModal);
@@ -1782,7 +1974,8 @@
             card.addEventListener('click', function() {
                 if (this.dataset.game !== 'country-life-meadows') window.CountryLifeMeadowsGame?.close();
                 if (this.dataset.game !== 'buteco-fighting') window.ButecoFightingGame?.close();
-                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel', 'bitcoinPanel', 'countryLifeMeadowsPanel'].forEach(id => {
+                if (this.dataset.game !== 'pes6-web') closePES6WebGame();
+                ['chessPanel', 'impostorPanel', 'hangmanPanel', 'checkersPanel', 'roulettePanel', 'unoPanel', 'bichoPanel', 'slotsPanel', 'pokerPanel', 'blackjackPanel', 'bacaraPanel', 'bingoPanel', 'bitcoinPanel', 'countryLifeMeadowsPanel', 'pes6WebPanel'].forEach(id => {
                     const panel = document.getElementById(id);
                     panel?.setAttribute('hidden', '');
                     panel?.style.setProperty('display', 'none', 'important');
@@ -1791,7 +1984,7 @@
                     element.hidden = true;
                     element.style.display = 'none';
                 });
-                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : this.dataset.game === 'bitcoin' ? 'bitcoin' : this.dataset.game === 'country-life-meadows' ? 'country-life-meadows' : this.dataset.game === 'buteco-fighting' ? 'buteco-fighting' : 'chess';
+                const selectedGameName = this.dataset.game === 'tictactoe' ? 'tictactoe' : this.dataset.game === 'impostor' ? 'impostor' : this.dataset.game === 'hangman' ? 'hangman' : this.dataset.game === 'checkers' ? 'checkers' : this.dataset.game === 'roulette' ? 'roulette' : this.dataset.game === 'uno' ? 'uno' : this.dataset.game === 'bicho' ? 'bicho' : this.dataset.game === 'slots' ? 'slots' : this.dataset.game === 'poker' ? 'poker' : this.dataset.game === 'blackjack' ? 'blackjack' : this.dataset.game === 'bacara' ? 'bacara' : this.dataset.game === 'bingo' ? 'bingo' : this.dataset.game === 'bitcoin' ? 'bitcoin' : this.dataset.game === 'country-life-meadows' ? 'country-life-meadows' : this.dataset.game === 'buteco-fighting' ? 'buteco-fighting' : this.dataset.game === 'pes6-web' ? 'pes6-web' : 'chess';
                 setSelectedGame(selectedGameName);
                 modal.querySelectorAll('.game-card[data-game]').forEach(item => item.classList.toggle('active', item === this));
 
@@ -1805,6 +1998,12 @@
                     const claim = window.UniversidadeLivreWallet?.claimDailyGameBonus(selectedGameName, 500);
                     if (claim?.awarded) window.queueNotification?.(t('game_buteco_fighting_reward'), 'success');
                     window.ButecoFightingGame?.show();
+                    return;
+                }
+                if (selectedGameName === 'pes6-web') {
+                    const claim = window.UniversidadeLivreWallet?.claimDailyGameBonus(selectedGameName, 750);
+                    if (claim?.awarded) window.queueNotification?.(t('game_pes6_reward'), 'success');
+                    requestPES6Access();
                     return;
                 }
                 window.UniversidadeLivreWallet?.claimGameBonus(selectedGameName);
@@ -1898,6 +2097,12 @@
             }
             if (getSelectedGame() === 'buteco-fighting') {
                 window.ButecoFightingGame?.close();
+                showGamesMenuScreen();
+                setSelectedGame('chess');
+                return;
+            }
+            if (getSelectedGame() === 'pes6-web') {
+                closePES6WebGame();
                 showGamesMenuScreen();
                 setSelectedGame('chess');
                 return;

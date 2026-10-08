@@ -194,7 +194,7 @@
     "year": "2018",
     "isbn": "9788575226447",
     "description": "Princípios de design e padrões de projeto, fundamentais para código de qualidade. O livro aborda os princípios SOLID, DRY, KISS, YAGNI e como aplicá-los no dia a dia. Também discute a relação entre padrões de projeto e princípios de design, mostrando como criar código flexível e de fácil manutenção.",
-    "cover": "https://github.com/KAYOKG/BibliotecaDev/blob/main/.github/img/Princ%C3%ADpios%20de%20Design%20e%20Padr%C3%B5es%20de%20Projeto.svg",
+    "cover": "https://imgv2-2-f.scribdassets.com/img/document/894762644/original/e4e740f42a/1?v=1",
     "download": "https://raw.githubusercontent.com/KAYOKG/BibliotecaDev/main/LivrosDev/Princ%C3%ADpios%20de%20Design%20e%20Padr%C3%B5es%20de%20Projeto%20-%20Autor%20(Robert%20C.%20Martin).pdf",
     "shelf": "Arquitetura de Software",
     "status": "green",

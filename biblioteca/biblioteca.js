@@ -21,6 +21,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentAbortController = null;
     let currentSearchId = 0;
     let audiobookSearchId = 0;
+    let pdfjsPromise = null;
+    let pdfLoadingTask = null;
+    let pdfDocument = null;
+    let pdfRenderTask = null;
+    let pdfRequestId = 0;
+    let pdfRenderId = 0;
+    let pdfCurrentPage = 1;
+    let pdfZoom = 1;
+    let currentPdfBook = null;
+    const PDF_READING_PROGRESS_KEY = 'ulivre_pdf_reading_progress';
+    const LIBRARY_PAGE_SIZE = 24;
+    let currentLibraryResults = [];
+    let displayedLibraryResults = 0;
+    let libraryRenderId = 0;
+    let isAppendingLibraryResults = false;
+    const AUDIOBOOK_PAGE_SIZE = 16;
+    let displayedAudiobookCount = 0;
     let activeTab = 'book';
     let activeMainTab = 'library';
     let externalLibrariesData = [];
@@ -63,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const METADATA_CACHE_TTL = 24 * 60 * 60 * 1000;
     const GLOBAL_TIMEOUT = 20000;
     const MIN_SEARCH_LENGTH = 2;
-    const MAX_EXTERNAL_RESULTS = 20;
+    const MAX_EXTERNAL_RESULTS = 100;
     const LOCAL_DATA_PATHS = {
         books: ['./books.json', '../biblioteca/books.json', '/biblioteca/books.json'],
         audiobooks: ['./audiobooks.json', '../biblioteca/audiobooks.json', '/biblioteca/audiobooks.json']
@@ -106,6 +123,14 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 'marked_as_read': 'Marcado como lido',
                 'profile': 'Perfil',
                 'download_book': 'Baixar Livro',
+                'read_book': 'Ler livro',
+                'reader_loading': 'Carregando PDF...',
+                'reader_page': '{{page}} / {{total}}',
+                'reader_previous_page': 'Página anterior',
+                'reader_next_page': 'Próxima página',
+                'reader_zoom_out': 'Diminuir zoom',
+                'reader_zoom_in': 'Aumentar zoom',
+                'reader_error': 'Não foi possível carregar este PDF. O servidor pode bloquear a leitura externa (CORS).',
                 'access_online': 'Acessar Online',
                 'book_author': 'Autor',
                 'book_year': 'Ano',
@@ -273,6 +298,35 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const audiobooksTabBtn = document.querySelector('.main-tab-btn[data-main-tab="audiobooks"] span');
         if (audiobooksTabBtn) audiobooksTabBtn.innerText = t('audiobooks_title');
         updatePlayerControlTranslations();
+        updatePdfReaderTranslations();
+    }
+
+    function updatePdfReaderTranslations() {
+        const labels = {
+            closePdfReader: 'close',
+            pdfReaderPrevious: 'reader_previous_page',
+            pdfReaderNext: 'reader_next_page',
+            pdfReaderZoomOut: 'reader_zoom_out',
+            pdfReaderZoomIn: 'reader_zoom_in',
+            pdfReaderBookmark: 'reader_bookmark',
+            pdfReaderDownload: 'download_book'
+        };
+        Object.entries(labels).forEach(([id, key]) => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            const label = t(key);
+            button.setAttribute('aria-label', label);
+            button.title = label;
+        });
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (toolbar) toolbar.setAttribute('aria-label', t('reader_controls'));
+        const canvas = document.getElementById('pdfReaderCanvas');
+        if (canvas) canvas.setAttribute('aria-label', t('read_book'));
+        if (pdfDocument) {
+            const status = document.getElementById('pdfReaderStatus');
+            if (status) status.textContent = t('reader_page', { page: pdfCurrentPage, total: pdfDocument.numPages });
+        }
+        updatePdfReaderControls();
     }
 
     function populateLibraryQualityOptions() {
@@ -388,6 +442,240 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             if (urlObj.hostname.includes('docs.google.com') || urlObj.hostname.includes('drive.google.com')) return t('access_online');
             return t('access_online');
         } catch { return t('access_online'); }
+    }
+
+    function isPdfUrl(url) {
+        if (!url) return false;
+        try {
+            return new URL(url, window.location.href).pathname.toLowerCase().endsWith('.pdf');
+        } catch {
+            return false;
+        }
+    }
+
+    function hasDownloadExtension(url) {
+        if (!url) return false;
+        try {
+            const pathname = new URL(url, window.location.href).pathname.toLowerCase();
+            return DOWNLOAD_EXTENSIONS.some(extension => pathname.endsWith(extension));
+        } catch {
+            return false;
+        }
+    }
+
+    function loadPdfJs() {
+        if (!pdfjsPromise) {
+            pdfjsPromise = import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs')
+                .then(pdfjsLib => {
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+                    return pdfjsLib;
+                })
+                .catch(error => {
+                    pdfjsPromise = null;
+                    throw error;
+                });
+        }
+        return pdfjsPromise;
+    }
+
+    function getPdfReadingProgress() {
+        try {
+            const stored = localStorage.getItem(PDF_READING_PROGRESS_KEY);
+            return stored ? JSON.parse(stored) : {};
+        } catch {
+            return {};
+        }
+    }
+
+    function getSavedPdfPage(bookId) {
+        if (!bookId) return null;
+        const page = Number(getPdfReadingProgress()[bookId]?.page);
+        return Number.isInteger(page) && page > 0 ? page : null;
+    }
+
+    function savePdfBookmark() {
+        if (!currentPdfBook || !pdfDocument) return;
+        const progress = getPdfReadingProgress();
+        progress[currentPdfBook.id] = {
+            page: pdfCurrentPage,
+            title: currentPdfBook.title,
+            updatedAt: new Date().toISOString()
+        };
+        try {
+            localStorage.setItem(PDF_READING_PROGRESS_KEY, JSON.stringify(progress));
+            const readerStatus = document.getElementById('pdfReaderStatus');
+            if (readerStatus) readerStatus.textContent = t('reader_bookmark_saved', { page: pdfCurrentPage });
+            updatePdfReaderControls();
+        } catch (error) {
+            console.warn('[Biblioteca] Não foi possível salvar o marcador do PDF:', error);
+        }
+    }
+
+    async function downloadCurrentPdf() {
+        if (!currentPdfBook) return;
+        const filename = `${currentPdfBook.title || 'livro'}`.replace(/[^a-z0-9]/gi, '_') + '.pdf';
+        await forceDownload(currentPdfBook.url, filename);
+    }
+
+    async function openPdfReader(url, title, bookId) {
+        const readerModal = document.getElementById('pdfReaderModal');
+        const readerTitle = document.getElementById('pdfReaderTitle');
+        const readerStatus = document.getElementById('pdfReaderStatus');
+        const canvas = document.getElementById('pdfReaderCanvas');
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (!readerModal || !canvas) return;
+
+        const requestId = ++pdfRequestId;
+        pdfRenderId++;
+        if (toolbar) toolbar.hidden = false;
+        canvas.style.display = 'block';
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        if (pdfLoadingTask) pdfLoadingTask.destroy().catch(() => {});
+        pdfLoadingTask = null;
+        pdfDocument = null;
+        currentPdfBook = { id: String(bookId || url), title: title || t('read_book'), url };
+        pdfCurrentPage = 1;
+        pdfZoom = 1;
+        canvas.width = 0;
+        canvas.height = 0;
+        readerTitle.textContent = title || t('read_book');
+        readerStatus.textContent = t('reader_loading');
+        readerModal.style.display = 'flex';
+        updatePdfReaderControls();
+
+        try {
+            const pdfjsLib = await loadPdfJs();
+            if (requestId !== pdfRequestId) return;
+            pdfLoadingTask = pdfjsLib.getDocument({ url });
+            const loadedDocument = await pdfLoadingTask.promise;
+            if (requestId !== pdfRequestId) {
+                loadedDocument.destroy();
+                return;
+            }
+            pdfDocument = loadedDocument;
+            const savedPage = getSavedPdfPage(currentPdfBook.id);
+            if (savedPage) pdfCurrentPage = Math.min(savedPage, loadedDocument.numPages);
+            await renderPdfPage();
+        } catch (error) {
+            if (requestId !== pdfRequestId) return;
+            console.error('[Biblioteca] Erro ao abrir PDF:', error);
+            readerStatus.textContent = t('reader_error');
+        }
+    }
+
+    async function renderPdfPage() {
+        if (!pdfDocument) return;
+        const documentToRender = pdfDocument;
+        const renderId = ++pdfRenderId;
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        const canvas = document.getElementById('pdfReaderCanvas');
+        const readerStatus = document.getElementById('pdfReaderStatus');
+        try {
+            const page = await documentToRender.getPage(pdfCurrentPage);
+            if (renderId !== pdfRenderId || documentToRender !== pdfDocument) return;
+            const baseViewport = page.getViewport({ scale: 1 });
+            const availableWidth = Math.max(280, canvas.parentElement.clientWidth - 32);
+            const scale = Math.min(1.5, availableWidth / baseViewport.width) * pdfZoom;
+            const viewport = page.getViewport({ scale });
+            const outputScale = window.devicePixelRatio || 1;
+            const context = canvas.getContext('2d');
+            canvas.width = Math.floor(viewport.width * outputScale);
+            canvas.height = Math.floor(viewport.height * outputScale);
+            canvas.style.width = `${viewport.width}px`;
+            canvas.style.height = `${viewport.height}px`;
+            context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+            pdfRenderTask = page.render({ canvasContext: context, viewport });
+            await pdfRenderTask.promise;
+            if (renderId === pdfRenderId && documentToRender === pdfDocument) {
+                readerStatus.textContent = t('reader_page', { page: pdfCurrentPage, total: documentToRender.numPages });
+                updatePdfReaderControls();
+            }
+        } catch (error) {
+            if (error.name !== 'RenderingCancelledException' && renderId === pdfRenderId) {
+                console.error('[Biblioteca] Erro ao renderizar página:', error);
+                readerStatus.textContent = t('reader_error');
+            }
+        }
+    }
+
+    function updatePdfReaderControls() {
+        const pageLabel = document.getElementById('pdfReaderPage');
+        const previousButton = document.getElementById('pdfReaderPrevious');
+        const nextButton = document.getElementById('pdfReaderNext');
+        const zoomOutButton = document.getElementById('pdfReaderZoomOut');
+        const zoomInButton = document.getElementById('pdfReaderZoomIn');
+        const bookmarkButton = document.getElementById('pdfReaderBookmark');
+        const downloadButton = document.getElementById('pdfReaderDownload');
+        const markReadButton = document.getElementById('pdfReaderMarkRead');
+        if (pageLabel) pageLabel.textContent = pdfDocument ? `${pdfCurrentPage} / ${pdfDocument.numPages}` : '0 / 0';
+        if (previousButton) previousButton.disabled = !pdfDocument || pdfCurrentPage <= 1;
+        if (nextButton) nextButton.disabled = !pdfDocument || pdfCurrentPage >= pdfDocument.numPages;
+        if (zoomOutButton) zoomOutButton.disabled = !pdfDocument || pdfZoom <= 0.6;
+        if (zoomInButton) zoomInButton.disabled = !pdfDocument || pdfZoom >= 2.4;
+        if (bookmarkButton) {
+            const isSavedPage = Boolean(pdfDocument && currentPdfBook && getSavedPdfPage(currentPdfBook.id) === pdfCurrentPage);
+            bookmarkButton.disabled = !pdfDocument;
+            bookmarkButton.classList.toggle('is-bookmarked', isSavedPage);
+            bookmarkButton.setAttribute('aria-pressed', String(isSavedPage));
+        }
+        if (downloadButton) downloadButton.disabled = !pdfDocument;
+        if (markReadButton) {
+            const isLastPage = Boolean(pdfDocument && pdfCurrentPage === pdfDocument.numPages);
+            const isRead = Boolean(currentPdfBook && isBookRead(currentPdfBook.id));
+            markReadButton.hidden = !isLastPage;
+            markReadButton.disabled = !isLastPage;
+            markReadButton.setAttribute('aria-pressed', String(isRead));
+            markReadButton.classList.toggle('is-read', isRead);
+            markReadButton.innerHTML = `<i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}" aria-hidden="true"></i><span>${t(isRead ? 'marked_as_read' : 'mark_as_read')}</span>`;
+        }
+    }
+
+    function syncReadBookState(book, isRead) {
+        const label = t(isRead ? 'marked_as_read' : 'mark_as_read');
+        const detailButton = document.getElementById('toggleReadBtn');
+        if (detailButton && modal?._currentItem?.id === book.id) {
+            detailButton.className = `action-btn ${isRead ? 'read-btn' : 'unread-btn'}`;
+            detailButton.innerHTML = `<i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}"></i> ${label}`;
+        }
+
+        const card = document.querySelector(`.book-mini-card[data-id="${book.id}"]`);
+        if (!card) return;
+        const existingBadge = card.querySelector('.read-badge');
+        if (isRead && !existingBadge) {
+            const badge = document.createElement('span');
+            badge.className = 'read-badge';
+            badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
+            card.appendChild(badge);
+        } else if (!isRead && existingBadge) {
+            existingBadge.remove();
+        }
+    }
+
+    function toggleCurrentPdfReadState() {
+        if (!currentPdfBook || !pdfDocument || pdfCurrentPage !== pdfDocument.numPages) return;
+        const isRead = toggleBookRead(currentPdfBook);
+        syncReadBookState(currentPdfBook, isRead);
+        updatePdfReaderControls();
+    }
+
+    function closePdfReader() {
+        pdfRequestId++;
+        pdfRenderId++;
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        if (pdfLoadingTask) pdfLoadingTask.destroy().catch(() => {});
+        pdfLoadingTask = null;
+        pdfDocument = null;
+        currentPdfBook = null;
+        const canvas = document.getElementById('pdfReaderCanvas');
+        if (canvas) canvas.style.display = 'block';
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (toolbar) toolbar.hidden = false;
+        const readerModal = document.getElementById('pdfReaderModal');
+        if (readerModal) readerModal.style.display = 'none';
+        updatePdfReaderControls();
     }
 
     function isAudiobook(book) {
@@ -762,7 +1050,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
-            let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${MAX_EXTERNAL_RESULTS}&printType=books&filter=free-ebooks`;
+            let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${Math.min(MAX_EXTERNAL_RESULTS, 40)}&printType=books&filter=free-ebooks`;
             if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
             const response = await fetch(url, { signal: controller.signal });
             clearTimeout(timeoutId);
@@ -1030,7 +1318,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     async function searchOpenAlex(query) {
         if (!query || query.length < MIN_SEARCH_LENGTH) return [];
         try {
-            const response = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per-page=${MAX_EXTERNAL_RESULTS}&select=id,title,authorships,publication_year,open_access,primary_location`);
+            const response = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per-page=${MAX_EXTERNAL_RESULTS}&select=id,title,type,authorships,publication_year,open_access,primary_location`);
             if (!response.ok) return [];
             const data = await response.json();
             return (data.results || []).map(work => ({
@@ -1040,7 +1328,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 rawAuthor: (work.authorships || []).map(item => item.author?.display_name).filter(Boolean).join(', '),
                 description: '', cover: null,
                 download: work.open_access?.oa_url || work.primary_location?.landing_page_url || null,
-                downloadLabel: t('access_online'), language: 'en', publisher: 'OpenAlex', source: 'OpenAlex', type: 'paper', year: work.publication_year || null
+                downloadLabel: t('access_online'), language: 'en', publisher: 'OpenAlex', source: 'OpenAlex',
+                type: work.type === 'article' ? 'article' : work.type === 'book' ? 'book' : 'paper', year: work.publication_year || null
             }));
         } catch (error) { console.warn('[OpenAlex] Erro:', error); return []; }
     }
@@ -1048,7 +1337,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     async function searchCrossref(query) {
         if (!query || query.length < MIN_SEARCH_LENGTH) return [];
         try {
-            const response = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${MAX_EXTERNAL_RESULTS}&select=DOI,title,author,published,URL,abstract,publisher`);
+            const response = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${MAX_EXTERNAL_RESULTS}&select=DOI,title,type,author,published,URL,abstract,publisher`);
             if (!response.ok) return [];
             const data = await response.json();
             return (data.message?.items || []).map(work => ({
@@ -1058,7 +1347,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 rawAuthor: (work.author || []).map(item => `${item.given || ''} ${item.family || ''}`.trim()).join(', '),
                 description: String(work.abstract || '').replace(/<[^>]+>/g, ''),
                 cover: null, download: work.URL || null, downloadLabel: t('access_online'),
-                language: 'en', publisher: work.publisher || 'Crossref', source: 'Crossref', type: 'paper',
+                language: 'en', publisher: work.publisher || 'Crossref', source: 'Crossref',
+                type: work.type === 'journal-article' ? 'article' : work.type?.includes('book') ? 'book' : 'paper',
                 year: work.published?.['date-parts']?.[0]?.[0] || null
             }));
         } catch (error) {
@@ -1084,7 +1374,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             searchInternetArchive(query),
             searchOpenLibrary(query),
             searchGoogleBooks(query),
-            searchOpenAlex(query), searchCrossref(query)
+            searchStandardEbooks(query),
+            searchDOAB(query),
+            searchArxiv(query),
+            searchSemanticScholar(query),
+            searchOpenAlex(query),
+            searchCrossref(query)
         ];
         const results = await Promise.allSettled(promises);
         const all = [];
@@ -1093,9 +1388,9 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 all.push(...res.value);
             }
         }
-        console.log(`[Busca Externa] Total de ${all.length} livros encontrados`);
-        const enriched = await Promise.all(all.map(async book => await enrichBookMetadata(book)));
-        return enriched;
+        const unique = deduplicateBooks(all);
+        console.log(`[Busca Externa] Total de ${unique.length} itens encontrados`);
+        return unique;
     }
 
     // ========== UTILITÁRIOS DE REDE ==========
@@ -1149,6 +1444,11 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (loadingTimer) clearTimeout(loadingTimer);
         if (loadingMinTimer) clearTimeout(loadingMinTimer);
         uiState.isLoading = true;
+        currentLibraryResults = [];
+        displayedLibraryResults = 0;
+        libraryRenderId++;
+        isAppendingLibraryResults = false;
+        updateLoadMoreButton();
         if (!grid) return;
         grid.setAttribute('aria-busy', 'true');
         grid.innerHTML = '';
@@ -1198,9 +1498,14 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function showEmptyState() {
-        if (uiState.isLoading || uiState.hasResults || uiState.hasError) return;
         if (!grid) return;
+        uiState.isLoading = false;
+        uiState.hasResults = false;
+        uiState.hasError = false;
+        grid.setAttribute('aria-busy', 'false');
         grid.innerHTML = '';
+        const loadMoreButton = document.getElementById('loadMoreBooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = true;
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty-state';
         emptyDiv.innerHTML = `<i class="fas fa-book-open"></i> ${t('no_results')}`;
@@ -1211,6 +1516,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     function showErrorState() {
         uiState.hasError = true;
         if (!grid) return;
+        const loadMoreButton = document.getElementById('loadMoreBooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = true;
         grid.innerHTML = '';
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-state';
@@ -1230,17 +1537,59 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         document.getElementById('bookCount').innerText = '0';
     }
 
-    async function renderResultsIncrementally(items, targetContainer) {
+    function updateLoadMoreButton() {
+        const button = document.getElementById('loadMoreBooksBtn');
+        if (!button) return;
+        const remaining = currentLibraryResults.length - displayedLibraryResults;
+        const nextBatchSize = Math.min(LIBRARY_PAGE_SIZE, remaining);
+        button.hidden = remaining <= 0;
+        button.disabled = isAppendingLibraryResults;
+        button.innerHTML = `<i class="fas fa-plus" aria-hidden="true"></i> ${t('load_more_results', { count: nextBatchSize })}`;
+        button.setAttribute('aria-label', t('load_more_results', { count: nextBatchSize }));
+    }
+
+    async function appendMoreLibraryResults() {
+        if (isAppendingLibraryResults || displayedLibraryResults >= currentLibraryResults.length) return;
+        const renderId = libraryRenderId;
+        const targetCount = Math.min(displayedLibraryResults + LIBRARY_PAGE_SIZE, currentLibraryResults.length);
+        isAppendingLibraryResults = true;
+        updateLoadMoreButton();
+        try {
+            while (displayedLibraryResults < targetCount) {
+                if (renderId !== libraryRenderId) return;
+                const itemIndex = displayedLibraryResults;
+                const card = await createBookCard(currentLibraryResults[itemIndex]);
+                if (renderId !== libraryRenderId) return;
+                if (card) grid.appendChild(card);
+                displayedLibraryResults = itemIndex + 1;
+                if (displayedLibraryResults % 5 === 0) await new Promise(resolve => setTimeout(resolve, 10));
+            }
+        } finally {
+            isAppendingLibraryResults = false;
+            updateLoadMoreButton();
+        }
+    }
+
+    async function renderResultsIncrementally(items, targetContainer, visibleCount = LIBRARY_PAGE_SIZE) {
         if (!targetContainer) return;
+        const renderId = ++libraryRenderId;
+        currentLibraryResults = items;
+        displayedLibraryResults = 0;
+        isAppendingLibraryResults = false;
         targetContainer.innerHTML = '';
-        for (let i = 0; i < items.length; i++) {
+        const initialCount = Math.min(items.length, Math.max(LIBRARY_PAGE_SIZE, visibleCount));
+        for (let i = 0; i < initialCount; i++) {
+            if (renderId !== libraryRenderId) return;
             const card = await createBookCard(items[i]);
+            if (renderId !== libraryRenderId) return;
             if (card) {
                 targetContainer.appendChild(card);
-                if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
             }
+            displayedLibraryResults = i + 1;
+            if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
         }
         document.getElementById('bookCount').innerText = items.length;
+        updateLoadMoreButton();
         applyAllTranslations();
     }
 
@@ -1297,15 +1646,23 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const tabFiltered = filterByActiveTab(filteredByType);
         const unique = deduplicateBooks(tabFiltered);
         if (!grid) return;
+        if (!unique || unique.length === 0) {
+            if (!keepLoading) {
+                currentLibraryResults = [];
+                displayedLibraryResults = 0;
+                hideLoading();
+                showEmptyState();
+            }
+            return;
+        }
         uiState.hasResults = true;
         uiState.hasError = false;
         if (!keepLoading) hideLoading();
-        if (!unique || unique.length === 0) {
-            if (!keepLoading) showEmptyState();
-            return;
-        }
         const sorted = sortBooksByPriority(unique);
-        await renderResultsIncrementally(sorted, grid);
+        const visibleCount = currentLibraryResults.length
+            ? Math.max(LIBRARY_PAGE_SIZE, displayedLibraryResults)
+            : LIBRARY_PAGE_SIZE;
+        await renderResultsIncrementally(sorted, grid, visibleCount);
     }
 
     // ========== CRIAÇÃO DE CARD E MODAL ==========
@@ -1464,7 +1821,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             isbn: book.isbn || null,
             identifier: book.identifier || null,
             type: inferredType,
-            sourceType: book.sourceType || 'local',
+            sourceType: book.sourceType || (book.source && book.source !== 'Local' ? 'external' : 'local'),
             source: book.source || 'Local',
             videoId: book.videoId || null,
             parts: book.parts || [], // Array de { type: 'audio'|'video'|'pdf', url, title }
@@ -1501,22 +1858,22 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             disabled.className = 'action-btn disabled-btn';
             return disabled;
         }
+        const readerUrl = url || repoLink;
+        const isDirectDownload = url && hasDownloadExtension(url);
         const btn = document.createElement('a');
-        btn.textContent = label;
-        btn.className = 'action-btn download-btn';
-        btn.href = '#';
-        btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (label === t('download_book') && url) {
+        if (isDirectDownload) btn.textContent = label;
+        else btn.innerHTML = `<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> ${t('read_book')}`;
+        btn.className = isDirectDownload ? 'action-btn download-btn' : 'action-btn pdf-read-btn';
+        btn.href = isDirectDownload ? '#' : readerUrl;
+        if (isDirectDownload) {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
                 await forceDownload(url, (book.title || 'documento').replace(/[^a-z0-9]/gi, '_') + '.pdf', repoLink);
-            } else if (url) {
-                window.open(url, '_blank');
-            } else if (repoLink) {
-                window.open(repoLink, '_blank');
-            } else {
-                alert(t('no_link_available'));
-            }
-        });
+            });
+        } else {
+            btn.target = '_blank';
+            btn.rel = 'noopener noreferrer';
+        }
         return btn;
     }
 
@@ -1524,8 +1881,18 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const container = document.getElementById('actionButtons');
         if (!container) return;
         container.innerHTML = '';
-        const mainBtn = createActionButton(book);
-        container.appendChild(mainBtn);
+        const pdfUrl = isPdfUrl(book.download) ? book.download : (isPdfUrl(book.repositoryLink) ? book.repositoryLink : '');
+        if (pdfUrl) {
+            const readButton = document.createElement('button');
+            readButton.type = 'button';
+            readButton.className = 'action-btn pdf-read-btn';
+            readButton.innerHTML = `<i class="fas fa-book-open" aria-hidden="true"></i> ${t('read_book')}`;
+            readButton.addEventListener('click', () => openPdfReader(pdfUrl, book.title, book.id));
+            container.appendChild(readButton);
+        } else {
+            const mainBtn = createActionButton(book);
+            container.appendChild(mainBtn);
+        }
         if (book.audioParts?.length) {
             const audioBtn = document.createElement('button');
             audioBtn.type = 'button';
@@ -1634,6 +2001,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         const cacheKey = `search_${trimmed}_${activeTab}`;
         if (searchCache.has(cacheKey) && Date.now() - searchCache.get(cacheKey).timestamp < SEARCH_CACHE_TTL) {
+            showLoading();
             showResults(searchCache.get(cacheKey).data);
             return;
         }
@@ -1661,6 +2029,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 const unique = deduplicateBooks(merged);
                 searchCache.set(cacheKey, { data: unique, timestamp: Date.now() });
                 await showResults(unique);
+            } else if (!currentLibraryResults.length) {
+                showEmptyState();
             }
         } catch (error) {
             console.error('[Search] erro:', error);
@@ -1702,7 +2072,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     function searchLocalBooks(query) {
         if (!localBooksCache.length) return [];
-        if (!query || query.length < MIN_SEARCH_LENGTH) return localBooksCache.slice(0, 30);
+        if (!query || query.length < MIN_SEARCH_LENGTH) return localBooksCache;
         const normalizedQuery = normalizeText(query);
         const results = localBooksCache.map(book => {
             let score = 0;
@@ -2911,9 +3281,13 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     // ========== RENDERIZAR AUDIOBOOKS ==========
-    function renderAudiobooks(audiobooks) {
+    function renderAudiobooks(audiobooks, visibleCount = AUDIOBOOK_PAGE_SIZE) {
         const container = document.getElementById('audiobooksGrid');
         if (!container) return;
+
+        displayedAudiobookCount = Math.min(visibleCount, audiobooks?.length || 0);
+        const loadMoreButton = document.getElementById('loadMoreAudiobooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = displayedAudiobookCount >= (audiobooks?.length || 0);
 
         if (!audiobooks || audiobooks.length === 0) {
             container.innerHTML = `<div class="empty-state"><i class="fas fa-headphones"></i><p>${t('no_audiobooks')}</p></div>`;
@@ -2921,7 +3295,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
 
         let html = '';
-        audiobooks.forEach(book => {
+        audiobooks.slice(0, displayedAudiobookCount).forEach(book => {
             const cover = sanitizeCoverUrl(book.cover) || '';
             const duration = book.duration || '';
             const year = book.year || '';
@@ -3009,9 +3383,17 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             </div>
             <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
             <div id="audiobooksGrid" class="audiobooks-grid" aria-live="polite" aria-busy="false"></div>
+            <div class="library-load-more-wrap">
+                <button id="loadMoreAudiobooksBtn" class="load-more-books-button" type="button" aria-controls="audiobooksGrid" hidden>
+                    <i class="fas fa-plus" aria-hidden="true"></i> Ver mais
+                </button>
+            </div>
         `;
 
         renderAudiobooks(audiobooks);
+        document.getElementById('loadMoreAudiobooksBtn')?.addEventListener('click', () => {
+            renderAudiobooks(audiobooks, displayedAudiobookCount + AUDIOBOOK_PAGE_SIZE);
+        });
 
         const searchInput = document.getElementById('audiobookSearchInput');
         if (searchInput) {
@@ -3150,6 +3532,44 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         modalBody = document.getElementById('modalBody');
         closeModalBtn = document.querySelector('.close-modal');
         if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+        document.getElementById('loadMoreBooksBtn')?.addEventListener('click', appendMoreLibraryResults);
+
+        document.getElementById('closePdfReader')?.addEventListener('click', closePdfReader);
+        document.getElementById('pdfReaderModal')?.addEventListener('click', event => {
+            if (event.target.id === 'pdfReaderModal') closePdfReader();
+        });
+        document.getElementById('pdfReaderPrevious')?.addEventListener('click', async () => {
+            if (pdfDocument && pdfCurrentPage > 1) {
+                pdfCurrentPage--;
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderNext')?.addEventListener('click', async () => {
+            if (pdfDocument && pdfCurrentPage < pdfDocument.numPages) {
+                pdfCurrentPage++;
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderZoomOut')?.addEventListener('click', async () => {
+            if (pdfDocument) {
+                pdfZoom = Math.max(0.6, pdfZoom - 0.2);
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderZoomIn')?.addEventListener('click', async () => {
+            if (pdfDocument) {
+                pdfZoom = Math.min(2.4, pdfZoom + 0.2);
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderBookmark')?.addEventListener('click', savePdfBookmark);
+        document.getElementById('pdfReaderDownload')?.addEventListener('click', downloadCurrentPdf);
+        document.getElementById('pdfReaderMarkRead')?.addEventListener('click', toggleCurrentPdfReadState);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && document.getElementById('pdfReaderModal')?.style.display === 'flex') {
+                closePdfReader();
+            }
+        });
 
         ensureAudiobookPlayerContainer();
 

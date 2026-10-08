@@ -111,6 +111,11 @@
         </div>
 
         <div id="booksGrid" class="book-grid" aria-live="polite" aria-busy="false"></div>
+        <div class="library-load-more-wrap">
+            <button id="loadMoreBooksBtn" class="load-more-books-button" type="button" aria-controls="booksGrid" hidden>
+                <i class="fas fa-plus" aria-hidden="true"></i> Ver mais
+            </button>
+        </div>
     </div>
 
     <!-- ========== CONTEÚDO DA ABA "AUDIOBOOKS" ========== -->
@@ -145,6 +150,11 @@
         </div>
 
         <div id="audiobooksGrid" class="audiobooks-grid" aria-live="polite" aria-busy="false"></div>
+        <div class="library-load-more-wrap">
+            <button id="loadMoreAudiobooksBtn" class="load-more-books-button" type="button" aria-controls="audiobooksGrid" hidden>
+                <i class="fas fa-plus" aria-hidden="true"></i> Ver mais
+            </button>
+        </div>
     </div>
 
     <!-- ========== CONTEÚDO DA ABA "BIBLIOTECAS RECOMENDADAS" ========== -->
@@ -158,6 +168,44 @@
     <div class="modal-content">
         <button class="close-modal">&times;</button>
         <div id="modalBody"></div>
+    </div>
+</div>
+
+<div id="pdfReaderModal" class="pdf-reader-modal" role="dialog" aria-modal="true" aria-labelledby="pdfReaderTitle" aria-describedby="pdfReaderStatus">
+    <div class="pdf-reader-content">
+        <header class="pdf-reader-header">
+            <h2 id="pdfReaderTitle"></h2>
+            <button id="closePdfReader" class="pdf-reader-icon-button" type="button" aria-label="Fechar" title="Fechar">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </header>
+        <nav class="pdf-reader-toolbar" aria-label="Controles do leitor PDF">
+            <button id="pdfReaderPrevious" class="pdf-reader-icon-button" type="button" aria-label="Página anterior" title="Página anterior" disabled>
+                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <span id="pdfReaderPage" class="pdf-reader-page">0 / 0</span>
+            <button id="pdfReaderNext" class="pdf-reader-icon-button" type="button" aria-label="Próxima página" title="Próxima página" disabled>
+                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </button>
+            <span class="pdf-reader-toolbar-divider" aria-hidden="true"></span>
+            <button id="pdfReaderZoomOut" class="pdf-reader-icon-button" type="button" aria-label="Diminuir zoom" title="Diminuir zoom">
+                <i class="fas fa-search-minus" aria-hidden="true"></i>
+            </button>
+            <button id="pdfReaderZoomIn" class="pdf-reader-icon-button" type="button" aria-label="Aumentar zoom" title="Aumentar zoom">
+                <i class="fas fa-search-plus" aria-hidden="true"></i>
+            </button>
+            <button id="pdfReaderBookmark" class="pdf-reader-icon-button" type="button" aria-label="Salvar página" title="Salvar página" aria-pressed="false" disabled>
+                <i class="fas fa-bookmark" aria-hidden="true"></i>
+            </button>
+            <button id="pdfReaderDownload" class="pdf-reader-icon-button" type="button" aria-label="Baixar livro" title="Baixar livro" disabled>
+                <i class="fas fa-download" aria-hidden="true"></i>
+            </button>
+            <button id="pdfReaderMarkRead" class="pdf-reader-mark-read" type="button" aria-pressed="false" hidden disabled></button>
+        </nav>
+        <div class="pdf-reader-viewer">
+            <p id="pdfReaderStatus" class="pdf-reader-status" role="status" aria-live="polite"></p>
+            <canvas id="pdfReaderCanvas" aria-label="Página do livro"></canvas>
+        </div>
     </div>
 </div>
 
