@@ -100,10 +100,33 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Buscar vídeos por título ou descrição..." data-i18n-placeholder="search_videos_placeholder">
                 <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
             </div>
-            <button id="randomVideoBtn" class="random-btn"><i class="fas fa-shuffle"></i> <span data-i18n="random_video">Vídeo aleatório</span></button>
+            <button id="randomVideoBtn" class="random-btn"><i class="fas fa-shuffle"></i> <span data-i18n="random_video">Estou com sorte!</span></button>
         </div>
         <div class="filter-group type-filter">
             <div id="typeChips" class="type-tabs" role="tablist" aria-label="Filtrar por tipo"></div>
+        </div>
+    </div>
+    <div class="auditorio-filter-dropdown" id="auditorioFilterDropdown">
+        <button id="auditorioFilterToggle" class="auditorio-filter-toggle" type="button" aria-expanded="false" aria-controls="auditorioFilterMenu">
+            <i class="fas fa-sliders" aria-hidden="true"></i>
+            <span data-i18n="auditorio_filter_button">Filtros</span>
+            <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+        </button>
+        <div id="auditorioFilterMenu" class="auditorio-filter-menu" role="region" aria-labelledby="auditorioFilterTitle" hidden>
+            <div class="auditorio-filter-menu-header">
+                <h3 id="auditorioFilterTitle" data-i18n="auditorio_filter_title">Filtrar vídeos</h3>
+                <button id="closeAuditorioFilterMenu" class="auditorio-filter-close" type="button" aria-label="Fechar filtros" title="Fechar filtros">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <label for="languageChips" data-i18n="filter_by_language">Filtrar por idioma:</label>
+            <select id="languageChips" class="auditorio-filter-select"></select>
+            <label for="subjectFilter" data-i18n="filter_by_subject">Filtrar por assunto:</label>
+            <select id="subjectFilter" class="auditorio-filter-select"></select>
+            <button id="clearAuditorioFilters" class="auditorio-filter-clear" type="button">
+                <i class="fas fa-rotate-left" aria-hidden="true"></i>
+                <span data-i18n="auditorio_clear_filters">Limpar filtros</span>
+            </button>
         </div>
     </div>
 
@@ -124,6 +147,9 @@
             <div id="playerContainer" class="player-container">
                 <div class="player-wrapper">
                     <div id="youtubePlayer"></div>
+                </div>
+                <div id="externalLiveContainer" class="external-live-player" hidden>
+                    <iframe id="externalLiveFrame" title="" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
                 <div class="custom-player-controls">
                     <div class="progress-container progress-container-top">

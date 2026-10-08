@@ -36,6 +36,8 @@
         name: '',
         gender: '',
         country: '',
+        region: '',
+        birthDate: '',
         password: '',
         avatar: null // base64 ou null
     };
@@ -449,6 +451,10 @@
         if (importedData.user) localStorage.setItem('userProfileName', importedData.user);
         if (importedData.gender) localStorage.setItem('userGender', importedData.gender);
         if (importedData.country) localStorage.setItem('userCountry', importedData.country);
+        if (typeof importedData.region === 'string') localStorage.setItem('userRegion', importedData.region);
+        if (typeof importedData.birthDate === 'string' && isValidOnboardingBirthDate(importedData.birthDate)) {
+            localStorage.setItem('userBirthDate', importedData.birthDate);
+        }
         if (importedData.avatar) {
             localStorage.setItem('userAvatar', importedData.avatar);
             if (window.saveUserAvatar && typeof window.saveUserAvatar === 'function') {
@@ -580,6 +586,71 @@
     }
 
     // ========== CONSTRUIR PASSOS ==========
+    function isValidOnboardingBirthDate(value) {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || '');
+        if (!match) return false;
+        const [, year, month, day] = match;
+        const date = new Date(0);
+        date.setFullYear(Number(year), Number(month) - 1, Number(day));
+        date.setHours(0, 0, 0, 0);
+        if (date.getFullYear() !== Number(year) || date.getMonth() !== Number(month) - 1 || date.getDate() !== Number(day)) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return date <= today;
+    }
+
+    function getOnboardingRegionValue() {
+        const regionSelect = document.getElementById('onboardingRegion');
+        const customRegionInput = document.getElementById('onboardingRegionCustom');
+        return regionSelect?.value === '__other__' ? customRegionInput?.value.trim() || '' : regionSelect?.value || '';
+    }
+
+    function updateOnboardingLocationFields({ resetRegion = false, preferredRegion } = {}) {
+        const countrySelect = document.getElementById('onboardingCountry');
+        const regionSelect = document.getElementById('onboardingRegion');
+        const customRegionInput = document.getElementById('onboardingRegionCustom');
+        const birthDateInput = document.getElementById('onboardingBirthDate');
+        if (!countrySelect || !regionSelect || !customRegionInput || !birthDateInput) return;
+
+        const country = countrySelect.value;
+        const regionLabel = document.querySelector('label[for="onboardingRegion"] span');
+        const regionKey = ['CA', 'AR'].includes(country) ? 'profile_province'
+            : country === 'AU' ? 'profile_state_territory'
+                : ['BR', 'US', 'MX'].includes(country) ? 'profile_state'
+                    : 'profile_region';
+        if (regionLabel) regionLabel.textContent = t(regionKey);
+
+        const currentRegion = getOnboardingRegionValue();
+        const regionToSelect = preferredRegion !== undefined
+            ? preferredRegion
+            : resetRegion ? '' : currentRegion || formData.region;
+        const subdivisions = window.getCountrySubdivisionOptions?.(country) || [];
+        regionSelect.replaceChildren(new Option(t('profile_region_select'), ''));
+        subdivisions.forEach(region => regionSelect.add(new Option(region, region)));
+        if (country) regionSelect.add(new Option(t('profile_region_other'), '__other__'));
+        regionSelect.disabled = !country;
+
+        if (regionToSelect && subdivisions.includes(regionToSelect)) {
+            regionSelect.value = regionToSelect;
+            customRegionInput.value = '';
+            customRegionInput.hidden = true;
+        } else if (regionToSelect || (country && subdivisions.length === 0)) {
+            regionSelect.value = '__other__';
+            customRegionInput.value = regionToSelect || '';
+            customRegionInput.hidden = false;
+        } else {
+            regionSelect.value = '';
+            customRegionInput.value = '';
+            customRegionInput.hidden = true;
+        }
+
+        const language = selectedLang === 'en' ? 'en' : selectedLang === 'es' ? 'es' : 'pt';
+        const fallbackCountry = language === 'en' ? 'US' : language === 'es' ? 'ES' : 'BR';
+        birthDateInput.lang = `${language}-${country || fallbackCountry}`;
+        const today = new Date();
+        birthDateInput.max = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+    }
+
     function buildSteps() {
         loginMode = true;
 
@@ -662,6 +733,16 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="onboardingRegion"><span>${t('profile_region')}</span></label>
+                        <select id="onboardingRegion"></select>
+                        <input type="text" id="onboardingRegionCustom" maxlength="100" autocomplete="address-level1" placeholder="${t('profile_region_placeholder')}" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingBirthDate">${t('onboarding_form_birth_date_label')} <span style="color:#EF4444;">*</span></label>
+                        <input type="date" id="onboardingBirthDate" autocomplete="bday" required aria-required="true" value="${formData.birthDate || ''}">
+                        <div id="onboardingBirthDateError" class="form-error" style="display:none;"></div>
+                    </div>
+                    <div class="form-group">
                         <label for="onboardingPassword">${t('onboarding_form_password_label')}</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="${t('onboarding_form_password_placeholder')}" value="${formData.password}" style="padding-right:40px;">
@@ -708,6 +789,16 @@
             </div>
         `;
         stepsContainer.innerHTML = stepsHtml;
+
+        document.getElementById('onboardingCountry')?.addEventListener('change', () => updateOnboardingLocationFields({ resetRegion: true }));
+        document.getElementById('onboardingRegion')?.addEventListener('change', () => {
+            const regionSelect = document.getElementById('onboardingRegion');
+            const customRegionInput = document.getElementById('onboardingRegionCustom');
+            customRegionInput.hidden = regionSelect.value !== '__other__';
+            if (!customRegionInput.hidden) customRegionInput.focus();
+            else customRegionInput.value = '';
+        });
+        updateOnboardingLocationFields({ preferredRegion: formData.region });
 
         const ptBtn = document.getElementById('onboardingLangPt');
         const enBtn = document.getElementById('onboardingLangEn');
@@ -1189,16 +1280,19 @@
         if (currentStep === 3 && !loginMode) {
             const nameInput = document.getElementById('onboardingName');
             const genderSelect = document.getElementById('onboardingGender');
+            const birthDateInput = document.getElementById('onboardingBirthDate');
             const passwordInput = document.getElementById('onboardingPassword');
             const confirmInput = document.getElementById('onboardingConfirmPassword');
 
             const nameError = document.getElementById('onboardingNameError');
             const genderError = document.getElementById('onboardingGenderError');
+            const birthDateError = document.getElementById('onboardingBirthDateError');
             const passwordError = document.getElementById('onboardingPasswordError');
             const confirmError = document.getElementById('onboardingConfirmError');
 
             nameError.style.display = 'none';
             genderError.style.display = 'none';
+            birthDateError.style.display = 'none';
             passwordError.style.display = 'none';
             confirmError.style.display = 'none';
 
@@ -1213,6 +1307,20 @@
             if (!gender) {
                 genderError.style.display = 'block';
                 genderSelect.focus();
+                return;
+            }
+
+            const birthDate = birthDateInput.value;
+            if (!birthDate) {
+                birthDateError.textContent = t('onboarding_error_birth_date_required');
+                birthDateError.style.display = 'block';
+                birthDateInput.focus();
+                return;
+            }
+            if (!isValidOnboardingBirthDate(birthDate)) {
+                birthDateError.textContent = t('onboarding_error_birth_date_invalid');
+                birthDateError.style.display = 'block';
+                birthDateInput.focus();
                 return;
             }
 
@@ -1255,6 +1363,8 @@
             formData.name = name;
             formData.gender = gender;
             formData.country = document.getElementById('onboardingCountry')?.value || '';
+            formData.region = getOnboardingRegionValue();
+            formData.birthDate = birthDate;
             formData.password = password;
         }
 
@@ -1287,6 +1397,8 @@
                 else localStorage.setItem('userGender', formData.gender);
                 if (window.saveProfileCountry) window.saveProfileCountry(formData.country);
                 else localStorage.setItem('userCountry', formData.country);
+                localStorage.setItem('userRegion', formData.region || '');
+                localStorage.setItem('userBirthDate', formData.birthDate);
             }
 
             if (formData.password) {
@@ -1388,9 +1500,12 @@
             const nameInput = document.getElementById('onboardingName');
             const genderSelect = document.getElementById('onboardingGender');
             const countrySelect = document.getElementById('onboardingCountry');
+            const birthDateInput = document.getElementById('onboardingBirthDate');
             if (nameInput) nameInput.value = formData.name;
             if (genderSelect) genderSelect.value = formData.gender;
             if (countrySelect) countrySelect.value = formData.country;
+            if (birthDateInput) birthDateInput.value = formData.birthDate;
+            updateOnboardingLocationFields({ preferredRegion: formData.region });
             updateModeUI();
         });
 
@@ -1451,20 +1566,26 @@
                 const nameInput = document.getElementById('onboardingName');
                 const genderSelect = document.getElementById('onboardingGender');
                 const countrySelect = document.getElementById('onboardingCountry');
+                const birthDateInput = document.getElementById('onboardingBirthDate');
                 const passwordInput = document.getElementById('onboardingPassword');
                 if (nameInput) formData.name = nameInput.value;
                 if (genderSelect) formData.gender = genderSelect.value;
                 if (countrySelect) formData.country = countrySelect.value;
+                if (birthDateInput) formData.birthDate = birthDateInput.value;
+                formData.region = getOnboardingRegionValue();
                 if (passwordInput) formData.password = passwordInput.value;
                 buildSteps();
                 requestAnimationFrame(() => {
                     const newName = document.getElementById('onboardingName');
                     const newGender = document.getElementById('onboardingGender');
                     const newCountry = document.getElementById('onboardingCountry');
+                    const newBirthDate = document.getElementById('onboardingBirthDate');
                     const newPassword = document.getElementById('onboardingPassword');
                     if (newName) newName.value = formData.name;
                     if (newGender) newGender.value = formData.gender;
                     if (newCountry) newCountry.value = formData.country;
+                    if (newBirthDate) newBirthDate.value = formData.birthDate;
+                    updateOnboardingLocationFields({ preferredRegion: formData.region });
                     if (newPassword) newPassword.value = formData.password;
                     renderStep(currentStep);
                 });

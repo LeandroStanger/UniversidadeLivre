@@ -14,6 +14,7 @@ let allVideos = [];
 let allItems = [];
 let currentTypeFilter = 'all';
 let currentLanguageFilter = 'all';
+let currentSubjectFilter = 'all';
 let currentSearchTerm = '';
 let currentLang = 'pt-br';
 let translations = {};
@@ -258,7 +259,7 @@ function applyTranslationsToUI() {
     if (searchInput) searchInput.placeholder = t('search_videos_placeholder', 'Buscar vídeos ou podcasts...');
     // Botão aleatório
     const randomBtn = document.querySelector('#randomVideoBtn span');
-    if (randomBtn) randomBtn.innerText = t('random_btn', 'Aleatório');
+    if (randomBtn) randomBtn.innerText = t('random_btn', 'Estou com sorte!');
     // Rótulos dos filtros
     const typeFilterSpan = document.querySelector('.type-filter span');
     if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type', 'Filtrar por tipo:');
@@ -484,7 +485,7 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
 
 async function searchYouTube(query, maxResults = 30, options = {}) {
     if (apiQuotaExceeded) return [];
-    if (!hasYouTubeApiKey) return searchPublicVideoIndex(query, maxResults, options);
+    if (!hasYouTubeApiKey) return [];
     const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
     
     if (channelIds.length === 0) {
@@ -514,35 +515,6 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
         return true;
     });
     return unique.slice(0, maxResults);
-}
-
-async function searchPublicVideoIndex(query, maxResults = 30, options = {}) {
-    if (!query || query.length < 2) return [];
-    const suffix = options.podcastMode ? ' podcast' : options.liveMode ? ' live' : options.shortsMode ? ' shorts' : '';
-    const instances = ['https://inv.nadeko.net', 'https://invidious.nerdvpn.de', 'https://invidious.privacyredirect.com'];
-    for (const instance of instances) {
-        try {
-            const response = await fetch(`${instance}/api/v1/search?q=${encodeURIComponent(query + suffix)}&type=video&page=1`, { signal: AbortSignal.timeout(8000) });
-            if (!response.ok) continue;
-            const items = await response.json();
-            return items.filter(item => item.type === 'video' && item.videoId).slice(0, maxResults).map(item => ({
-                id: `public_${item.videoId}`,
-                videoId: item.videoId,
-                title: item.title || query,
-                description: item.description || '',
-                thumbnail: item.videoThumbnails?.find(image => image.quality === 'medium')?.url || item.videoThumbnails?.[0]?.url || '',
-                type: options.podcastMode ? 'podcast' : options.liveMode ? 'live' : options.shortsMode ? 'shorts' : 'video',
-                subject: detectSubjectLocal(item.title, item.description || ''),
-                language: normalizeLanguageCode(item.language) || currentLanguageFilter || 'pt',
-                url: `https://www.youtube.com/watch?v=${item.videoId}`,
-                source: 'Invidious',
-                channelTitle: item.author || '',
-                duration: item.lengthSeconds || 0,
-                isLive: Boolean(item.liveNow)
-            }));
-        } catch (_) {}
-    }
-    return [];
 }
 
 async function fetchVideoDetails(videoIds) {
@@ -886,6 +858,58 @@ function extractVideoId(url) {
 }
 
 // ========== ATUALIZAÇÃO PRINCIPAL ==========
+const tvRadioLiveItems = [
+    {
+        videoId: 'tv',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isLive: true,
+        isExternal: true,
+        title: 'TV',
+        titleKey: 'tv_live_card_title',
+        descriptionKey: 'tv_live_card_description',
+        description: 'Assista a canais de televisão ao vivo pela internet e explore uma programação variada de diferentes lugares, direto do seu dispositivo.',
+        url: 'https://famelack.com/tv',
+        iconClass: 'fa-tv',
+        subject: 'tv_radio',
+        language: 'pt',
+        descriptionMaxLength: 140,
+        showLanguageBadge: false
+    },
+    {
+        videoId: 'radio',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isLive: true,
+        isExternal: true,
+        title: 'Rádio',
+        titleKey: 'radio_live_card_title',
+        descriptionKey: 'radio_live_card_description',
+        description: 'Ouça estações de rádio ao vivo pela internet e descubra músicas, notícias e programas de diferentes lugares, direto do seu dispositivo.',
+        url: 'https://famelack.com/radio',
+        iconClass: 'fa-broadcast-tower',
+        subject: 'tv_radio',
+        language: 'pt',
+        descriptionMaxLength: 140,
+        showLanguageBadge: false
+    },
+    {
+        videoId: 'drive-from-home',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isExternal: true,
+        title: 'Dirija de casa!',
+        description: 'Dirija virtualmente por mais de 1.000 cidades ao redor do mundo ouvindo rádios FM locais. Escolha uma cidade e aproveite a viagem virtual.',
+        titleKey: 'drive_from_home_card_title',
+        descriptionKey: 'drive_from_home_card_description',
+        isExternalLink: true,
+        url: 'https://drivefromhome.com',
+        iconClass: 'fa-car',
+        subject: 'tv_radio',
+        showLanguageBadge: false
+    }
+];
+
 async function refreshAllItems(term = '') {
     showLoading();
     try {
@@ -900,7 +924,7 @@ async function refreshAllItems(term = '') {
         const localItems = (localVideos.status === 'fulfilled' ? localVideos.value : []);
         const onlineItems = (onlineContent.status === 'fulfilled' ? onlineContent.value : []);
         const seen = new Set();
-        const merged = [...localItems, ...onlineItems].filter(item => {
+        const merged = [...localItems, ...onlineItems, ...tvRadioLiveItems].filter(item => {
             const key = `${item.videoId}|${item.source}`;
             if (seen.has(key)) return false;
             seen.add(key);
@@ -908,6 +932,7 @@ async function refreshAllItems(term = '') {
         });
         allItems = merged;
         console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
+        buildLanguageChips(allItems);
         // Reconstruir chips após atualização
         updateAllContent();
         // Aplicar traduções novamente para garantir
@@ -1208,6 +1233,11 @@ function closePlayer() {
         modal.hidden = true;
         modal.setAttribute('aria-hidden', 'true');
     }
+    const externalFrame = document.getElementById('externalLiveFrame');
+    if (externalFrame) externalFrame.src = 'about:blank';
+    document.getElementById('externalLiveContainer').hidden = true;
+    document.querySelector('.player-wrapper').style.display = '';
+    document.querySelector('.custom-player-controls').style.display = '';
     document.getElementById('playerContainer').style.display = 'block';
     if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
     stopProgressUpdate(); currentVideoId = null; audioMode = false;
@@ -1216,7 +1246,40 @@ function closePlayer() {
     document.getElementById('audioModeBtn')?.classList.remove('audio-active');
     document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
 }
+function playExternalLiveItem(item) {
+    const modal = document.getElementById('playerModal');
+    const frame = document.getElementById('externalLiveFrame');
+    const externalContainer = document.getElementById('externalLiveContainer');
+    if (!modal || !frame || !externalContainer) return;
+
+    const title = item.titleKey ? t(item.titleKey, item.title) : item.title;
+    const description = t(item.descriptionKey, item.description || '');
+    window.beginFloatingMedia?.();
+    window.UniversidadeLivreAnalytics?.media('auditorio', item.videoId, title);
+    if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
+    stopProgressUpdate();
+    stopWatchTimer();
+    playerReady = false;
+    currentVideoId = null;
+    pendingVideo = null;
+
+    document.getElementById('playerTitle').textContent = title;
+    document.getElementById('playerDescription').textContent = description;
+    document.querySelector('.player-wrapper').style.display = 'none';
+    document.querySelector('.custom-player-controls').style.display = 'none';
+    document.getElementById('playerContainer').classList.remove('audio-mode');
+    externalContainer.hidden = false;
+    frame.title = title;
+    frame.src = item.url;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+}
 function playVideo(videoId, title, description) {
+    const externalFrame = document.getElementById('externalLiveFrame');
+    if (externalFrame) externalFrame.src = 'about:blank';
+    document.getElementById('externalLiveContainer').hidden = true;
+    document.querySelector('.player-wrapper').style.display = '';
+    document.querySelector('.custom-player-controls').style.display = '';
     window.beginFloatingMedia?.();
     window.UniversidadeLivreAnalytics?.media('auditorio', videoId, title);
     document.getElementById('playerTitle').textContent = title;
@@ -1246,7 +1309,7 @@ function playVideo(videoId, title, description) {
 
 // ========== RENDERIZAÇÃO ==========
 function getSubjectIcon(s){
-    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','outros':'fa-tag'};
+    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','tv_radio':'fa-tower-broadcast','outros':'fa-tag'};
     return i[s]||'fa-tag';
 }
 function formatDuration(sec) {
@@ -1275,42 +1338,105 @@ function createVideoCardHTML(v) {
     const languageBadge = language
         ? `<span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(language)}</span>`
         : '';
+    const title = v.titleKey ? t(v.titleKey, v.title) : v.title;
+    const description = v.descriptionKey
+        ? t(v.descriptionKey, v.description || (v.title === 'TV' ? 'Watch live television channels.' : 'Listen to live radio stations.'))
+        : v.description;
+    const descriptionCharacters = Array.from(description || '');
+    const visibleDescription = v.descriptionMaxLength && descriptionCharacters.length > v.descriptionMaxLength
+        ? `${descriptionCharacters.slice(0, v.descriptionMaxLength - 1).join('').trimEnd()}…`
+        : description;
+    const visibleLanguageBadge = v.showLanguageBadge === false ? '' : languageBadge;
 
-    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
-        <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
+    const cardStart = v.isExternalLink
+        ? `<a class="video-card external-site-card" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">`
+        : v.isExternal
+        ? `<a class="video-card external-live-card" href="${v.url}" data-live-item="${escapeHtml(v.videoId)}" aria-haspopup="dialog" aria-controls="playerModal">`
+        : `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">`;
+    const thumbnail = v.isExternal
+        ? `<div class="video-thumb external-live-thumb"><i class="fas ${v.iconClass}" aria-hidden="true"></i>${badge}</div>`
+        : `<div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>`;
+    return `${cardStart}
+        ${thumbnail}
         <div class="video-info">
-            <div class="video-title">${escapeHtml(v.title)}</div>
-            <div class="video-description">${escapeHtml(v.description)}</div>
+            <div class="video-title">${escapeHtml(title)}</div>
+            <div class="video-description${v.descriptionMaxLength ? ' video-description-full' : ''}">${escapeHtml(visibleDescription)}</div>
             <div class="video-meta">
-                ${languageBadge}
+                ${visibleLanguageBadge}
                 ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
                 ${categoryBadge}
             </div>
         </div>
-    </div>`;
+    ${v.isExternal ? '</a>' : '</div>'}`;
 }
+function bindVideoCardClicks(cards) {
+    cards.forEach(card => {
+        if (card.classList.contains('external-site-card')) {
+            card.addEventListener('click', event => {
+                const popup = window.open(card.href, 'driveFromHomeWindow', 'popup=yes,width=1280,height=800,resizable=yes,scrollbars=yes');
+                if (popup) {
+                    event.preventDefault();
+                    popup.opener = null;
+                }
+            });
+            return;
+        }
+        if (card.classList.contains('external-live-card')) {
+            card.addEventListener('click', event => {
+                event.preventDefault();
+                const liveItem = tvRadioLiveItems.find(item => item.videoId === card.dataset.liveItem);
+                if (liveItem) playExternalLiveItem(liveItem);
+            });
+            return;
+        }
+        card.addEventListener('click', () => {
+            const isPlaylist = card.dataset.isPlaylist === 'true';
+            if (isPlaylist) {
+                const url = card.dataset.url;
+                if (url) window.open(url, '_blank');
+            } else {
+                playVideo(card.dataset.videoId, card.dataset.title, card.dataset.description);
+            }
+        });
+    });
+}
+
 function renderUnifiedGrid(items) {
     const container = document.getElementById('videosContainer');
     if (!container) return;
     if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos', 'Nenhum item encontrado.')}</p></div>`; return; }
-    let subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    const pageSize = 18;
+    const subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    const itemsBySubject = subjects.map(subject => items.filter(item => item.subject === subject));
     let html = '';
-    for (const subj of subjects) {
-        let subjItems = items.filter(i => i.subject === subj);
-        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items', 'itens')}</div></div><div class="category-grid unified-grid">`;
-        subjItems.forEach(item => html += createVideoCardHTML(item));
-        html += `</div></div>`;
+    for (const [index, subject] of subjects.entries()) {
+        const subjectItems = itemsBySubject[index];
+        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subject)}"></i> ${getSubjectName(subject)}</div><div class="category-count">${subjectItems.length} ${t('items', 'itens')}</div></div><div class="category-grid unified-grid" data-category-index="${index}">`;
+        subjectItems.slice(0, pageSize).forEach(item => html += createVideoCardHTML(item));
+        html += `</div>`;
+        if (subjectItems.length > pageSize) {
+            html += `<button class="load-more-videos" type="button" data-category-index="${index}" data-visible-count="${pageSize}"><i class="fas fa-chevron-down" aria-hidden="true"></i><span>${t('load_more', 'Carregar mais')}</span></button>`;
+        }
+        html += `</div>`;
     }
     container.innerHTML = html;
-    container.querySelectorAll('.video-card').forEach(c => {
-        c.addEventListener('click', () => {
-            const isPlaylist = c.dataset.isPlaylist === 'true';
-            if (isPlaylist) {
-                const url = c.dataset.url;
-                if (url) window.open(url, '_blank');
-            } else {
-                playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description);
-            }
+    bindVideoCardClicks(container.querySelectorAll('.video-card'));
+    container.querySelectorAll('.load-more-videos').forEach(button => {
+        button.addEventListener('click', () => {
+            const categoryIndex = Number(button.dataset.categoryIndex);
+            const grid = container.querySelector(`.category-grid[data-category-index="${categoryIndex}"]`);
+            const categoryItems = itemsBySubject[categoryIndex];
+            if (!grid || !categoryItems) return;
+
+            const start = Number(button.dataset.visibleCount) || pageSize;
+            const nextItems = categoryItems.slice(start, start + pageSize);
+            const previousCount = grid.children.length;
+            grid.insertAdjacentHTML('beforeend', nextItems.map(createVideoCardHTML).join(''));
+            bindVideoCardClicks(Array.from(grid.children).slice(previousCount));
+
+            const visibleCount = start + nextItems.length;
+            button.dataset.visibleCount = String(visibleCount);
+            if (visibleCount >= categoryItems.length) button.remove();
         });
     });
 }
@@ -1320,11 +1446,23 @@ async function handleSearch() {
     await refreshAllItems(term);
 }
 function updateAllContent() {
+    const subjectsWithPrimaryLanguage = new Set(allItems.filter(matchesPrimaryContentLanguage).map(item => item.subject));
     let filtered = allItems.filter(item => {
         if (currentSearchTerm && !item.title.toLowerCase().includes(currentSearchTerm) && !(item.description||'').toLowerCase().includes(currentSearchTerm)) return false;
         if (currentTypeFilter !== 'all' && item.type !== currentTypeFilter) return false;
+        if (!matchesSelectedContentLanguage(item)) return false;
+        if (currentLanguageFilter !== 'all' && !subjectsWithPrimaryLanguage.has(item.subject)) return false;
+        if (currentSubjectFilter !== 'all' && item.subject !== currentSubjectFilter) return false;
         return true;
     });
+    const languageOrder = getSelectedContentLanguages();
+    if (languageOrder.length) {
+        const getLanguagePriority = item => {
+            const index = languageOrder.indexOf(normalizeLanguageCode(item.language));
+            return index === -1 ? languageOrder.length : index;
+        };
+        filtered.sort((first, second) => getLanguagePriority(first) - getLanguagePriority(second));
+    }
     console.log(`[Filtro] Tipo: ${currentTypeFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
     renderUnifiedGrid(filtered);
     applyTranslationsToUI();
@@ -1359,9 +1497,74 @@ function buildLanguageChips(items = allItems) {
     }
     c.onchange = () => {
         currentLanguageFilter = c.value;
+        buildSubjectFilter();
         updateAllContent();
         applyTranslationsToUI();
     };
+    buildSubjectFilter();
+}
+function getSelectedContentLanguages() {
+    if (currentLanguageFilter === 'all') return [];
+    return currentLanguageFilter === 'en' ? ['en', 'es'] : [currentLanguageFilter];
+}
+function matchesSelectedContentLanguage(item) {
+    const languages = getSelectedContentLanguages();
+    return !languages.length || languages.includes(normalizeLanguageCode(item.language));
+}
+function matchesPrimaryContentLanguage(item) {
+    return currentLanguageFilter === 'all' || normalizeLanguageCode(item.language) === currentLanguageFilter;
+}
+function buildSubjectFilter() {
+    const select = document.getElementById('subjectFilter');
+    if (!select) return;
+
+    const subjects = [...new Set(allItems.filter(matchesPrimaryContentLanguage).map(item => item.subject))]
+        .sort((first, second) => first === 'outros' ? 1 : second === 'outros' ? -1 : getSubjectName(first).localeCompare(getSubjectName(second), currentLang));
+    if (currentSubjectFilter !== 'all' && !subjects.includes(currentSubjectFilter)) currentSubjectFilter = 'all';
+
+    const options = [
+        { value: 'all', label: t('auditorio_all_subjects', 'Todos os assuntos') },
+        ...subjects.map(subject => ({ value: subject, label: getSubjectName(subject) }))
+    ];
+    select.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
+    select.value = currentSubjectFilter;
+    select.onchange = () => {
+        currentSubjectFilter = select.value;
+        updateAllContent();
+    };
+}
+function setupAuditorioFilterMenu() {
+    const wrapper = document.getElementById('auditorioFilterDropdown');
+    const toggle = document.getElementById('auditorioFilterToggle');
+    const menu = document.getElementById('auditorioFilterMenu');
+    const closeButton = document.getElementById('closeAuditorioFilterMenu');
+    const clearButton = document.getElementById('clearAuditorioFilters');
+    if (!wrapper || !toggle || !menu) return;
+
+    const setOpen = open => {
+        menu.hidden = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => setOpen(menu.hidden));
+    closeButton?.addEventListener('click', () => {
+        setOpen(false);
+        toggle.focus();
+    });
+    clearButton?.addEventListener('click', () => {
+        currentLanguageFilter = 'all';
+        currentSubjectFilter = 'all';
+        buildLanguageChips(allItems);
+        updateAllContent();
+    });
+    document.addEventListener('click', event => {
+        if (!wrapper.contains(event.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !menu.hidden) {
+            setOpen(false);
+            toggle.focus();
+        }
+    });
 }
 function playRandomItem() {
     if (!allItems.length) return;
@@ -1451,6 +1654,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     await loadChannelFilters();
     setupPlayerControls();
+    setupAuditorioFilterMenu();
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
     const requestedType = new URLSearchParams(window.location.search).get('tipo');

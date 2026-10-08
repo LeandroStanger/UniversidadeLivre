@@ -539,6 +539,43 @@ a:hover {
     width: 100% !important;
 }
 
+.library-load-more-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0 2rem;
+}
+
+.load-more-books-button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.load-more-books-button:hover:not(:disabled) {
+    border-color: var(--accent-blue);
+    background: var(--accent-blue);
+    color: white;
+}
+
+.load-more-books-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.load-more-books-button[hidden] {
+    display: none;
+}
+
 .book-mini-card {
     background: var(--bg-card);
     backdrop-filter: blur(8px);
@@ -1562,6 +1599,181 @@ a:hover {
     border: 1px solid var(--border);
     box-shadow: var(--modal-shadow);
     animation: scaleIn 0.3s var(--ease-spring);
+}
+
+.pdf-reader-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(8, 10, 13, 0.88);
+    backdrop-filter: blur(6px);
+}
+
+.pdf-reader-content {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    width: min(1100px, 100%);
+    height: min(94vh, 1000px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    box-shadow: var(--modal-shadow);
+}
+
+.pdf-reader-header,
+.pdf-reader-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.pdf-reader-header {
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.pdf-reader-header h2 {
+    overflow: hidden;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pdf-reader-toolbar {
+    justify-content: center;
+    padding-block: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pdf-reader-toolbar[hidden],
+.pdf-reader-icon-button[hidden] {
+    display: none;
+}
+
+.pdf-reader-icon-button {
+    display: inline-grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.pdf-reader-icon-button:hover:not(:disabled) {
+    border-color: var(--accent-blue);
+    background: var(--accent-blue);
+    color: white;
+}
+
+.pdf-reader-icon-button.is-bookmarked {
+    border-color: var(--accent-green);
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.pdf-reader-mark-read {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--accent-green);
+    border-radius: 6px;
+    background: var(--accent-green);
+    color: var(--bg-primary);
+    font: inherit;
+    cursor: pointer;
+}
+
+.pdf-reader-mark-read[hidden] {
+    display: none;
+}
+
+.pdf-reader-mark-read.is-read {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.pdf-reader-icon-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.pdf-reader-page {
+    min-width: 4.5rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
+.pdf-reader-toolbar-divider {
+    width: 1px;
+    height: 1.5rem;
+    margin-inline: 0.35rem;
+    background: var(--border);
+}
+
+.pdf-reader-viewer {
+    overflow: auto;
+    padding: 1rem;
+    background: var(--bg-primary);
+    text-align: center;
+}
+
+.pdf-reader-status {
+    margin: 0 auto 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+#pdfReaderCanvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.action-btn.pdf-read-btn {
+    background: var(--accent-blue);
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .pdf-reader-modal {
+        padding: 0;
+    }
+
+    .pdf-reader-content {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .pdf-reader-header,
+    .pdf-reader-toolbar {
+        padding-inline: 0.65rem;
+    }
+
+    .pdf-reader-viewer {
+        padding: 0.6rem;
+    }
 }
 
 @keyframes scaleIn {

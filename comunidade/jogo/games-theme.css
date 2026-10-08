@@ -23,6 +23,78 @@
     background: var(--bg-primary, #0f0f0f);
 }
 
+.pes6-age-gate {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.pes6-age-gate[hidden] { display: none; }
+
+.pes6-age-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 8, 18, .78);
+    backdrop-filter: blur(5px);
+}
+
+.pes6-age-dialog {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: .85rem;
+    width: min(440px, 100%);
+    padding: 1.25rem;
+    color: var(--games-text);
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: var(--games-radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+}
+
+.pes6-age-dialog h3,
+.pes6-age-dialog p { margin: 0; }
+
+.pes6-age-form {
+    display: grid;
+    gap: .45rem;
+}
+
+.pes6-age-form[hidden] { display: none; }
+
+.pes6-age-form label {
+    color: var(--games-muted);
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.pes6-age-form input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: .6rem .8rem;
+    color: var(--games-text);
+    background: var(--games-surface-raised);
+    border: 1px solid var(--games-border);
+    border-radius: .55rem;
+    font: inherit;
+}
+
+.pes6-age-error { color: #ff7777; font-size: .85rem; }
+.pes6-age-error[hidden] { display: none; }
+
+.pes6-age-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: .6rem;
+}
+
+.pes6-age-actions button { min-height: 42px; }
+
 .games-grid {
     gap: .9rem;
     padding: .35rem;
@@ -86,6 +158,34 @@
     background: #fff;
 }
 
+.pes6-web-panel {
+    width: 100%;
+    min-height: 65vh;
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.pes6-web-panel[hidden] { display: none; }
+
+.pes6-web-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.75rem;
+    padding: .35rem .75rem;
+    color: var(--games-text);
+    font-weight: 700;
+}
+
+.pes6-web-panel iframe {
+    display: block;
+    width: 100%;
+    height: min(78vh, 900px);
+    min-height: 480px;
+    border: 0;
+    background: #000;
+}
+
 @media (max-width: 600px) {
     .country-life-meadows-panel iframe {
         height: 72vh;
@@ -93,6 +193,11 @@
     }
 
     .buteco-fighting-panel iframe {
+        height: 72vh;
+        min-height: 420px;
+    }
+
+    .pes6-web-panel iframe {
         height: 72vh;
         min-height: 420px;
     }
@@ -131,6 +236,12 @@
 .game-card .game-icon-image { object-fit: cover; }
 .game-card .game-logo-icon { box-sizing: border-box; overflow: hidden; padding: .3rem; background: #fff; }
 .game-card .game-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+.game-card .pes6-game-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    background: #27343a;
+    border: 1px solid rgba(242, 179, 95, .45);
+}
 
 .game-card:nth-child(3n) .game-icon { background: #ef3340; color: #fff; }
 .game-card:nth-child(3n + 1) .game-icon { background: #2878d0; color: #fff; }
