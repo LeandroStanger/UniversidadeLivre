@@ -871,7 +871,7 @@
   "notas_lesson_format": "Aula {{number}}",
   "notas_note_course": "Curso",
   "notas_note_discipline": "Disciplina",
-  "notas_content_placeholder": "Escreva sua anotação aqui...",
+  "notas_content_placeholder": "Escreva sua nota aqui...",
   "notas_latex_help": "Fórmulas LaTeX: use \\(x^2\\) para fórmula na linha ou \\[...\\] para fórmula destacada. O texto original será preservado na nota.",
   "notas_save": "Salvar",
   "notas_cancel": "Cancelar",
