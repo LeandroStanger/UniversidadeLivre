@@ -113,9 +113,12 @@
                 <option value="idiomas" data-i18n="idiomas">Idiomas</option>
             </select>
             <label for="notaCursoSelect" data-i18n="notas_course_label">Curso</label>
-            <select id="notaCursoSelect" data-i18n-aria="notas_course_label" disabled>
-                <option value="" data-i18n="notas_course_placeholder">Selecione um curso</option>
-            </select>
+            <div class="selected-course-wrapper">
+                <select id="notaCursoSelect" data-i18n-aria="notas_course_label" disabled>
+                    <option value="" data-i18n="notas_course_placeholder">Selecione um curso</option>
+                </select>
+                <div id="selectedCourseLanguageBadge" class="selected-course-language" hidden></div>
+            </div>
             <label for="notaDisciplinaSelect" data-i18n="notas_discipline_label">Disciplina</label>
             <select id="notaDisciplinaSelect" data-i18n-aria="notas_discipline_label" disabled>
                 <option value="" data-i18n="notas_discipline_placeholder">Selecione uma disciplina</option>

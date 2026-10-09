@@ -30,38 +30,41 @@
     let quill = null;
 
     const COURSE_DATA_PATHS = {
-        administracao: 'graduacao/administracao/administracao-data.json',
-        biologia: 'graduacao/biologia/biologia-data.json',
-        'ciencia-da-computacao': 'graduacao/ciencia-computacao/ciencia-computacao-data.json',
-        matematica: 'graduacao/matematica/matematica-data.json',
-        'matematica-licenciatura': 'graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
-        'ciencia-de-dados-bacharelado': 'graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
-        'computer-science': 'graduacao/computer-science/computer-science-data.json',
-        math: 'graduacao/math/math-data.json',
-        computacao_grafica: 'pos-graduacao/computacao-grafica/computacao-grafica-data.json',
-        embarcados: 'pos-graduacao/embarcados/embarcados-data.json',
-        desenvolvimento_web: 'pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
-        cybersecurity: 'pos-graduacao/cybersecurity/cybersecurity-data.json',
-        devops: 'pos-graduacao/devops/devops-data.json',
-        ciencia_de_dados: 'pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
-        enem: 'ensino-medio/enem/enem-data.json',
-        espcex: 'ensino-medio/espcex/espcex-data.json',
-        ingles: 'idiomas/ingles/ingles-data.json',
-        espanhol: 'idiomas/espanhol/espanhol-data.json',
-        'espanhol-ingles': 'idiomas/espanhol-ingles/espanhol-ingles-data.json',
-        japones: 'idiomas/japones/japones-data.json',
-        'portugues-brasileiro': 'idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
-        'japones-ingles': 'idiomas/japones-ingles/japones-ingles-data.json',
-        engenharia_computacao: 'graduacao/engenharia-computacao/engenharia-computacao-data.json',
-        'engenharia-producao': 'graduacao/engenharia-producao/engenharia-producao-data.json',
-        letras: 'graduacao/letras/letras-data.json',
-        'letras-portugues': 'graduacao/letras-portugues/letras-portugues-data.json',
-        pedagogia: 'graduacao/pedagogia/pedagogia-data.json',
-        'gestao-publica': 'graduacao/gestao-publica/gestao-publica-data.json',
-        'tecnologia-informacao': 'graduacao/tecnologia-informacao/tecnologia-informacao-data.json',
-        'processos-gerenciais': 'graduacao/processos-gerenciais/processos-gerenciais-data.json',
-        fisica: 'graduacao/fisica/fisica-data.json',
-        quimica: 'graduacao/quimica/quimica-data.json'
+        administracao: 'portugues/graduacao/administracao/administracao-data.json',
+        accounting: 'ingles/graduacao/accounting/accounting-data.json',
+        biologia: 'portugues/graduacao/biologia/biologia-data.json',
+        'ciencia-da-computacao': 'portugues/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+        'ciencia-de-dados-bacharelado': 'portugues/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
+        ciencia_de_dados: 'portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+        computacao_grafica: 'portugues/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+        'computer-science': 'ingles/graduacao/computer-science/computer-science-data.json',
+        'ciencias-de-la-computacion': 'espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-data.json',
+        cybersecurity: 'portugues/pos-graduacao/cybersecurity/cybersecurity-data.json',
+        desenvolvimento_web: 'portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+        devops: 'portugues/pos-graduacao/devops/devops-data.json',
+        embarcados: 'portugues/pos-graduacao/embarcados/embarcados-data.json',
+        enem: 'portugues/ensino-medio/enem/enem-data.json',
+        'engenharia-producao': 'portugues/graduacao/engenharia-producao/engenharia-producao-data.json',
+        engenharia_computacao: 'portugues/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+        espcex: 'portugues/ensino-medio/espcex/espcex-data.json',
+        espanhol: 'portugues/idiomas/espanhol/espanhol-data.json',
+        'espanhol-ingles': 'ingles/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+        fisica: 'portugues/graduacao/fisica/fisica-data.json',
+        'gestao-publica': 'portugues/graduacao/gestao-publica/gestao-publica-data.json',
+        ingles: 'portugues/idiomas/ingles/ingles-data.json',
+        japones: 'portugues/idiomas/japones/japones-data.json',
+        'japones-ingles': 'ingles/idiomas/japones-ingles/japones-ingles-data.json',
+        letras: 'portugues/graduacao/letras/letras-data.json',
+        'letras-portugues': 'portugues/graduacao/letras-portugues/letras-portugues-data.json',
+        'matematica-em-espanhol': 'espanhol/graduacao/matematicas/matematicas-data.json',
+        matematica: 'portugues/graduacao/matematica/matematica-data.json',
+        'matematica-licenciatura': 'portugues/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+        math: 'ingles/graduacao/math/math-data.json',
+        pedagogia: 'portugues/graduacao/pedagogia/pedagogia-data.json',
+        'portugues-brasileiro': 'ingles/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+        'processos-gerenciais': 'portugues/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+        quimica: 'portugues/graduacao/quimica/quimica-data.json',
+        'tecnologia-informacao': 'portugues/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
     };
 
     // ========== FALLBACKS INLINE (usados apenas se window.t não estiver disponível) ==========
@@ -213,15 +216,21 @@
         },
 
         t(key, fallback = '') {
-            // Se window.t estiver disponível (módulo central), usa-o
+            if (state.translations && state.translations[key]) {
+                return state.translations[key];
+            }
+
             if (window.t && typeof window.t === 'function') {
                 try {
-                    return window.t(key);
+                    const globalValue = window.t(key);
+                    if (globalValue && globalValue !== key) {
+                        return globalValue;
+                    }
                 } catch (e) {
                     // fallback
                 }
             }
-            return state.translations[key] || fallback || key;
+            return fallback || key;
         },
 
         applyTranslations() {
@@ -329,6 +338,139 @@
     };
 
     const CourseCatalog = {
+        getLanguageCode(course) {
+            if (!course) return '';
+
+            const raw = (course.language || course.id || course.name || '').toLowerCase();
+            const map = {
+                pt: 'pt-br',
+                'pt-br': 'pt-br',
+                portuguese: 'pt-br',
+                portugues: 'pt-br',
+                br: 'pt-br',
+                en: 'en',
+                english: 'en',
+                ingles: 'en',
+                'inglês': 'en',
+                es: 'es',
+                spanish: 'es',
+                espanhol: 'es',
+                'espanhol': 'es',
+                fr: 'fr',
+                french: 'fr',
+                frances: 'fr',
+                'francês': 'fr',
+                de: 'de',
+                german: 'de',
+                alemao: 'de',
+                'alemão': 'de',
+                ja: 'ja',
+                japanese: 'ja',
+                japones: 'ja',
+                'japonês': 'ja',
+                it: 'it',
+                italian: 'it',
+                italiano: 'it',
+                'italiano': 'it'
+            };
+
+            if (course.language) {
+                return map[course.language.toLowerCase()] || map[raw] || 'pt-br';
+            }
+
+            if (course.courseLevel === 'idiomas') {
+                const translatedName = (course.name || '').toLowerCase();
+                const normalized = Object.keys(map).find(key => translatedName.includes(key));
+                if (normalized) return map[normalized];
+            }
+
+            if (map[raw]) return map[raw];
+
+            const id = (course.id || '').toLowerCase();
+            const name = (course.name || '').toLowerCase();
+
+            const portugueseCourseIds = [
+                'administracao','biologia','ciencia-da-computacao','ciencia-de-dados-bacharelado','ciencia_de_dados',
+                'computacao_grafica','desenvolvimento_web','cybersecurity','devops','embarcados','enem','espcex',
+                'engenharia_computacao','engenharia-producao','gestao-publica','letras','letras-portugues',
+                'matematica','matematica-licenciatura','pedagogia','processos-gerenciais','tecnologia-informacao',
+                'fisica','quimica','engenharia-de-producao'
+            ];
+
+            if (portugueseCourseIds.includes(id) || /[áàâãéêíóôõúç]/.test(name) || /[áàâãéêíóôõúç]/.test(id)) {
+                return 'pt-br';
+            }
+
+            if (/(accounting|computer science|math|english|english speakers|for english speakers|science)/i.test(name) || /(accounting|computer science|math|english|science)/i.test(id)) {
+                return 'en';
+            }
+
+            if (/(matemáticas|ciencias|español|spanish|japonés|japones|portuguese|brasileiro)/i.test(name) || /(espanhol|japones|portugues-brasileiro)/i.test(id)) {
+                return 'es';
+            }
+
+            return 'pt-br';
+        },
+
+        getLanguageName(course) {
+            const code = this.getLanguageCode(course);
+            if (!code) return '';
+
+            const languageKeys = {
+                'pt-br': 'course_language_portuguese',
+                en: 'course_language_english',
+                es: 'course_language_spanish',
+                fr: 'course_language_french',
+                de: 'course_language_german',
+                ja: 'course_language_japanese',
+                it: 'course_language_italian'
+            };
+
+            const key = languageKeys[code];
+            if (!key) return '';
+
+            const fallback = {
+                'pt-br': 'Português',
+                en: 'Inglês',
+                es: 'Espanhol',
+                fr: 'Francês',
+                de: 'Alemão',
+                ja: 'Japonês',
+                it: 'Italiano'
+            }[code] || '';
+
+            return I18n.t(key, fallback);
+        },
+
+        getLanguageBadge(course) {
+            const code = this.getLanguageCode(course);
+            if (!code) return '';
+
+            const labels = {
+                'pt-br': 'PT',
+                en: 'EN',
+                es: 'ES',
+                fr: 'FR',
+                de: 'DE',
+                ja: 'JA',
+                it: 'IT'
+            };
+
+            const label = labels[code] || code.toUpperCase();
+            return `<span class="course-language-badge ${code === 'pt-br' ? 'pt' : code}"><i class="fas fa-language" aria-hidden="true"></i><span>${label}</span></span>`;
+        },
+
+        renderSelectedCourseBadge() {
+            const badge = document.getElementById('selectedCourseLanguageBadge');
+            if (!badge) return;
+
+            const courseId = document.getElementById('notaCursoSelect')?.value || '';
+            const course = state.courses.find(item => item.id === courseId);
+            const html = this.getLanguageBadge(course);
+            badge.innerHTML = html;
+            badge.hidden = !html;
+        },
+
         async load() {
             try {
                 const response = await fetch('../cursos/courses.json');
@@ -357,10 +499,14 @@
                     };
                     const level = I18n.t(levelKeys[course.courseLevel] || course.courseLevel);
                     const type = course.courseType ? ` - ${I18n.t(course.courseType)}` : '';
-                    return `<option value="${Utils.escapeHtml(course.id)}">${Utils.escapeHtml(course.name)} (${Utils.escapeHtml(level)}${Utils.escapeHtml(type)})</option>`;
+                    const languageName = this.getLanguageName(course);
+                    const languageLabel = I18n.t('filter_language', 'Idioma');
+                    const languageSuffix = languageName ? ` • ${languageLabel}: ${languageName}` : '';
+                    return `<option value="${Utils.escapeHtml(course.id)}">${Utils.escapeHtml(course.name)} (${Utils.escapeHtml(level)}${Utils.escapeHtml(type)})${languageSuffix}</option>`;
                 }).join('');
             select.disabled = visibleCourses.length === 0;
             select.value = visibleCourses.some(course => course.id === selectedId) ? selectedId : '';
+            this.renderSelectedCourseBadge();
         },
 
         async loadDisciplines(courseId) {
@@ -817,9 +963,11 @@
                     tagsHtml += '</div>';
                 }
 
+                const course = state.courses.find(item => item.id === nota.courseId);
+                const courseLanguageBadge = CourseCatalog.getLanguageBadge(course);
                 const contextHtml = nota.courseName || nota.disciplineName
                     ? `<div class="note-context">
-                        ${nota.courseName ? `<span><i class="fas fa-graduation-cap" aria-hidden="true"></i> ${Utils.escapeHtml(nota.courseName)}</span>` : ''}
+                        ${nota.courseName ? `<span class="note-course-name-wrap"><i class="fas fa-graduation-cap" aria-hidden="true"></i> ${Utils.escapeHtml(nota.courseName)}${courseLanguageBadge ? ` ${courseLanguageBadge}` : ''}</span>` : ''}
                         ${nota.disciplineName ? `<span><i class="fas fa-book-open" aria-hidden="true"></i> ${Utils.escapeHtml(nota.disciplineName)}</span>` : ''}
                         ${nota.lessonName ? `<span><i class="fas fa-play-circle" aria-hidden="true"></i> ${Utils.escapeHtml(nota.lessonName)}</span>` : ''}
                     </div>`
@@ -1131,6 +1279,7 @@
 
         if (elements.cursoSelect) {
             elements.cursoSelect.addEventListener('change', async () => {
+                CourseCatalog.renderSelectedCourseBadge();
                 await CourseCatalog.loadDisciplines(elements.cursoSelect.value);
                 CourseCatalog.loadLessons(elements.cursoSelect.value, '');
             });
