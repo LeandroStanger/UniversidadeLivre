@@ -697,7 +697,8 @@
     gap: 0.4rem;
     margin: 0 0 1rem;
     padding: 0.35rem;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
     border: 1px solid var(--border);
     border-radius: 0.9rem;
     background: var(--bg-tertiary);
@@ -708,7 +709,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    flex: 1 1 0;
+    flex: 0 0 auto;
     min-width: 0;
     min-height: 40px;
     padding: 0.55rem 0.5rem;
@@ -719,7 +720,7 @@
     font: inherit;
     font-size: 0.8rem;
     font-weight: 700;
-    white-space: normal;
+    white-space: nowrap;
     cursor: pointer;
     transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
@@ -737,6 +738,182 @@
 
 .profile-tab-panel[hidden] {
     display: none;
+}
+
+.profile-api-settings {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 920px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.7rem;
+    background: var(--bg-secondary);
+}
+
+.profile-api-categories {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding: 0.3rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--bg-tertiary);
+}
+
+.profile-api-category {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 0.55rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.profile-api-category.active {
+    background: var(--accent-blue);
+    color: #fff;
+}
+
+.profile-api-category-panel[hidden] {
+    display: none;
+}
+
+.profile-api-category-panel {
+    display: grid;
+    gap: 0.7rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.profile-api-category-panel h3,
+.profile-api-category-panel h4,
+.profile-api-category-panel p {
+    margin: 0;
+}
+
+.profile-api-category-panel > label {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.profile-api-category-panel > input {
+    width: 100%;
+    max-width: 640px;
+    min-width: 0;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font: inherit;
+}
+
+.profile-api-actions,
+.profile-api-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.profile-api-toggle.active {
+    border-color: var(--accent-green);
+    background: var(--accent-green);
+    color: var(--bg-primary);
+}
+
+.profile-api-toggle:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.profile-api-category-panel > p {
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+.profile-api-category-panel .profile-api-status {
+    min-height: 1.25rem;
+    color: var(--accent-green);
+}
+
+.profile-api-links a {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.profile-api-provider-catalog {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.65rem;
+}
+
+.profile-api-source-toggles {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.65rem;
+}
+
+.profile-api-provider {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+    min-width: 0;
+    padding: 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.55rem;
+    background: var(--bg-tertiary);
+}
+
+.profile-api-provider-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.profile-api-provider-heading h4 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.profile-api-provider-status {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.profile-api-provider > p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.profile-api-provider > label {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.profile-api-provider > input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font: inherit;
 }
 
 .profile-theme-settings {
