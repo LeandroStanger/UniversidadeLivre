@@ -1904,7 +1904,23 @@ console.log('[Main] Inicializando script.js v28.0...');
     const DISCIPLINE_QUIZ_TIME_LIMIT_MS = 3 * 60 * 60 * 1000;
     const FINAL_EXAM_TIME_LIMIT_MS = 5 * 60 * 60 * 1000;
     const DISCIPLINE_PASS_PERCENT = 70;
+    const QUIZ_RETRY_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
     let activeDisciplineQuizTimer = null;
+
+    function getQuizRetryAvailableAt(state) {
+        const retryAvailableAt = Number(state?.retryAvailableAt);
+        return Number.isFinite(retryAvailableAt) && retryAvailableAt > 0 ? retryAvailableAt : null;
+    }
+
+    function isQuizRetryBlocked(state) {
+        const retryAvailableAt = getQuizRetryAvailableAt(state);
+        return retryAvailableAt !== null && retryAvailableAt > Date.now();
+    }
+
+    function formatQuizRetryDate(state) {
+        const retryAvailableAt = getQuizRetryAvailableAt(state);
+        return retryAvailableAt === null ? '' : new Date(retryAvailableAt).toLocaleDateString(document.documentElement.lang || 'pt-BR');
+    }
 
     function normalizeDisciplineKey(value) {
         return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase();
@@ -1915,9 +1931,9 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function getDisciplineExamState(courseId, disciplineName) {
-        if (!courseId || !disciplineName) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+        if (!courseId || !disciplineName) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false, retryAvailableAt: null };
         const raw = localStorage.getItem(getDisciplineExamStorageKey(courseId, disciplineName));
-        if (!raw) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+        if (!raw) return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false, retryAvailableAt: null };
         try {
             const parsed = JSON.parse(raw);
             return {
@@ -1927,10 +1943,11 @@ console.log('[Main] Inicializando script.js v28.0...');
                 percent: Number(parsed.percent) || 0,
                 finishedAt: parsed.finishedAt || null,
                 attempted: Boolean(parsed.attempted),
+                retryAvailableAt: getQuizRetryAvailableAt(parsed),
                 timeRemainingMs: Number(parsed.timeRemainingMs) || 0
             };
         } catch (error) {
-            return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false };
+            return { passed: false, score: 0, total: 0, percent: 0, finishedAt: null, attempted: false, retryAvailableAt: null };
         }
     }
 
@@ -1959,7 +1976,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function getFinalExamState(courseId) {
-        const fallback = { passed: false, score: 0, total: 0, percent: 0, attempted: false, finishedAt: null, timeLimitMs: FINAL_EXAM_TIME_LIMIT_MS, timeRemainingMs: 0 };
+        const fallback = { passed: false, score: 0, total: 0, percent: 0, attempted: false, finishedAt: null, retryAvailableAt: null, timeLimitMs: FINAL_EXAM_TIME_LIMIT_MS, timeRemainingMs: 0 };
         if (!courseId) return fallback;
         try {
             const parsed = JSON.parse(localStorage.getItem(getFinalExamStorageKey(courseId)) || 'null');
@@ -2006,7 +2023,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         const eligible = isFinalExamUserAuthenticated() && videosComplete
             && (isExamExemptUser() || areAllDisciplineExamsPassed());
         const finalState = getFinalExamState(currentCourse);
-        const available = eligible && !finalState.passed;
+        const retryBlocked = isQuizRetryBlocked(finalState);
+        const available = eligible && !finalState.passed && !retryBlocked;
         card.disabled = !available;
         card.classList.toggle('available', available);
         card.classList.toggle('completed', finalState.passed);
@@ -2014,10 +2032,39 @@ console.log('[Main] Inicializando script.js v28.0...');
         const label = card.querySelector('.final-exam-card-status');
         if (label) label.textContent = finalState.passed
             ? t('final_exam_passed')
+            : retryBlocked ? t('quiz_retry_locked', { date: formatQuizRetryDate(finalState) })
             : eligible ? t('final_exam_available') : t('final_exam_locked');
     }
 
+    function showQuizRetryNotice(state) {
+        const modal = document.getElementById('disciplineQuizModal');
+        const title = document.getElementById('disciplineQuizTitle');
+        const kicker = modal?.querySelector('.discipline-quiz-kicker');
+        const questionEl = document.getElementById('disciplineQuizQuestion');
+        const statusEl = document.getElementById('disciplineQuizStatus');
+        const optionsEl = document.getElementById('disciplineQuizOptions');
+        const navEl = document.getElementById('disciplineQuizNavigation');
+        if (!modal || !title || !questionEl || !statusEl || !optionsEl || !navEl) return;
+
+        stopDisciplineQuizTimer();
+        title.textContent = t('quiz_retry_notice_title');
+        if (kicker) kicker.textContent = t('quiz_retry_notice_title');
+        statusEl.innerHTML = '';
+        questionEl.innerHTML = `<div class="discipline-quiz-result"><p>${escapeHtml(t('quiz_retry_blocked', { date: formatQuizRetryDate(state) }))}</p></div>`;
+        optionsEl.innerHTML = '';
+        navEl.innerHTML = `<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizNoticeCloseBtn">${escapeHtml(t('close'))}</button>`;
+        modal.dataset.quizState = '';
+        modal.setAttribute('aria-hidden', 'false');
+        modal.style.display = 'flex';
+        document.getElementById('disciplineQuizNoticeCloseBtn')?.addEventListener('click', closeDisciplineQuiz);
+    }
+
     function openFinalExam() {
+        const finalState = getFinalExamState(currentCourse);
+        if (isQuizRetryBlocked(finalState)) {
+            showQuizRetryNotice(finalState);
+            return;
+        }
         if (!isFinalExamUserAuthenticated()) {
             alert(t('final_exam_login_required'));
             return;
@@ -2031,6 +2078,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         const modal = document.getElementById('disciplineQuizModal');
         const title = document.getElementById('disciplineQuizTitle');
         if (!modal || !title) return;
+        const kicker = modal.querySelector('.discipline-quiz-kicker');
+        if (kicker) kicker.textContent = t('discipline_quiz_title');
         loadCourseQuizBank(currentCourse).then(bank => {
             const questions = buildFinalExamQuestions(currentCourse, bank);
             if (!questions.length) {
@@ -2741,6 +2790,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             const discPercent = totalV ? Math.round((watchedV / totalV) * 100) : 0;
             const disciplineCompleted = isDisciplineCompleted(discipline.name);
             const disciplinePassed = isDisciplinePassed(discipline.name);
+            const disciplineExamState = getDisciplineExamState(currentCourse, discipline.name);
+            const retryBlocked = isQuizRetryBlocked(disciplineExamState);
             const disciplineUnlocked = isDisciplineUnlocked(discipline.name);
             const card = document.createElement('article');
             card.className = `discipline-card ${disciplineUnlocked ? '' : 'discipline-locked'} ${disciplinePassed ? 'discipline-passed' : ''}`;
@@ -2751,7 +2802,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 <div class="discipline-progress-track"><span style="width:${discPercent}%"></span></div>
                 <div class="discipline-card-actions">
                     <button class="discipline-lessons-btn" type="button" ${disciplineUnlocked ? '' : 'disabled'}><i class="fas fa-play"></i> ${t('view_lessons')}</button>
-                    <button class="discipline-quiz-btn" type="button" ${(!disciplineUnlocked || !disciplineCompleted || disciplinePassed) ? 'disabled' : ''}><i class="fas fa-clipboard-question"></i> ${disciplinePassed ? t('approved') : t('discipline_quiz_button')}</button>
+                    <button class="discipline-quiz-btn" type="button" ${(!disciplineUnlocked || !disciplineCompleted || disciplinePassed || retryBlocked) ? 'disabled' : ''}><i class="fas fa-clipboard-question"></i> ${disciplinePassed ? t('approved') : retryBlocked ? t('quiz_retry_locked', { date: formatQuizRetryDate(disciplineExamState) }) : t('discipline_quiz_button')}</button>
                 </div>
                 <div class="weeks-container"></div>`;
 
@@ -2993,8 +3044,15 @@ console.log('[Main] Inicializando script.js v28.0...');
             alert(t('quiz_course_required'));
             return;
         }
+        const examState = getDisciplineExamState(courseId, disciplineName);
+        if (isQuizRetryBlocked(examState)) {
+            showQuizRetryNotice(examState);
+            return;
+        }
 
         const openModal = async () => {
+            const kicker = modal.querySelector('.discipline-quiz-kicker');
+            if (kicker) kicker.textContent = t('discipline_quiz_title');
             let bank = await loadCourseQuizBank(courseId);
             let questions = findDisciplineQuestions(bank, disciplineName);
             if (!questions.length) {
@@ -3129,6 +3187,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                 percent,
                 attempted: true,
                 finishedAt: Date.now(),
+                retryAvailableAt: passed ? null : Date.now() + QUIZ_RETRY_COOLDOWN_MS,
                 userName: localStorage.getItem('userProfileName') || '',
                 userNumber: localStorage.getItem('userNumber') || `UL-${localStorage.getItem('userMatricula') || ''}`,
                 matricula: localStorage.getItem('userMatricula') || '',
@@ -3146,7 +3205,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             syncCoursePointsToGameWallet();
 
             statusEl.innerHTML = `<span>${autoTimeout ? t('quiz_time_expired') : t('quiz_final_result')}</span><strong>${score}/${state.questions.length}</strong>`;
-            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>${escapeHtml(t('quiz_result_score', { score, total: state.questions.length }))}</h3><p>${escapeHtml(t('quiz_result_percent', { percent }))}</p>${passed ? `<p><strong>${escapeHtml(state.finalExam ? t('final_exam_passed_result') : t('quiz_passed'))}</strong></p>` : `<p><strong>${escapeHtml(t('quiz_failed'))}</strong> ${escapeHtml(t('quiz_pass_requirement', { percent: DISCIPLINE_PASS_PERCENT }))}</p>`}</div>`;
+            const retryMessage = passed ? '' : `<p>${escapeHtml(t('quiz_retry_wait', { date: formatQuizRetryDate(resultState) }))}</p>`;
+            questionEl.innerHTML = `<div class='discipline-quiz-result'><h3>${escapeHtml(t('quiz_result_score', { score, total: state.questions.length }))}</h3><p>${escapeHtml(t('quiz_result_percent', { percent }))}</p>${passed ? `<p><strong>${escapeHtml(state.finalExam ? t('final_exam_passed_result') : t('quiz_passed'))}</strong></p>` : `<p><strong>${escapeHtml(t('quiz_failed'))}</strong> ${escapeHtml(t('quiz_pass_requirement', { percent: DISCIPLINE_PASS_PERCENT }))}</p>${retryMessage}`}</div>`;
             optionsEl.innerHTML = `<div class="discipline-quiz-summary">${summary}</div>`;
             window.renderLatex?.(optionsEl);
             navEl.innerHTML = '<button type="button" class="discipline-quiz-nav-btn primary" id="disciplineQuizCloseBtn">Fechar</button>';
