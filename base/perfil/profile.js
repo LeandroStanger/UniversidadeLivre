@@ -84,6 +84,43 @@
         MATRICULA: 'userMatricula',
         USER_NUMBER: 'userNumber'
     };
+    const YOUTUBE_API_KEY_STORAGE_KEY = 'ulivre_youtube_data_api_key';
+    const GOOGLE_BOOKS_API_KEY_STORAGE_KEY = 'ulivre_google_books_api_key';
+    const LIBRARY_PROVIDER_KEY_PREFIX = 'ulivre_library_provider_key_';
+    const LIBRARY_API_SOURCE_STORAGE_PREFIX = 'ulivre_library_api_source_';
+    const LIBRARY_KEYLESS_API_SOURCES = [
+        { id: 'gutenberg', nameKey: 'library_source_gutenberg_name', descriptionKey: 'library_source_gutenberg_description' },
+        { id: 'internet-archive', nameKey: 'library_source_internet_archive_name', descriptionKey: 'library_source_internet_archive_description' },
+        { id: 'open-library', nameKey: 'library_source_open_library_name', descriptionKey: 'library_source_open_library_description' },
+        { id: 'standard-ebooks', nameKey: 'library_source_standard_ebooks_name', descriptionKey: 'library_source_standard_ebooks_description' },
+        { id: 'doab', nameKey: 'library_source_doab_name', descriptionKey: 'library_source_doab_description' },
+        { id: 'arxiv', nameKey: 'library_source_arxiv_name', descriptionKey: 'library_source_arxiv_description' },
+        { id: 'semantic-scholar', nameKey: 'library_source_semantic_scholar_name', descriptionKey: 'library_source_semantic_scholar_description' },
+        { id: 'openalex', nameKey: 'library_source_openalex_name', descriptionKey: 'library_source_openalex_description' },
+        { id: 'crossref', nameKey: 'library_source_crossref_name', descriptionKey: 'library_source_crossref_description' }
+    ];
+    const LIBRARY_API_PROVIDERS = [
+        { id: 'bookshare', name: 'Bookshare', descriptionKey: 'library_provider_bookshare_description', accessKey: 'library_provider_access_bookshare', accessUrl: 'https://www.bookshare.org/partner-with-us/technology-developers/', statusKey: 'library_provider_status_partner' },
+        { id: 'bibliomundi', name: 'Bibliomundi', descriptionKey: 'library_provider_bibliomundi_description', accessKey: 'library_provider_access_bibliomundi', accessUrl: 'https://bibliomundi.com/', statusKey: 'library_provider_status_unverified' },
+        { id: 'fliphtml5', name: 'FlipHTML5', descriptionKey: 'library_provider_fliphtml5_description', accessKey: 'library_provider_access_fliphtml5', accessUrl: 'https://help.fliphtml5.com/', statusKey: 'library_provider_status_unverified' },
+        { id: 'teneo', name: 'Teneo Book Generation', descriptionKey: 'library_provider_teneo_description', accessKey: 'library_provider_access_teneo', accessUrl: 'https://www.teneo.ai/contact', statusKey: 'library_provider_status_unverified' },
+        { id: 'apify-gutenberg', name: 'Apify · Project Gutenberg Scraper', descriptionKey: 'library_provider_apify_description', accessKey: 'library_provider_access_apify', accessUrl: 'https://console.apify.com/settings/integrations', statusKey: 'library_provider_status_backend', serverOnly: true, serverNoteKey: 'library_provider_key_server_only' },
+        { id: 'openai-chatgpt', name: 'OpenAI · ChatGPT API', descriptionKey: 'library_provider_openai_description', accessKey: 'library_provider_access_openai', accessUrl: 'https://platform.openai.com/api-keys', statusKey: 'library_provider_status_backend', serverOnly: true, serverNoteKey: 'library_provider_key_openai_server_only' },
+        { id: 'bokbasen', name: 'Bokbasen', descriptionKey: 'library_provider_bokbasen_description', accessKey: 'library_provider_access_bokbasen', accessUrl: 'https://www.bokbasen.no/hjelp/fa-tilgang-til-metadata', statusKey: 'library_provider_status_partner' },
+        { id: 'oclc', name: 'OCLC BIBLIOTHECAnext', descriptionKey: 'library_provider_oclc_description', accessKey: 'library_provider_access_oclc', accessUrl: 'https://www.oclc.org/developer/api/oclc-apis.html', statusKey: 'library_provider_status_partner' },
+        { id: 'overdrive', name: 'OverDrive', descriptionKey: 'library_provider_overdrive_description', accessKey: 'library_provider_access_overdrive', accessUrl: 'https://developer.overdrive.com/', statusKey: 'library_provider_status_partner' },
+        { id: 'dust-stream-book', name: 'Dust (Stream Book)', descriptionKey: 'library_provider_dust_description', accessKey: 'library_provider_access_dust', accessUrl: 'https://dust.tt/', statusKey: 'library_provider_status_unverified' },
+        { id: 'leanpub', name: 'Leanpub', descriptionKey: 'library_provider_leanpub_description', accessKey: 'library_provider_access_leanpub', accessUrl: 'https://leanpub.com/account/api_key', statusKey: 'library_provider_status_account', serverOnly: true, serverNoteKey: 'library_provider_key_leanpub_server_only' }
+    ];
+
+    function getApiEnabledStorageKey(apiKeyStorageKey) {
+        return `${apiKeyStorageKey}_enabled`;
+    }
+
+    function isStoredApiEnabled(apiKeyStorageKey) {
+        if (!localStorage.getItem(apiKeyStorageKey)) return false;
+        return localStorage.getItem(getApiEnabledStorageKey(apiKeyStorageKey)) !== 'false';
+    }
 
     const AUDITORIO_TIME_KEY = 'auditorio_total_time';
     const COUNTRY_LIFE_PLAYTIME_KEY = 'ulivre_country_life_playtime_ms';
@@ -2269,7 +2306,57 @@
         return getProgressStorageEntries(['comunidade_posts_', 'comunidade_chat_']);
     }
 
-    function generateExportData(includeCourses, includeStudyCalendar, includeVideos, includeBooks, includeNotes, selectedNoteIds) {
+    function getApiSettingsForExport() {
+        const settings = {};
+        const fixedKeys = new Set([
+            YOUTUBE_API_KEY_STORAGE_KEY,
+            getApiEnabledStorageKey(YOUTUBE_API_KEY_STORAGE_KEY),
+            GOOGLE_BOOKS_API_KEY_STORAGE_KEY,
+            getApiEnabledStorageKey(GOOGLE_BOOKS_API_KEY_STORAGE_KEY)
+        ]);
+        for (let index = 0; index < localStorage.length; index++) {
+            const key = localStorage.key(index);
+            if (!key) continue;
+            const isProviderKey = key.startsWith(LIBRARY_PROVIDER_KEY_PREFIX);
+            const isSourceSetting = key.startsWith(LIBRARY_API_SOURCE_STORAGE_PREFIX);
+            if (!fixedKeys.has(key) && !isProviderKey && !isSourceSetting) continue;
+            const value = localStorage.getItem(key);
+            if (value !== null) settings[key] = value;
+        }
+        return settings;
+    }
+
+    function restoreApiSettings(settings) {
+        if (!settings || typeof settings !== 'object' || Array.isArray(settings)) return;
+
+        const allowedKeys = new Set([
+            YOUTUBE_API_KEY_STORAGE_KEY,
+            getApiEnabledStorageKey(YOUTUBE_API_KEY_STORAGE_KEY),
+            GOOGLE_BOOKS_API_KEY_STORAGE_KEY,
+            getApiEnabledStorageKey(GOOGLE_BOOKS_API_KEY_STORAGE_KEY)
+        ]);
+        Object.entries(settings).forEach(([key, value]) => {
+            const isProviderKey = /^ulivre_library_provider_key_[a-z0-9-]+$/.test(key);
+            const isSourceSetting = /^ulivre_library_api_source_[a-z0-9-]+$/.test(key);
+            if (!allowedKeys.has(key) && !isProviderKey && !isSourceSetting) return;
+            if (typeof value !== 'string') return;
+            localStorage.setItem(key, value);
+        });
+    }
+
+    function calculateExportChecksum(data) {
+        const payload = { ...data };
+        delete payload.checksum;
+        const serialized = JSON.stringify(payload);
+        let hash = 0;
+        for (let index = 0; index < serialized.length; index++) {
+            hash = ((hash << 5) - hash) + serialized.charCodeAt(index);
+            hash |= 0;
+        }
+        return hash.toString(16);
+    }
+
+    function generateExportData(includeCourses, includeStudyCalendar, includeVideos, includeBooks, includeNotes, includeApiSettings, selectedNoteIds) {
         const exportData = {
             user: loadProfileName() || 'Anônimo',
             gender: getProfileGender() || '',
@@ -2281,22 +2368,12 @@
             cover: getProfileCover().file,
             matricula: getMatricula(),
             auditorioTime: localStorage.getItem(AUDITORIO_TIME_KEY) || '0',
-            version: '2.3',
+            version: '2.4',
             data: {}
         };
 
         const passwordHash = localStorage.getItem(STORAGE_KEYS.PASSWORD) || null;
         exportData.password = passwordHash;
-
-        try {
-            const tempJson = JSON.stringify(exportData);
-            let hash = 0;
-            for (let idx = 0; idx < tempJson.length; idx++) {
-                hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
-                hash |= 0;
-            }
-            exportData.checksum = hash.toString(16);
-        } catch (_) { /* ignora */ }
 
         if (includeCourses) {
             const courses = getAllCoursesProgress();
@@ -2322,7 +2399,7 @@
         if (includeBooks) exportData.data.booksRead = getBooksRead();
         if (includeNotes) {
             const allNotes = getNotes();
-            exportData.data.notes = (selectedNoteIds && selectedNoteIds.length > 0) ?
+            exportData.data.notes = Array.isArray(selectedNoteIds) ?
                 allNotes.filter(n => selectedNoteIds.indexOf(n.id) !== -1) : allNotes;
             exportData.data.tags = getTags();
         }
@@ -2343,6 +2420,8 @@
             exportData.data.livreWallet = livreWallet[currentUser] || null;
         }
         exportData.data.cursorTimeset = getProgressStorageEntries(['cursor_timeset']);
+        if (includeApiSettings) exportData.data.apiSettings = getApiSettingsForExport();
+        exportData.checksum = calculateExportChecksum(exportData);
         return exportData;
     }
 
@@ -2373,6 +2452,10 @@
                 console.error('[Profile] Não foi possível adaptar: courses não encontrado na raiz.');
                 throw new Error('Estrutura de dados não suportada.');
             }
+        }
+
+        if (data.checksum && calculateExportChecksum(data) !== data.checksum) {
+            throw new Error('Arquivo inválido: a verificação de integridade falhou.');
         }
 
         console.log('[Profile] Validação concluída com sucesso.');
@@ -2481,8 +2564,9 @@
         const includeVideos = document.getElementById('exportVideos');
         const includeBooks = document.getElementById('exportBooks');
         const includeNotes = document.getElementById('exportNotes');
+        const includeApiSettings = ensureApiSettingsExportOption();
 
-        if (!includeCourses || !includeStudyCalendar || !includeVideos || !includeBooks || !includeNotes) {
+        if (!includeCourses || !includeStudyCalendar || !includeVideos || !includeBooks || !includeNotes || !includeApiSettings) {
             showToast('Erro ao carregar opções de exportação.', 'error');
             return;
         }
@@ -2492,6 +2576,7 @@
         const includeVideosChecked = includeVideos.checked;
         const includeBooksChecked = includeBooks.checked;
         const includeNotesChecked = includeNotes.checked;
+        const includeApiSettingsChecked = includeApiSettings.checked;
 
         const selectedNoteIds = [];
         if (includeNotesChecked) {
@@ -2500,9 +2585,13 @@
         }
         const hasPassword = hasStoredPassword();
 
-        const exportAction = async (password) => {
+        const exportAction = async password => {
             try {
-                const data = generateExportData(includeCoursesChecked, includeStudyCalendarChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, selectedNoteIds);
+                if (includeApiSettingsChecked && !password) {
+                    showToast(t('profile_api_export_encryption_required'), 'error');
+                    return;
+                }
+                const data = generateExportData(includeCoursesChecked, includeStudyCalendarChecked, includeVideosChecked, includeBooksChecked, includeNotesChecked, includeApiSettingsChecked, selectedNoteIds);
                 let finalData = data;
                 let isEncrypted = false;
                 if (password && password.length > 0) {
@@ -2540,8 +2629,9 @@
             }
         };
 
-        if (hasPassword) {
-            createPasswordModal(t('profile_export_import'), t('profile_password'), async (password) => {
+        if (hasPassword || includeApiSettingsChecked) {
+            const message = includeApiSettingsChecked ? t('profile_api_export_password_notice') : t('profile_password');
+            createPasswordModal(t('profile_export_import'), message, async password => {
                 await exportAction(password);
             });
         } else {
@@ -2566,23 +2656,6 @@
 
                 if (!importedData || typeof importedData !== 'object') {
                     throw new Error('Arquivo inválido: dados não encontrados.');
-                }
-
-                if (importedData.checksum) {
-                    try {
-                        const tempJson = JSON.stringify(importedData);
-                        let hash = 0;
-                        for (let idx = 0; idx < tempJson.length; idx++) {
-                            hash = ((hash << 5) - hash) + tempJson.charCodeAt(idx);
-                            hash |= 0;
-                        }
-                        const computedChecksum = hash.toString(16);
-                        if (computedChecksum !== importedData.checksum) {
-                            console.warn('[Import] Checksum inválido. O arquivo pode estar corrompido.');
-                        } else {
-                            console.log('[Import] Checksum verificado com sucesso.');
-                        }
-                    } catch (_) {}
                 }
 
                 if (importedData.encrypted === true) {
@@ -2784,6 +2857,11 @@
                     }
                 });
             }
+            if (data.apiSettings) {
+                restoreApiSettings(data.apiSettings);
+                window.dispatchEvent(new Event('youtubeApiKeyChanged'));
+                window.dispatchEvent(new Event('googleBooksApiKeyChanged'));
+            }
 
             if (coverImportFailed) {
                 showToast(t('profile_avatar_storage_error'), 'error');
@@ -2829,9 +2907,30 @@
         return checkbox;
     }
 
+    function ensureApiSettingsExportOption() {
+        let checkbox = document.getElementById('exportApiSettings');
+        if (checkbox) return checkbox;
+
+        const coursesLabel = document.getElementById('exportCourses')?.closest('label');
+        const optionsContainer = coursesLabel?.parentElement;
+        if (!optionsContainer) return null;
+
+        const label = document.createElement('label');
+        checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'exportApiSettings';
+        checkbox.checked = false;
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-key';
+        label.append(checkbox, document.createTextNode(' '), icon, document.createTextNode(` ${t('profile_export_api_settings')}`));
+        optionsContainer.appendChild(label);
+        return checkbox;
+    }
+
     function updateProfileTranslations() {
         ensureProfileDemographicFields();
         ensureStudyCalendarExportOption();
+        ensureApiSettingsExportOption();
         const modalHeader = document.querySelector('.profile-modal-header h2');
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-user-circle"></i> ' + t('profile_title');
 
@@ -2842,6 +2941,7 @@
             profileTabCourses: 'profile_tab_courses',
             profileTabLivreCoin: 'profile_tab_livrecoin',
             profileTabTheme: 'profile_tab_theme',
+            profileTabApi: 'profile_tab_api',
             profileTabExport: 'profile_tab_export'
         };
         const profileTabs = document.querySelector('.profile-tabs');
@@ -2868,6 +2968,24 @@
             if (label) label.textContent = t(key);
         });
         updateProfileThemeOptions();
+
+        document.querySelectorAll('[data-profile-api-category]').forEach(button => {
+            const key = button.dataset.profileApiCategory === 'library' ? 'profile_api_category_library' : 'profile_api_category_auditorio';
+            const label = button.querySelector('span');
+            if (label) label.textContent = t(key);
+        });
+        const apiCategories = document.querySelector('.profile-api-categories');
+        if (apiCategories) apiCategories.setAttribute('aria-label', t('profile_api_categories_label'));
+        document.querySelectorAll('#profileTabApi [data-i18n]').forEach(element => {
+            element.textContent = t(element.dataset.i18n);
+        });
+        document.querySelectorAll('#profileTabApi [data-i18n-placeholder]').forEach(element => {
+            element.placeholder = t(element.dataset.i18nPlaceholder);
+        });
+        updateProfileApiControl('youtubeApiKeyStatus', 'toggleYouTubeApiBtn', YOUTUBE_API_KEY_STORAGE_KEY, 'profile_youtube_api_key_saved', 'profile_youtube_api_key_missing');
+        updateProfileApiControl('googleBooksApiKeyStatus', 'toggleGoogleBooksApiBtn', GOOGLE_BOOKS_API_KEY_STORAGE_KEY, 'library_api_key_saved', 'library_api_key_missing');
+        renderLibraryApiProviderCatalog();
+        renderLibraryApiSourceToggles();
 
         const avatarOverlay = document.querySelector('.avatar-overlay span');
         if (avatarOverlay) avatarOverlay.textContent = t('profile_change_photo');
@@ -2960,7 +3078,8 @@
             { id: 'exportStudyCalendar', key: 'study_calendar_title' },
             { id: 'exportVideos', key: 'profile_export_videos' },
             { id: 'exportBooks', key: 'profile_export_books' },
-            { id: 'exportNotes', key: 'profile_export_notes' }
+            { id: 'exportNotes', key: 'profile_export_notes' },
+            { id: 'exportApiSettings', key: 'profile_export_api_settings' }
         ];
         for (const item of exportItems) {
             const input = document.getElementById(item.id);
@@ -3015,6 +3134,217 @@
                 ongoingText.innerHTML = '<strong>' + ongoingCount + '</strong> ' + t('profile_in_progress').toLowerCase();
             }
         }
+    }
+
+    function renderLibraryApiProviderCatalog() {
+        const container = document.getElementById('libraryApiProviderCatalog');
+        if (!container) return;
+        const unsavedValues = new Map([...container.querySelectorAll('[data-provider-key]')].map(input => [input.dataset.providerKey, input.value]));
+        container.replaceChildren();
+
+        LIBRARY_API_PROVIDERS.forEach(provider => {
+            const item = document.createElement('article');
+            item.className = 'profile-api-provider';
+            const heading = document.createElement('div');
+            heading.className = 'profile-api-provider-heading';
+            const name = document.createElement('h4');
+            name.textContent = provider.name;
+            const status = document.createElement('span');
+            status.className = 'profile-api-provider-status';
+            status.textContent = t(provider.statusKey);
+            heading.append(name, status);
+
+            const description = document.createElement('p');
+            description.textContent = t(provider.descriptionKey);
+            item.append(heading, description);
+            if (provider.statusOnly) {
+                container.appendChild(item);
+                return;
+            }
+            if (provider.serverOnly) {
+                const serverNote = document.createElement('p');
+                serverNote.className = 'profile-api-provider-key-status';
+                serverNote.textContent = t(provider.serverNoteKey);
+                item.appendChild(serverNote);
+                appendLibraryProviderAccessLink(item, provider);
+                container.appendChild(item);
+                return;
+            }
+            const label = document.createElement('label');
+            label.htmlFor = `libraryProviderKey-${provider.id}`;
+            label.textContent = t('library_provider_key_label');
+            const input = document.createElement('input');
+            input.id = label.htmlFor;
+            input.type = 'password';
+            input.autocomplete = 'off';
+            input.spellcheck = false;
+            input.placeholder = t('library_provider_key_placeholder');
+            input.dataset.providerKey = provider.id;
+            input.value = unsavedValues.get(provider.id) || '';
+            const actions = document.createElement('div');
+            actions.className = 'profile-api-actions';
+            const storageKey = `${LIBRARY_PROVIDER_KEY_PREFIX}${provider.id}`;
+            const hasKey = Boolean(localStorage.getItem(storageKey));
+            const isEnabled = isStoredApiEnabled(storageKey);
+            const toggleButton = document.createElement('button');
+            toggleButton.className = `btn-secondary profile-api-toggle${isEnabled ? ' active' : ''}`;
+            toggleButton.type = 'button';
+            toggleButton.dataset.providerAction = 'toggle';
+            toggleButton.dataset.providerId = provider.id;
+            toggleButton.disabled = !hasKey;
+            toggleButton.setAttribute('aria-pressed', String(isEnabled));
+            toggleButton.textContent = t(isEnabled ? 'profile_api_disable' : 'profile_api_enable');
+            const saveButton = document.createElement('button');
+            saveButton.className = 'btn-secondary';
+            saveButton.type = 'button';
+            saveButton.dataset.providerAction = 'save';
+            saveButton.dataset.providerId = provider.id;
+            saveButton.textContent = t('library_provider_key_save');
+            const removeButton = document.createElement('button');
+            removeButton.className = 'btn-secondary';
+            removeButton.type = 'button';
+            removeButton.dataset.providerAction = 'remove';
+            removeButton.dataset.providerId = provider.id;
+            removeButton.textContent = t('library_provider_key_remove');
+            actions.append(toggleButton, saveButton, removeButton);
+            const keyStatus = document.createElement('p');
+            keyStatus.className = 'profile-api-provider-key-status';
+            keyStatus.dataset.providerKeyStatus = provider.id;
+            keyStatus.textContent = t(!hasKey ? 'library_provider_key_not_saved' : isEnabled ? 'library_provider_key_enabled' : 'library_provider_key_disabled');
+            item.append(label, input, actions, keyStatus);
+            appendLibraryProviderAccessLink(item, provider);
+            container.appendChild(item);
+        });
+
+        if (container.dataset.providerActionsBound === 'true') return;
+        container.dataset.providerActionsBound = 'true';
+        container.addEventListener('click', event => {
+            const button = event.target.closest('[data-provider-action]');
+            if (!button || !container.contains(button)) return;
+            const providerId = button.dataset.providerId;
+            const input = container.querySelector(`[data-provider-key="${providerId}"]`);
+            const status = container.querySelector(`[data-provider-key-status="${providerId}"]`);
+            const storageKey = `${LIBRARY_PROVIDER_KEY_PREFIX}${providerId}`;
+            try {
+                if (button.dataset.providerAction === 'toggle') {
+                    if (!localStorage.getItem(storageKey)) return;
+                    const enabled = !isStoredApiEnabled(storageKey);
+                    localStorage.setItem(getApiEnabledStorageKey(storageKey), String(enabled));
+                    button.classList.toggle('active', enabled);
+                    button.setAttribute('aria-pressed', String(enabled));
+                    button.textContent = t(enabled ? 'profile_api_disable' : 'profile_api_enable');
+                    if (status) status.textContent = t(enabled ? 'library_provider_key_enabled' : 'library_provider_key_disabled');
+                } else if (button.dataset.providerAction === 'save') {
+                    const value = input?.value.trim();
+                    if (!value) {
+                        if (status) status.textContent = t('library_provider_key_empty');
+                        return;
+                    }
+                    localStorage.setItem(storageKey, value);
+                    localStorage.setItem(getApiEnabledStorageKey(storageKey), 'true');
+                    input.value = '';
+                    const toggle = container.querySelector(`[data-provider-action="toggle"][data-provider-id="${providerId}"]`);
+                    if (toggle) {
+                        toggle.disabled = false;
+                        toggle.classList.add('active');
+                        toggle.setAttribute('aria-pressed', 'true');
+                        toggle.textContent = t('profile_api_disable');
+                    }
+                    if (status) status.textContent = t('library_provider_key_enabled');
+                } else {
+                    localStorage.removeItem(storageKey);
+                    localStorage.removeItem(getApiEnabledStorageKey(storageKey));
+                    const toggle = container.querySelector(`[data-provider-action="toggle"][data-provider-id="${providerId}"]`);
+                    if (toggle) {
+                        toggle.disabled = true;
+                        toggle.classList.remove('active');
+                        toggle.setAttribute('aria-pressed', 'false');
+                        toggle.textContent = t('profile_api_enable');
+                    }
+                    if (status) status.textContent = t('library_provider_key_not_saved');
+                }
+            } catch (_) {
+                if (status) status.textContent = t('library_provider_key_save_error');
+            }
+        });
+    }
+
+    function renderLibraryApiSourceToggles() {
+        const container = document.getElementById('libraryApiSourceToggles');
+        if (!container) return;
+        container.replaceChildren();
+
+        LIBRARY_KEYLESS_API_SOURCES.forEach(source => {
+            const storageKey = `${LIBRARY_API_SOURCE_STORAGE_PREFIX}${source.id}`;
+            const enabled = localStorage.getItem(storageKey) !== 'false';
+            const card = document.createElement('article');
+            card.className = 'profile-api-provider profile-api-source';
+            const heading = document.createElement('div');
+            heading.className = 'profile-api-provider-heading';
+            const name = document.createElement('h4');
+            name.textContent = t(source.nameKey);
+            const status = document.createElement('span');
+            status.className = 'profile-api-provider-status';
+            status.dataset.apiSourceStatus = source.id;
+            status.textContent = t(enabled ? 'library_api_source_enabled' : 'library_api_source_disabled');
+            heading.append(name, status);
+            const description = document.createElement('p');
+            description.textContent = t(source.descriptionKey);
+            const toggle = document.createElement('button');
+            toggle.className = `btn-secondary profile-api-toggle${enabled ? ' active' : ''}`;
+            toggle.type = 'button';
+            toggle.dataset.apiSourceToggle = source.id;
+            toggle.setAttribute('aria-pressed', String(enabled));
+            toggle.textContent = t(enabled ? 'profile_api_disable' : 'profile_api_enable');
+            card.append(heading, description, toggle);
+            container.appendChild(card);
+        });
+
+        if (container.dataset.apiSourceTogglesBound === 'true') return;
+        container.dataset.apiSourceTogglesBound = 'true';
+        container.addEventListener('click', event => {
+            const button = event.target.closest('[data-api-source-toggle]');
+            if (!button || !container.contains(button)) return;
+            const sourceId = button.dataset.apiSourceToggle;
+            const storageKey = `${LIBRARY_API_SOURCE_STORAGE_PREFIX}${sourceId}`;
+            const enabled = localStorage.getItem(storageKey) === 'false';
+            if (enabled) localStorage.removeItem(storageKey);
+            else localStorage.setItem(storageKey, 'false');
+            button.classList.toggle('active', enabled);
+            button.setAttribute('aria-pressed', String(enabled));
+            button.textContent = t(enabled ? 'profile_api_disable' : 'profile_api_enable');
+            const status = container.querySelector(`[data-api-source-status="${sourceId}"]`);
+            if (status) status.textContent = t(enabled ? 'library_api_source_enabled' : 'library_api_source_disabled');
+            window.dispatchEvent(new CustomEvent('libraryApiSourceChanged', { detail: { sourceId, enabled } }));
+        });
+    }
+
+    function appendLibraryProviderAccessLink(container, provider) {
+        const explanation = document.createElement('p');
+        explanation.className = 'profile-api-provider-access-help';
+        explanation.textContent = t(provider.accessKey);
+        const link = document.createElement('a');
+        link.href = provider.accessUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = t('library_provider_access_link');
+        container.append(explanation, link);
+    }
+
+    function updateProfileApiControl(statusId, toggleId, apiKeyStorageKey, savedKey, missingKey) {
+        const hasKey = Boolean(localStorage.getItem(apiKeyStorageKey));
+        const enabled = isStoredApiEnabled(apiKeyStorageKey);
+        const status = document.getElementById(statusId);
+        if (status) {
+            const messageKey = !hasKey ? missingKey : enabled ? savedKey : 'profile_api_key_saved_inactive';
+            status.textContent = t(messageKey);
+        }
+        const toggle = document.getElementById(toggleId);
+        if (!toggle) return;
+        toggle.disabled = !hasKey;
+        toggle.classList.toggle('active', enabled);
+        toggle.setAttribute('aria-pressed', String(enabled));
+        toggle.textContent = t(enabled ? 'profile_api_disable' : 'profile_api_enable');
     }
 
     function syncAcademicPointsToWallet(totalPoints, walletApi = window.UniversidadeLivreWallet) {
@@ -3420,6 +3750,7 @@
             ['profileTabStatus', 'fa-gamepad', 'profile_game_status', 'games'],
             ['profileTabCourses', 'fa-graduation-cap', 'profile_tab_courses'],
             ['profileTabLivreCoin', 'fa-coins', 'profile_tab_livrecoin'],
+            ['profileTabApi', 'fa-key', 'profile_tab_api'],
             ['profileTabTheme', 'fa-palette', 'profile_tab_theme'],
             ['profileTabExport', 'fa-file-export', 'profile_tab_export']
         ];
@@ -3737,6 +4068,7 @@
                 ['profileTabCourses', 'fa-graduation-cap', 'profile_tab_courses'],
                 ['profileTabLivreCoin', 'fa-coins', 'profile_tab_livrecoin']
             ];
+            definitions.push(['profileTabApi', 'fa-key', 'profile_tab_api']);
             if (includeExportTab) definitions.push(['profileTabExport', 'fa-file-export', 'profile_tab_export']);
             tabs = document.createElement('nav');
             tabs.className = 'profile-tabs';
@@ -3809,7 +4141,7 @@
             button.setAttribute('aria-controls', 'profileTabLivreCoin');
             button.dataset.profileTab = 'profileTabLivreCoin';
             button.innerHTML = `<i class="fas fa-coins"></i><span data-i18n="profile_tab_livrecoin">${t('profile_tab_livrecoin')}</span>`;
-            tabs.insertBefore(button, tabs.querySelector('[data-profile-tab="profileTabExport"]'));
+            tabs.insertBefore(button, tabs.querySelector('[data-profile-tab="profileTabTheme"]') || tabs.querySelector('[data-profile-tab="profileTabExport"]'));
         }
 
         let livreCoinPanel = modalBody.querySelector('#profileTabLivreCoin');
@@ -3836,7 +4168,7 @@
             button.setAttribute('aria-controls', 'profileTabTheme');
             button.dataset.profileTab = 'profileTabTheme';
             button.innerHTML = `<i class="fas fa-palette"></i><span data-i18n="profile_tab_theme">${t('profile_tab_theme')}</span>`;
-            tabs.insertBefore(button, tabs.querySelector('[data-profile-tab="profileTabExport"]'));
+            tabs.insertBefore(button, tabs.querySelector('[data-profile-tab="profileTabTheme"]') || tabs.querySelector('[data-profile-tab="profileTabExport"]'));
         }
 
         let themePanel = modalBody.querySelector('#profileTabTheme');
@@ -3866,6 +4198,157 @@
                 </div>`;
         }
         updateProfileThemeOptions();
+
+        if (!tabs.querySelector('[data-profile-tab="profileTabApi"]')) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'profile-tab';
+            button.setAttribute('role', 'tab');
+            button.setAttribute('aria-selected', 'false');
+            button.setAttribute('aria-controls', 'profileTabApi');
+            button.dataset.profileTab = 'profileTabApi';
+            button.innerHTML = `<i class="fas fa-key" aria-hidden="true"></i><span data-i18n="profile_tab_api">${t('profile_tab_api')}</span>`;
+            tabs.insertBefore(button, tabs.querySelector('[data-profile-tab="profileTabTheme"]') || tabs.querySelector('[data-profile-tab="profileTabExport"]'));
+        }
+
+        let apiPanel = modalBody.querySelector('#profileTabApi');
+        if (!apiPanel) {
+            apiPanel = document.createElement('section');
+            apiPanel.id = 'profileTabApi';
+            apiPanel.className = 'profile-tab-panel';
+            apiPanel.hidden = true;
+            apiPanel.setAttribute('role', 'tabpanel');
+            modalBody.appendChild(apiPanel);
+        }
+        if (!apiPanel.querySelector('.profile-api-settings')) {
+            apiPanel.innerHTML = `
+                <div class="profile-api-settings">
+                    <nav class="profile-api-categories" role="tablist" aria-label="${t('profile_api_categories_label')}">
+                        <button class="profile-api-category active" type="button" role="tab" aria-selected="true" aria-controls="profileApiAuditorio" data-profile-api-category="auditorio"><i class="fas fa-video" aria-hidden="true"></i><span>${t('profile_api_category_auditorio')}</span></button>
+                        <button class="profile-api-category" type="button" role="tab" aria-selected="false" aria-controls="profileApiLibrary" data-profile-api-category="library"><i class="fas fa-book" aria-hidden="true"></i><span>${t('profile_api_category_library')}</span></button>
+                    </nav>
+                    <section id="profileApiAuditorio" class="profile-api-category-panel" role="tabpanel">
+                        <h3 data-i18n="profile_api_youtube_title">${t('profile_api_youtube_title')}</h3>
+                        <p data-i18n="auditorio_api_intro">${t('auditorio_api_intro')}</p>
+                        <label for="youtubeDataApiKey" data-i18n="profile_youtube_api_key_label">${t('profile_youtube_api_key_label')}</label>
+                        <input id="youtubeDataApiKey" type="password" autocomplete="off" spellcheck="false" data-i18n-placeholder="profile_youtube_api_key_placeholder" placeholder="${t('profile_youtube_api_key_placeholder')}">
+                        <div class="profile-api-actions">
+                            <button id="saveYouTubeApiKeyBtn" class="btn-primary" type="button"><i class="fas fa-save" aria-hidden="true"></i> <span data-i18n="profile_youtube_api_key_save">${t('profile_youtube_api_key_save')}</span></button>
+                            <button id="removeYouTubeApiKeyBtn" class="btn-secondary" type="button"><i class="fas fa-trash-alt" aria-hidden="true"></i> <span data-i18n="profile_youtube_api_key_remove">${t('profile_youtube_api_key_remove')}</span></button>
+                            <button id="toggleYouTubeApiBtn" class="btn-secondary profile-api-toggle" type="button" aria-pressed="false" disabled>${t('profile_api_enable')}</button>
+                        </div>
+                        <p id="youtubeApiKeyStatus" class="profile-api-status" role="status" aria-live="polite"></p>
+                        <p data-i18n="profile_youtube_api_security_notice">${t('profile_youtube_api_security_notice')}</p>
+                        <div class="profile-api-links">
+                            <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer" data-i18n="profile_youtube_api_enable_link">${t('profile_youtube_api_enable_link')}</a>
+                            <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" data-i18n="profile_youtube_api_free_link">${t('profile_youtube_api_free_link')}</a>
+                            <a href="https://support.google.com/youtube/contact/yt_api_form" target="_blank" rel="noopener noreferrer" data-i18n="profile_youtube_api_quota_link">${t('profile_youtube_api_quota_link')}</a>
+                        </div>
+                        <p data-i18n="profile_youtube_api_quota_note">${t('profile_youtube_api_quota_note')}</p>
+                    </section>
+                    <section id="profileApiLibrary" class="profile-api-category-panel" role="tabpanel" hidden>
+                        <h3 data-i18n="profile_api_library_title">${t('profile_api_library_title')}</h3>
+                        <p data-i18n="library_api_intro">${t('library_api_intro')}</p>
+                        <h4>Google Books</h4>
+                        <p data-i18n="library_google_books_description">${t('library_google_books_description')}</p>
+                        <label for="googleBooksApiKey" data-i18n="library_api_key_label">${t('library_api_key_label')}</label>
+                        <input id="googleBooksApiKey" type="password" autocomplete="off" spellcheck="false" data-i18n-placeholder="library_api_key_placeholder" placeholder="${t('library_api_key_placeholder')}">
+                        <div class="profile-api-actions">
+                            <button id="saveGoogleBooksApiKeyBtn" class="btn-primary" type="button"><i class="fas fa-save" aria-hidden="true"></i> <span data-i18n="library_api_key_save">${t('library_api_key_save')}</span></button>
+                            <button id="removeGoogleBooksApiKeyBtn" class="btn-secondary" type="button"><i class="fas fa-trash-alt" aria-hidden="true"></i> <span data-i18n="library_api_key_remove">${t('library_api_key_remove')}</span></button>
+                            <button id="toggleGoogleBooksApiBtn" class="btn-secondary profile-api-toggle" type="button" aria-pressed="false" disabled>${t('profile_api_enable')}</button>
+                        </div>
+                        <p id="googleBooksApiKeyStatus" class="profile-api-status" role="status" aria-live="polite"></p>
+                        <div class="profile-api-links">
+                            <a href="https://developers.google.com/books/docs/v1/using#APIKey" target="_blank" rel="noopener noreferrer" data-i18n="library_api_docs_link">${t('library_api_docs_link')}</a>
+                            <a href="https://console.cloud.google.com/apis/library/books.googleapis.com" target="_blank" rel="noopener noreferrer" data-i18n="library_api_enable_link">${t('library_api_enable_link')}</a>
+                            <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" data-i18n="library_api_create_key_link">${t('library_api_create_key_link')}</a>
+                        </div>
+                        <h4 data-i18n="library_api_catalog_title">${t('library_api_catalog_title')}</h4>
+                        <p data-i18n="library_api_catalog_intro">${t('library_api_catalog_intro')}</p>
+                        <div id="libraryApiProviderCatalog" class="profile-api-provider-catalog"></div>
+                        <h4 data-i18n="library_api_keyless_title">${t('library_api_keyless_title')}</h4>
+                        <p data-i18n="library_api_keyless_sources">${t('library_api_keyless_sources')}</p>
+                        <div id="libraryApiSourceToggles" class="profile-api-source-toggles"></div>
+                        <p data-i18n="library_api_security_notice">${t('library_api_security_notice')}</p>
+                    </section>
+                </div>`;
+        }
+        const setApiCategory = category => {
+            apiPanel.querySelectorAll('[data-profile-api-category]').forEach(button => {
+                const active = button.dataset.profileApiCategory === category;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-selected', String(active));
+            });
+            apiPanel.querySelectorAll('.profile-api-category-panel').forEach(panel => {
+                panel.hidden = panel.id !== (category === 'library' ? 'profileApiLibrary' : 'profileApiAuditorio');
+            });
+        };
+        apiPanel.querySelectorAll('[data-profile-api-category]').forEach(button => {
+            if (button.dataset.bound === 'true') return;
+            button.dataset.bound = 'true';
+            button.addEventListener('click', () => setApiCategory(button.dataset.profileApiCategory));
+        });
+        setApiCategory('auditorio');
+
+        updateProfileApiControl('youtubeApiKeyStatus', 'toggleYouTubeApiBtn', YOUTUBE_API_KEY_STORAGE_KEY, 'profile_youtube_api_key_saved', 'profile_youtube_api_key_missing');
+        updateProfileApiControl('googleBooksApiKeyStatus', 'toggleGoogleBooksApiBtn', GOOGLE_BOOKS_API_KEY_STORAGE_KEY, 'library_api_key_saved', 'library_api_key_missing');
+
+        const bindApiKeyControls = (saveId, removeId, toggleId, inputId, statusId, storageKey, changedEvent, savedKey, missingKey, removedKey, emptyKey) => {
+            const saveButton = document.getElementById(saveId);
+            if (saveButton && saveButton.dataset.bound !== 'true') {
+                saveButton.dataset.bound = 'true';
+                saveButton.addEventListener('click', () => {
+                    const input = document.getElementById(inputId);
+                    const value = input?.value.trim();
+                    if (!value) {
+                        showToast(t(emptyKey), 'error');
+                        return;
+                    }
+                    try {
+                        localStorage.setItem(storageKey, value);
+                        localStorage.setItem(getApiEnabledStorageKey(storageKey), 'true');
+                        if (input) input.value = '';
+                        updateProfileApiControl(statusId, toggleId, storageKey, savedKey, missingKey);
+                        window.dispatchEvent(new CustomEvent(changedEvent));
+                        showToast(t(savedKey), 'success');
+                    } catch (_) {
+                        showToast(t('library_api_key_save_error'), 'error');
+                    }
+                });
+            }
+            const removeButton = document.getElementById(removeId);
+            if (removeButton && removeButton.dataset.bound !== 'true') {
+                removeButton.dataset.bound = 'true';
+                removeButton.addEventListener('click', () => {
+                    try {
+                        localStorage.removeItem(storageKey);
+                        localStorage.removeItem(getApiEnabledStorageKey(storageKey));
+                        updateProfileApiControl(statusId, toggleId, storageKey, savedKey, missingKey);
+                        window.dispatchEvent(new CustomEvent(changedEvent));
+                        showToast(t(removedKey), 'success');
+                    } catch (_) {
+                        showToast(t('library_api_key_save_error'), 'error');
+                    }
+                });
+            }
+            const toggleButton = document.getElementById(toggleId);
+            if (toggleButton && toggleButton.dataset.bound !== 'true') {
+                toggleButton.dataset.bound = 'true';
+                toggleButton.addEventListener('click', () => {
+                    if (!localStorage.getItem(storageKey)) return;
+                    try {
+                        localStorage.setItem(getApiEnabledStorageKey(storageKey), String(!isStoredApiEnabled(storageKey)));
+                        updateProfileApiControl(statusId, toggleId, storageKey, savedKey, missingKey);
+                        window.dispatchEvent(new CustomEvent(changedEvent));
+                    } catch (_) {
+                        showToast(t('library_api_key_save_error'), 'error');
+                    }
+                });
+            }
+        };
+        bindApiKeyControls('saveYouTubeApiKeyBtn', 'removeYouTubeApiKeyBtn', 'toggleYouTubeApiBtn', 'youtubeDataApiKey', 'youtubeApiKeyStatus', YOUTUBE_API_KEY_STORAGE_KEY, 'youtubeApiKeyChanged', 'profile_youtube_api_key_saved', 'profile_youtube_api_key_missing', 'profile_youtube_api_key_removed', 'profile_youtube_api_key_empty');
+        bindApiKeyControls('saveGoogleBooksApiKeyBtn', 'removeGoogleBooksApiKeyBtn', 'toggleGoogleBooksApiBtn', 'googleBooksApiKey', 'googleBooksApiKeyStatus', GOOGLE_BOOKS_API_KEY_STORAGE_KEY, 'googleBooksApiKeyChanged', 'library_api_key_saved', 'library_api_key_missing', 'library_api_key_removed', 'library_api_key_empty');
 
         tabs.querySelectorAll('[data-profile-tab]').forEach(button => {
             if (button.dataset.bound === 'true') return;
