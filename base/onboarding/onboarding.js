@@ -502,6 +502,23 @@
                 }
             });
         }
+        const apiSettings = importedData.data?.apiSettings;
+        if (apiSettings && typeof apiSettings === 'object' && !Array.isArray(apiSettings)) {
+            const allowedApiSettings = new Set([
+                'ulivre_youtube_data_api_key',
+                'ulivre_youtube_data_api_key_enabled',
+                'ulivre_google_books_api_key',
+                'ulivre_google_books_api_key_enabled'
+            ]);
+            Object.entries(apiSettings).forEach(([key, value]) => {
+                const isProviderKey = /^ulivre_library_provider_key_[a-z0-9-]+$/.test(key);
+                const isSourceSetting = /^ulivre_library_api_source_[a-z0-9-]+$/.test(key);
+                if (!allowedApiSettings.has(key) && !isProviderKey && !isSourceSetting) return;
+                if (typeof value === 'string') localStorage.setItem(key, value);
+            });
+            window.dispatchEvent(new Event('youtubeApiKeyChanged'));
+            window.dispatchEvent(new Event('googleBooksApiKeyChanged'));
+        }
 
         localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
 
