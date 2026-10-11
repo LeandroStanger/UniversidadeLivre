@@ -40,8 +40,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
     const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
 
-    const HATHITRUST_API_KEY = 'YOUR_HATHITRUST_API_KEY';
-    const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+    const GOOGLE_BOOKS_API_KEY_STORAGE_KEY = 'ulivre_google_books_api_key';
+    function getGoogleBooksApiKey() {
+        if (localStorage.getItem(`${GOOGLE_BOOKS_API_KEY_STORAGE_KEY}_enabled`) === 'false') return '';
+        return localStorage.getItem(GOOGLE_BOOKS_API_KEY_STORAGE_KEY)?.trim() || '';
+    }
 
     // ========== FUNÇÃO DE TRADUÇÃO ==========
     function t(key, replacements = {}) {
@@ -334,7 +337,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             let query = `intitle:${encodeURIComponent(book.title)}`;
             if (book.rawAuthor) query += `+inauthor:${encodeURIComponent(book.rawAuthor)}`;
             let url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
             const response = await fetch(url);
             if (!response.ok) return book;
             const data = await response.json();
@@ -424,7 +428,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${MAX_EXTERNAL_RESULTS}&printType=books&filter=free-ebooks`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();

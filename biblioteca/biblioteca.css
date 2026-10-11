@@ -293,12 +293,14 @@ a:hover {
 .main-tabs {
     display: flex;
     gap: 0.5rem;
+    overflow-x: auto;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
 }
 
 .main-tab-btn {
+    flex: 0 0 auto;
     background: transparent;
     border: none;
     color: var(--text-secondary);
@@ -311,6 +313,7 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    white-space: nowrap;
     position: relative;
 }
 

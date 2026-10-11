@@ -94,12 +94,14 @@ function stopWatchTimer() {
 }
 
 // ========== CONFIGURAÇÕES DE APIs ==========
-const YOUTUBE_CONFIG = {
-    apiKey: 'YOUR_YOUTUBE_API_KEY'
-};
-const hasYouTubeApiKey = typeof YOUTUBE_CONFIG.apiKey === 'string'
-    && YOUTUBE_CONFIG.apiKey.trim() !== ''
-    && YOUTUBE_CONFIG.apiKey !== 'YOUR_YOUTUBE_API_KEY';
+const YOUTUBE_API_KEY_STORAGE_KEY = 'ulivre_youtube_data_api_key';
+function getYouTubeApiKey() {
+    if (localStorage.getItem(`${YOUTUBE_API_KEY_STORAGE_KEY}_enabled`) === 'false') return '';
+    return localStorage.getItem(YOUTUBE_API_KEY_STORAGE_KEY)?.trim() || '';
+}
+function hasYouTubeApiKey() {
+    return Boolean(getYouTubeApiKey());
+}
 
 const cache = new Map();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
@@ -391,8 +393,8 @@ function detectSubjectLocal(title, description) {
 
 // ========== YOUTUBE API ==========
 async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
-    const { apiKey } = YOUTUBE_CONFIG;
-    if (!hasYouTubeApiKey) return [];
+    const apiKey = getYouTubeApiKey();
+    if (!apiKey) return [];
     
     let searchTerm = query;
     if (podcastMode) searchTerm = `${query} podcast`;
@@ -485,7 +487,7 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
 
 async function searchYouTube(query, maxResults = 30, options = {}) {
     if (apiQuotaExceeded) return [];
-    if (!hasYouTubeApiKey) return [];
+    if (!hasYouTubeApiKey()) return [];
     const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
     
     if (channelIds.length === 0) {
@@ -518,8 +520,8 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
 }
 
 async function fetchVideoDetails(videoIds) {
-    if (!videoIds.length || apiQuotaExceeded || !hasYouTubeApiKey) return {};
-    const { apiKey } = YOUTUBE_CONFIG;
+    if (!videoIds.length || apiQuotaExceeded || !hasYouTubeApiKey()) return {};
+    const apiKey = getYouTubeApiKey();
     const cacheKey = `details_${videoIds.sort().join(',')}`;
     return getCachedOrFetch(cacheKey, async () => {
         try {
@@ -1600,6 +1602,16 @@ async function loadChannelFilters() {
 
 // ========== INICIALIZAÇÃO ==========
 document.addEventListener('DOMContentLoaded', async () => {
+    const refreshYouTubeApiContent = () => {
+        cache.clear();
+        apiQuotaExceeded = false;
+        refreshAllItems(currentSearchTerm);
+    };
+    window.addEventListener('youtubeApiKeyChanged', refreshYouTubeApiContent);
+    window.addEventListener('storage', event => {
+        if (event.key === YOUTUBE_API_KEY_STORAGE_KEY || event.key === `${YOUTUBE_API_KEY_STORAGE_KEY}_enabled`) refreshYouTubeApiContent();
+    });
+
     loadWatchTime();
     console.log('[Auditório] Horas assistidas carregadas:', totalWatchTime);
 

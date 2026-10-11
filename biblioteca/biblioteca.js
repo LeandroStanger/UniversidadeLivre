@@ -100,10 +100,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
     const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
 
-    const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
-    const hasGoogleBooksApiKey = typeof GOOGLE_BOOKS_API_KEY === 'string'
-        && GOOGLE_BOOKS_API_KEY.trim() !== ''
-        && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY';
+    const GOOGLE_BOOKS_API_KEY_STORAGE_KEY = 'ulivre_google_books_api_key';
+    const LIBRARY_API_SOURCE_STORAGE_PREFIX = 'ulivre_library_api_source_';
+    const LIBRARY_API_SOURCES = [
+        ['gutenberg', 'library_source_gutenberg_name', 'library_source_gutenberg_description', searchGutenberg],
+        ['internet-archive', 'library_source_internet_archive_name', 'library_source_internet_archive_description', searchInternetArchive],
+        ['open-library', 'library_source_open_library_name', 'library_source_open_library_description', searchOpenLibrary],
+        ['standard-ebooks', 'library_source_standard_ebooks_name', 'library_source_standard_ebooks_description', searchStandardEbooks],
+        ['doab', 'library_source_doab_name', 'library_source_doab_description', searchDOAB],
+        ['arxiv', 'library_source_arxiv_name', 'library_source_arxiv_description', searchArxiv],
+        ['semantic-scholar', 'library_source_semantic_scholar_name', 'library_source_semantic_scholar_description', searchSemanticScholar],
+        ['openalex', 'library_source_openalex_name', 'library_source_openalex_description', searchOpenAlex],
+        ['crossref', 'library_source_crossref_name', 'library_source_crossref_description', searchCrossref]
+    ];
+    function isLibraryApiSourceEnabled(sourceId) {
+        return localStorage.getItem(`${LIBRARY_API_SOURCE_STORAGE_PREFIX}${sourceId}`) !== 'false';
+    }
+    function getGoogleBooksApiKey() {
+        if (localStorage.getItem(`${GOOGLE_BOOKS_API_KEY_STORAGE_KEY}_enabled`) === 'false') return '';
+        return localStorage.getItem(GOOGLE_BOOKS_API_KEY_STORAGE_KEY)?.trim() || '';
+    }
+    function hasGoogleBooksApiKey() {
+        return Boolean(getGoogleBooksApiKey());
+    }
     const PROGRESS_STORAGE_PREFIX = 'audiobook_progress_';
 const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
@@ -833,7 +852,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
     function enrichWithGoogleBooks(book) {
         return new Promise((resolve, reject) => {
-            if (googleBooksDisabled || !hasGoogleBooksApiKey) return resolve(book);
+            if (googleBooksDisabled || !hasGoogleBooksApiKey()) return resolve(book);
             googleBooksQueue.push({ book, resolve, reject, attempt: 0 });
             processGoogleBooksQueue();
         });
@@ -852,7 +871,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             let query = `intitle:${encodeURIComponent(book.title)}`;
             if (book.rawAuthor) query += `+inauthor:${encodeURIComponent(book.rawAuthor)}`;
             let url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
             const response = await fetch(url, { signal: controller.signal });
             clearTimeout(timeoutId);
             if (response.status === 429) {
@@ -1024,7 +1044,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const isYouTubeCover = typeof book.cover === 'string' && book.cover.includes('ytimg.com');
         let enriched = isYouTubeCover ? { ...book, cover: '' } : book;
         enriched.cover = sanitizeCoverUrl(enriched.cover);
-        if (!googleBooksDisabled && hasGoogleBooksApiKey) {
+        if (!googleBooksDisabled && hasGoogleBooksApiKey()) {
             try {
                 enriched = await enrichWithGoogleBooks(enriched);
             } catch (e) {
@@ -1044,14 +1064,15 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
     // ========== APIS EXTERNAS ==========
     async function searchGoogleBooks(query) {
-        if (!hasGoogleBooksApiKey || !query || query.length < MIN_SEARCH_LENGTH) return [];
+        if (!hasGoogleBooksApiKey() || !query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `google_books_free_${normalizeText(query)}`;
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
             let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${Math.min(MAX_EXTERNAL_RESULTS, 40)}&printType=books&filter=free-ebooks`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
             const response = await fetch(url, { signal: controller.signal });
             clearTimeout(timeoutId);
             if (response.status === 429) return [];
@@ -1369,18 +1390,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     async function searchInfoBooks(query) { return []; }
 
     async function searchExternalBooks(query) {
-        const promises = [
-            searchGutenberg(query),
-            searchInternetArchive(query),
-            searchOpenLibrary(query),
-            searchGoogleBooks(query),
-            searchStandardEbooks(query),
-            searchDOAB(query),
-            searchArxiv(query),
-            searchSemanticScholar(query),
-            searchOpenAlex(query),
-            searchCrossref(query)
-        ];
+        const promises = LIBRARY_API_SOURCES
+            .filter(([sourceId]) => isLibraryApiSourceEnabled(sourceId))
+            .map(([, , , search]) => search(query));
+        if (hasGoogleBooksApiKey()) promises.push(searchGoogleBooks(query));
         const results = await Promise.allSettled(promises);
         const all = [];
         for (const res of results) {
@@ -3627,10 +3640,29 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
         setupMainTabs();
         setupTabs();
+        const refreshGoogleBooksContent = () => {
+            apiCache.clear();
+            metadataCache.clear();
+            searchCache.clear();
+            googleBooksDisabled = false;
+            googleBooksFailedAttempts = 0;
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
+        };
+        const refreshLibraryApiContent = () => {
+            searchCache.clear();
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+        };
+        window.addEventListener('googleBooksApiKeyChanged', refreshGoogleBooksContent);
+        window.addEventListener('libraryApiSourceChanged', refreshLibraryApiContent);
+        window.addEventListener('storage', event => {
+            if (event.key === GOOGLE_BOOKS_API_KEY_STORAGE_KEY || event.key === `${GOOGLE_BOOKS_API_KEY_STORAGE_KEY}_enabled`) refreshGoogleBooksContent();
+            if (event.key?.startsWith(LIBRARY_API_SOURCE_STORAGE_PREFIX)) refreshLibraryApiContent();
+        });
         const requestedParams = new URLSearchParams(window.location.search);
         const requestedTab = requestedParams.get('aba');
         if (requestedTab === 'audiobooks') {
-            activeMainTab = 'audiobooks';
+            activeMainTab = requestedTab;
             document.querySelectorAll('.main-tab-btn').forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.mainTab === activeMainTab);
             });
