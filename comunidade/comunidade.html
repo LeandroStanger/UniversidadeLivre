@@ -1940,6 +1940,7 @@
                             <div id="pes6AgeForm" class="pes6-age-form">
                                 <label for="pes6AgeBirthDate" data-i18n="profile_birth_date">Data de nascimento</label>
                                 <input type="date" id="pes6AgeBirthDate" autocomplete="bday" required aria-required="true">
+                                <div id="pes6AgeCaptcha" class="xsukax-captcha" style="margin-top: 0.75rem;" hidden></div>
                                 <p id="pes6AgeError" class="pes6-age-error" role="alert" hidden></p>
                             </div>
                             <div class="pes6-age-actions">
@@ -2033,7 +2034,7 @@
                                         <span class="game-third-party-tag" data-i18n="game_country_life_third_party">Jogo de terceiros · itch.io</span>
                                     </button>
                                     <button class="game-card" data-game="buteco-fighting" type="button">
-                                        <span class="game-icon game-logo-icon" aria-hidden="true"><img src="https://fighting.butecodosdevs.com/assets/title/buteco-fighting-logo.png" alt=""></span>
+                                        <span class="game-icon game-logo-icon" aria-hidden="true"><img src="jogo/buteco-fighting/logo.png" alt=""></span>
                                         <span class="game-title" data-i18n="game_buteco_fighting_title">Buteco Fighting</span>
                                         <span class="game-subtitle" data-i18n="game_buteco_fighting_subtitle">Jogo de luta online do Buteco dos Devs.</span>
                                         <span class="game-third-party-tag" data-i18n="game_third_party">Jogo de terceiros · Buteco dos Devs</span>
@@ -2313,7 +2314,10 @@
                     <div class="profile-user-section">
                         <label for="profilePassword"><i class="fas fa-lock"></i> Senha (para exportar/importar)</label>
                         <div class="profile-input-group">
-                            <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." />
+                            <div class="profile-password-input-wrap">
+                                <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." />
+                                <button type="button" class="password-visibility-toggle" data-password-visibility="profilePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            </div>
                             <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
                         </div>
                         <div class="password-saved-indicator" style="display: none;"></div>
@@ -2402,7 +2406,7 @@
 
     <!-- SCRIPTS -->
     <script src="../base/analytics.js"></script>
-    <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
     <script src="../base/menu/auditorio-menu.js"></script>
     <script src="../base/menu/biblioteca-menu.js"></script>
     <script src="../base/menu/mobile-menu.js"></script>
@@ -2410,6 +2414,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
     <script src="../base/lang/i18n.js"></script>          <!-- 1º: i18n central -->
+    <script src="../base/reCaptcha/xsukax-captcha.js"></script>
     <script src="../cursos/latex-renderer.js"></script>    <!-- Compilador LaTeX no navegador -->
     <script src="../base/perfil/profile.js"></script>    <!-- 2º: perfil -->
     <script src="../base/onboarding/onboarding.js"></script> <!-- 3º: onboarding -->

@@ -1421,6 +1421,8 @@
         birthDateInput.value = '';
         error.hidden = true;
         error.textContent = '';
+        const captchaContainer = document.getElementById('pes6AgeCaptcha');
+        if (captchaContainer) captchaContainer.hidden = true;
 
         const language = window.getCurrentLanguage?.() || localStorage.getItem('selectedLanguage') || 'pt-br';
         const country = localStorage.getItem('userCountry') || (language === 'en' ? 'US' : language === 'es' ? 'ES' : 'BR');
@@ -1448,7 +1450,7 @@
         }
     }
 
-    function savePES6AgeAndContinue() {
+    async function savePES6AgeAndContinue() {
         const birthDateInput = document.getElementById('pes6AgeBirthDate');
         const error = document.getElementById('pes6AgeError');
         if (!birthDateInput || !error) return;
@@ -1457,6 +1459,21 @@
             error.textContent = t('profile_birth_date_invalid');
             error.hidden = false;
             birthDateInput.focus();
+            return;
+        }
+
+        try {
+            const captchaContainer = document.getElementById('pes6AgeCaptcha');
+            if (captchaContainer) captchaContainer.hidden = false;
+            await window.UniversidadeLivreCaptcha.render('pes6AgeCaptcha');
+            await window.UniversidadeLivreCaptcha.verify('pes6AgeCaptcha');
+        } catch (verificationError) {
+            console.error('[PES6] Falha na verificação xsukax CAPTCHA da idade:', verificationError);
+            const key = verificationError?.message === 'captcha_challenge_required'
+                ? 'captcha_challenge_required'
+                : 'captcha_verification_failed';
+            error.textContent = t(key);
+            error.hidden = false;
             return;
         }
 
@@ -2003,6 +2020,19 @@
         document.getElementById('pes6AgeBirthDate')?.addEventListener('input', () => {
             const error = document.getElementById('pes6AgeError');
             if (error) error.hidden = true;
+            const birthDateInput = document.getElementById('pes6AgeBirthDate');
+            const captchaContainer = document.getElementById('pes6AgeCaptcha');
+            if (!birthDateInput || !captchaContainer) return;
+            captchaContainer.hidden = getPES6Age(birthDateInput.value) === null;
+            if (!captchaContainer.hidden) {
+                window.UniversidadeLivreCaptcha?.render('pes6AgeCaptcha').catch(renderError => {
+                    console.error('[PES6] Não foi possível carregar xsukax CAPTCHA:', renderError);
+                    if (error) {
+                        error.textContent = t('captcha_verification_failed');
+                        error.hidden = false;
+                    }
+                });
+            }
         });
         document.getElementById('pes6AgeGate')?.addEventListener('keydown', event => {
             if (event.key !== 'Escape') return;

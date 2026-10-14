@@ -2,7 +2,7 @@
 
 <div align="center">   
    
-[![GitHub Pages](https://img.shields.io/badge/Universidade_Livre-02c993?style=for-the-badge&Color=30a539&logo=googlescholar&logoColor=02c993&labelColor=000000)](https://leandrostanger.github.io/UniversidadeLivre/)
+[![GitHub Pages](https://img.shields.io/badge/Universidade_Livre-30a539?style=for-the-badge&Color=30a539&logo=googlescholar&logoColor=30a539&labelColor=000000)](https://leandrostanger.github.io/UniversidadeLivre/)
 [![GitHub](https://img.shields.io/badge/Repositório_GitHub-181717?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/LeandroStanger/UniversidadeLivre)
 </div>
 
@@ -95,6 +95,33 @@ Caso deseje baixar o código-fonte e executar em seu próprio ambiente, siga os 
 - O projeto não requer banco de dados nem back-end – é 100% estático.
 - O formulário de contato, como implementado apenas com HTML/CSS/JS, **não envia e-mails reais** em ambiente local. Para funcionar em produção, é necessário integrar com um serviço como Formspree, EmailJS ou criar um back-end simples.
 - Recomenda-se testar a responsividade usando as ferramentas de desenvolvedor do navegador (F12) com diferentes tamanhos de tela.
+
+### xsukax JS CAPTCHA
+
+O CAPTCHA visual da [xsukax JS CAPTCHA](https://github.com/xsukax/xsukax-JS-CAPTCHA) é carregado sob demanda pelo [adaptador local](./base/reCaptcha/xsukax-captcha.js) nos fluxos de cadastro, importação do arquivo de progresso usada para login e confirmação de idade do PES 6. A integração usa a API pública `window.xsukaxCAPTCHA.isVerified()` e `getInstance()`; o script remoto está fixado em um commit do projeto.
+
+A interface do CAPTCHA é localizada para português brasileiro, inglês e espanhol conforme o idioma selecionado no site.
+
+A biblioteca é licenciada sob GPL-3.0 e executa a verificação inteiramente no navegador. Ela não oferece validação de resposta em servidor; portanto, essa proteção é apenas uma barreira básica de interface e pode ser contornada por alguém que controle o navegador. Para proteção efetiva de operações importantes, é necessário validar as requisições e aplicar rate limiting em um back-end.
+
+## Analytics com GoatCounter
+
+As páginas carregam a versão estável `count.v5.js` do GoatCounter com Subresource Integrity (SRI). A versão fixa evita atualizações inesperadas do script; para atualizar, confira a versão e o hash SRI publicados na [documentação oficial](https://www.goatcounter.com/code/countjs-versions) e altere os carregadores nas páginas HTML.
+
+A integração central está em `base/analytics.js`. Ela oferece rastreamento de páginas e eventos, além de métodos específicos para cursos, disciplinas, aulas, mídia, navegação e busca:
+
+```js
+UniversidadeLivreAnalytics.pageview('/pagina-exemplo', 'Página de exemplo');
+UniversidadeLivreAnalytics.event('curso', 'material-baixado', { course: 'matematica' });
+UniversidadeLivreAnalytics.event(
+    'curso',
+    'clique-repetido',
+    { course: 'matematica' },
+    { noSession: true, referrer: 'menu do curso' }
+);
+```
+
+O `noSession: true` registra cada ocorrência do evento em vez de deduplicar por sessão. Para elementos inseridos dinamicamente com o atributo GoatCounter `data-goatcounter-click`, chame `UniversidadeLivreAnalytics.bindEvents()` após inseri-los no DOM. Os carregadores desativam o rastreamento automático de página para manter o controle centralizado e permitem contagens em ambiente local para testar a integração.
 
 ## Autor
 

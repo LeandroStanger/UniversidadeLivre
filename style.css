@@ -1532,12 +1532,17 @@ a:hover {
 }
 
 .course-duration {
+    min-height: 1.5rem;
     padding: 0.25rem 1rem;
     font-size: 0.75rem;
     color: var(--text-tertiary);
     display: flex;
     align-items: center;
     gap: 0.3rem;
+}
+
+.course-card-footer {
+    margin-top: auto;
 }
 
 .course-duration i {

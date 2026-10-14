@@ -264,7 +264,10 @@
             <!-- Senha -->
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
-                <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;" data-i18n-placeholder="profile_password_placeholder">
+                <div class="profile-password-input-wrap">
+                    <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 2.8rem 0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;" data-i18n-placeholder="profile_password_placeholder">
+                    <button type="button" class="password-visibility-toggle" data-password-visibility="profilePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                </div>
                 <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
             </div>
@@ -355,6 +358,7 @@
                         <input type="password" id="onboardingLoginPassword" placeholder="Digite sua senha..." data-i18n-placeholder="onboarding_login_password_placeholder">
                         <div id="onboardingLoginError" class="form-error" style="display:none;" data-i18n="onboarding_error_login_failed">Senha incorreta.</div>
                     </div>
+                    <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
                         <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
@@ -385,8 +389,8 @@
                         <label for="onboardingPassword" data-i18n="onboarding_form_password_label">Senha</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="Crie uma senha forte..." data-i18n-placeholder="onboarding_form_password_placeholder" style="padding-right:40px;">
-                            <button type="button" id="onboardingTogglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye"></i>
+                            <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
@@ -394,7 +398,10 @@
                     </div>
                     <div class="form-group">
                         <label for="onboardingConfirmPassword" data-i18n="onboarding_form_confirm_password_label">Confirmar senha</label>
-                        <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder">
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                        </div>
                         <div id="onboardingConfirmError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_mismatch">As senhas não coincidem.</div>
                     </div>
                     <div class="form-group">
@@ -437,7 +444,7 @@
 
 <!-- ========== SCRIPTS ========== -->
 <script src="../base/analytics.js"></script>
-<script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 <script src="https://www.youtube.com/iframe_api" async></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
 <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
@@ -447,6 +454,7 @@
 <script src="../base/menu/mobile-menu.js"></script>
 <script src="auditorio.js"></script>
 <script src="../base/perfil/profile.js"></script>
+<script src="../base/reCaptcha/xsukax-captcha.js"></script>
 <script src="../base/onboarding/onboarding.js"></script>
 <script src="../base/audio-player/audio-player.js" defer></script>
 <script src="../base/loading/loading-screen.js" defer></script>

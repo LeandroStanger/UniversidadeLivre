@@ -639,7 +639,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         const imageUrl = getCourseImagePath(course.id);
 
         const totalMinutes = await computeCourseTotalMinutes(course.id);
-        const durationText = totalMinutes > 0 ? `<div class="course-duration"><i class="fas fa-clock"></i> ${t('course_hours_estimated')}: ${formatDuration(totalMinutes)}</div>` : '';
+        const durationText = `<div class="course-duration"${totalMinutes > 0 ? '' : ' aria-hidden="true"'}>${totalMinutes > 0 ? `<i class="fas fa-clock"></i> ${t('course_hours_estimated')}: ${formatDuration(totalMinutes)}` : ''}</div>`;
 
         let progressPercent = 0;
         const key = `ulivre_course_${course.id}`;
@@ -681,12 +681,14 @@ console.log('[Main] Inicializando script.js v28.0...');
             <div class="course-badges">${levelBadge}${typeBadge}</div>
             ${roomHtml}
             <p class="course-description" style="overflow: visible; -webkit-line-clamp: unset;">${escapeHtml(course.description)}</p>
-            ${durationText}
-            <div class="course-progress-bar">
-                <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+            <div class="course-card-footer">
+                ${durationText}
+                <div class="course-progress-bar">
+                    <div class="course-progress-fill" style="width: ${progressPercent}%;"></div>
+                </div>
+                <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
+                <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>
             </div>
-            <p>${t('course_progress')} <span class="course-progress-percent">${progressPercent}%</span></p>
-            <button class="continue-btn" data-course="${course.id}" data-i18n="${buttonKey}">${t(buttonKey)}</button>
         `;
 
         card.addEventListener('click', (e) => {
