@@ -354,13 +354,31 @@
             nextBtn.style.display = 'none';
             finishBtn.style.display = 'none';
             updateImportButtonState();
+            renderOnboardingCaptcha('onboardingLoginCaptcha');
         } else {
             signupDiv.style.display = 'block';
             loginDiv.style.display = 'none';
             title.textContent = t('onboarding_form_title');
-            renderStep(currentStep);
+            renderOnboardingCaptcha('onboardingSignupCaptcha');
         }
         applyTranslations();
+    }
+
+    function captchaErrorKey(error) {
+        if (error?.message === 'captcha_challenge_required') return 'captcha_challenge_required';
+        return 'captcha_verification_failed';
+    }
+
+    function renderOnboardingCaptcha(containerId) {
+        if (!window.UniversidadeLivreCaptcha) {
+            console.error('[Onboarding] Módulo xsukax CAPTCHA não carregado.');
+            showToast(t('captcha_verification_failed'), 'error');
+            return;
+        }
+        window.UniversidadeLivreCaptcha.render(containerId).catch(error => {
+            console.error('[Onboarding] Não foi possível carregar xsukax CAPTCHA:', error);
+            showToast(t(captchaErrorKey(error)), 'error');
+        });
     }
 
     // ========== IMPORTAÇÃO (LOGIN VIA ARQUIVO) ==========
@@ -407,7 +425,7 @@
 
                     try {
                         const decrypted = await decryptData(importedData.data, password);
-                        applyImportedData(decrypted);
+                        await applyImportedData(decrypted);
                     } catch (err) {
                         console.error('[Onboarding] Erro na descriptografia:', err);
                         showToast(t('onboarding_error_login_failed'), 'error');
@@ -421,7 +439,7 @@
                     try {
                         const match = await verifyPassword(password, storedPassword);
                         if (match) {
-                            applyImportedData(importedData);
+                            await applyImportedData(importedData);
                         } else {
                             showToast(t('onboarding_error_login_failed'), 'error');
                         }
@@ -430,7 +448,7 @@
                     }
                 } else {
                     // Arquivo sem senha: importa diretamente
-                    applyImportedData(importedData);
+                    await applyImportedData(importedData);
                 }
             } catch (err) {
                 console.error('[Onboarding] Erro na importação:', err);
@@ -442,9 +460,18 @@
     }
 
     // ========== APLICAR DADOS IMPORTADOS ==========
-    function applyImportedData(importedData) {
+    async function applyImportedData(importedData) {
         if (!importedData.user) {
             showToast('Arquivo inválido: usuário não encontrado.', 'error');
+            return;
+        }
+
+        try {
+            await window.UniversidadeLivreCaptcha.render('onboardingLoginCaptcha');
+            await window.UniversidadeLivreCaptcha.verify('onboardingLoginCaptcha');
+        } catch (error) {
+            console.error('[Onboarding] Falha na verificação xsukax CAPTCHA do login:', error);
+            showToast(t(captchaErrorKey(error)), 'error');
             return;
         }
 
@@ -709,9 +736,15 @@
                 <div id="onboardingLoginMode">
                     <div class="form-group">
                         <label for="onboardingLoginPassword">${t('onboarding_login_password_label')}</label>
-                        <input type="password" id="onboardingLoginPassword" placeholder="${t('onboarding_login_password_placeholder')}">
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingLoginPassword" placeholder="${t('onboarding_login_password_placeholder')}" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleLoginPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
                         <div id="onboardingLoginError" class="form-error" style="display:none;">${t('onboarding_error_login_failed')}</div>
                     </div>
+                    <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
                         <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" disabled>
                             <i class="fas fa-file-import"></i> ${t('profile_import_progress')}
@@ -763,8 +796,8 @@
                         <label for="onboardingPassword">${t('onboarding_form_password_label')}</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="${t('onboarding_form_password_placeholder')}" value="${formData.password}" style="padding-right:40px;">
-                            <button type="button" id="onboardingTogglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye"></i>
+                            <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
@@ -772,7 +805,12 @@
                     </div>
                     <div class="form-group">
                         <label for="onboardingConfirmPassword">${t('onboarding_form_confirm_password_label')}</label>
-                        <input type="password" id="onboardingConfirmPassword" placeholder="${t('onboarding_form_confirm_password_placeholder')}">
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingConfirmPassword" placeholder="${t('onboarding_form_confirm_password_placeholder')}" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
                         <div id="onboardingConfirmError" class="form-error" style="display:none;">${t('onboarding_error_password_mismatch')}</div>
                     </div>
                     <div class="form-group">
@@ -791,6 +829,7 @@
                         </div>
                         <input type="file" id="onboardingAvatarInput" accept="image/*" style="display:none;">
                     </div>
+                    <div id="onboardingSignupCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="margin-top: 0.5rem; text-align: center;">
                         <button type="button" id="onboardingToggleModeBackBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
                             ${t('onboarding_switch_to_login')}
@@ -998,16 +1037,30 @@
     }
 
     function initPasswordToggle() {
-        const toggleBtn = document.getElementById('onboardingTogglePassword');
-        const passwordInput = document.getElementById('onboardingPassword');
-        if (!toggleBtn || !passwordInput) return;
+        [
+            ['onboardingLoginPassword', 'onboardingToggleLoginPassword'],
+            ['onboardingPassword', 'onboardingTogglePassword'],
+            ['onboardingConfirmPassword', 'onboardingToggleConfirmPassword']
+        ].forEach(([inputId, buttonId]) => {
+            const passwordInput = document.getElementById(inputId);
+            const toggleBtn = document.getElementById(buttonId);
+            if (!toggleBtn || !passwordInput) return;
 
-        toggleBtn.addEventListener('click', function() {
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            toggleBtn.addEventListener('click', function() {
+                const isVisible = passwordInput.type === 'password';
+                const labelKey = isVisible ? 'password_visibility_hide' : 'password_visibility_show';
+                passwordInput.type = isVisible ? 'text' : 'password';
+                this.innerHTML = isVisible ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>' : '<i class="fas fa-eye" aria-hidden="true"></i>';
+                this.dataset.i18nAria = labelKey;
+                this.dataset.i18nTitle = labelKey;
+                this.setAttribute('aria-label', t(labelKey));
+                this.title = t(labelKey);
+                passwordInput.focus();
+            });
         });
 
+        const passwordInput = document.getElementById('onboardingPassword');
+        if (!passwordInput) return;
         passwordInput.addEventListener('input', function() {
             updatePasswordStrength(this.value);
             const errorDiv = document.getElementById('onboardingPasswordError');
@@ -1407,6 +1460,17 @@
     // ========== FINALIZAR ONBOARDING (cadastro) ==========
     async function finishOnboarding() {
         try {
+            if (formData.name) {
+                try {
+                    await window.UniversidadeLivreCaptcha.render('onboardingSignupCaptcha');
+                    await window.UniversidadeLivreCaptcha.verify('onboardingSignupCaptcha');
+                } catch (error) {
+                    console.error('[Onboarding] Falha na verificação xsukax CAPTCHA do cadastro:', error);
+                    showToast(t(captchaErrorKey(error)), 'error');
+                    return;
+                }
+            }
+
             if (formData.name) {
                 if (window.saveProfileName) window.saveProfileName(formData.name);
                 else localStorage.setItem('userProfileName', formData.name);

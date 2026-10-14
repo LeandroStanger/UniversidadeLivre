@@ -12,6 +12,7 @@
     let retryDelay = 1000;
     let lastSentAt = 0;
     let initialPageviewSent = false;
+    let goatCounterEventsBound = false;
 
     function slug(value) {
         return String(value || 'item')
@@ -113,6 +114,8 @@
             return;
         }
 
+        if (!goatCounterEventsBound) bindEvents();
+
         const elapsed = Date.now() - lastSentAt;
         if (elapsed < MIN_SEND_INTERVAL) {
             scheduleFlush(MIN_SEND_INTERVAL - elapsed);
@@ -136,32 +139,45 @@
         }
     }
 
-    function count(path, title, event = true) {
+    function count(path, title, event = true, options = {}) {
         const language = getLanguage();
-        const payloadPath = `/universidade-livre${languagePath(path)}`;
+        const fullPath = `/universidade-livre${languagePath(path)}`;
+        const payloadPath = event ? fullPath.replace(/^\/+/, '') : fullPath;
         const payloadTitle = `${title || document.title} · ${language.label}`;
-        const duplicate = pending.some(item => item.payload.path === payloadPath && item.payload.title === payloadTitle && item.payload.event === event);
+        const duplicate = pending.some(item => item.payload.path === payloadPath
+            && item.payload.title === payloadTitle
+            && item.payload.event === event
+            && item.payload.no_session === Boolean(options.noSession)
+            && item.payload.referrer === (options.referrer || document.referrer || SITE_URL));
         if (duplicate) return;
         if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: payloadPath, event });
-        else pending.push({
-            payload: {
+        else {
+            const payload = {
                 path: payloadPath,
                 title: payloadTitle,
                 event,
-                referrer: document.referrer || SITE_URL
-            },
-            attempts: 0
-        });
+                referrer: options.referrer || document.referrer || SITE_URL
+            };
+            if (options.noSession !== undefined) payload.no_session = Boolean(options.noSession);
+            pending.push({ payload, attempts: 0 });
+        }
         flush();
     }
 
-    function pageview(path, title) {
-        count(path, title, false);
+    function pageview(path, title, options) {
+        count(path, title, false, options);
     }
 
     function trackCurrentPage() {
         const pagePath = location.pathname.replace(/^\/+/, '') || 'inicio';
         pageview(`/pagina/${slug(pagePath)}`, document.title);
+    }
+
+    function bindEvents() {
+        if (!window.goatcounter || typeof window.goatcounter.bind_events !== 'function') return false;
+        window.goatcounter.bind_events();
+        goatCounterEventsBound = true;
+        return true;
     }
 
     function sendInitialPageview() {
@@ -176,6 +192,7 @@
         count,
         pageview,
         view: pageview,
+        bindEvents,
         sharedCourse(courseId, courseName) {
             const normalizedCourseId = normalizeCourseId(courseId);
             pageview(
@@ -196,23 +213,27 @@
         media(area, mediaId, title) {
             pageview(`/${slug(area)}/conteudo/${slug(mediaId)}`, title);
         },
-        action(area, actionName, context) {
+        action(area, actionName, context, options) {
             const suffix = context ? `/${slug(context)}` : '';
-            count(`/${slug(area)}/${slug(actionName)}${suffix}`, `${actionName}${context ? ` · ${context}` : ''}`);
+            count(`/${slug(area)}/${slug(actionName)}${suffix}`, `${actionName}${context ? ` · ${context}` : ''}`, true, options);
         },
-        navigation(area, actionName, context = {}) {
-            this.event(area, actionName, context);
+        navigation(area, actionName, context = {}, options) {
+            trackEvent(area, actionName, context, options);
         },
-        event(area, actionName, context = {}) {
-            const suffix = contextPath(context);
-            count(`/evento/${slug(area)}/${slug(actionName)}/${suffix}`, `${actionName} · ${area}`);
+        event(area, actionName, context = {}, options) {
+            trackEvent(area, actionName, context, options);
         },
-        search(area, term, context = {}) {
+        search(area, term, context = {}, options) {
             const normalizedTerm = String(term || '').trim().slice(0, 80);
             if (normalizedTerm.length < 2) return;
-            this.event(area, 'busca', { ...context, term: slug(normalizedTerm) });
+            trackEvent(area, 'busca', { ...context, term: slug(normalizedTerm) }, options);
         }
     };
+
+    function trackEvent(area, actionName, context = {}, options) {
+        const suffix = contextPath(context);
+        count(`/evento/${slug(area)}/${slug(actionName)}/${suffix}`, `${actionName} · ${area}`, true, options);
+    }
 
     window.goatcounter = window.goatcounter || {};
     window.goatcounter.path = function () {
