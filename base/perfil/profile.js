@@ -2488,12 +2488,12 @@
                     background:var(--bg-tertiary);border:1px solid var(--border);
                     border-radius:12px;color:var(--text-primary);font-size:1rem;margin-bottom:1rem;
                 ">
-                <button id="togglePasswordVisibility" style="
+                <button type="button" id="togglePasswordVisibility" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="
                     position:absolute;right:12px;top:50%;transform:translateY(-50%);
                     background:none;border:none;color:var(--text-secondary);
                     cursor:pointer;font-size:1.1rem;padding:4px;
                 ">
-                    <i class="fas fa-eye"></i>
+                    <i class="fas fa-eye" aria-hidden="true"></i>
                 </button>
             </div>
             <div id="passwordModalError" style="color:#ef4444;font-size:0.85rem;margin-bottom:0.5rem;display:none;"></div>
@@ -2518,8 +2518,14 @@
 
         toggleBtn.addEventListener('click', () => {
             const type = input.type === 'password' ? 'text' : 'password';
+            const labelKey = type === 'password' ? 'password_visibility_show' : 'password_visibility_hide';
             input.type = type;
-            toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye" aria-hidden="true"></i>' : '<i class="fas fa-eye-slash" aria-hidden="true"></i>';
+            toggleBtn.dataset.i18nAria = labelKey;
+            toggleBtn.dataset.i18nTitle = labelKey;
+            toggleBtn.setAttribute('aria-label', t(labelKey));
+            toggleBtn.title = t(labelKey);
+            input.focus();
         });
 
         confirmBtn.addEventListener('click', async () => {
@@ -4466,6 +4472,25 @@
 
         ensureProfileDemographicFields();
 
+        document.querySelectorAll('[data-password-visibility]').forEach(toggleBtn => {
+            const passwordInput = document.getElementById(toggleBtn.dataset.passwordVisibility);
+            if (!passwordInput || toggleBtn.dataset.passwordVisibilityBound === 'true') return;
+            toggleBtn.dataset.passwordVisibilityBound = 'true';
+            toggleBtn.addEventListener('click', () => {
+                const isVisible = passwordInput.type === 'password';
+                const labelKey = isVisible ? 'password_visibility_hide' : 'password_visibility_show';
+                passwordInput.type = isVisible ? 'text' : 'password';
+                toggleBtn.innerHTML = isVisible
+                    ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>'
+                    : '<i class="fas fa-eye" aria-hidden="true"></i>';
+                toggleBtn.dataset.i18nAria = labelKey;
+                toggleBtn.dataset.i18nTitle = labelKey;
+                toggleBtn.setAttribute('aria-label', t(labelKey));
+                toggleBtn.title = t(labelKey);
+                passwordInput.focus();
+            });
+        });
+
         const savePasswordBtn = document.getElementById('profileSavePasswordBtn');
         if (savePasswordBtn) {
             savePasswordBtn.innerHTML = '<i class="fas fa-save"></i> ' + t('profile_save');
@@ -4502,6 +4527,15 @@
             const saved = await saveProfilePassword(password);
             if (saved) {
                 passwordInput.value = '';
+                passwordInput.type = 'password';
+                const visibilityToggle = document.querySelector('[data-password-visibility="profilePassword"]');
+                if (visibilityToggle) {
+                    visibilityToggle.innerHTML = '<i class="fas fa-eye" aria-hidden="true"></i>';
+                    visibilityToggle.dataset.i18nAria = 'password_visibility_show';
+                    visibilityToggle.dataset.i18nTitle = 'password_visibility_show';
+                    visibilityToggle.setAttribute('aria-label', t('password_visibility_show'));
+                    visibilityToggle.title = t('password_visibility_show');
+                }
                 showPasswordSavedIndicator(true);
             }
         }
