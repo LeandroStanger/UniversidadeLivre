@@ -698,10 +698,32 @@ a:hover {
     display: inline-block;
     padding: 0.15rem 0.6rem;
     border-radius: 12px;
-    margin-top: 0.3rem;
     color: var(--accent-teal);
     border: 1px solid rgba(62, 166, 255, 0.2);
     backdrop-filter: blur(4px);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mini-card-footer {
+    display: grid;
+    grid-template-rows: 1.2rem 1.2rem;
+    justify-items: center;
+    align-content: end;
+    row-gap: 0.25rem;
+    min-height: 3rem;
+    margin-top: auto;
+}
+
+.mini-card-footer .read-badge {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.6rem;
+    line-height: 1.2;
 }
 
 /* ========== BIBLIOTECAS RECOMENDADAS ========== */

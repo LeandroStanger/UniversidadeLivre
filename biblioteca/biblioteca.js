@@ -666,7 +666,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             const badge = document.createElement('span');
             badge.className = 'read-badge';
             badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
-            card.appendChild(badge);
+            (card.querySelector('.mini-card-footer') || card).appendChild(badge);
         } else if (!isRead && existingBadge) {
             existingBadge.remove();
         }
@@ -1720,8 +1720,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             <div class="mini-author">${escapeHtml(normalized.author)}</div>
             <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
             ${normalized.publisher ? `<div class="mini-publisher">${escapeHtml(normalized.publisher)}</div>` : ''}
-            ${typeTagHtml}
-            ${readBadge}
+            <div class="mini-card-footer">
+                ${typeTagHtml}
+                ${readBadge}
+            </div>
         `;
         card.addEventListener('click', () => showModal(normalized));
         return card;
@@ -1787,7 +1789,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                             const badge = document.createElement('span');
                             badge.className = 'read-badge';
                             badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
-                            card.appendChild(badge);
+                            (card.querySelector('.mini-card-footer') || card).appendChild(badge);
                         }
                     } else {
                         if (existingBadge) existingBadge.remove();
