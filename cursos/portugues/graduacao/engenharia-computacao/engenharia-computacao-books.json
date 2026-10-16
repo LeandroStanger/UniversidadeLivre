@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Digital Design and Computer Architecture",
+    "author": "David Harris; Sarah Harris",
+    "discipline": "Circuitos Digitais e Arquitetura",
+    "edition": "2ª edição",
+    "isbn": "9780123944245",
+    "description": "Fundamentos de lógica digital, arquitetura e organização de computadores com foco prático.",
+    "cover": "https://covers.openlibrary.org/b/id/10140705-L.jpg",
+    "year": "2012",
+    "publisher": "Morgan Kaufmann",
+    "link": "https://www.amazon.com.br/Digital-Design-Computer-Architecture-Harris/dp/0123944244"
+  },
+  {
+    "title": "Microelectronic Circuits",
+    "author": "Adel S. Sedra; Kenneth C. Smith",
+    "discipline": "Eletrônica",
+    "edition": "8ª edição",
+    "isbn": "9780190853464",
+    "description": "Modelagem, análise e projeto de circuitos eletrônicos e sistemas microeletrônicos.",
+    "cover": "https://covers.openlibrary.org/b/id/8053759-L.jpg",
+    "year": "2020",
+    "publisher": "Oxford University Press",
+    "link": "https://www.amazon.com.br/Microelectronic-Circuits-Sedra-Smith/dp/0190853463"
+  },
+  {
+    "title": "Embedded Systems: Introduction to ARM Cortex-M Microcontrollers",
+    "author": "Jonathan Valvano",
+    "discipline": "Sistemas Embarcados",
+    "edition": "5ª edição",
+    "isbn": "9781477508992",
+    "description": "Introdução a microcontroladores ARM, periféricos, temporização e aplicações embarcadas.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9781477508992-L.jpg",
+    "year": "2017",
+    "publisher": "CreateSpace",
+    "link": "https://www.amazon.com.br/Embedded-Systems-Introduction-Cortex-M-Microcontrollers/dp/1477508993"
+  },
+  {
+    "title": "Signals and Systems",
+    "author": "Alan V. Oppenheim; Alan S. Willsky; S. Hamid Nawab",
+    "discipline": "Sinais e Sistemas",
+    "edition": "2ª edição",
+    "isbn": "9780138147570",
+    "description": "Modelagem de sinais, convolução, transformadas e filtros digitais e analógicos.",
+    "cover": "https://covers.openlibrary.org/b/id/14380640-L.jpg",
+    "year": "1997",
+    "publisher": "Pearson",
+    "link": "https://www.amazon.com.br/Signals-Systems-Oppenheim-Willsky/dp/0138147574"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
+  }
+]

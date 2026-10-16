@@ -2,6 +2,7 @@
 // v2.6.0 - CORREÇÃO: Preservação de ícones nas traduções
 // v2.6.0 - CORREÇÃO: Logs para depuração de chaves não encontradas
 // v2.6.0 - CORREÇÃO: Fallback inline completo para pt-br e en
+// v2.6.1 - MELHORIA: Usa window.t() se disponível, senão fallback interno
 
 (function() {
     'use strict';
@@ -17,7 +18,9 @@
         editingId: null,
         currentLang: 'pt-br',
         translations: {},
-        tagFilter: null    // ID da tag ativa no filtro (null = todas)
+        tagFilter: null,   // ID da tag ativa no filtro (null = todas)
+        courses: [],
+        courseDataCache: new Map()
     };
 
     // Elementos do DOM
@@ -26,7 +29,45 @@
     // Quill editor
     let quill = null;
 
-    // ========== FALLBACKS INLINE ==========
+    const COURSE_DATA_PATHS = {
+        administracao: 'portugues/graduacao/administracao/administracao-data.json',
+        accounting: 'ingles/graduacao/accounting/accounting-data.json',
+        biologia: 'portugues/graduacao/biologia/biologia-data.json',
+        'ciencia-da-computacao': 'portugues/graduacao/ciencia-computacao/ciencia-computacao-data.json',
+        'ciencia-de-dados-bacharelado': 'portugues/graduacao/ciencia-de-dados/ciencia-de-dados-bacharelado-data.json',
+        ciencia_de_dados: 'portugues/pos-graduacao/ciencia-de-dados/ciencia-de-dados-data.json',
+        computacao_grafica: 'portugues/pos-graduacao/computacao-grafica/computacao-grafica-data.json',
+        'computer-science': 'ingles/graduacao/computer-science/computer-science-data.json',
+        'ciencias-de-la-computacion': 'espanhol/graduacao/ciencias-de-la-computacion/ciencias-de-la-computacion-data.json',
+        cybersecurity: 'portugues/pos-graduacao/cybersecurity/cybersecurity-data.json',
+        desenvolvimento_web: 'portugues/pos-graduacao/desenvolvimento-web/desenvolvimento-web-data.json',
+        devops: 'portugues/pos-graduacao/devops/devops-data.json',
+        embarcados: 'portugues/pos-graduacao/embarcados/embarcados-data.json',
+        enem: 'portugues/ensino-medio/enem/enem-data.json',
+        'engenharia-producao': 'portugues/graduacao/engenharia-producao/engenharia-producao-data.json',
+        engenharia_computacao: 'portugues/graduacao/engenharia-computacao/engenharia-computacao-data.json',
+        espcex: 'portugues/ensino-medio/espcex/espcex-data.json',
+        espanhol: 'portugues/idiomas/espanhol/espanhol-data.json',
+        'espanhol-ingles': 'ingles/idiomas/espanhol-ingles/espanhol-ingles-data.json',
+        fisica: 'portugues/graduacao/fisica/fisica-data.json',
+        'gestao-publica': 'portugues/graduacao/gestao-publica/gestao-publica-data.json',
+        ingles: 'portugues/idiomas/ingles/ingles-data.json',
+        japones: 'portugues/idiomas/japones/japones-data.json',
+        'japones-ingles': 'ingles/idiomas/japones-ingles/japones-ingles-data.json',
+        letras: 'portugues/graduacao/letras/letras-data.json',
+        'letras-portugues': 'portugues/graduacao/letras-portugues/letras-portugues-data.json',
+        'matematica-em-espanhol': 'espanhol/graduacao/matematicas/matematicas-data.json',
+        matematica: 'portugues/graduacao/matematica/matematica-data.json',
+        'matematica-licenciatura': 'portugues/graduacao/matematica-licenciatura/matematica-licenciatura-data.json',
+        math: 'ingles/graduacao/math/math-data.json',
+        pedagogia: 'portugues/graduacao/pedagogia/pedagogia-data.json',
+        'portugues-brasileiro': 'ingles/idiomas/portugues-brasileiro/portugues-brasileiro-data.json',
+        'processos-gerenciais': 'portugues/graduacao/processos-gerenciais/processos-gerenciais-data.json',
+        quimica: 'portugues/graduacao/quimica/quimica-data.json',
+        'tecnologia-informacao': 'portugues/graduacao/tecnologia-informacao/tecnologia-informacao-data.json'
+    };
+
+    // ========== FALLBACKS INLINE (usados apenas se window.t não estiver disponível) ==========
     const FALLBACK_PT = {
         "notas_title": "Notas de Estudo · Universidade Livre",
         "notas_subtitle": "Caderno de Estudos",
@@ -35,6 +76,18 @@
         "notas_editor_title": "Nova Nota",
         "notas_clear_editor": "Limpar editor",
         "notas_title_placeholder": "Título da nota...",
+        "notas_title_required": "Esqueceu o título da nota?",
+        "notas_course_type_label": "Tipo de curso",
+        "notas_course_type_all": "Todos os tipos",
+        "notas_course_label": "Curso",
+        "notas_course_placeholder": "Selecione um curso",
+        "notas_discipline_label": "Disciplina",
+        "notas_discipline_placeholder": "Selecione uma disciplina",
+        "notas_no_disciplines": "Nenhuma disciplina disponível para este curso.",
+        "notas_lesson_label": "Aula",
+        "notas_lesson_placeholder": "Selecione uma aula",
+        "notas_general_lesson": "Geral (toda a disciplina)",
+        "notas_lesson_format": "Aula {{number}}",
         "notas_content_placeholder": "Escreva sua anotação aqui...",
         "notas_save": "Salvar",
         "notas_cancel": "Cancelar",
@@ -74,6 +127,18 @@
         "notas_editor_title": "New Note",
         "notas_clear_editor": "Clear editor",
         "notas_title_placeholder": "Note title...",
+        "notas_title_required": "Did you forget the note title?",
+        "notas_course_type_label": "Course type",
+        "notas_course_type_all": "All types",
+        "notas_course_label": "Course",
+        "notas_course_placeholder": "Select a course",
+        "notas_discipline_label": "Discipline",
+        "notas_discipline_placeholder": "Select a discipline",
+        "notas_no_disciplines": "No disciplines available for this course.",
+        "notas_lesson_label": "Lesson",
+        "notas_lesson_placeholder": "Select a lesson",
+        "notas_general_lesson": "General (entire discipline)",
+        "notas_lesson_format": "Lesson {{number}}",
         "notas_content_placeholder": "Write your note here...",
         "notas_save": "Save",
         "notas_cancel": "Cancel",
@@ -108,11 +173,26 @@
     // ========== MÓDULO I18N ==========
     const I18n = {
         async loadTranslations(lang) {
-            // Prioriza caminho relativo (sobe um nível) que funciona com a estrutura do projeto
+            // Tenta usar o módulo central i18n se disponível
+            if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+                try {
+                    await window.i18n.loadTranslations(lang);
+                    state.translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+                    if (Object.keys(state.translations).length > 0) {
+                        console.log('[Notas] Traduções carregadas do módulo central i18n');
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('[Notas] Falha ao carregar do módulo central:', e);
+                }
+            }
+
+            // Fallback: tenta carregar o arquivo JSON diretamente
             const paths = [
-                `../lang/${lang}.json`,   // sobe um nível (raiz do projeto) - MAIS PROVÁVEL
-                `./lang/${lang}.json`,    // dentro da pasta notas (caso tenha cópia)
-                `lang/${lang}.json`       // relativo sem ./
+                `../base/lang/${lang}.json`,
+                `./base/lang/${lang}.json`,
+                `base/lang/${lang}.json`,
+                `/base/lang/${lang}.json`
             ];
             for (const path of paths) {
                 try {
@@ -136,7 +216,21 @@
         },
 
         t(key, fallback = '') {
-            return state.translations[key] || fallback || key;
+            if (state.translations && state.translations[key]) {
+                return state.translations[key];
+            }
+
+            if (window.t && typeof window.t === 'function') {
+                try {
+                    const globalValue = window.t(key);
+                    if (globalValue && globalValue !== key) {
+                        return globalValue;
+                    }
+                } catch (e) {
+                    // fallback
+                }
+            }
+            return fallback || key;
         },
 
         applyTranslations() {
@@ -144,7 +238,19 @@
                 console.warn('[Notas] applyTranslations ignorado: traduções vazias.');
                 return;
             }
-            // Elementos com data-i18n
+
+            // Se window.applyTranslations estiver disponível, usa-o para evitar duplicação
+            if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+                try {
+                    window.applyTranslations();
+                    console.log('[Notas] applyTranslations delegado ao módulo central.');
+                    // Ainda assim, aplica as específicas do módulo
+                } catch (e) {
+                    console.warn('[Notas] Erro ao chamar applyTranslations central:', e);
+                }
+            }
+
+            // Aplica traduções específicas do módulo notas
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (state.translations[key]) {
@@ -181,7 +287,8 @@
             this.updateQuillPlaceholder();
             // Botão de perfil (se não tiver imagem ou iniciais personalizadas)
             const profileBtn = document.getElementById('profileBtn');
-            if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
+            if (profileBtn && profileBtn.getAttribute('data-profile-custom') !== 'true' &&
+                !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
                 const icon = profileBtn.querySelector('i');
                 if (icon) {
                     const iconClone = icon.cloneNode(true);
@@ -192,8 +299,6 @@
                     profileBtn.innerText = this.t('profile');
                 }
             }
-            // Atualiza também o botão "Biblioteca" e "Auditório" (caso não estejam com data-i18n)
-            // Mas eles já têm data-i18n, então já foram tratados acima
             console.log('[Notas] Traduções aplicadas.');
         },
 
@@ -221,13 +326,299 @@
             // Atualiza o seletor de idioma
             const langPtBtn = document.getElementById('langPtBtn');
             const langEnBtn = document.getElementById('langEnBtn');
-            if (langPtBtn && langEnBtn) {
-                langPtBtn.classList.toggle('active', lang === 'pt-br');
-                langEnBtn.classList.toggle('active', lang === 'en');
-            }
+            const langEsBtn = document.getElementById('langEsBtn');
+            langPtBtn?.classList.toggle('active', lang === 'pt-br');
+            langEnBtn?.classList.toggle('active', lang === 'en');
+            langEsBtn?.classList.toggle('active', lang === 'es');
+            window.updateLanguageSelector?.(lang);
             localStorage.setItem('selectedLanguage', lang);
             // Dispara evento global para sincronizar outros módulos
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+        }
+    };
+
+    const CourseCatalog = {
+        getLanguageCode(course) {
+            if (!course) return '';
+
+            const raw = (course.language || course.id || course.name || '').toLowerCase();
+            const map = {
+                pt: 'pt-br',
+                'pt-br': 'pt-br',
+                portuguese: 'pt-br',
+                portugues: 'pt-br',
+                br: 'pt-br',
+                en: 'en',
+                english: 'en',
+                ingles: 'en',
+                'inglês': 'en',
+                es: 'es',
+                spanish: 'es',
+                espanhol: 'es',
+                'espanhol': 'es',
+                fr: 'fr',
+                french: 'fr',
+                frances: 'fr',
+                'francês': 'fr',
+                de: 'de',
+                german: 'de',
+                alemao: 'de',
+                'alemão': 'de',
+                ja: 'ja',
+                japanese: 'ja',
+                japones: 'ja',
+                'japonês': 'ja',
+                it: 'it',
+                italian: 'it',
+                italiano: 'it',
+                'italiano': 'it'
+            };
+
+            if (course.language) {
+                return map[course.language.toLowerCase()] || map[raw] || 'pt-br';
+            }
+
+            if (course.courseLevel === 'idiomas') {
+                const translatedName = (course.name || '').toLowerCase();
+                const normalized = Object.keys(map).find(key => translatedName.includes(key));
+                if (normalized) return map[normalized];
+            }
+
+            if (map[raw]) return map[raw];
+
+            const id = (course.id || '').toLowerCase();
+            const name = (course.name || '').toLowerCase();
+
+            const portugueseCourseIds = [
+                'administracao','biologia','ciencia-da-computacao','ciencia-de-dados-bacharelado','ciencia_de_dados',
+                'computacao_grafica','desenvolvimento_web','cybersecurity','devops','embarcados','enem','espcex',
+                'engenharia_computacao','engenharia-producao','gestao-publica','letras','letras-portugues',
+                'matematica','matematica-licenciatura','pedagogia','processos-gerenciais','tecnologia-informacao',
+                'fisica','quimica','engenharia-de-producao'
+            ];
+
+            if (portugueseCourseIds.includes(id) || /[áàâãéêíóôõúç]/.test(name) || /[áàâãéêíóôõúç]/.test(id)) {
+                return 'pt-br';
+            }
+
+            if (/(accounting|computer science|math|english|english speakers|for english speakers|science)/i.test(name) || /(accounting|computer science|math|english|science)/i.test(id)) {
+                return 'en';
+            }
+
+            if (/(matemáticas|ciencias|español|spanish|japonés|japones|portuguese|brasileiro)/i.test(name) || /(espanhol|japones|portugues-brasileiro)/i.test(id)) {
+                return 'es';
+            }
+
+            return 'pt-br';
+        },
+
+        getLanguageName(course) {
+            const code = this.getLanguageCode(course);
+            if (!code) return '';
+
+            const languageKeys = {
+                'pt-br': 'course_language_portuguese',
+                en: 'course_language_english',
+                es: 'course_language_spanish',
+                fr: 'course_language_french',
+                de: 'course_language_german',
+                ja: 'course_language_japanese',
+                it: 'course_language_italian'
+            };
+
+            const key = languageKeys[code];
+            if (!key) return '';
+
+            const fallback = {
+                'pt-br': 'Português',
+                en: 'Inglês',
+                es: 'Espanhol',
+                fr: 'Francês',
+                de: 'Alemão',
+                ja: 'Japonês',
+                it: 'Italiano'
+            }[code] || '';
+
+            return I18n.t(key, fallback);
+        },
+
+        getLanguageBadge(course) {
+            const code = this.getLanguageCode(course);
+            if (!code) return '';
+
+            const labels = {
+                'pt-br': 'PT',
+                en: 'EN',
+                es: 'ES',
+                fr: 'FR',
+                de: 'DE',
+                ja: 'JA',
+                it: 'IT'
+            };
+
+            const label = labels[code] || code.toUpperCase();
+            return `<span class="course-language-badge ${code === 'pt-br' ? 'pt' : code}"><i class="fas fa-language" aria-hidden="true"></i><span>${label}</span></span>`;
+        },
+
+        renderSelectedCourseBadge() {
+            const badge = document.getElementById('selectedCourseLanguageBadge');
+            if (!badge) return;
+
+            const courseId = document.getElementById('notaCursoSelect')?.value || '';
+            const course = state.courses.find(item => item.id === courseId);
+            const html = this.getLanguageBadge(course);
+            badge.innerHTML = html;
+            badge.hidden = !html;
+        },
+
+        async load() {
+            try {
+                const response = await fetch('../cursos/courses.json');
+                if (!response.ok) throw new Error('Falha ao carregar cursos');
+                const courses = await response.json();
+                state.courses = courses.filter(course => course && course.id && course.name);
+            } catch (error) {
+                console.error('[Notas] Erro ao carregar catálogo de cursos:', error);
+                state.courses = [];
+            }
+            this.renderCourseOptions();
+        },
+
+        renderCourseOptions(selectedId = '') {
+            const select = document.getElementById('notaCursoSelect');
+            if (!select) return;
+            const typeFilter = document.getElementById('notaTipoCursoSelect')?.value || 'all';
+            const visibleCourses = state.courses.filter(course => typeFilter === 'all' || course.courseLevel === typeFilter);
+            select.innerHTML = `<option value="">${I18n.t('notas_course_placeholder')}</option>` +
+                visibleCourses.map(course => {
+                    const levelKeys = {
+                        graduacao: 'graduacao',
+                        'ensino-medio': 'ensino_medio',
+                        'pos-graduacao': 'pos_graduacao',
+                        idiomas: 'idiomas'
+                    };
+                    const level = I18n.t(levelKeys[course.courseLevel] || course.courseLevel);
+                    const type = course.courseType ? ` - ${I18n.t(course.courseType)}` : '';
+                    const languageName = this.getLanguageName(course);
+                    const languageLabel = I18n.t('filter_language', 'Idioma');
+                    const languageSuffix = languageName ? ` • ${languageLabel}: ${languageName}` : '';
+                    return `<option value="${Utils.escapeHtml(course.id)}">${Utils.escapeHtml(course.name)} (${Utils.escapeHtml(level)}${Utils.escapeHtml(type)})${languageSuffix}</option>`;
+                }).join('');
+            select.disabled = visibleCourses.length === 0;
+            select.value = visibleCourses.some(course => course.id === selectedId) ? selectedId : '';
+            this.renderSelectedCourseBadge();
+        },
+
+        async loadDisciplines(courseId) {
+            const select = document.getElementById('notaDisciplinaSelect');
+            if (!select) return;
+            select.innerHTML = `<option value="">${I18n.t('loading')}</option>`;
+            select.disabled = true;
+            if (!courseId) {
+                this.renderDisciplineOptions([]);
+                return;
+            }
+
+            let data = state.courseDataCache.get(courseId);
+            if (!data) {
+                const path = COURSE_DATA_PATHS[courseId];
+                if (!path) {
+                    this.renderDisciplineOptions([]);
+                    return;
+                }
+                try {
+                    const response = await fetch(`../cursos/${path}`);
+                    if (!response.ok) throw new Error('Falha ao carregar disciplinas');
+                    data = await response.json();
+                    state.courseDataCache.set(courseId, data);
+                } catch (error) {
+                    console.error('[Notas] Erro ao carregar disciplinas:', error);
+                    this.renderDisciplineOptions([]);
+                    return;
+                }
+            }
+
+            const disciplines = (data.stages || []).flatMap(stage => stage.disciplines || [])
+                .map(discipline => discipline.name)
+                .filter(Boolean)
+                .filter((name, index, names) => names.indexOf(name) === index);
+            this.renderDisciplineOptions(disciplines);
+        },
+
+        renderDisciplineOptions(disciplines, selectedName = '') {
+            const select = document.getElementById('notaDisciplinaSelect');
+            if (!select) return;
+            const placeholder = disciplines.length ? I18n.t('notas_discipline_placeholder') : I18n.t('notas_no_disciplines');
+            select.innerHTML = `<option value="">${placeholder}</option>` +
+                disciplines.map(name => `<option value="${Utils.escapeHtml(name)}">${Utils.escapeHtml(name)}</option>`).join('');
+            select.disabled = disciplines.length === 0;
+            select.value = selectedName;
+        },
+
+        async loadLessons(courseId, disciplineName, selectedLesson = '') {
+            const select = document.getElementById('notaAulaSelect');
+            if (!select) return;
+            select.innerHTML = `<option value="">${I18n.t('loading')}</option>`;
+            select.disabled = true;
+            if (!courseId || !disciplineName) {
+                this.renderLessonOptions(0);
+                return;
+            }
+
+            let data = state.courseDataCache.get(courseId);
+            if (!data) {
+                await this.loadDisciplines(courseId);
+                data = state.courseDataCache.get(courseId);
+            }
+            const discipline = (data?.stages || [])
+                .flatMap(stage => stage.disciplines || [])
+                .find(item => item.name === disciplineName);
+            const lessonCount = discipline?.videoIds?.length || discipline?.lessons?.length ||
+                (discipline?.type === 'external' || discipline?.type === 'exercise' ? 1 : 0);
+            this.renderLessonOptions(lessonCount, selectedLesson);
+        },
+
+        renderLessonOptions(lessonCount, selectedLesson = '') {
+            const select = document.getElementById('notaAulaSelect');
+            if (!select) return;
+            const options = lessonCount > 0
+                ? `<option value="">${I18n.t('notas_lesson_placeholder')}</option><option value="all">${I18n.t('notas_general_lesson')}</option>` +
+                    Array.from({ length: lessonCount }, (_, index) => `<option value="${index + 1}">${I18n.t('notas_lesson_format').replace('{{number}}', index + 1)}</option>`).join('')
+                : `<option value="">${I18n.t('notas_lesson_placeholder')}</option>`;
+            select.innerHTML = options;
+            select.disabled = lessonCount === 0;
+            select.value = selectedLesson ? String(selectedLesson) : '';
+        },
+
+        getSelected() {
+            const courseSelect = document.getElementById('notaCursoSelect');
+            const disciplineSelect = document.getElementById('notaDisciplinaSelect');
+            const lessonSelect = document.getElementById('notaAulaSelect');
+            const course = state.courses.find(item => item.id === courseSelect?.value);
+            return {
+                courseId: course?.id || '',
+                courseName: course?.name || '',
+                disciplineName: disciplineSelect?.value || '',
+                lessonNumber: lessonSelect?.value && lessonSelect.value !== 'all' ? Number(lessonSelect.value) : '',
+                lessonName: lessonSelect?.value && lessonSelect.value !== 'all'
+                    ? I18n.t('notas_lesson_format').replace('{{number}}', lessonSelect.value)
+                    : ''
+            };
+        },
+
+        async setSelected(courseId = '', disciplineName = '', lessonNumber = '') {
+            this.renderCourseOptions(courseId);
+            await this.loadDisciplines(courseId);
+            const disciplines = [...(document.getElementById('notaDisciplinaSelect')?.options || [])]
+                .slice(1).map(option => option.value);
+            this.renderDisciplineOptions(disciplines, disciplineName);
+            await this.loadLessons(courseId, disciplineName, lessonNumber);
+        },
+
+        clearSelection() {
+            this.renderCourseOptions('');
+            this.renderDisciplineOptions([]);
+            this.renderLessonOptions(0);
         }
     };
 
@@ -254,7 +645,7 @@
             } catch (e) {}
         },
 
-        addNota(titulo, conteudoHtml, tags = []) {
+        addNota(titulo, conteudoHtml, tags = [], courseId = '', courseName = '', disciplineName = '', lessonNumber = '', lessonName = '') {
             const now = new Date();
             const nota = {
                 id: Date.now().toString(),
@@ -263,14 +654,19 @@
                 createdAt: now.toISOString(),
                 updatedAt: now.toISOString(),
                 favorite: false,
-                tags: tags
+                tags: tags,
+                courseId,
+                courseName,
+                disciplineName,
+                lessonNumber,
+                lessonName
             };
             state.notas.unshift(nota);
             this.saveNotas();
             return nota;
         },
 
-        updateNota(id, titulo, conteudoHtml, tags = null) {
+        updateNota(id, titulo, conteudoHtml, tags = null, courseId = '', courseName = '', disciplineName = '', lessonNumber = '', lessonName = '') {
             const index = state.notas.findIndex(n => n.id === id);
             if (index !== -1) {
                 const updated = {
@@ -282,6 +678,11 @@
                 if (tags !== null) {
                     updated.tags = tags;
                 }
+                updated.courseId = courseId;
+                updated.courseName = courseName;
+                updated.disciplineName = disciplineName;
+                updated.lessonNumber = lessonNumber;
+                updated.lessonName = lessonName;
                 state.notas[index] = updated;
                 this.saveNotas();
                 return updated;
@@ -514,7 +915,10 @@
             if (searchTerm) {
                 filteredNotas = state.notas.filter(nota => 
                     nota.titulo.toLowerCase().includes(searchTerm) || 
-                    Utils.stripHtml(nota.conteudo).toLowerCase().includes(searchTerm)
+                    Utils.stripHtml(nota.conteudo).toLowerCase().includes(searchTerm) ||
+                    (nota.courseName || '').toLowerCase().includes(searchTerm) ||
+                    (nota.disciplineName || '').toLowerCase().includes(searchTerm) ||
+                    (nota.lessonName || '').toLowerCase().includes(searchTerm)
                 );
             }
 
@@ -558,24 +962,35 @@
                     });
                     tagsHtml += '</div>';
                 }
+
+                const course = state.courses.find(item => item.id === nota.courseId);
+                const courseLanguageBadge = CourseCatalog.getLanguageBadge(course);
+                const contextHtml = nota.courseName || nota.disciplineName
+                    ? `<div class="note-context">
+                        ${nota.courseName ? `<span class="note-course-name-wrap"><i class="fas fa-graduation-cap" aria-hidden="true"></i> ${Utils.escapeHtml(nota.courseName)}${courseLanguageBadge ? ` ${courseLanguageBadge}` : ''}</span>` : ''}
+                        ${nota.disciplineName ? `<span><i class="fas fa-book-open" aria-hidden="true"></i> ${Utils.escapeHtml(nota.disciplineName)}</span>` : ''}
+                        ${nota.lessonName ? `<span><i class="fas fa-play-circle" aria-hidden="true"></i> ${Utils.escapeHtml(nota.lessonName)}</span>` : ''}
+                    </div>`
+                    : '';
                 
                 html += `
                     <div class="note-card" data-id="${nota.id}" role="article">
                         <div class="note-card-header">
                             <div class="note-card-title">${Utils.escapeHtml(nota.titulo)}</div>
                             <div class="note-card-actions">
-                                <button class="favorite-btn" data-id="${nota.id}" title="${I18n.t('notas_favorite')}" aria-label="Favoritar nota">
+                                <button class="favorite-btn" data-id="${nota.id}" title="${I18n.t('notas_favorite')}" aria-label="${I18n.t('notas_favorite_note')}">
                                     <i class="fas fa-star${nota.favorite ? '' : '-o'}"></i>
                                 </button>
-                                <button class="edit-btn" data-id="${nota.id}" title="${I18n.t('notas_edit')}" aria-label="Editar nota">
+                                <button class="edit-btn" data-id="${nota.id}" title="${I18n.t('notas_edit')}" aria-label="${I18n.t('notas_edit_note')}">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </button>
-                                <button class="delete-btn" data-id="${nota.id}" title="${I18n.t('notas_delete')}" aria-label="Excluir nota">
+                                <button class="delete-btn" data-id="${nota.id}" title="${I18n.t('notas_delete')}" aria-label="${I18n.t('notas_delete_note')}">
                                     <i class="fas fa-trash-alt" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="note-card-content">${Utils.escapeHtml(preview)}</div>
+                        ${contextHtml}
                         ${tagsHtml}
                         <div class="note-card-footer">
                             <span class="note-date">
@@ -595,6 +1010,7 @@
             this.attachCardEventListeners();
             this.renderTagFilterChips();
             I18n.applyTranslations();
+            window.renderLatex?.(elements.notasList);
         },
 
         attachCardEventListeners() {
@@ -644,6 +1060,7 @@
 
             state.editingId = id;
             elements.tituloInput.value = nota.titulo;
+            CourseCatalog.setSelected(nota.courseId || '', nota.disciplineName || '', nota.lessonNumber || '');
             
             if (quill) {
                 quill.root.innerHTML = nota.conteudo;
@@ -659,6 +1076,7 @@
 
         clearEditor() {
             elements.tituloInput.value = '';
+            CourseCatalog.clearSelection();
             if (quill) {
                 quill.root.innerHTML = '';
                 quill.setContents([]);
@@ -679,16 +1097,25 @@
             const conteudoHtml = quill ? quill.root.innerHTML : '';
 
             if (!titulo) {
-                alert(I18n.t('notas_title_placeholder') || 'O título da nota é obrigatório.');
+                const notice = document.getElementById('notaTitleNotice');
+                if (notice) {
+                    notice.hidden = false;
+                    window.clearTimeout(notice.hideTimeout);
+                    notice.hideTimeout = window.setTimeout(() => { notice.hidden = true; }, 4000);
+                }
+                elements.tituloInput.focus();
                 return;
             }
 
             const selectedTags = this.getSelectedTagsFromSelector();
+            const selectedCourse = CourseCatalog.getSelected();
 
             if (state.editingId) {
-                Storage.updateNota(state.editingId, titulo, conteudoHtml, selectedTags);
+                Storage.updateNota(state.editingId, titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
+                window.UniversidadeLivreAnalytics?.action('notas', 'editar', selectedCourse.courseId || 'sem-curso');
             } else {
-                Storage.addNota(titulo, conteudoHtml, selectedTags);
+                Storage.addNota(titulo, conteudoHtml, selectedTags, selectedCourse.courseId, selectedCourse.courseName, selectedCourse.disciplineName, selectedCourse.lessonNumber, selectedCourse.lessonName);
+                window.UniversidadeLivreAnalytics?.action('notas', 'criar', selectedCourse.courseId || 'sem-curso');
             }
 
             this.clearEditor();
@@ -698,6 +1125,19 @@
 
     // ========== INICIALIZAÇÃO DO QUILL ==========
     function initQuill() {
+        const Font = Quill.import('formats/font');
+        Font.whitelist = [
+            'inter',
+            'dm-sans',
+            'manrope',
+            'plus-jakarta',
+            'source-sans',
+            'ibm-plex-serif',
+            'merriweather',
+            'fira-code'
+        ];
+        Quill.register(Font, true);
+
         quill = new Quill('#quillEditor', {
             theme: 'snow',
             placeholder: 'Escreva sua anotação aqui...',
@@ -712,7 +1152,16 @@
                         [{ 'indent': '-1' }, { 'indent': '+1' }],
                         [{ 'size': ['small', false, 'large', 'huge'] }],
                         [{ 'color': [] }, { 'background': [] }],
-                        [{ 'font': [] }],
+                        [{ 'font': [
+                            'inter',
+                            'dm-sans',
+                            'manrope',
+                            'plus-jakarta',
+                            'source-sans',
+                            'ibm-plex-serif',
+                            'merriweather',
+                            'fira-code'
+                        ] }],
                         [{ 'align': [] }],
                         ['link', 'image', 'video', 'formula'],
                         ['clean']
@@ -754,7 +1203,7 @@
         addBtn.addEventListener('click', () => {
             const name = nameInput.value.trim();
             if (!name) {
-                alert('O nome da tag é obrigatório.');
+                alert(I18n.t('notas_tag_name_required'));
                 return;
             }
             const color = colorInput.value;
@@ -776,30 +1225,16 @@
         });
     }
 
-    // ========== PERFIL E EXPORTAÇÃO ==========
-    function initProfile() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            profileBtn.addEventListener('click', () => {
-                if (window.openProfileModal) {
-                    window.openProfileModal();
-                } else {
-                    const modal = document.getElementById('profileModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        if (window.updateProfileModal) window.updateProfileModal();
-                    }
-                }
-            });
-        }
-    }
-
     // ========== REAGIR A MUDANÇAS DE IDIOMA GLOBAIS ==========
     function initGlobalLanguageListener() {
         window.addEventListener('languageChanged', function(e) {
             const lang = e.detail.lang || 'pt-br';
             console.log('[Notas] Idioma global alterado para:', lang);
-            I18n.setLanguage(lang);
+            I18n.setLanguage(lang).then(() => {
+                const selectedCourse = document.getElementById('notaCursoSelect')?.value || '';
+                CourseCatalog.renderCourseOptions(selectedCourse);
+                CourseCatalog.loadDisciplines(selectedCourse);
+            });
         });
     }
 
@@ -813,30 +1248,54 @@
             clearEditorBtn: document.getElementById('clearEditorBtn'),
             notasList: document.getElementById('notasList'),
             notasCount: document.getElementById('notasCount'),
-            searchInput: document.getElementById('searchNotasInput')
+            searchInput: document.getElementById('searchNotasInput'),
+            tipoCursoSelect: document.getElementById('notaTipoCursoSelect'),
+            cursoSelect: document.getElementById('notaCursoSelect'),
+            disciplinaSelect: document.getElementById('notaDisciplinaSelect'),
+            aulaSelect: document.getElementById('notaAulaSelect')
         };
 
         initQuill();
 
         // Carregar idioma salvo ou do navegador
         const savedLang = localStorage.getItem('selectedLanguage') || 
-            (navigator.language?.startsWith('pt') ? 'pt-br' : 'en');
+            (navigator.language?.startsWith('pt') ? 'pt-br' : navigator.language?.startsWith('es') ? 'es' : 'en');
         state.currentLang = savedLang;
         await I18n.loadTranslations(savedLang);
         I18n.applyTranslations();
+        await CourseCatalog.load();
 
         TagManager.loadTags();
         Storage.loadNotas();
         UIRenderer.renderNotasList();
 
         initTagManagerModal();
-        initProfile();
         initGlobalLanguageListener();
 
         // Event listeners
         elements.saveBtn.addEventListener('click', () => UIRenderer.handleSaveNota());
         elements.cancelBtn.addEventListener('click', () => UIRenderer.clearEditor());
         elements.clearEditorBtn.addEventListener('click', () => UIRenderer.clearEditor());
+
+        if (elements.cursoSelect) {
+            elements.cursoSelect.addEventListener('change', async () => {
+                CourseCatalog.renderSelectedCourseBadge();
+                await CourseCatalog.loadDisciplines(elements.cursoSelect.value);
+                CourseCatalog.loadLessons(elements.cursoSelect.value, '');
+            });
+        }
+        if (elements.tipoCursoSelect) {
+            elements.tipoCursoSelect.addEventListener('change', () => {
+                CourseCatalog.renderCourseOptions('');
+                CourseCatalog.renderDisciplineOptions([]);
+                CourseCatalog.renderLessonOptions(0);
+            });
+        }
+        if (elements.disciplinaSelect) {
+            elements.disciplinaSelect.addEventListener('change', () => {
+                CourseCatalog.loadLessons(elements.cursoSelect?.value || '', elements.disciplinaSelect.value);
+            });
+        }
         
         if (elements.searchInput) {
             elements.searchInput.addEventListener('input', () => UIRenderer.renderNotasList());
@@ -852,11 +1311,15 @@
         // Botões de idioma locais
         const langPtBtn = document.getElementById('langPtBtn');
         const langEnBtn = document.getElementById('langEnBtn');
+        const langEsBtn = document.getElementById('langEsBtn');
         if (langPtBtn) {
             langPtBtn.addEventListener('click', () => I18n.setLanguage('pt-br'));
         }
         if (langEnBtn) {
             langEnBtn.addEventListener('click', () => I18n.setLanguage('en'));
+        }
+        if (langEsBtn) {
+            langEsBtn.addEventListener('click', () => I18n.setLanguage('es'));
         }
 
         // Sincronizar com outras abas
@@ -890,9 +1353,17 @@
 
     // Inicializar quando o DOM estiver pronto
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => NoteApp.init());
+        document.addEventListener('DOMContentLoaded', () => {
+            Promise.resolve(NoteApp.init()).then(() => {
+                window.__applicationReady = true;
+                window.dispatchEvent(new Event('applicationReady'));
+            });
+        });
     } else {
-        NoteApp.init();
+        Promise.resolve(NoteApp.init()).then(() => {
+            window.__applicationReady = true;
+            window.dispatchEvent(new Event('applicationReady'));
+        });
     }
 
 })();

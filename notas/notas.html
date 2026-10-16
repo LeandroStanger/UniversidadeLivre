@@ -5,40 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title data-i18n="notas_title">Notas de Estudo · Universidade Livre</title>
     <meta name="description" content="Gerencie suas anotações de estudo com formatação rica, imagens e organização.">
-    <meta name="theme-color" content="#0D1117">
+    <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/notas/notas.html">
+    <meta name="theme-color" content="#0B0D10">
+    <link rel="icon" type="image/png" href="../base/logo-da-universidade-livre3.png">
+    <script src="../base/theme/theme.js"></script>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../base/perfil/profile.css">
     <link rel="stylesheet" href="notas.css">
-    <link rel="stylesheet" href="../onboarding/onboarding.css">
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css">
+    <link rel="stylesheet" href="../base/audio-player/audio-player.css">
+    <link rel="stylesheet" href="../base/loading/loading-screen.css">
+    <link rel="stylesheet" href="../base/theme/theme.css">
+    <link rel="stylesheet" href="../base/doar/donation-modal.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&family=IBM+Plex+Serif:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="site-loading">
+<div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
+    <div class="site-loading-content">
+        <img class="site-loading-logo" src="../base/logo-da-universidade-livre.png" alt="Universidade Livre">
+        <div class="site-loading-spinner" aria-hidden="true"></div>
+        <span class="site-loading-text" data-i18n="loading_notes" data-loading-pt="Carregando suas notas..." data-loading-en="Loading your notes...">Carregando suas notas...</span>
+    </div>
+</div>
 <div class="container">
     <!-- ========== CABEÇALHO ========== -->
     <header class="app-header">
         <div class="logo">
             <a href="../index.html" class="logo-link" style="text-decoration: none; display: block;">
-                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+                <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
             </a>
             <p class="logo-subtitle" data-i18n="notas_subtitle">Caderno de Estudos</p>
         </div>
         <div class="app-actions">
             <div class="language-switch">
-                <button id="langPtBtn" class="lang-btn active" data-lang="pt-br" aria-label="Português">PT</button>
-                <span class="lang-sep" aria-hidden="true">|</span>
-                <button id="langEnBtn" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+                <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <span id="selectedLanguageLabel">Português</span>
+                    <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                    <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                    <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                    <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                </div>
             </div>
-            <a href="https://leandrostanger.github.io/LeandroStanger/#doacoes" class="donate-button" target="_blank" rel="noopener noreferrer" data-i18n="donate_button" aria-label="Doar">
+            <a href="#doacoes" class="donate-button" aria-haspopup="dialog" data-i18n="donate_button" data-i18n-aria="donate_button">
                 <i class="fas fa-heart" aria-hidden="true"></i><span data-i18n="donate_text">Doar</span>
             </a>
-            <a href="../biblioteca/biblioteca.html" class="btn-back" style="background: #2ea043; margin-right: 0.5rem;" target="_blank" rel="noopener noreferrer" data-i18n="library_button">
-                <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span>
+            <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
+                <button type="button" class="btn-back notes-navigation-button library-dropdown-toggle" style="background: var(--accent-green); margin-right: 0.5rem;" aria-expanded="false" aria-controls="libraryTypeMenu">
+                    <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
+            </div>
+            <div class="header-dropdown" data-auditorio-base="../auditorio/auditorio.html">
+                <button type="button" class="btn-back notes-navigation-button header-dropdown-toggle" style="background: var(--accent-blue); margin-right: 0.5rem;" aria-expanded="false" aria-controls="auditorioSubjectMenu">
+                    <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden></div>
+            </div>
+            <a href="../comunidade/comunidade.html" class="btn-back notes-navigation-button community-resource-button" target="_blank" rel="noopener noreferrer" data-i18n="comunidade_title">
+                <i class="fas fa-users" aria-hidden="true"></i><span data-i18n="comunidade_title">Comunidade</span>
             </a>
-            <a href="../auditorio/auditorio.html" class="btn-back" style="background: var(--accent-blue); margin-right: 0.5rem;" data-i18n="auditorio_title">
-                <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span>
-            </a>
-            <a href="../index.html" class="btn-back" data-i18n="back_to_courses" aria-label="Voltar para cursos">
+            <a href="../index.html" class="btn-back notes-navigation-button back-to-courses-button" data-i18n="back_to_courses" data-i18n-aria="back_to_courses">
                 <i class="fas fa-arrow-left" aria-hidden="true"></i><span data-i18n="back_to_courses">Voltar para cursos</span>
             </a>
             <button id="profileBtn" class="btn-back" style="background: var(--accent-purple); color: white;" data-profile-custom="false">
@@ -66,7 +98,37 @@
                 <i class="fas fa-eraser" aria-hidden="true"></i>
             </button>
         </div>
-        <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." aria-label="Título da nota">
+        <input type="text" id="notaTituloInput" class="note-title-input" data-i18n-placeholder="notas_title_placeholder" placeholder="Título da nota..." data-i18n-aria="notas_title_placeholder">
+        <div id="notaTitleNotice" class="note-title-notice" role="alert" aria-live="polite" hidden>
+            <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
+            <span data-i18n="notas_title_required">Esqueceu o título da nota?</span>
+        </div>
+
+        <div class="note-course-selector">
+            <label for="notaTipoCursoSelect" data-i18n="notas_course_type_label">Tipo de curso</label>
+            <select id="notaTipoCursoSelect" data-i18n-aria="notas_course_type_label">
+                <option value="all" data-i18n="notas_course_type_all">Todos os tipos</option>
+                <option value="graduacao" data-i18n="graduacao">Graduação</option>
+                <option value="ensino-medio" data-i18n="ensino_medio">Ensino Médio</option>
+                <option value="pos-graduacao" data-i18n="pos_graduacao">Pós-graduação</option>
+                <option value="idiomas" data-i18n="idiomas">Idiomas</option>
+            </select>
+            <label for="notaCursoSelect" data-i18n="notas_course_label">Curso</label>
+            <div class="selected-course-wrapper">
+                <select id="notaCursoSelect" data-i18n-aria="notas_course_label" disabled>
+                    <option value="" data-i18n="notas_course_placeholder">Selecione um curso</option>
+                </select>
+                <div id="selectedCourseLanguageBadge" class="selected-course-language" hidden></div>
+            </div>
+            <label for="notaDisciplinaSelect" data-i18n="notas_discipline_label">Disciplina</label>
+            <select id="notaDisciplinaSelect" data-i18n-aria="notas_discipline_label" disabled>
+                <option value="" data-i18n="notas_discipline_placeholder">Selecione uma disciplina</option>
+            </select>
+            <label for="notaAulaSelect" data-i18n="notas_lesson_label">Aula</label>
+            <select id="notaAulaSelect" data-i18n-aria="notas_lesson_label" disabled>
+                <option value="" data-i18n="notas_lesson_placeholder">Selecione uma aula</option>
+            </select>
+        </div>
         
         <!-- Seletor de tags para a nota atual -->
         <div class="note-tags-selector" id="noteTagsSelector" style="display: none;">
@@ -75,12 +137,13 @@
             <button id="addTagToNoteBtn" class="icon-btn" title="Adicionar tag" data-i18n-title="notas_add_tag_to_note"><i class="fas fa-plus-circle"></i></button>
         </div>
 
-        <div id="quillEditor" class="quill-editor-container" aria-label="Editor de texto rico"></div>
+        <div id="quillEditor" class="quill-editor-container" data-i18n-aria="notas_rich_text_editor"></div>
+        <p class="latex-help" data-i18n="notas_latex_help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Fórmulas LaTeX: use \(x^2\) para fórmula na linha ou \[...] para fórmula destacada. O texto original será preservado na nota.</p>
         <div class="editor-actions">
-            <button id="saveNotaBtn" class="btn-primary" aria-label="Salvar nota">
+            <button id="saveNotaBtn" class="btn-primary" data-i18n-aria="notas_save_note">
                 <i class="fas fa-save" aria-hidden="true"></i><span data-i18n="notas_save">Salvar</span>
             </button>
-            <button id="cancelEditBtn" class="btn-secondary" style="display: none;" aria-label="Cancelar edição">
+            <button id="cancelEditBtn" class="btn-secondary" style="display: none;" data-i18n-aria="notas_cancel_edit">
                 <i class="fas fa-times" aria-hidden="true"></i><span data-i18n="notas_cancel">Cancelar</span>
             </button>
         </div>
@@ -95,8 +158,8 @@
                 <span id="notasCount" class="count-badge" aria-live="polite">0</span>
             </h2>
             <div class="list-actions">
-                <input type="text" id="searchNotasInput" class="search-input" data-i18n-placeholder="notas_search_placeholder" placeholder="Buscar notas..." aria-label="Buscar notas">
-                <button id="manageTagsBtn" class="icon-btn" data-i18n-title="notas_manage_tags" title="Gerenciar tags" aria-label="Gerenciar tags">
+                <input type="text" id="searchNotasInput" class="search-input" data-i18n-placeholder="notas_search_placeholder" data-i18n-aria="notas_search_placeholder">
+                <button id="manageTagsBtn" class="icon-btn" data-i18n-title="notas_manage_tags" data-i18n-aria="notas_manage_tags">
                     <i class="fas fa-tags" aria-hidden="true"></i>
                 </button>
             </div>
@@ -108,7 +171,7 @@
             <div id="tagChips" class="chips-container"></div>
         </div>
 
-        <div id="notasList" class="notes-grid" role="feed" aria-label="Lista de notas">
+        <div id="notasList" class="notes-grid" role="feed" data-i18n-aria="notas_list">
             <div class="empty-state">
                 <i class="fas fa-book-open" aria-hidden="true"></i>
                 <p data-i18n="notas_empty">Nenhuma nota criada ainda.</p>
@@ -122,7 +185,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 data-i18n="notas_manage_tags_title">Gerenciar Tags</h3>
-            <button class="close-modal" id="closeTagManagerModal" aria-label="Fechar">&times;</button>
+            <button class="close-modal" id="closeTagManagerModal" data-i18n-aria="close">&times;</button>
         </div>
         <div class="modal-body">
             <div class="tag-create-section">
@@ -158,6 +221,7 @@
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
 
+            <div class="profile-account-fields">
             <!-- Nome -->
             <div class="profile-user-section">
                 <label for="profileNameInput"><i class="fas fa-user"></i> <span data-i18n="profile_name">Nome</span></label>
@@ -176,15 +240,22 @@
                 </select>
                 <button id="profileSaveGenderBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profileCountry"><i class="fas fa-globe"></i> <span data-i18n="profile_country">País</span></label>
+                <select id="profileCountry"><option value="" data-i18n="profile_country_not_informed">Não informado</option></select>
+                <button id="profileSaveCountryBtn" class="btn-secondary"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
 
             <!-- Senha -->
             <div class="profile-user-section" style="margin-top: 0.5rem;">
                 <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
-                <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;" data-i18n-placeholder="profile_password_placeholder">
+                <div class="profile-password-input-wrap">
+                    <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 2.8rem 0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;" data-i18n-placeholder="profile_password_placeholder">
+                    <button type="button" class="password-visibility-toggle" data-password-visibility="profilePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                </div>
                 <button id="profileSavePasswordBtn" class="btn-secondary" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
             </div>
-            <hr>
-
+            </div>
             <!-- Cursos em andamento -->
             <div id="ongoingCoursesContainer" style="margin: 0.5rem 0;"></div>
 
@@ -194,16 +265,21 @@
                 <div class="stat-item"><i class="fas fa-book"></i> <span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
                 <div class="stat-item"><i class="fas fa-check-circle"></i> <span data-i18n="profile_completed_lessons">Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
                 <div class="stat-item"><i class="fas fa-award"></i> <span data-i18n="profile_completed_disciplines">Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
-                <div class="stat-item profile-points"><i class="fas fa-star"></i> <span data-i18n="profile_total_points">Pontuação total</span> <span id="profileTotalPoints">0</span></div>
+                <div class="stat-item profile-points"><i class="fas fa-gamepad"></i> <span data-i18n="profile_game_points">Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
                 <!-- ===== HORAS NO AUDITÓRIO ===== -->
                 <div class="stat-item"><i class="fas fa-headphones"></i> <span data-i18n="profile_auditorio_hours">Horas no Auditório</span> <span id="profileAuditorioTime">0</span></div>
             </div>
+            <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+            <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+            <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
+            <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+            <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+            <div id="profileGameStatus" class="profile-game-status" hidden></div>
 
             <!-- Lista de cursos -->
             <div id="profileCoursesList" style="margin: 1rem 0;"></div>
 
             <!-- Exportação/Importação -->
-            <hr style="margin: 1rem 0;">
             <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
                 <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
@@ -240,15 +316,18 @@
                     <button id="onboardingLangEn" class="lang-select-btn" data-lang="en" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
                         🇺🇸 English
                     </button>
+                    <button id="onboardingLangEs" class="lang-select-btn" data-lang="es" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇪🇸 Español
+                    </button>
                 </div>
                 <div id="onboardingLangError" class="form-error" style="display:none; text-align: center;" data-i18n="onboarding_error_language_required">Por favor, selecione um idioma.</div>
             </div>
             <!-- Passo 1: Boas-vindas -->
             <div class="step" data-step="1">
-                <img src="../logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
+                <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
                 <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
                 <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
-                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Ciência da Computação, Matemática e Computação Gráfica · Cursos de Graduação e Pós-graduação</p>
+                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
             </div>
             <!-- Passo 2: Sobre o projeto -->
             <div class="step" data-step="2">
@@ -265,6 +344,7 @@
                         <input type="password" id="onboardingLoginPassword" placeholder="Digite sua senha..." data-i18n-placeholder="onboarding_login_password_placeholder">
                         <div id="onboardingLoginError" class="form-error" style="display:none;" data-i18n="onboarding_error_login_failed">Senha incorreta.</div>
                     </div>
+                    <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
                         <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
@@ -295,8 +375,8 @@
                         <label for="onboardingPassword" data-i18n="onboarding_form_password_label">Senha</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="Crie uma senha forte..." data-i18n-placeholder="onboarding_form_password_placeholder" style="padding-right:40px;">
-                            <button type="button" id="onboardingTogglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye"></i>
+                            <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
@@ -304,7 +384,10 @@
                     </div>
                     <div class="form-group">
                         <label for="onboardingConfirmPassword" data-i18n="onboarding_form_confirm_password_label">Confirmar senha</label>
-                        <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder">
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                        </div>
                         <div id="onboardingConfirmError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_mismatch">As senhas não coincidem.</div>
                     </div>
                     <div class="form-group">
@@ -346,24 +429,20 @@
 </div>
 
 <!-- ========== SCRIPTS ========== -->
+<script src="../base/analytics.js"></script>
+<script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+<script src="../base/menu/auditorio-menu.js"></script>
+<script src="../base/menu/biblioteca-menu.js"></script>
+<script src="../base/menu/mobile-menu.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="../base/lang/i18n.js"></script>
+<script src="../cursos/latex-renderer.js"></script>
 <script src="notas.js"></script>
-<script src="../perfil/profile.js"></script>
-<script src="../onboarding/onboarding.js"></script>
-<script>
-    (function() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                if (typeof window.startOnboarding === 'function') {
-                    window.startOnboarding();
-                }
-            });
-        } else {
-            if (typeof window.startOnboarding === 'function') {
-                window.startOnboarding();
-            }
-        }
-    })();
-</script>
+<script src="../base/perfil/profile.js"></script>
+<script src="../base/reCaptcha/xsukax-captcha.js"></script>
+<script src="../base/onboarding/onboarding.js"></script>
+<script src="../base/audio-player/audio-player.js" defer></script>
+<script src="../base/loading/loading-screen.js" defer></script>
+<script src="../base/doar/donation-modal.js" defer></script>
 </body>
 </html>

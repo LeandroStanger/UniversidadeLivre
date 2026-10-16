@@ -1,5 +1,6 @@
 // cursos/cursor-timeset.js – Rastreamento de tempo de atividade do usuário (versão final)
-// Suporte completo para todos os cursos, incluindo Engenharia de Computação
+// Suporte completo para todos os cursos, incluindo Engenharia de Computação, Tecnologia da Informação
+// e Ciência de Dados (Bacharelado)
 (function() {
     'use strict';
 
@@ -15,6 +16,14 @@
     let activeInterval = null;
     let isActive = true;
     
+    // ========== LISTA DE CURSOS COM RASTREAMENTO ESPECIAL ==========
+    const SPECIAL_COURSES = [
+        'computer-science',
+        'engenharia_computacao',
+        'tecnologia-informacao',
+        'ciencia-de-dados-bacharelado'
+    ];
+    
     // ========== CARREGAR DADOS ==========
     function loadTimesetData() {
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -29,8 +38,29 @@
             graduation: {},
             discipline: {},
             practice: {},
-            bibliography: {}
+            bibliography: {},
+            activity: { days: {}, sessions: [] }
         };
+    }
+
+    function getActivityDate(timestamp = Date.now()) {
+        return new Date(timestamp).toISOString().slice(0, 10);
+    }
+
+    function updateActivityHistory(data, elapsedSeconds) {
+        if (!data.activity) data.activity = { days: {}, sessions: [] };
+        if (!data.activity.days) data.activity.days = {};
+        if (!data.activity.sessions) data.activity.sessions = [];
+        const today = getActivityDate();
+        data.activity.days[today] = (Number(data.activity.days[today]) || 0) + elapsedSeconds;
+        const lastSession = data.activity.sessions[data.activity.sessions.length - 1];
+        if (lastSession && lastSession.date === today) {
+            lastSession.end = new Date().toISOString();
+            lastSession.seconds += elapsedSeconds;
+        } else {
+            data.activity.sessions.push({ date: today, start: new Date(lastActiveTimestamp || Date.now()).toISOString(), end: new Date().toISOString(), seconds: elapsedSeconds });
+            if (data.activity.sessions.length > 100) data.activity.sessions.splice(0, data.activity.sessions.length - 100);
+        }
     }
     
     // ========== SALVAR DADOS ==========
@@ -56,17 +86,13 @@
             } else {
                 data.graduation[id].lastAccess = now;
             }
-            // Suporte específico para Computer Science
-            if (id === 'computer-science') {
-                localStorage.setItem('cursor_timeset_computer_science_last_access', now);
-                const sessionTime = localStorage.getItem('cursor_timeset_computer_science_session_time') || '0';
-                localStorage.setItem('cursor_timeset_computer_science_session_time', sessionTime);
-            }
-            // Suporte específico para Engenharia de Computação
-            if (id === 'engenharia_computacao') {
-                localStorage.setItem('cursor_timeset_engenharia_computacao_last_access', now);
-                const sessionTime = localStorage.getItem('cursor_timeset_engenharia_computacao_session_time') || '0';
-                localStorage.setItem('cursor_timeset_engenharia_computacao_session_time', sessionTime);
+            // Suporte específico para cursos selecionados
+            if (SPECIAL_COURSES.includes(id)) {
+                const storageKey = `cursor_timeset_${id}_last_access`;
+                localStorage.setItem(storageKey, now);
+                const sessionKey = `cursor_timeset_${id}_session_time`;
+                const sessionTime = localStorage.getItem(sessionKey) || '0';
+                localStorage.setItem(sessionKey, sessionTime);
             }
         } else if (context === 'discipline' && subId) {
             if (!data.discipline[id]) data.discipline[id] = {};
@@ -108,19 +134,14 @@
                 if (currentContext === 'graduation') {
                     if (data.graduation[currentCourseId]) {
                         data.graduation[currentCourseId].totalTime += elapsedSeconds;
-                        // Suporte específico para Computer Science
-                        if (currentCourseId === 'computer-science') {
-                            let csSession = parseInt(localStorage.getItem('cursor_timeset_computer_science_session_time') || '0');
-                            csSession += elapsedSeconds;
-                            localStorage.setItem('cursor_timeset_computer_science_session_time', csSession.toString());
-                            localStorage.setItem('cursor_timeset_computer_science_activity_time', now.toString());
-                        }
-                        // Suporte específico para Engenharia de Computação
-                        if (currentCourseId === 'engenharia_computacao') {
-                            let ecSession = parseInt(localStorage.getItem('cursor_timeset_engenharia_computacao_session_time') || '0');
-                            ecSession += elapsedSeconds;
-                            localStorage.setItem('cursor_timeset_engenharia_computacao_session_time', ecSession.toString());
-                            localStorage.setItem('cursor_timeset_engenharia_computacao_activity_time', now.toString());
+                        // Suporte específico para cursos selecionados
+                        if (SPECIAL_COURSES.includes(currentCourseId)) {
+                            const sessionKey = `cursor_timeset_${currentCourseId}_session_time`;
+                            let session = parseInt(localStorage.getItem(sessionKey) || '0');
+                            session += elapsedSeconds;
+                            localStorage.setItem(sessionKey, session.toString());
+                            const activityKey = `cursor_timeset_${currentCourseId}_activity_time`;
+                            localStorage.setItem(activityKey, now.toString());
                         }
                     }
                 } else if (currentContext === 'discipline' && currentDisciplineName) {
@@ -136,7 +157,9 @@
                         data.bibliography[currentCourseId][currentDisciplineName].totalTime += elapsedSeconds;
                     }
                 }
+                updateActivityHistory(data, elapsedSeconds);
                 saveTimesetData(data);
+                window.dispatchEvent(new CustomEvent('cursorActivityUpdated'));
                 console.log(`[CursorTimeset] Tempo atualizado: +${elapsedSeconds}s (total acumulado)`);
             }
         }
@@ -245,40 +268,108 @@
             bibliography: data.bibliography[courseId] || {}
         };
         // Dados específicos do localStorage para cursos selecionados
-        if (courseId === 'computer-science') {
-            result.csExtra = {
-                lastAccess: localStorage.getItem('cursor_timeset_computer_science_last_access'),
-                sessionTime: localStorage.getItem('cursor_timeset_computer_science_session_time'),
-                activityTime: localStorage.getItem('cursor_timeset_computer_science_activity_time')
+        if (SPECIAL_COURSES.includes(courseId)) {
+            const extra = {
+                lastAccess: localStorage.getItem(`cursor_timeset_${courseId}_last_access`),
+                sessionTime: localStorage.getItem(`cursor_timeset_${courseId}_session_time`),
+                activityTime: localStorage.getItem(`cursor_timeset_${courseId}_activity_time`)
             };
-        }
-        if (courseId === 'engenharia_computacao') {
-            result.ecExtra = {
-                lastAccess: localStorage.getItem('cursor_timeset_engenharia_computacao_last_access'),
-                sessionTime: localStorage.getItem('cursor_timeset_engenharia_computacao_session_time'),
-                activityTime: localStorage.getItem('cursor_timeset_engenharia_computacao_activity_time')
-            };
+            // Usar chave dinâmica
+            const key = courseId === 'computer-science' ? 'csExtra' :
+                       courseId === 'engenharia_computacao' ? 'ecExtra' :
+                       courseId === 'tecnologia-informacao' ? 'tiExtra' :
+                       courseId === 'ciencia-de-dados-bacharelado' ? 'cdExtra' : 'extra';
+            result[key] = extra;
         }
         return result;
+    }
+    
+    // ========== OBTER DADOS GERAIS DE TEMPO ==========
+    function getTotalTimeData() {
+        const data = loadTimesetData();
+        let totalGraduationTime = 0;
+        let totalDisciplineTime = 0;
+        let totalPracticeTime = 0;
+        let totalBibliographyTime = 0;
+        
+        for (const courseId in data.graduation) {
+            if (data.graduation[courseId] && data.graduation[courseId].totalTime) {
+                totalGraduationTime += data.graduation[courseId].totalTime;
+            }
+        }
+        for (const courseId in data.discipline) {
+            for (const discipline in data.discipline[courseId]) {
+                if (data.discipline[courseId][discipline] && data.discipline[courseId][discipline].totalTime) {
+                    totalDisciplineTime += data.discipline[courseId][discipline].totalTime;
+                }
+            }
+        }
+        for (const courseId in data.practice) {
+            for (const discipline in data.practice[courseId]) {
+                if (data.practice[courseId][discipline] && data.practice[courseId][discipline].totalTime) {
+                    totalPracticeTime += data.practice[courseId][discipline].totalTime;
+                }
+            }
+        }
+        for (const courseId in data.bibliography) {
+            for (const discipline in data.bibliography[courseId]) {
+                if (data.bibliography[courseId][discipline] && data.bibliography[courseId][discipline].totalTime) {
+                    totalBibliographyTime += data.bibliography[courseId][discipline].totalTime;
+                }
+            }
+        }
+        
+        return {
+            graduation: totalGraduationTime,
+            discipline: totalDisciplineTime,
+            practice: totalPracticeTime,
+            bibliography: totalBibliographyTime,
+            total: totalGraduationTime + totalDisciplineTime + totalPracticeTime + totalBibliographyTime
+        };
+    }
+
+    function getPlatformActivitySummary() {
+        const data = loadTimesetData();
+        const days = data.activity?.days || {};
+        const dates = Object.keys(days).filter(date => Number(days[date]) > 0).sort();
+        let streak = 0;
+        let cursor = new Date();
+        for (let index = dates.length - 1; index >= 0; index--) {
+            const expected = getActivityDate(cursor.getTime());
+            if (dates[index] !== expected) {
+                if (index === dates.length - 1 && expected === getActivityDate()) cursor.setDate(cursor.getDate() - 1);
+                else break;
+                if (dates[index] !== getActivityDate(cursor.getTime())) break;
+            }
+            streak += 1;
+            cursor.setDate(cursor.getDate() - 1);
+        }
+        const periods = (data.activity?.sessions || []).map(session => ({
+            start: session.start,
+            end: session.end,
+            date: session.date,
+            seconds: Number(session.seconds) || 0
+        }));
+        return { totalSeconds: Object.values(days).reduce((total, value) => total + (Number(value) || 0), 0), streakDays: streak, activeDays: dates.length, days, periods };
     }
     
     // ========== INICIALIZAÇÃO ==========
     function initializeCursorTimeset() {
         console.log('[CursorTimeset] Inicializado');
         // Verificar se há dados de sessão anterior e restaurar se necessário
-        const lastSession = localStorage.getItem('cursor_timeset_computer_science_last_access');
-        if (lastSession) {
-            console.log(`[CursorTimeset] Sessão anterior detectada para Computer Science: ${lastSession}`);
-        }
-        const lastSessionEC = localStorage.getItem('cursor_timeset_engenharia_computacao_last_access');
-        if (lastSessionEC) {
-            console.log(`[CursorTimeset] Sessão anterior detectada para Engenharia de Computação: ${lastSessionEC}`);
-        }
+        SPECIAL_COURSES.forEach(courseId => {
+            const lastAccess = localStorage.getItem(`cursor_timeset_${courseId}_last_access`);
+            if (lastAccess) {
+                console.log(`[CursorTimeset] Sessão anterior detectada para ${courseId}: ${lastAccess}`);
+            }
+        });
         window.addEventListener('beforeunload', () => {
             if (currentContext) updateElapsedTime();
         });
         // Adicionar atributo indicador de sessão ativa no body
         document.body.setAttribute('data-cursor-active', 'true');
+        // Iniciar o monitoramento mesmo sem curso ativo (apenas para detectar atividade)
+        startActivityMonitoring();
     }
     
     // ========== EXPOR API PÚBLICA ==========
@@ -289,6 +380,8 @@
         registerExit,
         getTimesetData: loadTimesetData,
         getCourseSpecificData,
+        getTotalTimeData,
+        getPlatformActivitySummary,
         // Método para obter dados específicos do Computer Science (mantido para compatibilidade)
         getComputerScienceData: function() {
             return getCourseSpecificData('computer-science').csExtra || {};
@@ -296,6 +389,14 @@
         // Método para obter dados específicos da Engenharia de Computação
         getEngenhariaComputacaoData: function() {
             return getCourseSpecificData('engenharia_computacao').ecExtra || {};
+        },
+        // Método para obter dados específicos da Tecnologia da Informação
+        getTecnologiaInformacaoData: function() {
+            return getCourseSpecificData('tecnologia-informacao').tiExtra || {};
+        },
+        // Método para obter dados específicos da Ciência de Dados (Bacharelado)
+        getCienciaDadosBachareladoData: function() {
+            return getCourseSpecificData('ciencia-de-dados-bacharelado').cdExtra || {};
         }
     };
     

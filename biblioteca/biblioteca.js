@@ -1,9 +1,13 @@
-// biblioteca.js – Busca de livros com loading estável, enriquecimento de metadados e APIs externas
-// Versão final com i18n robusto, múltiplos caminhos para traduções e sincronização de idioma
-// CORREÇÃO: Carregamento de traduções com fallback de caminhos (../lang/, lang/, /lang/)
-// CORREÇÃO: Sincronização do seletor de idioma (PT/EN) com o estado atual
-// CORREÇÃO: Re-renderização do modal e do perfil ao mudar idioma
-// CORREÇÃO: Remoção de dependência do audiobook.js (não utilizado)
+// biblioteca.js – Versão 8.0 – COMPLETO E OTIMIZADO
+// Busca de livros com loading estável, enriquecimento de metadados e APIs externas
+// Player de audiobooks com controles completos: progresso, volume, legendas, modo áudio/vídeo
+// Salvamento automático de progresso no localStorage (individual por vídeo/parte)
+// Suporte a múltiplas partes (parte 1, 2, 3...) e links para PDF
+// Capas bibliográficas para livros e miniaturas do YouTube para audiobooks
+// CORREÇÃO: Usa módulo central i18n se disponível, com fallback próprio
+// CORREÇÃO: Progresso salvo individualmente para cada audiobook/vídeo
+// CORREÇÃO: Scroll automático para o player ao clicar em "Ouvir"
+// CORREÇÃO: Container do player criado uma única vez no início
 
 document.addEventListener('DOMContentLoaded', async () => {
     'use strict';
@@ -16,6 +20,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentSearchTerm = '';
     let currentAbortController = null;
     let currentSearchId = 0;
+    let audiobookSearchId = 0;
+    let pdfjsPromise = null;
+    let pdfLoadingTask = null;
+    let pdfDocument = null;
+    let pdfRenderTask = null;
+    let pdfRequestId = 0;
+    let pdfRenderId = 0;
+    let pdfCurrentPage = 1;
+    let pdfZoom = 1;
+    let currentPdfBook = null;
+    const PDF_READING_PROGRESS_KEY = 'ulivre_pdf_reading_progress';
+    const LIBRARY_PAGE_SIZE = 24;
+    let currentLibraryResults = [];
+    let displayedLibraryResults = 0;
+    let libraryRenderId = 0;
+    let isAppendingLibraryResults = false;
+    const AUDIOBOOK_PAGE_SIZE = 16;
+    let displayedAudiobookCount = 0;
     let activeTab = 'book';
     let activeMainTab = 'library';
     let externalLibrariesData = [];
@@ -24,27 +46,95 @@ document.addEventListener('DOMContentLoaded', async () => {
     let apiCache = new Map();
     let metadataCache = new Map();
 
+    // ========== PLAYER MULTIMÍDIA ==========
+    let multimediaPlayer = null;
+    let multimediaPlayerReady = false;
+    let currentVideoId = null;
+    let currentPartUrl = null;
+    let currentPartType = null;
+    let currentDirectAudio = null;
+    let progressSaveInterval = null;
+    let isAudioMode = true;
+    let isPlayerVisible = false;
+    let currentTitle = '';
+    let currentDescription = '';
+    let subtitlesEnabled = false;
+    let playerContainerCreated = false;
+    let isSavingProgress = false;
+    let currentParts = [];
+    let currentPartIndex = 0;
+    let currentAudiobookMeta = null;
+
+    // ========== RATE LIMITING PARA GOOGLE BOOKS ==========
+    let googleBooksQueue = [];
+    let isProcessingGoogleBooks = false;
+    let googleBooksFailedAttempts = 0;
+    const GOOGLE_BOOKS_DELAY_MS = 8000;
+    const GOOGLE_BOOKS_MAX_RETRIES = 3;
+    const GOOGLE_BOOKS_BACKOFF_MULTIPLIER = 1.5;
+    const GOOGLE_BOOKS_DISABLE_AFTER_FAILURES = 5;
+    const API_TIMEOUT_MS = 8000;
+
     const SEARCH_CACHE_TTL = 5 * 60 * 1000;
     const API_CACHE_TTL = 10 * 60 * 1000;
     const METADATA_CACHE_TTL = 24 * 60 * 60 * 1000;
     const GLOBAL_TIMEOUT = 20000;
     const MIN_SEARCH_LENGTH = 2;
-    const MAX_EXTERNAL_RESULTS = 20;
+    const MAX_EXTERNAL_RESULTS = 100;
+    const LOCAL_DATA_PATHS = {
+        books: ['./books.json', '../biblioteca/books.json', '/biblioteca/books.json'],
+        audiobooks: ['./audiobooks.json', '../biblioteca/audiobooks.json', '/biblioteca/audiobooks.json']
+    };
+
+    function getLocalDataPaths(kind) {
+        const meta = document.querySelector(`meta[name="library-${kind}-api"]`);
+        const configuredPath = meta?.content?.trim();
+        return configuredPath ? [configuredPath, ...LOCAL_DATA_PATHS[kind]] : LOCAL_DATA_PATHS[kind];
+    }
 
     const CORS_PROXIES = [
         'https://corsproxy.io/?',
-        'https://api.allorigins.win/raw?url=',
-        'https://proxy.cors.sh/'
+        'https://api.allorigins.win/raw?url='
     ];
 
     const DOWNLOAD_EXTENSIONS = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.zip', '.rar'];
     const AUDIO_EXTENSIONS = ['.mp3', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.m4a'];
 
-    const HATHITRUST_API_KEY = 'YOUR_HATHITRUST_API_KEY';
-    const GOOGLE_BOOKS_API_KEY = 'YOUR_GOOGLE_BOOKS_API_KEY';
+    const GOOGLE_BOOKS_API_KEY_STORAGE_KEY = 'ulivre_google_books_api_key';
+    const LIBRARY_API_SOURCE_STORAGE_PREFIX = 'ulivre_library_api_source_';
+    const LIBRARY_API_SOURCES = [
+        ['gutenberg', 'library_source_gutenberg_name', 'library_source_gutenberg_description', searchGutenberg],
+        ['internet-archive', 'library_source_internet_archive_name', 'library_source_internet_archive_description', searchInternetArchive],
+        ['open-library', 'library_source_open_library_name', 'library_source_open_library_description', searchOpenLibrary],
+        ['standard-ebooks', 'library_source_standard_ebooks_name', 'library_source_standard_ebooks_description', searchStandardEbooks],
+        ['doab', 'library_source_doab_name', 'library_source_doab_description', searchDOAB],
+        ['arxiv', 'library_source_arxiv_name', 'library_source_arxiv_description', searchArxiv],
+        ['semantic-scholar', 'library_source_semantic_scholar_name', 'library_source_semantic_scholar_description', searchSemanticScholar],
+        ['openalex', 'library_source_openalex_name', 'library_source_openalex_description', searchOpenAlex],
+        ['crossref', 'library_source_crossref_name', 'library_source_crossref_description', searchCrossref]
+    ];
+    function isLibraryApiSourceEnabled(sourceId) {
+        return localStorage.getItem(`${LIBRARY_API_SOURCE_STORAGE_PREFIX}${sourceId}`) !== 'false';
+    }
+    function getGoogleBooksApiKey() {
+        if (localStorage.getItem(`${GOOGLE_BOOKS_API_KEY_STORAGE_KEY}_enabled`) === 'false') return '';
+        return localStorage.getItem(GOOGLE_BOOKS_API_KEY_STORAGE_KEY)?.trim() || '';
+    }
+    function hasGoogleBooksApiKey() {
+        return Boolean(getGoogleBooksApiKey());
+    }
+    const PROGRESS_STORAGE_PREFIX = 'audiobook_progress_';
+const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
 
-    // ========== FUNÇÃO DE TRADUÇÃO ==========
+    // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
+        // Tenta usar o módulo central i18n
+        if (window.t && typeof window.t === 'function') {
+            try {
+                return window.t(key, replacements);
+            } catch (e) { /* fallback */ }
+        }
+
         let text = translations[key] || key;
         if (text === key) {
             const hardcoded = {
@@ -52,6 +142,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'marked_as_read': 'Marcado como lido',
                 'profile': 'Perfil',
                 'download_book': 'Baixar Livro',
+                'read_book': 'Ler livro',
+                'reader_loading': 'Carregando PDF...',
+                'reader_page': '{{page}} / {{total}}',
+                'reader_previous_page': 'Página anterior',
+                'reader_next_page': 'Próxima página',
+                'reader_zoom_out': 'Diminuir zoom',
+                'reader_zoom_in': 'Aumentar zoom',
+                'reader_error': 'Não foi possível carregar este PDF. O servidor pode bloquear a leitura externa (CORS).',
                 'access_online': 'Acessar Online',
                 'book_author': 'Autor',
                 'book_year': 'Ano',
@@ -89,7 +187,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'price_free': 'Grátis',
                 'price_paid': 'Pago',
                 'unavailable': 'Indisponível',
-                'profile': 'Perfil'
+                'profile': 'Perfil',
+                'listen_button': 'Ouvir',
+                'no_audiobooks': 'Nenhum audiobook disponível no momento.',
+                'audiobooks_title': 'Audiobooks',
+                'close_player': 'Fechar player',
+                'play': 'Play',
+                'pause': 'Pausa',
+                'volume': 'Volume',
+                'subtitles': 'Legendas',
+                'audio_mode': 'Modo Áudio',
+                'video_mode': 'Modo Vídeo',
+                'part': 'Parte',
+                'pdf_download': 'Baixar PDF',
+                'retry': 'Tentar novamente',
+                'local_data_error': 'Não foi possível carregar a API local da biblioteca.',
+                'local_data_hint': 'Verifique se o servidor local está ativo e se o arquivo de dados está acessível.'
             };
             if (hardcoded[key]) text = hardcoded[key];
         }
@@ -101,12 +214,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== I18N ==========
     async function loadTranslations(lang) {
-        // Múltiplos caminhos para buscar os arquivos de tradução
+        // Tenta usar o módulo central i18n
+        if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+            try {
+                await window.i18n.loadTranslations(lang);
+                translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+                if (Object.keys(translations).length > 0) {
+                    console.log('[Biblioteca] Traduções carregadas do módulo central i18n');
+                    return true;
+                }
+            } catch (e) {
+                console.warn('[Biblioteca] Falha ao carregar do módulo central:', e);
+            }
+        }
+
+        // Fallback: tenta carregar o arquivo JSON diretamente
         const paths = [
-            `../lang/${lang}.json`,
-            `lang/${lang}.json`,
-            `/lang/${lang}.json`,
-            `./lang/${lang}.json`
+            `../base/lang/${lang}.json`,
+            `base/lang/${lang}.json`,
+            `/base/lang/${lang}.json`,
+            `./base/lang/${lang}.json`
         ];
         for (const path of paths) {
             try {
@@ -116,9 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     console.log(`[Biblioteca] Traduções carregadas de ${path}`);
                     return true;
                 }
-            } catch (e) {
-                // Continua tentando outros caminhos
-            }
+            } catch (e) { /* continua */ }
         }
         console.warn('[Biblioteca] Nenhum arquivo de tradução encontrado. Usando fallback.');
         translations = {};
@@ -126,12 +251,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function updateLanguageSelector(lang) {
+        if (typeof window.updateLanguageSelector === 'function') {
+            window.updateLanguageSelector(lang);
+            return;
+        }
         const ptBtn = document.getElementById('langPtBtn');
         const enBtn = document.getElementById('langEnBtn');
-        if (ptBtn && enBtn) {
-            ptBtn.classList.toggle('active', lang === 'pt-br');
-            enBtn.classList.toggle('active', lang === 'en');
-        }
+        const esBtn = document.getElementById('langEsBtn');
+        ptBtn?.classList.toggle('active', lang === 'pt-br');
+        enBtn?.classList.toggle('active', lang === 'en');
+        esBtn?.classList.toggle('active', lang === 'es');
     }
 
     function applyAllTranslations() {
@@ -139,6 +268,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.warn('[Biblioteca] applyAllTranslations: traduções vazias, ignorando.');
             return;
         }
+
+        // Se window.applyTranslations estiver disponível, usa-o
+        if (window.applyTranslations && typeof window.applyTranslations === 'function') {
+            try {
+                window.applyTranslations();
+            } catch (e) {
+                console.warn('[Biblioteca] Erro ao chamar applyTranslations central:', e);
+            }
+        }
+
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[key]) {
@@ -175,6 +314,116 @@ document.addEventListener('DOMContentLoaded', async () => {
             profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
         }
         updateReadButtonTranslation();
+        const audiobooksTabBtn = document.querySelector('.main-tab-btn[data-main-tab="audiobooks"] span');
+        if (audiobooksTabBtn) audiobooksTabBtn.innerText = t('audiobooks_title');
+        updatePlayerControlTranslations();
+        updatePdfReaderTranslations();
+    }
+
+    function updatePdfReaderTranslations() {
+        const labels = {
+            closePdfReader: 'close',
+            pdfReaderPrevious: 'reader_previous_page',
+            pdfReaderNext: 'reader_next_page',
+            pdfReaderZoomOut: 'reader_zoom_out',
+            pdfReaderZoomIn: 'reader_zoom_in',
+            pdfReaderBookmark: 'reader_bookmark',
+            pdfReaderDownload: 'download_book'
+        };
+        Object.entries(labels).forEach(([id, key]) => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            const label = t(key);
+            button.setAttribute('aria-label', label);
+            button.title = label;
+        });
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (toolbar) toolbar.setAttribute('aria-label', t('reader_controls'));
+        const canvas = document.getElementById('pdfReaderCanvas');
+        if (canvas) canvas.setAttribute('aria-label', t('read_book'));
+        if (pdfDocument) {
+            const status = document.getElementById('pdfReaderStatus');
+            if (status) status.textContent = t('reader_page', { page: pdfCurrentPage, total: pdfDocument.numPages });
+        }
+        updatePdfReaderControls();
+    }
+
+    function populateLibraryQualityOptions() {
+        const select = document.getElementById('playerVideoQuality');
+        if (!select || !multimediaPlayerReady || !multimediaPlayer?.getAvailableQualityLevels) return;
+        const labels = { highres: '2160p', hd2160: '2160p', hd1440: '1440p', hd1080: '1080p', hd720: '720p', large: '480p', medium: '360p', small: '240p' };
+        const levels = multimediaPlayer.getAvailableQualityLevels() || [];
+        select.replaceChildren(new Option('Auto', 'auto'));
+        [...new Set(levels)].forEach(level => select.appendChild(new Option(labels[level] || level, level)));
+        select.disabled = select.options.length <= 1;
+    }
+
+    function populateLibraryAudioOptions() {
+        const select = document.getElementById('playerAudioTrack');
+        const control = document.getElementById('playerAudioTrackControl');
+        if (!select || !control || !multimediaPlayerReady || typeof multimediaPlayer.getAvailableAudioTracks !== 'function') {
+            if (control) control.hidden = true;
+            return;
+        }
+        let tracks;
+        try {
+            tracks = multimediaPlayer.getAvailableAudioTracks() || [];
+        } catch (error) {
+            console.warn('[Player] Não foi possível consultar as faixas de áudio:', error);
+            control.hidden = true;
+            return;
+        }
+        if (!Array.isArray(tracks)) tracks = Object.values(tracks);
+        const getId = track => String(track?.id || track?.trackId || track?.audioTrackId || track?.languageCode || '');
+        const original = tracks.find(track => track?.kind === 'original') || tracks[0];
+        const originalId = getId(original) || 'original';
+        select.replaceChildren(new Option('Original', originalId));
+        tracks.forEach(track => {
+            const id = getId(track);
+            if (!id || id === originalId) return;
+            select.appendChild(new Option(track.displayName || track.languageName || track.language || track.languageCode || 'Faixa de áudio', id));
+        });
+        const hasAlternatives = select.options.length > 1;
+        control.hidden = !hasAlternatives;
+        select.disabled = !hasAlternatives;
+    }
+
+    function scheduleLibraryPlayerOptions() {
+        let attempts = 0;
+        const refresh = () => {
+            populateLibraryQualityOptions();
+            populateLibraryAudioOptions();
+            if (attempts++ < 30 && (
+                document.getElementById('playerVideoQuality')?.options.length <= 1 ||
+                document.getElementById('playerAudioTrackControl')?.hidden
+            )) setTimeout(refresh, 500);
+        };
+        refresh();
+    }
+
+    function toggleLibraryFullscreen() {
+        const container = document.getElementById('multimediaPlayerContainer');
+        if (!container) return;
+        if (document.fullscreenElement) document.exitFullscreen?.();
+        else container.requestFullscreen?.();
+    }
+
+    function updatePlayerControlTranslations() {
+        const playPauseBtn = document.getElementById('playerPlayPause');
+        if (playPauseBtn) {
+            const isPlaying = playPauseBtn.dataset.playing === 'true';
+            playPauseBtn.innerHTML = isPlaying ? `<i class="fas fa-pause"></i> ${t('pause')}` : `<i class="fas fa-play"></i> ${t('play')}`;
+        }
+        const subBtn = document.getElementById('playerSubtitles');
+        if (subBtn) {
+            subBtn.innerHTML = `<i class="fas fa-closed-captioning"></i><span class="player-subtitles-label">${t('subtitles', 'Legendas')}</span>`;
+        }
+        const modeBtn = document.getElementById('playerToggleMode');
+        if (modeBtn) {
+            modeBtn.innerHTML = isAudioMode ? `<i class="fas fa-eye"></i> ${t('video_mode')}` : `<i class="fas fa-headphones"></i> ${t('audio_mode')}`;
+        }
+        const closeBtn = document.getElementById('closeMultimediaPlayer');
+        if (closeBtn) closeBtn.innerHTML = `<i class="fas fa-times"></i> ${t('close_player')}`;
     }
 
     // ========== FUNÇÕES AUXILIARES ==========
@@ -185,6 +434,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function escapeHtml(str) {
         return str ? String(str).replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : '';
+    }
+
+    function escapeAttribute(str) {
+        return String(str || '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
     }
 
     function generateId() {
@@ -208,6 +461,240 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (urlObj.hostname.includes('docs.google.com') || urlObj.hostname.includes('drive.google.com')) return t('access_online');
             return t('access_online');
         } catch { return t('access_online'); }
+    }
+
+    function isPdfUrl(url) {
+        if (!url) return false;
+        try {
+            return new URL(url, window.location.href).pathname.toLowerCase().endsWith('.pdf');
+        } catch {
+            return false;
+        }
+    }
+
+    function hasDownloadExtension(url) {
+        if (!url) return false;
+        try {
+            const pathname = new URL(url, window.location.href).pathname.toLowerCase();
+            return DOWNLOAD_EXTENSIONS.some(extension => pathname.endsWith(extension));
+        } catch {
+            return false;
+        }
+    }
+
+    function loadPdfJs() {
+        if (!pdfjsPromise) {
+            pdfjsPromise = import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs')
+                .then(pdfjsLib => {
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+                    return pdfjsLib;
+                })
+                .catch(error => {
+                    pdfjsPromise = null;
+                    throw error;
+                });
+        }
+        return pdfjsPromise;
+    }
+
+    function getPdfReadingProgress() {
+        try {
+            const stored = localStorage.getItem(PDF_READING_PROGRESS_KEY);
+            return stored ? JSON.parse(stored) : {};
+        } catch {
+            return {};
+        }
+    }
+
+    function getSavedPdfPage(bookId) {
+        if (!bookId) return null;
+        const page = Number(getPdfReadingProgress()[bookId]?.page);
+        return Number.isInteger(page) && page > 0 ? page : null;
+    }
+
+    function savePdfBookmark() {
+        if (!currentPdfBook || !pdfDocument) return;
+        const progress = getPdfReadingProgress();
+        progress[currentPdfBook.id] = {
+            page: pdfCurrentPage,
+            title: currentPdfBook.title,
+            updatedAt: new Date().toISOString()
+        };
+        try {
+            localStorage.setItem(PDF_READING_PROGRESS_KEY, JSON.stringify(progress));
+            const readerStatus = document.getElementById('pdfReaderStatus');
+            if (readerStatus) readerStatus.textContent = t('reader_bookmark_saved', { page: pdfCurrentPage });
+            updatePdfReaderControls();
+        } catch (error) {
+            console.warn('[Biblioteca] Não foi possível salvar o marcador do PDF:', error);
+        }
+    }
+
+    async function downloadCurrentPdf() {
+        if (!currentPdfBook) return;
+        const filename = `${currentPdfBook.title || 'livro'}`.replace(/[^a-z0-9]/gi, '_') + '.pdf';
+        await forceDownload(currentPdfBook.url, filename);
+    }
+
+    async function openPdfReader(url, title, bookId) {
+        const readerModal = document.getElementById('pdfReaderModal');
+        const readerTitle = document.getElementById('pdfReaderTitle');
+        const readerStatus = document.getElementById('pdfReaderStatus');
+        const canvas = document.getElementById('pdfReaderCanvas');
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (!readerModal || !canvas) return;
+
+        const requestId = ++pdfRequestId;
+        pdfRenderId++;
+        if (toolbar) toolbar.hidden = false;
+        canvas.style.display = 'block';
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        if (pdfLoadingTask) pdfLoadingTask.destroy().catch(() => {});
+        pdfLoadingTask = null;
+        pdfDocument = null;
+        currentPdfBook = { id: String(bookId || url), title: title || t('read_book'), url };
+        pdfCurrentPage = 1;
+        pdfZoom = 1;
+        canvas.width = 0;
+        canvas.height = 0;
+        readerTitle.textContent = title || t('read_book');
+        readerStatus.textContent = t('reader_loading');
+        readerModal.style.display = 'flex';
+        updatePdfReaderControls();
+
+        try {
+            const pdfjsLib = await loadPdfJs();
+            if (requestId !== pdfRequestId) return;
+            pdfLoadingTask = pdfjsLib.getDocument({ url });
+            const loadedDocument = await pdfLoadingTask.promise;
+            if (requestId !== pdfRequestId) {
+                loadedDocument.destroy();
+                return;
+            }
+            pdfDocument = loadedDocument;
+            const savedPage = getSavedPdfPage(currentPdfBook.id);
+            if (savedPage) pdfCurrentPage = Math.min(savedPage, loadedDocument.numPages);
+            await renderPdfPage();
+        } catch (error) {
+            if (requestId !== pdfRequestId) return;
+            console.error('[Biblioteca] Erro ao abrir PDF:', error);
+            readerStatus.textContent = t('reader_error');
+        }
+    }
+
+    async function renderPdfPage() {
+        if (!pdfDocument) return;
+        const documentToRender = pdfDocument;
+        const renderId = ++pdfRenderId;
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        const canvas = document.getElementById('pdfReaderCanvas');
+        const readerStatus = document.getElementById('pdfReaderStatus');
+        try {
+            const page = await documentToRender.getPage(pdfCurrentPage);
+            if (renderId !== pdfRenderId || documentToRender !== pdfDocument) return;
+            const baseViewport = page.getViewport({ scale: 1 });
+            const availableWidth = Math.max(280, canvas.parentElement.clientWidth - 32);
+            const scale = Math.min(1.5, availableWidth / baseViewport.width) * pdfZoom;
+            const viewport = page.getViewport({ scale });
+            const outputScale = window.devicePixelRatio || 1;
+            const context = canvas.getContext('2d');
+            canvas.width = Math.floor(viewport.width * outputScale);
+            canvas.height = Math.floor(viewport.height * outputScale);
+            canvas.style.width = `${viewport.width}px`;
+            canvas.style.height = `${viewport.height}px`;
+            context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+            pdfRenderTask = page.render({ canvasContext: context, viewport });
+            await pdfRenderTask.promise;
+            if (renderId === pdfRenderId && documentToRender === pdfDocument) {
+                readerStatus.textContent = t('reader_page', { page: pdfCurrentPage, total: documentToRender.numPages });
+                updatePdfReaderControls();
+            }
+        } catch (error) {
+            if (error.name !== 'RenderingCancelledException' && renderId === pdfRenderId) {
+                console.error('[Biblioteca] Erro ao renderizar página:', error);
+                readerStatus.textContent = t('reader_error');
+            }
+        }
+    }
+
+    function updatePdfReaderControls() {
+        const pageLabel = document.getElementById('pdfReaderPage');
+        const previousButton = document.getElementById('pdfReaderPrevious');
+        const nextButton = document.getElementById('pdfReaderNext');
+        const zoomOutButton = document.getElementById('pdfReaderZoomOut');
+        const zoomInButton = document.getElementById('pdfReaderZoomIn');
+        const bookmarkButton = document.getElementById('pdfReaderBookmark');
+        const downloadButton = document.getElementById('pdfReaderDownload');
+        const markReadButton = document.getElementById('pdfReaderMarkRead');
+        if (pageLabel) pageLabel.textContent = pdfDocument ? `${pdfCurrentPage} / ${pdfDocument.numPages}` : '0 / 0';
+        if (previousButton) previousButton.disabled = !pdfDocument || pdfCurrentPage <= 1;
+        if (nextButton) nextButton.disabled = !pdfDocument || pdfCurrentPage >= pdfDocument.numPages;
+        if (zoomOutButton) zoomOutButton.disabled = !pdfDocument || pdfZoom <= 0.6;
+        if (zoomInButton) zoomInButton.disabled = !pdfDocument || pdfZoom >= 2.4;
+        if (bookmarkButton) {
+            const isSavedPage = Boolean(pdfDocument && currentPdfBook && getSavedPdfPage(currentPdfBook.id) === pdfCurrentPage);
+            bookmarkButton.disabled = !pdfDocument;
+            bookmarkButton.classList.toggle('is-bookmarked', isSavedPage);
+            bookmarkButton.setAttribute('aria-pressed', String(isSavedPage));
+        }
+        if (downloadButton) downloadButton.disabled = !pdfDocument;
+        if (markReadButton) {
+            const isLastPage = Boolean(pdfDocument && pdfCurrentPage === pdfDocument.numPages);
+            const isRead = Boolean(currentPdfBook && isBookRead(currentPdfBook.id));
+            markReadButton.hidden = !isLastPage;
+            markReadButton.disabled = !isLastPage;
+            markReadButton.setAttribute('aria-pressed', String(isRead));
+            markReadButton.classList.toggle('is-read', isRead);
+            markReadButton.innerHTML = `<i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}" aria-hidden="true"></i><span>${t(isRead ? 'marked_as_read' : 'mark_as_read')}</span>`;
+        }
+    }
+
+    function syncReadBookState(book, isRead) {
+        const label = t(isRead ? 'marked_as_read' : 'mark_as_read');
+        const detailButton = document.getElementById('toggleReadBtn');
+        if (detailButton && modal?._currentItem?.id === book.id) {
+            detailButton.className = `action-btn ${isRead ? 'read-btn' : 'unread-btn'}`;
+            detailButton.innerHTML = `<i class="fas ${isRead ? 'fa-check-circle' : 'fa-circle'}"></i> ${label}`;
+        }
+
+        const card = document.querySelector(`.book-mini-card[data-id="${book.id}"]`);
+        if (!card) return;
+        const existingBadge = card.querySelector('.read-badge');
+        if (isRead && !existingBadge) {
+            const badge = document.createElement('span');
+            badge.className = 'read-badge';
+            badge.innerHTML = `<i class="fas fa-check-circle"></i> ${t('marked_as_read')}`;
+            card.appendChild(badge);
+        } else if (!isRead && existingBadge) {
+            existingBadge.remove();
+        }
+    }
+
+    function toggleCurrentPdfReadState() {
+        if (!currentPdfBook || !pdfDocument || pdfCurrentPage !== pdfDocument.numPages) return;
+        const isRead = toggleBookRead(currentPdfBook);
+        syncReadBookState(currentPdfBook, isRead);
+        updatePdfReaderControls();
+    }
+
+    function closePdfReader() {
+        pdfRequestId++;
+        pdfRenderId++;
+        pdfRenderTask?.cancel();
+        pdfRenderTask = null;
+        if (pdfLoadingTask) pdfLoadingTask.destroy().catch(() => {});
+        pdfLoadingTask = null;
+        pdfDocument = null;
+        currentPdfBook = null;
+        const canvas = document.getElementById('pdfReaderCanvas');
+        if (canvas) canvas.style.display = 'block';
+        const toolbar = document.querySelector('.pdf-reader-toolbar');
+        if (toolbar) toolbar.hidden = false;
+        const readerModal = document.getElementById('pdfReaderModal');
+        if (readerModal) readerModal.style.display = 'none';
+        updatePdfReaderControls();
     }
 
     function isAudiobook(book) {
@@ -316,7 +803,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========== ENRIQUECIMENTO DE METADADOS ==========
-    async function enrichWithGoogleBooks(book) {
+    let googleBooksDisabled = false;
+
+    function processGoogleBooksQueue() {
+        if (isProcessingGoogleBooks || googleBooksQueue.length === 0 || googleBooksDisabled) return;
+        isProcessingGoogleBooks = true;
+
+        (async function processNext() {
+            while (googleBooksQueue.length > 0) {
+                const { book, resolve, reject, attempt = 0 } = googleBooksQueue.shift();
+                if (googleBooksDisabled) {
+                    resolve(book);
+                    continue;
+                }
+                try {
+                    const result = await _enrichWithGoogleBooks(book, attempt);
+                    resolve(result);
+                    googleBooksFailedAttempts = 0;
+                } catch (error) {
+                    if (error.message === 'Too Many Requests') {
+                        googleBooksDisabled = true;
+                        console.warn('[Google Books] Limite de requisições atingido. Consultas desativadas nesta sessão.');
+                        resolve(book);
+                        continue;
+                    }
+                    if (attempt < GOOGLE_BOOKS_MAX_RETRIES) {
+                        const delay = GOOGLE_BOOKS_DELAY_MS * Math.pow(GOOGLE_BOOKS_BACKOFF_MULTIPLIER, attempt);
+                        console.warn(`[Google Books] Falha (tentativa ${attempt+1}), agendando retry em ${delay}ms:`, error.message);
+                        setTimeout(() => {
+                            googleBooksQueue.unshift({ book, resolve, reject, attempt: attempt + 1 });
+                            processGoogleBooksQueue();
+                        }, delay);
+                        continue;
+                    } else {
+                        googleBooksFailedAttempts++;
+                        if (googleBooksFailedAttempts >= GOOGLE_BOOKS_DISABLE_AFTER_FAILURES) {
+                            googleBooksDisabled = true;
+                            console.warn('[Google Books] Desativado devido a múltiplas falhas. Usando capas locais como fallback.');
+                        }
+                        reject(error);
+                    }
+                }
+                await new Promise(r => setTimeout(r, GOOGLE_BOOKS_DELAY_MS));
+            }
+            isProcessingGoogleBooks = false;
+        })();
+    }
+
+    function enrichWithGoogleBooks(book) {
+        return new Promise((resolve, reject) => {
+            if (googleBooksDisabled || !hasGoogleBooksApiKey()) return resolve(book);
+            googleBooksQueue.push({ book, resolve, reject, attempt: 0 });
+            processGoogleBooksQueue();
+        });
+    }
+
+    async function _enrichWithGoogleBooks(book, attempt) {
         if (!book.title) return book;
         const cacheKey = `google_enrich_${normalizeText(book.title)}_${normalizeText(book.rawAuthor || '')}`;
         if (metadataCache.has(cacheKey) && Date.now() - metadataCache.get(cacheKey).timestamp < METADATA_CACHE_TTL) {
@@ -324,39 +866,57 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (cached) return { ...book, ...cached };
         }
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
             let query = `intitle:${encodeURIComponent(book.title)}`;
             if (book.rawAuthor) query += `+inauthor:${encodeURIComponent(book.rawAuthor)}`;
             let url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
-            const response = await fetch(url);
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (response.status === 429) {
+                throw new Error('Too Many Requests');
+            }
             if (!response.ok) return book;
             const data = await response.json();
-            if (!data.items || data.items.length === 0) return book;
-            const volume = data.items[0].volumeInfo;
-            const enriched = {};
-            if (!book.cover && volume.imageLinks) {
-                enriched.cover = volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null;
-            }
-            if (!book.description && volume.description) {
-                enriched.description = volume.description;
-            }
-            if (!book.year && volume.publishedDate) {
-                enriched.year = volume.publishedDate.substring(0, 4);
-            }
-            if (!book.publisher && volume.publisher) {
-                enriched.publisher = volume.publisher;
-            }
-            if (!book.language && volume.language) {
-                enriched.language = volume.language;
-            }
-            if (Object.keys(enriched).length > 0) {
-                metadataCache.set(cacheKey, { data: enriched, timestamp: Date.now() });
-                return { ...book, ...enriched };
-            }
-            return book;
+            return processGoogleBooksData(book, data);
         } catch (error) {
+            if (error.message === 'Too Many Requests') throw error;
+            if (error.name === 'AbortError') {
+                console.warn('[Google Books] Timeout, retornando livro sem enriquecimento.');
+                return book;
+            }
+            console.warn('[Google Books] Erro ao enriquecer:', error);
             return book;
         }
+    }
+
+    function processGoogleBooksData(book, data) {
+        if (!data.items || data.items.length === 0) return book;
+        const volume = data.items[0].volumeInfo;
+        const enriched = {};
+        if (!book.cover && volume.imageLinks) {
+            enriched.cover = volume.imageLinks.extraLarge || volume.imageLinks.large || volume.imageLinks.medium || volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null;
+        }
+        if (!book.description && volume.description) {
+            enriched.description = volume.description;
+        }
+        if (!book.year && volume.publishedDate) {
+            enriched.year = volume.publishedDate.substring(0, 4);
+        }
+        if (!book.publisher && volume.publisher) {
+            enriched.publisher = volume.publisher;
+        }
+        if (!book.language && volume.language) {
+            enriched.language = volume.language;
+        }
+        if (Object.keys(enriched).length > 0) {
+            const cacheKey = `google_enrich_${normalizeText(book.title)}_${normalizeText(book.rawAuthor || '')}`;
+            metadataCache.set(cacheKey, { data: enriched, timestamp: Date.now() });
+            return { ...book, ...enriched };
+        }
+        return book;
     }
 
     async function enrichWithOpenLibrary(book) {
@@ -367,17 +927,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (cached) return { ...book, ...cached };
         }
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
             let query = `title:${encodeURIComponent(book.title)}`;
             if (book.rawAuthor) query += `&author:${encodeURIComponent(book.rawAuthor)}`;
             const url = `https://openlibrary.org/search.json?q=${query}&limit=1`;
-            const response = await fetch(url);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
             if (!response.ok) return book;
             const data = await response.json();
             if (!data.docs || data.docs.length === 0) return book;
             const doc = data.docs[0];
             const enriched = {};
             if (!book.cover && doc.cover_i) {
-                enriched.cover = `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`;
+                enriched.cover = `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`;
             }
             if (!book.description && doc.first_sentence) {
                 enriched.description = doc.first_sentence[0];
@@ -397,104 +960,166 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             return book;
         } catch (error) {
+            if (error.name === 'AbortError') {
+                console.warn('[OpenLibrary] Timeout, retornando livro sem enriquecimento.');
+            } else {
+                console.warn('[OpenLibrary] Erro ao enriquecer:', error);
+            }
             return book;
         }
     }
 
+    function isPlaceholderCoverUrl(url) {
+        if (!url || typeof url !== 'string') return false;
+        const value = url.trim().toLowerCase();
+        return value.includes('placehold.co')
+            || value.includes('placeholder')
+            || value.includes('via.placeholder')
+            || value.includes('capa-generica')
+            || value.includes('sem-capa')
+            || value.includes('image_unavailable');
+    }
+
+    function sanitizeCoverUrl(url) {
+        if (!url || typeof url !== 'string') return null;
+        const value = url.trim();
+        if (!value || value === 'null' || value === 'undefined') return null;
+        return isPlaceholderCoverUrl(value) ? null : value;
+    }
+
+    async function fetchOfficialCover(book) {
+        const sanitized = sanitizeCoverUrl(book.cover);
+        if (sanitized) return sanitized;
+
+        const isbn = (book.isbn || '').toString().replace(/[^0-9Xx]/g, '');
+        if (isbn) {
+            const isbnCover = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+            try {
+                const verify = await fetch(isbnCover, { method: 'HEAD' });
+                if (verify.ok) return isbnCover;
+            } catch (error) {
+                // tenta a busca textual se o ISBN não possuir capa válida
+            }
+        }
+
+        const query = [book.title, book.rawAuthor || book.author].filter(Boolean).join(' ');
+        if (!query) return null;
+
+        try {
+            const googleResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1`);
+            if (googleResponse.ok) {
+                const googleData = await googleResponse.json();
+                const volume = googleData.items?.[0]?.volumeInfo;
+                const googleCover = volume?.imageLinks
+                    ? volume.imageLinks.extraLarge || volume.imageLinks.large || volume.imageLinks.medium || volume.imageLinks.thumbnail || volume.imageLinks.smallThumbnail || null
+                    : null;
+                if (googleCover) return googleCover;
+            }
+        } catch (error) {
+            console.debug('[Cover] Google Books sem capa oficial para este item.', error);
+        }
+
+        try {
+            const openLibraryResponse = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=1`);
+            if (!openLibraryResponse.ok) return null;
+            const openLibraryData = await openLibraryResponse.json();
+            const doc = openLibraryData.docs?.[0];
+            if (!doc) return null;
+            if (doc.cover_i) return `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`;
+            if (Array.isArray(doc.isbn) && doc.isbn.length > 0) {
+                const coverIsbn = doc.isbn[0].replace(/[^0-9Xx]/g, '');
+                if (coverIsbn) return `https://covers.openlibrary.org/b/isbn/${coverIsbn}-L.jpg`;
+            }
+        } catch (error) {
+            console.debug('[Cover] Open Library sem capa oficial para este item.', error);
+        }
+        return null;
+    }
+
     async function enrichBookMetadata(book) {
         if (!book.title) return book;
-        let enriched = await enrichWithGoogleBooks(book);
-        if (!enriched.cover || !enriched.description) {
+        if (book.sourceType === 'local') {
+            return { ...book, cover: sanitizeCoverUrl(book.cover) };
+        }
+        const isYouTubeCover = typeof book.cover === 'string' && book.cover.includes('ytimg.com');
+        let enriched = isYouTubeCover ? { ...book, cover: '' } : book;
+        enriched.cover = sanitizeCoverUrl(enriched.cover);
+        if (!googleBooksDisabled && hasGoogleBooksApiKey()) {
+            try {
+                enriched = await enrichWithGoogleBooks(enriched);
+            } catch (e) {
+                console.debug('[Enrich] Google Books falhou; usando capa local como fallback.');
+            }
+        }
+        if (!enriched.cover || !enriched.description || !enriched.year) {
             enriched = await enrichWithOpenLibrary(enriched);
+        }
+        if (!enriched.cover || isPlaceholderCoverUrl(enriched.cover)) {
+            const officialCover = await fetchOfficialCover(enriched);
+            if (officialCover) {
+                enriched.cover = officialCover;
+            }
         }
         return enriched;
     }
-
     // ========== APIS EXTERNAS ==========
     async function searchGoogleBooks(query) {
-        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        if (!hasGoogleBooksApiKey() || !query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `google_books_free_${normalizeText(query)}`;
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
-            let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${MAX_EXTERNAL_RESULTS}&printType=books&filter=free-ebooks`;
-            if (GOOGLE_BOOKS_API_KEY && GOOGLE_BOOKS_API_KEY !== 'YOUR_GOOGLE_BOOKS_API_KEY') url += `&key=${GOOGLE_BOOKS_API_KEY}`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+            let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=${Math.min(MAX_EXTERNAL_RESULTS, 40)}&printType=books&filter=free-ebooks`;
+            const apiKey = getGoogleBooksApiKey();
+            if (apiKey) url += `&key=${encodeURIComponent(apiKey)}`;
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (response.status === 429) return [];
+            if (!response.ok) return [];
             const data = await response.json();
-            return (data.items || []).map(book => {
-                const volume = book.volumeInfo || {};
-                const imageLinks = volume.imageLinks || {};
-                const cover = imageLinks.thumbnail || imageLinks.smallThumbnail || null;
-                const downloadLink = book.accessInfo?.webReaderLink || volume.previewLink || null;
-                return {
-                    id: `google_${book.id}`,
-                    title: volume.title || 'Sem título',
-                    author: formatAuthor(volume.authors?.join(', ') || t('unknown_author')),
-                    rawAuthor: volume.authors?.join(', ') || t('unknown_author'),
-                    description: volume.description || '',
-                    cover: cover,
-                    download: downloadLink,
-                    downloadLabel: t('download_book'),
-                    language: volume.language || 'en',
-                    publisher: volume.publisher || 'Google Books',
-                    source: 'Google Books',
-                    type: 'book',
-                    year: volume.publishedDate ? volume.publishedDate.substring(0, 4) : null
-                };
-            });
-        } catch (error) { console.warn('[Google Books] Erro:', error); return []; }
-    }
-
-    // ========== UTILITÁRIOS DE REDE ==========
-    async function fetchWithRetry(url, options = {}, maxRetries = 3, baseDelay = 1000) {
-        for (let i = 0; i <= maxRetries; i++) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
-                const response = await fetch(url, { ...options, signal: controller.signal });
-                clearTimeout(timeoutId);
-                if (response.status === 429) {
-                    const delay = baseDelay * Math.pow(2, i);
-                    await new Promise(r => setTimeout(r, delay));
-                    continue;
-                }
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return response;
-            } catch (error) {
-                if (i === maxRetries) throw error;
-                const delay = baseDelay * Math.pow(2, i);
-                await new Promise(r => setTimeout(r, delay));
+            return processGoogleBooksSearch(data);
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.warn('[Google Books] Timeout na busca.');
+            } else {
+                console.warn('[Google Books] Erro:', error);
             }
+            return [];
         }
-        throw new Error(`Falha após ${maxRetries} tentativas`);
     }
 
-    async function fetchWithProxy(url, timeout = 15000, retries = 2) {
-        try {
-            const response = await fetchWithRetry(url, {}, retries, 1000);
-            if (response.ok) return response;
-        } catch (e) { /* fallback */ }
-        for (let i = 0; i < retries; i++) {
-            for (const proxy of CORS_PROXIES) {
-                try {
-                    const proxyUrl = proxy + encodeURIComponent(url);
-                    const response = await fetchWithRetry(proxyUrl, {}, 1, 1000);
-                    if (response.ok) return response;
-                } catch (e) { /* continua */ }
-            }
-            await new Promise(r => setTimeout(r, 1000 * (i + 1)));
-        }
-        throw new Error(`Falha ao acessar ${url}`);
+    function processGoogleBooksSearch(data) {
+        return (data.items || []).map(book => {
+            const volume = book.volumeInfo || {};
+            const imageLinks = volume.imageLinks || {};
+            const cover = imageLinks.extraLarge || imageLinks.large || imageLinks.medium || imageLinks.thumbnail || imageLinks.smallThumbnail || null;
+            const downloadLink = book.accessInfo?.webReaderLink || volume.previewLink || null;
+            return {
+                id: `google_${book.id}`,
+                title: volume.title || 'Sem título',
+                author: formatAuthor(volume.authors?.join(', ') || t('unknown_author')),
+                rawAuthor: volume.authors?.join(', ') || t('unknown_author'),
+                description: volume.description || '',
+                cover: cover,
+                download: downloadLink,
+                downloadLabel: t('download_book'),
+                language: volume.language || 'en',
+                publisher: volume.publisher || 'Google Books',
+                source: 'Google Books',
+                type: 'book',
+                year: volume.publishedDate ? volume.publishedDate.substring(0, 4) : null
+            };
+        });
     }
 
-    // ========== APIS EXTERNAS (simplificadas) ==========
     async function searchArxiv(query) {
         if (!query || query.length < MIN_SEARCH_LENGTH) return [];
         const cacheKey = `arxiv_${normalizeText(query)}`;
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=0&max_results=${MAX_EXTERNAL_RESULTS}`;
-            const response = await fetchWithProxy(url, 15000);
+            const response = await fetchWithProxy(url, API_TIMEOUT_MS);
             const text = await response.text();
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(text, "text/xml");
@@ -524,7 +1149,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             apiCache.set(cacheKey, { data: results, timestamp: Date.now() });
             return results;
-        } catch (error) { console.warn('[arXiv] Erro:', error); return []; }
+        } catch (error) {
+            console.warn('[arXiv] Erro:', error);
+            return [];
+        }
     }
 
     async function searchGutenberg(query) {
@@ -560,7 +1188,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}+AND+mediatype:texts&fl[]=title&fl[]=creator&fl[]=description&fl[]=identifier&fl[]=language&fl[]=publisher&fl[]=year&rows=${MAX_EXTERNAL_RESULTS}&output=json`;
-            const response = await fetchWithProxy(url);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
             const data = await response.json();
             const docs = data.response?.docs || [];
             return docs.map(doc => ({
@@ -587,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const url = 'https://standardebooks.org/ebooks.json';
-            const response = await fetchWithProxy(url);
+            const response = await fetchWithProxy(url, API_TIMEOUT_MS);
             const contentType = response.headers.get('content-type');
             if (!response.ok || !contentType || !contentType.includes('application/json')) return [];
             const text = await response.text();
@@ -624,7 +1255,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
             const url = `https://directory.doabooks.org/rest/search?query=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
-            const response = await fetchWithProxy(url);
+            const response = await fetchWithProxy(url, API_TIMEOUT_MS);
             const data = await response.json();
             return (data.results || []).map(book => ({
                 id: `doab_${book.id}`,
@@ -649,13 +1280,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const cacheKey = `openlib_${normalizeText(query)}`;
         if (apiCache.has(cacheKey) && Date.now() - apiCache.get(cacheKey).timestamp < API_CACHE_TTL) return apiCache.get(cacheKey).data;
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
             const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}`;
-            const response = await fetch(url);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
             return (data.docs || []).map(doc => {
                 let coverId = doc.cover_i;
-                let coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : null;
+                let coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg` : null;
                 let downloadUrl = `https://openlibrary.org${doc.key}`;
                 return {
                     id: `openlib_${doc.key.replace('/works/', '')}`,
@@ -673,13 +1307,79 @@ document.addEventListener('DOMContentLoaded', async () => {
                     year: doc.first_publish_year || null
                 };
             });
-        } catch (error) { console.warn('[Open Library] Erro:', error); return []; }
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.warn('[Open Library] Timeout');
+            } else {
+                console.warn('[Open Library] Erro:', error);
+            }
+            return [];
+        }
     }
 
-    // Placeholders para outras APIs
+    async function searchSemanticScholar(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetchWithProxy(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=${MAX_EXTERNAL_RESULTS}&fields=title,abstract,authors,year,openAccessPdf`, API_TIMEOUT_MS);
+            const data = await response.json();
+            return (data.data || []).map(paper => ({
+                id: `semantic_${paper.paperId}`,
+                title: paper.title || 'Sem título',
+                author: formatAuthor((paper.authors || []).map(author => author.name).join(', ') || t('unknown_author')),
+                rawAuthor: (paper.authors || []).map(author => author.name).join(', '),
+                description: paper.abstract || '',
+                cover: null,
+                download: paper.openAccessPdf?.url || null,
+                downloadLabel: t('download_book'),
+                language: 'en', publisher: 'Semantic Scholar', source: 'Semantic Scholar', type: 'paper', year: paper.year || null
+            }));
+        } catch (error) { console.warn('[Semantic Scholar] Erro:', error); return []; }
+    }
+
+    async function searchOpenAlex(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query)}&per-page=${MAX_EXTERNAL_RESULTS}&select=id,title,type,authorships,publication_year,open_access,primary_location`);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return (data.results || []).map(work => ({
+                id: `openalex_${String(work.id || '').split('/').pop()}`,
+                title: work.title || 'Sem título',
+                author: formatAuthor((work.authorships || []).map(item => item.author?.display_name).filter(Boolean).join(', ') || t('unknown_author')),
+                rawAuthor: (work.authorships || []).map(item => item.author?.display_name).filter(Boolean).join(', '),
+                description: '', cover: null,
+                download: work.open_access?.oa_url || work.primary_location?.landing_page_url || null,
+                downloadLabel: t('access_online'), language: 'en', publisher: 'OpenAlex', source: 'OpenAlex',
+                type: work.type === 'article' ? 'article' : work.type === 'book' ? 'book' : 'paper', year: work.publication_year || null
+            }));
+        } catch (error) { console.warn('[OpenAlex] Erro:', error); return []; }
+    }
+
+    async function searchCrossref(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const response = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=${MAX_EXTERNAL_RESULTS}&select=DOI,title,type,author,published,URL,abstract,publisher`);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return (data.message?.items || []).map(work => ({
+                id: `crossref_${work.DOI || generateId()}`,
+                title: work.title?.[0] || 'Sem título',
+                author: formatAuthor((work.author || []).map(item => `${item.given || ''} ${item.family || ''}`.trim()).join(', ') || t('unknown_author')),
+                rawAuthor: (work.author || []).map(item => `${item.given || ''} ${item.family || ''}`.trim()).join(', '),
+                description: String(work.abstract || '').replace(/<[^>]+>/g, ''),
+                cover: null, download: work.URL || null, downloadLabel: t('access_online'),
+                language: 'en', publisher: work.publisher || 'Crossref', source: 'Crossref',
+                type: work.type === 'journal-article' ? 'article' : work.type?.includes('book') ? 'book' : 'paper',
+                year: work.published?.['date-parts']?.[0]?.[0] || null
+            }));
+        } catch (error) {
+            console.warn('[LibriVox] API indisponível no navegador; usando a coleção LibriVox do Internet Archive.', error);
+            return searchArchiveAudiobooks(query);
+        }
+    }
+
+    // Fontes adicionais sem chave. APIs que exigem credencial ficam opcionais.
     async function searchCORE(query) { return []; }
-    async function searchSemanticScholar(query) { return []; }
-    async function searchOpenAlex(query) { return []; }
     async function searchNDLTD(query) { return []; }
     async function searchOATD(query) { return []; }
     async function searchPaperity(query) { return []; }
@@ -690,18 +1390,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function searchInfoBooks(query) { return []; }
 
     async function searchExternalBooks(query) {
-        const promises = [
-            searchArxiv(query),
-            searchGutenberg(query),
-            searchInternetArchive(query),
-            searchStandardEbooks(query),
-            searchDOAB(query),
-            searchOpenLibrary(query),
-            searchGoogleBooks(query),
-            searchCORE(query), searchSemanticScholar(query), searchOpenAlex(query),
-            searchNDLTD(query), searchOATD(query), searchPaperity(query), searchSSRN(query),
-            searchBASE(query), searchHolyBooks(query), searchObooko(query), searchInfoBooks(query)
-        ];
+        const promises = LIBRARY_API_SOURCES
+            .filter(([sourceId]) => isLibraryApiSourceEnabled(sourceId))
+            .map(([, , , search]) => search(query));
+        if (hasGoogleBooksApiKey()) promises.push(searchGoogleBooks(query));
         const results = await Promise.allSettled(promises);
         const all = [];
         for (const res of results) {
@@ -709,9 +1401,51 @@ document.addEventListener('DOMContentLoaded', async () => {
                 all.push(...res.value);
             }
         }
-        console.log(`[Busca Externa] Total de ${all.length} livros encontrados`);
-        const enriched = await Promise.all(all.map(async book => await enrichBookMetadata(book)));
-        return enriched;
+        const unique = deduplicateBooks(all);
+        console.log(`[Busca Externa] Total de ${unique.length} itens encontrados`);
+        return unique;
+    }
+
+    // ========== UTILITÁRIOS DE REDE ==========
+    async function fetchWithRetry(url, options = {}, maxRetries = 3, baseDelay = 1000) {
+        for (let i = 0; i <= maxRetries; i++) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (response.status === 429) {
+                    const delay = baseDelay * Math.pow(2, i);
+                    await new Promise(r => setTimeout(r, delay));
+                    continue;
+                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response;
+            } catch (error) {
+                if (i === maxRetries) throw error;
+                const delay = baseDelay * Math.pow(2, i);
+                await new Promise(r => setTimeout(r, delay));
+            }
+        }
+        throw new Error(`Falha após ${maxRetries} tentativas`);
+    }
+
+    async function fetchWithProxy(url, timeout = 15000, retries = 2) {
+        try {
+            const response = await fetchWithRetry(url, {}, retries, 1000);
+            if (response.ok) return response;
+        } catch (e) { /* fallback */ }
+        for (let i = 0; i < retries; i++) {
+            for (const proxy of CORS_PROXIES) {
+                try {
+                    const proxyUrl = proxy + encodeURIComponent(url);
+                    const response = await fetchWithRetry(proxyUrl, {}, 1, 1000);
+                    if (response.ok) return response;
+                } catch (e) { /* continua */ }
+            }
+            await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+        }
+        throw new Error(`Falha ao acessar ${url}`);
     }
 
     // ========== UI DE CARREGAMENTO ==========
@@ -723,7 +1457,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (loadingTimer) clearTimeout(loadingTimer);
         if (loadingMinTimer) clearTimeout(loadingMinTimer);
         uiState.isLoading = true;
+        currentLibraryResults = [];
+        displayedLibraryResults = 0;
+        libraryRenderId++;
+        isAppendingLibraryResults = false;
+        updateLoadMoreButton();
         if (!grid) return;
+        grid.setAttribute('aria-busy', 'true');
         grid.innerHTML = '';
         const skeleton = document.createElement('div');
         skeleton.className = 'loading-skeleton';
@@ -761,6 +1501,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         minTimePromise.then(() => {
             uiState.isLoading = false;
+            grid?.setAttribute('aria-busy', 'false');
             const skeleton = document.querySelector('.loading-skeleton');
             if (skeleton) {
                 if (skeleton._loadingInterval) clearInterval(skeleton._loadingInterval);
@@ -770,9 +1511,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showEmptyState() {
-        if (uiState.isLoading || uiState.hasResults || uiState.hasError) return;
         if (!grid) return;
+        uiState.isLoading = false;
+        uiState.hasResults = false;
+        uiState.hasError = false;
+        grid.setAttribute('aria-busy', 'false');
         grid.innerHTML = '';
+        const loadMoreButton = document.getElementById('loadMoreBooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = true;
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty-state';
         emptyDiv.innerHTML = `<i class="fas fa-book-open"></i> ${t('no_results')}`;
@@ -783,25 +1529,80 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showErrorState() {
         uiState.hasError = true;
         if (!grid) return;
+        const loadMoreButton = document.getElementById('loadMoreBooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = true;
         grid.innerHTML = '';
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-state';
-        errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${t('error_loading')}`;
+        errorDiv.innerHTML = `
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <strong>${t('local_data_error')}</strong>
+            <p>${t('local_data_hint')}</p>
+            <button type="button" class="retry-btn" id="retryLibraryBtn">
+                <i class="fas fa-rotate-right" aria-hidden="true"></i> ${t('retry')}
+            </button>
+        `;
+        document.getElementById('retryLibraryBtn')?.addEventListener('click', () => {
+            localBooksCache = [];
+            performSearchWithFilters(currentSearchTerm);
+        });
         grid.appendChild(errorDiv);
         document.getElementById('bookCount').innerText = '0';
     }
 
-    async function renderResultsIncrementally(items, targetContainer) {
+    function updateLoadMoreButton() {
+        const button = document.getElementById('loadMoreBooksBtn');
+        if (!button) return;
+        const remaining = currentLibraryResults.length - displayedLibraryResults;
+        const nextBatchSize = Math.min(LIBRARY_PAGE_SIZE, remaining);
+        button.hidden = remaining <= 0;
+        button.disabled = isAppendingLibraryResults;
+        button.innerHTML = `<i class="fas fa-plus" aria-hidden="true"></i> ${t('load_more_results', { count: nextBatchSize })}`;
+        button.setAttribute('aria-label', t('load_more_results', { count: nextBatchSize }));
+    }
+
+    async function appendMoreLibraryResults() {
+        if (isAppendingLibraryResults || displayedLibraryResults >= currentLibraryResults.length) return;
+        const renderId = libraryRenderId;
+        const targetCount = Math.min(displayedLibraryResults + LIBRARY_PAGE_SIZE, currentLibraryResults.length);
+        isAppendingLibraryResults = true;
+        updateLoadMoreButton();
+        try {
+            while (displayedLibraryResults < targetCount) {
+                if (renderId !== libraryRenderId) return;
+                const itemIndex = displayedLibraryResults;
+                const card = await createBookCard(currentLibraryResults[itemIndex]);
+                if (renderId !== libraryRenderId) return;
+                if (card) grid.appendChild(card);
+                displayedLibraryResults = itemIndex + 1;
+                if (displayedLibraryResults % 5 === 0) await new Promise(resolve => setTimeout(resolve, 10));
+            }
+        } finally {
+            isAppendingLibraryResults = false;
+            updateLoadMoreButton();
+        }
+    }
+
+    async function renderResultsIncrementally(items, targetContainer, visibleCount = LIBRARY_PAGE_SIZE) {
         if (!targetContainer) return;
+        const renderId = ++libraryRenderId;
+        currentLibraryResults = items;
+        displayedLibraryResults = 0;
+        isAppendingLibraryResults = false;
         targetContainer.innerHTML = '';
-        for (let i = 0; i < items.length; i++) {
+        const initialCount = Math.min(items.length, Math.max(LIBRARY_PAGE_SIZE, visibleCount));
+        for (let i = 0; i < initialCount; i++) {
+            if (renderId !== libraryRenderId) return;
             const card = await createBookCard(items[i]);
+            if (renderId !== libraryRenderId) return;
             if (card) {
                 targetContainer.appendChild(card);
-                if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
             }
+            displayedLibraryResults = i + 1;
+            if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
         }
         document.getElementById('bookCount').innerText = items.length;
+        updateLoadMoreButton();
         applyAllTranslations();
     }
 
@@ -853,27 +1654,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         return items.filter(item => item.type === activeTab);
     }
 
-    async function showResults(items) {
+    async function showResults(items, keepLoading = false) {
         const filteredByType = items.filter(book => !isAudiobook(book));
         const tabFiltered = filterByActiveTab(filteredByType);
         const unique = deduplicateBooks(tabFiltered);
         if (!grid) return;
-        uiState.hasResults = true;
-        uiState.hasError = false;
-        hideLoading();
         if (!unique || unique.length === 0) {
-            showEmptyState();
+            if (!keepLoading) {
+                currentLibraryResults = [];
+                displayedLibraryResults = 0;
+                hideLoading();
+                showEmptyState();
+            }
             return;
         }
+        uiState.hasResults = true;
+        uiState.hasError = false;
+        if (!keepLoading) hideLoading();
         const sorted = sortBooksByPriority(unique);
-        await renderResultsIncrementally(sorted, grid);
+        const visibleCount = currentLibraryResults.length
+            ? Math.max(LIBRARY_PAGE_SIZE, displayedLibraryResults)
+            : LIBRARY_PAGE_SIZE;
+        await renderResultsIncrementally(sorted, grid, visibleCount);
     }
 
     // ========== CRIAÇÃO DE CARD E MODAL ==========
     async function createBookCard(item) {
         if (!item || !item.title) return null;
         let normalized = normalizeBookFields(item);
-        const coverUrl = normalized.cover || generateEnhancedColorCover(normalized.title);
+        normalized.cover = sanitizeCoverUrl(normalized.cover);
+        const enriched = await enrichBookMetadata(normalized);
+        const coverUrl = enriched.cover || '';
         normalized.cover = coverUrl;
         let typeTagHtml = '';
         const typeKey = `type_${normalized.type}`;
@@ -904,7 +1715,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         card.style.cursor = 'pointer';
         card.dataset.id = normalized.id;
         card.innerHTML = `
-            <img class="mini-cover" src="${coverUrl}" alt="${escapeHtml(normalized.title)}" onerror="this.src='${generateEnhancedColorCover(normalized.title)}'">
+            <img class="mini-cover" src="${coverUrl || ''}" alt="${escapeHtml(normalized.title)}" onerror="this.style.display='none'">
             <div class="mini-title">${escapeHtml(normalized.title)}</div>
             <div class="mini-author">${escapeHtml(normalized.author)}</div>
             <div class="mini-year">${escapeHtml(normalized.year || t('year_not_informed'))}</div>
@@ -919,7 +1730,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function showModal(item) {
         if (!item) return;
         const enriched = await enrichBookMetadata(item);
-        const coverUrl = enriched.cover || generateEnhancedColorCover(enriched.title);
+        const coverUrl = enriched.cover || '';
         const fullAuthor = enriched.rawAuthor || enriched.author;
         const isRead = isBookRead(enriched.id);
 
@@ -927,7 +1738,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         modalBody.innerHTML = `
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <img class="modal-cover" src="${coverUrl}" alt="${escapeHtml(enriched.title)}" onerror="this.src='${generateEnhancedColorCover(enriched.title)}'">
+                <img class="modal-cover" src="${coverUrl || ''}" alt="${escapeHtml(enriched.title)}" onerror="this.style.display='none'">
                 <div class="modal-details">
                     <h2>${escapeHtml(enriched.title)}</h2>
                     <p><strong>${t('book_author')}:</strong> ${escapeHtml(fullAuthor)}</p>
@@ -998,35 +1809,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function generateEnhancedColorCover(title) {
-        if (!title) title = 'Sem título';
-        const colors = ['#FF6B6B', '#4ECDC4', '#556270', '#C7F464', '#FFB400', '#6A4C93', '#2EC4B6', '#FF9F1C', '#1E88E5', '#E63946', '#457B9D', '#F4A261', '#2A9D8F'];
-        const colorIndex = Math.abs(title.length * 7) % colors.length;
-        const bgColor = colors[colorIndex];
-        const canvas = document.createElement('canvas');
-        canvas.width = 300;
-        canvas.height = 450;
-        const ctx = canvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        grad.addColorStop(0, bgColor);
-        grad.addColorStop(1, bgColor + 'cc');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 32px "Inter", "Segoe UI", Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const words = title.split(' ').filter(w => w.length > 0);
-        let initials = words.map(w => w[0].toUpperCase()).join('');
-        if (initials.length > 3) initials = initials.slice(0, 3);
-        if (initials.length === 0) initials = '?';
-        ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
-        return canvas.toDataURL('image/png');
+        return '';
     }
 
     function normalizeBookFields(book) {
         const inferredType = inferBookType(book);
         let finalLabel = book.download_label;
         if (!finalLabel && book.download) finalLabel = detectDownloadLabelFromUrl(book.download);
+        const audioParts = normalizeLibraryAudioParts(book);
         return {
             id: book.id || generateId(),
             title: book.title || 'Sem título',
@@ -1035,7 +1825,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             publisher: book.publisher || '',
             year: book.year || null,
             description: book.description || '',
-            cover: book.cover || null,
+            cover: sanitizeCoverUrl(book.cover),
             download: book.download || book.download_url || null,
             downloadLabel: finalLabel || t('access_online'),
             repositoryName: book.repositoryName || book.repository_name || null,
@@ -1044,9 +1834,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             isbn: book.isbn || null,
             identifier: book.identifier || null,
             type: inferredType,
-            sourceType: book.sourceType || 'local',
-            source: book.source || 'Local'
+            sourceType: book.sourceType || (book.source && book.source !== 'Local' ? 'external' : 'local'),
+            source: book.source || 'Local',
+            videoId: book.videoId || null,
+            parts: book.parts || [], // Array de { type: 'audio'|'video'|'pdf', url, title }
+            audioParts
         };
+    }
+
+    function normalizeLibraryAudioParts(book) {
+        const configured = book.audioParts || book.audio_parts || book.audio || book.audioUrl || book.audio_url;
+        const entries = Array.isArray(configured) ? configured : (configured ? [configured] : []);
+        return entries
+            .map((entry, index) => {
+                const part = typeof entry === 'string' ? { url: entry } : entry;
+                if (!part || typeof part.url !== 'string' || !part.url.trim()) return null;
+                const type = part.type === 'video' || part.type === 'pdf' ? part.type : 'audio';
+                return {
+                    ...part,
+                    type,
+                    url: part.url.trim(),
+                    title: part.title || `${t('part')} ${index + 1}`,
+                    videoId: part.videoId || extractVideoId(part.url)
+                };
+            })
+            .filter(Boolean);
     }
 
     function createActionButton(book) {
@@ -1059,22 +1871,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             disabled.className = 'action-btn disabled-btn';
             return disabled;
         }
+        const readerUrl = url || repoLink;
+        const isDirectDownload = url && hasDownloadExtension(url);
         const btn = document.createElement('a');
-        btn.textContent = label;
-        btn.className = 'action-btn download-btn';
-        btn.href = '#';
-        btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (label === t('download_book') && url) {
+        if (isDirectDownload) btn.textContent = label;
+        else btn.innerHTML = `<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> ${t('read_book')}`;
+        btn.className = isDirectDownload ? 'action-btn download-btn' : 'action-btn pdf-read-btn';
+        btn.href = isDirectDownload ? '#' : readerUrl;
+        if (isDirectDownload) {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
                 await forceDownload(url, (book.title || 'documento').replace(/[^a-z0-9]/gi, '_') + '.pdf', repoLink);
-            } else if (url) {
-                window.open(url, '_blank');
-            } else if (repoLink) {
-                window.open(repoLink, '_blank');
-            } else {
-                alert(t('no_link_available'));
-            }
-        });
+            });
+        } else {
+            btn.target = '_blank';
+            btn.rel = 'noopener noreferrer';
+        }
         return btn;
     }
 
@@ -1082,8 +1894,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         const container = document.getElementById('actionButtons');
         if (!container) return;
         container.innerHTML = '';
-        const mainBtn = createActionButton(book);
-        container.appendChild(mainBtn);
+        const pdfUrl = isPdfUrl(book.download) ? book.download : (isPdfUrl(book.repositoryLink) ? book.repositoryLink : '');
+        if (pdfUrl) {
+            const readButton = document.createElement('button');
+            readButton.type = 'button';
+            readButton.className = 'action-btn pdf-read-btn';
+            readButton.innerHTML = `<i class="fas fa-book-open" aria-hidden="true"></i> ${t('read_book')}`;
+            readButton.addEventListener('click', () => openPdfReader(pdfUrl, book.title, book.id));
+            container.appendChild(readButton);
+        } else {
+            const mainBtn = createActionButton(book);
+            container.appendChild(mainBtn);
+        }
+        if (book.audioParts?.length) {
+            const audioBtn = document.createElement('button');
+            audioBtn.type = 'button';
+            audioBtn.className = 'action-btn audio-btn';
+            audioBtn.innerHTML = `<i class="fas fa-headphones"></i> ${t('listen_button')}`;
+            audioBtn.addEventListener('click', () => {
+                const playback = resolveAudiobookPlayback({
+                    id: book.id,
+                    title: book.title,
+                    description: book.description,
+                    cover: book.cover,
+                    author: book.author,
+                    parts: book.audioParts,
+                    sourceType: 'local'
+                });
+                playMultimedia(
+                    playback.videoId,
+                    playback.title,
+                    playback.description,
+                    playback.parts,
+                    { ...book, videoId: playback.videoId, sourceType: 'local' },
+                    loadProgress(playback.videoId || playback.parts[0]?.url || '')
+                );
+            });
+            container.appendChild(audioBtn);
+        }
         if (book.repositoryLink && book.download !== book.repositoryLink) {
             const repoBtn = document.createElement('a');
             repoBtn.textContent = book.repositoryName ? `${t('repository_prefix')} ${book.repositoryName}` : t('repository');
@@ -1131,7 +1979,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             html += `
                 <div class="library-card" data-url="${escapeHtml(lib.url)}">
-                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/80x80/1F2933/9CA3AF?text=${encodeURIComponent(title.substring(0,2))}'">
+                    <img class="library-cover" src="${escapeHtml(lib.image)}" alt="${escapeHtml(title)}" onerror="this.style.display='none'">
                     <div class="library-info">
                         <div class="library-title">
                             ${escapeHtml(title)}
@@ -1166,6 +2014,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const cacheKey = `search_${trimmed}_${activeTab}`;
         if (searchCache.has(cacheKey) && Date.now() - searchCache.get(cacheKey).timestamp < SEARCH_CACHE_TTL) {
+            showLoading();
             showResults(searchCache.get(cacheKey).data);
             return;
         }
@@ -1177,7 +2026,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (thisSearchId !== currentSearchId) return;
 
         let currentResults = [...localResults];
-        showResults(currentResults);
+        await showResults(currentResults, true);
 
         const globalTimeoutId = setTimeout(() => {
             if (uiState.isLoading && thisSearchId === currentSearchId) {
@@ -1192,7 +2041,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const merged = [...currentResults, ...externalResults];
                 const unique = deduplicateBooks(merged);
                 searchCache.set(cacheKey, { data: unique, timestamp: Date.now() });
-                showResults(unique);
+                await showResults(unique);
+            } else if (!currentLibraryResults.length) {
+                showEmptyState();
             }
         } catch (error) {
             console.error('[Search] erro:', error);
@@ -1215,26 +2066,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ========== CARREGAMENTO LOCAL ==========
     async function loadLocalBooks() {
-        const paths = ['books.json', './books.json', '../books.json', 'data/books.json'];
-        for (const path of paths) {
+        for (const path of getLocalDataPaths('books')) {
             try {
-                const response = await fetch(path, { cache: 'no-store' });
+                const response = await fetch(new URL(path, document.baseURI), { cache: 'no-store' });
                 if (response.ok) {
                     const data = await response.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        console.log(`[Biblioteca] ${data.length} livros carregados de ${path}`);
-                        return data.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
+                    const books = Array.isArray(data) ? data : data.books || data.data;
+                    if (Array.isArray(books) && books.length > 0) {
+                        console.log(`[Biblioteca] ${books.length} livros carregados da API local: ${response.url}`);
+                        return books.map(book => ({ ...book, sourceType: 'local', source: 'Local', type: book.type || inferBookType(book) }));
                     }
                 }
             } catch (e) { /* tenta próximo */ }
         }
-        console.warn('[Biblioteca] Nenhum arquivo books.json encontrado. A biblioteca local estará vazia.');
+        console.warn('[Biblioteca] API local de livros indisponível. A biblioteca local estará vazia.');
         return [];
     }
 
     function searchLocalBooks(query) {
         if (!localBooksCache.length) return [];
-        if (!query || query.length < MIN_SEARCH_LENGTH) return localBooksCache.slice(0, 30);
+        if (!query || query.length < MIN_SEARCH_LENGTH) return localBooksCache;
         const normalizedQuery = normalizeText(query);
         const results = localBooksCache.map(book => {
             let score = 0;
@@ -1248,6 +2099,1352 @@ document.addEventListener('DOMContentLoaded', async () => {
             return { book, score };
         });
         return results.filter(item => item.score > 0).sort((a, b) => b.score - a.score).map(item => item.book);
+    }
+
+    // ========== AUDIOBOOKS (com suporte a múltiplas partes e PDF) ==========
+    function extractVideoId(url) {
+        if (!url) return null;
+        const patterns = [
+            /youtube\.com\/shorts\/([^?#]+)/i,
+            /youtube\.com\/watch\?v=([^&?#]+)/i,
+            /youtu\.be\/([^?#]+)/i,
+            /youtube\.com\/embed\/([^?#]+)/i,
+            /youtube\.com\/v\/([^?#]+)/i,
+            /youtube\.com\/e\/([^?#]+)/i
+        ];
+        for (const p of patterns) {
+            const match = url.match(p);
+            if (match && match[1]) {
+                return match[1].split('?')[0].split('&')[0];
+            }
+        }
+        return null;
+    }
+
+    async function loadAudiobooks() {
+        for (const path of getLocalDataPaths('audiobooks')) {
+            try {
+                console.log(`[Biblioteca] Tentando carregar audiobooks de: ${path}`);
+                const response = await fetch(new URL(path, document.baseURI), { cache: 'no-store' });
+                if (response.ok) {
+                    const payload = await response.json();
+                    const data = Array.isArray(payload) ? payload : payload.audiobooks || payload.data;
+                    if (!Array.isArray(data)) throw new Error('Formato inválido da API local');
+                    console.log(`[Biblioteca] Audiobooks carregados da API local: ${response.url} (${data.length} itens)`);
+                    const enriched = await Promise.all(data.map(async item => {
+                        // Se tem parts, processa cada part
+                        let parts = item.parts || [];
+                        if (item.url && !parts.length) {
+                            // Compatibilidade com formato antigo
+                            parts = [{ type: 'audio', url: item.url, title: 'Parte 1' }];
+                        }
+                        // Para cada part, extrai videoId se for YouTube
+                        parts = parts.map(p => {
+                            if (p.type === 'audio' || p.type === 'video') {
+                                const videoId = extractVideoId(p.url);
+                                return { ...p, videoId };
+                            }
+                            return p;
+                        });
+                        let book = {
+                            ...item,
+                            type: 'audiobook',
+                            sourceType: 'local',
+                            source: 'YouTube',
+                            cover: item.cover || (parts[0]?.videoId
+                                ? `https://i.ytimg.com/vi/${parts[0].videoId}/hqdefault.jpg`
+                                : ''),
+                            parts: parts
+                        };
+                        return book;
+                    }));
+                    return enriched;
+                }
+            } catch (e) {
+                console.warn(`[Biblioteca] Falha ao carregar ${path}:`, e.message);
+            }
+        }
+        console.warn('[Biblioteca] API local de audiobooks indisponível. A aba de audiobooks ficará vazia.');
+        return [];
+    }
+
+    async function searchLibriVox(query) {
+        // O endpoint oficial do LibriVox não permite CORS no frontend.
+        return searchArchiveAudiobooks(query);
+    }
+
+    async function searchArchiveAudiobooks(query) {
+        if (!query || query.length < MIN_SEARCH_LENGTH) return [];
+        try {
+            const queries = [
+                `(${query}) AND mediatype:audio AND collection:librivoxaudio`,
+                `mediatype:audio AND (title:(${query}) OR creator:(${query}))`
+            ];
+            let docs = [];
+            for (const archiveQuery of queries) {
+                const response = await fetchWithRetry(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(archiveQuery)}&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&rows=40&output=json`, {}, 1, 500);
+                if (!response.ok) continue;
+                const data = await response.json();
+                docs.push(...(data.response?.docs || []));
+                if (docs.length >= 8) break;
+            }
+            docs = [...new Map(docs.map(doc => [doc.identifier, doc])).values()].slice(0, 40);
+            const books = await Promise.all(docs.map(async doc => {
+                try {
+                    const metadataResponse = await fetchWithRetry(`https://archive.org/metadata/${encodeURIComponent(doc.identifier)}`, {}, 1, 500);
+                    if (!metadataResponse.ok) return null;
+                    const metadata = await metadataResponse.json();
+                    const restricted = metadata.metadata?.access-restricted === 'true'
+                        || metadata.metadata?.access_restricted === 'true'
+                        || metadata.metadata?.private === 'true';
+                    if (restricted) return null;
+                    const audioFiles = (metadata.files || []).filter(item => /\.(mp3|m4a|ogg|wav)$/i.test(item.name || '') && item.private !== true && item.private !== 'true');
+                    const file = audioFiles.find(item => !/(128kb|64kb|metadata|cover|thumb)/i.test(item.name || '')) || audioFiles[0];
+                    if (!file) return null;
+                    const filePath = String(file.name).split('/').map(encodeURIComponent).join('/');
+                    return {
+                        id: `archive_audio_${doc.identifier}`, type: 'audiobook', source: 'Internet Archive', sourceType: 'external',
+                        title: doc.title || 'Audiobook', author: doc.creator || t('unknown_author'),
+                        description: '', cover: `https://archive.org/services/img/${doc.identifier}`, year: doc.year || '',
+                        parts: [{ type: 'audio', title: 'Parte 1', url: `https://archive.org/download/${encodeURIComponent(doc.identifier)}/${filePath}` }]
+                    };
+                } catch (_) { return null; }
+            }));
+            return books.filter(Boolean);
+        } catch (error) { console.warn('[Internet Archive Audio] Erro:', error); return []; }
+    }
+
+    // ========== PLAYER MULTIMÍDIA ==========
+    function ensureAudiobookPlayerContainer() {
+        if (playerContainerCreated) {
+            const container = document.getElementById('multimediaPlayerContainer');
+            if (container) return container;
+            playerContainerCreated = false;
+        }
+
+        let container = document.getElementById('multimediaPlayerContainer');
+        if (container) {
+            playerContainerCreated = true;
+            return container;
+        }
+
+        console.debug('[Player] Container principal ainda não existe; criando uma única instância reutilizável.');
+        container = document.createElement('div');
+        container.id = 'multimediaPlayerContainer';
+        container.className = 'multimedia-player-container';
+        container.style.display = 'none';
+        (document.querySelector('.container') || document.body).appendChild(container);
+
+        container.innerHTML = `
+            <div class="player-header">
+                <div class="player-title-info">
+                    <h3 id="playerTitle"></h3>
+                    <p id="playerDescription"></p>
+                </div>
+                <div class="player-header-actions">
+                    <button id="playerToggleMode" class="player-ctrl-btn" title="Alternar modo áudio/vídeo">
+                        <i class="fas fa-eye"></i> ${t('video_mode')}
+                    </button>
+                    <button id="closeMultimediaPlayer" class="player-ctrl-btn" title="${t('close_player')}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="player-video-wrapper" id="playerVideoWrapper">
+                <div id="multimediaYouTubePlayer"></div>
+                <div id="playerCaptionsContainer" class="player-captions-container"></div>
+            </div>
+            <div class="player-controls">
+                <div class="player-progress-row">
+                    <span id="playerCurrentTime">00:00</span>
+                    <input type="range" id="playerProgressBar" class="player-progress-bar" min="0" max="100" value="0" step="0.1">
+                    <span id="playerDuration">00:00</span>
+                </div>
+                <div class="player-controls-row">
+                    <button id="playerPlayPause" class="player-ctrl-btn" data-playing="false">
+                        <i class="fas fa-play"></i> ${t('play')}
+                    </button>
+                    <div class="player-volume-container">
+                        <button id="playerMuteBtn" class="player-ctrl-btn" title="${t('volume')}">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <div class="player-volume-slider-group">
+                            <output id="playerVolumePercentage" class="player-volume-percentage" for="playerVolumeSlider">80%</output>
+                            <input type="range" id="playerVolumeSlider" class="player-volume-slider" min="0" max="100" value="80">
+                        </div>
+                    </div>
+                    <div class="player-settings-group">
+                        <label class="player-select">
+                            <span class="sr-only">${t('playback_speed')}</span>
+                            <select id="playerPlaybackSpeed" title="${t('playback_speed')}" aria-label="${t('playback_speed')}">
+                                <option value="0.5">0,5x</option><option value="0.75">0,75x</option>
+                                <option value="1" selected>Normal</option><option value="1.25">1,25x</option>
+                                <option value="1.5">1,5x</option><option value="1.75">1,75x</option><option value="2">2x</option>
+                            </select>
+                        </label>
+                        <label class="player-select">
+                            <span class="sr-only">${t('video_quality')}</span>
+                            <select id="playerVideoQuality" title="${t('video_quality')}" aria-label="${t('video_quality')}">
+                                <option value="auto" selected>Auto</option>
+                            </select>
+                        </label>
+                        <label class="player-select" id="playerAudioTrackControl" hidden>
+                            <span class="sr-only">${t('audio_track')}</span>
+                            <select id="playerAudioTrack" title="${t('audio_track')}" aria-label="${t('audio_track')}">
+                                <option value="original">Original</option>
+                            </select>
+                        </label>
+                        <button id="playerSubtitles" class="player-ctrl-btn player-subtitles-btn" title="${t('subtitles', 'Legendas')}">
+                            <i class="fas fa-closed-captioning"></i><span class="player-subtitles-label">${t('subtitles', 'Legendas')}</span>
+                        </button>
+                        <label class="player-select">
+                            <span class="sr-only">${t('caption_language')}</span>
+                            <select id="playerCaptionLanguage" title="${t('caption_language')}" aria-label="${t('caption_language')}">
+                                <option value="pt">Português</option>
+                                <option value="en">English</option>
+                            </select>
+                        </label>
+                        <button id="playerFullscreen" class="player-ctrl-btn" title="${t('fullscreen')}" aria-label="${t('fullscreen')}">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="playerPartsContainer" class="player-parts-container" style="display: none;"></div>
+        `;
+
+        setupPlayerEventListeners(container);
+        playerContainerCreated = true;
+        console.log('[Player] Container criado com sucesso.');
+        return container;
+    }
+
+    function setupPlayerEventListeners(container) {
+        const playPauseBtn = document.getElementById('playerPlayPause');
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => togglePlayPause());
+        }
+
+        const progressBar = document.getElementById('playerProgressBar');
+        if (progressBar) {
+            progressBar.addEventListener('input', (e) => {
+                if (currentDirectAudio?.duration) {
+                    currentDirectAudio.currentTime = (parseFloat(e.target.value) / 100) * currentDirectAudio.duration;
+                    return;
+                }
+                if (multimediaPlayer && multimediaPlayerReady) {
+                    const percent = parseFloat(e.target.value);
+                    const duration = multimediaPlayer.getDuration();
+                    if (duration) {
+                        const seekTime = (percent / 100) * duration;
+                        multimediaPlayer.seekTo(seekTime, true);
+                    }
+                }
+            });
+        }
+
+        const volumeSlider = document.getElementById('playerVolumeSlider');
+        const muteBtn = document.getElementById('playerMuteBtn');
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                const vol = parseInt(e.target.value);
+                const percentage = document.getElementById('playerVolumePercentage');
+                if (percentage) percentage.textContent = `${Math.max(0, Math.min(100, vol))}%`;
+                if (currentDirectAudio) currentDirectAudio.volume = vol / 100;
+                if (multimediaPlayer && multimediaPlayerReady) {
+                    multimediaPlayer.setVolume(vol);
+                    updateVolumeIcon(vol);
+                }
+                localStorage.setItem('player_volume', vol);
+            });
+            const savedVol = localStorage.getItem('player_volume');
+            if (savedVol !== null) {
+                volumeSlider.value = savedVol;
+                const percentage = document.getElementById('playerVolumePercentage');
+                if (percentage) percentage.textContent = `${Math.max(0, Math.min(100, parseInt(savedVol, 10) || 0))}%`;
+                if (multimediaPlayer && multimediaPlayerReady) {
+                    multimediaPlayer.setVolume(parseInt(savedVol));
+                }
+            }
+        }
+        if (muteBtn) {
+            muteBtn.addEventListener('click', () => {
+                if (currentDirectAudio) {
+                    currentDirectAudio.muted = !currentDirectAudio.muted;
+                    updateVolumeIcon(currentDirectAudio.muted ? 0 : parseInt(volumeSlider?.value || '80', 10), currentDirectAudio.muted);
+                    return;
+                }
+                if (multimediaPlayer && multimediaPlayerReady) {
+                    const muted = multimediaPlayer.isMuted();
+                    if (muted) {
+                        multimediaPlayer.unMute();
+                        const vol = parseInt(volumeSlider.value);
+                        multimediaPlayer.setVolume(vol);
+                        updateVolumeIcon(vol);
+                    } else {
+                        multimediaPlayer.mute();
+                        updateVolumeIcon(0, true);
+                    }
+                }
+            });
+        }
+
+        const modeBtn = document.getElementById('playerToggleMode');
+        if (modeBtn) {
+            modeBtn.addEventListener('click', () => toggleAudioVideoMode());
+        }
+
+        const subBtn = document.getElementById('playerSubtitles');
+        if (subBtn) {
+            subBtn.addEventListener('click', () => toggleSubtitles());
+        }
+        document.getElementById('playerPlaybackSpeed')?.addEventListener('change', event => {
+            if (multimediaPlayerReady && multimediaPlayer?.setPlaybackRate) multimediaPlayer.setPlaybackRate(Number(event.target.value));
+        });
+        document.getElementById('playerVideoQuality')?.addEventListener('change', event => {
+            if (multimediaPlayerReady && multimediaPlayer?.setPlaybackQuality) multimediaPlayer.setPlaybackQuality(event.target.value === 'auto' ? 'default' : event.target.value);
+        });
+        document.getElementById('playerAudioTrack')?.addEventListener('change', event => {
+            if (!multimediaPlayerReady || typeof multimediaPlayer?.setAudioTrack !== 'function') return;
+            try { multimediaPlayer.setAudioTrack(event.target.value); } catch (error) { console.warn('[Player] Não foi possível alterar a faixa:', error); }
+        });
+        document.getElementById('playerCaptionLanguage')?.addEventListener('change', event => {
+            if (!multimediaPlayerReady || !subtitlesEnabled || !multimediaPlayer?.setOption) return;
+            try { multimediaPlayer.setOption('captions', 'track', { languageCode: event.target.value }); } catch (error) { console.warn('[Player] Não foi possível alterar o idioma da legenda:', error); }
+        });
+        document.getElementById('playerFullscreen')?.addEventListener('click', toggleLibraryFullscreen);
+
+        const closeBtn = document.getElementById('closeMultimediaPlayer');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => closeMultimediaPlayer());
+        }
+    }
+
+    function updateVolumeIcon(volume, muted = false) {
+        const muteBtn = document.getElementById('playerMuteBtn');
+        if (!muteBtn) return;
+        const percentage = document.getElementById('playerVolumePercentage');
+        if (percentage) percentage.textContent = `${Math.max(0, Math.min(100, Number(volume) || 0))}%`;
+        if (muted || volume === 0) {
+            muteBtn.innerHTML = `<i class="fas fa-volume-mute"></i>`;
+        } else if (volume < 30) {
+            muteBtn.innerHTML = `<i class="fas fa-volume-down"></i>`;
+        } else {
+            muteBtn.innerHTML = `<i class="fas fa-volume-up"></i>`;
+        }
+    }
+
+    function togglePlayPause() {
+        if (currentDirectAudio) {
+            const btn = document.getElementById('playerPlayPause');
+            if (currentDirectAudio.paused) {
+                currentDirectAudio.play().catch(() => {});
+                btn.dataset.playing = 'true';
+                btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+            } else {
+                currentDirectAudio.pause();
+                btn.dataset.playing = 'false';
+                btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+            }
+            updatePlayerControlTranslations();
+            return;
+        }
+        if (!multimediaPlayer || !multimediaPlayerReady) return;
+        const btn = document.getElementById('playerPlayPause');
+        if (multimediaPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+            multimediaPlayer.pauseVideo();
+            btn.dataset.playing = 'false';
+            btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+        } else {
+            multimediaPlayer.playVideo();
+            btn.dataset.playing = 'true';
+            btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+        }
+        updatePlayerControlTranslations();
+    }
+
+    function toggleAudioVideoMode() {
+        isAudioMode = !isAudioMode;
+        const wrapper = document.getElementById('playerVideoWrapper');
+        const modeBtn = document.getElementById('playerToggleMode');
+        if (wrapper) {
+            if (isAudioMode) {
+                wrapper.style.display = 'none';
+                modeBtn.innerHTML = `<i class="fas fa-eye"></i> ${t('video_mode')}`;
+            } else {
+                wrapper.style.display = 'block';
+                modeBtn.innerHTML = `<i class="fas fa-headphones"></i> ${t('audio_mode')}`;
+            }
+        }
+        updatePlayerControlTranslations();
+        if (subtitlesEnabled) {
+            showCaptionsOverlay();
+        }
+    }
+
+    function toggleSubtitles() {
+        subtitlesEnabled = !subtitlesEnabled;
+        const subBtn = document.getElementById('playerSubtitles');
+        if (subtitlesEnabled) {
+            subBtn.classList.add('subtitles-active');
+            subBtn.style.removeProperty('color');
+            if (multimediaPlayer && multimediaPlayerReady) {
+                try {
+                    const lang = currentLang === 'pt-br' ? 'pt' : 'en';
+                    multimediaPlayer.setOption('captions', 'track', { languageCode: lang });
+                } catch (e) {}
+            }
+            showCaptionsOverlay();
+        } else {
+            subBtn.classList.remove('subtitles-active');
+            subBtn.style.removeProperty('color');
+            if (multimediaPlayer && multimediaPlayerReady) {
+                try {
+                    multimediaPlayer.setOption('captions', 'track', {});
+                } catch (e) {}
+            }
+            hideCaptionsOverlay();
+        }
+        updatePlayerControlTranslations();
+    }
+
+    let captionInterval = null;
+
+    function showCaptionsOverlay() {
+        const container = document.getElementById('playerCaptionsContainer');
+        if (!container) return;
+        container.style.display = 'block';
+        if (multimediaPlayer && multimediaPlayerReady) {
+            startCaptionUpdates();
+        }
+    }
+
+    function hideCaptionsOverlay() {
+        const container = document.getElementById('playerCaptionsContainer');
+        if (container) {
+            container.style.display = 'none';
+            container.textContent = '';
+        }
+        if (captionInterval) {
+            clearInterval(captionInterval);
+            captionInterval = null;
+        }
+    }
+
+    function startCaptionUpdates() {
+        if (captionInterval) clearInterval(captionInterval);
+        captionInterval = setInterval(() => {
+            if (!multimediaPlayer || !multimediaPlayerReady || !subtitlesEnabled) {
+                clearInterval(captionInterval);
+                captionInterval = null;
+                return;
+            }
+            const container = document.getElementById('playerCaptionsContainer');
+            if (container) {
+                const currentTime = multimediaPlayer.getCurrentTime();
+                container.innerHTML = `<span class="caption-text">${currentTitle} — ${formatTime(currentTime)}</span>`;
+            }
+        }, 1000);
+    }
+
+    // ========== PROGRESSO INDIVIDUAL ==========
+    function getRecentAudiobookRegistry() {
+        try {
+            const raw = localStorage.getItem(RECENT_AUDIOBOOKS_STORAGE_KEY);
+            if (!raw) return [];
+            return JSON.parse(raw);
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function setRecentAudiobookRegistry(items) {
+        localStorage.setItem(RECENT_AUDIOBOOKS_STORAGE_KEY, JSON.stringify(items.slice(0, 12)));
+    }
+
+    function buildRecentAudiobookEntry(meta, progressSeconds, videoId) {
+        const safeMeta = meta || {};
+        return {
+            id: safeMeta.id || videoId || safeMeta.videoId || 'audiobook',
+            videoId: safeMeta.videoId || videoId || '',
+            title: safeMeta.title || currentTitle || 'Audiobook',
+            description: safeMeta.description || currentDescription || '',
+            author: safeMeta.author || '',
+            cover: safeMeta.cover || '',
+            progressSeconds: Number(progressSeconds) || 0,
+            lastPlayed: Date.now()
+        };
+    }
+
+    function upsertRecentAudiobookProgress(meta, progressSeconds, videoId) {
+        if (meta?.sourceType !== 'local') return;
+        const entry = buildRecentAudiobookEntry(meta, progressSeconds, videoId);
+        const currentEntries = getRecentAudiobookRegistry().filter((item) => {
+            return !(item.id === entry.id || item.videoId === entry.videoId);
+        });
+        currentEntries.unshift(entry);
+
+        const uniqueMap = new Map();
+        currentEntries.forEach((item) => {
+            const key = `${item.id || item.videoId || item.title}-${item.videoId || item.title}`;
+            if (!uniqueMap.has(key)) uniqueMap.set(key, item);
+        });
+
+        const sorted = [...uniqueMap.values()].sort((a, b) => (b.lastPlayed || 0) - (a.lastPlayed || 0));
+        setRecentAudiobookRegistry(sorted);
+    }
+
+    function formatProgressTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds <= 0) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function resolveAudiobookPlayback(book) {
+        const parts = Array.isArray(book && book.parts) && book.parts.length
+            ? book.parts
+            : (book && book.url ? [{
+                type: 'audio',
+                url: book.url,
+                title: 'Parte 1',
+                videoId: book.videoId || extractVideoId(book.url)
+            }] : []);
+
+        const firstPart = parts[0] || {};
+        const videoId = book && (book.videoId || firstPart.videoId || extractVideoId(book.url) || extractVideoId(firstPart.url));
+
+        return {
+            videoId,
+            title: (book && book.title) || 'Audiobook',
+            description: (book && book.description) || '',
+            parts
+        };
+    }
+
+    function getRecentAudiobooks(audiobooks) {
+        const registry = getRecentAudiobookRegistry();
+        const recent = [];
+
+        registry.forEach((item) => {
+            const match = audiobooks.find((book) => {
+                const matchesId = book.id && item.id && book.id === item.id;
+                const matchesVideo = !!(item.videoId && (book.videoId === item.videoId || (Array.isArray(book.parts) && book.parts.some((part) => part.videoId === item.videoId))));
+                return matchesId || matchesVideo;
+            });
+
+            if (!match || match.sourceType !== 'local') return;
+            const sourceBook = match || {
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                cover: item.cover,
+                author: item.author,
+                videoId: item.videoId,
+                parts: item.videoId ? [{ videoId: item.videoId, title: item.title }] : []
+            };
+
+            recent.push({
+                ...sourceBook,
+                recentItem: item,
+                progressSeconds: Number(item.progressSeconds || 0)
+            });
+        });
+
+        return recent.slice(0, 4);
+    }
+
+    function renderContinueListeningSection(audiobooks) {
+        const section = document.getElementById('continueListeningSection');
+        if (!section) return;
+
+        const recent = getRecentAudiobooks(audiobooks || []);
+        if (!recent.length) {
+            section.style.display = 'none';
+            section.innerHTML = '';
+            return;
+        }
+
+        section.style.display = 'block';
+        section.innerHTML = `
+            <div class="continue-listening-header">
+                <h3>Continuar ouvindo</h3>
+            </div>
+            <div class="continue-listening-grid">
+                ${recent.map((book) => {
+                    const item = book.recentItem || {};
+                    const progress = Number(book.progressSeconds || item.progressSeconds || 0);
+                    const playback = resolveAudiobookPlayback(book);
+                    const percentage = Math.min(100, Math.max(0, ((progress / 900) * 100) || 0));
+                    const title = (book.title || item.title || playback.title || 'Audiobook');
+                    const description = (book.description || item.description || playback.description || 'Retome de onde parou.');
+                    const cover = sanitizeCoverUrl(book.cover || item.cover) || '';
+                    const author = book.author || item.author || 'Audiobook';
+                    const safeId = book.id || item.id || playback.videoId || '';
+                    return `
+                        <article class="continue-listening-card">
+                            <div class="continue-listening-cover-wrap">
+                                <img src="${cover}" alt="${title}" class="continue-listening-cover" onerror="this.style.display='none'">
+                            </div>
+                            <div class="continue-listening-body">
+                                <span class="continue-listening-author">${author}</span>
+                                <h4>${title}</h4>
+                                <p>${description}</p>
+                                <div class="continue-listening-progress-meta">
+                                    <span>${formatProgressTime(progress)}</span>
+                                    <span>${Math.round(percentage)}%</span>
+                                </div>
+                                <div class="continue-listening-progress-bar">
+                                    <span style="width: ${percentage}%"></span>
+                                </div>
+                                <button class="continue-listening-button" data-book-id="${safeId}" data-video-id="${playback.videoId || ''}">Continuar</button>
+                            </div>
+                        </article>
+                    `;
+                }).join('')}
+            </div>
+        `;
+
+        section.querySelectorAll('.continue-listening-button').forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetBookId = button.dataset.bookId;
+                const targetVideoId = button.dataset.videoId;
+                const book = (audiobooks || []).find((entry) => {
+                    const matchesId = entry.id && targetBookId && entry.id === targetBookId;
+                    const matchesVideo = !!(targetVideoId && (entry.videoId === targetVideoId || (Array.isArray(entry.parts) && entry.parts.some((part) => part.videoId === targetVideoId))));
+                    return matchesId || matchesVideo;
+                });
+
+                if (!book) return;
+                const playback = resolveAudiobookPlayback(book);
+                const meta = {
+                    id: book.id,
+                    title: book.title,
+                    description: book.description,
+                    cover: book.cover,
+                    author: book.author,
+                    videoId: playback.videoId,
+                    sourceType: book.sourceType || 'local'
+                };
+
+                playMultimedia(playback.videoId, playback.title, playback.description, playback.parts, meta, loadProgress(playback.videoId));
+            });
+        });
+    }
+
+    function saveProgress() {
+        if (currentDirectAudio) {
+            try {
+                const currentTime = currentDirectAudio.currentTime || 0;
+                if (currentTime > 0 && currentVideoId) {
+                    localStorage.setItem(`${PROGRESS_STORAGE_PREFIX}${currentVideoId}`, currentTime);
+                    if (currentAudiobookMeta) upsertRecentAudiobookProgress(currentAudiobookMeta, currentTime, currentVideoId);
+                }
+            } catch (e) { console.warn('[Progress] Erro ao salvar áudio:', e); }
+            return;
+        }
+        if (!currentVideoId || !multimediaPlayer || !multimediaPlayerReady) {
+            console.warn('[Progress] Não é possível salvar: ID do vídeo ou player não disponível');
+            return;
+        }
+        if (isSavingProgress) return;
+        isSavingProgress = true;
+        try {
+            const currentTime = multimediaPlayer.getCurrentTime();
+            if (currentTime && currentTime > 0) {
+                const key = `${PROGRESS_STORAGE_PREFIX}${currentVideoId}`;
+                localStorage.setItem(key, currentTime);
+                if (currentAudiobookMeta) {
+                    upsertRecentAudiobookProgress(currentAudiobookMeta, currentTime, currentVideoId);
+                }
+                console.log(`[Progress] Salvo: ${key} = ${currentTime.toFixed(1)}s`);
+            }
+        } catch (e) {
+            console.warn('[Progress] Erro ao salvar:', e);
+        } finally {
+            isSavingProgress = false;
+        }
+    }
+
+    function loadProgress(videoId) {
+        try {
+            const key = `${PROGRESS_STORAGE_PREFIX}${videoId}`;
+            const saved = localStorage.getItem(key);
+            const time = saved ? parseFloat(saved) : 0;
+            console.log(`[Progress] Carregado: ${key} = ${time.toFixed(1)}s`);
+            return time;
+        } catch (e) {
+            console.warn('[Progress] Erro ao carregar:', e);
+            return 0;
+        }
+    }
+
+    function startProgressSaving() {
+        if (progressSaveInterval) {
+            clearInterval(progressSaveInterval);
+            progressSaveInterval = null;
+        }
+        saveProgress();
+        progressSaveInterval = setInterval(() => {
+            saveProgress();
+        }, 5000);
+    }
+
+    function loadYouTubeAPI() {
+        return new Promise((resolve) => {
+            if (window.YT && window.YT.Player) {
+                resolve();
+                return;
+            }
+            const script = document.createElement('script');
+            script.src = 'https://www.youtube.com/iframe_api';
+            script.async = true;
+            script.onload = () => {
+                window.onYouTubeIframeAPIReady = () => resolve();
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    // ========== PLAYER PRINCIPAL (COM PARTES E PDF) ==========
+    function renderParts(parts, currentIndex) {
+        const container = document.getElementById('playerPartsContainer');
+        if (!container) return;
+        if (!parts || parts.length <= 1) {
+            container.style.display = 'none';
+            return;
+        }
+        container.style.display = 'flex';
+        container.innerHTML = '';
+        parts.forEach((part, idx) => {
+            const btn = document.createElement('button');
+            btn.className = `player-part-btn ${idx === currentIndex ? 'active' : ''}`;
+            btn.textContent = part.title || `${t('part')} ${idx+1}`;
+            btn.dataset.index = idx;
+            btn.addEventListener('click', () => {
+                playPart(idx);
+            });
+            container.appendChild(btn);
+        });
+    }
+
+    function playDirectAudioPart(part, initialProgress = 0) {
+        const container = document.getElementById('multimediaPlayerContainer');
+        const playerWrapper = document.getElementById('playerVideoWrapper');
+        if (!playerWrapper || !part?.url) return false;
+
+        if (container) container.style.display = 'block';
+        playerWrapper.innerHTML = '<div id="multimediaYouTubePlayer"><audio id="directAudioPlayer" preload="metadata" style="display:none"></audio></div>';
+        const audio = playerWrapper.querySelector('#directAudioPlayer');
+        currentDirectAudio = audio;
+        currentVideoId = part.url;
+        currentPartUrl = part.url;
+        currentPartType = 'audio';
+        audio.src = part.url;
+        audio.currentTime = Math.max(0, Number(initialProgress) || 0);
+        audio.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
+        audio.addEventListener('loadedmetadata', () => updateProgressBar(), { once: true });
+        audio.addEventListener('play', () => {
+            const button = document.getElementById('playerPlayPause');
+            if (button) { button.dataset.playing = 'true'; button.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`; }
+        });
+        audio.addEventListener('pause', () => {
+            const button = document.getElementById('playerPlayPause');
+            if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
+        });
+        audio.addEventListener('ended', () => {
+            saveProgress();
+            window.finishFloatingMedia?.();
+        });
+        audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
+        startProgressSaving();
+        startProgressUpdates();
+        audio.play().catch(() => {});
+        return true;
+    }
+
+    function playPart(index) {
+        if (!currentParts || index >= currentParts.length) return;
+        const part = currentParts[index];
+        currentPartIndex = index;
+        renderParts(currentParts, index);
+        // Salva progresso da parte atual antes de trocar
+        if (currentVideoId) saveProgress();
+        // Para o player atual
+        if (currentDirectAudio) {
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
+        }
+        if (multimediaPlayer && multimediaPlayerReady) {
+            multimediaPlayer.stopVideo();
+            multimediaPlayer.clearVideo();
+        }
+        // Define o novo vídeo/url
+        if (part.type === 'audio' || part.type === 'video') {
+            const videoId = part.videoId || extractVideoId(part.url);
+            if (videoId) {
+                currentVideoId = videoId;
+                currentPartType = part.type;
+                currentPartUrl = part.url;
+                // Carrega no player
+                multimediaPlayer.loadVideoById(videoId);
+                const savedTime = loadProgress(videoId);
+                if (savedTime > 5) {
+                    setTimeout(() => {
+                        if (multimediaPlayerReady) {
+                            multimediaPlayer.seekTo(savedTime, true);
+                        }
+                    }, 1000);
+                }
+                startProgressSaving();
+                setTimeout(() => {
+                    if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        multimediaPlayer.playVideo();
+                    }
+                }, 500);
+            } else if (part.type === 'audio' && part.url) {
+                playDirectAudioPart(part, loadProgress(part.url));
+            }
+        } else if (part.type === 'pdf') {
+            // Abre PDF em nova aba
+            window.open(part.url, '_blank');
+            // Não há progresso para PDF
+        }
+    }
+
+    async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0) {
+        window.beginFloatingMedia?.();
+        console.log('[Player] Play solicitado:', videoId, title, parts);
+        window.UniversidadeLivreAnalytics?.media('biblioteca', videoId || title, title);
+        currentAudiobookMeta = meta || currentAudiobookMeta || {
+            id: videoId,
+            title: title || currentTitle || 'Audiobook',
+            description: description || currentDescription || '',
+            videoId
+        };
+
+        if (currentDirectAudio) {
+            saveProgress();
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
+        }
+
+        const directAudio = !videoId && Array.isArray(parts) && parts[0]?.type === 'audio' && parts[0]?.url;
+        if (!directAudio && window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
+            console.log('[Player] Usando player do Auditório');
+            window.Auditorio.playVideo(videoId, title, description);
+            return;
+        }
+        if (!directAudio && window.playVideo && typeof window.playVideo === 'function') {
+            console.log('[Player] Usando playVideo global');
+            window.playVideo(videoId, title, description);
+            return;
+        }
+
+        // Salva progresso do vídeo anterior antes de trocar
+        if (currentVideoId && multimediaPlayer && multimediaPlayerReady) {
+            console.log('[Player] Salvando progresso do vídeo anterior:', currentVideoId);
+            saveProgress();
+        }
+        if (progressSaveInterval) {
+            clearInterval(progressSaveInterval);
+            progressSaveInterval = null;
+        }
+
+        const container = ensureAudiobookPlayerContainer();
+        if (!container) {
+            console.error('[Player] Falha ao criar container');
+            showToast('Erro ao criar player. Tente novamente.', 'error');
+            if (videoId && confirm('Deseja abrir o vídeo no YouTube?')) {
+                window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+            }
+            return;
+        }
+
+        // Atualiza o ID do vídeo atual
+        currentVideoId = videoId || (parts?.[0]?.url || null);
+        currentParts = parts || [];
+        currentPartIndex = 0;
+
+        const titleEl = document.getElementById('playerTitle');
+        const descEl = document.getElementById('playerDescription');
+        if (titleEl) titleEl.textContent = title || 'Audiobook';
+        if (descEl) descEl.textContent = description || '';
+        currentTitle = title || '';
+        currentDescription = description || '';
+        if (currentAudiobookMeta) {
+            currentAudiobookMeta.title = currentTitle || currentAudiobookMeta.title || 'Audiobook';
+            currentAudiobookMeta.description = currentDescription || currentAudiobookMeta.description || '';
+        }
+
+        // Mostra o container e rola até ele
+        container.style.display = 'block';
+        isPlayerVisible = true;
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        isAudioMode = true;
+        const wrapper = document.getElementById('playerVideoWrapper');
+        const modeBtn = document.getElementById('playerToggleMode');
+        if (wrapper) {
+            wrapper.style.display = directAudio ? 'none' : 'none';
+            if (!directAudio && !document.getElementById('multimediaYouTubePlayer')) {
+                wrapper.innerHTML = '<div id="multimediaYouTubePlayer"></div>';
+            }
+            if (modeBtn) modeBtn.innerHTML = `<i class="fas fa-eye"></i> ${t('video_mode')}`;
+        }
+        if (modeBtn) modeBtn.style.display = directAudio ? 'none' : '';
+        const subtitlesButton = document.getElementById('playerSubtitles');
+        if (subtitlesButton) subtitlesButton.style.display = directAudio ? 'none' : '';
+        const qualityControl = document.getElementById('playerVideoQuality')?.closest('.player-select');
+        const audioControl = document.getElementById('playerAudioTrackControl');
+        const captionLanguageControl = document.getElementById('playerCaptionLanguage')?.closest('.player-select');
+        if (qualityControl) qualityControl.hidden = directAudio;
+        if (audioControl) audioControl.hidden = true;
+        if (captionLanguageControl) captionLanguageControl.hidden = directAudio;
+
+        if (subtitlesEnabled) {
+            setTimeout(() => showCaptionsOverlay(), 500);
+        }
+
+        // Renderiza partes se houver mais de uma
+        renderParts(currentParts, 0);
+
+        // Se há partes, a primeira parte pode ser PDF ou áudio
+        if (currentParts.length > 0) {
+            const firstPart = currentParts[0];
+            if (firstPart.type === 'pdf') {
+                // Abre PDF e não carrega player
+                window.open(firstPart.url, '_blank');
+                // Opcional: não iniciar player, apenas mostrar informações
+                return;
+            }
+            if (!videoId && firstPart.type === 'audio' && firstPart.url) {
+                playDirectAudioPart(firstPart, initialProgress);
+                return;
+            }
+            // Senão, continua com o áudio/vídeo
+        }
+
+        // Se o player já existe e está pronto
+        if (multimediaPlayer && multimediaPlayerReady) {
+            console.log('[Player] Player existente, carregando vídeo');
+            multimediaPlayer.loadVideoById(videoId);
+            const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
+            if (savedTime > 5) {
+                setTimeout(() => {
+                    if (multimediaPlayerReady) {
+                        multimediaPlayer.seekTo(savedTime, true);
+                    }
+                }, 1000);
+            }
+            startProgressSaving();
+            setTimeout(() => {
+                if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+                    multimediaPlayer.playVideo();
+                }
+            }, 500);
+            return;
+        }
+
+        // Aguarda prontidão se existir
+        if (multimediaPlayer && !multimediaPlayerReady) {
+            console.log('[Player] Aguardando player ficar pronto...');
+            let attempts = 0;
+            while (!multimediaPlayerReady && attempts < 10) {
+                await new Promise(r => setTimeout(r, 500));
+                attempts++;
+            }
+            if (multimediaPlayerReady) {
+                multimediaPlayer.loadVideoById(videoId);
+                const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
+                if (savedTime > 5) {
+                    setTimeout(() => {
+                        if (multimediaPlayerReady) {
+                            multimediaPlayer.seekTo(savedTime, true);
+                        }
+                    }, 1000);
+                }
+                startProgressSaving();
+                setTimeout(() => {
+                    if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        multimediaPlayer.playVideo();
+                    }
+                }, 500);
+                return;
+            } else {
+                console.warn('[Player] Player não ficou pronto, recriando...');
+                multimediaPlayer = null;
+                multimediaPlayerReady = false;
+            }
+        }
+
+        await loadYouTubeAPI();
+
+        const playerDiv = document.getElementById('multimediaYouTubePlayer');
+        if (!playerDiv) {
+            console.error('[Player] Elemento #multimediaYouTubePlayer não encontrado');
+            const parent = container.querySelector('.player-video-wrapper');
+            if (parent) {
+                parent.innerHTML = `
+                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                            allowfullscreen allow="autoplay; encrypted-media" 
+                            style="width:100%;height:100%;border:0;">
+                    </iframe>
+                `;
+                showToast('Player simplificado (iframe) ativado.', 'info');
+                return;
+            }
+            return;
+        }
+
+        if (!multimediaPlayer) {
+            console.log('[Player] Criando novo player YouTube');
+            try {
+                multimediaPlayer = new YT.Player('multimediaYouTubePlayer', {
+                    videoId: videoId,
+                    playerVars: {
+                        autoplay: 1,
+                        controls: 0,
+                        modestbranding: 1,
+                        rel: 0,
+                        origin: window.location.origin,
+                        cc_load_policy: 1
+                    },
+                    events: {
+                        onReady: () => {
+                            console.log('[Player] Player pronto');
+                            multimediaPlayerReady = true;
+                            const startingTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
+                            if (startingTime > 5) {
+                                setTimeout(() => {
+                                    if (multimediaPlayerReady) {
+                                        multimediaPlayer.seekTo(startingTime, true);
+                                    }
+                                }, 600);
+                            }
+                            const savedVol = localStorage.getItem('player_volume');
+                            if (savedVol !== null) {
+                                multimediaPlayer.setVolume(parseInt(savedVol));
+                                document.getElementById('playerVolumeSlider').value = savedVol;
+                                updateVolumeIcon(parseInt(savedVol));
+                            }
+                            // Carrega progresso para o vídeo atual
+                            const savedTime = loadProgress(videoId);
+                            if (savedTime > 5) {
+                                multimediaPlayer.seekTo(savedTime, true);
+                            }
+                            startProgressSaving();
+                            updatePlayerControlTranslations();
+                            const titleEl = document.getElementById('playerTitle');
+                            if (titleEl) titleEl.textContent = currentTitle;
+                            setTimeout(() => {
+                                if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+                                    multimediaPlayer.playVideo();
+                                }
+                            }, 300);
+                            if (subtitlesEnabled) {
+                                showCaptionsOverlay();
+                            }
+                            multimediaPlayer.addEventListener?.('onApiChange', scheduleLibraryPlayerOptions);
+                            scheduleLibraryPlayerOptions();
+                            startProgressUpdates();
+                        },
+                        onStateChange: (event) => {
+                            const btn = document.getElementById('playerPlayPause');
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                btn.dataset.playing = 'true';
+                                btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+                            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                                btn.dataset.playing = 'false';
+                                btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+                                if (event.data === YT.PlayerState.ENDED) {
+                                    saveProgress();
+                                    window.finishFloatingMedia?.();
+                                }
+                            }
+                            updatePlayerControlTranslations();
+                            updateProgressBar();
+                        },
+                        onError: (e) => {
+                            console.error('[Player] Erro no player:', e);
+                            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
+                            if (videoId && confirm(t('library_open_youtube_confirm', 'Deseja abrir no YouTube?'))) {
+                                window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('[Player] Falha ao criar player:', err);
+                showToast('Erro ao criar player. Tente novamente.', 'error');
+                const parent = container.querySelector('.player-video-wrapper');
+                if (parent) {
+                    parent.innerHTML = `
+                        <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                                allowfullscreen allow="autoplay; encrypted-media" 
+                                style="width:100%;height:100%;border:0;">
+                        </iframe>
+                    `;
+                }
+            }
+        }
+    }
+
+    let progressUpdateInterval = null;
+
+    function startProgressUpdates() {
+        if (progressUpdateInterval) clearInterval(progressUpdateInterval);
+        progressUpdateInterval = setInterval(updateProgressBar, 500);
+    }
+
+    function updateProgressBar() {
+        const progressBar = document.getElementById('playerProgressBar');
+        const currentTimeEl = document.getElementById('playerCurrentTime');
+        const durationEl = document.getElementById('playerDuration');
+        if (!progressBar || !currentTimeEl || !durationEl) return;
+
+        if (currentDirectAudio) {
+            const current = currentDirectAudio.currentTime || 0;
+            const duration = currentDirectAudio.duration || 0;
+            if (duration) {
+                progressBar.value = (current / duration) * 100;
+                currentTimeEl.textContent = formatTime(current);
+                durationEl.textContent = formatTime(duration);
+            }
+            return;
+        }
+        if (!multimediaPlayer || !multimediaPlayerReady) return;
+
+        const current = multimediaPlayer.getCurrentTime() || 0;
+        const duration = multimediaPlayer.getDuration() || 0;
+        if (duration) {
+            const percent = (current / duration) * 100;
+            progressBar.value = percent;
+            currentTimeEl.textContent = formatTime(current);
+            durationEl.textContent = formatTime(duration);
+        }
+    }
+
+    function formatTime(seconds) {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function closeMultimediaPlayer() {
+        window.finishFloatingMedia?.();
+        // Salva o progresso final antes de fechar
+        if (currentVideoId) {
+            saveProgress();
+        }
+        const container = document.getElementById('multimediaPlayerContainer');
+        if (container) container.style.display = 'none';
+        if (multimediaPlayer) {
+            try {
+                multimediaPlayer.pauseVideo();
+                multimediaPlayer.stopVideo();
+                multimediaPlayer.clearVideo();
+            } catch (e) {}
+        }
+        if (currentDirectAudio) {
+            currentDirectAudio.pause();
+            currentDirectAudio.removeAttribute('src');
+            currentDirectAudio.load();
+            currentDirectAudio = null;
+        }
+        multimediaPlayerReady = false;
+        isPlayerVisible = false;
+        if (progressSaveInterval) {
+            clearInterval(progressSaveInterval);
+            progressSaveInterval = null;
+        }
+        if (progressUpdateInterval) {
+            clearInterval(progressUpdateInterval);
+            progressUpdateInterval = null;
+        }
+        if (captionInterval) {
+            clearInterval(captionInterval);
+            captionInterval = null;
+        }
+        // Não chama saveProgress novamente (já foi chamado)
+        const playerDiv = document.getElementById('multimediaYouTubePlayer');
+        if (playerDiv && playerDiv.parentElement) {
+            if (playerDiv.tagName !== 'DIV') {
+                const parent = playerDiv.parentElement;
+                const newDiv = document.createElement('div');
+                newDiv.id = 'multimediaYouTubePlayer';
+                parent.innerHTML = '';
+                parent.appendChild(newDiv);
+            }
+        }
+        hideCaptionsOverlay();
+        currentVideoId = null;
+        currentParts = [];
+        currentPartIndex = 0;
+        const partsContainer = document.getElementById('playerPartsContainer');
+        if (partsContainer) {
+            partsContainer.style.display = 'none';
+            partsContainer.innerHTML = '';
+        }
+    }
+
+    // ========== RENDERIZAR AUDIOBOOKS ==========
+    function renderAudiobooks(audiobooks, visibleCount = AUDIOBOOK_PAGE_SIZE) {
+        const container = document.getElementById('audiobooksGrid');
+        if (!container) return;
+
+        displayedAudiobookCount = Math.min(visibleCount, audiobooks?.length || 0);
+        const loadMoreButton = document.getElementById('loadMoreAudiobooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = displayedAudiobookCount >= (audiobooks?.length || 0);
+
+        if (!audiobooks || audiobooks.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-headphones"></i><p>${t('no_audiobooks')}</p></div>`;
+            return;
+        }
+
+        let html = '';
+        audiobooks.slice(0, displayedAudiobookCount).forEach(book => {
+            const cover = sanitizeCoverUrl(book.cover) || '';
+            const duration = book.duration || '';
+            const year = book.year || '';
+            const partsCount = book.parts ? book.parts.length : 1;
+            const firstVideoId = book.videoId || (book.parts && book.parts[0] && book.parts[0].videoId) || '';
+
+            html += `
+                <div class="audiobook-card" data-audiobook-id="${escapeAttribute(book.id)}" data-title="${escapeAttribute(book.title)}" data-description="${escapeAttribute(book.description)}" data-video-id="${escapeAttribute(firstVideoId)}">
+                    <img class="audiobook-cover" src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" loading="lazy" onerror="this.style.display='none'">
+                    <div class="audiobook-info">
+                        <div class="audiobook-title">${escapeHtml(book.title)}</div>
+                        <div class="audiobook-author"><i class="fas fa-user"></i> ${escapeHtml(book.author)}</div>
+                        ${duration ? `<div class="audiobook-duration"><i class="fas fa-clock"></i> ${duration}</div>` : ''}
+                        ${year ? `<div class="audiobook-year">${year}</div>` : ''}
+                        ${partsCount > 1 ? `<div class="audiobook-parts"><i class="fas fa-layer-group"></i> ${partsCount} ${t('parts')}</div>` : ''}
+                        <div class="audiobook-description">${escapeHtml(book.description)}</div>
+                        <button class="listen-btn" data-audiobook-id="${escapeAttribute(book.id)}" data-title="${escapeAttribute(book.title)}" data-description="${escapeAttribute(book.description)}" data-source-type="${escapeAttribute(book.sourceType || 'local')}" data-video-id="${escapeAttribute(firstVideoId)}" data-parts='${String(JSON.stringify(book.parts || [])).replace(/'/g, '&#39;')}'>
+                            <i class="fas fa-play"></i> ${t('listen_button')}
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        renderContinueListeningSection(audiobooks);
+
+        container.querySelectorAll('.audiobook-card').forEach(card => {
+            const btn = card.querySelector('.listen-btn');
+            card.addEventListener('click', function(e) {
+                if (e.target.closest('.listen-btn')) return;
+                if (btn) btn.click();
+            });
+        });
+
+        container.querySelectorAll('.listen-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const videoId = this.dataset.videoId || this.closest('.audiobook-card')?.dataset.videoId || '';
+                const title = this.dataset.title;
+                const description = this.dataset.description;
+                let parts = [];
+                try {
+                    parts = JSON.parse(this.dataset.parts) || [];
+                } catch (e) {}
+                if (!parts.length && videoId) {
+                    parts = [{ type: 'audio', url: `https://www.youtube.com/watch?v=${videoId}`, title: 'Parte 1', videoId }];
+                }
+                const meta = {
+                    id: this.dataset.audiobookId,
+                    title,
+                    description,
+                    cover: this.closest('.audiobook-card')?.querySelector('.audiobook-cover')?.src || '',
+                    videoId,
+                    sourceType: this.dataset.sourceType || 'local'
+                };
+                playMultimedia(videoId || (parts.length ? parts[0].videoId : null), title, description, parts, meta, loadProgress(videoId || (parts.length ? parts[0].videoId : '')));
+            });
+        });
+    }
+
+    async function loadAudiobooksTab() {
+        const container = document.getElementById('audiobooksTabContent');
+        if (!container) return;
+
+        container.innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`;
+
+        const localAudiobooks = await loadAudiobooks();
+        let audiobooks = localAudiobooks;
+
+        container.innerHTML = `
+            <div class="library-filters audiobook-filters">
+                <div class="filters-heading">
+                    <div>
+                        <span class="filters-kicker"><i class="fas fa-headphones"></i> <span>${t('audio_mode')}</span></span>
+                        <h2>${t('audiobooks_title')}</h2>
+                    </div>
+                    <span class="filters-heading-icon"><i class="fas fa-waveform-lines"></i></span>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text" id="audiobookSearchInput" placeholder="${t('search_audiobooks_placeholder')}">
+                    <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+                </div>
+            </div>
+            <div id="continueListeningSection" class="continue-listening-section" style="display:none;"></div>
+            <div id="audiobooksGrid" class="audiobooks-grid" aria-live="polite" aria-busy="false"></div>
+            <div class="library-load-more-wrap">
+                <button id="loadMoreAudiobooksBtn" class="load-more-books-button" type="button" aria-controls="audiobooksGrid" data-i18n="load_more" hidden>
+                    <i class="fas fa-plus" aria-hidden="true"></i> Ver mais
+                </button>
+            </div>
+        `;
+
+        renderAudiobooks(audiobooks);
+        document.getElementById('loadMoreAudiobooksBtn')?.addEventListener('click', () => {
+            renderAudiobooks(audiobooks, displayedAudiobookCount + AUDIOBOOK_PAGE_SIZE);
+        });
+
+        const searchInput = document.getElementById('audiobookSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(async function() {
+                const term = this.value.trim().toLowerCase();
+                const thisAudiobookSearchId = ++audiobookSearchId;
+                const filtered = audiobooks.filter(book =>
+                    book.title.toLowerCase().includes(term) ||
+                    (book.author && book.author.toLowerCase().includes(term))
+                );
+                renderAudiobooks(filtered);
+                audiobooks = localAudiobooks;
+                if (term.length >= MIN_SEARCH_LENGTH) {
+                    const grid = document.getElementById('audiobooksGrid');
+                    if (grid) grid.insertAdjacentHTML('afterbegin', `<div class="loading-skeleton audiobook-search-loading"><div class="spinner"></div><p>${t('loading')}</p></div>`);
+                    const externalResults = await Promise.allSettled([
+                        searchArchiveAudiobooks(term)
+                    ]);
+                    const external = externalResults
+                        .filter(result => result.status === 'fulfilled')
+                        .flatMap(result => Array.isArray(result.value) ? result.value : []);
+                    if (thisAudiobookSearchId !== audiobookSearchId) return;
+                    const merged = [...localAudiobooks, ...external];
+                    const seen = new Set();
+                    audiobooks = merged.filter(book => {
+                        if (seen.has(book.id)) return false;
+                        seen.add(book.id);
+                        return true;
+                    });
+                    const localMatches = localAudiobooks.filter(book => book.title.toLowerCase().includes(term) || (book.author || '').toLowerCase().includes(term));
+                    const externalMatches = audiobooks.filter(book => book.sourceType === 'external');
+                    renderAudiobooks([...localMatches, ...externalMatches]);
+                }
+            }, 300));
+        }
+
+        applyAllTranslations();
+        ensureAudiobookPlayerContainer();
     }
 
     // ========== ABAS E FILTROS ==========
@@ -1288,7 +3485,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     performSearchWithFilters(currentSearchTerm);
                 } else if (tabId === 'audiobooks') {
                     audiobooksContent.classList.add('active');
-                    // Módulo de audiobooks não utilizado
+                    loadAudiobooksTab();
                 } else if (tabId === 'recommended') {
                     recommendedContent.classList.add('active');
                     if (externalLibrariesData.length === 0) loadExternalLibraries();
@@ -1298,22 +3495,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ========== PERFIL ==========
-    function initProfile() {
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn) {
-            profileBtn.addEventListener('click', () => {
-                if (window.openProfileModal) {
-                    window.openProfileModal();
-                } else {
-                    const modal = document.getElementById('profileModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        if (window.updateProfileModal) window.updateProfileModal();
-                    }
-                }
-            });
+    // ========== TOAST ==========
+    function sanitizeToastMessage(message) {
+        return String(message ?? '')
+            .replace(/\p{Extended_Pictographic}|\p{Regional_Indicator}/gu, '')
+            .replace(/[\uFE0F\u200D]/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
+
+    function showToast(message, type = 'info') {
+        if (window.showNotification && typeof window.showNotification === 'function') {
+            window.showNotification(message, type);
+            return;
         }
+        const existing = document.getElementById('customToast');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.id = 'customToast';
+        toast.style.cssText = `
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-card); backdrop-filter: blur(12px);
+            padding: 12px 24px; border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--modal-shadow);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            z-index: 99999;
+            max-width: 90%;
+            text-align: center;
+            transition: opacity 0.3s ease;
+        `;
+        if (type === 'success') toast.style.borderLeft = '4px solid #22c55e';
+        else if (type === 'error') toast.style.borderLeft = '4px solid #ef4444';
+        else toast.style.borderLeft = '4px solid #6C8CFF';
+        toast.textContent = sanitizeToastMessage(message);
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 
     // ========== INICIALIZAÇÃO ==========
@@ -1324,24 +3545,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalBody = document.getElementById('modalBody');
         closeModalBtn = document.querySelector('.close-modal');
         if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
+        document.getElementById('loadMoreBooksBtn')?.addEventListener('click', appendMoreLibraryResults);
 
-        // Carregar idioma
+        document.getElementById('closePdfReader')?.addEventListener('click', closePdfReader);
+        document.getElementById('pdfReaderModal')?.addEventListener('click', event => {
+            if (event.target.id === 'pdfReaderModal') closePdfReader();
+        });
+        document.getElementById('pdfReaderPrevious')?.addEventListener('click', async () => {
+            if (pdfDocument && pdfCurrentPage > 1) {
+                pdfCurrentPage--;
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderNext')?.addEventListener('click', async () => {
+            if (pdfDocument && pdfCurrentPage < pdfDocument.numPages) {
+                pdfCurrentPage++;
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderZoomOut')?.addEventListener('click', async () => {
+            if (pdfDocument) {
+                pdfZoom = Math.max(0.6, pdfZoom - 0.2);
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderZoomIn')?.addEventListener('click', async () => {
+            if (pdfDocument) {
+                pdfZoom = Math.min(2.4, pdfZoom + 0.2);
+                await renderPdfPage();
+            }
+        });
+        document.getElementById('pdfReaderBookmark')?.addEventListener('click', savePdfBookmark);
+        document.getElementById('pdfReaderDownload')?.addEventListener('click', downloadCurrentPdf);
+        document.getElementById('pdfReaderMarkRead')?.addEventListener('click', toggleCurrentPdfReadState);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && document.getElementById('pdfReaderModal')?.style.display === 'flex') {
+                closePdfReader();
+            }
+        });
+
+        ensureAudiobookPlayerContainer();
+
         const savedLang = localStorage.getItem('selectedLanguage');
         let initialLang = savedLang;
         if (!initialLang) {
             const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || '';
-            initialLang = browserLang.startsWith('pt') ? 'pt-br' : 'en';
+            initialLang = browserLang.startsWith('pt') ? 'pt-br' : browserLang.startsWith('es') ? 'es' : 'en';
         }
         currentLang = initialLang;
         await loadTranslations(currentLang);
         applyAllTranslations();
         updateLanguageSelector(currentLang);
 
-        // Configurar botões de idioma
         const langPtBtn = document.getElementById('langPtBtn');
         const langEnBtn = document.getElementById('langEnBtn');
+        const langEsBtn = document.getElementById('langEsBtn');
         if (langPtBtn) langPtBtn.addEventListener('click', async () => {
             await loadTranslations('pt-br');
             currentLang = 'pt-br';
@@ -1351,6 +3609,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
             if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
             else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
             langPtBtn.classList.add('active');
             langEnBtn.classList.remove('active');
         });
@@ -1363,12 +3622,61 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
             if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
             else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
             langEnBtn.classList.add('active');
             langPtBtn.classList.remove('active');
+        });
+        if (langEsBtn) langEsBtn.addEventListener('click', async () => {
+            await loadTranslations('es');
+            currentLang = 'es';
+            localStorage.setItem('selectedLanguage', 'es');
+            applyAllTranslations();
+            updateLanguageSelector('es');
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'es' } }));
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+            else if (activeMainTab === 'recommended' && externalLibrariesData.length > 0) renderExternalLibraries();
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
         });
 
         setupMainTabs();
         setupTabs();
+        const refreshGoogleBooksContent = () => {
+            apiCache.clear();
+            metadataCache.clear();
+            searchCache.clear();
+            googleBooksDisabled = false;
+            googleBooksFailedAttempts = 0;
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+            else if (activeMainTab === 'audiobooks') loadAudiobooksTab();
+        };
+        const refreshLibraryApiContent = () => {
+            searchCache.clear();
+            if (activeMainTab === 'library') performSearchWithFilters(currentSearchTerm);
+        };
+        window.addEventListener('googleBooksApiKeyChanged', refreshGoogleBooksContent);
+        window.addEventListener('libraryApiSourceChanged', refreshLibraryApiContent);
+        window.addEventListener('storage', event => {
+            if (event.key === GOOGLE_BOOKS_API_KEY_STORAGE_KEY || event.key === `${GOOGLE_BOOKS_API_KEY_STORAGE_KEY}_enabled`) refreshGoogleBooksContent();
+            if (event.key?.startsWith(LIBRARY_API_SOURCE_STORAGE_PREFIX)) refreshLibraryApiContent();
+        });
+        const requestedParams = new URLSearchParams(window.location.search);
+        const requestedTab = requestedParams.get('aba');
+        if (requestedTab === 'audiobooks') {
+            activeMainTab = requestedTab;
+            document.querySelectorAll('.main-tab-btn').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.mainTab === activeMainTab);
+            });
+            document.getElementById('libraryTabContent')?.classList.remove('active');
+            document.getElementById('audiobooksTabContent')?.classList.add('active');
+        }
+        const requestedType = requestedParams.get('tipo');
+        const validTypes = ['book', 'article', 'paper', 'tcc', 'dissertation', 'thesis'];
+        if (validTypes.includes(requestedType)) {
+            activeTab = requestedType;
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === activeTab);
+            });
+        }
         await loadExternalLibraries();
 
         localBooksCache = await loadLocalBooks();
@@ -1380,10 +3688,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        initProfile();
-
         if (activeMainTab === 'library') {
             await performSearchWithFilters('');
+        } else if (activeMainTab === 'audiobooks') {
+            await loadAudiobooksTab();
         }
     }
 
@@ -1415,9 +3723,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (activeMainTab === 'library') {
                 performSearchWithFilters(currentSearchTerm);
+            } else if (activeMainTab === 'audiobooks') {
+                loadAudiobooksTab();
             }
         });
     });
 
-    init();
+    init().then(() => {
+        window.__applicationReady = true;
+        window.dispatchEvent(new Event('applicationReady'));
+    }).catch(error => {
+        console.error('[Biblioteca] Falha ao inicializar:', error);
+        window.__applicationReady = true;
+        window.dispatchEvent(new Event('applicationReady'));
+    });
 });

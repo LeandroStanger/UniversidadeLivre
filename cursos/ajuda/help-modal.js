@@ -1,7 +1,12 @@
-// help-modal.js – versão 5.0 – COMPLETO COM SUPORTE A TODOS OS 20 CURSOS
-// Modal de ajuda com i18n, suporte a todos os cursos e carregamento dinâmico de dados
-// Inclui: Administração, ENEM, EsPCEx, INGLÊS, ESPANHOL, ESPANHOL-INGLÊS, JAPONÊS,
-// PORTUGUÊS BRASILEIRO, JAPONÊS-INGLÊS, ENGENHARIA DE COMPUTAÇÃO e todos os demais
+// ajuda/help-modal.js – Versão 15.0 – COMPLETO E AUTOSSUFICIENTE
+// Modal de ajuda com suporte a todos os cursos, i18n, carregamento dinâmico de dados
+// Inclui: Administração, Biologia, Ciência da Computação, Matemática, Matemática (Licenciatura),
+// Computer Science, Math, Engenharia de Computação, Engenharia de Produção,
+// Letras – Habilitação em Língua Portuguesa, Letras (geral), Pedagogia, Gestão Pública,
+// Tecnologia da Informação, Ciência de Dados (Bacharelado), Processos Gerenciais,
+// Ciência de Dados (Pós), Computação Gráfica, CyberSecurity, Desenvolvimento Web,
+// DevOps, Embarcados, ENEM, EsPCEx, Física, Inglês, Espanhol, Espanhol-Inglês,
+// Japonês, Japonês-Inglês, Português Brasileiro, Química
 
 (function() {
     'use strict';
@@ -15,14 +20,20 @@
 
     let currentCourse = null;               // ID do curso (ex: 'ciencia_computacao')
     let helpDataCache = null;              // Cache do JSON
-    let translationsFallbackApplied = false;
+    let _initialized = false;              // Evita múltiplas inicializações
+    let _isOpen = false;
 
     // ========== FUNÇÃO DE TRADUÇÃO (com fallback) ==========
     function t(key, replacements = {}) {
         // Tenta usar a função global de tradução se disponível
-        if (window.getTranslation && typeof window.getTranslation === 'function') {
+        const translate = typeof window.getTranslation === 'function'
+            ? window.getTranslation
+            : typeof window.t === 'function'
+                ? window.t
+                : window.i18n?.t;
+        if (translate) {
             try {
-                return window.getTranslation(key, replacements);
+                return translate(key, replacements);
             } catch (e) {
                 // fallback
             }
@@ -31,12 +42,14 @@
         // Fallback interno (apenas para chaves críticas)
         const fallbacks = {
             'help_modal_title': 'Ajuda - {{course}}',
+            'help_modal_aria': 'Ajuda do curso',
             'help_unknown_course': 'Curso não identificado.',
             'help_unavailable': 'Conteúdo de ajuda não disponível para este curso.',
             'loading': 'Carregando...',
             'error_loading': 'Erro ao carregar conteúdo de ajuda. Tente novamente mais tarde.',
             'help_button': 'Ajuda',
-            'close': 'Fechar'
+            'close': 'Fechar',
+            'notas_cancel': 'Cancelar'
         };
 
         let text = fallbacks[key] || key;
@@ -46,53 +59,51 @@
         return text;
     }
 
-    // ========== Mapeamento de IDs para chaves no help-data.json ==========
+    // ========== MAPEAMENTO DE IDs PARA CHAVES NO help-data.json ==========
     const courseIdToKeyMap = {
-        'administracao': 'administracao',           // NOVO
-        'ciencia_de_dados': 'ciencia_de_dados',
-        'computacao': 'ciencia_computacao',
-        'computacao_grafica': 'computacao_grafica',
+        // Graduação
+        'administracao': 'administracao',
+        'accounting': 'accounting',
+        'biologia': 'biologia',
+        'ciencia-de-dados-bacharelado': 'ciencia-de-dados-bacharelado',
+        'ciencia-da-computacao': 'ciencia_computacao',
+        'ciencias-de-la-computacion': 'ciencias_de_la_computacion',
         'computer-science': 'computer-science',
+        'engenharia-producao': 'engenharia-producao',
+        'engenharia_computacao': 'engenharia_computacao',
+        'fisica': 'fisica',
+        'letras': 'letras',
+        'letras-portugues': 'letras-portugues',
+        'matematica': 'matematica',
+        'matematica-licenciatura': 'matematica-licenciatura',
+        'matematica-em-espanhol': 'matematicas',
+        'matematicas': 'matematicas',
+        'math': 'math',
+        'pedagogia': 'pedagogia',
+        'processos-gerenciais': 'processos-gerenciais',
+        'quimica': 'quimica',
+        'tecnologia-informacao': 'tecnologia-informacao',
+        // Pós-Graduação
+        'ciencia_de_dados': 'ciencia_de_dados',
+        'computacao_grafica': 'computacao_grafica',
         'cybersecurity': 'cybersecurity',
         'desenvolvimento_web': 'desenvolvimento_web',
         'devops': 'devops',
         'embarcados': 'embarcados',
+        // Ensino Médio
         'enem': 'enem',
-        'engenharia_computacao': 'engenharia_computacao',
+        'espcex': 'espcex',
+        // Idiomas
         'espanhol': 'espanhol',
         'espanhol-ingles': 'espanhol-ingles',
-        'espcex': 'espcex',
         'ingles': 'ingles',
         'japones': 'japones',
         'japones-ingles': 'japones-ingles',
-        'matematica': 'matematica',
-        'math': 'math',
         'portugues-brasileiro': 'portugues-brasileiro'
     };
 
     // Lista de cursos com suporte a ajuda
-    const supportedCourses = [
-        'administracao',            // NOVO
-        'ciencia_de_dados',
-        'computacao',
-        'computacao_grafica',
-        'computer-science',
-        'cybersecurity',
-        'desenvolvimento_web',
-        'devops',
-        'embarcados',
-        'enem',
-        'engenharia_computacao',
-        'espanhol',
-        'espanhol-ingles',
-        'espcex',
-        'ingles',
-        'japones',
-        'japones-ingles',
-        'matematica',
-        'math',
-        'portugues-brasileiro'
-    ];
+    const supportedCourses = Object.keys(courseIdToKeyMap);
 
     // ========== CARREGAMENTO DE DADOS ==========
     async function loadHelpData() {
@@ -105,6 +116,17 @@
             return helpDataCache;
         } catch (error) {
             console.error('[Ajuda] Erro ao carregar help-data.json:', error);
+            // Fallback: tenta carregar de ajuda/help-data.json
+            try {
+                const response2 = await fetch('ajuda/help-data.json');
+                if (response2.ok) {
+                    helpDataCache = await response2.json();
+                    console.log('[Ajuda] Dados carregados de ajuda/help-data.json');
+                    return helpDataCache;
+                }
+            } catch (e2) {
+                console.error('[Ajuda] Falha no fallback:', e2);
+            }
             return null;
         }
     }
@@ -122,7 +144,10 @@
 
     // ========== RENDERIZAR CONTEÚDO ==========
     async function renderHelpContent() {
-        if (!modalBody) return;
+        if (!modalBody) {
+            console.warn('[Ajuda] modalBody não encontrado.');
+            return;
+        }
 
         if (!currentCourse) {
             modalBody.innerHTML = `<p>${t('help_unknown_course')}</p>`;
@@ -130,24 +155,33 @@
             return;
         }
 
+        // Mostrar indicador de carregamento
+        modalBody.innerHTML = `<p>${t('loading')}</p>`;
+
         const data = await loadHelpData();
         if (!data) {
             modalBody.innerHTML = `<p>${t('error_loading')}</p>`;
             return;
         }
 
-        const courseData = data[currentCourse];
+        // Usa o mapeamento para encontrar a chave correta no JSON
+        const dataKey = courseIdToKeyMap[currentCourse] || currentCourse;
+        const courseData = data[dataKey];
+
         if (!courseData) {
             modalBody.innerHTML = `<p>${t('help_unavailable')}</p>`;
-            console.warn(`[Ajuda] Curso "${currentCourse}" não encontrado no JSON.`);
+            console.warn(`[Ajuda] Curso "${currentCourse}" (chave: ${dataKey}) não encontrado no JSON.`);
             return;
         }
 
-        // Atualizar título do modal
+        // Atualizar o título com o idioma atual, sem reutilizar o título fixo do JSON.
         if (modalTitle) {
-            // O título pode vir do JSON ou ser gerado
-            const title = courseData.title || t('help_modal_title', { course: currentCourse });
-            modalTitle.innerText = title;
+            const localizedCourseName = typeof window.getLocalizedCourseName === 'function'
+                ? window.getLocalizedCourseName(currentCourse)
+                : currentCourse;
+            const title = t('help_modal_title', { course: localizedCourseName });
+            modalTitle.innerHTML = `<i class="fas fa-circle-question" aria-hidden="true"></i><span>${escapeHtml(title)}</span>`;
+            modal.setAttribute('aria-label', t('help_modal_aria'));
         }
 
         // Construir HTML a partir das seções
@@ -160,17 +194,33 @@
                 }
                 // Conteúdo
                 if (section.content) {
-                    html += `<p>${escapeHtml(section.content)}</p>`;
+                    // Substituir quebras de linha por <br> e manter parágrafos
+                    const paragraphs = section.content.split('\n').filter(p => p.trim());
+                    paragraphs.forEach(p => {
+                        if (p.trim().startsWith('•')) {
+                            // Lista com bullets
+                            const items = p.split('•').filter(item => item.trim());
+                            html += '<ul>';
+                            items.forEach(item => {
+                                html += `<li>${escapeHtml(item.trim())}</li>`;
+                            });
+                            html += '</ul>';
+                        } else {
+                            html += `<p>${escapeHtml(p.trim())}</p>`;
+                        }
+                    });
                 }
                 // Subseções (FAQ)
                 if (section.subsections) {
                     section.subsections.forEach(sub => {
+                        html += `<div class="faq-item">`;
                         if (sub.heading) {
-                            html += `<div class="faq-item"><h4>${escapeHtml(sub.heading)}</h4>`;
+                            html += `<h4>${escapeHtml(sub.heading)}</h4>`;
                         }
                         if (sub.content) {
-                            html += `<p>${escapeHtml(sub.content)}</p></div>`;
+                            html += `<p>${escapeHtml(sub.content)}</p>`;
                         }
+                        html += `</div>`;
                     });
                 }
                 // Links
@@ -198,18 +248,46 @@
 
         // Adicionar atributos de acessibilidade
         modal.setAttribute('aria-label', modalTitle ? modalTitle.innerText : 'Ajuda do curso');
+
+        // Aplicar animações
+        observeAnimateElements();
+    }
+
+    // ========== OBSERVAR ELEMENTOS PARA ANIMAÇÃO ==========
+    function observeAnimateElements() {
+        if (!modalBody) return;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+        modalBody.querySelectorAll('.animate-in:not(.visible)').forEach(el => {
+            observer.observe(el);
+        });
     }
 
     // ========== ABRIR / FECHAR MODAL ==========
     function openHelp() {
-        if (!modal) return;
+        if (!modal) {
+            console.warn('[Ajuda] Modal não encontrado.');
+            return;
+        }
+        if (!currentCourse) {
+            console.warn('[Ajuda] Nenhum curso selecionado para ajuda.');
+            return;
+        }
         modal.classList.add('show');
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        _isOpen = true;
         renderHelpContent();
         // Focar no modal para acessibilidade
-        modal.focus();
+        setTimeout(() => modal.focus(), 100);
+        console.log('[Ajuda] Modal aberto para curso:', currentCourse);
     }
 
     function closeHelp() {
@@ -218,10 +296,12 @@
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        _isOpen = false;
         // Devolver foco ao botão de ajuda
         if (helpButton) {
             setTimeout(() => helpButton.focus(), 100);
         }
+        console.log('[Ajuda] Modal fechado');
     }
 
     // ========== CONFIGURAR CURSO ATUAL ==========
@@ -234,16 +314,29 @@
         if (helpButton) {
             if (supportedCourses.includes(courseId)) {
                 helpButton.style.display = 'inline-flex';
+                helpButton.removeAttribute('disabled');
             } else {
                 helpButton.style.display = 'none';
+                helpButton.setAttribute('disabled', 'true');
             }
         }
 
         console.log(`[Ajuda] Curso definido: ${currentCourse} (original: ${courseId})`);
+
+        // Se o modal estiver aberto, recarregar conteúdo
+        if (_isOpen && modal && modal.style.display === 'flex') {
+            renderHelpContent();
+        }
     }
 
     // ========== INICIALIZAÇÃO ==========
     function init() {
+        // Evitar múltiplas inicializações
+        if (_initialized) {
+            console.log('[Ajuda] Módulo já inicializado.');
+            return;
+        }
+
         // Capturar elementos
         modal = document.getElementById('helpModal');
         if (!modal) {
@@ -261,14 +354,19 @@
 
         // Event listeners
         if (helpButton) {
-            // Remove listeners antigos e adiciona novo
+            // Remove listeners antigos e adiciona novo (evita duplicação)
             const newHelpBtn = helpButton.cloneNode(true);
             helpButton.parentNode.replaceChild(newHelpBtn, helpButton);
             helpButton = newHelpBtn;
             helpButton.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
                 openHelp();
             });
+            // Verifica se há um curso inicial definido
+            if (window.currentCourse && supportedCourses.includes(window.currentCourse)) {
+                setCurrentCourse(window.currentCourse);
+            }
         }
 
         if (closeBtn) {
@@ -295,12 +393,21 @@
 
         // Atualizar conteúdo se o idioma mudar (quando o modal estiver aberto)
         window.addEventListener('languageChanged', function() {
-            if (modal && modal.style.display === 'flex') {
+            if (_isOpen && modal && modal.style.display === 'flex') {
                 renderHelpContent();
             }
         });
 
-        console.log('[Ajuda] Módulo inicializado com sucesso');
+        // Atualizar título do modal quando o curso for definido globalmente
+        if (window.getCurrentCourse && typeof window.getCurrentCourse === 'function') {
+            const globalCourse = window.getCurrentCourse();
+            if (globalCourse && supportedCourses.includes(globalCourse)) {
+                setCurrentCourse(globalCourse);
+            }
+        }
+
+        _initialized = true;
+        console.log('[Ajuda] Módulo inicializado com sucesso. Cursos suportados:', supportedCourses.length);
     }
 
     // ========== INICIALIZAR QUANDO O DOM ESTIVER PRONTO ==========
@@ -309,5 +416,18 @@
     } else {
         init();
     }
+
+    // ========== EXPOSIÇÃO PÚBLICA ==========
+    window.HelpModal = {
+        init,
+        open: openHelp,
+        close: closeHelp,
+        setCurrentCourse,
+        loadHelpData,
+        renderHelpContent,
+        supportedCourses: supportedCourses,
+        courseIdToKeyMap: courseIdToKeyMap,
+        isOpen: () => _isOpen
+    };
 
 })();

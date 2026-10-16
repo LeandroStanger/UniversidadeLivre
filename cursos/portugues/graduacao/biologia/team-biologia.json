@@ -1,0 +1,27 @@
+{
+  "course": "Biologia",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "year": "2026",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "url": "https://www.youtube.com/@pgdinamica",
+      "role": "Videoaulas de técnicas de estudo, lógica e fundamentos",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "UNIVESP",
+      "url": "https://www.youtube.com/@univesptv",
+      "role": "Videoaulas institucionais sobre biologia, física, química e educação",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k2l0LbNyqTitrPcifcZx8L7Lo32RMR0Dyv2xya7InrLVI=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}

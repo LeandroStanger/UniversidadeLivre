@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Gramática do Português",
+    "author": "Cecília Meireles; Fernando Pestana",
+    "discipline": "Gramática e Sintaxe",
+    "edition": "1ª edição",
+    "isbn": "9788535930001",
+    "description": "Fundamentos da estrutura gramatical do português e suas regras de uso.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788535930001-L.jpg",
+    "year": "2017",
+    "publisher": "Fundamento",
+    "link": "https://www.amazon.com.br/Gramática-Português/dp/8535930001"
+  },
+  {
+    "title": "Introdução à Literatura Brasileira",
+    "author": "Antonio Candido",
+    "discipline": "Literatura Brasileira",
+    "edition": "16ª edição",
+    "isbn": "9788535919769",
+    "description": "Leitura de autores, escolas e movimentos da literatura brasileira.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788535919769-L.jpg",
+    "year": "2020",
+    "publisher": "Editora da Unicamp",
+    "link": "https://www.amazon.com.br/Introdução-Literatura-Brasileira-Antonio-Candido/dp/8535919764"
+  },
+  {
+    "title": "Análise do Discurso",
+    "author": "E. Orlandi",
+    "discipline": "Linguística e Discurso",
+    "edition": "2ª edição",
+    "isbn": "9788530913231",
+    "description": "Estudo do discurso, ideologia, contexto social e produção de sentido.",
+    "cover": "https://covers.openlibrary.org/b/isbn/9788530913231-L.jpg",
+    "year": "2018",
+    "publisher": "Pontes",
+    "link": "https://www.amazon.com.br/Análise-Discurso-Eduardo-Orlandi/dp/8530913237"
+  },
+  {
+    "title": "O Texto e a Leitura",
+    "author": "Margarida M. de Andrade",
+    "discipline": "Leitura e Produção Textual",
+    "edition": "3ª edição",
+    "isbn": "9788535220909",
+    "description": "Estratégias de leitura crítica, compreensão e produção de textos argumentativos.",
+    "cover": "https://covers.openlibrary.org/b/id/8758533-L.jpg",
+    "year": "2019",
+    "publisher": "Pallas",
+    "link": "https://www.amazon.com.br/O-Texto-Leitura-Margarida-Andrade/dp/8535220909"
+  },
+  {
+    "title": "Aprendendo a Aprender",
+    "author": "Barbara Oakley; Terrence Sejnowski",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Técnicas baseadas em ciência cognitiva para alternar modos focado e difuso, superar a procrastinação e consolidar a aprendizagem.",
+    "cover": "https://covers.openlibrary.org/b/id/13387593-L.jpg",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Aprendendo+a+Aprender+Barbara+Oakley",
+    "language": "Português",
+    "isbn": "9788586622458"
+  },
+  {
+    "title": "Hábitos Atômicos",
+    "author": "James Clear",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Método prático para criar rotinas de estudo sustentáveis, reduzir distrações e melhorar continuamente por meio de pequenas mudanças.",
+    "cover": "https://books.google.com/books/content?id=qI6iDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2019",
+    "publisher": "Alta Books",
+    "link": "https://www.amazon.com.br/s?k=Hábitos+Atômicos+James+Clear",
+    "language": "Português",
+    "isbn": "9788550807577"
+  },
+  {
+    "title": "Trabalho Focado",
+    "author": "Cal Newport",
+    "discipline": "Como estudar do jeito certo",
+    "edition": "1ª edição",
+    "description": "Estratégias para organizar sessões de concentração profunda, proteger o tempo de estudo e produzir resultados de alta qualidade.",
+    "cover": "https://books.google.com/books/content?id=b6ZqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_gdata",
+    "year": "2017",
+    "publisher": "BestSeller",
+    "link": "https://www.amazon.com.br/s?k=Trabalho+Focado+Cal+Newport",
+    "language": "Português",
+    "isbn": "9789896942892"
+  }
+]

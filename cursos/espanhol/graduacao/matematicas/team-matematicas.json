@@ -1,0 +1,240 @@
+{
+  "course": "Matemáticas en español",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador de la Universidad Libre",
+      "year": "2026",
+      "description": "Fundador de la Universidad Libre, responsable por la estructura y la visión del proyecto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Pedro Franco",
+      "url": "https://www.youtube.com/@pedro-franco",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_m5AT24E5K-oDYFB9C0FPAZThOXLQ5WTMT0h79aaRz1c2M=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Cal Math",
+      "url": "https://www.youtube.com/@CalMath",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kgjHxo1cVZSKzzbR2OGZW_KN7MTnvgl1IvTeBUp_uTViI=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "julioprofe",
+      "url": "https://www.youtube.com/@julioprofe",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/d2guu0SCBNnYuLCDwiWXUceY13wsrqrN_qQIZYmPdfTZGnbChj_ed7h7Uh1GY_L33SGWenbp=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "NovaMath",
+      "url": "https://www.youtube.com/@novamath642",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mI9PB7pjYQHSZVAkq0_aJy-1-FkgtPzEj_Frrg4JKzsw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Melisa Vivanco",
+      "url": "https://www.youtube.com/@melisa.vivanco",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/mqyjp5cEehOEKc4zshaEiDPLn6HYV-4agT-xWORhwq-73IBw2DpyNUjDYLBrO-yoai2JU2Cuozc=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Luis Jorge Matemáticas",
+      "url": "https://www.youtube.com/@luisjorgematematicas3549",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n2Ja-LSJnBCvUtEbl-U5yeg-e7_qlTWYXC53Cfn9BDkg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Tareasplus",
+      "url": "https://www.youtube.com/@Tareasplus",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_l3jpa57mi8wcwB-B6_v23HEFgyyXDP44tsaiIYqtQfMqg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "César Alberto Aguillón Barrera",
+      "url": "https://www.youtube.com/@cesaralbertoaguillonbarrer5257",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kODBunOA9NH-5ggX8D1mYXgohydK2TMo1wMckyLCa_8qd4=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "AL GABR",
+      "url": "https://www.youtube.com/@oilegor2006",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/3_3wkPJtJDq_Mi4FxwbahzwjPqez_DYUmV8cOFywd7bViwDrLONXVZA5ut18y9cPdJZ2KDtnBdo=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Las Matemáticas de Jalón (Edu Jalón)",
+      "url": "https://www.youtube.com/@LasMatem%C3%A1ticasdeJal%C3%B3nEduJal%C3%B3n",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kxtrvhQ7IWzKsOnhVtMOo0zC-g3LEx27XDDxanUkICVgI=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Canek Peláez Valdés",
+      "url": "https://www.youtube.com/@CanekPel%C3%A1ezVald%C3%A9s",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lvRQSwazxjfVJmoe9BRfXnEScFcCPyhKP_iKL_SZ0dRbA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Academia Kaizen",
+      "url": "https://www.youtube.com/@academiakaizenbo",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/nKI7aVyGyi4ExTSi_UDMnUcFSKCtAdCHJgqIbBOj9_qHBLwmoaDLXE3sdAA_dqGm21_UqTlj33w=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Escuela Superior Politécnica del Litoral",
+      "url": "https://www.youtube.com/@espol1",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lr3XfyN4q_JqHdUXQIgo0JeR5TlQyWa_WwhNwcyYiXZ3c=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Rodrigo Hernandez-Gutierrez",
+      "url": "https://www.youtube.com/@Zero-es-natural",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nMvbVlRWEvYPtT4vSCvEYaLxqNmFn707eWqvjV5npTc53V=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Análisis Matemático y Complejo",
+      "url": "https://www.youtube.com/@VariableComplejaII",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_li0yM6cYLIOWjD11MRFrJBTyO1UpGuxl0HXyI_Shaix_AohWC1X6iVYA2plRVEmtsyaw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Labardini's Maths",
+      "url": "https://www.youtube.com/@labardinismaths7284",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/1gdTh_IY2qLr0JCoADtelanhpeS8A2ZAbbPv8TyBLU3tb1U_dbeKL_G6o02CRzJcaftl9keWOg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MateFacil",
+      "url": "https://www.youtube.com/@MateFacilYT",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/aYD_p-DgWQPNs6lBcEDTGXBmfuWnNr68nb4gutDx2M-QOfSZujKg7J8jwWpSSO1IMS9yYc6nu4w=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Clases_FI_VDPM",
+      "url": "https://www.youtube.com/@ClasesFIVDPM",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_ml1PtHTvj9YtbUSJVQOMZVnov6RmGjHrWC7sCgwM74gw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "La Pizarra Online",
+      "url": "https://www.youtube.com/@lapizarraonline",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/BCox4hlwfVNg1AGLzN0JGDt7WMP4dPu3RrwT3Fv6w2To2OhRujT0q5pJ7J8aMXzJY5okJRnfnNM=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Luis Rincón",
+      "url": "https://www.youtube.com/@LuisRinconUNAM",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n0sCuK8V3cgFyRD-VOIUlG8LAsSJ8CCkQmr3LcX9gs=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Las Mates de Gerlachito",
+      "url": "https://www.youtube.com/@LasMatesdeGerlachito",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/c2ELcJpxaU_74y3YsGxjitUVsISlz3woyMmL5-g-4yAzRl4lKM4QEqgiQwDAhyyhtya2J8GT=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Hendra Gunawan",
+      "url": "https://www.youtube.com/@HendraGunawanITB",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/2e60N9FdLwipVahH8in1FYfnbm_NJVTGNt2pnaW46M4ReYI2_5_IGV67wKvuS5Qi9fFbJttg2Q=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Leonel Obando",
+      "url": "https://www.youtube.com/@leonelobandomath",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mXLVr4CmXu_vHc5QXcsUs-fRQ6Ry_uJIBk9DpNNetCL2A=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "EDUARDO ROSAS",
+      "url": "https://www.youtube.com/@actedros83",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_m5lEjHyapdHSZsvLw9I8J16M0MLmgM3lRR55uU-TDAy1c=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Cristian Angulo Rivera",
+      "url": "https://www.youtube.com/@cristianangulorivera9641",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k8k1FQXA7kImaZqMX4qHXOC6YrGmBeIFjfS_d2cSAT=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "H2 MATH",
+      "url": "https://www.youtube.com/@hsquaremath127",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/CYcBvpVX-hIpUl5LeVfwXdvT-RswyzMek0qoglseVLSByRCd_G571GFhtr9oc4F43533eihd=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Profesor Marcelo - FIME",
+      "url": "https://www.youtube.com/@profesorMarceloFIME",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/CBV5EB-39LmzWPIlCRUwaX-DdPCvXSW6clyeW_KAlAAOe0TyPku_eKXJ3U9X5fcR1ZpzKAjQ5FE=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Juan maTIC",
+      "url": "https://www.youtube.com/@profejuanmatic",
+      "role": "Contribuidor",
+      "year": "2026",
+      "description": "Contribuidor de contenido educativo en matemáticas.",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kJzGdOjTKich3QMdO-pfhZOXMOoSUaNc5xp0bIYSDAzuY=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ],
+  "language": "es"
+}

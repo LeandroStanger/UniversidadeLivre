@@ -1,21 +1,20 @@
-// auditorio/auditorio.js – Versão 4.9 – CORREÇÃO DE TRADUÇÃO COM FALLBACK EMBUTIDO
+// auditorio/auditorio.js – Versão 5.0 – COMPLETO E OTIMIZADO
 // Player YouTube + YouTube Data API v3
 // Com Shorts, categorias temáticas, prioridade de idioma, lives e podcasts
 // Filtro por canais via canais.json (fallback se não encontrado)
 // Tratamento de cota excedida e cache de 24h
-// Tradução completa via i18n com escuta do evento languageChanged
-// CORREÇÃO: Caminho absoluto para arquivos de tradução (/lang/)
-// CORREÇÃO: Fallback inline para inglês e português caso o JSON não carregue
+// Tradução completa via i18n central (window.t) com fallback mínimo
+// CORREÇÃO: Usa módulo central i18n se disponível
+// CORREÇÃO: Fallback mínimo embutido apenas para chaves críticas
 // CORREÇÃO: applyTranslationsToUI() chamada após cada mudança de idioma
 // CORREÇÃO: Reconstrução forçada dos chips após refreshAllItems()
-// CORREÇÃO: Garantia de que o título da página e os placeholders sejam traduzidos
 
 // ========== VARIÁVEIS GLOBAIS ==========
 let allVideos = [];
 let allItems = [];
 let currentTypeFilter = 'all';
-let currentSubjectFilter = 'all';
 let currentLanguageFilter = 'all';
+let currentSubjectFilter = 'all';
 let currentSearchTerm = '';
 let currentLang = 'pt-br';
 let translations = {};
@@ -26,6 +25,7 @@ let currentVideoId = null;
 let updateTimer = null;
 let videoProgress = {};
 let audioMode = false;
+let captionsEnabled = false;
 
 let pendingVideo = null;
 let apiLoadAttempts = 0;
@@ -33,6 +33,8 @@ const MAX_API_ATTEMPTS = 8;
 const API_RETRY_DELAY = 250;
 const metadataCache = new Map();
 const languageCache = new Map();
+let francAllDetector = null;
+let francReadyPromise = null;
 
 // ========== CONTROLE DE COTA ==========
 let apiQuotaExceeded = false;
@@ -92,9 +94,14 @@ function stopWatchTimer() {
 }
 
 // ========== CONFIGURAÇÕES DE APIs ==========
-const YOUTUBE_CONFIG = {
-    apiKey: 'YOUR_YOUTUBE_API_KEY'
-};
+const YOUTUBE_API_KEY_STORAGE_KEY = 'ulivre_youtube_data_api_key';
+function getYouTubeApiKey() {
+    if (localStorage.getItem(`${YOUTUBE_API_KEY_STORAGE_KEY}_enabled`) === 'false') return '';
+    return localStorage.getItem(YOUTUBE_API_KEY_STORAGE_KEY)?.trim() || '';
+}
+function hasYouTubeApiKey() {
+    return Boolean(getYouTubeApiKey());
+}
 
 const cache = new Map();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
@@ -132,67 +139,29 @@ function getCachedOrFetch(cacheKey, fetchFn, ttl = CACHE_TTL) {
     return fetchFn().then(data => { cache.set(cacheKey, { data, timestamp: Date.now() }); return data; });
 }
 
-// ========== I18N COM FALLBACK INLINE ==========
-// Definição dos fallbacks completos para pt-br e en
-const FALLBACK_PT = {
-    "subject_tecnologia": "Tecnologia", "subject_ciencia": "Ciência", "subject_matematica": "Matemática",
-    "subject_historia": "História", "subject_literatura": "Literatura", "subject_filosofia": "Filosofia",
-    "subject_psicologia": "Psicologia", "subject_economia": "Economia", "subject_politica": "Política",
-    "subject_saude": "Saúde", "subject_educacao": "Educação", "subject_arte": "Arte",
-    "subject_esportes": "Esportes", "subject_negocios": "Negócios", "subject_viagem": "Viagem",
-    "subject_religiao": "Religião", "subject_autoajuda": "Autoajuda", "subject_culinaria": "Culinária",
-    "subject_shorts": "Shorts", "subject_outros": "Outros",
-    "lang_pt": "Português", "lang_en": "Inglês", "lang_es": "Espanhol", "lang_fr": "Francês",
-    "lang_de": "Alemão", "lang_it": "Italiano", "lang_ja": "Japonês", "lang_zh": "Chinês",
-    "lang_ko": "Coreano", "lang_ru": "Russo", "lang_ar": "Árabe", "lang_hi": "Hindi",
-    "lang_undefined": "Indefinido",
-    "badge_live": "AO VIVO", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Vídeos educativos selecionados pela comunidade.",
-    "no_videos": "Nenhum item encontrado.", "search_videos_placeholder": "Buscar vídeos ou podcasts...",
-    "random_btn": "Aleatório", "filter_by_type": "Filtrar por tipo:", "filter_by_subject": "Filtrar por assunto:",
-    "filter_by_language": "Filtrar por idioma:", 
-    "auditorio_page_title": "Auditório · Universidade Livre",
-    "player_fallback_active": "⚠️ Player simplificado ativo.", "retry_player": "Tentar player completo",
-    "loading": "Carregando...", "all": "Todos", "type_video": "Vídeos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "itens",
-    "player_error_generic": "Erro no player.", "player_error_removed": "Vídeo removido.",
-    "player_error_issue": "Problema no player.", "player_error_not_found": "Vídeo não encontrado.",
-    "profile": "Perfil", "notas_heading": "Notas"
-};
-
-const FALLBACK_EN = {
-    "subject_tecnologia": "Technology", "subject_ciencia": "Science", "subject_matematica": "Mathematics",
-    "subject_historia": "History", "subject_literatura": "Literature", "subject_filosofia": "Philosophy",
-    "subject_psicologia": "Psychology", "subject_economia": "Economics", "subject_politica": "Politics",
-    "subject_saude": "Health", "subject_educacao": "Education", "subject_arte": "Art",
-    "subject_esportes": "Sports", "subject_negocios": "Business", "subject_viagem": "Travel",
-    "subject_religiao": "Religion", "subject_autoajuda": "Self-help", "subject_culinaria": "Cooking",
-    "subject_shorts": "Shorts", "subject_outros": "Others",
-    "lang_pt": "Portuguese", "lang_en": "English", "lang_es": "Spanish", "lang_fr": "French",
-    "lang_de": "German", "lang_it": "Italian", "lang_ja": "Japanese", "lang_zh": "Chinese",
-    "lang_ko": "Korean", "lang_ru": "Russian", "lang_ar": "Arabic", "lang_hi": "Hindi",
-    "lang_undefined": "Undefined",
-    "badge_live": "LIVE", "badge_podcast": "PODCAST", "badge_shorts": "SHORTS",
-    "auditorio_description": "Educational videos selected by the community.",
-    "no_videos": "No items found.", "search_videos_placeholder": "Search videos or podcasts...",
-    "random_btn": "Random", "filter_by_type": "Filter by type:", "filter_by_subject": "Filter by subject:",
-    "filter_by_language": "Filter by language:",
-    "auditorio_page_title": "Auditorium · Open University",
-    "player_fallback_active": "⚠️ Simplified player active.", "retry_player": "Try full player",
-    "loading": "Loading...", "all": "All", "type_video": "Videos", "type_podcast": "Podcasts",
-    "type_live": "Lives", "type_shorts": "Shorts", "items": "items",
-    "player_error_generic": "Player error.", "player_error_removed": "Video removed.",
-    "player_error_issue": "Player issue.", "player_error_not_found": "Video not found.",
-    "profile": "Profile", "notas_heading": "Notes"
-};
-
+// ========== I18N COM FALLBACK MÍNIMO ==========
+// Usa o módulo central i18n se disponível, senão fallback próprio
 async function loadTranslations(lang) {
-    // Prioriza caminho absoluto a partir da raiz
+    // Tenta usar o módulo central i18n
+    if (window.i18n && typeof window.i18n.loadTranslations === 'function') {
+        try {
+            await window.i18n.loadTranslations(lang);
+            translations = window.i18n.getTranslations ? window.i18n.getTranslations() : {};
+            if (Object.keys(translations).length > 0) {
+                console.log('[Auditório] Traduções carregadas do módulo central i18n');
+                return true;
+            }
+        } catch (e) {
+            console.warn('[Auditório] Falha ao carregar do módulo central:', e);
+        }
+    }
+
+    // Fallback: tenta carregar o arquivo JSON diretamente
     const paths = [
-        `/lang/${lang}.json`,
-        `../lang/${lang}.json`,
-        `lang/${lang}.json`,
-        `./lang/${lang}.json`
+        `/base/lang/${lang}.json`,
+        `../base/lang/${lang}.json`,
+        `base/lang/${lang}.json`,
+        `./base/lang/${lang}.json`
     ];
     for (const path of paths) {
         try {
@@ -204,72 +173,124 @@ async function loadTranslations(lang) {
             }
         } catch (e) { /* continua */ }
     }
-    // Fallback inline caso o JSON não seja encontrado
-    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback inline.');
-    translations = (lang === 'en') ? { ...FALLBACK_EN } : { ...FALLBACK_PT };
+    // Fallback mínimo: apenas chaves críticas
+    console.warn('[Auditório] Nenhum arquivo de tradução encontrado. Usando fallback mínimo.');
+    translations = {};
     return false;
 }
 
+async function loadFrancDetector() {
+    if (francReadyPromise) return francReadyPromise;
+    francReadyPromise = import('https://esm.sh/franc@6?bundle')
+        .then(module => {
+            francAllDetector = module.francAll;
+            console.log('[Auditório] Detector franc carregado.');
+        })
+        .catch(() => {
+            francAllDetector = null;
+            console.warn('[Auditório] Detector franc indisponível. Usando detecção local.');
+        });
+    return francReadyPromise;
+}
+
+// Função t() com fallback mínimo
 function t(key, fallback = '') {
+    // Se window.t estiver disponível (módulo central), usa-o
+    if (window.t && typeof window.t === 'function') {
+        try {
+            const translated = window.t(key);
+            if (translated && translated !== key) return translated;
+        } catch (e) {
+            // fallback
+        }
+    }
     return translations[key] || fallback || key;
 }
 
 function getSubjectName(subject) { return t(`subject_${subject}`, subject); }
-function getLanguageName(langCode) { return t(`lang_${langCode}`, langCode?.toUpperCase() || 'Indefinido'); }
+function getLanguageName(langCode) {
+    const languageKey = langCode || 'undefined';
+    return t(`lang_${languageKey}`, t('lang_undefined', 'Indefinido'));
+}
 
-function updateLanguageSelector(lang) {
+function normalizeLanguageCode(language) {
+    if (typeof language !== 'string') return null;
+    const code = language.trim().toLowerCase().split(/[-_]/)[0];
+    return code && (Object.prototype.hasOwnProperty.call(LANG_STOPWORDS, code) || SCRIPT_LANGUAGE_CODES.has(code)) ? code : null;
+}
+
+function updateAuditorioLanguageSelector(lang) {
+    if (typeof window.updateLanguageSelector === 'function') {
+        window.updateLanguageSelector(lang);
+        return;
+    }
     const ptBtn = document.getElementById('langPtBtn');
     const enBtn = document.getElementById('langEnBtn');
-    if (ptBtn && enBtn) {
-        ptBtn.classList.toggle('active', lang === 'pt-br');
-        enBtn.classList.toggle('active', lang === 'en');
-    }
+    const esBtn = document.getElementById('langEsBtn');
+    ptBtn?.classList.toggle('active', lang === 'pt-br');
+    enBtn?.classList.toggle('active', lang === 'en');
+    esBtn?.classList.toggle('active', lang === 'es');
 }
 
 function applyTranslationsToUI() {
     // Atualiza elementos com data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[key]) {
+        const text = t(key);
+        if (text && text !== key) {
             if (el.tagName === 'INPUT') {
-                el.placeholder = translations[key];
+                el.placeholder = text;
             } else {
-                el.innerText = translations[key];
+                // Preserva ícone se existir
+                const icon = el.querySelector('i');
+                if (icon) {
+                    const iconClone = icon.cloneNode(true);
+                    el.innerHTML = '';
+                    el.appendChild(iconClone);
+                    el.appendChild(document.createTextNode(' ' + text));
+                } else {
+                    el.innerText = text;
+                }
             }
         }
     });
     // Título da página
-    document.title = t('auditorio_page_title');
+    document.title = t('auditorio_page_title', 'Auditório · Universidade Livre');
     // Barra de pesquisa
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.placeholder = t('search_videos_placeholder');
+    if (searchInput) searchInput.placeholder = t('search_videos_placeholder', 'Buscar vídeos ou podcasts...');
     // Botão aleatório
     const randomBtn = document.querySelector('#randomVideoBtn span');
-    if (randomBtn) randomBtn.innerText = t('random_btn');
+    if (randomBtn) randomBtn.innerText = t('random_btn', 'Estou com sorte!');
     // Rótulos dos filtros
     const typeFilterSpan = document.querySelector('.type-filter span');
-    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type');
-    const subjectFilterSpan = document.querySelector('.subject-filter span');
-    if (subjectFilterSpan) subjectFilterSpan.innerText = t('filter_by_subject');
-    const languageFilterSpan = document.querySelector('.language-filter span');
-    if (languageFilterSpan) languageFilterSpan.innerText = t('filter_by_language');
+    if (typeFilterSpan) typeFilterSpan.innerText = t('filter_by_type', 'Filtrar por tipo:');
+    const playerLabels = [
+        ['playPauseBtn', 'player_play_pause'],
+        ['muteUnmuteBtn', 'player_mute'],
+        ['audioModeBtn', 'audio_mode'],
+        ['closePlayerBtn', 'close_player']
+    ];
+    playerLabels.forEach(([id, key]) => {
+        const control = document.getElementById(id);
+        if (control) control.title = t(key);
+    });
     // Perfil
-    const profileBtn = document.getElementById('profileBtn');
-    if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-        profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+    if (typeof window.updateProfileButton === 'function') {
+        window.updateProfileButton();
     }
     // Notas
     const notasLink = document.querySelector('a[href="../notas/notas.html"]');
     if (notasLink) {
         const span = notasLink.querySelector('span');
-        if (span) span.innerText = t('notas_heading');
+        if (span) span.innerText = t('notas_heading', 'Notas');
         else {
             const icon = notasLink.querySelector('i');
             notasLink.innerHTML = '';
             if (icon) notasLink.appendChild(icon);
             const newSpan = document.createElement('span');
             newSpan.setAttribute('data-i18n', 'notas_heading');
-            newSpan.innerText = t('notas_heading');
+            newSpan.innerText = t('notas_heading', 'Notas');
             notasLink.appendChild(newSpan);
         }
     }
@@ -372,7 +393,7 @@ function detectSubjectLocal(title, description) {
 
 // ========== YOUTUBE API ==========
 async function performYouTubeSearch(query, maxResults, { type, podcastMode, liveMode, shortsMode, channelId }) {
-    const { apiKey } = YOUTUBE_CONFIG;
+    const apiKey = getYouTubeApiKey();
     if (!apiKey) return [];
     
     let searchTerm = query;
@@ -437,7 +458,7 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
                 if (isShortVideo(tempItem)) {
                     itemType = 'shorts';
                 }
-                const language = detail.language || detectLanguageLocal(snippet.title, snippet.description);
+                const language = normalizeLanguageCode(detail.language) || detectLanguageLocal(snippet.title, snippet.description);
                 const subject = detail.categoryId ? mapCategoryToSubject(detail.categoryId, detail.categoryTitle) : detectSubjectLocal(snippet.title, snippet.description);
                 return {
                     id: `yt_${videoId}`,
@@ -466,8 +487,7 @@ async function performYouTubeSearch(query, maxResults, { type, podcastMode, live
 
 async function searchYouTube(query, maxResults = 30, options = {}) {
     if (apiQuotaExceeded) return [];
-    const { apiKey } = YOUTUBE_CONFIG;
-    if (!apiKey) return [];
+    if (!hasYouTubeApiKey()) return [];
     const { type = 'video', podcastMode = false, liveMode = false, shortsMode = false, channelIds = [] } = options;
     
     if (channelIds.length === 0) {
@@ -500,8 +520,8 @@ async function searchYouTube(query, maxResults = 30, options = {}) {
 }
 
 async function fetchVideoDetails(videoIds) {
-    if (!videoIds.length || apiQuotaExceeded) return {};
-    const { apiKey } = YOUTUBE_CONFIG;
+    if (!videoIds.length || apiQuotaExceeded || !hasYouTubeApiKey()) return {};
+    const apiKey = getYouTubeApiKey();
     const cacheKey = `details_${videoIds.sort().join(',')}`;
     return getCachedOrFetch(cacheKey, async () => {
         try {
@@ -521,7 +541,7 @@ async function fetchVideoDetails(videoIds) {
                 const videoId = item.id;
                 const snippet = item.snippet;
                 const contentDetails = item.contentDetails;
-                let language = snippet.defaultAudioLanguage || snippet.defaultLanguage;
+                let language = normalizeLanguageCode(snippet.defaultAudioLanguage || snippet.defaultLanguage);
                 if (!language) language = detectLanguageLocal(snippet.title, snippet.description);
                 languageCache.set(videoId, language);
                 let durationSec = 0;
@@ -542,11 +562,11 @@ async function fetchVideoDetails(videoIds) {
 
 // ========== DETECÇÃO DE IDIOMA ULTRACOMPLETA ==========
 const LANG_STOPWORDS = {
-    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer dar ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
+    pt: 'de que e para com uma por mais como sua este esta você também sobre pode anos entre ser muito casa trabalho vida tempo pessoas país mundo brasil português porque está estão são foram era tinha eles nós ter fazer dizer ir ver estar haver poder dever querer não então bem mal hoje amanhã ontem ção ções mente dade'.split(' '),
     en: 'the and for with you this are have from they know your can more about just like people time year good work life world english will was were been has had their them would could should make get see use tion sion ment ness'.split(' '),
     es: 'el la de y que en por con para como su sobre este esta usted años vida trabajo personas español los las se ha han está están era eran muy bien gracias hola ser tener hacer decir ir ver dar ción dad mente'.split(' '),
     fr: 'le la de et que en pour par avec comme sur ce cette vous plus années vie travail personnes français sont étaient étaient avoir être ils elles faire dire aller voir prendre ment tion eux euse'.split(' '),
-    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurde wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
+    de: 'der die und für mit von sich auf nach als über diese dieser sie mehr jahre leben arbeit menschen deutsch ist sind war wurden wurden wurden sein haben werden können müssen keit heit ung schaft'.split(' '),
     it: 'il la di e che per con come su questo questa lei più anni vita lavoro persone italiano sono era erano stato stata essere avere fare dire andare vedere dare zione mento ità'.split(' '),
     ru: 'и в не на я что с по а он как его но из они за русский год жизнь это было были быть сказать мочь хотеть знать думать ность ение овать'.split(' '),
     zh: '的 了 是 我 不 在 人 有 他 这 中 大 来 上 国 为 子 你 说 中文 也 个 们 到 去 看 好 什么 没有 可以 自己 因为 所以'.split(' '),
@@ -591,6 +611,8 @@ const LANG_STOPWORDS = {
     pa: 'ਅਤੇ ਇਹ ਇੱਕ ਕਿ ਹੈ ਮੈਂ ਤੂੰ ਉਹ ਉਹ ਇਹ ਅਸੀਂ ਤੁਸੀਂ ਉਹ ਪੰਜਾਬੀ'.split(' ')
 };
 
+const SCRIPT_LANGUAGE_CODES = new Set(['or', 'si', 'lo', 'bo', 'my', 'km', 'ka', 'hy', 'am', 'ber']);
+
 function detectScript(text) {
     if (!text) return null;
     if (/[\u4E00-\u9FFF]/.test(text)) return 'zh';
@@ -632,9 +654,11 @@ function detectScript(text) {
 
 function detectLanguageLocal(title, description = '') {
     const text = (title + ' ' + description).trim();
-    if (!text) return 'en';
+    if (!text) return null;
     const scriptLang = detectScript(text);
     if (scriptLang) return scriptLang;
+    const francLang = detectLanguageWithFranc(text);
+    if (francLang) return francLang;
     const words = text.toLowerCase().split(/[\s,.;!?()\[\]{}"':-]+/).filter(w => w.length > 1);
     const scores = {};
     for (const lang in LANG_STOPWORDS) scores[lang] = 0;
@@ -656,7 +680,7 @@ function detectLanguageLocal(title, description = '') {
     if (normalized.match(/[æøå]/i)) scores.no = (scores.no || 0) + 5;
     if (normalized.match(/[ěščřžýáíé]/i)) scores.cs = (scores.cs || 0) + 5;
     if (normalized.match(/[ąčęėįšųūž]/i)) scores.lt = (scores.lt || 0) + 5;
-    let bestLang = 'en';
+    let bestLang = null;
     let maxScore = 0;
     for (const lang in scores) {
         if (scores[lang] > maxScore) {
@@ -664,8 +688,40 @@ function detectLanguageLocal(title, description = '') {
             bestLang = lang;
         }
     }
-    if (maxScore < 2) return 'en';
+    const rankedScores = Object.values(scores).sort((a, b) => b - a);
+    const secondBestScore = rankedScores[1] || 0;
+    if (!bestLang || maxScore < 2 || maxScore - secondBestScore < 1) return null;
     return bestLang;
+}
+
+const FRANC_LANGUAGE_MAP = {
+    amh: 'am', ara: 'ar', ben: 'bn', bul: 'bg', cat: 'ca', ces: 'cs',
+    dan: 'da', deu: 'de', ell: 'el', eng: 'en', est: 'et', fas: 'fa',
+    fin: 'fi', fra: 'fr', guj: 'gu',
+    heb: 'he', hin: 'hi', hrv: 'hr', hun: 'hu', ind: 'id', ita: 'it',
+    jpn: 'ja', kan: 'kn', kor: 'ko', lav: 'lv', lit: 'lt', mal: 'ml',
+    mar: 'mr', msa: 'ms', nld: 'nl', nob: 'no', pan: 'pa', pol: 'pl',
+    por: 'pt', ron: 'ro', rus: 'ru', slk: 'sk', slv: 'sl', spa: 'es',
+    srp: 'sr', swe: 'sv', tam: 'ta', tel: 'te', tha: 'th', tur: 'tr',
+    ukr: 'uk', vie: 'vi', zho: 'zh'
+};
+
+function detectLanguageWithFranc(text) {
+    if (!francAllDetector || text.length < 20) return null;
+    try {
+        const candidates = francAllDetector(text, {
+            only: Object.keys(FRANC_LANGUAGE_MAP),
+            minLength: 20
+        });
+        const [best, second] = candidates;
+        if (!best || best[0] === 'und') return null;
+        const bestScore = best[1];
+        const secondScore = second?.[1] || 0;
+        if (bestScore < 0.75 || bestScore - secondScore < 0.08) return null;
+        return FRANC_LANGUAGE_MAP[best[0]] || null;
+    } catch (_) {
+        return null;
+    }
 }
 
 // ========== BUSCA UNIFICADA ==========
@@ -693,8 +749,8 @@ async function searchAllContent(query, filterType = 'all') {
         results = [...videos, ...podcasts, ...lives, ...shorts];
     }
     results.sort((a, b) => {
-        const langA = a.language?.slice(0,2) || 'en';
-        const langB = b.language?.slice(0,2) || 'en';
+            const langA = a.language?.slice(0,2) || '';
+            const langB = b.language?.slice(0,2) || '';
         const priorityA = languagePriority[langA] || 99;
         const priorityB = languagePriority[langB] || 99;
         if (priorityA !== priorityB) return priorityA - priorityB;
@@ -733,7 +789,7 @@ async function loadVideosFromJSON() {
 
             const finalVideoId = isPlaylist ? `playlist_${idx}` : videoId;
 
-            let language = item.language;
+            let language = normalizeLanguageCode(item.language);
             if (!language) {
                 language = detectLanguageLocal(item.title, item.description || '');
             }
@@ -804,6 +860,58 @@ function extractVideoId(url) {
 }
 
 // ========== ATUALIZAÇÃO PRINCIPAL ==========
+const tvRadioLiveItems = [
+    {
+        videoId: 'tv',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isLive: true,
+        isExternal: true,
+        title: 'TV',
+        titleKey: 'tv_live_card_title',
+        descriptionKey: 'tv_live_card_description',
+        description: 'Assista a canais de televisão ao vivo pela internet e explore uma programação variada de diferentes lugares, direto do seu dispositivo.',
+        url: 'https://famelack.com/tv',
+        iconClass: 'fa-tv',
+        subject: 'tv_radio',
+        language: 'pt',
+        descriptionMaxLength: 140,
+        showLanguageBadge: false
+    },
+    {
+        videoId: 'radio',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isLive: true,
+        isExternal: true,
+        title: 'Rádio',
+        titleKey: 'radio_live_card_title',
+        descriptionKey: 'radio_live_card_description',
+        description: 'Ouça estações de rádio ao vivo pela internet e descubra músicas, notícias e programas de diferentes lugares, direto do seu dispositivo.',
+        url: 'https://famelack.com/radio',
+        iconClass: 'fa-broadcast-tower',
+        subject: 'tv_radio',
+        language: 'pt',
+        descriptionMaxLength: 140,
+        showLanguageBadge: false
+    },
+    {
+        videoId: 'drive-from-home',
+        source: 'auditorio-live-shortcut',
+        type: 'live',
+        isExternal: true,
+        title: 'Dirija de casa!',
+        description: 'Dirija virtualmente por mais de 1.000 cidades ao redor do mundo ouvindo rádios FM locais. Escolha uma cidade e aproveite a viagem virtual.',
+        titleKey: 'drive_from_home_card_title',
+        descriptionKey: 'drive_from_home_card_description',
+        isExternalLink: true,
+        url: 'https://drivefromhome.com',
+        iconClass: 'fa-car',
+        subject: 'tv_radio',
+        showLanguageBadge: false
+    }
+];
+
 async function refreshAllItems(term = '') {
     showLoading();
     try {
@@ -818,7 +926,7 @@ async function refreshAllItems(term = '') {
         const localItems = (localVideos.status === 'fulfilled' ? localVideos.value : []);
         const onlineItems = (onlineContent.status === 'fulfilled' ? onlineContent.value : []);
         const seen = new Set();
-        const merged = [...localItems, ...onlineItems].filter(item => {
+        const merged = [...localItems, ...onlineItems, ...tvRadioLiveItems].filter(item => {
             const key = `${item.videoId}|${item.source}`;
             if (seen.has(key)) return false;
             seen.add(key);
@@ -826,9 +934,8 @@ async function refreshAllItems(term = '') {
         });
         allItems = merged;
         console.log(`[Auditório] Total de ${allItems.length} itens (${localItems.length} locais, ${onlineItems.length} online).`);
-        // Reconstruir chips após atualização
-        buildSubjectChips();
         buildLanguageChips(allItems);
+        // Reconstruir chips após atualização
         updateAllContent();
         // Aplicar traduções novamente para garantir
         applyTranslationsToUI();
@@ -861,7 +968,7 @@ function useFallbackPlayer() {
     if (!existingMsg) {
         const msgDiv = document.createElement('div'); msgDiv.className = 'fallback-message';
         msgDiv.style.cssText = 'padding:0.5rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);';
-        msgDiv.innerHTML = `${t('player_fallback_active')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player')}</button>`;
+        msgDiv.innerHTML = `${t('player_fallback_active', 'Player simplificado ativo.')} <button id="retryPlayerBtn" style="background:none;border:none;color:var(--accent-blue);cursor:pointer;text-decoration:underline;">${t('retry_player', 'Tentar player completo')}</button>`;
         wrapper.parentNode.insertBefore(msgDiv, wrapper.nextSibling);
         document.getElementById('retryPlayerBtn').addEventListener('click', () => {
             apiLoadAttempts = 0;
@@ -881,6 +988,7 @@ function createPlayer(videoId, startSeconds = 0) {
     const wrapper = document.querySelector('.player-wrapper'); if (!wrapper) return false;
     let el = document.getElementById('youtubePlayer'); if (!el) { el = document.createElement('div'); el.id = 'youtubePlayer'; wrapper.appendChild(el); }
     if (player) { try { player.destroy(); } catch(e) {} player = null; }
+    playerReady = false;
     try {
         player = new YT.Player('youtubePlayer', {
             videoId,
@@ -897,9 +1005,109 @@ function createPlayer(videoId, startSeconds = 0) {
         document.getElementById('playPauseBtn').style.display = 'flex';
         document.querySelector('.progress-container').style.display = 'flex';
         document.querySelector('.volume-control').style.display = 'flex';
+        resetPlayerOptions();
         return true;
-    } catch (e) { showPlayerError(t('player_error_generic')); return false; }
+    } catch (e) { showPlayerError(t('player_error_generic', 'Erro no player.')); return false; }
 }
+function resetPlayerOptions() {
+    const quality = document.getElementById('videoQualitySelect');
+    const audio = document.getElementById('audioTrackSelect');
+    if (quality) quality.replaceChildren(new Option('Auto', 'auto'));
+    if (audio) audio.replaceChildren(new Option('Original', 'original'));
+    captionsEnabled = false;
+    document.getElementById('captionsToggleBtn')?.classList.remove('active');
+    populateQualityOptions();
+    populateAudioOptions();
+}
+function updateAuditorioVolumePercentage(value) {
+    const output = document.getElementById('volumePercentage');
+    if (output) output.textContent = `${Math.max(0, Math.min(100, Number(value) || 0))}%`;
+}
+function populateQualityOptions() {
+    const select = document.getElementById('videoQualitySelect');
+    if (!select || !playerReady || !player?.getAvailableQualityLevels) return;
+    const labels = { highres: '2160p', hd2160: '2160p', hd1440: '1440p', hd1080: '1080p', hd720: '720p', large: '480p', medium: '360p', small: '240p' };
+    const levels = player.getAvailableQualityLevels() || [];
+    select.replaceChildren(new Option('Auto', 'auto'));
+    [...new Set(levels)].forEach(level => select.appendChild(new Option(labels[level] || level, level)));
+    select.disabled = select.options.length <= 1;
+}
+function scheduleQualityOptions() {
+    let attempts = 0;
+    const refresh = () => {
+        populateQualityOptions();
+        if (document.getElementById('videoQualitySelect')?.options.length <= 1 && attempts++ < 30) {
+            setTimeout(refresh, 500);
+        }
+    };
+    refresh();
+}
+function getAudioApi() {
+    return player && typeof player.getAvailableAudioTracks === 'function' ? player : null;
+}
+function populateAudioOptions() {
+    const select = document.getElementById('audioTrackSelect');
+    const api = getAudioApi();
+    const control = select?.closest('.player-select');
+    if (!select || !api) {
+        if (control) control.hidden = true;
+        return;
+    }
+    let tracks = [];
+    try { tracks = api.getAvailableAudioTracks() || []; } catch (error) {
+        console.warn('[Auditório] Não foi possível consultar faixas de áudio:', error);
+        if (control) control.hidden = true;
+        return;
+    }
+    if (!Array.isArray(tracks)) tracks = Object.values(tracks);
+    const readId = track => String(track?.id || track?.trackId || track?.audioTrackId || track?.languageCode || '');
+    const original = tracks.find(track => track?.kind === 'original') || tracks[0];
+    const originalId = readId(original) || 'original';
+    select.replaceChildren(new Option('Original', originalId));
+    tracks.forEach(track => {
+        const id = readId(track);
+        if (!id || id === originalId) return;
+        const label = track.displayName || track.languageName || track.language || track.languageCode || 'Faixa de áudio';
+        select.appendChild(new Option(label, id));
+    });
+    const hasAlternatives = select.options.length > 1;
+    select.disabled = !hasAlternatives;
+    if (control) control.hidden = !hasAlternatives;
+}
+function toggleCaptions() {
+    if (!playerReady || !player?.loadModule) return;
+    const button = document.getElementById('captionsToggleBtn');
+    try {
+        if (captionsEnabled) {
+            player.unloadModule('captions');
+        } else {
+            player.loadModule('captions');
+            player.setOption('captions', 'track', { languageCode: document.getElementById('captionLanguageSelect')?.value || (currentLang === 'en' ? 'en' : 'pt') });
+        }
+        captionsEnabled = !captionsEnabled;
+        button?.classList.toggle('active', captionsEnabled);
+    } catch (error) {
+        console.warn('[Auditório] Não foi possível alternar legendas:', error);
+    }
+}
+function toggleFullscreen() {
+    const container = document.getElementById('playerContainer');
+    if (!container) return;
+    if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+    } else {
+        container.requestFullscreen?.();
+    }
+}
+function updateAvailableCaptionLanguages() {
+    const select = document.getElementById('captionLanguageSelect');
+    if (!select) return;
+    Array.from(select.options).forEach(option => {
+        option.hidden = false;
+    });
+    select.disabled = false;
+}
+
 function onPlayerReady(event) {
     playerReady = true;
     const duration = player.getDuration();
@@ -908,6 +1116,29 @@ function onPlayerReady(event) {
     const savedVolume = localStorage.getItem('yt_player_volume');
     const volSlider = document.getElementById('volumeSlider');
     if (savedVolume !== null && volSlider) { player.setVolume(parseInt(savedVolume)); volSlider.value = savedVolume; }
+    updateAuditorioVolumePercentage(volSlider?.value || player.getVolume?.() || 100);
+    scheduleQualityOptions();
+    populateAudioOptions();
+    updateAvailableCaptionLanguages();
+    setTimeout(updateAvailableCaptionLanguages, 500);
+    player.addEventListener?.('onApiChange', () => {
+        populateQualityOptions();
+        populateAudioOptions();
+        updateAvailableCaptionLanguages();
+    });
+    setTimeout(() => {
+        populateQualityOptions();
+        populateAudioOptions();
+    }, 500);
+    let attempts = 0;
+    const refreshAudio = () => {
+        populateAudioOptions();
+        if (document.getElementById('audioTrackSelect')?.options.length <= 1 && attempts++ < 20) {
+            setTimeout(refreshAudio, 500);
+        }
+
+    };
+    refreshAudio();
     startProgressUpdate();
 }
 function onPlayerStateChange(event) {
@@ -925,19 +1156,26 @@ function onPlayerStateChange(event) {
         btn.innerHTML = '<i class="fas fa-play"></i>';
         stopProgressUpdate();
         stopWatchTimer();
+        window.finishFloatingMedia?.();
     }
     saveAllProgress();
 }
 function onPlayerError(e) {
-    let msg = t('player_error_generic');
-    if (e.data === 2) msg = t('player_error_removed');
-    else if (e.data === 5) msg = t('player_error_issue');
-    else if (e.data === 100) msg = t('player_error_not_found');
-    showPlayerError(msg);
+    let msg = t('player_error_generic', 'Erro no player.');
+    if (e.data === 2) msg = t('player_error_removed', 'Vídeo removido.');
+    else if (e.data === 5) msg = t('player_error_issue', 'Problema no player.');
+    else if (e.data === 100) msg = t('player_error_not_found', 'Vídeo não encontrado.');
+    showPlayerError(msg, [101, 150].includes(e.data));
     stopWatchTimer();
 }
-function showPlayerError(msg) {
-    const w = document.querySelector('.player-wrapper'); if (w) w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i> ${msg}</div>`;
+function showPlayerError(msg, canOpenOnYouTube = false) {
+    const w = document.querySelector('.player-wrapper');
+    if (w) {
+        const openButton = canOpenOnYouTube && currentVideoId
+            ? `<a class="external-btn external-btn-primary" href="https://www.youtube.com/watch?v=${encodeURIComponent(currentVideoId)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> ${t('open_on_youtube', 'Assistir no YouTube')}</a>`
+            : '';
+        w.innerHTML = `<div class="player-error"><i class="fas fa-exclamation-triangle"></i><p>${msg}</p>${openButton}</div>`;
+    }
     document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
 }
 function startProgressUpdate() {
@@ -966,13 +1204,43 @@ function setupPlayerControls() {
     const playBtn = document.getElementById('playPauseBtn'), muteBtn = document.getElementById('muteUnmuteBtn'), volSlider = document.getElementById('volumeSlider'), progBar = document.getElementById('progressBar'), audioBtn = document.getElementById('audioModeBtn'), closeBtn = document.getElementById('closePlayerBtn');
     if (playBtn) playBtn.addEventListener('click', () => { if (!playerReady) return; player.getPlayerState()===YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); });
     if (muteBtn) muteBtn.addEventListener('click', () => { if (!playerReady) return; player.isMuted() ? (player.unMute(), muteBtn.innerHTML='<i class="fas fa-volume-up"></i>') : (player.mute(), muteBtn.innerHTML='<i class="fas fa-volume-mute"></i>'); });
-    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
+    if (volSlider) volSlider.addEventListener('input', e => { if (!playerReady) return; const v = +e.target.value; player.setVolume(v); updateAuditorioVolumePercentage(v); localStorage.setItem('yt_player_volume', v); muteBtn.innerHTML = v===0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; });
     if (progBar) progBar.addEventListener('input', e => { if (!playerReady) return; player.seekTo(+e.target.value, true); });
+    document.getElementById('playbackSpeedSelect')?.addEventListener('change', e => {
+        if (playerReady && player?.setPlaybackRate) player.setPlaybackRate(Number(e.target.value));
+    });
+    document.getElementById('videoQualitySelect')?.addEventListener('change', e => {
+        if (playerReady && player?.setPlaybackQuality) player.setPlaybackQuality(e.target.value === 'auto' ? 'default' : e.target.value);
+    });
+    document.getElementById('audioTrackSelect')?.addEventListener('change', e => {
+        const api = getAudioApi();
+        if (!api?.setAudioTrack) return;
+        try { api.setAudioTrack(e.target.value); } catch (error) { console.warn('[Auditório] Não foi possível alterar a faixa:', error); }
+    });
+    document.getElementById('captionsToggleBtn')?.addEventListener('click', toggleCaptions);
+    document.getElementById('captionLanguageSelect')?.addEventListener('change', event => {
+        if (!captionsEnabled || !playerReady || !player?.setOption) return;
+        try { player.setOption('captions', 'track', { languageCode: event.target.value }); } catch (error) {
+            console.warn('[Auditório] Não foi possível alterar o idioma da legenda:', error);
+        }
+    });
+    document.getElementById('fullscreenToggleBtn')?.addEventListener('click', toggleFullscreen);
     if (audioBtn) audioBtn.addEventListener('click', toggleAudioMode);
     if (closeBtn) closeBtn.addEventListener('click', closePlayer);
 }
 function closePlayer() {
-    document.getElementById('playerContainer').style.display = 'none';
+    window.finishFloatingMedia?.();
+    const modal = document.getElementById('playerModal');
+    if (modal) {
+        modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
+    }
+    const externalFrame = document.getElementById('externalLiveFrame');
+    if (externalFrame) externalFrame.src = 'about:blank';
+    document.getElementById('externalLiveContainer').hidden = true;
+    document.querySelector('.player-wrapper').style.display = '';
+    document.querySelector('.custom-player-controls').style.display = '';
+    document.getElementById('playerContainer').style.display = 'block';
     if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
     stopProgressUpdate(); currentVideoId = null; audioMode = false;
     stopWatchTimer();
@@ -980,13 +1248,53 @@ function closePlayer() {
     document.getElementById('audioModeBtn')?.classList.remove('audio-active');
     document.getElementById('audioModeBtn').innerHTML = '<i class="fas fa-headphones"></i>';
 }
-function playVideo(videoId, title, description) {
+function playExternalLiveItem(item) {
+    const modal = document.getElementById('playerModal');
+    const frame = document.getElementById('externalLiveFrame');
+    const externalContainer = document.getElementById('externalLiveContainer');
+    if (!modal || !frame || !externalContainer) return;
+
+    const title = item.titleKey ? t(item.titleKey, item.title) : item.title;
+    const description = t(item.descriptionKey, item.description || '');
+    window.beginFloatingMedia?.();
+    window.UniversidadeLivreAnalytics?.media('auditorio', item.videoId, title);
+    if (player) { try { player.stopVideo(); player.destroy(); } catch(e) {} player = null; }
+    stopProgressUpdate();
+    stopWatchTimer();
+    playerReady = false;
+    currentVideoId = null;
+    pendingVideo = null;
+
     document.getElementById('playerTitle').textContent = title;
     document.getElementById('playerDescription').textContent = description;
-    const container = document.getElementById('playerContainer'); container.style.display = 'block';
+    document.querySelector('.player-wrapper').style.display = 'none';
+    document.querySelector('.custom-player-controls').style.display = 'none';
+    document.getElementById('playerContainer').classList.remove('audio-mode');
+    externalContainer.hidden = false;
+    frame.title = title;
+    frame.src = item.url;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+}
+function playVideo(videoId, title, description) {
+    const externalFrame = document.getElementById('externalLiveFrame');
+    if (externalFrame) externalFrame.src = 'about:blank';
+    document.getElementById('externalLiveContainer').hidden = true;
+    document.querySelector('.player-wrapper').style.display = '';
+    document.querySelector('.custom-player-controls').style.display = '';
+    window.beginFloatingMedia?.();
+    window.UniversidadeLivreAnalytics?.media('auditorio', videoId, title);
+    document.getElementById('playerTitle').textContent = title;
+    document.getElementById('playerDescription').textContent = description;
+    const modal = document.getElementById('playerModal');
+    if (modal) {
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+    }
+    const container = document.getElementById('playerContainer');
+    container.style.display = 'block';
     container.classList.toggle('audio-mode', audioMode);
     document.getElementById('audioModeBtn')?.classList.toggle('audio-active', audioMode);
-    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     currentVideoId = videoId;
     document.querySelector('.fallback-message')?.remove();
     document.getElementById('playPauseBtn').style.display = 'flex';
@@ -1003,63 +1311,134 @@ function playVideo(videoId, title, description) {
 
 // ========== RENDERIZAÇÃO ==========
 function getSubjectIcon(s){
-    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','outros':'fa-tag'};
+    const i={'tecnologia':'fa-microchip','ciencia':'fa-flask','matematica':'fa-calculator','historia':'fa-landmark','literatura':'fa-book','filosofia':'fa-brain','psicologia':'fa-face-smile','economia':'fa-chart-line','politica':'fa-landmark','saude':'fa-heart-pulse','educacao':'fa-graduation-cap','arte':'fa-palette','esportes':'fa-futbol','negocios':'fa-briefcase','viagem':'fa-plane','religiao':'fa-church','autoajuda':'fa-person-walking','culinaria':'fa-utensils','shorts':'fa-film','tv_radio':'fa-tower-broadcast','outros':'fa-tag'};
     return i[s]||'fa-tag';
 }
 function formatDuration(sec) {
     if (!sec) return '';
     const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
-    return h > 0 ? `${h}h ${m}m` : `${m} min`;
+    if (h > 0) {
+        return t('duration_format', '{{hours}}h {{minutes}}min')
+            .replace('{{hours}}', h)
+            .replace('{{minutes}}', m);
+    }
+    return `${m} ${t('minutes_abbr', 'min')}`;
 }
 function createVideoCardHTML(v) {
     let badge = '';
-    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live')}</span>`;
-    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast')}</span>`;
-    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts')}</span>`;
+    if (v.isLive) badge = `<span class="video-badge live" style="background: #EF4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);"><i class="fas fa-circle"></i> ${t('badge_live', 'AO VIVO')}</span>`;
+    else if (v.type === 'podcast') badge = `<span class="video-badge podcast" style="background: rgba(16, 185, 129, 0.9); color: #070B14;"><i class="fas fa-podcast"></i> ${t('badge_podcast', 'PODCAST')}</span>`;
+    else if (v.type === 'shorts') badge = `<span class="video-badge shorts"><i class="fas fa-film"></i> ${t('badge_shorts', 'SHORTS')}</span>`;
     if (v.isPlaylist) {
-        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> Playlist</span>`;
+        badge += ` <span class="video-badge playlist" style="background: #6C8CFF; color: white;"><i class="fas fa-list"></i> ${t('badge_playlist', 'PLAYLIST')}</span>`;
     }
 
     const subjectName = getSubjectName(v.subject);
     const subjectIcon = getSubjectIcon(v.subject);
     const categoryBadge = `<span class="category-badge"><i class="fas ${subjectIcon}"></i> ${subjectName}</span>`;
+    const language = normalizeLanguageCode(v.language);
+    const languageBadge = language
+        ? `<span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(language)}</span>`
+        : '';
+    const title = v.titleKey ? t(v.titleKey, v.title) : v.title;
+    const description = v.descriptionKey
+        ? t(v.descriptionKey, v.description || (v.title === 'TV' ? 'Watch live television channels.' : 'Listen to live radio stations.'))
+        : v.description;
+    const descriptionCharacters = Array.from(description || '');
+    const visibleDescription = v.descriptionMaxLength && descriptionCharacters.length > v.descriptionMaxLength
+        ? `${descriptionCharacters.slice(0, v.descriptionMaxLength - 1).join('').trimEnd()}…`
+        : description;
+    const visibleLanguageBadge = v.showLanguageBadge === false ? '' : languageBadge;
 
-    return `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">
-        <div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>
+    const cardStart = v.isExternalLink
+        ? `<a class="video-card external-site-card" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer">`
+        : v.isExternal
+        ? `<a class="video-card external-live-card" href="${v.url}" data-live-item="${escapeHtml(v.videoId)}" aria-haspopup="dialog" aria-controls="playerModal">`
+        : `<div class="video-card" data-type="${v.type}" data-video-id="${v.videoId}" data-title="${escapeHtml(v.title)}" data-description="${escapeHtml(v.description)}" data-thumbnail="${escapeHtml(v.thumbnail)}" data-channel="${escapeHtml(v.channelTitle||'')}" data-is-playlist="${v.isPlaylist ? 'true' : 'false'}" data-url="${escapeHtml(v.url)}">`;
+    const thumbnail = v.isExternal
+        ? `<div class="video-thumb external-live-thumb"><i class="fas ${v.iconClass}" aria-hidden="true"></i>${badge}</div>`
+        : `<div class="video-thumb"><img src="${v.thumbnail}" alt="${escapeHtml(v.title)}" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg';">${badge}</div>`;
+    return `${cardStart}
+        ${thumbnail}
         <div class="video-info">
-            <div class="video-title">${escapeHtml(v.title)}</div>
-            <div class="video-description">${escapeHtml(v.description)}</div>
+            <div class="video-title">${escapeHtml(title)}</div>
+            <div class="video-description${v.descriptionMaxLength ? ' video-description-full' : ''}">${escapeHtml(visibleDescription)}</div>
             <div class="video-meta">
-                <span class="language-badge"><i class="fas fa-language"></i> ${getLanguageName(v.language)}</span>
+                ${visibleLanguageBadge}
                 ${v.duration ? `<span class="duration-badge"><i class="fas fa-clock"></i> ${formatDuration(v.duration)}</span>` : ''}
                 ${categoryBadge}
             </div>
         </div>
-    </div>`;
+    ${v.isExternal ? '</a>' : '</div>'}`;
 }
+function bindVideoCardClicks(cards) {
+    cards.forEach(card => {
+        if (card.classList.contains('external-site-card')) {
+            card.addEventListener('click', event => {
+                const popup = window.open(card.href, 'driveFromHomeWindow', 'popup=yes,width=1280,height=800,resizable=yes,scrollbars=yes');
+                if (popup) {
+                    event.preventDefault();
+                    popup.opener = null;
+                }
+            });
+            return;
+        }
+        if (card.classList.contains('external-live-card')) {
+            card.addEventListener('click', event => {
+                event.preventDefault();
+                const liveItem = tvRadioLiveItems.find(item => item.videoId === card.dataset.liveItem);
+                if (liveItem) playExternalLiveItem(liveItem);
+            });
+            return;
+        }
+        card.addEventListener('click', () => {
+            const isPlaylist = card.dataset.isPlaylist === 'true';
+            if (isPlaylist) {
+                const url = card.dataset.url;
+                if (url) window.open(url, '_blank');
+            } else {
+                playVideo(card.dataset.videoId, card.dataset.title, card.dataset.description);
+            }
+        });
+    });
+}
+
 function renderUnifiedGrid(items) {
     const container = document.getElementById('videosContainer');
     if (!container) return;
-    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos')}</p></div>`; return; }
-    let subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    if (!items.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><p>${t('no_videos', 'Nenhum item encontrado.')}</p></div>`; return; }
+    const pageSize = 18;
+    const subjects = [...new Set(items.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
+    const itemsBySubject = subjects.map(subject => items.filter(item => item.subject === subject));
     let html = '';
-    for (const subj of subjects) {
-        let subjItems = items.filter(i => i.subject === subj);
-        if (currentSubjectFilter === 'all') subjItems = subjItems.slice(0, 10);
-        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subj)}"></i> ${getSubjectName(subj)}</div><div class="category-count">${subjItems.length} ${t('items')}</div></div><div class="category-grid unified-grid">`;
-        subjItems.forEach(item => html += createVideoCardHTML(item));
-        html += `</div></div>`;
+    for (const [index, subject] of subjects.entries()) {
+        const subjectItems = itemsBySubject[index];
+        html += `<div class="category-block"><div class="category-header"><div class="category-title"><i class="fas ${getSubjectIcon(subject)}"></i> ${getSubjectName(subject)}</div><div class="category-count">${subjectItems.length} ${t('items', 'itens')}</div></div><div class="category-grid unified-grid" data-category-index="${index}">`;
+        subjectItems.slice(0, pageSize).forEach(item => html += createVideoCardHTML(item));
+        html += `</div>`;
+        if (subjectItems.length > pageSize) {
+            html += `<button class="load-more-videos" type="button" data-category-index="${index}" data-visible-count="${pageSize}"><i class="fas fa-chevron-down" aria-hidden="true"></i><span>${t('load_more', 'Carregar mais')}</span></button>`;
+        }
+        html += `</div>`;
     }
     container.innerHTML = html;
-    container.querySelectorAll('.video-card').forEach(c => {
-        c.addEventListener('click', () => {
-            const isPlaylist = c.dataset.isPlaylist === 'true';
-            if (isPlaylist) {
-                const url = c.dataset.url;
-                if (url) window.open(url, '_blank');
-            } else {
-                playVideo(c.dataset.videoId, c.dataset.title, c.dataset.description);
-            }
+    bindVideoCardClicks(container.querySelectorAll('.video-card'));
+    container.querySelectorAll('.load-more-videos').forEach(button => {
+        button.addEventListener('click', () => {
+            const categoryIndex = Number(button.dataset.categoryIndex);
+            const grid = container.querySelector(`.category-grid[data-category-index="${categoryIndex}"]`);
+            const categoryItems = itemsBySubject[categoryIndex];
+            if (!grid || !categoryItems) return;
+
+            const start = Number(button.dataset.visibleCount) || pageSize;
+            const nextItems = categoryItems.slice(start, start + pageSize);
+            const previousCount = grid.children.length;
+            grid.insertAdjacentHTML('beforeend', nextItems.map(createVideoCardHTML).join(''));
+            bindVideoCardClicks(Array.from(grid.children).slice(previousCount));
+
+            const visibleCount = start + nextItems.length;
+            button.dataset.visibleCount = String(visibleCount);
+            if (visibleCount >= categoryItems.length) button.remove();
         });
     });
 }
@@ -1069,30 +1448,38 @@ async function handleSearch() {
     await refreshAllItems(term);
 }
 function updateAllContent() {
+    const subjectsWithPrimaryLanguage = new Set(allItems.filter(matchesPrimaryContentLanguage).map(item => item.subject));
     let filtered = allItems.filter(item => {
         if (currentSearchTerm && !item.title.toLowerCase().includes(currentSearchTerm) && !(item.description||'').toLowerCase().includes(currentSearchTerm)) return false;
         if (currentTypeFilter !== 'all' && item.type !== currentTypeFilter) return false;
+        if (!matchesSelectedContentLanguage(item)) return false;
+        if (currentLanguageFilter !== 'all' && !subjectsWithPrimaryLanguage.has(item.subject)) return false;
         if (currentSubjectFilter !== 'all' && item.subject !== currentSubjectFilter) return false;
-        if (currentLanguageFilter !== 'all' && item.language !== currentLanguageFilter) return false;
         return true;
     });
-    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Assunto: ${currentSubjectFilter}, Idioma: ${currentLanguageFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
+    const languageOrder = getSelectedContentLanguages();
+    if (languageOrder.length) {
+        const getLanguagePriority = item => {
+            const index = languageOrder.indexOf(normalizeLanguageCode(item.language));
+            return index === -1 ? languageOrder.length : index;
+        };
+        filtered.sort((first, second) => getLanguagePriority(first) - getLanguagePriority(second));
+    }
+    console.log(`[Filtro] Tipo: ${currentTypeFilter}, Itens filtrados: ${filtered.length} de ${allItems.length}`);
     renderUnifiedGrid(filtered);
-    buildLanguageChips(filtered);
-    // Garantir que as traduções sejam aplicadas aos chips
     applyTranslationsToUI();
 }
 function buildTypeChips() {
     const c = document.getElementById('typeChips'); if (!c) return;
     const types = [
-        {value:'all',label:t('all'),icon:'fa-globe'},
-        {value:'video',label:t('type_video'),icon:'fa-play-circle'},
-        {value:'podcast',label:t('type_podcast'),icon:'fa-podcast'},
-        {value:'live',label:t('type_live'),icon:'fa-circle'},
-        {value:'shorts',label:t('type_shorts'),icon:'fa-film'}
+        {value:'all',label:t('all', 'Todos'),icon:'fa-globe'},
+        {value:'video',label:t('type_video', 'Vídeos'),icon:'fa-play-circle'},
+        {value:'podcast',label:t('type_podcast', 'Podcasts'),icon:'fa-podcast'},
+        {value:'live',label:t('type_live', 'Lives'),icon:'fa-circle'},
+        {value:'shorts',label:t('type_shorts', 'Shorts'),icon:'fa-film'}
     ];
-    c.innerHTML = types.map(t => `<div class="chip ${currentTypeFilter===t.value?'active':''}" data-type="${t.value}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', async () => {
+    c.innerHTML = types.map(type => `<button class="type-tab ${currentTypeFilter===type.value?'active':''}" type="button" role="tab" aria-selected="${currentTypeFilter===type.value}" data-type="${type.value}"><i class="fas ${type.icon}"></i> ${type.label}</button>`).join('');
+    c.querySelectorAll('.type-tab').forEach(ch => ch.addEventListener('click', async () => {
         currentTypeFilter = ch.dataset.type;
         buildTypeChips();
         await refreshAllItems(currentSearchTerm);
@@ -1100,27 +1487,86 @@ function buildTypeChips() {
         applyTranslationsToUI();
     }));
 }
-function buildSubjectChips() {
-    const subs = [...new Set(allItems.map(i => i.subject))].sort((a,b) => a==='outros'?1:b==='outros'?-1:a.localeCompare(b));
-    const c = document.getElementById('subjectChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentSubjectFilter==='all'?'active':''}" data-subject="all">${t('all')}</div>` + subs.map(s => `<div class="chip ${currentSubjectFilter===s?'active':''}" data-subject="${s}"><i class="fas ${getSubjectIcon(s)}"></i> ${getSubjectName(s)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentSubjectFilter = ch.dataset.subject;
-        buildSubjectChips();
-        updateAllContent();
-        applyTranslationsToUI();
-    }));
-}
 function buildLanguageChips(items = allItems) {
-    const langs = [...new Set(items.map(i => i.language).filter(l => l))];
+    const langs = [...new Set(items.map(i => normalizeLanguageCode(i.language)).filter(l => l))];
     const c = document.getElementById('languageChips'); if (!c) return;
-    c.innerHTML = `<div class="chip ${currentLanguageFilter==='all'?'active':''}" data-lang="all">${t('all')}</div>` + langs.map(l => `<div class="chip ${currentLanguageFilter===l?'active':''}" data-lang="${l}"><i class="fas fa-language"></i> ${getLanguageName(l)}</div>`).join('');
-    c.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        currentLanguageFilter = ch.dataset.lang;
-        buildLanguageChips();
+    const options = [{ value: 'all', label: t('all', 'Todos') }, ...langs.map(language => ({ value: language, label: getLanguageName(language) }))];
+    c.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
+    if (options.some(option => option.value === currentLanguageFilter)) c.value = currentLanguageFilter;
+    else {
+        currentLanguageFilter = 'all';
+        c.value = 'all';
+    }
+    c.onchange = () => {
+        currentLanguageFilter = c.value;
+        buildSubjectFilter();
         updateAllContent();
         applyTranslationsToUI();
-    }));
+    };
+    buildSubjectFilter();
+}
+function getSelectedContentLanguages() {
+    if (currentLanguageFilter === 'all') return [];
+    return currentLanguageFilter === 'en' ? ['en', 'es'] : [currentLanguageFilter];
+}
+function matchesSelectedContentLanguage(item) {
+    const languages = getSelectedContentLanguages();
+    return !languages.length || languages.includes(normalizeLanguageCode(item.language));
+}
+function matchesPrimaryContentLanguage(item) {
+    return currentLanguageFilter === 'all' || normalizeLanguageCode(item.language) === currentLanguageFilter;
+}
+function buildSubjectFilter() {
+    const select = document.getElementById('subjectFilter');
+    if (!select) return;
+
+    const subjects = [...new Set(allItems.filter(matchesPrimaryContentLanguage).map(item => item.subject))]
+        .sort((first, second) => first === 'outros' ? 1 : second === 'outros' ? -1 : getSubjectName(first).localeCompare(getSubjectName(second), currentLang));
+    if (currentSubjectFilter !== 'all' && !subjects.includes(currentSubjectFilter)) currentSubjectFilter = 'all';
+
+    const options = [
+        { value: 'all', label: t('auditorio_all_subjects', 'Todos os assuntos') },
+        ...subjects.map(subject => ({ value: subject, label: getSubjectName(subject) }))
+    ];
+    select.innerHTML = options.map(option => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join('');
+    select.value = currentSubjectFilter;
+    select.onchange = () => {
+        currentSubjectFilter = select.value;
+        updateAllContent();
+    };
+}
+function setupAuditorioFilterMenu() {
+    const wrapper = document.getElementById('auditorioFilterDropdown');
+    const toggle = document.getElementById('auditorioFilterToggle');
+    const menu = document.getElementById('auditorioFilterMenu');
+    const closeButton = document.getElementById('closeAuditorioFilterMenu');
+    const clearButton = document.getElementById('clearAuditorioFilters');
+    if (!wrapper || !toggle || !menu) return;
+
+    const setOpen = open => {
+        menu.hidden = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => setOpen(menu.hidden));
+    closeButton?.addEventListener('click', () => {
+        setOpen(false);
+        toggle.focus();
+    });
+    clearButton?.addEventListener('click', () => {
+        currentLanguageFilter = 'all';
+        currentSubjectFilter = 'all';
+        buildLanguageChips(allItems);
+        updateAllContent();
+    });
+    document.addEventListener('click', event => {
+        if (!wrapper.contains(event.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !menu.hidden) {
+            setOpen(false);
+            toggle.focus();
+        }
+    });
 }
 function playRandomItem() {
     if (!allItems.length) return;
@@ -1131,7 +1577,7 @@ function playRandomItem() {
         playVideo(item.videoId, item.title, item.description);
     }
 }
-function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading')}</p></div>`; }
+function showLoading() { document.getElementById('videosContainer').innerHTML = `<div class="loading-skeleton"><div class="spinner"></div><p>${t('loading', 'Carregando...')}</p></div>`; }
 function hideLoading() {}
 
 // ========== CARREGAR FILTRO DE CANAIS ==========
@@ -1156,29 +1602,40 @@ async function loadChannelFilters() {
 
 // ========== INICIALIZAÇÃO ==========
 document.addEventListener('DOMContentLoaded', async () => {
+    const refreshYouTubeApiContent = () => {
+        cache.clear();
+        apiQuotaExceeded = false;
+        refreshAllItems(currentSearchTerm);
+    };
+    window.addEventListener('youtubeApiKeyChanged', refreshYouTubeApiContent);
+    window.addEventListener('storage', event => {
+        if (event.key === YOUTUBE_API_KEY_STORAGE_KEY || event.key === `${YOUTUBE_API_KEY_STORAGE_KEY}_enabled`) refreshYouTubeApiContent();
+    });
+
     loadWatchTime();
     console.log('[Auditório] Horas assistidas carregadas:', totalWatchTime);
 
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     if (!window.YT) { const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
     
-    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt')?'pt-br':'en');
+    const savedLang = localStorage.getItem('selectedLanguage') || (navigator.language?.startsWith('pt') ? 'pt-br' : navigator.language?.startsWith('es') ? 'es' : 'en');
     currentLang = savedLang;
     await loadTranslations(currentLang);
+    await loadFrancDetector();
     applyTranslationsToUI();
-    updateLanguageSelector(currentLang);
+    updateAuditorioLanguageSelector(currentLang);
     
     const langPtBtn = document.getElementById('langPtBtn'), langEnBtn = document.getElementById('langEnBtn');
+    const langEsBtn = document.getElementById('langEsBtn');
     if (langPtBtn) langPtBtn.addEventListener('click', async () => {
         await loadTranslations('pt-br');
         currentLang = 'pt-br';
         localStorage.setItem('selectedLanguage', 'pt-br');
         applyTranslationsToUI();
-        updateLanguageSelector('pt-br');
+        updateAuditorioLanguageSelector('pt-br');
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'pt-br' } }));
     });
@@ -1187,26 +1644,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentLang = 'en';
         localStorage.setItem('selectedLanguage', 'en');
         applyTranslationsToUI();
-        updateLanguageSelector('en');
+        updateAuditorioLanguageSelector('en');
         await refreshAllItems(currentSearchTerm);
         // Reforça a tradução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'en' } }));
     });
-    if (currentLang === 'pt-br') langPtBtn?.classList.add('active');
-    else langEnBtn?.classList.add('active');
+    if (langEsBtn) langEsBtn.addEventListener('click', async () => {
+        await loadTranslations('es');
+        currentLang = 'es';
+        localStorage.setItem('selectedLanguage', 'es');
+        applyTranslationsToUI();
+        updateAuditorioLanguageSelector('es');
+        await refreshAllItems(currentSearchTerm);
+        buildTypeChips();
+        buildLanguageChips(allItems);
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: 'es' } }));
+    });
+    updateAuditorioLanguageSelector(currentLang);
     
     await loadChannelFilters();
     setupPlayerControls();
+    setupAuditorioFilterMenu();
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.getElementById('randomVideoBtn').addEventListener('click', playRandomItem);
+    const requestedType = new URLSearchParams(window.location.search).get('tipo');
+    if (['all', 'video', 'podcast', 'live', 'shorts'].includes(requestedType)) {
+        currentTypeFilter = requestedType;
+    }
     await refreshAllItems('');
     buildTypeChips();
-    buildSubjectChips();
     buildLanguageChips(allItems);
     updateAllContent();
+    window.__applicationReady = true;
+    window.dispatchEvent(new Event('applicationReady'));
 });
 
 // ========== REAGIR A MUDANÇAS DE IDIOMA ==========
@@ -1216,22 +1688,20 @@ window.addEventListener('languageChanged', async function(e) {
         currentLang = lang;
         await loadTranslations(lang);
         applyTranslationsToUI();
-        updateLanguageSelector(lang);
+        updateAuditorioLanguageSelector(lang);
         // Reforça a reconstrução dos filtros
         buildTypeChips();
-        buildSubjectChips();
         buildLanguageChips(allItems);
         updateAllContent();
         // Atualiza o botão de perfil se necessário
-        const profileBtn = document.getElementById('profileBtn');
-        if (profileBtn && !profileBtn.querySelector('img') && !profileBtn.querySelector('.profile-initials')) {
-            profileBtn.innerHTML = `<i class="fas fa-user"></i> ${t('profile')}`;
+        if (typeof window.updateProfileButton === 'function') {
+            window.updateProfileButton();
         }
         // Atualiza o botão "Notas"
         const notasLink = document.querySelector('a[href="../notas/notas.html"]');
         if (notasLink) {
             const span = notasLink.querySelector('span');
-            if (span) span.innerText = t('notas_heading');
+            if (span) span.innerText = t('notas_heading', 'Notas');
         }
     }
 });

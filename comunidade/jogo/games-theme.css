@@ -1,0 +1,610 @@
+:root {
+    --games-surface: var(--bg-secondary, #181818);
+    --games-surface-raised: var(--bg-tertiary, #212121);
+    --games-surface-soft: var(--bg-card, rgba(33, 33, 33, .92));
+    --games-border: var(--border, rgba(255, 255, 255, .14));
+    --games-text: var(--text-primary, #f1f1f1);
+    --games-muted: var(--text-secondary, #aaa);
+    --games-yellow: var(--accent-orange, #f2b35f);
+    --games-red: var(--danger, #f25f5c);
+    --games-blue: var(--accent-blue, #3ea6ff);
+    --games-radius: var(--card-radius, 1rem);
+}
+
+.games-modal-content {
+    overflow: hidden;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: 18px;
+    box-shadow: 0 24px 80px rgba(4, 8, 18, .42);
+}
+
+.games-modal-body {
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.pes6-age-gate {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.pes6-age-gate[hidden] { display: none; }
+
+.pes6-age-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 8, 18, .78);
+    backdrop-filter: blur(5px);
+}
+
+.pes6-age-dialog {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: .85rem;
+    width: min(440px, 100%);
+    padding: 1.25rem;
+    color: var(--games-text);
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: var(--games-radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+}
+
+.pes6-age-dialog h3,
+.pes6-age-dialog p { margin: 0; }
+
+.pes6-age-form {
+    display: grid;
+    gap: .45rem;
+}
+
+.pes6-age-form[hidden] { display: none; }
+
+.pes6-age-form label {
+    color: var(--games-muted);
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.pes6-age-form input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: .6rem .8rem;
+    color: var(--games-text);
+    background: var(--games-surface-raised);
+    border: 1px solid var(--games-border);
+    border-radius: .55rem;
+    font: inherit;
+}
+
+.pes6-age-error { color: #ff7777; font-size: .85rem; }
+.pes6-age-error[hidden] { display: none; }
+
+.pes6-age-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: .6rem;
+}
+
+.pes6-age-actions button { min-height: 42px; }
+
+.games-grid {
+    gap: .9rem;
+    padding: .35rem;
+}
+
+.country-life-meadows-panel {
+    width: 100%;
+    min-height: 65vh;
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.country-life-meadows-panel[hidden] {
+    display: none;
+}
+
+.country-life-meadows-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.75rem;
+    padding: .35rem .75rem;
+    color: var(--games-text);
+    font-weight: 700;
+}
+
+.country-life-meadows-panel iframe {
+    display: block;
+    width: 100%;
+    height: min(78vh, 900px);
+    min-height: 480px;
+    border: 0;
+    background: #fff;
+}
+
+.buteco-fighting-panel {
+    width: 100%;
+    min-height: 65vh;
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.buteco-fighting-panel[hidden] { display: none; }
+
+.buteco-fighting-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.75rem;
+    padding: .35rem .75rem;
+    color: var(--games-text);
+    font-weight: 700;
+}
+
+.buteco-fighting-panel iframe {
+    display: block;
+    width: 100%;
+    height: min(78vh, 900px);
+    min-height: 480px;
+    border: 0;
+    background: #fff;
+}
+
+.pes6-web-panel {
+    width: 100%;
+    min-height: 65vh;
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.pes6-web-panel[hidden] { display: none; }
+
+.pes6-web-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.75rem;
+    padding: .35rem .75rem;
+    color: var(--games-text);
+    font-weight: 700;
+}
+
+.pes6-web-panel iframe {
+    display: block;
+    width: 100%;
+    height: min(78vh, 900px);
+    min-height: 480px;
+    border: 0;
+    background: #000;
+}
+
+@media (max-width: 600px) {
+    .country-life-meadows-panel iframe {
+        height: 72vh;
+        min-height: 420px;
+    }
+
+    .buteco-fighting-panel iframe {
+        height: 72vh;
+        min-height: 420px;
+    }
+
+    .pes6-web-panel iframe {
+        height: 72vh;
+        min-height: 420px;
+    }
+}
+
+.game-card {
+    min-height: 142px;
+    padding: 1rem;
+    color: var(--games-text);
+    text-align: left;
+    background: linear-gradient(145deg, var(--games-surface-raised), var(--bg-secondary, #181818));
+    border: 1px solid var(--games-border);
+    border-radius: var(--games-radius);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.game-card:hover,
+.game-card.active {
+    border-color: var(--games-yellow);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .2);
+    transform: translateY(-3px);
+}
+
+.game-card .game-icon {
+    display: grid;
+    width: 2.7rem;
+    height: 2.7rem;
+    margin-bottom: .9rem;
+    place-items: center;
+    color: #142034;
+    background: var(--games-yellow);
+    border-radius: 12px;
+}
+
+.game-card .game-icon-image { object-fit: cover; }
+.game-card .game-logo-icon { box-sizing: border-box; overflow: hidden; padding: .3rem; background: #fff; }
+.game-card .game-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+.game-card .pes6-game-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    background: #27343a;
+    border: 1px solid rgba(242, 179, 95, .45);
+}
+
+.game-card:nth-child(3n) .game-icon { background: #ef3340; color: #fff; }
+.game-card:nth-child(3n + 1) .game-icon { background: #2878d0; color: #fff; }
+.game-card .game-title { display: block; font-weight: 800; }
+.game-card .game-third-party-tag { display: inline-flex; width: fit-content; margin-top: .4rem; padding: .2rem .4rem; border: 1px solid var(--games-border); border-radius: 999px; color: var(--games-muted); background: rgba(255, 255, 255, .06); font-size: .62rem; font-weight: 700; line-height: 1.2; }
+.game-card .game-subtitle { display: block; margin-top: .35rem; color: var(--games-muted); font-size: .78rem; line-height: 1.35; }
+
+.game-shell-screen {
+    min-height: 520px;
+    background: var(--bg-primary, #0f0f0f);
+}
+
+.game-shell-header {
+    padding: 1rem 1.15rem;
+    background: var(--bg-secondary, #181818);
+    border-bottom: 1px solid var(--games-border);
+}
+
+.game-shell-title-wrap strong { color: var(--games-text); }
+.game-shell-title-wrap small { color: var(--games-muted); }
+
+@media (max-width: 720px) {
+    .games-modal {
+        align-items: stretch;
+        padding: 0;
+    }
+
+    .games-modal-content {
+        width: 100%;
+        max-height: 100dvh;
+        min-height: 100dvh;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .games-modal-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .65rem;
+        padding: 0;
+    }
+
+    .game-card {
+        min-height: 126px;
+        padding: .8rem;
+    }
+
+    .game-card .game-icon {
+        width: 2.35rem;
+        height: 2.35rem;
+        margin-bottom: .65rem;
+    }
+
+    .game-card .game-subtitle {
+        font-size: .7rem;
+    }
+
+    .game-shell-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: .65rem;
+    }
+
+    .game-shell-title-wrap {
+        min-width: 0;
+        order: 2;
+        flex-basis: calc(100% - 3.5rem);
+    }
+
+    .game-shell-title-wrap strong,
+    .game-shell-title-wrap small {
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 420px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: .7rem;
+        align-items: center;
+        text-align: left;
+    }
+
+    .game-card .game-icon {
+        grid-row: span 2;
+        margin: 0;
+    }
+
+    .game-card .game-subtitle {
+        margin-top: .15rem;
+    }
+}
+
+.chess-room-creator,
+.game-matchmaking-filter,
+.impostor-create-room,
+.hangman-create,
+.checkers-create,
+.roulette-create,
+.uno-create-box,
+.bicho-create {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: .75rem;
+    padding: 1rem;
+    margin: .9rem 0;
+    color: var(--games-text);
+    background: var(--games-surface-soft);
+    border: 1px solid var(--games-border);
+    border-radius: var(--games-radius);
+}
+
+.game-matchmaking-filter {
+    align-items: center;
+}
+
+.game-matchmaking-filter small {
+    flex-basis: 100%;
+    color: var(--games-muted);
+    font-size: .75rem;
+}
+
+.game-matchmaking-online-count {
+    flex-basis: 100%;
+    color: var(--games-yellow);
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+.uno-create-box {
+    display: block;
+}
+
+.chess-room-creator label,
+.impostor-create-room label,
+.hangman-field,
+.checkers-field,
+.roulette-field,
+.uno-create-row > label,
+.uno-create-row > span > label,
+.bicho-create-row label {
+    display: grid;
+    gap: .35rem;
+    color: var(--games-muted);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.chess-room-select,
+.impostor-select,
+.hangman-select,
+.checkers-select,
+.roulette-select,
+.uno-create-row select,
+.bicho-create-row select {
+    min-height: 40px;
+    padding: .55rem .75rem;
+    color: var(--games-text);
+    background: var(--games-surface-raised);
+    border: 1px solid var(--games-border);
+    border-radius: 10px;
+}
+
+.chess-room-list,
+.impostor-room-list,
+.hangman-room-list,
+.checkers-room-list,
+.roulette-room-list,
+.uno-open-rooms,
+.bicho-rooms {
+    padding: 1rem;
+    margin: .9rem 0;
+    background: var(--games-surface-soft);
+    border: 1px solid var(--games-border);
+    border-radius: var(--games-radius);
+}
+
+.chess-room-list > h5,
+.impostor-room-list > h5,
+.hangman-room-list > h5,
+.checkers-room-list > h5,
+.roulette-room-list > h5,
+.uno-open-rooms h4 {
+    margin: 0 0 .75rem;
+    color: var(--games-text);
+    font-size: .95rem;
+}
+
+.chess-room-item,
+.impostor-room,
+.hangman-room,
+.checkers-room,
+.roulette-room,
+.uno-room,
+.bicho-room {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .85rem .95rem;
+    margin-top: .55rem;
+    color: var(--games-text);
+    background: var(--games-surface-raised);
+    border: 1px solid var(--games-border);
+    border-radius: 12px;
+}
+
+.chess-room-meta,
+.impostor-room > div:first-child,
+.hangman-room-meta,
+.checkers-room-meta,
+.roulette-room-meta,
+.uno-room > span,
+.bicho-room-meta {
+    display: grid;
+    min-width: 0;
+    gap: .25rem;
+}
+
+.chess-room-meta small,
+.impostor-muted,
+.hangman-muted,
+.checkers-muted,
+.roulette-muted,
+.uno-room small,
+.bicho-room small {
+    color: var(--games-muted);
+}
+
+.chess-room-actions,
+.impostor-room-actions,
+.hangman-room-actions,
+.checkers-room-actions,
+.roulette-room-actions,
+.uno-room-actions,
+.bicho-room-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .45rem;
+}
+
+.chess-room-button,
+.chess-room-view-button,
+.chess-room-delete-button,
+.impostor-primary,
+.impostor-secondary,
+.impostor-danger,
+.hangman-primary,
+.hangman-secondary,
+.hangman-danger,
+.checkers-primary,
+.checkers-secondary,
+.checkers-danger,
+.roulette-primary,
+.roulette-secondary,
+.roulette-danger,
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.bicho-primary,
+.bicho-secondary,
+.bicho-danger,
+.bicho-gold {
+    min-height: 38px;
+    padding: .55rem .9rem;
+    border-radius: 999px !important;
+    font-weight: 700;
+}
+
+.chess-room-button,
+.impostor-primary,
+.hangman-primary,
+.checkers-primary,
+.roulette-primary {
+    background: var(--games-blue);
+    border-color: var(--games-blue);
+}
+
+.bicho-primary { background: var(--games-blue); border-color: var(--games-blue); }
+.bicho-secondary { background: transparent; border: 1px solid var(--games-border); }
+.bicho-danger { color: #fff; background: var(--games-red); border-color: #dc6274; }
+.bicho-gold { color: #172033; background: var(--games-yellow); border-color: var(--games-yellow); }
+
+.chess-room-view-button,
+.impostor-secondary,
+.hangman-secondary,
+.checkers-secondary,
+.roulette-secondary {
+    background: transparent;
+    border: 1px solid var(--games-border);
+}
+
+.chess-room-delete-button,
+.impostor-danger,
+.hangman-danger,
+.checkers-danger,
+.roulette-danger,
+.btn-danger {
+    color: #fff;
+    background: var(--games-red);
+    border: 1px solid #dc6274;
+}
+
+.chess-room-mode-tag,
+.game-mode-tag {
+    padding: .25rem .55rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 800;
+}
+
+.chess-room-mode-tag.bot { color: #2b2510; background: var(--games-yellow); }
+.chess-room-mode-tag.community { color: #fff; background: var(--games-blue); }
+
+@media (max-width: 680px) {
+    .chess-room-creator,
+    .impostor-create-room,
+    .hangman-create,
+    .checkers-create,
+    .roulette-create,
+    .uno-create-box,
+    .bicho-create,
+    .chess-room-item,
+    .impostor-room,
+    .hangman-room,
+    .checkers-room,
+    .roulette-room,
+    .uno-room,
+    .bicho-room {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .chess-room-actions,
+    .impostor-room-actions,
+    .hangman-room-actions,
+    .checkers-room-actions,
+    .roulette-room-actions,
+    .uno-room-actions,
+    .bicho-room-actions {
+        justify-content: stretch;
+        width: 100%;
+    }
+
+    .chess-room-actions > button,
+    .impostor-room-actions > button,
+    .hangman-room-actions > button,
+    .checkers-room-actions > button,
+    .roulette-room-actions > button,
+    .uno-room-actions > button,
+    .bicho-room-actions > button {
+        flex: 1 1 auto;
+    }
+}
