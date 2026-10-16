@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="base/perfil/profile.css">
     <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
     <link rel="stylesheet" href="cursos/course-intro.css">
+    <link rel="stylesheet" href="cursos/feedback/lesson-feedback.css">
     <link rel="stylesheet" href="base/onboarding/onboarding.css">
     <link rel="stylesheet" href="base/audio-player/audio-player.css">
     <link rel="stylesheet" href="base/loading/loading-screen.css">
@@ -32,7 +33,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
 </head>
 <body class="site-loading">
 <div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
@@ -458,6 +459,44 @@
     </div>
 </div>
 
+<!-- ========== MODAL DE AVALIAÇÃO DA AULA ========== -->
+<div id="lessonFeedbackModal" class="lesson-feedback-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lessonFeedbackTitle" hidden>
+    <div class="lesson-feedback-content">
+        <div class="lesson-feedback-header">
+            <div>
+                <span class="lesson-feedback-kicker" data-i18n="lesson_feedback_kicker">Aula concluída</span>
+                <h2 id="lessonFeedbackTitle" data-i18n="lesson_feedback_title">Como foi essa aula?</h2>
+                <p id="lessonFeedbackContext" class="lesson-feedback-context"></p>
+            </div>
+            <button class="lesson-feedback-close" type="button" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <form id="lessonFeedbackForm" class="lesson-feedback-form">
+            <fieldset class="lesson-feedback-rating">
+                <legend data-i18n="lesson_feedback_rating_label">Que nota você dá para esta aula?</legend>
+                <div class="lesson-feedback-stars" role="radiogroup" data-i18n-aria="lesson_feedback_rating_label" aria-label="Nota da aula">
+                    <label><input type="radio" name="rating" value="1" required><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_1">Péssimo</span></label>
+                    <label><input type="radio" name="rating" value="2"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_2">Ruim</span></label>
+                    <label><input type="radio" name="rating" value="3"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_3">Mais ou menos</span></label>
+                    <label><input type="radio" name="rating" value="4"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_4">Bom</span></label>
+                    <label><input type="radio" name="rating" value="5"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_5">Muito bom</span></label>
+                </div>
+            </fieldset>
+            <label class="lesson-feedback-comment-label" for="lessonFeedbackComment" data-i18n="lesson_feedback_comment_label">Comentário (opcional)</label>
+            <textarea id="lessonFeedbackComment" name="comment" rows="4" maxlength="2000" data-i18n-placeholder="lesson_feedback_comment_placeholder" placeholder="O que achou da aula? Tem alguma sugestão de melhoria?"></textarea>
+            <input type="hidden" name="course">
+            <input type="hidden" name="course_id">
+            <input type="hidden" name="discipline">
+            <input type="hidden" name="lesson">
+            <input type="hidden" name="_subject">
+            <p id="lessonFeedbackStatus" class="lesson-feedback-status" role="status" aria-live="polite"></p>
+            <div class="lesson-feedback-actions">
+                <button class="lesson-feedback-skip" type="button" data-i18n="lesson_feedback_skip">Agora não</button>
+                <button class="lesson-feedback-submit" type="submit" data-i18n="lesson_feedback_submit">Enviar avaliação</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- ========== MODAL DE CONCLUSÃO FINAL ========== -->
 <div id="finalCompletionModal" class="final-completion-modal" role="dialog" aria-hidden="true">
     <div class="final-modal-content">
@@ -873,6 +912,7 @@
 <!-- ========== DEMAIS MÓDULOS ========== -->
 <script src="cursos/cursor-timeset.js" defer></script>
 <script src="script.js" defer></script>
+<script src="cursos/feedback/lesson-feedback.js" defer></script>
 <script src="cursos/ajuda/help-modal.js" defer></script>
 <script src="cursos/course-intro.js" defer></script>
 <script src="cursos/final-completion.js" defer></script>

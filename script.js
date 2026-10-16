@@ -1864,6 +1864,14 @@ console.log('[Main] Inicializando script.js v28.0...');
             renderUnifiedCourseContent();
             expandCurrentLessonInUnifiedContent();
             queueNotification(t('lesson_completed', { id: lessonId + 1 }), 'success');
+            window.dispatchEvent(new CustomEvent('lessonFeedback:lessonCompleted', {
+                detail: {
+                    courseId: currentCourse,
+                    courseName: currentCourseDetails?.name || getCourseName(currentCourse),
+                    disciplineName: getLessonDisciplineName(lesson),
+                    lessonNumber: lessonId + 1
+                }
+            }));
             for (let [discName, lessonIds] of disciplineToLessonsMap.entries()) {
                 if (lessonIds.includes(lessonId)) {
                     updateDisciplineCompletion(discName, lessonIds);
@@ -2614,15 +2622,6 @@ console.log('[Main] Inicializando script.js v28.0...');
                     </div>`;
         });
         html += `</div>`;
-        const lessonDiscipline = stagesData
-            .flatMap(stage => stage.disciplines)
-            .find(discipline => normalizeDisciplineKey(discipline.name) === normalizeDisciplineKey(currentDiscipline));
-        if (lessonDiscipline) {
-            const disciplineBio = buildDisciplineBioWithBooks(lessonDiscipline);
-            if (disciplineBio) {
-                html += `<div class="discipline-card-bio lesson-discipline-bio"><strong>${t('discipline_bio_title')}</strong><p>${escapeHtml(disciplineBio)}</p></div>`;
-            }
-        }
         container.innerHTML = html;
         container.querySelectorAll('.current-video-item').forEach(el => {
             let idx = parseInt(el.dataset.videoIndex, 10);
