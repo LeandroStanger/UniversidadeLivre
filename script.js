@@ -464,7 +464,7 @@ console.log('[Main] Inicializando script.js v28.0...');
             info: '#6C8CFF'
         };
         const accentColor = accentColors[type] || accentColors.info;
-        notification.innerHTML = `<div class="notification-content"><i class="fas ${icon}" aria-hidden="true"></i><span>${escapeHtml(cleanMessage)}</span></div>`;
+        notification.innerHTML = `<div class="notification-content"><i class="fas ${icon}" aria-hidden="true"></i> <span>${escapeHtml(cleanMessage)}</span></div>`;
         notification.style.cssText = `
             background: var(--bg-card);
             backdrop-filter: blur(12px);
