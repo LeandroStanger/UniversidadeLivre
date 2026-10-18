@@ -43,7 +43,54 @@ Com base na proposta do projeto, as funcionalidades implementadas são:
 - Design responsivo – adapta-se a celulares, tablets e desktops.
 - Navegação intuitiva via menu suspenso ou hambúrguer em telas pequenas.
 
-## Como Executar Localmente
+## Aplicativo para Desktop
+
+A Universidade Livre também pode ser executada como aplicativo desktop em Windows, Linux e macOS. O aplicativo inclui o conteúdo do site e o serve localmente para preservar recursos como o carregamento de arquivos JSON e o armazenamento de progresso. Fontes, vídeos e serviços de terceiros continuam dependendo de conexão com a internet.
+
+### Executar a partir do código-fonte
+
+É necessário ter Node.js 22 ou superior e npm instalados:
+
+```bash
+npm ci
+npm start
+```
+
+### Gerar instaladores
+
+Execute o comando na plataforma de destino:
+
+```bash
+npm run dist
+```
+
+Os arquivos são gerados na pasta `release/`:
+
+- **Windows:** instalador `.exe` (NSIS).
+- **Linux:** `.AppImage`, pacotes `.deb` e `.rpm`, e um bundle `.flatpak` para teste/instalação direta.
+- **macOS:** `.dmg` e `.zip`.
+
+O fluxo de integração contínua também gera os pacotes para os três sistemas em seus respectivos runners. Os aplicativos para macOS não são assinados; a distribuição fora do desenvolvimento pode exigir assinatura e notarização para evitar avisos do Gatekeeper.
+
+### Gerar o bundle Flatpak localmente
+
+Além do Node.js 22 ou superior, instale `flatpak` e `flatpak-builder`. A compilação Flatpak utiliza o runtime Freedesktop 25.08 e requer acesso ao Flathub:
+
+```bash
+npm ci
+npm run dist -- --linux dir
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak-builder --user --install-deps-from=flathub --force-clean \
+  --repo=flatpak-repo build-dir \
+  packaging/flatpak/io.github.leandrostanger.universidadelivre.yml
+flatpak build-bundle flatpak-repo \
+  release/io.github.leandrostanger.universidadelivre.flatpak \
+  io.github.leandrostanger.universidadelivre stable
+```
+
+Instale o bundle com `flatpak install --user release/io.github.leandrostanger.universidadelivre.flatpak`. O runtime Freedesktop deve estar disponível pelo Flathub. Este bundle local não é, por si só, um pacote de submissão ao Flathub: a submissão precisa compilar a partir de uma revisão pública e imutável do código-fonte. Para gerar apenas o RPM, execute `npm run dist -- --linux rpm` em Linux.
+
+## Como Executar o Site Localmente
 
 Caso deseje baixar o código-fonte e executar em seu próprio ambiente, siga os passos abaixo.
 
