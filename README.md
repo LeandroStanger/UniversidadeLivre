@@ -74,11 +74,9 @@ O fluxo de integração contínua também gera os pacotes para os três sistemas
 
 ### Gerar o bundle Flatpak localmente
 
-Além do Node.js 22 ou superior, instale `flatpak` e `flatpak-builder`. A compilação Flatpak utiliza o runtime Freedesktop 25.08 e requer acesso ao Flathub:
+Instale `flatpak` e `flatpak-builder` e adicione o Flathub para obter o runtime Freedesktop 25.08:
 
 ```bash
-npm ci
-npm run dist -- --linux dir
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak-builder --user --install-deps-from=flathub --force-clean \
   --repo=flatpak-repo build-dir \
@@ -88,7 +86,7 @@ flatpak build-bundle flatpak-repo \
   io.github.leandrostanger.universidadelivre stable
 ```
 
-Instale o bundle com `flatpak install --user release/io.github.leandrostanger.universidadelivre.flatpak`. O runtime Freedesktop deve estar disponível pelo Flathub. Este bundle local não é, por si só, um pacote de submissão ao Flathub: a submissão precisa compilar a partir de uma revisão pública e imutável do código-fonte. Para gerar apenas o RPM, execute `npm run dist -- --linux rpm` em Linux.
+O manifest compila uma revisão pública e imutável do código-fonte. O runtime Freedesktop e a integração do Electron são fornecidos pelo Flathub; o build não instala dependências npm nem usa `electron-builder`. O runtime Electron é obtido da distribuição oficial, com checksum fixado para cada arquitetura suportada. Instale o bundle com `flatpak install --user release/io.github.leandrostanger.universidadelivre.flatpak`. Para atualizar a versão empacotada, atualize a revisão e o checksum da fonte no manifest; ao atualizar o Electron, atualize também as URLs e os checksums para x86_64 e aarch64. Para gerar apenas o RPM, execute `npm run dist -- --linux rpm` em Linux.
 
 ## Como Executar o Site Localmente
 

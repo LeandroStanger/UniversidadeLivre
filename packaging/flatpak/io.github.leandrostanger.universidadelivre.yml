@@ -2,33 +2,56 @@ app-id: io.github.leandrostanger.universidadelivre
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '25.08'
 command: universidade-livre
+separate-locales: false
 
 finish-args:
   - --share=ipc
   - --share=network
   - --socket=pulseaudio
   - --socket=wayland
-  - --socket=x11
+  - --socket=fallback-x11
   - --device=dri
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
 
 modules:
   - name: universidade-livre
     buildsystem: simple
     build-commands:
-      - install -d /app/lib/universidade-livre
-      - cp -a . /app/lib/universidade-livre/
+      - install -d /app/main/app/desktop
+      - cp -a electron/. /app/main/
+      - cp -a source/auditorio source/base source/biblioteca source/comunidade source/cursos source/notas /app/main/app/
+      - install -Dm644 source/index.html /app/main/app/index.html
+      - install -Dm644 source/style.css /app/main/app/style.css
+      - install -Dm644 source/script.js /app/main/app/script.js
+      - install -Dm644 source/package.json /app/main/app/package.json
+      - install -Dm644 source/desktop/main.cjs /app/main/app/desktop/main.cjs
+      - install -Dm644 source/desktop/static-server.cjs /app/main/app/desktop/static-server.cjs
+      - install -Dm755 run.sh /app/bin/universidade-livre
+      - install -Dm644 source/packaging/flatpak/io.github.leandrostanger.universidadelivre.desktop /app/share/applications/io.github.leandrostanger.universidadelivre.desktop
+      - install -Dm644 source/packaging/flatpak/io.github.leandrostanger.universidadelivre.png /app/share/icons/hicolor/128x128/apps/io.github.leandrostanger.universidadelivre.png
+      - install -d /app/share/metainfo
+      - sed 's/version="1.0.0"/version="7.14"/' source/packaging/flatpak/io.github.leandrostanger.universidadelivre.metainfo.xml > /app/share/metainfo/io.github.leandrostanger.universidadelivre.metainfo.xml
     sources:
-      - type: dir
-        path: ../../release/linux-unpacked
-
-  - name: universidade-livre-integration
-    buildsystem: simple
-    build-commands:
-      - install -Dm755 universidade-livre /app/bin/universidade-livre
-      - install -Dm644 io.github.leandrostanger.universidadelivre.desktop /app/share/applications/io.github.leandrostanger.universidadelivre.desktop
-      - install -Dm644 io.github.leandrostanger.universidadelivre.png /app/share/icons/hicolor/128x128/apps/io.github.leandrostanger.universidadelivre.png
-      - install -Dm644 io.github.leandrostanger.universidadelivre.metainfo.xml /app/share/metainfo/io.github.leandrostanger.universidadelivre.metainfo.xml
-    sources:
-      - type: dir
-        path: .
+      - type: archive
+        url: https://github.com/LeandroStanger/UniversidadeLivre/archive/983cc9d99bc8105fffefc2ae3d2bb3a09eca0110.tar.gz
+        sha256: 9cdb62887917fb2d411ccba637d8872c17214139435b495c4e1a2bc16e8a264f
+        dest: source
+      - type: archive
+        url: https://github.com/electron/electron/releases/download/v44.9.0/electron-v44.9.0-linux-x64.zip
+        sha256: ecced7ecb55697f92ca870939c5988557faa8acd8c222c232cae5913d318c8b9
+        dest: electron
+        only-arches:
+          - x86_64
+      - type: archive
+        url: https://github.com/electron/electron/releases/download/v44.9.0/electron-v44.9.0-linux-arm64.zip
+        sha256: 37fe4dfc34a6dd35d65816864cc6ba9484565cda5ad6d29022e0ee3969e0ea15
+        dest: electron
+        only-arches:
+          - aarch64
+      - type: script
+        dest-filename: run.sh
+        commands:
+          - zypak-wrapper.sh /app/main/electron /app/main/app "$@"
