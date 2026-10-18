@@ -1,0 +1,175 @@
+{
+  "course": "Ciencias de la Computación",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "year": "2026",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Cal Math",
+      "url": "https://www.youtube.com/@CalMath",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_kgjHxo1cVZSKzzbR2OGZW_KN7MTnvgl1IvTeBUp_uTViI=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Jeff en la Ficct",
+      "url": "https://www.youtube.com/@JeffenlaFicct",
+      "image": "https://yt3.ggpht.com/82sLey5wSQlKzcjQgEBSmJkj9slKoKXMxYEk0uAdAg8ndQTmz8Gt3l4B3eKa37Dj9L-oWKwNC44=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Nikolas Morillo",
+      "url": "https://www.youtube.com/@NikolasMorillo",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n6EiWF1HU5LbFxbvTCrtLRykEq-yqIo0CHX9CP8cQsFHI=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "francisco gomez",
+      "url": "https://www.youtube.com/@fagomezj",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lEUPwPwInfnbv9JU2cfhOpkyeOI_-SyD0n7gveXQkwOzcB=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Tutoriales Inglés",
+      "url": "https://www.youtube.com/@CursodeInglesok",
+      "image": "https://yt3.ggpht.com/jb41Cuu9ok4LH0YF8NkecUSGVEpY08bZpsyTyf1oHqTs-5uIb68VBmzV9lZwPgR1_HGOi4KKR_M=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Melisa Vivanco",
+      "url": "https://www.youtube.com/@melisa.vivanco",
+      "image": "https://yt3.ggpht.com/mqyjp5cEehOEKc4zshaEiDPLn6HYV-4agT-xWORhwq-73IBw2DpyNUjDYLBrO-yoai2JU2Cuozc=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "makigas",
+      "url": "https://www.youtube.com/@makigas",
+      "image": "https://yt3.ggpht.com/jrgUg66TjCX_uqHQWApcd5iVSUj_7vx4ib4avdZ1P8PIqr3EzgcpFqNuTnAJbOoWvPHUus-ktg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "profesor10demates",
+      "url": "https://www.youtube.com/@profesor10demates",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_ly8tLBz4URLwVD53omxg-vO9d12ddJ5xjYom2iMqGPsg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Gráficas con Rocío",
+      "url": "https://www.youtube.com/@graficasconrocio393",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_khmeWaPqEFFNXiWHgSHpRCJDmCuWJlirCk_lVQBtJeUPF1q8TvwiBHuhZs6LI5d8ldPg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Alejo Lopera Inglés",
+      "url": "https://www.youtube.com/@alejolopera",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k2JTDxF1-qlclORDMECUDkkTmUV9TViUrhM-pbiE3XZZw9=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "MateFacil",
+      "url": "https://www.youtube.com/@MateFacilYT",
+      "image": "https://yt3.ggpht.com/aYD_p-DgWQPNs6lBcEDTGXBmfuWnNr68nb4gutDx2M-QOfSZujKg7J8jwWpSSO1IMS9yYc6nu4w=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Fio-UNAM",
+      "url": "https://www.youtube.com/@fio-unam6400",
+      "image": "https://yt3.ggpht.com/P45898oTX2wzNpxDm2yRk_tF_ljkL4k0sm4C9Uhd_oE7d_vfby1zVNCC7udT__ygs2mfxLdr=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "José Galaviz",
+      "url": "https://www.youtube.com/@josegalaviz5293",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_mouv-3ar76okww6Q5aIfnSv92x0Fb96aqPFaQy5pu5vW0=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Luis Rincón",
+      "url": "https://www.youtube.com/@LuisRinconUNAM",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n0sCuK8V3cgFyRD-VOIUlG8LAsSJ8CCkQmr3LcX9gs=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "luisthree",
+      "url": "https://www.youtube.com/@luisthree",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nzKilM6JZE95vVfxfrL4lzScc8jbrUcvLsKwsJFELleA=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Codemath",
+      "url": "https://www.youtube.com/@codemath1",
+      "image": "https://yt3.ggpht.com/rSgX98j9u5aTo2HGwwX7hng61vdFLRPb_OVpKy1pgeYVy0UukwLcmTpACBnlGKLNXTDpLyFM=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Matemáticas sencillas",
+      "url": "https://www.youtube.com/@matematicassencillas",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_k1BKVfCP0G17N-SPOho_wNcCkEeHwC3imCf3L2fbHAldU=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Carlos Andres Jaramillo Villegas",
+      "url": "https://www.youtube.com/@cajaramillov",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lGIu758f9RhwUBv9_czo0HvqG3xAGfrzmhcG_m8yOM-F0=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "TEBAEV VIDEOS EDUCATIVOS",
+      "url": "https://www.youtube.com/@tebaevvideoseducativos3399",
+      "image": "https://yt3.ggpht.com/LankvW3DGNHgCdCoWG3OBWmMl31oJJHEWw2fGqAPpyDuInHMlM8Qw_znCi63eLc1YYv99TkyzYo=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Viera Class",
+      "url": "https://www.youtube.com/@VictorViera",
+      "image": "https://yt3.ggpht.com/wNJmoZBRC2Cxa4yA2B94XxBGsQbzryoASvmw2DMjIjSE33jwPti8N3uaqpvATaUOHgHll7VQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Cedhinfo",
+      "url": "https://www.youtube.com/@Cedhinfo",
+      "image": "https://yt3.ggpht.com/mXaJm-whuOSXDgi6Cqzql_9bqbu0z5t462FzJkWFTzYJATqG2nkQBl91rtoMoAsg6Fsu95Mh8Ag=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Fundamentos de Bases de Datos",
+      "url": "https://www.youtube.com/@fundamentosdebasesdedatos3187",
+      "image": "https://yt3.ggpht.com/d_6QrePMIutVF3MNUnVaxejRGmw8_OK9L5AIOaaVLjEOSqOKCCCfjR3FMOXkQKocSm_6q4V8PQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Lenguajes de Programación",
+      "url": "https://www.youtube.com/@LenguajesdeProgramaci%C3%B3n-t2z",
+      "image": "https://yt3.ggpht.com/zcqiivAluejbEeXyUQcmcDFz_c-1chSrmO17QSa3_B8soMRJxNfkZkvKIQ9XpeBHDZRun0jA2UU=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Alejandra Carbonell",
+      "url": "https://www.youtube.com/@alejandracarbonell268",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_n2OfFE-tlJ5JIxWHnrm0p-Fuxp791uY9LkZnoh7eQT1Yor=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Nicolas Battaglia",
+      "url": "https://www.youtube.com/@NicolasBattaglia",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nZf5t8J4IG5vLSP69dbwB6aiTKLVr3ivDXJeV2MNrX44s=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Adrián Sáenz",
+      "url": "https://www.youtube.com/@AdrianSaenz",
+      "image": "https://yt3.ggpht.com/-OdZAIOOkVnjrjiB9DY5Ax3Fc7xM_-mozEpleTNUTdmzWs_mtjtMZ_HzlBVFUqCe-W76nWJkTQ=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Mtro. José Luis Elvira",
+      "url": "https://www.youtube.com/@jluiselvira",
+      "image": "https://yt3.ggpht.com/YepPhj4O36GZ0Xwro2LV0BEh9iVD3GiVLFfhrqRcVpTwzChBT9GxsszUR_QiFTcxi_udP4nF=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Delacyr Ferreira",
+      "url": "https://www.youtube.com/@delacyr",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lXBMI7ncTDa2L8zax79CiodWYtQD7aMElvAH4GmBYEl8ls=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "NASeros",
+      "url": "https://www.youtube.com/@naseros",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lGQUAjUNfGefxSgLN7VSUvneH6kRRTxvnUFmHlAGAd0m4=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Cerebral UAM",
+      "url": "https://www.youtube.com/@cerebraluam6128",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_nXtbn6pmR9Bg-2cOpYDxvpvS8oRnd5j7WJ1pakGL1Rd7Y=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "UPM",
+      "url": "https://www.youtube.com/@UPM",
+      "image": "https://yt3.ggpht.com/o8CGVOf4yYbcThMWVIAJbBpCmOpUQ8O3YhNne9FnpTc4v1ypHaLSbEEDWGnE_DD2iXMM5Y9CLg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Department of Education Schools Manipur",
+      "url": "https://www.youtube.com/@Samagra_Shiksha_Manipur",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lOC_UaAF5bGr7HoG7_C5UyOkRJIX_uYyT48myH9AILdQ=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}

@@ -1,0 +1,2442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comunidade · Universidade Livre</title>
+    <meta name="description" content="Mural de posts e artigos organizado por cursos e disciplinas." />
+    <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/comunidade/comunidade.html" />
+    <link rel="icon" type="image/png" href="../base/logo-da-universidade-livre3.png" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- DOMPurify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.7/purify.min.js"></script>
+    <!-- PeerJS / uPeerJS -->
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <!-- Estilos da comunidade -->
+    <link rel="stylesheet" href="comunidade.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../base/theme/theme.js"></script>
+    <link rel="stylesheet" href="../base/perfil/profile.css" />
+    <link rel="stylesheet" href="../base/audio-player/audio-player.css" />
+    <link rel="stylesheet" href="../base/loading/loading-screen.css" />
+    <link rel="stylesheet" href="jogo/jogo-da-velha/jogo-da-velha.css" />
+    <link rel="stylesheet" href="jogo/xadrez/xadrez.css" />
+    <link rel="stylesheet" href="jogo/impostor/impostor.css" />
+    <link rel="stylesheet" href="jogo/forca/forca.css" />
+    <link rel="stylesheet" href="jogo/damas/damas.css" />
+    <link rel="stylesheet" href="jogo/roleta/roleta.css" />
+    <link rel="stylesheet" href="jogo/uno/uno.css" />
+    <link rel="stylesheet" href="jogo/games-theme.css" />
+    <link rel="stylesheet" href="jogo/bicho/bicho.css" />
+    <link rel="stylesheet" href="jogo/caca-niquel/caca-niquel.css" />
+    <link rel="stylesheet" href="jogo/poker/poker.css" />
+    <link rel="stylesheet" href="jogo/blackjack/blackjack.css" />
+    <link rel="stylesheet" href="jogo/bacara/bacara.css" />
+    <link rel="stylesheet" href="jogo/bingo/bingo.css" />
+    <link rel="stylesheet" href="jogo/bitcoin/bitcoin.css" />
+
+    <style>
+        /* ============================================================
+           ESTILOS ADICIONAIS (FALLBACK) - Garantem funcionamento mesmo
+           se comunidade.css não carregar completamente.
+           ============================================================ */
+
+        /* Variáveis de cor (fallback) */
+        :root {
+            --com-bg-primary: #0f0f0f;
+            --com-bg-secondary: #181818;
+            --com-bg-tertiary: #212121;
+            --com-bg-card: rgba(33, 33, 33, 0.92);
+            --com-text-primary: #f1f1f1;
+            --com-text-secondary: #aaa;
+            --com-text-tertiary: #717171;
+            --com-border: rgba(255, 255, 255, 0.14);
+            --com-border-light: rgba(255, 255, 255, 0.09);
+            --com-accent-blue: #3ea6ff;
+            --com-accent-blue-hover: #68b9ff;
+            --com-accent-green: #30a539;
+            --com-accent-orange: #f2b35f;
+            --com-accent-purple: #a78bfa;
+            --com-accent-teal: #2aa7a1;
+            --com-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            --com-shadow-modal: 0 24px 64px rgba(0,0,0,0.8);
+            --com-radius: 16px;
+            --com-radius-sm: 10px;
+            --com-transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --bg-secondary: var(--com-bg-secondary);
+            --bg-tertiary: var(--com-bg-tertiary);
+            --bg-card: var(--com-bg-card);
+            --border: var(--com-border);
+            --text-primary: var(--com-text-primary);
+            --text-secondary: var(--com-text-secondary);
+            --text-tertiary: var(--com-text-tertiary);
+            --accent-blue: var(--com-accent-blue);
+            --accent-teal: var(--com-accent-teal);
+            --accent-purple: var(--com-accent-purple);
+            --gradient-primary: linear-gradient(135deg, var(--com-accent-blue), var(--com-accent-purple));
+            --modal-shadow: var(--com-shadow-modal);
+        }
+
+        /* Reset e base */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--com-bg-primary);
+            color: var(--com-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width:1400px; margin:0 auto; padding:0 1.5rem; }
+
+        /* Estilos do modal de perfil (compatíveis com profile.js) */
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .profile-modal .modal-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .profile-modal .profile-modal-content {
+            background: var(--com-bg-secondary);
+            border-radius: var(--com-radius);
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            border: 1px solid var(--com-border);
+            box-shadow: var(--com-shadow-modal);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .profile-modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--com-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .profile-modal-header h2 {
+            margin: 0;
+            color: var(--com-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .profile-modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .profile-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .avatar-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--com-accent-blue);
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            text-align: center;
+            font-size: 0.65rem;
+            padding: 0.2rem 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .avatar-container:hover .avatar-overlay { opacity: 1; }
+        .profile-matricula {
+            margin-top: 0.3rem;
+            font-size: 0.7rem;
+            color: var(--com-text-tertiary);
+            font-family: monospace;
+            letter-spacing: 0.3px;
+            border-top: 1px solid var(--com-border-light);
+            padding-top: 0.3rem;
+            width: 100%;
+            text-align: center;
+        }
+        .profile-user-section {
+            margin-bottom: 1.2rem;
+        }
+        .profile-user-section label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--com-text-secondary);
+            margin-bottom: 0.3rem;
+        }
+        .profile-input-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .profile-input-group input,
+        .profile-input-group select {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            color: var(--com-text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            min-width: 150px;
+        }
+        .profile-input-group input:focus,
+        .profile-input-group select:focus {
+            border-color: var(--com-accent-blue);
+        }
+        .profile-input-group button {
+            background: var(--com-accent-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--com-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--com-transition);
+            white-space: nowrap;
+        }
+        .profile-input-group button:hover { transform: scale(1.02); }
+        .password-saved-indicator {
+            margin-top: 0.3rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--com-text-secondary);
+        }
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-item {
+            background: var(--com-bg-tertiary);
+            border-radius: var(--com-radius-sm);
+            padding: 0.5rem 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid var(--com-border-light);
+        }
+        .stat-item span:first-child { color: var(--com-text-secondary); font-size: 0.8rem; }
+        .stat-item span:last-child { font-weight: 600; color: var(--com-text-primary); }
+        #profileCoursesList { margin-bottom: 0.5rem; }
+        #profileCoursesList h4 {
+            color: var(--com-text-secondary);
+            margin: 0.5rem 0;
+        }
+        .profile-course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.5rem;
+            border-bottom: 1px solid var(--com-border-light);
+        }
+        .profile-course-item .profile-course-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--com-text-primary);
+        }
+        .profile-course-item .progress-badge {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+        .progress-badge.ongoing { background: var(--com-accent-teal); color: #070B14; }
+        .progress-badge.completed { background: var(--com-accent-green); color: #070B14; }
+        .profile-course-item .profile-course-progress {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--com-text-secondary);
+        }
+        .profile-course-item .points { color: var(--com-accent-orange); }
+        .ongoing-courses-summary {
+            background: var(--com-bg-tertiary);
+            border-radius: var(--com-radius-sm);
+            padding: 0.4rem 0.8rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--com-accent-teal);
+            color: var(--com-text-secondary);
+            font-size: 0.9rem;
+        }
+        .export-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            margin: 0.5rem 0;
+        }
+        .export-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--com-text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        #notesSelectionContainer {
+            margin: 0.5rem 0;
+        }
+        #notesSelectionContainer p {
+            color: var(--com-text-secondary);
+            font-size: 0.85rem;
+        }
+        #notesCheckboxes label {
+            display: block;
+            margin: 0.2rem 0;
+            color: var(--com-text-secondary);
+            font-size: 0.85rem;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .profile-actions button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: var(--com-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--com-transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        #generateExportBtn {
+            background: var(--com-accent-green);
+            color: #070B14;
+        }
+        #generateExportBtn:hover { transform: scale(1.02); }
+        #importProgressBtn {
+            background: var(--com-accent-blue);
+            color: white;
+        }
+        #importProgressBtn:hover { transform: scale(1.02); }
+        .profile-note {
+            font-size: 0.75rem;
+            color: var(--com-text-tertiary);
+            border-top: 1px solid var(--com-border-light);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .profile-note i { margin-right: 0.3rem; }
+
+        /* Modal genérico */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 11, 20, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: var(--com-bg-secondary);
+            border-radius: var(--com-radius);
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            border: 1px solid var(--com-border);
+            box-shadow: var(--com-shadow-modal);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--com-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-header h3 {
+            margin: 0;
+            color: var(--com-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--com-text-secondary);
+            transition: var(--com-transition);
+            padding: 0 0.3rem;
+            line-height: 1;
+        }
+        .close-modal:hover { color: var(--com-text-primary); transform: rotate(90deg); }
+        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+        .modal-body input[type="text"] {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            color: var(--com-text-primary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            outline: none;
+        }
+        .modal-body input[type="text"]:focus { border-color: var(--com-accent-blue); }
+        .modal-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+            flex-shrink: 0;
+            padding-top: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6C8CFF, #A78BFA);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(108,140,255,0.3); }
+        .btn-secondary {
+            background: var(--com-bg-tertiary);
+            color: var(--com-text-primary);
+            border: 1px solid var(--com-border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+        }
+        .btn-secondary:hover { background: var(--com-accent-blue); color: white; border-color: var(--com-accent-blue); }
+        .quill-editor-container {
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .ql-toolbar.ql-snow {
+            background: var(--com-bg-secondary) !important;
+            border: none !important;
+            border-bottom: 1px solid var(--com-border) !important;
+            border-radius: var(--com-radius-sm) var(--com-radius-sm) 0 0 !important;
+        }
+        .ql-container.ql-snow {
+            background: var(--com-bg-tertiary) !important;
+            border: none !important;
+            min-height: 150px;
+            border-radius: 0 0 var(--com-radius-sm) var(--com-radius-sm) !important;
+        }
+        .ql-editor {
+            min-height: 150px;
+            color: var(--com-text-primary) !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.95rem !important;
+        }
+        .ql-editor.ql-blank::before {
+            color: var(--com-text-tertiary) !important;
+            font-style: normal !important;
+        }
+        .ql-snow .ql-stroke { stroke: var(--com-text-secondary) !important; }
+        .ql-snow .ql-fill { fill: var(--com-text-secondary) !important; }
+        .ql-snow .ql-picker { color: var(--com-text-secondary) !important; }
+        .ql-snow .ql-picker-options {
+            background: var(--com-bg-secondary) !important;
+            border: 1px solid var(--com-border) !important;
+        }
+        .ql-snow .ql-picker-item { color: var(--com-text-primary) !important; }
+        .ql-snow .ql-picker-item:hover { color: var(--com-accent-blue) !important; }
+        .note-selector-wrapper { margin-bottom: 1rem; }
+        .note-selector-wrapper select {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            color: var(--com-text-primary);
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .note-selector-wrapper select:focus { border-color: var(--com-accent-blue); }
+        .note-selector-wrapper label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--com-text-secondary);
+            margin-bottom: 0.3rem;
+        }
+        .gif-sites-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 0.5rem 0 1rem 0;
+        }
+        .gif-sites-section .gif-site-btn {
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            color: var(--com-text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .gif-sites-section .gif-site-btn:hover {
+            background: var(--com-accent-blue);
+            color: white;
+            border-color: var(--com-accent-blue);
+            transform: scale(1.05);
+        }
+        .gif-url-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .gif-url-section input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: 20px;
+            color: var(--com-text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 200px;
+        }
+        .gif-url-section input:focus { border-color: var(--com-accent-blue); }
+        .gif-url-section button {
+            background: var(--com-accent-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--com-transition);
+            white-space: nowrap;
+        }
+        .gif-url-section button:hover { transform: scale(1.05); }
+        .gif-preview {
+            text-align: center;
+            padding: 0.5rem;
+            min-height: 60px;
+            border: 1px dashed var(--com-border);
+            border-radius: var(--com-radius-sm);
+            margin-bottom: 0.5rem;
+            background: var(--com-bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gif-preview img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--com-border-light);
+            transition: var(--com-transition);
+        }
+        .gif-preview img:hover { transform: scale(1.02); border-color: var(--com-accent-blue); }
+        .gif-preview .gif-preview-placeholder { color: var(--com-text-tertiary); font-size: 0.85rem; }
+        .share-article-modal .share-article-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+        .share-article-modal .share-tabs {
+           justify-content: center;
+        }
+        .share-article-modal .share-course-group { margin-bottom: 1rem; }
+        .share-article-modal .share-course-title {
+            font-weight: 600;
+            color: var(--com-accent-teal);
+            padding: 0.3rem 0.5rem;
+            background: var(--com-bg-tertiary);
+            border-radius: var(--com-radius-sm);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .share-article-modal .share-discipline-group {
+            margin-left: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .share-article-modal .share-discipline-title {
+            font-weight: 500;
+            color: var(--com-text-secondary);
+            padding: 0.2rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        .share-article-modal .share-article-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.5rem 0.3rem 1rem;
+            border-radius: var(--com-radius-sm);
+            border-left: 2px solid var(--com-border);
+            margin-bottom: 0.2rem;
+            transition: var(--com-transition);
+            background: var(--com-bg-card);
+        }
+        .share-article-modal .share-article-item:hover {
+            background: var(--com-bg-tertiary);
+            border-left-color: var(--com-accent-blue);
+        }
+        .share-article-modal .share-article-title {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--com-text-primary);
+            word-break: break-word;
+            text-align: center;
+        }
+        .share-article-modal .share-article-meta {
+            font-size: 0.7rem;
+            color: var(--com-text-tertiary);
+            margin-right: 0.5rem;
+        }
+        .share-article-modal .share-article-btn {
+            background: var(--com-accent-green);
+            color: white;
+            border: none;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+            white-space: nowrap;
+            align-self: center;
+        }
+        .share-article-modal .share-article-btn:hover { transform: scale(1.05); }
+        .share-article-modal .share-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--com-text-secondary);
+        }
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--com-border);
+            margin-bottom: 1.5rem;
+            background: color-mix(in srgb, var(--com-bg-primary) 85%, transparent);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { display: flex; flex-direction: column; }
+        .logo-link { text-decoration: none; display: block; }
+        .logo-universidade { height: 60px; width: auto; object-fit: contain; }
+        .logo-subtitle { font-size: 0.75rem; color: var(--com-text-secondary); }
+        .app-actions {
+            display: flex;
+            gap: 0;
+            background: color-mix(in srgb, var(--com-bg-secondary) 80%, transparent);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: visible;
+            white-space: nowrap;
+            border: 1px solid var(--com-border);
+        }
+        .donate-button, .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--com-transition);
+            border: none;
+            cursor: pointer;
+        }
+        .donate-button {
+            background: var(--gradient-donate, linear-gradient(135deg, var(--com-accent-green), var(--com-accent-orange)));
+            color: white;
+        }
+        .donate-button:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 6px 24px rgba(16,185,129,0.35); }
+        .btn-back { background: var(--com-accent-green); color: var(--com-bg-primary); }
+        .btn-back:hover { transform: scale(1.05) translateY(-2px); }
+        .btn-back[style*="accent-blue"] { background: var(--com-accent-blue); color: white; }
+        .btn-back[style*="accent-purple"] { background: var(--com-accent-purple); color: white; }
+        .btn-back[style*="accent-purple"]:hover { opacity: 0.85; }
+        .page-header { text-align: center; margin-bottom: 2rem; }
+        .page-title { font-size: 2rem; margin-bottom: 0.5rem; color: var(--com-accent-teal); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .page-title i { color: var(--com-accent-blue); }
+        .page-description { color: var(--com-text-secondary); font-size: 0.95rem; }
+        .comunidade-wrapper {
+            display: flex;
+            gap: 1.5rem;
+            min-height: 70vh;
+            background: var(--com-bg-secondary);
+            border-radius: var(--com-radius);
+            border: 1px solid var(--com-border);
+            overflow: hidden;
+            box-shadow: var(--com-shadow);
+        }
+        .sidebar {
+            width: 340px;
+            background: var(--com-bg-tertiary);
+            border-right: 1px solid var(--com-border);
+            padding: 1rem 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.2rem 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--com-border);
+            flex-shrink: 0;
+        }
+        .sidebar-header h3 { font-size: 1rem; color: var(--com-text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--com-text-secondary);
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            transition: var(--com-transition);
+            font-size: 1rem;
+        }
+        .icon-btn:hover { background: var(--com-bg-secondary); color: var(--com-text-primary); }
+        .course-list { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1rem; padding: 0.85rem; -webkit-overflow-scrolling: touch; }
+        .course-entry { min-width: 0; }
+        .course-item {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            padding: 0;
+            border-radius: var(--com-radius-sm);
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            transition: var(--com-transition);
+            border: 1px solid transparent;
+            background: var(--com-bg-card);
+            box-shadow: 0 5px 18px rgba(0,0,0,0.18);
+        }
+        .course-item:hover { background: var(--com-bg-secondary); border-color: var(--com-border-light); }
+        .course-item.active { background: var(--com-bg-secondary); border-color: var(--com-accent-blue); }
+        .course-item .course-icon {
+            width: 100%;
+            height: 112px;
+            border-radius: var(--com-radius-sm) var(--com-radius-sm) 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+            background: var(--com-accent-blue);
+            border: 0;
+            overflow: hidden;
+        }
+        .course-item .course-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .course-info { min-width: 0; padding: 0.9rem 1rem 0.95rem; }
+        .course-item .course-name { font-weight: 700; color: var(--com-text-primary); font-size: 1rem; line-height: 1.35; }
+        .course-item .course-level { margin-top: 0.25rem; font-size: 0.75rem; color: var(--com-text-tertiary); }
+        @media (max-width: 480px) {
+            .course-item .course-icon { height: 88px; }
+        }
+        .discipline-list {
+            display: none;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.5rem 0.2rem 0;
+            margin-top: 0;
+        }
+        .discipline-list.open { display: flex; }
+        .discipline-item {
+            min-height: 42px;
+            padding: 0.55rem 0.9rem 0.55rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: var(--com-text-secondary);
+            transition: var(--com-transition);
+            border-left: 2px solid transparent;
+        }
+        .discipline-item:hover { background: var(--com-bg-secondary); color: var(--com-text-primary); }
+        .discipline-item.active { background: var(--com-bg-secondary); color: var(--com-accent-teal); border-left-color: var(--com-accent-blue); }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 80vh;
+        }
+        .discipline-header {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--com-border-light);
+        }
+        .discipline-info { display: flex; flex-direction: column; align-items: stretch; gap: 0.75rem; }
+        .discipline-course-image {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            min-height: 180px;
+            flex: 0 0 180px;
+            border-radius: var(--com-radius);
+            border: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white;
+            background: var(--com-accent-blue);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .discipline-course-image img { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; }
+        .discipline-info h2 { font-size: 1.4rem; color: var(--com-text-primary); margin: 0; }
+        .discipline-title-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+        .header-create-actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); align-items:stretch; gap:0.45rem; flex-shrink:0; }
+        .header-create-actions button { justify-content:center; white-space:nowrap; }
+        .header-create-actions #newPostBtn { grid-column:1; grid-row:1; }
+        .header-create-actions #openJitsiBtn { grid-column:2; grid-row:1; }
+        .header-create-actions #newPollBtn { grid-column:1; grid-row:2; }
+        .header-create-actions #openGamesBtn { grid-column:2; grid-row:2; }
+        .discipline-title-row .btn-primary { flex-shrink:0; white-space:nowrap; }
+        .discipline-info p { font-size: 0.85rem; color: var(--com-text-secondary); margin: 0; }
+        .feed-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--com-border);
+            padding-bottom: 0.5rem;
+        }
+        .feed-tab {
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            color: var(--com-text-secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .feed-tab:hover { border-color: var(--com-accent-blue); color: var(--com-text-primary); }
+        .feed-tab.active {
+            background: linear-gradient(135deg, #6C8CFF, #A78BFA);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 2px 12px rgba(108,140,255,0.2);
+        }
+        .jitsi-btn {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(168, 85, 247, 0.18));
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            color: var(--com-text-primary);
+            box-shadow: none;
+        }
+        .jitsi-btn:hover {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(168, 85, 247, 0.28));
+            transform: translateY(-1px);
+        }
+        .jitsi-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(7, 11, 20, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            padding: 1rem;
+        }
+        .jitsi-modal.show {
+            display: flex;
+        }
+        .jitsi-modal-content {
+            width: min(1200px, 94vw);
+            max-height: 88vh;
+            background: var(--com-bg-secondary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius);
+            box-shadow: var(--com-shadow-modal);
+            overflow: hidden;
+        }
+        .jitsi-modal-body {
+            width: 100%;
+            min-height: 70vh;
+            background: var(--com-bg-primary);
+        }
+        .jitsi-modal-body iframe {
+            width: 100%;
+            height: 70vh;
+            border: 0;
+            background: #000;
+        }
+        .posts-feed { display: flex; flex-direction: column; gap: 1.2rem; flex: 1; }
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--com-text-secondary); }
+        .empty-state i { font-size: 3rem; opacity: 0.4; margin-bottom: 1rem; }
+        .empty-state p { font-size: 1.1rem; }
+        .post-card {
+            background: var(--com-bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: var(--com-radius);
+            border: 1px solid var(--com-border);
+            padding: 1.2rem 1.5rem;
+            transition: var(--com-transition);
+        }
+        .article-cover {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            border-radius: var(--com-radius) var(--com-radius) 0 0;
+            background: var(--com-bg-tertiary);
+        }
+        .article-cover img { display:block; width:100%; height:100%; object-fit:cover; }
+        .article-cover-fallback {
+            display:none;
+            width:100%;
+            height:100%;
+            align-items:center;
+            justify-content:center;
+            background:var(--com-accent-blue);
+            color:#fff;
+            font-size:2rem;
+            font-weight:700;
+        }
+        .article-cover.is-fallback .article-cover-fallback { display:flex; }
+        .post-card:hover { border-color: rgba(16,185,129,0.25); box-shadow: var(--com-shadow-hover); }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .post-share-btn {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--com-accent-blue);
+            border: 1px solid var(--com-accent-blue);
+            color: #fff;
+            cursor: pointer;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+        }
+        .post-share-btn:hover {
+            background: var(--com-accent-blue-hover);
+            border-color: var(--com-accent-blue-hover);
+        }
+        .post-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--com-border);
+        }
+        .post-author { font-weight: 600; color: var(--com-text-primary); }
+        .post-time { font-size: 0.7rem; color: var(--com-text-tertiary); margin-left: auto; }
+        .post-edited { font-size: 0.65rem; color: var(--com-text-tertiary); }
+        .post-title { font-size: 1.1rem; font-weight: 600; color: var(--com-text-primary); margin: 0.2rem 0 0.4rem; }
+        .post-content { color: var(--com-text-secondary); font-size: 0.95rem; line-height: 1.7; word-break: break-word; }
+        .post-content img { max-width: 100%; border-radius: 8px; border: 1px solid var(--com-border); margin: 0.3rem 0; }
+        .post-content pre { background: var(--com-bg-primary); padding: 0.8rem; border-radius: 8px; overflow-x: auto; }
+        .post-content blockquote { border-left: 3px solid var(--com-accent-blue); padding-left: 0.8rem; margin: 0.5rem 0; color: var(--com-text-secondary); }
+        .note-attachment {
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            background: var(--com-bg-tertiary);
+            border-radius: var(--com-radius-sm);
+            border-left: 3px solid var(--com-accent-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--com-text-secondary);
+            font-size: 0.85rem;
+        }
+        .note-attachment i { color: var(--com-accent-green); }
+        .note-attachment .note-title { color: var(--com-text-primary); font-weight: 500; }
+        .note-attachment .note-preview { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .post-actions {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--com-border-light);
+            flex-wrap: wrap;
+        }
+        .post-actions button {
+            background: none;
+            border: none;
+            color: var(--com-text-tertiary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: var(--com-transition);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+        .post-actions button:hover { color: var(--com-text-primary); background: var(--com-bg-tertiary); }
+        .post-actions .like-btn.liked { color: var(--com-accent-orange); }
+        .comments-section {
+            margin-top: 0.8rem;
+            border-top: 1px solid var(--com-border-light);
+            padding-top: 0.8rem;
+        }
+        .comment-item {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            align-items: flex-start;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid var(--com-border-light);
+        }
+        .comment-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .comment-body { flex: 1; }
+        .comment-author { font-weight: 500; color: var(--com-text-primary); }
+        .comment-time { font-size: 0.6rem; color: var(--com-text-tertiary); margin-left: 0.3rem; }
+        .comment-text { color: var(--com-text-secondary); word-break: break-word; }
+        .comment-text img { max-width: 100px; max-height: 80px; border-radius: 4px; border: 1px solid var(--com-border-light); }
+        .comment-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.2rem;
+        }
+        .comment-actions button {
+            background: none;
+            border: none;
+            color: var(--com-text-tertiary);
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: var(--com-transition);
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .comment-actions button:hover { color: var(--com-text-primary); background: var(--com-bg-tertiary); }
+        .comment-actions .comment-like-btn.liked { color: var(--com-accent-orange); }
+        .comment-input-area {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .comment-input-area .input-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: 20px;
+            padding: 0.1rem 0.5rem;
+            position: relative;
+        }
+        .comment-input-area .input-wrapper input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--com-text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            padding: 0.3rem 0;
+        }
+        .comment-input-area .input-wrapper .emoji-btn,
+        .comment-input-area .input-wrapper .gif-btn {
+            background: none;
+            border: none;
+            color: var(--com-text-tertiary);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.1rem;
+            transition: var(--com-transition);
+            border-radius: 50%;
+            line-height: 1;
+        }
+        .comment-input-area .input-wrapper .emoji-btn:hover,
+        .comment-input-area .input-wrapper .gif-btn:hover {
+            background: var(--com-bg-secondary);
+            color: var(--com-text-primary);
+        }
+        .comment-input-area .input-wrapper .comment-emoji-picker {
+            display: none;
+            position: fixed;
+            right: auto;
+            bottom: auto;
+            background: var(--com-bg-secondary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            padding: 0.5rem;
+            max-width: 220px;
+            width: 220px;
+            max-height: none;
+            overflow: visible;
+            box-shadow: var(--com-shadow);
+            z-index: 10000;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.2rem;
+        }
+        .comment-input-area .input-wrapper .comment-emoji-picker.open { display: grid; }
+        .comment-emoji-picker {
+            display: none;
+            position: fixed;
+            right: auto;
+            bottom: auto;
+            width: 220px;
+            max-width: min(220px, calc(100vw - 16px));
+            max-height: none;
+            overflow: visible;
+            padding: 0.5rem;
+            background: var(--com-bg-secondary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            box-shadow: var(--com-shadow);
+            z-index: 10000;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.2rem;
+        }
+        .comment-emoji-picker.open { display: grid; }
+        .comment-emoji-picker .emoji-option {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.1rem;
+            border-radius: 4px;
+            transition: var(--com-transition);
+            text-align: center;
+        }
+        .comment-emoji-picker .emoji-option:hover {
+            background: var(--com-bg-tertiary);
+            transform: scale(1.2);
+        }
+        .comment-input-area .input-wrapper .comment-emoji-picker .emoji-option {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.1rem;
+            border-radius: 4px;
+            transition: var(--com-transition);
+            text-align: center;
+        }
+        .comment-input-area .input-wrapper .comment-emoji-picker .emoji-option:hover {
+            background: var(--com-bg-tertiary);
+            transform: scale(1.2);
+        }
+        .comment-input-area button:last-child {
+            background: var(--com-accent-blue);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--com-transition);
+        }
+        .comment-input-area button:last-child:hover { transform: scale(1.05); }
+        .p2p-chat-section {
+            border-top: 1px solid var(--com-border);
+            padding: 0.8rem 1rem 0.5rem;
+            flex-shrink: 0;
+            background: var(--com-bg-secondary);
+            margin-top: auto;
+        }
+        .p2p-chat-section h4 {
+            font-size: 0.85rem;
+            color: var(--com-accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.3rem;
+        }
+        .p2p-chat-section .chat-messages {
+            display: flex;
+            flex-direction: column;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            color: var(--com-text-secondary);
+            background: var(--com-bg-primary);
+            border-radius: 6px;
+            padding: 0.3rem 0.5rem;
+            margin-bottom: 0.3rem;
+            min-height: 40px;
+        }
+        .p2p-chat-section .chat-messages .msg {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            width: fit-content;
+            max-width: 85%;
+            margin: 0.35rem 0;
+            padding: 0.45rem 0.65rem;
+            border: 1px solid var(--com-border-light);
+            border-radius: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        .p2p-chat-section .chat-messages .msg.msg-own {
+            align-self: flex-end;
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.45);
+            border-bottom-right-radius: 0.25rem;
+        }
+        .p2p-chat-section .chat-messages .msg.msg-other {
+            align-self: flex-start;
+            background: rgba(108, 140, 255, 0.16);
+            border-color: rgba(108, 140, 255, 0.35);
+            border-bottom-left-radius: 0.25rem;
+        }
+        .p2p-chat-section .chat-messages .msg .msg-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .discipline-item { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+        .discipline-unread-count { min-width:1.25rem; padding:.08rem .35rem; border-radius:999px; background:var(--com-accent-blue); color:#fff; font-size:.65rem; font-weight:700; text-align:center; }
+        .p2p-chat-section .chat-messages .msg .msg-header .user { font-weight: 600; color: var(--com-accent-blue); }
+        .p2p-chat-section .chat-messages .msg .msg-header .time { font-size: 0.6rem; color: var(--com-text-tertiary); }
+        .p2p-chat-section .chat-messages .msg .msg-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            padding-left: 0;
+        }
+        .p2p-chat-section .chat-messages .msg .msg-text {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            color: var(--com-text-secondary);
+            max-width: 100%;
+        }
+        .p2p-chat-section .chat-messages .msg .msg-text img {
+            max-width: 100px;
+            max-height: 80px;
+            border-radius: 4px;
+            border: 1px solid var(--com-border-light);
+        }
+        .p2p-chat-section .chat-messages .msg .msg-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.1rem;
+        }
+        .p2p-chat-section .chat-messages .msg .msg-actions button {
+            background: none;
+            border: none;
+            color: var(--com-text-tertiary);
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: var(--com-transition);
+            padding: 0 0.15rem;
+        }
+        .p2p-chat-section .chat-messages .msg .msg-actions button:hover { color: var(--com-text-primary); }
+        .p2p-chat-section .chat-messages .msg .msg-actions .msg-like.liked { color: var(--com-accent-orange); }
+        .p2p-chat-section .chat-messages .msg .msg-actions .chat-edit-btn:hover { color: var(--com-accent-teal); }
+        .p2p-chat-section .chat-messages .msg .msg-actions .chat-delete-btn:hover { color: #ef4444; }
+        .chat-input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .chat-input-main {
+            display: flex;
+            gap: 0.3rem;
+            align-items: flex-end;
+        }
+        .chat-input-main textarea {
+            flex: 1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            border: 1px solid var(--com-border);
+            background: var(--com-bg-tertiary);
+            color: var(--com-text-primary);
+            font-size: 0.8rem;
+            outline: none;
+            resize: vertical;
+            min-height: 3.2rem;
+            max-height: 120px;
+            font-family: inherit;
+            line-height: 1.4;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .chat-input-main textarea:focus { border-color: var(--com-accent-blue); }
+        .chat-input-main textarea::-webkit-scrollbar { width: 4px; }
+        .chat-input-main textarea::-webkit-scrollbar-thumb { background: var(--com-accent-blue); border-radius: 4px; }
+        .chat-input-main textarea::-webkit-scrollbar-track { background: var(--com-bg-tertiary); }
+        .chat-input-main button {
+            background: var(--com-accent-blue);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            transition: var(--com-transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .chat-input-main button:hover { transform: scale(1.1); }
+        .chat-input-main button:active { transform: scale(0.9); }
+        .chat-input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.2rem;
+        }
+        .chat-char-counter { font-size: 0.7rem; color: var(--com-text-tertiary); flex-shrink: 0; }
+        .chat-char-counter .exceed { color: #ef4444; }
+        .chat-input-tools {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            position: relative;
+        }
+        .chat-input-tools .emoji-btn,
+        .chat-input-tools .gif-btn,
+        .chat-input-tools .share-btn {
+            background: none;
+            border: none;
+            color: var(--com-text-tertiary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.2rem 0.3rem;
+            transition: var(--com-transition);
+            border-radius: 50%;
+            line-height: 1;
+        }
+        .chat-input-tools .emoji-btn:hover,
+        .chat-input-tools .gif-btn:hover,
+        .chat-input-tools .share-btn:hover {
+            background: var(--com-bg-tertiary);
+            color: var(--com-text-primary);
+        }
+        .chat-block-status {
+            font-size: 0.8rem;
+            color: var(--com-accent-orange);
+            margin-top: 0.2rem;
+            display: none;
+            text-align: center;
+            padding: 0.2rem;
+            border-radius: 6px;
+            background: rgba(251,191,36,0.1);
+            border: 1px solid rgba(251,191,36,0.2);
+        }
+        .chat-block-status.show { display: block; }
+        .emoji-picker {
+            display: none;
+            position: fixed;
+            right: auto;
+            bottom: auto;
+            background: var(--com-bg-secondary);
+            border: 1px solid var(--com-border);
+            border-radius: var(--com-radius-sm);
+            padding: 0.5rem;
+            max-width: 280px;
+            width: 280px;
+            max-height: none;
+            overflow: visible;
+            box-shadow: var(--com-shadow);
+            z-index: 10000;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.2rem;
+        }
+        .emoji-picker.open { display: grid; }
+        .emoji-picker .emoji-option {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem;
+            border-radius: 4px;
+            transition: var(--com-transition);
+            text-align: center;
+        }
+        .emoji-picker .emoji-option:hover { background: var(--com-bg-tertiary); transform: scale(1.2); }
+        .p2p-status {
+            font-size: 0.7rem;
+            color: var(--com-text-tertiary);
+            margin-top: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .p2p-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .p2p-status .dot.online { background: #22c55e; }
+        .p2p-status .dot.offline { background: #ef4444; }
+        .chat-article-preview {
+            background: var(--com-bg-card);
+            border-radius: var(--com-radius-sm);
+            padding: 0.5rem 0.8rem;
+            border-left: 3px solid var(--com-accent-blue);
+            margin: 0.2rem 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        .chat-article-preview .chat-article-title {
+            font-weight: 600;
+            color: var(--com-text-primary);
+            display: block;
+            font-size: 0.9rem;
+        }
+        .chat-article-preview .chat-article-author {
+            font-size: 0.75rem;
+            color: var(--com-text-tertiary);
+            margin-left: 0.5rem;
+        }
+        .chat-article-preview .chat-article-meta {
+            font-size: 0.7rem;
+            color: var(--com-text-tertiary);
+            margin: 0.1rem 0;
+        }
+        .chat-article-preview .chat-article-preview-text {
+            font-size: 0.8rem;
+            color: var(--com-text-secondary);
+            margin: 0.2rem 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+        .chat-article-preview .chat-article-view-btn {
+            background: var(--com-accent-blue);
+            color: white;
+            border: none;
+            padding: 0.15rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--com-transition);
+            margin-top: 0.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .chat-article-preview .chat-article-view-btn:hover {
+            background: var(--com-accent-blue-hover);
+            transform: scale(1.05);
+        }
+        .msg-edit-area {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .msg-edit-area .chat-edit-input {
+            flex: 1;
+            padding: 0.1rem 0.4rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: 4px;
+            color: var(--com-text-primary);
+            font-size: 0.8rem;
+            outline: none;
+            min-width: 100px;
+        }
+        .msg-edit-area .chat-edit-input:focus { border-color: var(--com-accent-blue); }
+        .msg-edit-area .chat-edit-save {
+            color: var(--com-accent-green);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .msg-edit-area .chat-edit-cancel {
+            color: #ef4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .comment-edit-input {
+            flex: 1;
+            padding: 0.2rem 0.5rem;
+            background: var(--com-bg-tertiary);
+            border: 1px solid var(--com-border);
+            border-radius: 4px;
+            color: var(--com-text-primary);
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .comment-edit-input:focus { border-color: var(--com-accent-blue); }
+        .comment-edit-save {
+            background: var(--com-accent-blue);
+            color: white;
+            border: none;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--com-transition);
+        }
+        .comment-edit-save:hover { transform: scale(1.05); }
+        .comment-edit-cancel {
+            background: var(--com-bg-tertiary);
+            color: var(--com-text-secondary);
+            border: 1px solid var(--com-border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--com-transition);
+        }
+        .comment-edit-cancel:hover { background: var(--com-bg-secondary); }
+        .loading-skeleton {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--com-text-secondary);
+            background: var(--com-bg-card);
+            border-radius: var(--com-radius-sm);
+            border: 1px solid var(--com-border);
+            background: linear-gradient(90deg,
+                var(--com-bg-tertiary) 25%,
+                var(--com-bg-card) 50%,
+                var(--com-bg-tertiary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .spinner {
+            width: 30px;
+            height: 30px;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--com-border);
+            border-top-color: var(--com-accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+            .loading-skeleton { animation: none !important; background: var(--com-bg-tertiary) !important; }
+            .spinner { animation: none !important; }
+        }
+        @media (max-width: 768px) {
+            .comunidade-wrapper { flex-direction: column; }
+            .sidebar { width:100%; max-height:min(48vh, 460px); border-right:none; border-bottom:1px solid var(--com-border); }
+            .main-content { max-height:none; padding:1rem; }
+            .app-header { flex-direction:column; align-items:stretch; }
+            .app-actions { justify-content:center; flex-wrap:wrap; border-radius:1.5rem; padding:0.4rem 0.8rem; }
+            .discipline-header { flex-direction:column; align-items:stretch; }
+            .discipline-info { flex-wrap:wrap; }
+            .discipline-info > div:last-child,
+            .discipline-title-row,
+            .header-create-actions { width:100%; min-width:0; }
+            .discipline-title-row { flex-direction:column; align-items:stretch; gap:0.75rem; }
+            .discipline-title-row h2 { overflow-wrap:anywhere; line-height:1.25; }
+            .header-create-actions button { min-width:0; min-height:44px; white-space:normal; line-height:1.2; }
+            .discipline-course-image { height:150px; min-height:150px; flex-basis:150px; }
+            .discipline-title-row { align-items:flex-start; }
+            .p2p-chat-section .chat-messages { max-height:80px; }
+            .emoji-picker { max-width:200px; }
+            .gif-url-section { flex-direction:column; }
+            .modal-content { max-width:95%; margin:0.5rem; }
+            .modal-body { padding:1rem; }
+            .ql-toolbar.ql-snow { padding:0.3rem !important; }
+            .comment-input-area .input-wrapper { flex:1; }
+            .feed-tabs { gap:0.3rem; }
+            .feed-tab { font-size:0.75rem; padding:0.3rem 0.8rem; }
+            .gif-sites-section .gif-site-btn { font-size:0.7rem; padding:0.3rem 0.6rem; }
+            .chat-input-main textarea { font-size:0.75rem; padding:0.2rem 0.4rem; min-height:2.8rem; }
+            .chat-input-main button { width:28px; height:28px; font-size:0.8rem; }
+            .chat-input-tools .emoji-btn,
+            .chat-input-tools .gif-btn,
+            .chat-input-tools .share-btn { font-size:0.9rem; padding:0.1rem 0.2rem; }
+            .share-article-modal .share-article-item { flex-direction:column; flex-wrap:wrap; gap:0.3rem; align-items:center; }
+            .share-article-modal .share-article-btn { width:100%; text-align:center; }
+            .profile-stats { grid-template-columns:1fr; }
+        }
+        @media (max-width: 480px) {
+            .container { padding:0 0.8rem; }
+            .sidebar { max-height:min(52vh, 420px); min-height:0; }
+            .post-card { padding:1rem; }
+            .article-cover { height:112px; }
+            .post-card > .post-header,
+            .post-card > .post-title,
+            .post-card > .post-content,
+            .post-card > .note-attachment,
+            .post-card > .post-actions,
+            .post-card > .comments-section { margin-left:1rem; margin-right:1rem; }
+            .modal-content { max-width:98%; }
+            .post-actions { gap:0.6rem; }
+            .post-actions button { font-size:0.75rem; }
+            .gif-results { grid-template-columns:1fr 1fr; }
+            .course-item .course-icon { width:100%; height:88px; font-size:0.95rem; }
+            .discipline-item { min-height:42px; display:flex; align-items:center; font-size:0.8rem; padding:0.35rem 0.6rem 0.35rem 1rem; touch-action:manipulation; }
+            .comment-item { font-size:0.8rem; }
+            .p2p-chat-section .chat-messages .msg { font-size:0.7rem; }
+            .chat-input-main textarea { font-size:0.7rem; padding:0.15rem 0.3rem; min-height:2.4rem; }
+            .chat-input-main button { width:26px; height:26px; font-size:0.7rem; }
+            .chat-input-tools .emoji-btn,
+            .chat-input-tools .gif-btn,
+            .chat-input-tools .share-btn { font-size:0.8rem; padding:0.1rem 0.15rem; }
+            .profile-stats { grid-template-columns:1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css" />
+    <link rel="stylesheet" href="../base/theme/theme.css" />
+    <link rel="stylesheet" href="../base/doar/donation-modal.css" />
+</head>
+<body class="site-loading">
+<div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
+    <div class="site-loading-content">
+        <img class="site-loading-logo" src="../base/logo-da-universidade-livre.png" alt="Universidade Livre">
+        <div class="site-loading-spinner" aria-hidden="true"></div>
+        <span class="site-loading-text" data-i18n="loading_community" data-loading-pt="Carregando a Comunidade..." data-loading-en="Loading Community...">Carregando a Comunidade...</span>
+    </div>
+</div>
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <header class="app-header">
+            <div class="logo">
+                <a href="../index.html" class="logo-link">
+                    <img src="../base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" />
+                </a>
+                <p class="logo-subtitle" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
+            </div>
+            <div class="app-actions">
+                <div class="language-switch">
+                    <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span id="selectedLanguageLabel">Português</span>
+                        <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                        <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                        <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                        <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                    </div>
+                </div>
+                <a href="#doacoes" class="donate-button" aria-haspopup="dialog" data-i18n="donate_button">
+                    <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
+                </a>
+                <div class="library-dropdown" data-library-base="../biblioteca/biblioteca.html">
+                    <button type="button" class="btn-back library-dropdown-toggle" style="background: var(--com-accent-green);" aria-expanded="false" aria-controls="libraryTypeMenu">
+                        <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
+                </div>
+                <div class="header-dropdown" data-auditorio-base="../auditorio/auditorio.html">
+                    <button type="button" class="btn-back header-dropdown-toggle" style="background: var(--com-accent-blue);" aria-expanded="false" aria-controls="auditorioSubjectMenu">
+                        <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden></div>
+                </div>
+                <a href="../notas/notas.html" class="btn-back" target="_blank" style="background: var(--com-accent-green);" data-i18n="notas_heading">
+                    <i class="fas fa-pencil-alt"></i> <span data-i18n="notas_heading">Notas</span>
+                </a>
+                <a href="../index.html" class="btn-back" style="background: var(--com-accent-blue);" data-i18n="back_to_courses">
+                    <i class="fas fa-arrow-left"></i> <span data-i18n="back_to_courses">Voltar</span>
+                </a>
+                <button id="profileBtn" class="btn-back profile-button" style="background: var(--com-accent-purple); color: white;" data-profile-custom="false" type="button">
+                    <i class="fas fa-user"></i> <span data-i18n="profile">Perfil</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- TÍTULO -->
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-users"></i> <span data-i18n="comunidade_title">Comunidade</span></h1>
+            <p class="page-description" data-i18n="comunidade_description">Posts e artigos organizados por cursos e disciplinas.</p>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="comunidade-wrapper" id="comunidadeApp">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-graduation-cap"></i> <span data-i18n="courses">Cursos</span></h3>
+                    <button id="refreshCoursesBtn" class="icon-btn" title="Recarregar cursos" data-i18n-title="refresh_courses"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <div class="course-scope-tabs" role="tablist" aria-label="Filtro de cursos">
+                    <button type="button" class="course-scope-tab active" data-course-scope="my" role="tab" aria-selected="true" data-i18n="community_my_courses">Meus cursos</button>
+                    <button type="button" class="course-scope-tab" data-course-scope="all" role="tab" aria-selected="false" data-i18n="community_all_courses">Todos os cursos</button>
+                </div>
+                <div class="course-language-filter">
+                    <button type="button" id="courseLanguageFilterToggle" class="course-language-filter-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="courseLanguageFilterMenu">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span data-i18n="filter_by_course_language">Filtrar por idioma do curso:</span>
+                        <strong id="selectedCourseLanguageLabel" data-i18n="filter_all_languages">Todos</strong>
+                        <i class="fas fa-chevron-down course-language-filter-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="courseLanguageFilterMenu" class="course-language-filter-menu" role="listbox" aria-label="Idioma dos cursos" data-i18n-aria="filter_by_course_language" hidden>
+                        <button type="button" class="course-language-filter-option active" role="option" aria-selected="true" data-course-language="all" data-i18n="filter_all_languages">Todos</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="pt" data-i18n="course_language_portuguese">Português</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="en" data-i18n="course_language_english">Inglês</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-language="es" data-i18n="course_language_spanish">Espanhol</button>
+                    </div>
+                </div>
+                <div class="course-level-filter">
+                    <button type="button" id="courseLevelFilterToggle" class="course-language-filter-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="courseLevelFilterMenu">
+                        <i class="fas fa-layer-group" aria-hidden="true"></i>
+                        <span data-i18n="filter_by_level">Filtrar por nível:</span>
+                        <strong id="selectedCourseLevelLabel" data-i18n="all_courses">Todos</strong>
+                        <i class="fas fa-chevron-down course-language-filter-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div id="courseLevelFilterMenu" class="course-language-filter-menu" role="listbox" aria-label="Nível dos cursos" data-i18n-aria="filter_by_level" hidden>
+                        <button type="button" class="course-language-filter-option active" role="option" aria-selected="true" data-course-level="all" data-i18n="all_courses">Todos</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="graduacao" data-i18n="graduacao">Graduação</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="pos-graduacao" data-i18n="pos_graduacao">Pós-graduação</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="ensino-medio" data-i18n="ensino_medio">Ensino Médio</button>
+                        <button type="button" class="course-language-filter-option" role="option" aria-selected="false" data-course-level="idiomas" data-i18n="idiomas">Idiomas</button>
+                    </div>
+                </div>
+                <div id="courseList" class="course-list">
+                    <div class="loading-skeleton"><div class="spinner"></div><p data-i18n="loading">Carregando cursos...</p></div>
+                </div>
+
+                <!-- CHAT -->
+                <div class="p2p-chat-section chat-widget-panel" id="chatWidgetPanel" hidden>
+                    <h4><span><i class="fas fa-comment-dots"></i> <span data-i18n="p2p_chat">Chat</span></span><button type="button" id="chatWidgetClose" class="chat-widget-close" data-i18n-title="chat_close" aria-label="Fechar chat"><i class="fas fa-times"></i></button></h4>
+                    <div id="tttScoreboard" class="ttt-scoreboard" aria-live="polite">
+                        <strong><i class="fas fa-trophy"></i> <span data-i18n="games_score_title">Pontuação dos jogos</span></strong>
+                        <span id="tttScoreboardText" data-i18n="games_score_empty">Nenhuma partida registrada.</span>
+                    </div>
+                    <div id="p2pMessages" class="chat-messages">
+                        <div class="msg" style="color:var(--com-text-tertiary);font-style:italic;" data-i18n="connect_to_chat">Nenhuma mensagem ainda.</div>
+                    </div>
+                    <div class="chat-input-row">
+                        <div class="chat-input-main">
+                            <textarea id="p2pInput" rows="3" placeholder="Digite sua mensagem ou cole URL de GIF..." data-i18n-placeholder="type_message" maxlength="500"></textarea>
+                            <button id="p2pSendBtn" aria-label="Enviar"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                        <div class="chat-input-footer">
+                            <div class="chat-char-counter">
+                                <span id="charCount">0</span>/<span id="charMax">500</span>
+                            </div>
+                            <div class="chat-input-tools">
+                                <button class="emoji-btn" id="emojiToggle" title="Emojis"><i class="far fa-smile"></i></button>
+                                <button class="gif-btn" id="chatGifBtn" title="Inserir GIF"><i class="fas fa-film"></i></button>
+                                <button class="share-btn" id="shareArticleBtn" data-i18n-title="share_article_or_poll" aria-label="Compartilhar artigo ou enquete"><i class="fas fa-share-alt"></i></button>
+                                <div class="emoji-picker" id="emojiPicker"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chatBlockStatus" class="chat-block-status" data-i18n="chat_blocked" style="display:none;"></div>
+                    <div class="p2p-status">
+                        <span class="dot online" id="p2pStatusDot"></span>
+                        <span id="p2pStatusText" data-i18n="connected">Conectado (local)</span>
+                        <span class="online-count" id="communityOnlineCount" aria-live="polite">0 online</span>
+                    </div>
+                </div>
+            </aside>
+            <button type="button" id="chatWidgetToggle" class="chat-widget-toggle" aria-expanded="false" aria-controls="chatWidgetPanel" data-i18n-title="chat_open" aria-label="Abrir chat">
+                <i class="fas fa-comment-dots" aria-hidden="true"></i><span class="chat-widget-badge" aria-hidden="true"></span>
+            </button>
+
+            <main class="main-content" id="mainContent">
+                <div class="discipline-header" id="disciplineHeader">
+                    <div class="discipline-info">
+                        <div class="discipline-course-image" id="disciplineCourseImage">?</div>
+                        <div>
+                            <div class="discipline-title-row">
+                                <h2 id="disciplineName" data-i18n="select_discipline">Selecione uma disciplina</h2>
+                                <div class="header-create-actions">
+                                    <button id="newPostBtn" class="btn-primary" type="button"><i class="fas fa-plus-circle"></i> <span data-i18n="comunidade_new_post">Novo Post</span></button>
+                                    <button id="openJitsiBtn" class="btn-secondary jitsi-btn" type="button" title="Sala de vídeo da disciplina" data-i18n-title="discipline_video_room"><i class="fas fa-video"></i> <span data-i18n="video_room">Sala de vídeo</span></button>
+                                    <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
+                                    <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><i class="fas fa-chess-knight"></i> <span data-i18n="games_button">Jogos</span></button>
+                                </div>
+                            </div>
+                            <p id="disciplineCourseName"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feed-tabs" id="feedTabs">
+                    <button class="feed-tab active" data-tab="all" data-i18n="filter_all">Todos</button>
+                    <button class="feed-tab" data-tab="my" data-i18n="my_posts">Meus Artigos</button>
+                    <button class="feed-tab" data-tab="polls" data-i18n="my_polls">Minhas Enquetes</button>
+                </div>
+
+                <!-- MODAL DE ENQUETE -->
+                <div id="pollModal" class="modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="modal-content">
+                        <div class="modal-header"><h3><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></h3><button class="close-modal" id="closePollModal">&times;</button></div>
+                        <div class="modal-body">
+                            <input type="text" id="pollQuestionInput" placeholder="Pergunta da enquete..." data-i18n-placeholder="poll_question_placeholder" />
+                            <p class="latex-help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Você também pode usar <code>\( fórmula \)</code> nas perguntas e opções.</p>
+                            <div id="pollOptions" class="poll-options">
+                                <input type="text" class="poll-option-input" placeholder="Opção 1" data-i18n-placeholder="poll_option_1" />
+                                <input type="text" class="poll-option-input" placeholder="Opção 2" data-i18n-placeholder="poll_option_2" />
+                            </div>
+                            <button id="addPollOptionBtn" class="btn-secondary" type="button"><i class="fas fa-plus"></i> <span data-i18n="add_poll_option">Adicionar opção</span></button>
+                            <div class="modal-actions"><button id="cancelPollBtn" class="btn-secondary" data-i18n="cancel">Cancelar</button><button id="savePollBtn" class="btn-primary"><i class="fas fa-check"></i> <span data-i18n="publish">Publicar</span></button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="communityAlertModal" class="modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="communityAlertTitle"><i class="fas fa-circle-exclamation"></i> <span data-i18n="attention">Atenção</span></h3>
+                            <button class="close-modal" id="closeCommunityAlertModal" aria-label="Fechar aviso">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="communityAlertMessage" style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;">Mensagem.</p>
+                            <div class="modal-actions">
+                                <button id="cancelCommunityAlertBtn" class="btn-secondary" type="button" hidden><i class="fas fa-times"></i> Cancelar</button>
+                                <button id="confirmCommunityAlertBtn" class="btn-primary" type="button"><i class="fas fa-check"></i> OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="externalLinkModal" class="modal external-link-modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="modal-content external-link-modal-content">
+                        <div class="modal-header">
+                            <h3 id="externalLinkTitle"><i class="fas fa-external-link-alt"></i> Abrir página</h3>
+                            <button class="close-modal" id="closeExternalLinkModal" aria-label="Fechar página externa">&times;</button>
+                        </div>
+                        <div class="modal-body external-link-modal-body">
+                            <p id="externalLinkDescription" hidden style="margin:0; color:var(--com-text-primary); font-size:1rem; line-height:1.6;"></p>
+                            <div class="external-link-iframe-wrap">
+                                <iframe id="externalLinkFrame" title="Página externa da comunidade" loading="lazy" allow="fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="jitsiModal" class="jitsi-modal" style="display:none;" aria-hidden="true" inert>
+                    <div class="jitsi-modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-video"></i> <span data-i18n="discipline_video_room">Sala de vídeo da disciplina</span></h3>
+                            <button class="close-modal" id="closeJitsiBtn" aria-label="Fechar sala de vídeo" data-i18n-title="close">&times;</button>
+                        </div>
+                        <div class="jitsi-modal-body">
+                            <iframe id="jitsiFrame" title="Sala de vídeo da disciplina" allow="camera;microphone;fullscreen;display-capture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gamesModal" class="games-modal" style="display:none;" aria-hidden="true" inert>
+                    <div id="pes6AgeGate" class="pes6-age-gate" hidden aria-hidden="true" inert>
+                        <div class="pes6-age-backdrop" aria-hidden="true"></div>
+                        <section class="pes6-age-dialog" role="dialog" aria-modal="true" aria-labelledby="pes6AgeTitle" aria-describedby="pes6AgeMessage" tabindex="-1">
+                            <h3 id="pes6AgeTitle"><i class="fas fa-shield-alt" aria-hidden="true"></i> <span data-i18n="game_pes6_age_title">Verificação de idade</span></h3>
+                            <p id="pes6AgeMessage"></p>
+                            <div id="pes6AgeForm" class="pes6-age-form">
+                                <label for="pes6AgeBirthDate" data-i18n="profile_birth_date">Data de nascimento</label>
+                                <input type="date" id="pes6AgeBirthDate" autocomplete="bday" required aria-required="true">
+                                <div id="pes6AgeCaptcha" class="xsukax-captcha" style="margin-top: 0.75rem;" hidden></div>
+                                <p id="pes6AgeError" class="pes6-age-error" role="alert" hidden></p>
+                            </div>
+                            <div class="pes6-age-actions">
+                                <button id="pes6AgeClose" class="btn-secondary" type="button" data-i18n="close">Fechar</button>
+                                <button id="pes6AgeSave" class="btn-primary" type="button" data-i18n="profile_save">Salvar</button>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="games-modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-gamepad"></i> <span data-i18n="games_room_title">Jogos da sala</span></h3>
+                            <button class="close-modal" id="closeGamesBtn" aria-label="Fechar jogos" data-i18n-title="close">&times;</button>
+                        </div>
+                        <div class="games-modal-body">
+                            <div id="gamesMenuScreen" class="games-menu-screen">
+                                <div class="games-grid" id="gamesGrid">
+                                    <button class="game-card" data-game="chess" type="button">
+                                        <span class="game-icon"><i class="fas fa-chess-knight"></i></span>
+                                        <span class="game-title" data-i18n="games_room_chess">Xadrez</span>
+                                        <span class="game-subtitle" data-i18n="games_room_chess_subtitle">Jogo de estratégia</span>
+                                    </button>
+                                    <button class="game-card" data-game="tictactoe" type="button">
+                                        <span class="game-icon"><i class="fas fa-circle-notch"></i></span>
+                                        <span class="game-title" data-i18n="games_room_tictactoe">Jogo da Velha</span>
+                                        <span class="game-subtitle" data-i18n="games_room_tictactoe_subtitle">Jogo rápido e tático</span>
+                                    </button>
+                                    <button class="game-card" data-game="impostor" type="button">
+                                        <span class="game-icon"><i class="fas fa-user-secret"></i></span>
+                                        <span class="game-title" data-i18n="game_impostor_title">Jogo do Impostor</span>
+                                        <span class="game-subtitle" data-i18n="game_impostor_subtitle">Descubra quem recebeu outra palavra</span>
+                                    </button>
+                                    <button class="game-card" data-game="hangman" type="button">
+                                        <span class="game-icon"><i class="fas fa-font"></i></span>
+                                        <span class="game-title" data-i18n="game_hangman_title">Jogo da Forca</span>
+                                        <span class="game-subtitle" data-i18n="game_hangman_subtitle">Adivinhe a palavra antes da última tentativa</span>
+                                    </button>
+                                    <button class="game-card" data-game="checkers" type="button">
+                                        <span class="game-icon"><i class="fas fa-chess-board"></i></span>
+                                        <span class="game-title" data-i18n="game_checkers_title">Jogo de Damas</span>
+                                        <span class="game-subtitle" data-i18n="game_checkers_subtitle">Estratégia, captura e promoção</span>
+                                    </button>
+                                    <button class="game-card" data-game="roulette" type="button">
+                                        <span class="game-icon"><i class="fas fa-dharmachakra"></i></span>
+                                        <span class="game-title" data-i18n="game_roulette_title">Roleta</span>
+                                        <span class="game-subtitle" data-i18n="game_roulette_subtitle">Aposte moedas e gire a sorte</span>
+                                    </button>
+                                    <button class="game-card" data-game="uno" type="button">
+                                        <span class="game-icon"><i class="fas fa-layer-group"></i></span>
+                                        <span class="game-title" data-i18n="game_uno_title">UNO</span>
+                                        <span class="game-subtitle" data-i18n="game_uno_subtitle">Jogue com bot ou com um colega</span>
+                                    </button>
+                                    <button class="game-card" data-game="bicho" type="button">
+                                        <span class="game-icon"><i class="fas fa-paw"></i></span>
+                                        <span class="game-title" data-i18n="game_bicho_title">Jogo do Bicho</span>
+                                        <span class="game-subtitle" data-i18n="game_bicho_subtitle">Aposte em animais com moedas virtuais</span>
+                                    </button>
+                                    <button class="game-card" data-game="slots" type="button">
+                                        <span class="game-icon"><i class="fas fa-dice"></i></span>
+                                        <span class="game-title" data-i18n="game_slots_title">Caça-Níqueis</span>
+                                        <span class="game-subtitle" data-i18n="game_slots_subtitle">Jogue com bot ou com a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="poker" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♠</span>
+                                        <span class="game-title" data-i18n="game_poker_title">Poker</span>
+                                        <span class="game-subtitle" data-i18n="game_poker_subtitle">Jogue contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="blackjack" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♣</span>
+                                        <span class="game-title" data-i18n="game_blackjack_title">Blackjack</span>
+                                        <span class="game-subtitle" data-i18n="game_blackjack_subtitle">Jogue contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="bacara" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">♦</span>
+                                        <span class="game-title" data-i18n="game_bacara_title">Bacará</span>
+                                        <span class="game-subtitle" data-i18n="game_bacara_subtitle">Aposte contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="bingo" type="button">
+                                        <span class="game-icon poker-menu-icon" aria-hidden="true">●</span>
+                                        <span class="game-title" data-i18n="game_bingo_title">Bingo</span>
+                                        <span class="game-subtitle" data-i18n="game_bingo_subtitle">Complete sua cartela contra o bot ou a comunidade</span>
+                                    </button>
+                                    <button class="game-card" data-game="bitcoin" type="button">
+                                        <span class="game-icon bitcoin-menu-icon" aria-hidden="true">₿</span>
+                                        <span class="game-title" data-i18n="game_bitcoin_title">Bitcoin: sobe ou desce</span>
+                                        <span class="game-subtitle" data-i18n="game_bitcoin_subtitle">Aposte na variação com moedas virtuais</span>
+                                    </button>
+                                    <button class="game-card" data-game="country-life-meadows" type="button">
+                                        <img class="game-icon game-icon-image" src="jogo/country-life-meadows/logo.png" alt="" aria-hidden="true">
+                                        <span class="game-title" data-i18n="game_country_life_title">Country Life Meadows</span>
+                                        <span class="game-subtitle" data-i18n="game_country_life_subtitle">Ganhe 250 Livre Coins por dia ao jogar</span>
+                                        <span class="game-third-party-tag" data-i18n="game_country_life_third_party">Jogo de terceiros · itch.io</span>
+                                    </button>
+                                    <button class="game-card" data-game="buteco-fighting" type="button">
+                                        <span class="game-icon game-logo-icon" aria-hidden="true"><img src="jogo/buteco-fighting/logo.png" alt=""></span>
+                                        <span class="game-title" data-i18n="game_buteco_fighting_title">Buteco Fighting</span>
+                                        <span class="game-subtitle" data-i18n="game_buteco_fighting_subtitle">Jogo de luta online do Buteco dos Devs.</span>
+                                        <span class="game-third-party-tag" data-i18n="game_third_party">Jogo de terceiros · Buteco dos Devs</span>
+                                    </button>
+                                    <button class="game-card" data-game="pes6-web" type="button">
+                                        <span class="game-icon game-logo-icon pes6-game-icon" aria-hidden="true"><img src="jogo/PES6/logo.png" alt=""></span>
+                                        <span class="game-title" data-i18n="game_pes6_title">PES 6 Web Online</span>
+                                        <span class="game-subtitle" data-i18n="game_pes6_subtitle">Futebol clássico para jogar no navegador.</span>
+                                        <span class="game-third-party-tag" data-i18n="game_pes6_third_party">Jogo de terceiros · OptiJuegos</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="gameShellScreen" class="game-shell-screen" hidden>
+                                <div class="game-shell-header">
+                                    <button id="gameBackBtn" class="game-back-btn" type="button"><i class="fas fa-arrow-left"></i> <span data-i18n="games_room_back">Voltar</span></button>
+                                    <div class="game-shell-title-wrap">
+                                        <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
+                                        <small id="chessStatusText" data-i18n="games_room_sync_status">Sala sincronizada com os colegas da disciplina.</small>
+                                    </div>
+                                    <div id="livreCoinsWallet" class="livre-coins-wallet" aria-live="polite">
+                                        <span class="livre-coins-label"><img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coins</span>
+                                        <strong id="livreCoinsBalance">0</strong>
+                                        <span class="livre-points-label">Pontos: <strong id="livrePointsBalance">0</strong></span>
+                                        <button id="convertLivrePoints" class="livre-convert-points" type="button">Trocar pontos</button>
+                                    </div>
+                                </div>
+
+                                <div id="chessOpponentPanel" class="chess-opponent-panel" aria-live="polite"></div>
+
+                                <div class="game-matchmaking-filter">
+                                    <label for="gameMatchmakingScope"><i class="fas fa-users"></i> <span data-i18n="games_matchmaking_scope_label">Jogar com</span></label>
+                                    <select id="gameMatchmakingScope" class="chess-room-select">
+                                        <option value="global" selected data-i18n="games_matchmaking_global">Qualquer pessoa</option>
+                                        <option value="course" data-i18n="games_matchmaking_course">Pessoas do mesmo curso</option>
+                                        <option value="discipline" data-i18n="games_matchmaking_discipline">Pessoas da mesma disciplina</option>
+                                    </select>
+                                    <small data-i18n="games_matchmaking_help">O filtro vale para as salas criadas a partir desta escolha.</small>
+                                    <span id="gameMatchmakingOnlineCount" class="game-matchmaking-online-count" aria-live="polite">0 pessoas online</span>
+                                </div>
+
+                                <div class="chess-room-creator">
+                                    <label for="chessRoomMode" data-i18n="games_room_type">Tipo da sala</label>
+                                    <div class="chess-room-creator-row">
+                                        <select id="chessRoomMode" class="chess-room-select chess-room-mode-select">
+                                            <option value="community" selected data-i18n="games_room_community">Comunidade</option>
+                                            <option value="bot" data-i18n="games_room_bot">Bot</option>
+                                        </select>
+                                        <div id="chessBotDifficultyWrap" class="chess-bot-difficulty-wrap" hidden>
+                                            <label for="chessBotDifficulty" data-i18n="games_room_bot_level">Nível do bot</label>
+                                            <select id="chessBotDifficulty" class="chess-room-select">
+                                                <option value="iniciante" data-i18n="games_room_level_beginner">Iniciante</option>
+                                                <option value="intermediario" selected data-i18n="games_room_level_intermediate">Intermediário</option>
+                                                <option value="avancado" data-i18n="games_room_level_advanced">Avançado</option>
+                                                <option value="mestre" data-i18n="games_room_level_master">Mestre</option>
+                                            </select>
+                                        </div>
+                                        <button id="createChessRoomBtn" class="btn-primary" type="button"><i class="fas fa-plus"></i> <span data-i18n="games_room_create_room">Criar sala</span></button>
+                                    </div>
+                                </div>
+
+                                <div id="chessRoomList" class="chess-room-list" aria-live="polite"></div>
+                                <div id="tttRoomList" class="chess-room-list" aria-live="polite" hidden></div>
+
+                                <div id="chessPanel" class="chess-panel">
+                                    <div class="chess-mode-picker" aria-label="Modo de jogo">
+                                        <span class="chess-menu-label" data-i18n="games_room_play_community">Jogar com a comunidade</span>
+                                        <span id="chessDifficultyValue" class="chess-difficulty" hidden data-i18n="games_room_level_intermediate">Intermediário</span>
+                                    </div>
+                                    <div class="chess-rules-hint" data-i18n="games_room_rules">Regras: xeque, xeque-mate, roque, captura en passant e promoção.</div>
+                                    <div class="game-stage">
+                                        <div class="game-stage-header">
+                                            <div>
+                                                <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
+                                            </div>
+                                            <button id="chessResetBtn" class="btn-secondary" type="button"><i class="fas fa-rotate-left"></i> <span data-i18n="games_room_reset">Reiniciar</span></button>
+                                        </div>
+                                        <div id="tttResult" class="ttt-result" aria-live="assertive" hidden></div>
+                                        <div id="chessBoard" class="chess-board" aria-live="polite"></div>
+                                       <div id="tttBoard" class="ttt-board" aria-live="polite" hidden></div>
+                                    </div>
+                                </div>
+
+                                <div id="impostorPanel" class="impostor-panel" hidden></div>
+                                <div id="hangmanPanel" class="hangman-panel" hidden></div>
+                                <div id="checkersPanel" class="checkers-panel" hidden></div>
+                                <div id="roulettePanel" class="roulette-panel" hidden></div>
+                                <div id="unoPanel" class="uno-panel" hidden></div>
+                                <div id="bichoPanel" class="bicho-panel" hidden></div>
+                                <div id="slotsPanel" class="slots-panel" hidden></div>
+                                <div id="pokerPanel" class="poker-panel" hidden></div>
+                                <div id="blackjackPanel" class="blackjack-panel" hidden></div>
+                                <div id="bacaraPanel" class="bacara-panel" hidden></div>
+                                <div id="bingoPanel" class="bingo-panel" hidden></div>
+                                <div id="bitcoinPanel" class="bitcoin-panel" hidden></div>
+                                <section id="countryLifeMeadowsPanel" class="country-life-meadows-panel" hidden>
+                                    <a class="country-life-meadows-link" href="https://beetreegames.itch.io/country-life-meadows" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                                        <span data-i18n="game_country_life_open_itch">Abrir no itch.io</span>
+                                    </a>
+                                    <iframe id="countryLifeMeadowsFrame" title="Country Life Meadows" src="about:blank" allow="fullscreen; autoplay" allowfullscreen></iframe>
+                                </section>
+                                <section id="butecoFightingPanel" class="buteco-fighting-panel" hidden>
+                                    <a class="buteco-fighting-link" href="https://fighting.butecodosdevs.com/" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                                        <span data-i18n="game_buteco_fighting_open">Abrir em uma nova aba</span>
+                                    </a>
+                                    <iframe id="butecoFightingFrame" title="Buteco Fighting" src="about:blank" allow="fullscreen; autoplay; gamepad" allowfullscreen></iframe>
+                                </section>
+                                <section id="pes6WebPanel" class="pes6-web-panel" hidden>
+                                    <a class="pes6-web-link" href="https://pes6.optijuegos.net/" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                                        <span data-i18n="game_pes6_open">Abrir PES 6 em uma nova aba</span>
+                                    </a>
+                                    <iframe id="pes6WebFrame" title="PES 6 Web Online" src="about:blank" allow="fullscreen; autoplay; gamepad" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                                </section>
+                            </div>
+
+                            <div id="chessPromotionModal" class="chess-promotion-modal" hidden>
+                                <div class="chess-promotion-dialog" role="dialog" aria-modal="true" aria-labelledby="chessPromotionTitle">
+                                    <h4 id="chessPromotionTitle" data-i18n="games_room_choose_promotion">Escolha a peça para promoção</h4>
+                                    <div class="chess-promotion-options">
+                                        <button class="promotion-option" type="button" data-promotion="Q">
+                                            <span class="promotion-piece">♕</span>
+                                            <span data-i18n="games_room_queen">Dama</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="R">
+                                            <span class="promotion-piece">♖</span>
+                                            <span data-i18n="games_room_rook">Torre</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="B">
+                                            <span class="promotion-piece">♗</span>
+                                            <span data-i18n="games_room_bishop">Bispo</span>
+                                        </button>
+                                        <button class="promotion-option" type="button" data-promotion="N">
+                                            <span class="promotion-piece">♘</span>
+                                            <span data-i18n="games_room_knight">Cavalo</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="postsFeed" class="posts-feed">
+                    <div class="empty-state"><i class="fas fa-pen-fancy"></i><p data-i18n="select_discipline_to_see_posts">Selecione uma disciplina para ver os posts.</p></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL DE POST -->
+    <div id="postModal" class="modal" style="display:none;" aria-hidden="true" inert>
+        <div class="modal-content modal-post">
+            <div class="modal-header">
+                <h3 id="postModalTitle"><i class="fas fa-pen"></i> <span data-i18n="comunidade_new_post">Novo Post</span></h3>
+                <button class="close-modal" id="closePostModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="postTitleInput" placeholder="Título do post..." data-i18n-placeholder="comunidade_post_title" />
+                <div class="note-selector-wrapper">
+                    <label for="noteAttachmentSelect" data-i18n="attach_note">Anexar nota (opcional):</label>
+                    <select id="noteAttachmentSelect">
+                        <option value="" data-i18n="no_note">Nenhuma nota</option>
+                    </select>
+                </div>
+                <div id="postEditor" class="quill-editor-container"></div>
+                <p class="latex-help"><i class="fas fa-square-root-alt" aria-hidden="true"></i> Fórmulas LaTeX: use <code>\(x^2\)</code> para fórmula na linha ou <code>\[...\]</code> para fórmula destacada.</p>
+                <div class="modal-actions">
+                    <button id="cancelPostBtn" class="btn-secondary"><span data-i18n="comunidade_cancel">Cancelar</span></button>
+                    <button id="savePostBtn" class="btn-primary"><i class="fas fa-save"></i> <span data-i18n="comunidade_publish">Publicar</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE GIF -->
+    <div id="gifModal" class="modal gif-modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-film"></i> <span data-i18n="gif_modal_title">Inserir GIF</span></h3>
+                <button class="close-modal" id="closeGifModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="gif-sites-section" id="gifSites">
+                    <button class="gif-site-btn" data-site="giphy"><i class="fab fa-gripfire"></i> GIPHY</button>
+                    <button class="gif-site-btn" data-site="tenor"><i class="fas fa-music"></i> Tenor</button>
+                    <button class="gif-site-btn" data-site="imgur"><i class="fab fa-imdb"></i> Imgur</button>
+                    <button class="gif-site-btn" data-site="reddit"><i class="fab fa-reddit-alien"></i> Reddit</button>
+                </div>
+                <div class="gif-url-section">
+                    <input type="text" id="gifUrlInput" placeholder="Cole a URL de um GIF (ex: https://i.imgur.com/abc.gif)" />
+                    <button id="insertGifUrlBtn"><i class="fas fa-plus"></i> <span data-i18n="gif_insert">Inserir</span></button>
+                </div>
+                <div class="gif-preview" id="gifPreview">
+                    <span class="gif-preview-placeholder">Cole uma URL para ver a prévia</span>
+                </div>
+                <div id="gifResults" class="gif-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE COMPARTILHAR ARTIGO -->
+    <div id="shareArticleModal" class="modal share-article-modal" style="display:none;" aria-hidden="true" inert>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-share-alt"></i> <span data-i18n="share_article_title">Compartilhar Artigo ou Enquete</span></h3>
+                <button class="close-modal" id="closeShareArticleModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="share-tabs"><button class="share-tab active" data-share-type="article" data-i18n="article">Artigo</button><button class="share-tab" data-share-type="poll" data-i18n="poll">Enquete</button></div>
+                <div id="shareArticleList" class="share-article-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PERFIL (COMPLETO) -->
+    <div id="profileModal" class="profile-modal" style="display: none;" aria-hidden="true" inert>
+        <div class="modal-overlay" id="profileModalOverlay">
+            <div class="modal-content profile-modal-content">
+                <!-- Cabeçalho -->
+                <div class="profile-modal-header">
+                    <h2><i class="fas fa-user-circle"></i> Meu Perfil</h2>
+                    <button class="close-modal" id="closeProfileModal">&times;</button>
+                </div>
+
+                <!-- Corpo -->
+                <div class="profile-modal-body">
+                    <!-- Avatar -->
+                    <div class="profile-avatar-section" id="avatarWrapper">
+                        <div class="avatar-container">
+                            <img id="profileAvatar" src="" alt="Avatar" />
+                            <div class="avatar-overlay">
+                                <span><i class="fas fa-camera"></i> Alterar foto</span>
+                            </div>
+                        </div>
+                        <div class="profile-matricula">
+                            <span>Matrícula:</span>
+                            <span id="profileMatriculaDisplay"></span>
+                        </div>
+                    </div>
+
+                    <div class="profile-account-fields">
+                    <!-- Nome -->
+                    <div class="profile-user-section">
+                        <label for="profileNameInput"><i class="fas fa-user"></i> Nome</label>
+                        <div class="profile-input-group">
+                            <input type="text" id="profileNameInput" placeholder="Seu nome..." />
+                            <button id="profileSaveNameBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar Nome</button>
+                        </div>
+                    </div>
+
+                    <!-- Gênero -->
+                    <div class="profile-user-section">
+                        <label for="profileGender"><i class="fas fa-venus-mars"></i> Gênero</label>
+                        <div class="profile-input-group">
+                            <select id="profileGender">
+                                <option value="">Não informado</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                            <button id="profileSaveGenderBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-user-section">
+                        <label for="profileCountry"><i class="fas fa-globe"></i> País</label>
+                        <div class="profile-input-group">
+                            <select id="profileCountry"><option value="">Não informado</option></select>
+                            <button id="profileSaveCountryBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="profile-user-section">
+                        <label for="profilePassword"><i class="fas fa-lock"></i> Senha (para exportar/importar)</label>
+                        <div class="profile-input-group">
+                            <div class="profile-password-input-wrap">
+                                <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." />
+                                <button type="button" class="password-visibility-toggle" data-password-visibility="profilePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            </div>
+                            <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                        <div class="password-saved-indicator" style="display: none;"></div>
+                    </div>
+                    </div>
+
+                    <!-- Estatísticas -->
+                    <div class="profile-stats">
+                        <div class="stat-item"><span data-i18n="profile_watched_videos">Vídeos assistidos</span> <span id="profileWatchedVideos">0</span></div>
+                        <div class="stat-item"><span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
+                        <div class="stat-item"><span>Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
+                        <div class="stat-item"><span>Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
+                        <div class="stat-item"><span>Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
+                        <div class="stat-item livre-coins-profile-stat"><span><img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Total Livre Coins</span> <span id="profileLivreCoins">0</span></div>
+                        <div class="stat-item livre-coins-profile-stat"><span>Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
+                        <div class="stat-item"><span>Horas no Auditório</span> <span id="profileAuditorioTime">0min</span></div>
+                    </div>
+                    <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+                    <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span>Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+                    <div class="profile-status-actions">
+                        <button type="button" id="profileActivityBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-clock"></i> <span data-i18n="profile_activity_summary">Tempo e sequência</span></button>
+                        <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+                    </div>
+                    <div id="profileActivityDetails" class="profile-activity-details" hidden></div>
+                    <div id="profileGameStatus" class="profile-game-status" hidden></div>
+                    <div class="livre-coins-profile-convert"><span>5 pontos = 1<br><span class="livre-coin-name"><img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coin</span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button">Trocar pontos por <img class="livre-coin-logo" src="Livre Coin/Livre Coin.png" alt="" aria-hidden="true">Livre Coins</button></div>
+                    <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
+                    <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+                    <button type="button" id="profileTranscriptBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Ver boletim</span></button>
+                    <div id="profileTranscript" class="profile-transcript" hidden>
+                        <div id="profileTranscriptCourses" class="profile-transcript-courses"></div>
+                        <div id="profileTranscriptStages" class="profile-transcript-stages"></div>
+                    </div>
+                    <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
+                    <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
+
+                    <!-- Cursos salvos -->
+                    <div id="profileCoursesList">
+                        <h4><i class="fas fa-graduation-cap"></i> Cursos salvos</h4>
+                        <p style="color: var(--text-tertiary);">Nenhum curso iniciado ainda.</p>
+                    </div>
+
+                    <!-- Resumo de cursos em andamento -->
+                    <div id="ongoingCoursesContainer"></div>
+
+                    <h4 data-i18n="profile_export_import"><i class="fas fa-file-export"></i> Exportar / Importar dados</h4>
+                    <div class="profile-export-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
+                        <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
+                        <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
+                        <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
+                    </div>
+                    <div id="notesSelectionContainer" class="profile-export-notes" style="margin-bottom: 0.8rem; display: block;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
+                        <div id="notesCheckboxes"></div>
+                    </div>
+                    <div class="profile-actions profile-export-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                        <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
+                        <button id="importProgressBtn" class="btn-secondary" type="button"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                    </div>
+                    <p class="profile-note profile-export-disclaimer"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="certificateModal" class="certificate-modal" hidden aria-hidden="true">
+        <div class="certificate-modal-content" role="dialog" aria-modal="true" aria-labelledby="certificateTitle">
+            <div class="certificate-modal-header"><h2 id="certificateTitle"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificate">Certificado</span></h2><button type="button" id="closeCertificateModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button></div>
+            <div id="certificatePreview" class="certificate-preview"></div>
+            <div class="certificate-modal-actions"><button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button><button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button></div>
+        </div>
+    </div>
+    <div id="transcriptModal" class="certificate-modal" hidden aria-hidden="true">
+        <div class="certificate-modal-content transcript-modal-content" role="dialog" aria-modal="true" aria-labelledby="transcriptTitle">
+            <div class="certificate-modal-header"><h2 id="transcriptTitle"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Boletim</span></h2><button type="button" id="closeTranscriptModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button></div>
+            <div id="transcriptPreview" class="transcript-preview"></div>
+            <div class="certificate-modal-actions"><button type="button" id="downloadTranscriptBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_transcript_download">Baixar PNG</span></button><button type="button" id="downloadTranscriptPdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_transcript_download_pdf">Baixar PDF</span></button></div>
+        </div>
+    </div>
+
+    <!-- ONBOARDING MODAL (vazio, apenas para compatibilidade) -->
+    <div id="onboardingModal" class="onboarding-modal" style="display: none;" aria-hidden="true" inert></div>
+
+    <!-- SCRIPTS -->
+    <script src="../base/analytics.js"></script>
+    <script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+    <script src="../base/menu/auditorio-menu.js"></script>
+    <script src="../base/menu/biblioteca-menu.js"></script>
+    <script src="../base/menu/mobile-menu.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
+    <script src="../base/lang/i18n.js"></script>          <!-- 1º: i18n central -->
+    <script src="../base/reCaptcha/xsukax-captcha.js"></script>
+    <script src="../cursos/latex-renderer.js"></script>    <!-- Compilador LaTeX no navegador -->
+    <script src="../base/perfil/profile.js"></script>    <!-- 2º: perfil -->
+    <script src="../base/onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
+    <script src="comunidade.js"></script>           <!-- 4º: comunidade -->
+    <script src="jogo/jogo-da-velha/jogo-da-velha.js"></script> <!-- 5º: jogo da velha -->
+    <script src="jogo/xadrez/xadrez.js"></script>   <!-- 6º: xadrez -->
+    <script src="jogo/impostor/impostor.js"></script>
+    <script src="jogo/forca/forca.js"></script>
+    <script src="jogo/damas/damas.js"></script>
+    <script src="jogo/roleta/roleta.js"></script>
+    <script src="jogo/uno/uno.js"></script>
+    <script src="jogo/bicho/bicho.js"></script>
+    <script src="jogo/caca-niquel/caca-niquel.js"></script>
+    <script src="jogo/poker/poker.js"></script>
+    <script src="jogo/blackjack/blackjack.js"></script>
+    <script src="jogo/bacara/bacara.js"></script>
+    <script src="jogo/bingo/bingo.js"></script>
+    <script src="jogo/bitcoin/bitcoin.js"></script>
+    <script src="jogo/country-life-meadows/country-life-meadows.js"></script>
+    <script src="jogo/buteco-fighting/buteco-fighting.js"></script>
+    <script src="../base/audio-player/audio-player.js" defer></script>
+    <script src="../base/loading/loading-screen.js" defer></script>
+    <script src="../base/doar/donation-modal.js" defer></script>
+</body>
+</html>

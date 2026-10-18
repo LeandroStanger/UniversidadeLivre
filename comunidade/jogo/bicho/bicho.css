@@ -1,0 +1,62 @@
+.bicho-panel { width: 100%; color: var(--games-text, #f6f8ff); }
+.bicho-lobby, .bicho-game { width: min(100%, 980px); margin: 0 auto; padding: 1.25rem; }
+.bicho-intro, .bicho-game-top, .bicho-create-row, .bicho-game-actions, .bicho-card-heading, .bicho-bet-actions, .bicho-section-heading { display: flex; align-items: center; gap: .8rem; }
+.bicho-intro { padding-bottom: 1.1rem; border-bottom: 1px solid var(--games-border, rgba(255,255,255,.14)); }
+.bicho-intro h3, .bicho-intro p, .bicho-card-heading h4, .bicho-history h4 { margin: 0; }
+.bicho-intro p, .bicho-muted, .bicho-room small, .bicho-rules-card span, .bicho-message, .bicho-history p { color: var(--games-muted, #aab4c8); }
+.bicho-mark { display: grid; width: 3.5rem; height: 3.5rem; flex: 0 0 auto; place-items: center; color: #172033; font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, #f5c542, #ef3340); border: 4px solid #fff; border-radius: 50%; box-shadow: 0 5px 0 #9f2d3f; transform: rotate(-8deg); }
+.bicho-mark.small { width: 2.3rem; height: 2.3rem; font-size: 1.25rem; border-width: 2px; box-shadow: 0 3px 0 #9f2d3f; }
+.bicho-wallet { display: grid; min-width: 90px; margin-left: auto; padding: .6rem .8rem; text-align: right; background: rgba(245,197,66,.12); border: 1px solid rgba(245,197,66,.45); border-radius: 12px; }
+.bicho-wallet strong { color: #f5c542; font-size: 1.2rem; }
+.bicho-wallet small { color: var(--games-muted, #aab4c8); }
+.bicho-create, .bicho-rooms, .bicho-bet-card, .bicho-history { padding: 1rem; margin: 1rem 0; background: rgba(255,255,255,.045); border: 1px solid var(--games-border, rgba(255,255,255,.14)); border-radius: 14px; }
+.bicho-create h4 { margin: 0 0 .8rem; }
+.bicho-create-row { flex-wrap: wrap; }
+.bicho-create-row label, .bicho-bet-grid label { display: grid; gap: .35rem; color: var(--games-muted, #aab4c8); font-size: .78rem; font-weight: 700; }
+.bicho-create-row select, .bicho-bet-grid select, .bicho-bet-grid input { min-height: 40px; padding: .55rem .75rem; color: var(--games-text, #f6f8ff); background: #202b42; border: 1px solid var(--games-border, rgba(255,255,255,.14)); border-radius: 10px; }
+.bicho-create-row label[hidden] { display: none; }
+.bicho-section-heading { justify-content: space-between; }
+.bicho-section-heading h4 { margin: 0; }
+.bicho-section-heading span { display: grid; min-width: 1.7rem; min-height: 1.7rem; place-items: center; color: #172033; font-weight: 800; background: #f5c542; border-radius: 50%; }
+.bicho-room { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .85rem .95rem; margin-top: .6rem; background: #202b42; border: 1px solid var(--games-border, rgba(255,255,255,.14)); border-radius: 12px; }
+.bicho-room-meta { display: grid; gap: .25rem; }
+.bicho-room-actions { display: flex; flex-wrap: wrap; gap: .45rem; }
+.bicho-primary, .bicho-secondary, .bicho-danger, .bicho-gold { min-height: 38px; padding: .55rem .9rem; border: 1px solid transparent; border-radius: 999px; font-weight: 700; cursor: pointer; }
+.bicho-primary { color: #fff; background: #2878d0; border-color: #2878d0; }
+.bicho-secondary { color: var(--games-text, #f6f8ff); background: transparent; border-color: var(--games-border, rgba(255,255,255,.14)); }
+.bicho-danger { color: #fff; background: #c53b50; border-color: #dc6274; }
+.bicho-gold { color: #172033; background: #f5c542; border-color: #f5c542; }
+.bicho-primary:hover, .bicho-secondary:hover, .bicho-danger:hover, .bicho-gold:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.bicho-game-top { justify-content: space-between; margin-bottom: 1rem; }
+.bicho-heading { display: flex; align-items: center; gap: .65rem; }
+.bicho-heading div { display: grid; gap: .15rem; }
+.bicho-heading small { color: var(--games-muted, #aab4c8); font-size: .78rem; }
+.bicho-balance { padding: .5rem .75rem; color: #172033; background: #f5c542; border-radius: 999px; font-weight: 800; }
+.bicho-board { display: grid; grid-template-columns: minmax(190px, .7fr) 1.3fr; gap: .8rem; margin-bottom: 1rem; }
+.bicho-draw-card, .bicho-rules-card { display: grid; align-content: center; gap: .35rem; min-height: 160px; padding: 1.1rem; background: linear-gradient(145deg, #202b42, #182239); border: 1px solid var(--games-border, rgba(255,255,255,.14)); border-radius: 14px; }
+.bicho-draw-card span, .bicho-rules-card strong { color: var(--games-muted, #aab4c8); font-size: .78rem; font-weight: 700; }
+.bicho-draw-card strong { color: #f5c542; font-size: 3.2rem; line-height: 1; }
+.bicho-draw-card.has-result { background: linear-gradient(145deg, #273654, #182239); border-color: #f5c542; }
+.bicho-result-animal { display: flex; align-items: center; gap: .6rem; }
+.bicho-result-animal > span { font-size: 2.5rem; }
+.bicho-result-animal strong { color: #fff; font-size: 1.15rem; }
+.bicho-draw-card.has-result > b { color: #f5c542; font-size: 2.2rem; }
+.bicho-draw-card em { color: #fff; font-style: normal; font-weight: 800; }
+.bicho-rules-card { gap: .7rem; }
+.bicho-bet-card { background: linear-gradient(145deg, rgba(40,120,208,.13), rgba(245,197,66,.08)); }
+.bicho-card-heading { justify-content: space-between; margin-bottom: .8rem; }
+.bicho-card-heading span { color: var(--games-muted, #aab4c8); font-size: .75rem; }
+.bicho-animal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .45rem; margin-bottom: .85rem; max-height: 250px; overflow-y: auto; padding: .2rem; }
+.bicho-animal-card { display: grid; min-width: 0; gap: .18rem; padding: .55rem .35rem; color: var(--games-text, #f6f8ff); text-align: center; background: rgba(255,255,255,.045); border: 1px solid var(--games-border, rgba(255,255,255,.14)); border-radius: 10px; cursor: pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+.bicho-animal-card:hover, .bicho-animal-card.is-selected { background: rgba(245,197,66,.15); border-color: #f5c542; transform: translateY(-2px); }
+.bicho-animal-icon { font-size: 1.6rem; line-height: 1; }
+.bicho-animal-card strong { overflow: hidden; font-size: .7rem; text-overflow: ellipsis; white-space: nowrap; }
+.bicho-animal-card small { color: var(--games-muted, #aab4c8); font-size: .62rem; }
+.bicho-bet-grid { display: grid; grid-template-columns: 1.1fr 1.5fr 1fr 1fr; gap: .7rem; }
+.bicho-bet-actions { margin-top: .9rem; flex-wrap: wrap; }
+.bicho-message { min-height: 1.2rem; margin: .75rem 0 0; }
+.bicho-history > div { display: flex; justify-content: space-between; padding: .6rem 0; border-bottom: 1px solid var(--games-border, rgba(255,255,255,.1)); }
+.bicho-history > div:last-child { border-bottom: 0; }
+.bicho-history .is-win { color: #62d992; font-weight: 800; }
+.bicho-history .is-loss { color: #f08b99; }
+@media (max-width: 700px) { .bicho-lobby, .bicho-game { padding: .75rem; } .bicho-intro, .bicho-game-top, .bicho-room { align-items: stretch; flex-direction: column; } .bicho-wallet { margin-left: 0; text-align: left; } .bicho-create-row, .bicho-bet-grid { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; } .bicho-create-row label, .bicho-create-row select, .bicho-create-row button { width: 100%; } .bicho-board { grid-template-columns: 1fr; } .bicho-bet-grid { display: grid; } .bicho-animal-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .bicho-room-actions, .bicho-room-actions button { width: 100%; } }

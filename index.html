@@ -1,0 +1,929 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-i18n="app_title">Universidade Livre · Cursos de Graduação e Pós-graduação</title>
+    <meta name="description" content="Cursos de graduação em Ciência da Computação e Matemática, e pós-graduação em Computação Gráfica com estrutura progressiva, aulas organizadas e materiais de apoio.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Universidade Livre">
+    <meta property="og:title" content="Universidade Livre · Cursos de Graduação e Pós-graduação">
+    <meta property="og:description" content="Cursos de graduação e pós-graduação com conteúdo curado e gratuito.">
+    <meta property="og:url" content="https://leandrostanger.github.io/UniversidadeLivre/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Universidade Livre · Cursos de Graduação e Pós-graduação">
+    <meta name="twitter:description" content="Cursos de graduação e pós-graduação com conteúdo curado e gratuito.">
+    <meta name="twitter:image" content="https://leandrostanger.github.io/UniversidadeLivre/base/logo-da-universidade-livre.png">
+    <meta name="theme-color" content="#0B0D10">
+    <link rel="icon" type="image/png" href="base/logo-da-universidade-livre3.png">
+    <link rel="stylesheet" href="base/theme/theme.css">
+    <link rel="stylesheet" href="base/doar/donation-modal.css">
+    <script src="base/theme/theme.js"></script>
+    <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/">
+    <link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="base/perfil/profile.css">
+    <link rel="stylesheet" href="cursos/ajuda/help-modal.css">
+    <link rel="stylesheet" href="cursos/course-intro.css">
+    <link rel="stylesheet" href="cursos/feedback/lesson-feedback.css">
+    <link rel="stylesheet" href="base/onboarding/onboarding.css">
+    <link rel="stylesheet" href="base/audio-player/audio-player.css">
+    <link rel="stylesheet" href="base/loading/loading-screen.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+</head>
+<body class="site-loading">
+<div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
+    <div class="site-loading-content">
+        <img class="site-loading-logo" src="base/logo-da-universidade-livre.png" alt="Universidade Livre">
+        <div class="site-loading-spinner" aria-hidden="true"></div>
+        <span class="site-loading-text" data-i18n="loading_home" data-loading-pt="Carregando a Universidade Livre..." data-loading-en="Loading Open University..." data-loading-es="Cargando la Universidad Libre...">Carregando a Universidade Livre...</span>
+    </div>
+</div>
+<div class="container">
+    <!-- ========== CABEÇALHO ========== -->
+    <div class="header">
+        <div class="logo">
+            <a href="./" style="text-decoration: none; display: block;">
+                <img src="base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-universidade" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
+            <p data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item"><i class="fas fa-clock"></i> <span id="totalTimeDisplay">0h 0m</span></div>
+            <div class="stat-item"><i class="fas fa-fire"></i> <span id="streakDisplay">0</span> <span data-i18n="streak_days">dias</span></div>
+            <div class="stat-item language-switch">
+                <button id="langDropdownToggle" class="lang-dropdown-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageMenu">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <span id="selectedLanguageLabel">Português</span>
+                    <i class="fas fa-chevron-down lang-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="languageMenu" class="lang-dropdown-menu" role="menu" hidden>
+                    <button id="langPtBtn" class="lang-btn active" type="button" role="menuitemradio" aria-checked="true" data-lang="pt-br">Português</button>
+                    <button id="langEnBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="en">English</button>
+                    <button id="langEsBtn" class="lang-btn" type="button" role="menuitemradio" aria-checked="false" data-lang="es">Español</button>
+                </div>
+            </div>
+            <a href="#doacoes" class="donate-button" aria-haspopup="dialog" data-i18n="donate_button">
+                <i class="fas fa-heart"></i><span data-i18n="donate_text">Doar</span>
+            </a>
+            <div class="library-dropdown" data-library-base="biblioteca/biblioteca.html">
+                <button type="button" class="btn-biblioteca library-dropdown-toggle" style="background: var(--brand-green);" aria-expanded="false" aria-controls="libraryTypeMenu">
+                    <i class="fas fa-book"></i> <span data-i18n="library_button">Biblioteca</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="libraryTypeMenu" class="header-dropdown-menu library-dropdown-menu" role="menu" hidden></div>
+            </div>
+            <div class="header-dropdown">
+                <button type="button" class="btn-biblioteca header-dropdown-toggle" style="background: var(--accent-blue);" aria-expanded="false" aria-controls="auditorioSubjectMenu">
+                    <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+                </button>
+                <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden></div>
+            </div>
+            <a href="notas/notas.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" style="background: var(--accent-green);" data-i18n="notas_heading">
+                <i class="fas fa-pencil-alt"></i> <span data-i18n="notas_heading">Notas</span>
+            </a>
+            <a href="comunidade/comunidade.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" style="background: var(--accent-teal);" data-i18n="comunidade_title">
+                <i class="fas fa-users"></i> <span data-i18n="comunidade_title">Comunidade</span>
+            </a>
+            <button id="profileBtn" class="btn-biblioteca" style="background: var(--accent-purple);" data-profile-custom="false">
+                <i class="fas fa-user"></i> <span data-i18n="profile">Perfil</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== SLIDER DINÂMICO (5 ALEATÓRIOS) ========== -->
+    <div id="homeSlider" class="home-slider-container">
+        <div class="home-slider-track">
+            <!-- Preenchido pelo JavaScript -->
+        </div>
+        <button class="home-slider-prev" data-i18n-aria="slide_previous"><i class="fas fa-chevron-left"></i></button>
+        <button class="home-slider-next" data-i18n-aria="slide_next"><i class="fas fa-chevron-right"></i></button>
+        <div class="home-slider-dots"></div>
+    </div>
+
+    <!-- ========== FILTROS DA PÁGINA INICIAL ========== -->
+    <div id="homeFilters" class="home-filters">
+        <div class="filters-heading">
+            <div>
+                <span class="filters-kicker"><i class="fas fa-compass"></i> <span data-i18n="explore_courses">Explorar</span></span>
+                <h2 data-i18n="find_next_course">Encontre seu próximo curso</h2>
+            </div>
+            <span class="filters-heading-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
+        </div>
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="courseSearchInput" class="search-input" data-i18n-placeholder="search_courses_placeholder" placeholder="Buscar cursos por nome ou descrição...">
+            <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
+        </div>
+        <div class="filter-group scope-group">
+            <div id="scopeChips" class="collection-tabs" role="tablist" data-i18n-aria="course_collection">
+                <button class="collection-tab active" type="button" role="tab" aria-selected="true" data-scope="all" data-i18n="all_courses">Todos</button>
+                <button class="collection-tab" type="button" role="tab" aria-selected="false" data-scope="my-courses" data-i18n="my_courses">Meus cursos</button>
+            </div>
+        </div>
+        <div class="filters-row">
+            <div class="filter-group">
+                <span class="filter-label" data-i18n="filter_by_course_language"><i class="fas fa-globe"></i> Filtrar por idioma do curso:</span>
+                <div class="select-wrapper">
+                    <select id="languageChips" class="filter-select" data-i18n-aria="filter_by_course_language">
+                        <option value="all" data-i18n="filter_all_languages">Todos</option>
+                        <option value="pt" data-i18n="course_language_portuguese">Português</option>
+                        <option value="en" data-i18n="course_language_english">Inglês</option>
+                        <option value="es" data-i18n="course_language_spanish">Espanhol</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label" data-i18n="filter_by_level"><i class="fas fa-signal"></i> Filtrar por nível:</span>
+                <div class="select-wrapper">
+                    <select id="levelChips" class="filter-select" data-i18n-aria="filter_by_level">
+                        <option value="all" data-i18n="filter_all">Todos</option>
+                        <option value="graduacao" data-i18n="graduacao">Graduação</option>
+                        <option value="pos-graduacao" data-i18n="pos_graduacao">Pós‑graduação</option>
+                        <option value="ensino-medio" data-i18n="ensino_medio">Ensino Médio</option>
+                        <option value="idiomas" data-i18n="idiomas">Idiomas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== LISTA DE CURSOS (CARROSSEL) ========== -->
+    <div id="homeScreen" class="home-screen">
+        <div id="carouselContainer" class="carousel-container">
+            <!-- O JavaScript preencherá aqui -->
+        </div>
+    </div>
+
+    <!-- ========== VISUALIZAÇÃO DO CURSO ========== -->
+    <div id="courseView" class="course-view">
+        <div class="course-navigation">
+            <button class="back-btn" id="backToHomeBtn" data-i18n="back_to_courses"><i class="fas fa-arrow-left"></i> Voltar para cursos</button>
+            <button class="back-btn" id="backToDisciplineBtn" type="button" hidden><i class="fas fa-arrow-left"></i> Voltar para a disciplina</button>
+        </div>
+        <div class="main-layout">
+            <div class="video-column">
+                <!-- Player -->
+                <div class="player-section">
+                    <div class="video-wrapper">
+                        <div id="youtube-player" class="plyr__video-embed">
+                            <iframe
+                                src="https://www.youtube.com/embed/j6hcALm0mLM?cc_load_policy=1&cc_lang_pref=pt&enablejsapi=1&origin=https%3A%2F%2Fleandrostanger.github.io&playsinline=1"
+                                data-i18n-title="video_player"
+                                allow="autoplay; fullscreen; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                        <video id="videojs-player" class="video-js vjs-default-skin" controls playsinline hidden></video>
+                        <div id="externalLessonContainer" style="display: none;" class="external-lesson-container"></div>
+                        <button id="exitFullscreenBtn" class="exit-fullscreen-btn" type="button" hidden data-i18n-title="exit_fullscreen" data-i18n-aria="exit_fullscreen">
+                            <i class="fas fa-compress"></i>
+                            <span>Sair da tela cheia</span>
+                        </button>
+                    </div>
+                    <div class="video-progress-container">
+                        <div class="video-progress-bar" id="videoProgressBar"><div class="video-progress-fill" id="videoProgressFill"></div></div>
+                        <div class="video-time"><span id="videoCurrentTime">00:00</span><span id="videoDuration">00:00</span></div>
+                    </div>
+                    <div class="player-controls">
+                        <div class="ctrl-buttons">
+                            <button class="ctrl-btn" id="prevVideoBtn"><i class="fas fa-backward-step"></i></button>
+                            <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                            <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
+                        </div>
+                        <div class="volume-control" id="volumeControl">
+                            <button class="ctrl-btn" id="muteUnmuteBtn" data-i18n-title="mute_unmute">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <div class="volume-slider-group">
+                                <output id="volumePercentage" class="volume-percentage" for="volumeSlider">80%</output>
+                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" data-i18n-title="volume">
+                            </div>
+                        </div>
+                        <div class="lesson-player-options" data-i18n-aria="player_options">
+                            <label class="lesson-player-select">
+                                <span class="sr-only" data-i18n="playback_speed">Velocidade de reprodução</span>
+                                <select id="playbackSpeedSelect" data-i18n-title="playback_speed" data-i18n-aria="playback_speed">
+                                    <option value="0.5">0,5x</option>
+                                    <option value="0.75">0,75x</option>
+                                    <option value="1" selected>Normal</option>
+                                    <option value="1.25">1,25x</option>
+                                    <option value="1.5">1,5x</option>
+                                    <option value="1.75">1,75x</option>
+                                    <option value="2">2x</option>
+                                </select>
+                            </label>
+                            <label class="lesson-player-select">
+                                <span class="sr-only" data-i18n="video_quality">Qualidade do vídeo</span>
+                                <select id="videoQualitySelect" data-i18n-title="video_quality" data-i18n-aria="video_quality">
+                                    <option value="auto" selected>Auto</option>
+                                </select>
+                            </label>
+                            <div class="audio-track-control" hidden>
+                                <button class="ctrl-btn" id="audioTrackBtn" type="button" data-i18n-title="audio_track_select" data-i18n-aria="audio_track_select" aria-expanded="false">
+                                    <i class="fas fa-language"></i>
+                                </button>
+                                <label class="lesson-player-select audio-track-menu">
+                                    <span class="sr-only" data-i18n="audio_track">Faixa de áudio</span>
+                                    <select id="audioTrackSelect" data-i18n-title="audio_track" data-i18n-aria="audio_track">
+                                        <option value="original" selected>Original</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button class="ctrl-btn" id="captionsToggleBtn" type="button" data-i18n-title="captions_toggle" data-i18n-aria="captions_toggle">
+                                <i class="fas fa-closed-captioning"></i>
+                            </button>
+                            <label class="lesson-player-select" id="captionLanguageControl">
+                                <span class="sr-only" data-i18n="caption_language">Idioma da legenda</span>
+                                <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
+                                    <option value="pt">Português</option>
+                                    <option value="en">English</option>
+                                    <option value="es">Español</option>
+                                    <option value="ja">日本語</option>
+                                </select>
+                            </label>
+                            <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        <button class="mark-watched-btn" id="markWatchedBtn" data-i18n="mark_watched"><i class="fas fa-check"></i> Concluir Vídeo</button>
+                    </div>
+                </div>
+
+                <!-- Abas -->
+                <div class="lesson-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="bibliografia" data-i18n="tab_bibliography">Bibliografia</button>
+                        <button class="tab-btn" data-tab="pratica" id="practiceTabBtn" data-i18n="tab_practice">Prática</button>
+                        <button class="tab-btn" data-tab="notas" data-i18n="tab_notes">Notas</button>
+                        <button class="tab-btn" data-tab="team" data-i18n="tab_team">Time</button>
+                        <button class="tab-btn" data-tab="contributors" data-i18n="tab_contributors">Contribuidores</button>
+                        <button class="tab-btn" data-tab="license" data-i18n="tab_license">Licença do Curso</button>
+                    </div>
+                    <div class="tabs-content">
+                        <div id="bibliografia-tab" class="tab-content active">
+                            <div id="booksList" class="books-container"></div>
+                        </div>
+                        <div id="pratica-tab" class="tab-content">
+                            <div id="practiceContent" class="practice-container"></div>
+                        </div>
+                        <div id="notas-tab" class="tab-content">
+                            <div id="courseNotesContent" class="course-notes-container"></div>
+                        </div>
+                        <div id="team-tab" class="tab-content">
+                            <div id="team-grid" class="team-grid"></div>
+                        </div>
+                        <div id="contributors-tab" class="tab-content">
+                            <div id="contributors-grid" class="team-grid"></div>
+                        </div>
+                        <div id="license-tab" class="tab-content">
+                            <div id="license-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-sidebar">
+                <!-- Progresso -->
+                <div id="progressChartContainer" class="chart-container"></div>
+                <section id="studyCalendar" class="study-calendar" hidden aria-labelledby="studyCalendarTitle">
+                    <div class="study-calendar-header">
+                        <div>
+                            <span class="study-calendar-kicker" data-i18n="study_calendar_kicker">Planejamento</span>
+                            <h3 id="studyCalendarTitle" data-i18n="study_calendar_title">Calendário de estudos</h3>
+                        </div>
+                        <button id="studyScheduleOpenBtn" class="study-calendar-header-action" type="button" data-i18n-aria="study_calendar_schedule_button" aria-controls="studyCalendarForm" aria-expanded="false">
+                            <i class="fas fa-calendar-plus" aria-hidden="true"></i>
+                            <span data-i18n="study_calendar_schedule_button">Agendar aula</span>
+                        </button>
+                        <i class="fas fa-calendar-days" aria-hidden="true"></i>
+                    </div>
+                    <p id="studyCalendarEmptyState" class="study-calendar-empty" data-i18n="study_calendar_select_course" hidden></p>
+                    <div class="study-calendar-navigation">
+                        <button type="button" id="studyCalendarPrevious" data-i18n-aria="study_calendar_previous_month" aria-label="Mês anterior"><i class="fas fa-chevron-left"></i></button>
+                        <strong id="studyCalendarMonth"></strong>
+                        <button type="button" id="studyCalendarNext" data-i18n-aria="study_calendar_next_month" aria-label="Próximo mês"><i class="fas fa-chevron-right"></i></button>
+                        <button type="button" id="studyCalendarToday" data-i18n="study_calendar_today_button">Hoje</button>
+                    </div>
+                    <div class="study-calendar-views" role="group" data-i18n-aria="study_calendar_views" aria-label="Visualização do calendário">
+                        <button type="button" data-study-view="month" data-i18n="study_calendar_view_month" aria-pressed="true">Mês</button>
+                        <button type="button" data-study-view="week" data-i18n="study_calendar_view_week" aria-pressed="false">Semana</button>
+                        <button type="button" data-study-view="day" data-i18n="study_calendar_view_day" aria-pressed="false">Dia</button>
+                    </div>
+                    <div id="studyCalendarGrid" class="study-calendar-grid" data-i18n-aria="study_calendar_title" aria-label="Calendário de estudos"></div>
+                    <div id="studyCalendarEvents" class="study-calendar-events"></div>
+                    <div id="studyCalendarForm" class="study-calendar-form" role="dialog" aria-modal="true" aria-labelledby="studyCalendarFormTitle" hidden>
+                        <div class="study-calendar-form-header">
+                            <h4 id="studyCalendarFormTitle" data-i18n="study_calendar_schedule_title">Agendar aula</h4>
+                            <button type="button" id="studyScheduleCloseBtn" class="study-calendar-form-close" data-i18n-aria="close" aria-label="Fechar">
+                                <i class="fas fa-xmark" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <label class="study-calendar-course-label" for="studyCourseSelect" data-i18n="study_calendar_course">Curso</label>
+                        <select id="studyCourseSelect" class="study-calendar-course-select" data-i18n-aria="study_calendar_course_select" aria-label="Selecionar curso"></select>
+                        <p id="studyCalendarCourse" class="study-calendar-course"></p>
+                        <label for="studyDisciplineSelect" data-i18n="study_calendar_discipline">Disciplina</label>
+                        <select id="studyDisciplineSelect" class="study-calendar-course-select" data-i18n-aria="study_calendar_discipline_select" aria-label="Selecionar disciplina" disabled></select>
+                        <label for="studyStartDate" data-i18n="study_calendar_first_day">Primeiro dia</label>
+                        <input id="studyStartDate" class="study-calendar-date" type="date" data-i18n-aria="study_calendar_first_day" aria-label="Primeiro dia">
+                        <span class="study-calendar-label" data-i18n="study_calendar_days_times">Dias e horários</span>
+                        <div id="studyWeekdayPicker" class="study-weekday-picker"></div>
+                        <output id="studyWeeklyLessons" class="study-calendar-count" aria-live="polite"></output>
+                        <output id="studyWeeklyHours" class="study-calendar-hours" aria-live="polite"></output>
+                        <label for="studyEndDate" data-i18n="study_calendar_end_date">Fim</label>
+                        <input id="studyEndDate" class="study-calendar-date" type="date" data-i18n-aria="study_calendar_end_date" aria-label="Fim" readonly>
+                        <button type="button" id="studyScheduleButton" class="study-calendar-submit">
+                            <i class="fas fa-calendar-plus"></i> <span data-i18n="study_calendar_schedule">Agendar aula</span>
+                        </button>
+                    </div>
+                    <small class="study-calendar-locale" data-i18n="study_calendar_locale">Calendário ajustado à configuração do seu navegador.</small>
+                </section>
+
+                <!-- Aula Atual -->
+                <div class="current-lesson-panel" id="currentLessonPanel">
+                    <button class="help-button" id="helpButton" style="display: none;" data-i18n="help_button" aria-label="Ajuda">Ajuda</button>
+                    <div class="panel-title" data-i18n="current_lesson"><i class="fas fa-play-circle"></i> Aula Atual</div>
+                    <div id="currentLessonPanelContent">Carregando...</div>
+                </div>
+                <article id="courseIntroCard" class="course-intro-card" aria-labelledby="courseIntroCardTitle" hidden>
+                    <picture>
+                        <img id="courseIntroCardImage" class="course-intro-card-image" src="" alt="">
+                    </picture>
+                    <div class="course-intro-card-body">
+                        <div class="course-intro-card-topline">
+                            <span id="courseIntroCardLabel" class="course-intro-card-label">Sobre o curso</span>
+                            <div class="course-share">
+                                <button type="button" id="courseShareBtn" class="course-share-button" aria-expanded="false" aria-haspopup="menu" aria-controls="courseShareMenu">
+                                    <i class="fas fa-share-nodes" aria-hidden="true"></i>
+                                    <span data-i18n="share_course">Compartilhar</span>
+                                </button>
+                                <div id="courseShareMenu" class="course-share-menu" role="menu" hidden>
+                                    <button type="button" role="menuitem" data-share-action="native">
+                                        <i class="fas fa-share-nodes" aria-hidden="true"></i>
+                                        <span data-i18n="share_course">Compartilhar</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="copy">
+                                        <i class="fas fa-link" aria-hidden="true"></i>
+                                        <span data-i18n="copy_course_link">Copiar link</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="whatsapp">
+                                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                        <span data-i18n="share_whatsapp">WhatsApp</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="telegram">
+                                        <i class="fab fa-telegram" aria-hidden="true"></i>
+                                        <span data-i18n="share_telegram">Telegram</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="facebook">
+                                        <i class="fab fa-facebook" aria-hidden="true"></i>
+                                        <span data-i18n="share_facebook">Facebook</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="messenger">
+                                        <i class="fab fa-facebook-messenger" aria-hidden="true"></i>
+                                        <span data-i18n="share_messenger">Messenger</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="linkedin">
+                                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                                        <span data-i18n="share_linkedin">LinkedIn</span>
+                                    </button>
+                                    <button type="button" role="menuitem" data-share-action="x">
+                                        <i class="fab fa-x-twitter" aria-hidden="true"></i>
+                                        <span data-i18n="share_x">X</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 id="courseIntroCardTitle"></h2>
+                        <div id="courseIntroCardClassification" class="course-intro-card-classification" aria-label="Classificação do curso"></div>
+                        <p id="courseIntroCardInstitution" class="course-intro-card-institution"></p>
+                        <p id="courseIntroCardPremise" class="course-intro-card-premise"></p>
+                        <p id="courseIntroCardDescription"></p>
+                        <div class="course-intro-card-bio">
+                            <strong id="courseIntroCardBioHeading">Biografia</strong>
+                            <p id="courseIntroCardBio"></p>
+                        </div>
+                        <div class="course-intro-card-learning">
+                            <strong id="courseIntroCardLearningHeading">O que você vai aprender</strong>
+                            <ul id="courseIntroCardLearningList"></ul>
+                        </div>
+                        <section id="courseIntroCardCurriculum" class="course-intro-card-curriculum" aria-labelledby="courseIntroCardCurriculumHeading" hidden>
+                            <strong id="courseIntroCardCurriculumHeading"></strong>
+                            <div id="courseIntroCardCurriculumStages"></div>
+                        </section>
+                        <p id="courseIntroCardAbout" class="course-intro-card-about"></p>
+                    </div>
+                </article>
+                <!-- Conteúdo filtrado da disciplina selecionada -->
+                <div class="unified-content" id="unifiedCourseContent">
+                    <div class="course-content-heading">
+                        <h3 data-i18n="course_content"><i class="fas fa-book-open"></i> Conteúdo do curso</h3>
+                    </div>
+                    <div id="unifiedContentList">Carregando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODAIS ========== -->
+
+<!-- ========== MODAL DE AJUDA ========== -->
+<div id="helpModal" class="help-modal" role="dialog" aria-hidden="true" data-i18n-aria="help_modal_aria">
+    <div class="help-modal-content">
+        <div class="help-modal-header">
+            <h2 id="helpModalTitle"><i class="fas fa-circle-question" aria-hidden="true"></i><span>Ajuda</span></h2>
+            <button class="close-help" data-i18n-aria="close">&times;</button>
+        </div>
+        <div class="help-modal-body" id="helpContent"><p data-i18n="loading">Carregando...</p></div>
+    </div>
+</div>
+
+<!-- ========== MODAL DE PROVA DA DISCIPLINA ========== -->
+<div id="disciplineQuizModal" class="discipline-quiz-modal" role="dialog" aria-hidden="true">
+    <div class="discipline-quiz-modal-content">
+        <div class="discipline-quiz-header">
+            <div>
+                <span class="discipline-quiz-kicker" data-i18n="discipline_quiz_title">Prova da disciplina</span>
+                <h2 id="disciplineQuizTitle">Prova da disciplina</h2>
+            </div>
+            <button class="close-discipline-quiz" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="discipline-quiz-body">
+            <div id="disciplineQuizStatus" class="discipline-quiz-status"></div>
+            <div id="disciplineQuizQuestion" class="discipline-quiz-question"></div>
+            <div id="disciplineQuizOptions" class="discipline-quiz-options"></div>
+            <div id="disciplineQuizNavigation" class="discipline-quiz-navigation"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODAL DE AVALIAÇÃO DA AULA ========== -->
+<div id="lessonFeedbackModal" class="lesson-feedback-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lessonFeedbackTitle" hidden>
+    <div class="lesson-feedback-content">
+        <div class="lesson-feedback-header">
+            <div>
+                <span class="lesson-feedback-kicker" data-i18n="lesson_feedback_kicker">Aula concluída</span>
+                <h2 id="lessonFeedbackTitle" data-i18n="lesson_feedback_title">Como foi essa aula?</h2>
+                <p id="lessonFeedbackContext" class="lesson-feedback-context"></p>
+            </div>
+            <button class="lesson-feedback-close" type="button" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <form id="lessonFeedbackForm" class="lesson-feedback-form">
+            <fieldset class="lesson-feedback-rating">
+                <legend data-i18n="lesson_feedback_rating_label">Que nota você dá para esta aula?</legend>
+                <div class="lesson-feedback-stars" role="radiogroup" data-i18n-aria="lesson_feedback_rating_label" aria-label="Nota da aula">
+                    <label><input type="radio" name="rating" value="1" required><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_1">Péssimo</span></label>
+                    <label><input type="radio" name="rating" value="2"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_2">Ruim</span></label>
+                    <label><input type="radio" name="rating" value="3"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_3">Mais ou menos</span></label>
+                    <label><input type="radio" name="rating" value="4"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_4">Bom</span></label>
+                    <label><input type="radio" name="rating" value="5"><span aria-hidden="true">★</span><span class="lesson-feedback-rating-text" data-i18n="lesson_feedback_rating_5">Muito bom</span></label>
+                </div>
+            </fieldset>
+            <label class="lesson-feedback-comment-label" for="lessonFeedbackComment" data-i18n="lesson_feedback_comment_label">Comentário (opcional)</label>
+            <textarea id="lessonFeedbackComment" name="comment" rows="4" maxlength="2000" data-i18n-placeholder="lesson_feedback_comment_placeholder" placeholder="O que achou da aula? Tem alguma sugestão de melhoria?"></textarea>
+            <input type="hidden" name="course">
+            <input type="hidden" name="course_id">
+            <input type="hidden" name="discipline">
+            <input type="hidden" name="lesson">
+            <input type="hidden" name="_subject">
+            <p id="lessonFeedbackStatus" class="lesson-feedback-status" role="status" aria-live="polite"></p>
+            <div class="lesson-feedback-actions">
+                <button class="lesson-feedback-skip" type="button" data-i18n="lesson_feedback_skip">Agora não</button>
+                <button class="lesson-feedback-submit" type="submit" data-i18n="lesson_feedback_submit">Enviar avaliação</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ========== MODAL DE CONCLUSÃO FINAL ========== -->
+<div id="finalCompletionModal" class="final-completion-modal" role="dialog" aria-hidden="true">
+    <div class="final-modal-content">
+        <div class="final-modal-header">
+            <i class="fas fa-trophy"></i>
+            <h2 data-i18n="completion_congrats">Parabéns!</h2>
+            <button class="close-final-modal" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="final-modal-body">
+            <div class="final-completion-top-svg">
+                <svg width="260" height="100" viewBox="0 0 260 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="260" height="100" rx="20" fill="url(#grad)" />
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="32" font-weight="bold" font-family="Inter, sans-serif">PARABÉNS!</text>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="260" y2="100" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#2563EB"/>
+                            <stop offset="1" stop-color="#60A5FA"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div id="finalCompletionText" class="final-completion-text"></div>
+            <img id="finalCompletionImage" class="final-completion-image" src="cursos/imagen-card.png" alt="Curso concluído">
+        </div>
+        <div class="final-modal-footer">
+            <button id="btnFinalGoHome" class="final-go-home-btn" data-i18n="completion_go_graduation">Ir para Graduação</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODAL DE PERFIL ========== -->
+<div id="profileModal" class="profile-modal" style="display: none;" aria-hidden="true">
+    <div class="profile-modal-content">
+        <div class="profile-modal-header">
+            <h2><i class="fas fa-user-circle"></i> <span data-i18n="profile_title">Meu Perfil</span></h2>
+            <button class="close-profile-modal" id="closeProfileModal">&times;</button>
+        </div>
+        <div class="profile-cover-preview">
+            <img id="profileCoverPreviewImage" alt="">
+            <div class="profile-cover-identity">
+                <div class="avatar-wrapper" id="avatarWrapper">
+                    <img id="profileAvatar" src="https://ui-avatars.com/api/?name=Usuario&background=6C8CFF&color=fff&size=80" alt="Avatar">
+                    <div class="avatar-overlay">
+                        <i class="fas fa-camera"></i>
+                        <span data-i18n="profile_change_photo">Alterar foto</span>
+                    </div>
+                </div>
+                <div class="profile-matricula">
+                    <span data-i18n="profile_matricula">Matrícula:</span>
+                    <strong id="profileMatriculaDisplay"></strong>
+                </div>
+            </div>
+            <button type="button" id="profileCoverChooseBtn" class="profile-cover-change">
+                <i class="fas fa-image" aria-hidden="true"></i>
+                <span data-i18n="profile_choose_cover">Escolher capa</span>
+            </button>
+        </div>
+        <div class="profile-modal-body">
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            <nav class="profile-tabs" role="tablist" aria-label="Seções do perfil" data-i18n-aria="profile_sections_label">
+                <button type="button" class="profile-tab active" role="tab" aria-selected="true" aria-controls="profileTabPersonal" data-profile-tab="profileTabPersonal"><i class="fas fa-user"></i> <span data-i18n="profile_tab_personal">Perfil</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabStatus" data-profile-tab="profileTabStatus"><i class="fas fa-chart-line"></i> <span data-i18n="profile_tab_status">Status</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabSecretary" data-profile-tab="profileTabSecretary"><i class="fas fa-landmark"></i> <span data-i18n="profile_tab_secretary">Secretaria</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabCourses" data-profile-tab="profileTabCourses"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_tab_courses">Cursos</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabLivreCoin" data-profile-tab="profileTabLivreCoin"><i class="fas fa-coins"></i> <span data-i18n="profile_tab_livrecoin">Livre Coin</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabTheme" data-profile-tab="profileTabTheme"><i class="fas fa-palette"></i> <span data-i18n="profile_tab_theme">Tema</span></button>
+                <button type="button" class="profile-tab" role="tab" aria-selected="false" aria-controls="profileTabExport" data-profile-tab="profileTabExport"><i class="fas fa-file-export"></i> <span data-i18n="profile_tab_export">Salvar / Exportar</span></button>
+            </nav>
+
+            <section id="profileTabPersonal" class="profile-tab-panel active" role="tabpanel">
+            <div class="profile-account-fields">
+            <!-- Nome -->
+            <div class="profile-user-section">
+                <label for="profileNameInput"><i class="fas fa-user"></i> <span data-i18n="profile_name">Nome</span></label>
+                <input type="text" id="profileNameInput" placeholder="Seu nome..." value="">
+                <button id="profileSaveNameBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> <span data-i18n="profile_save_name">Salvar Nome</span></button>
+            </div>
+            <!-- Gênero -->
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profileGender"><i class="fas fa-venus-mars"></i> <span data-i18n="profile_gender">Gênero</span></label>
+                <select id="profileGender" style="flex:1; padding:0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;">
+                    <option value="" data-i18n="profile_gender_not_informed">Não informado</option>
+                    <option value="masculino" data-i18n="profile_gender_masculine">Masculino</option>
+                    <option value="feminino" data-i18n="profile_gender_feminine">Feminino</option>
+                    <option value="outro" data-i18n="profile_gender_other">Outro</option>
+                </select>
+                <button id="profileSaveGenderBtn" class="btn-secondary profile-field-save" type="button" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profileCountry"><i class="fas fa-globe"></i> <span data-i18n="profile_country">País</span></label>
+                <select id="profileCountry"><option value="" data-i18n="profile_country_not_informed">Não informado</option></select>
+                <button id="profileSaveCountryBtn" class="btn-secondary profile-field-save" type="button"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
+
+            <!-- Senha -->
+            <div class="profile-user-section" style="margin-top: 0.5rem;">
+                <label for="profilePassword"><i class="fas fa-lock"></i> <span data-i18n="profile_password">Senha (para exportar/importar)</span></label>
+                <div class="profile-password-input-wrap">
+                    <input type="password" id="profilePassword" placeholder="Defina uma senha forte..." value="" style="flex:1; padding:0.6rem 2.8rem 0.6rem 1rem; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:2rem; color:var(--text-primary); font-size:0.95rem;">
+                    <button type="button" class="password-visibility-toggle" data-password-visibility="profilePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                </div>
+                <button id="profileSavePasswordBtn" class="btn-secondary profile-field-save" type="button" style="padding:0.5rem 1.2rem; font-size:0.85rem;"><i class="fas fa-save"></i> <span data-i18n="profile_save">Salvar</span></button>
+            </div>
+            </div>
+            </section>
+            <section id="profileTabStatus" class="profile-tab-panel" role="tabpanel" hidden>
+            <!-- Cursos em andamento -->
+            <div id="ongoingCoursesContainer" style="margin: 0.5rem 0;"></div>
+
+            <!-- Estatísticas -->
+            <div class="profile-stats">
+                <div class="stat-item"><i class="fas fa-video"></i> <span data-i18n="profile_watched_videos">Vídeos assistidos</span> <span id="profileWatchedVideos">0</span></div>
+                <div class="stat-item"><i class="fas fa-book"></i> <span data-i18n="profile_total_videos">Total de vídeos</span> <span id="profileTotalVideos">0</span></div>
+                <div class="stat-item"><i class="fas fa-check-circle"></i> <span data-i18n="profile_completed_lessons">Lições concluídas</span> <span id="profileCompletedLessons">0</span></div>
+                <div class="stat-item"><i class="fas fa-award"></i> <span data-i18n="profile_completed_disciplines">Disciplinas concluídas</span> <span id="profileCompletedDisciplines">0</span></div>
+                <div class="stat-item profile-points"><i class="fas fa-gamepad"></i> <span data-i18n="profile_game_points">Pontuação dos jogos</span> <span id="profileTotalPoints">0</span></div>
+                <div class="stat-item"><i class="fas fa-headphones"></i> <span data-i18n="profile_auditorio_hours">Horas no Auditório</span> <span id="profileAuditorioTime">0</span></div>
+            </div>
+            <div class="profile-total-score-card"><i class="fas fa-graduation-cap"></i> <span data-i18n="profile_course_points">Pontuação dos cursos</span> <strong id="profileCoursePoints">0</strong></div>
+            <div class="profile-total-score-card"><i class="fas fa-trophy"></i> <span data-i18n="profile_grand_total">Pontuação total</span> <strong id="profileGrandTotalPoints">0</strong></div>
+            <div class="profile-status-actions">
+            <button type="button" id="profileActivityBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-clock"></i> <span data-i18n="profile_activity_summary">Tempo e sequência</span></button>
+            <button type="button" id="profileGameStatusBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-chart-line"></i> <span data-i18n="profile_game_status">Ver status dos jogos</span></button>
+            </div>
+            <div id="profileActivityDetails" class="profile-activity-details" hidden></div>
+            <div id="profileGameStatus" class="profile-game-status" hidden></div>
+            </section>
+
+            <section id="profileTabLivreCoin" class="profile-tab-panel" role="tabpanel" hidden>
+            <div class="profile-stats">
+                <div class="stat-item livre-coins-profile-stat"><span><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_total_livre_coins">Total Livre Coins</span></span> <span id="profileLivreCoins">0</span></div>
+                <div class="stat-item livre-coins-profile-stat"><span data-i18n="profile_exchange_points">Pontos para troca</span> <span id="profileLivrePoints">0</span></div>
+            </div>
+            <div class="livre-coins-profile-convert"><span><span data-i18n="profile_livre_coin_ratio">5 pontos = 1</span><br><span class="livre-coin-name"><img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_livre_coin">Livre Coin</span></span></span><button type="button" id="profileConvertLivrePoints" class="profile-details-button"><span data-i18n="profile_convert_livre_points">Trocar pontos por</span> <img class="livre-coin-logo" src="comunidade/Livre Coin/Livre Coin.png" alt="" aria-hidden="true"><span data-i18n="profile_livre_coins">Livre Coins</span></button></div>
+            </section>
+
+            <section id="profileTabSecretary" class="profile-tab-panel" role="tabpanel" hidden>
+            <button type="button" id="profileExamDetailsBtn" class="profile-details-button"><i class="fas fa-clipboard-list"></i> <span data-i18n="profile_exam_details">Ver provas e resultados</span></button>
+            <div id="profileExamDetails" class="profile-exam-details" hidden></div>
+            <button type="button" id="profileTranscriptBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Ver boletim</span></button>
+            <div id="profileTranscript" class="profile-transcript" hidden>
+                <div id="profileTranscriptCourses" class="profile-transcript-courses"></div>
+                <div id="profileTranscriptStages" class="profile-transcript-stages"></div>
+            </div>
+            <button type="button" id="profileCertificatesBtn" class="profile-details-button" aria-expanded="false"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificates">Ver certificados</span></button>
+            <div id="profileCertificatesList" class="profile-certificates-list" hidden></div>
+            </section>
+
+            <section id="profileTabCourses" class="profile-tab-panel" role="tabpanel" hidden>
+            <!-- Lista de cursos -->
+            <div id="profileCoursesList" style="margin: 1rem 0;"></div>
+            </section>
+            <section id="profileTabTheme" class="profile-tab-panel" role="tabpanel" hidden>
+                <div class="profile-theme-settings">
+                    <h3><i class="fas fa-palette" aria-hidden="true"></i> <span data-i18n="profile_tab_theme">Tema</span></h3>
+                    <p class="profile-theme-description" data-i18n="profile_theme_description">Escolha a aparência da Universidade Livre.</p>
+                    <div class="profile-theme-options" role="radiogroup" aria-label="Tema" data-i18n-aria="profile_tab_theme">
+                        <label class="profile-theme-option">
+                            <input type="radio" name="profileTheme" data-theme-option="light">
+                            <i class="fas fa-sun" aria-hidden="true"></i><span data-i18n="theme_light">Claro</span>
+                        </label>
+                        <label class="profile-theme-option">
+                            <input type="radio" name="profileTheme" data-theme-option="dark">
+                            <i class="fas fa-moon" aria-hidden="true"></i><span data-i18n="theme_dark">Escuro</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <section id="profileTabExport" class="profile-tab-panel" role="tabpanel" hidden>
+            <!-- Exportação/Importação -->
+            <h4 class="profile-export-title" style="color: var(--text-secondary); margin-bottom: 0.5rem;"><i class="fas fa-file-export"></i> <span data-i18n="profile_export_import">Exportar / Importar dados</span></h4>
+            <div class="profile-export-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.8rem;">
+                <label><input type="checkbox" id="exportCourses" checked> <i class="fas fa-graduation-cap"></i> <span data-i18n="profile_export_courses">Cursos</span></label>
+                <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
+                <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
+                <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
+            </div>
+            <div id="notesSelectionContainer" class="profile-export-notes" style="margin-bottom: 0.8rem; display: block;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
+                <div id="notesCheckboxes"></div>
+            </div>
+            <div class="profile-actions profile-export-actions" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button id="generateExportBtn" class="btn-primary"><i class="fas fa-file-export"></i> <span data-i18n="profile_save_progress">Salvar Progresso</span></button>
+                <button id="importProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: var(--bg-primary); border: none;"><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            </div>
+            <p class="profile-note profile-export-disclaimer"><i class="fas fa-database"></i> <span data-i18n="profile_data_note">Dados armazenados localmente no navegador. A senha é usada para criptografar a exportação.</span></p>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div id="certificateModal" class="certificate-modal" hidden aria-hidden="true">
+    <div class="certificate-modal-content" role="dialog" aria-modal="true" aria-labelledby="certificateTitle">
+        <div class="certificate-modal-header">
+            <h2 id="certificateTitle"><i class="fas fa-certificate"></i> <span data-i18n="profile_certificate">Certificado</span></h2>
+            <button type="button" id="closeCertificateModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <div id="certificatePreview" class="certificate-preview"></div>
+        <div class="certificate-modal-actions">
+            <button type="button" id="downloadCertificateBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_certificate_download">Baixar PNG</span></button>
+            <button type="button" id="downloadCertificatePdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_certificate_download_pdf">Baixar PDF</span></button>
+        </div>
+    </div>
+</div>
+
+<div id="transcriptModal" class="certificate-modal" hidden aria-hidden="true">
+    <div class="certificate-modal-content transcript-modal-content" role="dialog" aria-modal="true" aria-labelledby="transcriptTitle">
+        <div class="certificate-modal-header">
+            <h2 id="transcriptTitle"><i class="fas fa-file-alt"></i> <span data-i18n="profile_transcript">Boletim</span></h2>
+            <button type="button" id="closeTranscriptModal" class="close-profile-modal" data-i18n-aria="close" aria-label="Fechar">&times;</button>
+        </div>
+        <div id="transcriptPreview" class="transcript-preview"></div>
+        <div class="certificate-modal-actions">
+            <button type="button" id="downloadTranscriptBtn" class="btn-primary"><i class="fas fa-image"></i> <span data-i18n="profile_transcript_download">Baixar PNG</span></button>
+            <button type="button" id="downloadTranscriptPdfBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> <span data-i18n="profile_transcript_download_pdf">Baixar PDF</span></button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== NOTIFICAÇÕES ========== -->
+<div id="notificationContainer" style="position: fixed; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; min-width: 320px; max-width: 420px;"></div>
+
+<!-- ========== PLAYER DE ÁUDIO FLUTUANTE ========== -->
+<div id="floatingAudioPlayer" class="floating-audio-player">
+    <div id="audioPlayerPanel" class="audio-player-panel" hidden>
+        <div class="audio-player-heading">
+            <div>
+                <span class="audio-player-kicker"><i class="fas fa-headphones" aria-hidden="true"></i> Música para estudar</span>
+                <strong id="audioPlayerTitle">Carregando áudio...</strong>
+            </div>
+            <button id="closeAudioPlayer" class="audio-player-close" type="button" aria-label="Fechar player">&times;</button>
+        </div>
+        <div class="audio-player-progress">
+            <input id="audioPlayerSeek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Progresso da música">
+            <div class="audio-player-time"><span id="audioPlayerCurrentTime">00:00</span><span id="audioPlayerDuration">00:00</span></div>
+        </div>
+        <div class="audio-player-controls">
+            <button id="audioPlayerPrevious" type="button" aria-label="Áudio anterior"><i class="fas fa-backward-step"></i></button>
+            <button id="audioPlayerPlay" class="audio-player-play" type="button" aria-label="Reproduzir"><i class="fas fa-play"></i></button>
+            <button id="audioPlayerNext" type="button" aria-label="Próximo áudio"><i class="fas fa-forward-step"></i></button>
+            <label class="audio-player-volume" aria-label="Volume"><i class="fas fa-volume-high"></i><input id="audioPlayerVolume" type="range" min="0" max="100" value="70"><span id="audioPlayerVolumeValue">70%</span></label>
+        </div>
+    </div>
+    <a id="aiTutorToggle" class="ai-tutor-toggle" href="https://duck.ai/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Tutor IA em uma nova janela" hidden>
+        <i class="fas fa-robot" aria-hidden="true"></i>
+        <span>Tutor IA</span>
+    </a>
+    <button id="studyCalendarToggle" class="study-calendar-floating-toggle" type="button" aria-label="Calendário de estudos" aria-controls="studyCalendar" aria-expanded="false">
+        <i class="fas fa-calendar-days" aria-hidden="true"></i>
+        <span class="study-calendar-floating-toggle-label">Calendário<br>de estudos</span>
+    </button>
+    <button id="audioPlayerToggle" class="audio-player-toggle" type="button" aria-expanded="false" aria-controls="audioPlayerPanel" aria-label="Abrir player de música">
+        <i class="fas fa-music" aria-hidden="true"></i>
+        <span class="audio-player-toggle-label">Música</span>
+    </button>
+    <div id="youtubeAudioPlayer" class="youtube-audio-source" aria-hidden="true"></div>
+</div>
+
+<!-- ========== MODAL DE DETALHES DO LIVRO ========== -->
+<div id="bookDetailModal" class="book-modal" role="dialog" aria-hidden="true">
+    <div class="modal-content"><div id="bookDetailContent"></div></div>
+</div>
+
+<!-- ========== MODAL DE ONBOARDING (TRILHA DE BOAS-VINDAS) ========== -->
+<div id="onboardingModal" class="onboarding-modal" style="display: none;" aria-hidden="true">
+    <div class="onboarding-modal-content">
+        <div id="onboardingSteps">
+            <!-- Passo 0: Escolha de idioma -->
+            <div class="step active" data-step="0">
+                <h2><i class="fas fa-globe"></i> <span data-i18n="onboarding_language_title">Escolha seu idioma</span></h2>
+                <p data-i18n="onboarding_language_text">Selecione o idioma da plataforma para continuar.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
+                    <button id="onboardingLangPt" class="lang-select-btn" data-lang="pt-br" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇧🇷 Português
+                    </button>
+                    <button id="onboardingLangEn" class="lang-select-btn" data-lang="en" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇺🇸 English
+                    </button>
+                    <button id="onboardingLangEs" class="lang-select-btn" data-lang="es" style="padding: 0.8rem 2rem; border-radius: 2rem; border: 2px solid var(--border); background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); min-width: 120px;">
+                        🇪🇸 Español
+                    </button>
+                </div>
+                <div id="onboardingLangError" class="form-error" style="display:none; text-align: center;" data-i18n="onboarding_error_language_required">Por favor, selecione um idioma.</div>
+            </div>
+            <!-- Passo 1: Boas-vindas -->
+            <div class="step" data-step="1">
+                <img src="base/logo-da-universidade-livre.png" alt="Universidade Livre" class="logo-large" style="max-width:120px; margin:0 auto 1rem; display:block;">
+                <h2><i class="fas fa-hand-wave"></i> <span data-i18n="onboarding_welcome_title">Bem-vindo à Universidade Livre</span></h2>
+                <p data-i18n="onboarding_welcome_text">Uma plataforma de educação autodidata, gratuita e aberta para todos.</p>
+                <p style="font-size:0.9rem; color:var(--text-tertiary); margin-top:1rem;" data-i18n="main_program_description">Cursos de graduação e pós-graduação.</p>
+            </div>
+            <!-- Passo 2: Sobre o projeto -->
+            <div class="step" data-step="2">
+                <h2><i class="fas fa-info-circle"></i> <span data-i18n="onboarding_about_title">Sobre o projeto</span></h2>
+                <p data-i18n="onboarding_about_text">A Universidade Livre oferece cursos de graduação, pós-graduação e idiomas com conteúdo curado e gratuito. Você estuda no seu ritmo, com suporte da comunidade.</p>
+                <p style="font-size:0.9rem; color:var(--text-secondary);"><span data-i18n="course_progress">Progresso do Curso</span> – <span data-i18n="course_hours">Carga horária</span></p>
+            </div>
+            <!-- Passo 3: Login (apenas senha + importação) ou Cadastro -->
+            <div class="step" data-step="3">
+                <h2><i class="fas fa-sign-in-alt"></i> <span id="onboardingModeTitle" data-i18n="onboarding_login_button">Entrar</span></h2>
+
+                <!-- Modo Login (padrão) -->
+                <div id="onboardingLoginMode">
+                    <div class="form-group">
+                        <label for="onboardingLoginPassword" data-i18n="onboarding_login_password_label">Senha</label>
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingLoginPassword" placeholder="Digite sua senha..." data-i18n-placeholder="onboarding_login_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleLoginPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                        </div>
+                        <div id="onboardingLoginError" class="form-error" style="display:none;" data-i18n="onboarding_error_login_failed">Senha incorreta.</div>
+                    </div>
+                    <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
+                    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: var(--bg-primary); border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                        <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
+                    </div>
+                    <div style="margin-top: 0.5rem; text-align: center; border-top: 1px solid var(--border); padding-top: 0.8rem;">
+                        <button type="button" id="onboardingToggleModeBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
+                            <span data-i18n="onboarding_create_account">Criar conta</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modo Cadastro (oculto inicialmente) -->
+                <div id="onboardingSignupMode" style="display: none;">
+                    <div class="form-group">
+                        <label for="onboardingName" data-i18n="onboarding_form_name_label">Nome</label>
+                        <input type="text" id="onboardingName" placeholder="Digite seu nome..." data-i18n-placeholder="onboarding_form_name_placeholder">
+                        <div id="onboardingNameError" class="form-error" style="display:none;" data-i18n="onboarding_error_name_required">O nome é obrigatório.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingGender" data-i18n="onboarding_form_gender_label">Sexo <span style="color:#EF4444;">*</span></label>
+                        <select id="onboardingGender">
+                            <option value="" data-i18n="onboarding_form_gender_not_informed">Selecione...</option>
+                            <option value="masculino" data-i18n="onboarding_form_gender_masculine">Masculino</option>
+                            <option value="feminino" data-i18n="onboarding_form_gender_feminine">Feminino</option>
+                            <option value="outro" data-i18n="onboarding_form_gender_other">Outro</option>
+                        </select>
+                        <div id="onboardingGenderError" class="form-error" style="display:none;" data-i18n="onboarding_error_gender_required">Por favor, selecione seu sexo.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingPassword" data-i18n="onboarding_form_password_label">Senha</label>
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingPassword" placeholder="Crie uma senha forte..." data-i18n-placeholder="onboarding_form_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
+                        <div id="onboardingPasswordError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_min">A senha deve ter pelo menos 8 caracteres.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingConfirmPassword" data-i18n="onboarding_form_confirm_password_label">Confirmar senha</label>
+                        <div style="position:relative;">
+                            <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder" style="padding-right:40px;">
+                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                        </div>
+                        <div id="onboardingConfirmError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_mismatch">As senhas não coincidem.</div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="onboarding_form_avatar_label">Escolha seu avatar</label>
+                        <div id="avatarSelectorContainer" style="margin-top: 6px; padding: 4px 0;"></div>
+                        <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                            <button type="button" id="onboardingUploadAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem;">
+                                <i class="fas fa-upload"></i> <span data-i18n="onboarding_form_avatar_upload">Enviar foto</span>
+                            </button>
+                            <button type="button" id="onboardingRemoveAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem; background:var(--bg-tertiary);">
+                                <i class="fas fa-trash-alt"></i> <span data-i18n="onboarding_form_avatar_remove">Remover foto</span>
+                            </button>
+                            <button type="button" id="onboardingAvatarLicense" class="btn-secondary" style="padding:4px 12px; font-size:0.7rem; background:transparent; border-color:var(--border);">
+                                <i class="fas fa-balance-scale"></i> <span data-i18n="onboarding_form_avatar_license">Licença das imagens</span>
+                            </button>
+                        </div>
+                        <input type="file" id="onboardingAvatarInput" accept="image/*" style="display:none;">
+                    </div>
+                    <div style="margin-top: 0.5rem; text-align: center;">
+                        <button type="button" id="onboardingToggleModeBackBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
+                            <span data-i18n="onboarding_switch_to_login">Já tenho conta? Faça login</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Passo 4: Confirmação (apenas para novo cadastro) -->
+            <div class="step" data-step="4">
+                <h2><i class="fas fa-check-circle"></i> <span data-i18n="onboarding_confirm_title">Pronto para começar!</span></h2>
+                <p data-i18n="onboarding_confirm_text">Seu perfil foi criado. Explore os cursos, participe da comunidade e comece sua jornada de aprendizado.</p>
+                <p style="margin-top:1rem; color:var(--accent-green);"><i class="fas fa-graduation-cap"></i> <span data-i18n="course_progress">Progresso do Curso</span>: 0%</p>
+            </div>
+        </div>
+        <div class="onboarding-footer">
+            <button id="onboardingPrev" class="btn-secondary" style="display:none;" data-i18n="onboarding_button_prev">Voltar</button>
+            <button id="onboardingNext" class="btn-primary" data-i18n="onboarding_button_next">Próximo</button>
+            <button id="onboardingFinish" class="btn-primary" style="display:none;" data-i18n="onboarding_button_finish">Concluir</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== SCRIPTS ========== -->
+<script src="base/analytics.js" defer></script>
+<script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+<script src="base/menu/auditorio-menu.js" defer></script>
+<script src="base/menu/biblioteca-menu.js" defer></script>
+<script src="base/menu/mobile-menu.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js" defer></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" defer></script>
+<!-- ========== MÓDULO CENTRAL DE TRADUÇÃO (i18n) ========== -->
+<script src="base/lang/i18n.js" defer></script>
+<script src="base/reCaptcha/xsukax-captcha.js" defer></script>
+<script src="cursos/latex-renderer.js" defer></script>
+<!-- ========== DEMAIS MÓDULOS ========== -->
+<script src="cursos/cursor-timeset.js" defer></script>
+<script src="script.js" defer></script>
+<script src="cursos/feedback/lesson-feedback.js" defer></script>
+<script src="cursos/ajuda/help-modal.js" defer></script>
+<script src="cursos/course-intro.js" defer></script>
+<script src="cursos/final-completion.js" defer></script>
+<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js" defer></script>
+<script src="cursos/study-calendar.js" defer></script>
+<script src="base/perfil/profile.js" defer></script>
+<script src="base/onboarding/onboarding.js" defer></script>
+<script src="base/audio-player/audio-player.js" defer></script>
+<script src="base/tutorIA/ai-tutor.js" defer></script>
+<script src="base/loading/loading-screen.js" defer></script>
+<script src="base/doar/donation-modal.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+{
+  "name": "CyberSecurity",
+  "type": "Pós-graduação",
+  "icon": "fa-shield-alt",
+  "description": "Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança.",
+  "stages": [
+    {
+      "name": "0ª Etapa · Técnicas de estudo, organização e aprendizagem",
+      "disciplines": [
+        {
+          "name": "Como estudar do jeito certo",
+          "videoIds": [
+            "j6hcALm0mLM",
+            "bMLbf10uC0Y",
+            "jdykN0Pvmsg",
+            "GKPhdBbwycA",
+            "0pR36PKRS3U",
+            "Pt9ahS5IhYY",
+            "o8NpsLSkKUo",
+            "RBULO6Rd2TY",
+            "X-23dxiSsxw",
+            "SyAkPPLUcnI",
+            "TQ9A2hAOaJo",
+            "l7lIPXij85I",
+            "BqJCqjpLIUk",
+            "VoHBn-guR1A",
+            "iuri3vpmpx4",
+            "7n5ZQMWkdQ8",
+            "kgH7N4PiCUU",
+            "QO582jpSAsM",
+            "2j33N2u3NAA",
+            "SqBgnMgFQTU",
+            "rEtwjlXbs6M",
+            "Y3mtLliMrkg",
+            "nIN5_nHGk4w",
+            "xHqhw7A5Wk0"
+          ],
+          "bio": "A disciplina Como estudar do jeito certo é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Como estudar do jeito certo combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória. Bibliografia de estudo: Aprendendo a Aprender, de Barbara Oakley e Terrence Sejnowski, para aplicar técnicas de memória, alternância entre foco e visão ampla e prática de recuperação; Hábitos Atômicos, de James Clear, para construir uma rotina consistente e reduzir distrações; Trabalho Focado, de Cal Newport, para organizar sessões de concentração profunda e estudo de alta qualidade."
+        }
+      ]
+    },
+    {
+      "name": "1ª Etapa · Fundamentos de CyberSecurity",
+      "disciplines": [
+        {
+          "name": "Introdução a CiberSegurança",
+          "type": "external",
+          "time": "37 min",
+          "externalUrl": "https://www.edx.org/learn/cybersecurity/harvard-university-cs50-s-introduction-to-cybersecurity",
+          "platformName": "edX",
+          "videoIds": [],
+          "bio": "A disciplina Introdução a CiberSegurança é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Introdução a CiberSegurança combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Fundamentos CiberSegurança",
+          "type": "external",
+          "time": "65 min",
+          "externalUrl": "https://www.udemy.com/course/certified-secure-netizen/",
+          "platformName": "Udemy",
+          "videoIds": [],
+          "bio": "A disciplina Fundamentos CiberSegurança é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Fundamentos CiberSegurança combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Cybersecurity",
+          "type": "external",
+          "time": "75 min",
+          "externalUrl": "https://www.eucapacito.com.br/curso-ec/cybersecurity",
+          "platformName": "Eu Capacito",
+          "videoIds": [],
+          "bio": "A disciplina Cybersecurity é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Cybersecurity combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "OWASP do início",
+          "type": "external",
+          "time": "73 min",
+          "externalUrl": "https://www.udemy.com/course/owasp-zap-from-scratch/",
+          "platformName": "Udemy",
+          "videoIds": [],
+          "bio": "A disciplina OWASP do início é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina OWASP do início combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Introdução ao Hacking e Pentest",
+          "type": "external",
+          "time": "70 min",
+          "externalUrl": "https://solyd.com.br/treinamentos/introducao-ao-hacking-e-pentest-2/",
+          "platformName": "Solyd",
+          "videoIds": [],
+          "bio": "A disciplina Introdução ao Hacking e Pentest é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Introdução ao Hacking e Pentest combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        }
+      ]
+    },
+    {
+      "name": "2ª Etapa · Forense, SIEM e Testes de Segurança",
+      "disciplines": [
+        {
+          "name": "Forense Digital",
+          "type": "external",
+          "time": "69 min",
+          "externalUrl": "https://acaditi.com.br/essentials-series/#dfe",
+          "platformName": "Acaditi",
+          "videoIds": [],
+          "bio": "A disciplina Forense Digital é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Forense Digital combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Sistema de SIEM",
+          "type": "external",
+          "time": "73 min",
+          "externalUrl": "https://www.elastic.co/training/elastic-security-fundamentals-siem",
+          "platformName": "Elastic",
+          "videoIds": [],
+          "bio": "A disciplina Sistema de SIEM é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Sistema de SIEM combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "O que é SAST?",
+          "type": "external",
+          "time": "59 min",
+          "externalUrl": "https://www.microfocus.com/pt-br/what-is/sast",
+          "platformName": "Micro Focus",
+          "videoIds": [],
+          "bio": "A disciplina O que é SAST? é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina O que é SAST? combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "O que é DAST?",
+          "type": "external",
+          "time": "75 min",
+          "externalUrl": "https://www.microfocus.com/pt-br/what-is/dast",
+          "platformName": "Micro Focus",
+          "videoIds": [],
+          "bio": "A disciplina O que é DAST? é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina O que é DAST? combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "O que é IAST?",
+          "type": "external",
+          "time": "72 min",
+          "externalUrl": "https://www.nova8.com.br/2020/01/17/o-que-e-iast/",
+          "platformName": "Nova8",
+          "videoIds": [],
+          "bio": "A disciplina O que é IAST? é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina O que é IAST? combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        }
+      ]
+    },
+    {
+      "name": "3ª Etapa · RASP, LGPD e Criptografia",
+      "disciplines": [
+        {
+          "name": "O que é RASP?",
+          "type": "external",
+          "time": "57 min",
+          "externalUrl": "https://blog.convisoappsec.com/rasp-no-cenario-de-appsec/",
+          "platformName": "Conviso",
+          "videoIds": [],
+          "bio": "A disciplina O que é RASP? é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina O que é RASP? combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Introdução a LGPD",
+          "type": "external",
+          "time": "67 min",
+          "externalUrl": "https://www.escolavirtual.gov.br/curso/603",
+          "platformName": "Escola Virtual Gov",
+          "videoIds": [],
+          "bio": "A disciplina Introdução a LGPD é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Introdução a LGPD combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Criptografia Parte 1",
+          "videoIds": [
+            "CcU5Kc_FN_4"
+          ],
+          "bio": "A disciplina Criptografia Parte 1 é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Criptografia Parte 1 combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Criptografia Parte 2",
+          "videoIds": [
+            "HCHqtpipwu4"
+          ],
+          "bio": "A disciplina Criptografia Parte 2 é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Criptografia Parte 2 combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Configurar chaves públicas e privadas",
+          "videoIds": [
+            "7BEsfupYngE"
+          ],
+          "bio": "A disciplina Configurar chaves públicas e privadas é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Configurar chaves públicas e privadas combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        }
+      ]
+    },
+    {
+      "name": "4ª Etapa · Engenharia Reversa, Comando e Controle e Python para Pentesters",
+      "disciplines": [
+        {
+          "name": "Curso de Engenharia Reversa Online",
+          "type": "external",
+          "time": "57 min",
+          "externalUrl": "https://hackaflag.com.br/academy.html",
+          "platformName": "HackaFlag",
+          "videoIds": [],
+          "bio": "A disciplina Curso de Engenharia Reversa Online é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Curso de Engenharia Reversa Online combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Teoría e Ferramentas de Comando e Controle",
+          "videoIds": [
+            "bUqu8fh7xUg"
+          ],
+          "bio": "A disciplina Teoría e Ferramentas de Comando e Controle é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Teoría e Ferramentas de Comando e Controle combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        },
+        {
+          "name": "Curso Python para Pentesters",
+          "videoIds": [
+            "BPrtPHUhcG8",
+            "A9UaGb0JvlI",
+            "D0StkQyOlWA",
+            "INkudR619YA",
+            "-1cyfHRdM0g",
+            "swu3VGpSopQ",
+            "QhNTHDo4Rm8",
+            "abIkNcuSwvU",
+            "sgMtXEspwJ0",
+            "-53YEuoqrbc",
+            "1gWG83NmG1M",
+            "6h4UgOV3JYg",
+            "Rsv5p4JwN5M",
+            "rP_MXSGS-bY",
+            "tWFev_Bdv7Q",
+            "CV1g3o7LyL0",
+            "I43d-QBoRIw",
+            "D4ibT_DzH1w",
+            "u1KKrjiAZls",
+            "bAphlaPSRK4",
+            "YNDdVD4R9Dc",
+            "3JNf9PTE930",
+            "mmnrIY8kJpY",
+            "JhZ8bUQoZsg",
+            "p4XlmKe2LZI",
+            "USE-QlGbAuA",
+            "c72rPyv-Dc0",
+            "48ZeqVQn6xI",
+            "ECbmKvdzbW4",
+            "5wB0B_i4g24",
+            "2FD-v9eEabc",
+            "7pWjr3TzPos",
+            "DPiUKfvM_YU",
+            "EBKDd8epYIQ",
+            "ZeaPz1q33Ec",
+            "CT4aP2ZtPus",
+            "5iGjzNcViH0",
+            "e9HJh-_agKg",
+            "1gnaiV9M5Eg",
+            "Qq3n41eoBLY",
+            "e-JJ4ZYOH94",
+            "1m137j46QDE",
+            "sHX0Kd1Um4s",
+            "KmC5QmzrtAo",
+            "a2AR42Kr59U",
+            "usF1pP5j1Ko",
+            "zMUqaL1rACM",
+            "T5YzXCIqasQ",
+            "lu_7UhIxUu0",
+            "5h1oUpgudak",
+            "bt-H4Jk16TY",
+            "tD0IN1K49jQ",
+            "Tr16gdyIFgI",
+            "l8tMWtb9OU0"
+          ],
+          "bio": "A disciplina Curso Python para Pentesters é um eixo essencial do percurso formativo, reunindo fundamentos, aplicações práticas e reflexão crítica. Ao longo do estudo, os estudantes ampliam seu raciocínio, consolidam os conceitos centrais e desenvolvem a capacidade de resolver problemas com autonomia e profundidade. A disciplina Curso Python para Pentesters combina fundamentos, prática e revisão contínua para que você entenda a base antes de avançar para exercícios e aplicações reais. Como estudar do seu jeito: organize o conteúdo em tópicos, faça resumos com linguagem própria, resolva exemplos sem olhar a resposta e retorne ao material sempre que uma dúvida aparecer. Pesquisa na internet: complemente o estudo com vídeos didáticos, artigos, glossários e materiais acadêmicos para confirmar conceitos, exemplos e aplicações práticas. Biografia dos assuntos: relacione cada tema com sua origem, autores, contextos históricos e aplicações na vida real para construir uma visão mais ampla da matéria. Como estudar: foque em leitura guiada, exercícios progressivos, revisão em ciclos curtos e prática constante para transformar teoria em compreensão e memória."
+        }
+      ]
+    }
+  ],
+  "bio": "CyberSecurity é uma formação em pós-graduação estruturada para desenvolver competência teórica, prática e profissional ao longo do percurso acadêmico. Pós-graduação focada em segurança cibernética, abrangendo proteção de sistemas, análise de vulnerabilidades, engenharia reversa, testes de invasão e conformidade com normas de segurança."
+}

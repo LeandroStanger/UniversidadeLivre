@@ -1,0 +1,54 @@
+name: Desktop builds
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: macos
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Linux packaging tools
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes flatpak flatpak-builder rpm
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      - run: npm run dist
+      - name: Build Flatpak
+        if: matrix.platform == 'linux'
+        run: |
+          flatpak-builder --user --install-deps-from=flathub --force-clean \
+            --repo=/tmp/universidade-livre-flatpak-repo \
+            /tmp/universidade-livre-flatpak-build \
+            packaging/flatpak/io.github.leandrostanger.universidadelivre.yml
+          flatpak build-bundle /tmp/universidade-livre-flatpak-repo \
+            release/io.github.leandrostanger.universidadelivre.flatpak \
+            io.github.leandrostanger.universidadelivre stable
+      - uses: actions/upload-artifact@v4
+        with:
+          name: universidade-livre-${{ matrix.platform }}
+          path: release/*
+          if-no-files-found: error

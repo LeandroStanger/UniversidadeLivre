@@ -1,0 +1,311 @@
+{
+  "course": "Ciencia da Computacao",
+  "time": [
+    {
+      "name": "Camilo Cunha de Azevedo",
+      "github": "https://github.com/Camilotk",
+      "role": "Fundador da ULivre",
+      "year": "2024",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/30880723?v=4"
+    },
+    {
+      "name": "Mateus Roveda",
+      "github": "https://github.com/mateusrovedaa",
+      "role": "Líder de Comunidade",
+      "year": "2024",
+      "description": "Liderança da comunidade, organização de eventos e engajamento.",
+      "image": "https://avatars.githubusercontent.com/u/13920205?v=4"
+    },
+    {
+      "name": "Rotfuchs von Vulpes",
+      "github": "https://github.com/Rotfuchs-von-Vulpes",
+      "role": "Admin da Comunidade",
+      "year": "2024",
+      "description": "Administração do servidor e moderação.",
+      "image": "https://avatars.githubusercontent.com/u/115525985?v=4"
+    },
+    {
+      "name": "Emanuel Castelo",
+      "github": "https://github.com/elvcastelo",
+      "role": "Admin da Comunidade",
+      "year": "2024",
+      "description": "Administração e suporte técnico.",
+      "image": "https://avatars.githubusercontent.com/u/91682516?v=4"
+    },
+    {
+      "name": "Igor Vinoski",
+      "github": "https://github.com/igorvinoski",
+      "role": "Admin da Comunidade",
+      "year": "2024",
+      "description": "Administração e desenvolvimento de conteúdo.",
+      "image": "https://avatars.githubusercontent.com/u/65352823?v=4"
+    },
+    {
+      "name": "Leonardo Fiedler",
+      "github": "https://github.com/leonardoFiedler",
+      "role": "Moderador da Comunidade",
+      "year": "2024",
+      "description": "Moderação e suporte aos alunos.",
+      "image": "https://avatars.githubusercontent.com/u/53590323?v=4"
+    },
+    {
+      "name": "Jefferson Quesado",
+      "github": "https://github.com/jeffque",
+      "role": "Moderador da Comunidade",
+      "year": "2024",
+      "description": "Moderação e revisão de conteúdo.",
+      "image": "https://avatars.githubusercontent.com/u/4756392?v=4"
+    },
+    {
+      "name": "Aldair Meneses",
+      "github": "https://github.com/aldair-meneses",
+      "role": "Moderador da Comunidade",
+      "year": "2024",
+      "description": "Moderação e curadoria de materiais.",
+      "image": "https://avatars.githubusercontent.com/u/107772798?v=4"
+    },
+    {
+      "name": "Gabriel Carvalho",
+      "github": "https://github.com/GabrielCASilva",
+      "role": "Moderador da Comunidade",
+      "year": "2024",
+      "description": "Moderação e suporte técnico.",
+      "image": "https://avatars.githubusercontent.com/u/46003701?v=4"
+    },
+    {
+      "name": "Diego Lucas",
+      "github": "https://github.com/DiegoBreeg",
+      "role": "Moderador da Comunidade",
+      "year": "2024",
+      "description": "Moderação e organização de conteúdos.",
+      "image": "https://avatars.githubusercontent.com/u/75667396?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Fabio Kon",
+      "github": "https://www.ime.usp.br/~kon/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Produção de vídeos sobre sistemas distribuídos e computação.",
+      "image": "https://avatars.githubusercontent.com/u/1528912?v=4"
+    },
+    {
+      "name": "professordouglasmaioli",
+      "github": "https://github.com/professordouglasmaioli",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação e desenvolvimento web.",
+      "image": "https://avatars.githubusercontent.com/u/76759425?v=4"
+    },
+    {
+      "name": "Gabriel Guimaraes",
+      "github": "https://github.com/gablg1",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre algoritmos e estrutura de dados.",
+      "image": "https://avatars.githubusercontent.com/u/5253695?v=4"
+    },
+    {
+      "name": "Pedro Thiago Valério de Souza",
+      "github": "http://dca.ufrn.br/~souza",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre redes de computadores e segurança.",
+      "image": "https://avatars.githubusercontent.com/u/5923790?v=4"
+    },
+    {
+      "name": "Rodolfo Azevedo",
+      "github": "http://www.ic.unicamp.br/~rodolfo",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre arquitetura de computadores e organização.",
+      "image": "https://avatars.githubusercontent.com/u/691525?v=4"
+    },
+    {
+      "name": "Eduardo Guerra",
+      "github": "https://github.com/guerraem",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre engenharia de software e metodologias ágeis.",
+      "image": "https://avatars.githubusercontent.com/u/907905?v=4"
+    },
+    {
+      "name": "Fábio dos Reis",
+      "github": "https://github.com/bosontreinamentos",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação e tecnologia.",
+      "image": "https://avatars.githubusercontent.com/u/22084794?v=4"
+    },
+    {
+      "name": "Matheus Felipe",
+      "github": "https://github.com/matheusfelipeog",
+      "role": "Revisor de PRs",
+      "year": "2024",
+      "description": "Revisão de pull requests e contribuições técnicas.",
+      "image": "https://avatars.githubusercontent.com/u/50463866?v=4"
+    },
+    {
+      "name": "João Paulo Carvalho",
+      "github": "https://jjpaulo2.github.io/",
+      "role": "Consultor Pedagógico",
+      "year": "2024",
+      "description": "Ideias, planejamento e feedback sobre o currículo.",
+      "image": "https://avatars.githubusercontent.com/u/22819523?v=4"
+    },
+    {
+      "name": "Wellington Silva",
+      "github": "https://sswellington.github.io/",
+      "role": "Consultor Pedagógico",
+      "year": "2024",
+      "description": "Ideias, planejamento e feedback sobre materiais.",
+      "image": "https://avatars.githubusercontent.com/u/45939490?v=4"
+    },
+    {
+      "name": "Hallison Paz",
+      "github": "https://youtube.com/programacaodinamica",
+      "role": "Contribuidor (Vídeos e Ideias)",
+      "year": "2024",
+      "description": "Vídeos sobre programação dinâmica e curadoria de conteúdo.",
+      "image": "https://avatars.githubusercontent.com/u/5713977?v=4"
+    },
+    {
+      "name": "Fernando Mercês",
+      "github": "http://menteb.in/",
+      "role": "Contribuidor (Vídeos e Manutenção)",
+      "year": "2024",
+      "description": "Vídeos sobre linguagens de programação e manutenção do repositório.",
+      "image": "https://avatars.githubusercontent.com/u/1429647?v=4"
+    },
+    {
+      "name": "Fernando Masanori",
+      "github": "https://linktr.ee/fmasanori",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre introdução à computação e Python.",
+      "image": "https://avatars.githubusercontent.com/u/977887?v=4"
+    },
+    {
+      "name": "Emilio Francesquini",
+      "github": "http://professor.ufabc.edu.br/~e.francesquini",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre sistemas distribuídos e computação de alto desempenho.",
+      "image": "https://avatars.githubusercontent.com/u/730414?v=4"
+    },
+    {
+      "name": "Fabricio Olivetti de Franca",
+      "github": "https://github.com/folivetti",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre inteligência artificial e aprendizado de máquina.",
+      "image": "https://avatars.githubusercontent.com/u/3751284?v=4"
+    },
+    {
+      "name": "Professor Isidro",
+      "github": "http://www.professorisidro.com.br/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação e desenvolvimento web.",
+      "image": "https://avatars.githubusercontent.com/u/6184696?v=4"
+    },
+    {
+      "name": "Fabio Levy Siqueira",
+      "github": "https://levysiqueira.com.br/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre ciência de dados e estatística.",
+      "image": "https://avatars.githubusercontent.com/u/1347668?v=4"
+    },
+    {
+      "name": "Luiz Velho",
+      "github": "http://lvelho.impa.br/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre computação gráfica e visão computacional.",
+      "image": "https://avatars.githubusercontent.com/u/3164819?v=4"
+    },
+    {
+      "name": "Geofisicando",
+      "github": "https://dirack.github.io/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre métodos numéricos e computação científica.",
+      "image": "https://avatars.githubusercontent.com/u/39841723?v=4"
+    },
+    {
+      "name": "WR Kits",
+      "github": "http://wrkits.com.br/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre eletrônica e robótica.",
+      "image": "https://avatars.githubusercontent.com/u/18622371?v=4"
+    },
+    {
+      "name": "Bruno Miranda",
+      "github": "https://bdouram.github.io/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação e desenvolvimento de jogos.",
+      "image": "https://avatars.githubusercontent.com/u/31232196?v=4"
+    },
+    {
+      "name": "Gustavo Guanabara",
+      "github": "https://github.com/professorguanabara",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação, JavaScript e tecnologias web.",
+      "image": "https://avatars.githubusercontent.com/u/66076428?v=4"
+    },
+    {
+      "name": "Victor Lima",
+      "github": "https://github.com/techtuxbr",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre Linux e administração de sistemas.",
+      "image": "https://avatars.githubusercontent.com/u/25886341?v=4"
+    },
+    {
+      "name": "Lucas Nhimi",
+      "github": "https://github.com/lucasnhimi",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre desenvolvimento front-end e UX.",
+      "image": "https://avatars.githubusercontent.com/u/54808138?v=4"
+    },
+    {
+      "name": "oliveira-michel",
+      "github": "https://github.com/oliveira-michel",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre algoritmos e estruturas de dados.",
+      "image": "https://avatars.githubusercontent.com/u/48107652?v=4"
+    },
+    {
+      "name": "Willian Justen",
+      "github": "http://willianjusten.com.br/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre desenvolvimento web e ferramentas modernas.",
+      "image": "https://avatars.githubusercontent.com/u/3991845?v=4"
+    },
+    {
+      "name": "Kizzy Terra",
+      "github": "https://youtube.com/programacaodinamica",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre programação dinâmica e lógica de programação.",
+      "image": "https://avatars.githubusercontent.com/u/6809851?v=4"
+    },
+    {
+      "name": "Andrew Rosário",
+      "github": "https://andrewrosario.medium.com/",
+      "role": "Contribuidor (Vídeos)",
+      "year": "2024",
+      "description": "Vídeos sobre engenharia de software e boas práticas.",
+      "image": "https://avatars.githubusercontent.com/u/21269337?v=4"
+    }
+  ]
+}

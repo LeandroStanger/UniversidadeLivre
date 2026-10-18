@@ -1,0 +1,26 @@
+{
+  "course": "Espanhol",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Fundador da Universidade Livre",
+      "description": "Fundador da Universidade Livre, responsável pela estrutura e visão do projeto.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Programação Dinâmica",
+      "url": "https://www.youtube.com/@pgdinamica",
+      "role": "Como estudar do jeito certo",
+      "image": "https://yt3.ggpht.com/ytc/AIdro_lNaZXEMQi5BwwiSLGg43lJg4DFqKphdxylYeRBUREufg=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Kultivi",
+      "url": "https://www.youtube.com/@Kultivi",
+      "role": "Espanhol do básico ao avançado",
+      "image": "https://yt3.ggpht.com/ceSNNxBQ4TNr_egBCvoROlo9O8p_HXsVqZcgZo0aNUVMB8CfW9ecn3EzNLkFp2CV5Fd8KYQO=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}

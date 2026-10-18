@@ -1,0 +1,38 @@
+{
+  "course": "Spanish",
+  "time": [
+    {
+      "name": "Leandro Stanger",
+      "github": "https://github.com/LeandroStanger",
+      "role": "Founder of Universidade Livre",
+      "description": "Founder of Universidade Livre, responsible for the structure and vision of the project.",
+      "image": "https://avatars.githubusercontent.com/u/26097419?v=4"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "EasySpanish",
+      "url": "https://www.youtube.com/@EasySpanish",
+      "role": "Spanish for English Speakers",
+      "image": "https://yt3.ggpht.com/67uro9RPZZ0_gMdRHQ7cK_OM2MOwiGSIOR6_UZ3cHMZUhrTqfjpNIb90g_rj3DjD9e3SIQWNWw=s48-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "name": "Duolingo",
+      "url": "https://en.duolingo.com/",
+      "role": "Language Learning Platform",
+      "image": "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2023/09/duolingo-generic-hero.jpg"
+    },
+    {
+      "name": "Babbel",
+      "url": "https://www.babbel.com/?locale=en",
+      "role": "Language Learning Platform",
+      "image": "https://makesyoufluent.com/wp-content/uploads/2025/01/3.-Babbel-%E2%80%93-Practical-and-Structured-Learning.png"
+    },
+    {
+      "name": "Labyrinth to Success",
+      "url": "https://www.youtube.com/@LabyrinthtoSuccess",
+      "role": "Spanish Learning",
+      "image": "https://yt3.ggpht.com/NTOFS0RWjjjFl_MuKyD4wMgnuZ1yMy0aNqGHTJ1k5q9sFKxxS0xbdT67hvmTEfZnx8RHl8v21e0=s48-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}
