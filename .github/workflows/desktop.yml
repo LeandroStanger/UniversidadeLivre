@@ -41,6 +41,7 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           flatpak-builder --user --install-deps-from=flathub --force-clean \
+            --default-branch stable \
             --repo=/tmp/universidade-livre-flatpak-repo \
             /tmp/universidade-livre-flatpak-build \
             packaging/flatpak/io.github.leandrostanger.universidadelivre.yml
