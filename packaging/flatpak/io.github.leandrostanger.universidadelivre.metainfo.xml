@@ -30,7 +30,7 @@
   <url type="vcs-browser">https://github.com/LeandroStanger/UniversidadeLivre</url>
   <url type="bugtracker">https://github.com/LeandroStanger/UniversidadeLivre/issues</url>
   <releases>
-    <release version="1.0.0" date="2026-10-18"/>
+    <release version="7.14" date="2026-10-18"/>
   </releases>
   <content_rating type="oars-1.1"/>
 </component>
