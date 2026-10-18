@@ -4,7 +4,7 @@
    
 [![GitHub Pages](https://img.shields.io/badge/Universidade_Livre-30a539?style=for-the-badge&Color=30a539&logo=googlescholar&logoColor=30a539&labelColor=000000)](https://leandrostanger.github.io/UniversidadeLivre/)
 [![GitHub](https://img.shields.io/badge/Repositório_GitHub-181717?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/LeandroStanger/UniversidadeLivre)
-[![Universidade Livre Desktop](https://img.shields.io/badge/Universidade_Livre_Desktop-30a539?style=for-the-badge&logo=codementor&logoColor=30a539&labelColor=000000)](https://github.com/LeandroStanger/UniversidadeLivre/releases/tag/universidade-livre-desktop)
+[![Universidade Livre Desktop](https://img.shields.io/badge/Universidade_Livre_Desktop-04dda0?style=for-the-badge&logo=codementor&logoColor=04dda0&labelColor=000000)](https://github.com/LeandroStanger/UniversidadeLivre/releases/tag/universidade-livre-desktop)
 
 </div>
 
