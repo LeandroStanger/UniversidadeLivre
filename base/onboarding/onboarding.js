@@ -15,7 +15,9 @@
 
     // ========== CONSTANTES ==========
     const ONBOARDING_COMPLETE_KEY = 'ulivre_onboarding_complete';
-    const HOME_URL = 'https://leandrostanger.github.io/UniversidadeLivre/';
+    const HOME_URL = window.location.hostname === '127.0.0.1'
+        ? '/'
+        : 'https://leandrostanger.github.io/UniversidadeLivre/';
     const TOTAL_STEPS = 5; // 0 a 4
     const onboardingLogoUrl = new URL(
         '../logo-da-universidade-livre.png',

@@ -1,0 +1,64 @@
+{
+  "name": "universidade-livre-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplicativo desktop multiplataforma da Universidade Livre",
+  "author": "Leandro Stanger",
+  "homepage": "https://leandrostanger.github.io/UniversidadeLivre/",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.leandrostanger.universidadelivre",
+    "productName": "Universidade Livre",
+    "asar": true,
+    "files": [
+      "index.html",
+      "style.css",
+      "script.js",
+      "auditorio/**/*",
+      "base/**/*",
+      "biblioteca/**/*",
+      "comunidade/**/*",
+      "cursos/**/*",
+      "notas/**/*",
+      "desktop/main.cjs",
+      "desktop/static-server.cjs",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "linux": {
+      "category": "Education",
+      "maintainer": "Universidade Livre",
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.education",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    }
+  }
+}
