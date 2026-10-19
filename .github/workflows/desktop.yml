@@ -17,7 +17,7 @@ jobs:
         include:
           - os: windows-latest
             platform: windows
-          - os: ubuntu-24.04
+          - os: ubuntu-26.04
             platform: linux
           - os: macos-latest
             platform: macos
@@ -48,7 +48,7 @@ jobs:
           flatpak build-bundle /tmp/universidade-livre-flatpak-repo \
             release/io.github.leandrostanger.universidadelivre.flatpak \
             io.github.leandrostanger.universidadelivre stable
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: universidade-livre-${{ matrix.platform }}
           path: release/*
