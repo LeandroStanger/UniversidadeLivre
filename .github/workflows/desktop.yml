@@ -30,6 +30,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: node --test desktop/download-yt-dlp.test.cjs
       - name: Install Linux packaging tools
         if: matrix.platform == 'linux'
         run: |
