@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 attachDisciplineQuizModalHandlers();
 console.log('[Main] Inicializando script.js v28.0...');
 
+    if (
+        localStorage.getItem('ulivre_onboarding_complete') === 'true'
+        && localStorage.getItem('userProfileName')?.trim()
+        && localStorage.getItem('userMatricula')?.trim()
+    ) {
+        localStorage.setItem('ulivre_authenticated_session', 'true');
+    }
+
     // ========== LIMPEZA DE DADOS GLOBAIS ==========
     if (localStorage.getItem('currentLesson') !== null) localStorage.removeItem('currentLesson');
     if (localStorage.getItem('currentStep') !== null) localStorage.removeItem('currentStep');
@@ -103,33 +111,6 @@ console.log('[Main] Inicializando script.js v28.0...');
                     localStorage.setItem('ulivre_notas_estudo', JSON.stringify(migratedNotes));
                 }
             } catch (_) {}
-        }
-    }
-
-    function updateAvailableCaptionLanguages() {
-        const select = document.getElementById('captionLanguageSelect');
-        if (!select) return;
-        const options = Array.from(select.options);
-        if (activePlayerType !== 'videojs' || !videojsPlayer) {
-            options.forEach(option => {
-                option.hidden = false;
-            });
-            select.disabled = false;
-            return;
-        }
-
-        const available = new Set(
-            Array.from(videojsPlayer.textTracks?.() || [])
-                .filter(track => track.kind === 'captions' || track.kind === 'subtitles')
-                .map(track => track.language?.split('-')[0].toLowerCase())
-                .filter(Boolean)
-        );
-        options.forEach(option => {
-            option.hidden = !available.has(option.value);
-        });
-        select.disabled = available.size === 0;
-        if (available.size > 0 && !available.has(select.value)) {
-            select.value = available.has('pt') ? 'pt' : [...available][0];
         }
     }
 
@@ -250,10 +231,15 @@ console.log('[Main] Inicializando script.js v28.0...');
     let currentLessonId = 0, currentVideoInLesson = 0;
     let disciplineLessonsMap = new Map();
     let disciplineToLessonsMap = new Map();
-    let player = null, videojsPlayer = null, isPlayerReady = false, activePlayerType = 'youtube', currentVideoDuration = 0, updateInterval = null;
+    let player = null, videojsPlayer = null, isPlayerReady = false, activePlayerType = 'videojs', updateInterval = null;
+    let playbackLoadSequence = 0;
     let pendingVideoObj = null;
+    let offlineCaptionTrack = null;
+    let defaultCaptionActivationHandler = null;
+    let captionTrackListForActivation = null;
+    let captionTrackListChangeHandler = null;
+    let captionActivationMedia = null;
     let youtubeEmbedFallbackActive = false;
-    let captionsEnabled = false;
     const CAPTION_LANGUAGE_STORAGE_KEY = 'captionLanguage';
     const TEST_USER_MATRICULA = '20260815064514840';
     let currentDiscipline = null;
@@ -289,8 +275,11 @@ console.log('[Main] Inicializando script.js v28.0...');
     const VOLUME_STORAGE_KEY = 'youtube_player_volume';
 
     function updateVolumePercentage(value = playerVolume) {
+        const normalizedValue = Math.max(0, Math.min(100, Number(value) || 0));
         const percentage = document.getElementById('volumePercentage');
-        if (percentage) percentage.textContent = `${Math.max(0, Math.min(100, Number(value) || 0))}%`;
+        if (percentage) percentage.textContent = `${normalizedValue}%`;
+        const videoPlayerPercentage = document.getElementById('videoPlayerVolumePercentage');
+        if (videoPlayerPercentage) videoPlayerPercentage.textContent = `${normalizedValue}%`;
     }
 
     function loadSavedVolume() {
@@ -1477,7 +1466,7 @@ console.log('[Main] Inicializando script.js v28.0...');
 
     // ========== VOLTAR PARA HOME ==========
     function backToHome() {
-        stopAllMedia();
+        stopAllMedia({ resetPlaybackPosition: true });
         window.finishFloatingMedia?.();
         if (window.CursorTimeset) window.CursorTimeset.registerExit();
         window.hideStudyCalendar?.();
@@ -1603,6 +1592,20 @@ console.log('[Main] Inicializando script.js v28.0...');
         } else if (discipline.type === 'exercise') {
             const duration = getDurationFromDiscipline(discipline) || 30;
             return [{ id: 'exercise', title: discipline.name, type: 'exercise', description: discipline.description || t('exercise_lesson_desc'), exerciseType: discipline.exerciseType || 'practice', watched: false, time: 0, duration: duration }];
+        }
+        const directVideoUrls = Array.isArray(discipline.videoUrls)
+            ? discipline.videoUrls.filter(url => typeof url === 'string' && url.trim())
+            : [];
+        if (directVideoUrls.length) {
+            return directVideoUrls
+                .map((url, idx) => ({
+                    id: discipline.videoIds?.[idx] || `media-${idx + 1}`,
+                    title: `${discipline.name} - Aula ${idx + 1}`,
+                    url: url.trim(),
+                    duration: 10 + (idx % 25) + 5,
+                    watched: false,
+                    time: 0
+                }));
         }
         return buildVideosFromIds(discipline.videoIds, discipline.name);
     }
@@ -2262,20 +2265,43 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
-    function stopAllMedia() {
+    function stopAllMedia({ resetPlaybackPosition = false } = {}) {
+        playbackLoadSequence++;
+        pendingVideoObj = null;
+        const isOfflinePlayback = document.querySelector('.player-section')?.classList.contains('offline-video-active');
         if (player && isPlayerReady) {
-            try { player.pause(); } catch (e) { console.warn('[Media] Erro ao parar Plyr:', e); }
+            try { player.pause(); } catch (e) { console.warn('[Media] Erro ao pausar Plyr:', e); }
         }
         if (videojsPlayer) {
-            try { videojsPlayer.pause(); } catch (e) { console.warn('[Media] Erro ao parar Video.js:', e); }
+            try {
+                if (isOfflinePlayback || videojsPlayer.isYouTube?.()) videojsPlayer.reset();
+                else videojsPlayer.pause();
+            } catch (e) {
+                console.warn('[Media] Erro ao parar Video.js:', e);
+            }
+        } else {
+            const videojsElement = document.getElementById('videojs-player');
+            if (videojsElement) {
+                videojsElement.pause();
+                if (isOfflinePlayback) {
+                    videojsElement.removeAttribute('src');
+                    videojsElement.load();
+                }
+            }
         }
+        if (resetPlaybackPosition) {
+            const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
+            if (currentVideo) currentVideo.time = 0;
+            if (player && isPlayerReady) {
+                try { player.currentTime = 0; } catch (e) { console.warn('[Media] Erro ao reiniciar o Plyr:', e); }
+            }
+            if (videojsPlayer && !isOfflinePlayback) {
+                try { videojsPlayer.currentTime(0); } catch (e) { console.warn('[Media] Erro ao reiniciar o Video.js:', e); }
+            }
+            saveAllProgress();
+        }
+        document.querySelector('.player-section')?.classList.remove('offline-video-active');
         hideExternalLesson();
-        const progressFill = document.getElementById("videoProgressFill");
-        if (progressFill) progressFill.style.width = "0%";
-        const currentTimeEl = document.getElementById("videoCurrentTime");
-        if (currentTimeEl) currentTimeEl.innerText = "00:00";
-        const durationEl = document.getElementById("videoDuration");
-        if (durationEl) durationEl.innerText = "00:00";
         if (updateInterval) clearInterval(updateInterval);
     }
 
@@ -2370,10 +2396,14 @@ console.log('[Main] Inicializando script.js v28.0...');
         const container = document.getElementById('externalLessonContainer');
         const youtubeWrapper = document.getElementById('youtube-player');
         const videojsElement = document.getElementById('videojs-player');
+        const videojsShell = document.getElementById('videojs-player-shell');
         const volumeControlDiv = document.getElementById('volumeControl');
+        const videoPlayerPercentage = document.getElementById('videoPlayerVolumePercentage');
         if (container) { container.style.display = 'none'; container.innerHTML = ''; }
         if (youtubeWrapper) youtubeWrapper.style.display = 'block';
+        if (videojsShell) videojsShell.hidden = true;
         if (videojsElement) videojsElement.hidden = true;
+        if (videoPlayerPercentage) videoPlayerPercentage.hidden = true;
         if (volumeControlDiv) volumeControlDiv.style.display = 'flex';
     }
 
@@ -2389,22 +2419,35 @@ console.log('[Main] Inicializando script.js v28.0...');
         return mimeTypes[extension] || 'video/mp4';
     }
 
+    function isOfflineDownloadableVideo(value) {
+        if (typeof value !== 'string') return false;
+        try {
+            const url = new URL(value);
+            if (url.protocol !== 'https:' || url.username || url.password || url.port) return false;
+            const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+            const videoId = getYouTubeVideoId(value);
+            if (
+                videoId
+                && /^[A-Za-z0-9_-]{11}$/.test(videoId)
+                && ['youtu.be', 'youtube.com', 'm.youtube.com', 'youtube-nocookie.com'].includes(hostname)
+            ) return true;
+            return url.protocol === 'https:' && /\.(mp4|webm)$/i.test(url.pathname);
+        } catch {
+            return false;
+        }
+    }
+
     function activateDirectVideoPlayer() {
         const youtubeWrapper = document.getElementById('youtube-player');
         const videojsElement = document.getElementById('videojs-player');
+        const videojsShell = document.getElementById('videojs-player-shell');
+        const videoPlayerPercentage = document.getElementById('videoPlayerVolumePercentage');
         if (youtubeWrapper) youtubeWrapper.style.display = 'none';
+        if (videojsShell) videojsShell.hidden = false;
         if (videojsElement) videojsElement.hidden = false;
+        if (videoPlayerPercentage) videoPlayerPercentage.hidden = false;
         activePlayerType = 'videojs';
         document.querySelector('.player-section')?.classList.add('videojs-active');
-    }
-
-    function activateYouTubePlayer() {
-        const youtubeWrapper = document.getElementById('youtube-player');
-        const videojsElement = document.getElementById('videojs-player');
-        if (youtubeWrapper) youtubeWrapper.style.display = 'block';
-        if (videojsElement) videojsElement.hidden = true;
-        activePlayerType = 'youtube';
-        document.querySelector('.player-section')?.classList.remove('videojs-active');
     }
 
     function loadCurrentLesson() {
@@ -2417,25 +2460,11 @@ console.log('[Main] Inicializando script.js v28.0...');
                 showExternalLesson(video);
                 const titleEl = document.getElementById("currentVideoTitle");
                 if (titleEl) titleEl.innerText = video.title;
-                const progressFill = document.getElementById("videoProgressFill");
-                if (progressFill) progressFill.style.width = "0%";
-                const currentTimeEl = document.getElementById("videoCurrentTime");
-                if (currentTimeEl) currentTimeEl.innerText = "00:00";
-                const durationEl = document.getElementById("videoDuration");
-                if (durationEl) durationEl.innerText = "00:00";
-                currentVideoDuration = 0;
             } else if (video.type === 'exercise') {
                 stopAllMedia();
                 showExerciseLesson(video);
                 const titleEl = document.getElementById("currentVideoTitle");
                 if (titleEl) titleEl.innerText = video.title;
-                const progressFill = document.getElementById("videoProgressFill");
-                if (progressFill) progressFill.style.width = "0%";
-                const currentTimeEl = document.getElementById("videoCurrentTime");
-                if (currentTimeEl) currentTimeEl.innerText = "00:00";
-                const durationEl = document.getElementById("videoDuration");
-                if (durationEl) durationEl.innerText = "00:00";
-                currentVideoDuration = 0;
             } else {
                 hideExternalLesson();
                 loadVideoInPlayer(video);
@@ -2461,45 +2490,224 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
-    function loadVideoInPlayer(videoObj) {
-        window.beginFloatingMedia?.();
-        youtubeEmbedFallbackActive = false;
-        const youtubeMatch = getYouTubeVideoId(videoObj.url);
-        const youtubeWrapper = document.getElementById('youtube-player');
-        const videojsElement = document.getElementById('videojs-player');
-        if (youtubeMatch) {
-            if (videojsPlayer) videojsPlayer.pause();
-            activateYouTubePlayer();
-            if (!player || !isPlayerReady) {
-                pendingVideoObj = videoObj;
+    function clearOfflineCaptionTrack() {
+        if (!offlineCaptionTrack) return;
+        if (videojsPlayer?.removeRemoteTextTrack) {
+            videojsPlayer.removeRemoteTextTrack(offlineCaptionTrack);
+        } else {
+            offlineCaptionTrack.remove?.();
+        }
+        offlineCaptionTrack = null;
+    }
+
+    function configureDefaultCaptionActivation(loadSequence, media = videojsPlayer) {
+        if (captionTrackListForActivation && captionTrackListChangeHandler) {
+            captionTrackListForActivation.removeEventListener('addtrack', captionTrackListChangeHandler);
+            captionTrackListForActivation.removeEventListener('change', captionTrackListChangeHandler);
+        }
+        if (captionActivationMedia && captionTrackListChangeHandler) {
+            captionActivationMedia.removeEventListener('loadedmetadata', captionTrackListChangeHandler);
+            captionActivationMedia.removeEventListener('playing', captionTrackListChangeHandler);
+        }
+        captionTrackListForActivation = null;
+        captionActivationMedia = null;
+        captionTrackListChangeHandler = null;
+
+        const textTracks = typeof media?.textTracks === 'function' ? media.textTracks() : media?.textTracks;
+        if (!textTracks) {
+            defaultCaptionActivationHandler = null;
+            return;
+        }
+
+        defaultCaptionActivationHandler = () => {
+            if (loadSequence !== playbackLoadSequence) return;
+
+            const captionTracks = Array.from(textTracks).filter(track =>
+                track.kind === 'captions' || track.kind === 'subtitles'
+            );
+            if (!captionTracks.length) return;
+
+            if (captionTracks.some(track => track.mode === 'showing')) {
+                defaultCaptionActivationHandler = null;
                 return;
             }
-            player.source = { type: 'video', sources: [{ src: youtubeMatch, provider: 'youtube' }] };
-            player.volume = playerVolume / 100;
-            resetQualityOptions();
-            resetAudioTrackOptions();
-            updateAvailableQualities();
-            scheduleQualityOptions();
-            updateAvailableAudioTracks();
-            scheduleAudioTrackOptions();
-            updateAvailableCaptionLanguages();
-            setTimeout(updateAvailableCaptionLanguages, 500);
-            if (videoObj.time > 5) player.once('loadedmetadata', () => { player.currentTime = videoObj.time; });
-        } else if (videojsPlayer && videojsElement) {
-            activateDirectVideoPlayer();
-            videojsPlayer.reset();
-            videojsPlayer.src({ src: videoObj.url, type: getVideoMimeType(videoObj.url) });
-            videojsPlayer.ready(() => {
+
+            const preferredLanguage = localStorage.getItem(CAPTION_LANGUAGE_STORAGE_KEY)
+                || getCourseLanguage({
+                    id: currentCourse,
+                    language: currentCourseDetails?.language
+                });
+            const selectedTrack = captionTracks.find(track =>
+                track.language?.split('-')[0].toLowerCase() === preferredLanguage.toLowerCase()
+            ) || captionTracks[0];
+
+            selectedTrack.mode = 'showing';
+            defaultCaptionActivationHandler = null;
+        };
+
+        captionTrackListForActivation = textTracks;
+        captionTrackListChangeHandler = () => defaultCaptionActivationHandler?.();
+        textTracks.addEventListener?.('addtrack', captionTrackListChangeHandler);
+        textTracks.addEventListener?.('change', captionTrackListChangeHandler);
+        if (typeof media?.on !== 'function' && typeof media?.addEventListener === 'function') {
+            captionActivationMedia = media;
+            media.addEventListener('loadedmetadata', captionTrackListChangeHandler);
+            media.addEventListener('playing', captionTrackListChangeHandler);
+        }
+        defaultCaptionActivationHandler();
+    }
+
+    function startLessonPlayback(loadSequence, playbackType) {
+        if (loadSequence !== playbackLoadSequence || activePlayerType !== playbackType) return;
+        try {
+            let playResult;
+            if (playbackType === 'youtube') {
+                if (!player) return;
+                playResult = player.play();
+            } else if (videojsPlayer) {
+                playResult = videojsPlayer.play();
+            } else {
+                playResult = document.getElementById('videojs-player')?.play();
+            }
+            if (playResult && typeof playResult.catch === 'function') {
+                playResult.catch(error => {
+                    if (loadSequence === playbackLoadSequence) {
+                        console.warn('[Player] Não foi possível iniciar a reprodução automaticamente:', error);
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('[Player] Não foi possível iniciar a reprodução automaticamente:', error);
+        }
+    }
+
+    async function addOfflineCaptionTrack(videoUrl, language, loadSequence) {
+        const desktopApi = window.universidadeLivreDesktop;
+        if (!desktopApi?.resolveOfflineSubtitle) return;
+        try {
+            const subtitleUrl = await desktopApi.resolveOfflineSubtitle(videoUrl, language);
+            if (!subtitleUrl || loadSequence !== playbackLoadSequence || activePlayerType !== 'videojs') return;
+            const labels = { pt: 'Português', en: 'English', es: 'Español' };
+            if (videojsPlayer?.addRemoteTextTrack) {
+                offlineCaptionTrack = videojsPlayer.addRemoteTextTrack({
+                    kind: 'subtitles',
+                    src: subtitleUrl,
+                    srclang: language,
+                    label: labels[language]
+                }, false);
+            } else {
+                const videoElement = document.getElementById('videojs-player');
+                if (!videoElement) return;
+                const trackElement = document.createElement('track');
+                trackElement.kind = 'subtitles';
+                trackElement.src = subtitleUrl;
+                trackElement.srclang = language;
+                trackElement.label = labels[language];
+                videoElement.appendChild(trackElement);
+                offlineCaptionTrack = trackElement;
+                configureDefaultCaptionActivation(loadSequence, videoElement);
+            }
+            defaultCaptionActivationHandler?.();
+        } catch (error) {
+            console.error('[Offline] Não foi possível carregar a legenda baixada:', error);
+        }
+    }
+
+    function loadVideoInPlayer(videoObj) {
+        const loadSequence = ++playbackLoadSequence;
+        window.beginFloatingMedia?.();
+        youtubeEmbedFallbackActive = false;
+        const setVideoSource = (sourceUrl, isOffline = false) => {
+            if (loadSequence !== playbackLoadSequence) return;
+            const youtubeMatch = getYouTubeVideoId(sourceUrl);
+            const videojsElement = document.getElementById('videojs-player');
+            if (youtubeMatch) {
+                if (!videojsPlayer?.useYouTube) {
+                    console.error('[Player] O Video.js 10 não está disponível para reproduzir este vídeo.');
+                    showYouTubeEmbedFallback(videoObj);
+                    return;
+                }
+                if (player && isPlayerReady) player.pause();
+                clearOfflineCaptionTrack();
+                document.querySelector('.player-section')?.classList.remove('offline-video-active');
+                activateDirectVideoPlayer();
+                videojsPlayer.useYouTube(sourceUrl);
+                configureDefaultCaptionActivation(loadSequence);
                 videojsPlayer.volume(playerVolume / 100);
-                if (videoObj.time > 5) videojsPlayer.currentTime(videoObj.time);
-                updateAvailableCaptionLanguages();
-                setTimeout(updateAvailableCaptionLanguages, 500);
-                videojsPlayer.focus();
-            });
+                videojsPlayer.one('loadedmetadata', () => {
+                    if (loadSequence !== playbackLoadSequence) return;
+                    if (videoObj.time > 5) videojsPlayer.currentTime(videoObj.time);
+                    else updateVideoProgress(videojsPlayer.currentTime() || 0);
+                });
+            } else if (videojsPlayer && videojsElement) {
+                clearOfflineCaptionTrack();
+                document.querySelector('.player-section')?.classList.toggle('offline-video-active', isOffline);
+                activateDirectVideoPlayer();
+                videojsPlayer.reset();
+                videojsPlayer.autoplay(true);
+                videojsPlayer.controls(true);
+                configureDefaultCaptionActivation(loadSequence);
+                videojsPlayer.one('loadedmetadata', () => {
+                    if (loadSequence !== playbackLoadSequence) return;
+                    if (videoObj.time > 5) videojsPlayer.currentTime(videoObj.time);
+                    else updateVideoProgress(videojsPlayer.currentTime() || 0);
+                });
+                videojsPlayer.one('canplay', () => startLessonPlayback(loadSequence, 'videojs'));
+                videojsPlayer.src({ src: sourceUrl, type: getVideoMimeType(sourceUrl) });
+                videojsPlayer.ready(() => {
+                    if (loadSequence !== playbackLoadSequence) return;
+                    videojsPlayer.volume(playerVolume / 100);
+                    if (isOffline) {
+                        const language = getCourseLanguage({
+                            id: currentCourse,
+                            language: currentCourseDetails?.language
+                        });
+                        addOfflineCaptionTrack(videoObj.url, language, loadSequence);
+                    }
+                    videojsPlayer.focus();
+                });
+            } else if (videojsElement) {
+                clearOfflineCaptionTrack();
+                document.querySelector('.player-section')?.classList.toggle('offline-video-active', isOffline);
+                activateDirectVideoPlayer();
+                videojsElement.autoplay = true;
+                videojsElement.controls = true;
+                configureDefaultCaptionActivation(loadSequence, videojsElement);
+                videojsElement.onloadedmetadata = () => {
+                    if (loadSequence !== playbackLoadSequence) return;
+                    if (videoObj.time > 5) videojsElement.currentTime = videoObj.time;
+                    updateVideoProgress(videojsElement.currentTime || 0);
+                    if (isOffline) {
+                        const language = getCourseLanguage({
+                            id: currentCourse,
+                            language: currentCourseDetails?.language
+                        });
+                        addOfflineCaptionTrack(videoObj.url, language, loadSequence);
+                    }
+                };
+                videojsElement.oncanplay = () => startLessonPlayback(loadSequence, 'videojs');
+                videojsElement.ontimeupdate = () => updateVideoProgress(videojsElement.currentTime || 0);
+                videojsElement.onplaying = () => onPlayerStateChange('playing');
+                videojsElement.onpause = () => onPlayerStateChange('pause');
+                videojsElement.onended = () => onPlayerStateChange('ended');
+                videojsElement.focus();
+                videojsElement.src = sourceUrl;
+                videojsElement.load();
+            }
+        };
+        if (window.universidadeLivreDesktop && isOfflineDownloadableVideo(videoObj.url)) {
+            window.universidadeLivreDesktop.resolveOfflineVideo(videoObj.url)
+                .then(offlineUrl => setVideoSource(offlineUrl || videoObj.url, Boolean(offlineUrl)))
+                .catch(error => {
+                    console.error('[Offline] Não foi possível localizar o vídeo baixado:', error);
+                    setVideoSource(videoObj.url);
+                });
+        } else {
+            setVideoSource(videoObj.url);
         }
         const titleEl = document.getElementById("currentVideoTitle");
         if (titleEl) titleEl.innerText = videoObj.title;
-        currentVideoDuration = videoObj.duration * 60;
+        updateVideoProgress(videoObj.time || 0);
         saveAllProgress();
     }
 
@@ -2631,6 +2839,146 @@ console.log('[Main] Inicializando script.js v28.0...');
         updateNotificationPosition();
     }
 
+    function formatDownloadEta(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) return t('download_eta_calculating');
+        const totalSeconds = Math.ceil(seconds);
+        let duration;
+        if (totalSeconds >= 3600) {
+            duration = t('download_time_hours_minutes', {
+                hours: Math.floor(totalSeconds / 3600),
+                minutes: Math.floor((totalSeconds % 3600) / 60)
+            });
+        } else if (totalSeconds >= 60) {
+            duration = t('download_time_minutes_seconds', {
+                minutes: Math.floor(totalSeconds / 60),
+                seconds: totalSeconds % 60
+            });
+        } else {
+            duration = t('download_time_seconds', { seconds: totalSeconds });
+        }
+        return t('download_eta_remaining', { time: duration });
+    }
+
+    function openStageDownloadProgress(
+        stageName,
+        totalCount,
+        completedBefore = 0,
+        stageTotal = totalCount,
+        stageVideoIndexes = []
+    ) {
+        const modal = document.getElementById('stageDownloadProgressModal');
+        const closeButton = document.getElementById('stageDownloadProgressClose');
+        const stage = document.getElementById('stageDownloadProgressStage');
+        const status = document.getElementById('stageDownloadProgressStatus');
+        const current = document.getElementById('stageDownloadProgressCurrent');
+        const progressBar = document.getElementById('stageDownloadProgressBar');
+        const count = document.getElementById('stageDownloadProgressCount');
+        const percent = document.getElementById('stageDownloadProgressPercent');
+        const eta = document.getElementById('stageDownloadProgressEta');
+        if (!modal || !closeButton || !stage || !status || !current || !progressBar || !count || !percent || !eta) {
+            throw new Error('A janela de progresso do download não está disponível.');
+        }
+
+        stage.textContent = stageName;
+        current.textContent = '';
+        status.textContent = t('download_progress_preparing');
+        count.textContent = t('download_progress_count', { completed: completedBefore, total: stageTotal });
+        percent.textContent = t('download_progress_percent', {
+            percent: Math.floor(completedBefore / Math.max(1, stageTotal) * 100)
+        });
+        eta.textContent = t('download_eta_calculating');
+        progressBar.value = completedBefore / Math.max(1, stageTotal) * 100;
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+
+        let estimatedRemainingSeconds = null;
+        let etaUpdatedAt = Date.now();
+        const renderEta = () => {
+            eta.textContent = estimatedRemainingSeconds === null
+                ? t('download_eta_calculating')
+                : formatDownloadEta(Math.max(0, estimatedRemainingSeconds - (Date.now() - etaUpdatedAt) / 1000));
+        };
+        const etaTimer = setInterval(renderEta, 1000);
+        const close = () => {
+            clearInterval(etaTimer);
+            modal.hidden = true;
+            modal.setAttribute('aria-hidden', 'true');
+            closeButton.removeEventListener('click', close);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+        const onKeyDown = event => {
+            if (event.key === 'Escape' && !modal.hidden) close();
+        };
+        closeButton.addEventListener('click', close);
+        document.addEventListener('keydown', onKeyDown);
+        closeButton.focus();
+
+        return {
+            close,
+            update(progress) {
+                const total = stageTotal;
+                const completed = completedBefore
+                    + (Number.isFinite(progress.completedCount) ? progress.completedCount : 0);
+                const currentPercent = Number.isFinite(progress.videoPercent) ? progress.videoPercent : 0;
+                const stagePercent = Math.min(100, Math.max(0, (
+                    completed + (progress.status === 'downloading' ? currentPercent / 100 : 0)
+                ) / Math.max(1, total) * 100));
+                progressBar.value = stagePercent;
+                count.textContent = t('download_progress_count', { completed, total });
+                percent.textContent = t('download_progress_percent', { percent: Math.floor(stagePercent) });
+                current.textContent = progress.currentTitle || '';
+                if (progress.status === 'complete' || progress.status === 'error') {
+                    estimatedRemainingSeconds = null;
+                    eta.textContent = '';
+                    clearInterval(etaTimer);
+                } else if (Number.isFinite(progress.estimatedRemainingSeconds)
+                    && progress.estimatedRemainingSeconds >= 0) {
+                    estimatedRemainingSeconds = progress.estimatedRemainingSeconds;
+                    etaUpdatedAt = Date.now();
+                    renderEta();
+                } else if (progress.status === 'starting'
+                    || progress.status === 'retrying'
+                    || progress.status === 'video-failed') {
+                    estimatedRemainingSeconds = null;
+                    eta.textContent = t('download_eta_calculating');
+                } else if (estimatedRemainingSeconds === null) {
+                    renderEta();
+                }
+
+                if (progress.status === 'starting') {
+                    status.textContent = t('download_progress_preparing');
+                } else if (progress.status === 'downloading') {
+                    status.textContent = t('download_progress_video', {
+                        current: Number.isInteger(stageVideoIndexes[progress.currentIndex - 1])
+                            ? stageVideoIndexes[progress.currentIndex - 1] + 1
+                            : progress.currentIndex,
+                        total
+                    });
+                } else if (progress.status === 'retrying') {
+                    status.textContent = t('download_progress_retrying', {
+                        attempt: progress.attempt,
+                        maxAttempts: progress.maxAttempts
+                    });
+                } else if (progress.status === 'video-complete') {
+                    status.textContent = t('download_progress_video_done');
+                } else if (progress.status === 'video-failed') {
+                    status.textContent = t('download_progress_video_failed');
+                } else if (progress.status === 'complete') {
+                    status.textContent = progress.failedCount
+                        ? t('download_progress_finished_partial', {
+                            downloaded: completed,
+                            failed: progress.failedCount
+                        })
+                        : t('download_progress_finished');
+                    current.textContent = '';
+                } else if (progress.status === 'error') {
+                    status.textContent = t('download_stage_error');
+                    eta.textContent = '';
+                }
+            }
+        };
+    }
+
     function renderUnifiedCourseContent() {
         let container = document.getElementById("unifiedContentList");
         if (!container) return;
@@ -2714,6 +3062,8 @@ console.log('[Main] Inicializando script.js v28.0...');
             stagesData.forEach((stage, stageIdx) => {
                 const unlocked = isStageUnlocked(stageIdx);
                 const completedCount = stage.disciplines.filter(discipline => isDisciplinePassed(discipline.name)).length;
+                const stageCardContainer = document.createElement('div');
+                stageCardContainer.className = 'stage-card-container';
                 const stageCard = document.createElement('button');
                 stageCard.type = 'button';
                 stageCard.className = `stage-card ${unlocked ? '' : 'stage-card-locked'} ${isStageComplete(stageIdx) ? 'stage-card-complete' : ''}`;
@@ -2725,6 +3075,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                         <small>${t('stage_disciplines_approved', { completed: completedCount, total: stage.disciplines.length })}</small>
                     </span>
                     <i class="fas fa-chevron-right stage-card-arrow"></i>`;
+                stageCardContainer.appendChild(stageCard);
                 if (unlocked) {
                     stageCard.addEventListener('click', () => {
                         activeStageIndex = stageIdx;
@@ -2732,7 +3083,172 @@ console.log('[Main] Inicializando script.js v28.0...');
                         renderUnifiedCourseContent();
                     });
                 }
-                stagesGrid.appendChild(stageCard);
+                const desktopApi = window.universidadeLivreDesktop;
+                if (desktopApi) {
+                    const downloadableVideos = stage.disciplines.flatMap(discipline =>
+                        discipline.videos
+                            .filter(video =>
+                                video.type !== 'external'
+                                && video.type !== 'exercise'
+                                && typeof video.title === 'string'
+                                && video.title.length <= 300
+                                && isOfflineDownloadableVideo(video.url)
+                            )
+                            .map(video => ({ title: video.title, url: video.url }))
+                    );
+                    const subtitleLanguage = getCourseLanguage({
+                        id: currentCourse,
+                        language: currentCourseDetails?.language
+                    });
+                    const downloadButton = document.createElement('button');
+                    downloadButton.type = 'button';
+                    downloadButton.className = 'stage-download-btn';
+                    let downloadedIndexes = [];
+                    let statusReady = false;
+                    let statusError = false;
+                    let isBusy = false;
+                    const updateDownloadButton = () => {
+                        const downloadedCount = downloadedIndexes.length;
+                        const isComplete = downloadableVideos.length > 0
+                            && downloadedCount === downloadableVideos.length;
+                        let label;
+                        let icon;
+                        if (isBusy) {
+                            label = t(isComplete ? 'download_stage_removing' : 'download_stage_in_progress');
+                            icon = 'fa-spinner fa-spin';
+                        } else if (!statusReady) {
+                            label = t('download_stage_checking');
+                            icon = 'fa-spinner fa-spin';
+                        } else if (!downloadableVideos.length) {
+                            label = t('download_stage');
+                            icon = 'fa-download';
+                        } else if (statusError) {
+                            label = t('download_stage_status_error');
+                            icon = 'fa-triangle-exclamation';
+                        } else if (isComplete) {
+                            label = t('download_stage_delete');
+                            icon = 'fa-trash';
+                        } else if (downloadedCount > 0) {
+                            label = t('download_stage_continue');
+                            icon = 'fa-download';
+                        } else {
+                            label = t('download_stage');
+                            icon = 'fa-download';
+                        }
+                        downloadButton.disabled = isBusy
+                            || !statusReady
+                            || statusError
+                            || !downloadableVideos.length;
+                        downloadButton.title = statusError || isComplete
+                            ? label
+                            : downloadableVideos.length
+                                ? t('download_stage_title', { count: downloadableVideos.length })
+                                : t('download_stage_unavailable');
+                        downloadButton.setAttribute('aria-label', label);
+                        downloadButton.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i><span>${label}</span>`;
+                    };
+                    updateDownloadButton();
+                    downloadButton.addEventListener('click', async () => {
+                        if (!downloadableVideos.length) {
+                            alert(t('download_stage_unavailable'));
+                            return;
+                        }
+                        if (downloadButton.disabled || isBusy) return;
+                        const isComplete = downloadedIndexes.length === downloadableVideos.length;
+                        isBusy = true;
+                        updateDownloadButton();
+                        if (isComplete) {
+                            try {
+                                await desktopApi.removeStageDownloads({ videos: downloadableVideos, language: subtitleLanguage });
+                                downloadedIndexes = [];
+                                const status = await desktopApi.getStageDownloadStatus({ videos: downloadableVideos, language: subtitleLanguage });
+                                downloadedIndexes = status.downloadedIndexes;
+                                statusError = false;
+                            } catch (error) {
+                                console.error('[Offline] Não foi possível apagar os downloads da etapa:', error);
+                                alert(t('download_stage_remove_error'));
+                            } finally {
+                                isBusy = false;
+                                statusReady = true;
+                                updateDownloadButton();
+                            }
+                            return;
+                        }
+                        const downloadedSet = new Set(downloadedIndexes);
+                        const pendingIndexes = downloadableVideos
+                            .map((_, index) => index)
+                            .filter(index => !downloadedSet.has(index));
+                        const videosToDownload = pendingIndexes.map(index => downloadableVideos[index]);
+                        let progressWindow;
+                        let removeProgressListener = () => {};
+                        try {
+                            const downloadId = window.crypto.randomUUID();
+                            progressWindow = openStageDownloadProgress(
+                                stage.name,
+                                videosToDownload.length,
+                                downloadedIndexes.length,
+                                downloadableVideos.length,
+                                pendingIndexes
+                            );
+                            removeProgressListener = desktopApi.onDownloadProgress(progress => {
+                                if (progress.downloadId === downloadId) progressWindow.update(progress);
+                            });
+                            const result = await desktopApi.downloadStage({
+                                videos: videosToDownload,
+                                language: subtitleLanguage,
+                                downloadId
+                            });
+                            progressWindow.update({
+                                status: 'complete',
+                                processedCount: videosToDownload.length,
+                                completedCount: result.downloaded,
+                                failedCount: result.failed.length,
+                                totalCount: videosToDownload.length,
+                                videoPercent: 100,
+                                estimatedRemainingSeconds: 0
+                            });
+                            if (result.failed.length) {
+                                console.warn('[Offline] Algumas videoaulas não puderam ser baixadas:', result.failed);
+                            }
+                        } catch (error) {
+                            console.error('[Offline] Não foi possível baixar a etapa:', error);
+                            progressWindow?.update({ status: 'error' });
+                        } finally {
+                            removeProgressListener();
+                            try {
+                                const status = await desktopApi.getStageDownloadStatus({ videos: downloadableVideos, language: subtitleLanguage });
+                                downloadedIndexes = status.downloadedIndexes;
+                                statusError = false;
+                            } catch (error) {
+                                console.error('[Offline] Não foi possível verificar os downloads da etapa:', error);
+                                statusError = true;
+                            }
+                            isBusy = false;
+                            statusReady = true;
+                            updateDownloadButton();
+                        }
+                    });
+                    stageCardContainer.appendChild(downloadButton);
+                    if (downloadableVideos.length) {
+                        desktopApi.getStageDownloadStatus({ videos: downloadableVideos, language: subtitleLanguage }).then(status => {
+                            if (!Array.isArray(status.downloadedIndexes)) {
+                                throw new Error('O progresso dos downloads da etapa é inválido.');
+                            }
+                            downloadedIndexes = status.downloadedIndexes;
+                            statusReady = true;
+                            updateDownloadButton();
+                        }).catch(error => {
+                            console.error('[Offline] Não foi possível verificar os downloads da etapa:', error);
+                            statusError = true;
+                            statusReady = true;
+                            updateDownloadButton();
+                        });
+                    } else {
+                        statusReady = true;
+                        updateDownloadButton();
+                    }
+                }
+                stagesGrid.appendChild(stageCardContainer);
             });
             container.appendChild(stagesGrid);
             const finalExamCard = document.createElement('button');
@@ -2884,7 +3400,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function backToDiscipline() {
-        stopAllMedia();
+        stopAllMedia({ resetPlaybackPosition: true });
         window.finishFloatingMedia?.();
         document.getElementById('courseView')?.classList.remove('lesson-open');
         const backToDisciplineBtn = document.getElementById('backToDisciplineBtn');
@@ -4064,63 +4580,99 @@ console.log('[Main] Inicializando script.js v28.0...');
         `;
     }
 
-    // ========== PLAYERS (PLYR + VIDEO.JS) ==========
-    function initializePlayers() {
-        const youtubeElement = document.getElementById('youtube-player');
-        const videojsElement = document.getElementById('videojs-player');
-        if (youtubeElement && window.Plyr) {
-            const youtubeIframe = youtubeElement.querySelector('iframe');
-            const pageOrigin = window.location.origin;
-            if (youtubeIframe && /^https?:$/.test(window.location.protocol)) {
-                try {
-                    const iframeUrl = new URL(youtubeIframe.src);
-                    iframeUrl.searchParams.set('enablejsapi', '1');
-                    iframeUrl.searchParams.set('origin', pageOrigin);
-                    youtubeIframe.src = iframeUrl.toString();
-                } catch (error) {
-                    console.warn('[Player] Não foi possível preparar o iframe do YouTube:', error);
-                }
+    // ========== PLAYERS (VIDEO.JS 10) ==========
+    function exposeWebPlayerCaptionAndPipControls() {
+        if (window.universidadeLivreDesktop) return;
+
+        const shadowRoot = document.querySelector('video-skin')?.shadowRoot;
+        if (!shadowRoot) {
+            throw new Error('Não foi possível acessar os controles do player web.');
+        }
+
+        const keepVisible = (element, display) => {
+            if (!element) return;
+            element.style.setProperty('display', display, 'important');
+            element.hidden = false;
+            new MutationObserver(() => {
+                if (element.hidden) element.hidden = false;
+            }).observe(element, { attributes: true, attributeFilter: ['hidden'] });
+        };
+
+        const captionsButton = shadowRoot.querySelector('media-captions-button');
+        keepVisible(shadowRoot.querySelector('media-pip-button'), 'grid');
+
+        const captionsGroup = shadowRoot.querySelector('media-captions-radio-group');
+        keepVisible(captionsGroup, 'flex');
+        const captionsMenu = captionsGroup?.closest('media-menu-content');
+        if (captionsMenu?.id) {
+            const captionsMenuButton = shadowRoot.querySelector(
+                `media-menu-item[commandfor="${CSS.escape(captionsMenu.id)}"]`
+            );
+            keepVisible(captionsMenuButton, 'flex');
+            if (captionsButton) {
+                captionsButton.menuFor = captionsMenu.id;
+                keepVisible(captionsButton, 'grid');
             }
-            player = new Plyr(youtubeElement, {
-                hideControls: true,
-                clickToPlay: true,
-                controls: [],
-                settings: [],
-                captions: {
-                    active: false,
-                    language: 'pt',
-                    update: true
-                },
-                quality: {
-                    default: 720,
-                    options: [2160, 1440, 1080, 720, 576, 480, 360],
-                    forced: false,
-                    onChange: (quality) => {
-                        if (player?.provider === 'youtube' && player.embed?.setPlaybackQuality) {
-                            player.embed.setPlaybackQuality(`hd${quality}`);
-                        }
-                    }
-                },
-                speed: {
-                    selected: 1,
-                    options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
-                },
-                youtube: {
-                    noCookie: false,
-                    enablejsapi: 1,
-                    rel: 0,
-                    modestbranding: 1,
-                    playsinline: 1,
-                    origin: pageOrigin,
-                    cc_load_policy: 1,
-                    cc_lang_pref: 'pt'
+        }
+    }
+
+    async function initializePlayers() {
+        const videojsElement = document.getElementById('videojs-player');
+        const loadStylesheet = href => new Promise((resolve, reject) => {
+            const stylesheet = document.createElement('link');
+            stylesheet.rel = 'stylesheet';
+            stylesheet.href = href;
+            stylesheet.onload = resolve;
+            stylesheet.onerror = () => reject(new Error(`Não foi possível carregar o estilo do player: ${href}`));
+            document.head.appendChild(stylesheet);
+        });
+        const loadScript = src => new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = () => reject(new Error(`Não foi possível carregar o script do player: ${src}`));
+            document.head.appendChild(script);
+        });
+        if (!videojsElement) return;
+        videojsElement.classList.remove('video-js', 'vjs-default-skin');
+        videojsElement.removeAttribute('controls');
+        try {
+            await Promise.all([
+                loadStylesheet('base/videojs-v10.bundle.css'),
+                loadScript('base/videojs-v10.bundle.js'),
+                customElements.whenDefined('media-i18n'),
+                customElements.whenDefined('video-player'),
+                customElements.whenDefined('video-skin'),
+                customElements.whenDefined('youtube-video')
+            ]);
+            exposeWebPlayerCaptionAndPipControls();
+            const createAdapter = window.UniversidadeLivreVideoJs10?.createCompatibilityAdapter;
+            if (typeof createAdapter !== 'function') {
+                throw new Error('O player Video.js 10 não foi inicializado corretamente.');
+            }
+            videojsPlayer = createAdapter(videojsElement);
+            videojsPlayer.volume(playerVolume / 100);
+            videojsPlayer.on('loadedmetadata', () => defaultCaptionActivationHandler?.());
+            videojsPlayer.on('playing', () => defaultCaptionActivationHandler?.());
+            videojsPlayer.on('playing', () => {
+                onPlayerStateChange('playing');
+            });
+            videojsPlayer.on('pause', () => onPlayerStateChange('pause'));
+            videojsPlayer.on('ended', () => onPlayerStateChange('ended'));
+            videojsPlayer.on('timeupdate', () => updateVideoProgress(videojsPlayer.currentTime() || 0));
+            videojsPlayer.on('volumechange', () => {
+                const volume = Math.round((videojsPlayer.volume() || 0) * 100);
+                updateVolumePercentage(volume);
+                if (!videojsPlayer.muted()) {
+                    playerVolume = volume;
+                    localStorage.setItem(VOLUME_STORAGE_KEY, volume);
                 }
             });
-            player.on('ready', () => {
-                isPlayerReady = true;
-                player.volume = playerVolume / 100;
-                enableCaptionsWhenAvailable();
-                updateAvailableCaptionLanguages();
+            videojsPlayer.on('error', () => {
+                const error = videojsPlayer.error();
+                console.warn('[Video.js] Não foi possível carregar o vídeo:', error?.message || 'erro desconhecido');
+            });
+            videojsPlayer.ready(() => {
                 const shouldStartLesson = window._startLessonScheduled;
                 window._startLessonScheduled = false;
                 if (pendingVideoObj) {
@@ -4131,93 +4683,17 @@ console.log('[Main] Inicializando script.js v28.0...');
                     loadCurrentLesson();
                 }
             });
-            player.on('playing', () => onPlayerStateChange('playing'));
-            player.on('pause', () => onPlayerStateChange('pause'));
-            player.on('ended', () => onPlayerStateChange('ended'));
-            player.on('error', () => {
-                const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
-                if (activePlayerType === 'youtube' && currentVideo) {
-                    showYouTubeEmbedFallback(currentVideo);
-                }
-            });
-            player.on('timeupdate', () => updateVideoProgress(player.currentTime || 0));
-            player.on('loadedmetadata', enableCaptionsWhenAvailable);
-            player.on('canplay', scheduleQualityOptions);
-            player.on('canplay', scheduleAudioTrackOptions);
-            player.on('playing', scheduleAudioTrackOptions);
-            player.on('ready', scheduleAudioTrackOptions);
-        }
-        if (videojsElement && window.videojs) {
-            videojsPlayer = videojs(videojsElement, {
-                controls: true,
-                responsive: true,
-                fluid: true,
-                preload: 'metadata',
-                inactivityTimeout: 2500,
-                userActions: {
-                    hotkeys: true,
-                    doubleClick: true
-                },
-                playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
-                controlBar: {
-                    children: [
-                        'playToggle',
-                        'progressControl',
-                        'currentTimeDisplay',
-                        'timeDivider',
-                        'durationDisplay',
-                        'volumePanel',
-                        'playbackRateMenuButton',
-                        'captionsButton',
-                        'fullscreenToggle'
-                    ]
-                }
-            });
-
-            videojsPlayer.on('loadedmetadata', () => {
-                currentVideoDuration = videojsPlayer.duration() || currentVideoDuration;
-                updateVideoProgress(videojsPlayer.currentTime() || 0);
-            });
-            videojsPlayer.on('durationchange', () => {
-                currentVideoDuration = videojsPlayer.duration() || currentVideoDuration;
-            });
-            videojsPlayer.on('playing', () => onPlayerStateChange('playing'));
-            videojsPlayer.on('pause', () => onPlayerStateChange('pause'));
-            videojsPlayer.on('ended', () => onPlayerStateChange('ended'));
-            videojsPlayer.on('timeupdate', () => updateVideoProgress(videojsPlayer.currentTime() || 0));
-            videojsPlayer.on('volumechange', () => {
-                const volume = Math.round((videojsPlayer.volume() || 0) * 100);
-                if (!videojsPlayer.muted()) {
+        } catch (error) {
+            console.error('[Player] Não foi possível iniciar o Video.js 10:', error);
+            videojsElement.controls = true;
+            videojsElement.addEventListener('volumechange', () => {
+                const volume = Math.round(videojsElement.volume * 100);
+                updateVolumePercentage(volume);
+                if (!videojsElement.muted) {
                     playerVolume = volume;
-                    updateVolumePercentage(volume);
                     localStorage.setItem(VOLUME_STORAGE_KEY, volume);
                 }
             });
-            videojsPlayer.on('fullscreenchange', () => {
-                const fullscreenButton = document.getElementById('fullscreenToggleBtn');
-                const isFullscreen = videojsPlayer.isFullscreen();
-                fullscreenButton?.classList.toggle('active', isFullscreen);
-                fullscreenButton?.setAttribute('aria-label', isFullscreen ? 'Sair da tela cheia' : 'Tela cheia');
-                fullscreenButton?.setAttribute('title', isFullscreen ? 'Sair da tela cheia' : 'Tela cheia');
-            });
-            videojsPlayer.on('error', () => {
-                const error = videojsPlayer.error();
-                console.warn('[Video.js] Não foi possível carregar o vídeo:', error?.message || 'erro desconhecido');
-            });
-        }
-    }
-
-    function enableCaptionsWhenAvailable() {
-        const button = document.getElementById('captionsToggleBtn');
-        if (!player?.embed?.loadModule || !button) return;
-        try {
-            player.embed.loadModule('captions');
-            const language = document.getElementById('captionLanguageSelect')?.value || 'pt';
-            player.embed.setOption('captions', 'track', { languageCode: language });
-            captionsEnabled = true;
-            button.classList.add('active');
-        } catch (error) {
-            console.warn('[Player] Legendas indisponíveis para este vídeo:', error);
         }
     }
 
@@ -4299,16 +4775,7 @@ console.log('[Main] Inicializando script.js v28.0...');
         localStorage.setItem(CAPTION_LANGUAGE_STORAGE_KEY, language);
         const playerSelect = document.getElementById('captionLanguageSelect');
         if (playerSelect) playerSelect.value = language;
-        if (activePlayerType === 'youtube' && player?.embed?.setOption && isPlayerReady) {
-            try {
-                player.embed.loadModule('captions');
-                player.embed.setOption('captions', 'track', { languageCode: language });
-                captionsEnabled = true;
-                document.getElementById('captionsToggleBtn')?.classList.add('active');
-            } catch (error) {
-                console.warn('[Player] Não foi possível alterar o idioma da legenda:', error);
-            }
-        } else if (activePlayerType === 'videojs' && videojsPlayer) {
+        if (videojsPlayer) {
             const tracks = videojsPlayer.textTracks?.();
             if (!tracks) return;
             for (let index = 0; index < tracks.length; index += 1) {
@@ -4320,15 +4787,7 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function getYouTubeAudioApi() {
-        const embed = player?.embed;
-        if (!embed) return null;
-        if (typeof embed.getAvailableAudioTracks === 'function') return embed;
-        const internalPlayer = typeof embed.getInternalPlayer === 'function'
-            ? embed.getInternalPlayer()
-            : null;
-        return internalPlayer && typeof internalPlayer.getAvailableAudioTracks === 'function'
-            ? internalPlayer
-            : null;
+        return videojsPlayer?.getYouTubeAudioApi?.() || null;
     }
 
     function updateAvailableAudioTracks() {
@@ -4431,12 +4890,12 @@ console.log('[Main] Inicializando script.js v28.0...');
             track.kind !== 'original' &&
             !isOriginalTrack(track)
         );
-        select.replaceChildren(new Option('Original', originalTrackId));
+        select.replaceChildren(new Option(t('audio_track_original'), originalTrackId));
         alternativeTracks.forEach(track => {
             const optionValue = track.id;
             if ([...select.options].some(option => option.value === optionValue)) return;
             select.appendChild(new Option(
-                track.displayName || 'Faixa de áudio',
+                track.displayName || t('audio_track'),
                 optionValue
             ));
         });
@@ -4477,12 +4936,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
         if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
         if (state === 'playing') {
-            const playPauseBtn = document.getElementById("playPauseBtn");
-            if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
             if (updateInterval) clearInterval(updateInterval);
         } else if (state === 'pause' || state === 'ended') {
-            const playPauseBtn = document.getElementById("playPauseBtn");
-            if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
             if (updateInterval) clearInterval(updateInterval);
             if (state === 'ended') {
                 window.finishFloatingMedia?.();
@@ -4493,31 +4948,14 @@ console.log('[Main] Inicializando script.js v28.0...');
     }
 
     function updateVideoProgress(ct) {
-        let percent = (ct / currentVideoDuration) * 100;
-        const progressFill = document.getElementById("videoProgressFill");
-        if (progressFill) progressFill.style.width = `${percent}%`;
-        let mins = Math.floor(ct / 60), secs = Math.floor(ct % 60);
-        const currentTimeEl = document.getElementById("videoCurrentTime");
-        if (currentTimeEl) currentTimeEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        let tmins = Math.floor(currentVideoDuration / 60), tsecs = currentVideoDuration % 60;
-        const durationEl = document.getElementById("videoDuration");
-        if (durationEl) durationEl.innerText = `${tmins}:${tsecs.toString().padStart(2, '0')}`;
-        if (lessons[currentLessonId]?.videos[currentVideoInLesson]) lessons[currentLessonId].videos[currentVideoInLesson].time = ct;
-    }
-
-    function togglePlayPause() {
-        const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
-        if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
-        if (activePlayerType === 'youtube' && player && isPlayerReady) {
-            player.playing ? player.pause() : player.play();
-        } else if (activePlayerType === 'videojs' && videojsPlayer) {
-            videojsPlayer.paused() ? videojsPlayer.play() : videojsPlayer.pause();
+        const elapsedSeconds = Number.isFinite(ct) ? Math.max(0, ct) : 0;
+        if (lessons[currentLessonId]?.videos[currentVideoInLesson]) {
+            lessons[currentLessonId].videos[currentVideoInLesson].time = elapsedSeconds;
         }
     }
 
     function startLesson() {
-        if (player && isPlayerReady) loadCurrentLesson();
-        else window._startLessonScheduled = true;
+        loadCurrentLesson();
     }
 
     // ========== ONBOARDING ==========
@@ -4594,203 +5032,12 @@ console.log('[Main] Inicializando script.js v28.0...');
     if (backToHomeBtn) backToHomeBtn.addEventListener("click", backToHome);
     const backToDisciplineBtn = document.getElementById("backToDisciplineBtn");
     if (backToDisciplineBtn) backToDisciplineBtn.addEventListener("click", backToDiscipline);
-    const prevVideoBtn = document.getElementById("prevVideoBtn");
-    if (prevVideoBtn) prevVideoBtn.addEventListener("click", prevVideo);
-    const nextVideoBtn = document.getElementById("nextVideoBtn");
-    if (nextVideoBtn) nextVideoBtn.addEventListener("click", nextVideo);
-    const playPauseBtn = document.getElementById("playPauseBtn");
-    if (playPauseBtn) playPauseBtn.addEventListener("click", togglePlayPause);
     const markWatchedBtn = document.getElementById("markWatchedBtn");
     if (markWatchedBtn) markWatchedBtn.addEventListener("click", markCurrentVideoWatched);
-    const videoProgressBar = document.getElementById("videoProgressBar");
-    if (videoProgressBar) videoProgressBar.addEventListener("click", (e) => {
-        const currentVideo = lessons[currentLessonId]?.videos[currentVideoInLesson];
-        if (currentVideo && (currentVideo.type === 'external' || currentVideo.type === 'exercise')) return;
-        if ((!player || !isPlayerReady) && !videojsPlayer) return;
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const percent = x / rect.width;
-        const seek = percent * currentVideoDuration;
-        if (activePlayerType === 'youtube' && player && isPlayerReady) player.currentTime = seek;
-        else if (activePlayerType === 'videojs' && videojsPlayer) videojsPlayer.currentTime(seek);
-    });
-
-    // Controle de Volume
-    const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    if (volumeSlider) {
-        volumeSlider.addEventListener('input', (e) => {
-            const vol = parseInt(e.target.value, 10);
-            playerVolume = vol;
-            updateVolumePercentage(vol);
-            if (activePlayerType === 'youtube' && player && isPlayerReady) {
-                player.volume = vol / 100;
-                if (vol === 0) player.muted = true;
-                if (vol === 0) {
-                    muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                } else {
-                    muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                }
-            } else if (activePlayerType === 'videojs' && videojsPlayer) {
-                videojsPlayer.volume(vol / 100);
-            }
-            localStorage.setItem(VOLUME_STORAGE_KEY, vol);
-        });
-    }
-    if (muteUnmuteBtn) {
-        muteUnmuteBtn.addEventListener('click', () => {
-            if (activePlayerType === 'youtube' && player && isPlayerReady) {
-                player.muted = !player.muted;
-                if (!player.muted) {
-                    const currentVol = Math.round((player.volume || playerVolume / 100) * 100);
-                    volumeSlider.value = currentVol;
-                    playerVolume = currentVol;
-                    updateVolumePercentage(currentVol);
-                    localStorage.setItem(VOLUME_STORAGE_KEY, currentVol);
-                } else {
-                    updateVolumePercentage(0);
-                }
-                muteUnmuteBtn.innerHTML = player.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-            } else if (activePlayerType === 'videojs' && videojsPlayer) {
-                videojsPlayer.muted(!videojsPlayer.muted());
-                updateVolumePercentage(videojsPlayer.muted() ? 0 : playerVolume);
-                muteUnmuteBtn.innerHTML = videojsPlayer.muted() ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-            }
-        });
-    }
-
-    const playbackSpeedSelect = document.getElementById('playbackSpeedSelect');
-    if (playbackSpeedSelect) {
-        playbackSpeedSelect.addEventListener('change', () => {
-            const speed = Number(playbackSpeedSelect.value);
-            if (activePlayerType === 'youtube' && player && isPlayerReady) player.speed = speed;
-            if (activePlayerType === 'videojs' && videojsPlayer) videojsPlayer.playbackRate(speed);
-        });
-    }
-
-    const videoQualitySelect = document.getElementById('videoQualitySelect');
-    if (videoQualitySelect) {
-        videoQualitySelect.addEventListener('change', () => {
-            const quality = videoQualitySelect.value;
-            if (activePlayerType === 'youtube' && player?.provider === 'youtube' && player.embed?.setPlaybackQuality) {
-                player.embed.setPlaybackQuality(quality === 'auto' ? 'default' : quality);
-            }
-        });
-    }
-
-    const audioTrackSelect = document.getElementById('audioTrackSelect');
-    if (audioTrackSelect) {
-        audioTrackSelect.addEventListener('change', () => {
-            const embed = getYouTubeAudioApi();
-            if (!embed?.setAudioTrack) return;
-            try {
-                embed.setAudioTrack(audioTrackSelect.value);
-            } catch (error) {
-                console.warn('[Player] Não foi possível alterar a faixa de áudio:', error);
-                return;
-            }
-            audioTrackSelect.closest('.audio-track-control')?.classList.remove('is-open');
-            document.getElementById('audioTrackBtn')?.setAttribute('aria-expanded', 'false');
-        });
-    }
-
-    const audioTrackBtn = document.getElementById('audioTrackBtn');
-    if (audioTrackBtn) {
-        audioTrackBtn.addEventListener('click', () => {
-            if (audioTrackBtn.disabled) return;
-            const control = audioTrackBtn.closest('.audio-track-control');
-            const isOpen = control?.classList.toggle('is-open') || false;
-            audioTrackBtn.setAttribute('aria-expanded', String(isOpen));
-            if (isOpen) audioTrackSelect?.focus();
-        });
-    }
-
-    const captionsToggleBtn = document.getElementById('captionsToggleBtn');
-    const captionLanguageSelect = document.getElementById('captionLanguageSelect');
-    if (captionLanguageSelect) {
-        captionLanguageSelect.value = localStorage.getItem(CAPTION_LANGUAGE_STORAGE_KEY) || 'pt';
-        captionLanguageSelect.addEventListener('change', () => {
-            setCaptionLanguage(captionLanguageSelect.value);
-        });
-    }
-    if (captionsToggleBtn) {
-        captionsToggleBtn.addEventListener('click', () => {
-            if (activePlayerType === 'youtube' && player && isPlayerReady && player.embed?.setOption) {
-                try {
-                    if (captionsEnabled) {
-                        player.embed.unloadModule('captions');
-                        captionsEnabled = false;
-                    } else {
-                        player.embed.loadModule('captions');
-                        const language = document.getElementById('captionLanguageSelect')?.value || 'pt';
-                        player.embed.setOption('captions', 'track', { languageCode: language });
-                        captionsEnabled = true;
-                    }
-
-                    captionsToggleBtn.classList.toggle('active', captionsEnabled);
-                } catch (error) {
-                    console.warn('[Player] Não foi possível alternar legendas:', error);
-                }
-            } else if (activePlayerType === 'videojs' && videojsPlayer) {
-                const tracks = videojsPlayer.textTracks();
-                const captionTracks = Array.from(tracks).filter(track => track.kind === 'captions' || track.kind === 'subtitles');
-                const selectedLanguage = captionLanguageSelect?.value || 'pt';
-                const selectedTrack = captionTracks.find(track =>
-                    track.language?.split('-')[0].toLowerCase() === selectedLanguage.toLowerCase()
-                );
-                if (selectedTrack) {
-                    const shouldShow = selectedTrack.mode !== 'showing';
-                    captionTracks.forEach(track => {
-                        track.mode = track === selectedTrack && shouldShow ? 'showing' : 'disabled';
-                    });
-                    captionsToggleBtn.classList.toggle('active', shouldShow);
-                }
-            }
-        });
-    }
-
-    const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
-    const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
-    const videoWrapper = exitFullscreenBtn?.closest('.video-wrapper');
-    const syncFullscreenExitButton = () => {
-        const fullscreenElement = document.fullscreenElement;
-        if (!exitFullscreenBtn || !videoWrapper) return;
-
-        exitFullscreenBtn.hidden = !fullscreenElement;
-        if (fullscreenElement && !fullscreenElement.contains(exitFullscreenBtn)) {
-            fullscreenElement.appendChild(exitFullscreenBtn);
-        } else if (!fullscreenElement && !videoWrapper.contains(exitFullscreenBtn)) {
-            videoWrapper.appendChild(exitFullscreenBtn);
-        }
-    };
-
-    document.addEventListener('fullscreenchange', syncFullscreenExitButton);
-    exitFullscreenBtn?.addEventListener('click', () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen?.().catch?.((error) => {
-                console.warn('[Player] Não foi possível sair da tela cheia:', error);
-            });
-        } else if (player?.fullscreen?.active) {
-            player.fullscreen.exit();
-        } else if (videojsPlayer?.isFullscreen?.()) {
-            videojsPlayer.exitFullscreen();
-        }
-    });
-
-    if (fullscreenToggleBtn) {
-        fullscreenToggleBtn.addEventListener('click', () => {
-            if (activePlayerType === 'youtube' && player && isPlayerReady) {
-                if (player.fullscreen.active) player.fullscreen.exit();
-                else player.fullscreen.enter();
-            } else if (activePlayerType === 'videojs' && videojsPlayer) {
-                videojsPlayer.isFullscreen() ? videojsPlayer.exitFullscreen() : videojsPlayer.requestFullscreen();
-            }
-        });
-    }
 
     loadSavedVolume();
 
-    initializePlayers();
+    await initializePlayers();
 
     initTabs();
     bindNotificationPositionUpdates();

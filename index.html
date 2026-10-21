@@ -30,8 +30,6 @@
     <link rel="stylesheet" href="base/audio-player/audio-player.css">
     <link rel="stylesheet" href="base/loading/loading-screen.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
 </head>
@@ -169,86 +167,18 @@
                 <!-- Player -->
                 <div class="player-section">
                     <div class="video-wrapper">
-                        <div id="youtube-player" class="plyr__video-embed">
-                            <iframe
-                                src="https://www.youtube.com/embed/j6hcALm0mLM?cc_load_policy=1&cc_lang_pref=pt&enablejsapi=1&origin=https%3A%2F%2Fleandrostanger.github.io&playsinline=1"
-                                data-i18n-title="video_player"
-                                allow="autoplay; fullscreen; picture-in-picture"
-                                allowfullscreen
-                            ></iframe>
-                        </div>
-                        <video id="videojs-player" class="video-js vjs-default-skin" controls playsinline hidden></video>
+                        <media-i18n>
+                            <video-player id="videojs-player-shell" hidden>
+                                <video-skin>
+                                    <video id="videojs-player" class="video-js vjs-default-skin" controls playsinline hidden></video>
+                                </video-skin>
+                                <google-cast></google-cast>
+                                <output id="videoPlayerVolumePercentage" class="video-player-volume-percentage" aria-hidden="true" hidden>80%</output>
+                            </video-player>
+                        </media-i18n>
                         <div id="externalLessonContainer" style="display: none;" class="external-lesson-container"></div>
-                        <button id="exitFullscreenBtn" class="exit-fullscreen-btn" type="button" hidden data-i18n-title="exit_fullscreen" data-i18n-aria="exit_fullscreen">
-                            <i class="fas fa-compress"></i>
-                            <span>Sair da tela cheia</span>
-                        </button>
                     </div>
-                    <div class="video-progress-container">
-                        <div class="video-progress-bar" id="videoProgressBar"><div class="video-progress-fill" id="videoProgressFill"></div></div>
-                        <div class="video-time"><span id="videoCurrentTime">00:00</span><span id="videoDuration">00:00</span></div>
-                    </div>
-                    <div class="player-controls">
-                        <div class="ctrl-buttons">
-                            <button class="ctrl-btn" id="prevVideoBtn"><i class="fas fa-backward-step"></i></button>
-                            <button class="ctrl-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
-                            <button class="ctrl-btn" id="nextVideoBtn"><i class="fas fa-forward-step"></i></button>
-                        </div>
-                        <div class="volume-control" id="volumeControl">
-                            <button class="ctrl-btn" id="muteUnmuteBtn" data-i18n-title="mute_unmute">
-                                <i class="fas fa-volume-up"></i>
-                            </button>
-                            <div class="volume-slider-group">
-                                <output id="volumePercentage" class="volume-percentage" for="volumeSlider">80%</output>
-                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" step="1" data-i18n-title="volume">
-                            </div>
-                        </div>
-                        <div class="lesson-player-options" data-i18n-aria="player_options">
-                            <label class="lesson-player-select">
-                                <span class="sr-only" data-i18n="playback_speed">Velocidade de reprodução</span>
-                                <select id="playbackSpeedSelect" data-i18n-title="playback_speed" data-i18n-aria="playback_speed">
-                                    <option value="0.5">0,5x</option>
-                                    <option value="0.75">0,75x</option>
-                                    <option value="1" selected>Normal</option>
-                                    <option value="1.25">1,25x</option>
-                                    <option value="1.5">1,5x</option>
-                                    <option value="1.75">1,75x</option>
-                                    <option value="2">2x</option>
-                                </select>
-                            </label>
-                            <label class="lesson-player-select">
-                                <span class="sr-only" data-i18n="video_quality">Qualidade do vídeo</span>
-                                <select id="videoQualitySelect" data-i18n-title="video_quality" data-i18n-aria="video_quality">
-                                    <option value="auto" selected>Auto</option>
-                                </select>
-                            </label>
-                            <div class="audio-track-control" hidden>
-                                <button class="ctrl-btn" id="audioTrackBtn" type="button" data-i18n-title="audio_track_select" data-i18n-aria="audio_track_select" aria-expanded="false">
-                                    <i class="fas fa-language"></i>
-                                </button>
-                                <label class="lesson-player-select audio-track-menu">
-                                    <span class="sr-only" data-i18n="audio_track">Faixa de áudio</span>
-                                    <select id="audioTrackSelect" data-i18n-title="audio_track" data-i18n-aria="audio_track">
-                                        <option value="original" selected>Original</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <button class="ctrl-btn" id="captionsToggleBtn" type="button" data-i18n-title="captions_toggle" data-i18n-aria="captions_toggle">
-                                <i class="fas fa-closed-captioning"></i>
-                            </button>
-                            <label class="lesson-player-select" id="captionLanguageControl">
-                                <span class="sr-only" data-i18n="caption_language">Idioma da legenda</span>
-                                <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
-                                    <option value="pt">Português</option>
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="ja">日本語</option>
-                                </select>
-                            </label>
-                            <button class="ctrl-btn" id="fullscreenToggleBtn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
+                    <div class="lesson-completion-actions">
                         <button class="mark-watched-btn" id="markWatchedBtn" data-i18n="mark_watched"><i class="fas fa-check"></i> Concluir Vídeo</button>
                     </div>
                 </div>
@@ -428,6 +358,30 @@
 </div>
 
 <!-- ========== MODAIS ========== -->
+
+<div id="stageDownloadProgressModal" class="stage-download-progress-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="stageDownloadProgressTitle" aria-describedby="stageDownloadProgressStatus" hidden>
+    <div class="stage-download-progress-content">
+        <div class="stage-download-progress-header">
+            <div>
+                <span class="stage-download-progress-kicker" data-i18n="download_progress_kicker">Modo offline</span>
+                <h2 id="stageDownloadProgressTitle" data-i18n="download_progress_title">Baixando etapa</h2>
+            </div>
+            <button id="stageDownloadProgressClose" type="button" class="stage-download-progress-close" data-i18n-aria="download_progress_hide" aria-label="Ocultar janela">
+                <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+        <p id="stageDownloadProgressStage" class="stage-download-progress-stage"></p>
+        <p id="stageDownloadProgressStatus" class="stage-download-progress-status" role="status" aria-live="polite" data-i18n="download_progress_preparing">Preparando os downloads...</p>
+        <p id="stageDownloadProgressCurrent" class="stage-download-progress-current"></p>
+        <progress id="stageDownloadProgressBar" class="stage-download-progress-bar" max="100" value="0" data-i18n-aria="download_progress_title" aria-label="Progresso do download"></progress>
+        <div class="stage-download-progress-details">
+            <span id="stageDownloadProgressCount"></span>
+            <strong id="stageDownloadProgressPercent">0%</strong>
+        </div>
+        <p id="stageDownloadProgressEta" class="stage-download-progress-eta" data-i18n="download_eta_calculating">Calculando o tempo restante...</p>
+        <small class="stage-download-progress-hint" data-i18n="download_progress_background">O download continua se esta janela for ocultada.</small>
+    </div>
+</div>
 
 <!-- ========== MODAL DE AJUDA ========== -->
 <div id="helpModal" class="help-modal" role="dialog" aria-hidden="true" data-i18n-aria="help_modal_aria">
@@ -897,12 +851,9 @@
 
 <!-- ========== SCRIPTS ========== -->
 <script src="base/analytics.js" defer></script>
-<script data-goatcounter="https://universidade-livre.goatcounter.com/count" data-goatcounter-settings='{"allow_local":true,"no_onload":true}' async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 <script src="base/menu/auditorio-menu.js" defer></script>
 <script src="base/menu/biblioteca-menu.js" defer></script>
 <script src="base/menu/mobile-menu.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" defer></script>
 <!-- ========== MÓDULO CENTRAL DE TRADUÇÃO (i18n) ========== -->

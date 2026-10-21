@@ -47,7 +47,20 @@ Com base na proposta do projeto, as funcionalidades implementadas são:
 
 ## Aplicativo para Desktop
 
-A Universidade Livre também pode ser executada como aplicativo desktop em Windows, Linux e macOS. O aplicativo inclui o conteúdo do site e o serve localmente para preservar recursos como o carregamento de arquivos JSON e o armazenamento de progresso. Fontes, vídeos e serviços de terceiros continuam dependendo de conexão com a internet.
+A Universidade Livre também pode ser executada como aplicativo desktop em Windows, Linux e macOS. O aplicativo inclui o conteúdo do site e o serve localmente em uma origem persistente para preservar o login, o progresso e outros dados entre aberturas do aplicativo. O perfil e a autenticação ficam armazenados localmente neste dispositivo; eles não são sincronizados com o navegador ou com a versão online. A versão web e o aplicativo desktop usam o bundle local do Video.js 10.1.0, incluindo o adaptador YouTube e a extensão Google Cast; isso evita buscar os módulos do player no CDN. O botão de transmissão permite enviar fontes compatíveis para dispositivos Chromecast. O bundle desktop é criado pelo script `npm run build:desktop-player`. O player fornece os controles para aulas do YouTube e arquivos de vídeo. As legendas disponíveis podem ser selecionadas nos controles do player, e as legendas WebVTT são centralizadas. A reprodução do YouTube, o Google Cast, as fontes e outros serviços de terceiros continuam dependendo de conexão com a internet.
+
+Na versão web, o player e o adaptador do YouTube são carregados com estes módulos:
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.1.0/video.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.1.0/media/youtube-video.js"></script>
+```
+
+No aplicativo desktop, cada etapa oferece o download das videoaulas autorizadas do YouTube e de arquivos MP4/WebM hospedados em URLs HTTPS diretas. Os downloads do YouTube usam até oito fragmentos simultâneos e limitam a resolução máxima a Full HD (1080p), sem baixar versões 4K. Durante o download, uma janela mostra a aula atual, o progresso da etapa e uma estimativa do tempo restante; ela pode ser ocultada enquanto o processo continua. Se nem todas as aulas forem salvas, o botão permite continuar baixando apenas as que faltam; quando todas estiverem salvas, ele permite apagar os downloads da etapa. Os vídeos são salvos na pasta de dados do aplicativo e podem ser reproduzidos offline pelo player local. O `yt-dlp` e o runtime JavaScript Deno são baixados de releases oficiais com verificação SHA-256 durante a preparação e empacotados no instalador; a primeira execução a partir do código-fonte e a geração do pacote exigem conexão com a internet. As licenças dos binários empacotados são incluídas com eles.
+
+Para adicionar videoaulas MP4/WebM próprias ou autorizadas a uma disciplina, cadastre os links no campo `videoUrls` do JSON do curso (uma URL por aula). O download de links do YouTube usa os endereços de vídeos que já são fornecidos por `videoIds`.
+
+Para vídeos do YouTube, o aplicativo também baixa a legenda disponível no idioma principal do curso (português, inglês ou espanhol), incluindo legendas automáticas quando necessário. A faixa fica salva como WebVTT junto ao vídeo e só aparece na reprodução quando o usuário ativa as legendas.
 
 ### Executar a partir do código-fonte
 
@@ -69,10 +82,10 @@ npm run dist
 Os arquivos são gerados na pasta `release/`:
 
 - **Windows:** instalador `.exe` (NSIS).
-- **Linux:** `.AppImage`, pacotes `.deb` e `.rpm`, e um bundle `.flatpak` para teste/instalação direta.
+- **Linux:** `.AppImage` e pacote `.pacman`, e um bundle `.flatpak` para teste/instalação direta.
 - **macOS:** `.dmg` e `.zip`.
 
-O fluxo de integração contínua também gera os pacotes para os três sistemas em seus respectivos runners. Os aplicativos para macOS não são assinados; a distribuição fora do desenvolvimento pode exigir assinatura e notarização para evitar avisos do Gatekeeper.
+O fluxo de integração contínua também gera os pacotes para os três sistemas em seus respectivos runners. Os aplicativos para macOS não são assinados; a distribuição fora do desenvolvimento pode exigir assinatura e notarização para evitar avisos do Gatekeeper. Para gerar somente o AppImage e o pacote Pacman no Linux, execute `npm run dist -- --linux`.
 
 ### Gerar o bundle Flatpak localmente
 
@@ -151,11 +164,11 @@ A interface do CAPTCHA é localizada para português brasileiro, inglês e espan
 
 A biblioteca é licenciada sob GPL-3.0 e executa a verificação inteiramente no navegador. Ela não oferece validação de resposta em servidor; portanto, essa proteção é apenas uma barreira básica de interface e pode ser contornada por alguém que controle o navegador. Para proteção efetiva de operações importantes, é necessário validar as requisições e aplicar rate limiting em um back-end.
 
-## Analytics com GoatCounter
+## Contagem local de páginas e eventos
 
-As páginas carregam a versão estável `count.v5.js` do GoatCounter com Subresource Integrity (SRI). A versão fixa evita atualizações inesperadas do script; para atualizar, confira a versão e o hash SRI publicados na [documentação oficial](https://www.goatcounter.com/code/countjs-versions) e altere os carregadores nas páginas HTML.
+`base/analytics.js` mantém contagens agregadas de páginas e eventos no armazenamento local do navegador (`ulivre_analytics_local_counts`). Nenhuma telemetria é enviada a serviços externos; os dados permanecem neste dispositivo e não são sincronizados entre usuários ou navegadores.
 
-A integração central está em `base/analytics.js`. Ela oferece rastreamento de páginas e eventos, além de métodos específicos para cursos, disciplinas, aulas, mídia, navegação e busca:
+A integração central oferece métodos específicos para cursos, disciplinas, aulas, mídia, navegação e busca:
 
 ```js
 UniversidadeLivreAnalytics.pageview('/pagina-exemplo', 'Página de exemplo');
@@ -168,7 +181,7 @@ UniversidadeLivreAnalytics.event(
 );
 ```
 
-O `noSession: true` registra cada ocorrência do evento em vez de deduplicar por sessão. Para elementos inseridos dinamicamente com o atributo GoatCounter `data-goatcounter-click`, chame `UniversidadeLivreAnalytics.bindEvents()` após inseri-los no DOM. Os carregadores desativam o rastreamento automático de página para manter o controle centralizado e permitem contagens em ambiente local para testar a integração.
+As opções `noSession` e `referrer` são aceitas por compatibilidade, mas não alteram as contagens locais. `UniversidadeLivreAnalytics.bindEvents()` também permanece disponível por compatibilidade e não registra listeners de terceiros.
 
 ## Autor
 

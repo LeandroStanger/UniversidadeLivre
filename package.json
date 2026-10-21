@@ -1,18 +1,23 @@
 {
   "name": "universidade-livre-desktop",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Aplicativo desktop multiplataforma da Universidade Livre",
   "author": "Leandro Stanger",
   "homepage": "https://leandrostanger.github.io/UniversidadeLivre/",
+  "desktopName": "io.github.leandrostanger.universidadelivre",
   "main": "desktop/main.cjs",
   "scripts": {
+    "prestart": "npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
     "start": "electron .",
-    "dist": "electron-builder --publish never"
+    "predist": "npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
+    "dist": "electron-builder --publish never",
+    "build:desktop-player": "node desktop/build-videojs-v10.cjs"
   },
   "devDependencies": {
     "electron": "^44.9.0",
-    "electron-builder": "^26.15.3"
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2"
   },
   "build": {
     "appId": "com.leandrostanger.universidadelivre",
@@ -29,11 +34,28 @@
       "cursos/**/*",
       "notas/**/*",
       "desktop/main.cjs",
+      "desktop/preload.cjs",
+      "desktop/offline-downloads.cjs",
       "desktop/static-server.cjs",
       "package.json"
     ],
+    "extraResources": [
+      {
+        "from": "desktop/bin/yt-dlp/${os}-${arch}",
+        "to": "yt-dlp",
+        "filter": [
+          "yt-dlp*",
+          "deno*",
+          "LICENSE*",
+          "THIRD_PARTY_LICENSES*"
+        ]
+      }
+    ],
     "directories": {
       "output": "release"
+    },
+    "appImage": {
+      "artifactName": "Universidade_Livre-${version}.${ext}"
     },
     "win": {
       "target": [
@@ -45,12 +67,19 @@
       "allowToChangeInstallationDirectory": true
     },
     "linux": {
+      "executableName": "io.github.leandrostanger.universidadelivre",
+      "icon": "packaging/flatpak/io.github.leandrostanger.universidadelivre.png",
+      "syncDesktopName": true,
+      "desktop": {
+        "entry": {
+          "Icon": "io.github.leandrostanger.universidadelivre"
+        }
+      },
       "category": "Education",
       "maintainer": "Universidade Livre",
       "target": [
         "AppImage",
-        "deb",
-        "rpm"
+        "pacman"
       ]
     },
     "pacman": {
@@ -77,5 +106,10 @@
         "zip"
       ]
     }
+  },
+  "dependencies": {
+    "@videojs/google-cast": "10.1.0",
+    "@videojs/html": "10.1.0",
+    "@videojs/youtube-video": "10.1.0"
   }
 }

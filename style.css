@@ -1672,11 +1672,64 @@ a:hover {
     height: 100%;
 }
 
+.video-wrapper > media-i18n {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrapper > media-i18n > video-player {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.video-player-volume-percentage {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: 0.4rem;
+    background: rgb(0 0 0 / 72%);
+    color: #fff;
+    font: 600 0.8rem/1.2 Inter, Arial, sans-serif;
+    pointer-events: none;
+}
+
+.video-player-volume-percentage[hidden] {
+    display: none;
+}
+
+.video-wrapper > media-i18n > video-player[hidden] {
+    display: none;
+}
+
+.video-wrapper > media-i18n > video-player video-skin {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrapper > media-i18n > video-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 .video-wrapper .video-js {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+}
+
+.video-wrapper #videojs-player[hidden] {
+    display: none !important;
 }
 
 .video-wrapper .video-js .vjs-tech {
@@ -1685,10 +1738,6 @@ a:hover {
 
 .video-wrapper .video-js .vjs-control-bar {
     z-index: 5;
-}
-
-.player-section.videojs-active .player-controls {
-    border-top-color: var(--accent-blue);
 }
 
 .video-wrapper > .plyr {
@@ -1706,33 +1755,6 @@ a:hover {
 .video-wrapper > .plyr .plyr__control--overlaid {
     display: flex;
     z-index: 10;
-}
-
-.exit-fullscreen-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 100;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-height: 40px;
-    padding: 0.55rem 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 0.45rem;
-    background: color-mix(in srgb, var(--bg-secondary) 86%, transparent);
-    color: #fff;
-    cursor: pointer;
-    font: inherit;
-}
-
-.exit-fullscreen-btn:hover,
-.exit-fullscreen-btn:focus-visible {
-    background: var(--accent-blue);
-}
-
-.exit-fullscreen-btn[hidden] {
-    display: none !important;
 }
 
 .plyr-course-title {
@@ -1876,34 +1898,6 @@ a:hover {
     border-color: var(--accent-blue);
 }
 
-.player-controls {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.8rem 1.2rem;
-    flex-wrap: wrap;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border);
-    border-bottom: 0;
-}
-
-.video-progress-container {
-    padding: 0.55rem 1.2rem 0;
-    background: var(--bg-secondary);
-}
-
-.video-progress-container .video-progress-bar {
-    cursor: pointer;
-}
-
-.video-time {
-    display: flex;
-    justify-content: space-between;
-    color: var(--text-secondary);
-    font-size: 0.75rem;
-    padding-top: 0.2rem;
-}
-
 .ctrl-buttons {
     display: flex;
     gap: 0.5rem;
@@ -1942,62 +1936,11 @@ a:hover {
     gap: 0.15rem;
 }
 
-.lesson-player-options {
+.lesson-completion-actions {
     display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-left: auto;
-}
-
-.lesson-player-select select {
-    min-height: 36px;
-    padding: 0 0.55rem;
-    border: 1px solid var(--border);
-    border-radius: 0.45rem;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    cursor: pointer;
-}
-
-.lesson-player-select select:focus {
-    outline: 2px solid var(--accent-blue);
-    outline-offset: 1px;
-}
-
-.lesson-player-options .ctrl-btn.active {
-    background: var(--accent-blue);
-    color: #fff;
-}
-
-.audio-track-control {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.audio-track-control[hidden] {
-    display: none !important;
-}
-
-.audio-track-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 0.4rem);
-    z-index: 20;
-}
-
-.audio-track-control.is-open .audio-track-menu {
-    display: block;
-}
-
-.audio-track-menu select {
-    min-width: 9rem;
-    box-shadow: var(--card-shadow);
-}
-
-.mark-watched-btn {
-    margin-left: 0;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
 }
 
 .sr-only {
@@ -2076,40 +2019,6 @@ a:hover {
     background: var(--accent-green-hover);
     color: white !important;
     transform: scale(1.05);
-}
-
-.video-progress-container {
-    padding: 0.2rem 1.2rem 0.8rem;
-}
-
-.video-progress-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--bg-tertiary);
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    transition: height var(--transition-fast);
-}
-
-.video-progress-bar:hover {
-    height: 8px;
-}
-
-.video-progress-fill {
-    height: 100%;
-    background: var(--gradient-primary);
-    border-radius: 4px;
-    width: 0%;
-    transition: width 0.1s linear;
-}
-
-.video-time {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-top: 0.2rem;
 }
 
 .course-notes-container {
@@ -3872,6 +3781,188 @@ a:hover {
     transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 
+.stage-card-container {
+    display: flex;
+    align-items: stretch;
+    gap: .35rem;
+    min-width: 0;
+}
+
+.stage-card-container .stage-card {
+    flex: 1;
+    min-width: 0;
+}
+
+.stage-download-btn {
+    display: flex;
+    flex: 0 0 88px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .45rem .25rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--accent-teal);
+    background: var(--bg-tertiary);
+    cursor: pointer;
+    font: inherit;
+    font-size: .62rem;
+    line-height: 1.15;
+    text-align: center;
+}
+
+.stage-download-btn:hover:not(:disabled) {
+    border-color: var(--accent-teal);
+    background: color-mix(in srgb, var(--accent-teal) 10%, var(--bg-tertiary));
+}
+
+.stage-download-btn:disabled {
+    cursor: not-allowed;
+    color: var(--text-tertiary);
+    opacity: .65;
+}
+
+.stage-download-btn i {
+    font-size: .9rem;
+}
+
+.stage-download-progress-modal {
+    position: fixed;
+    z-index: 10050;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(3, 7, 18, .74);
+    backdrop-filter: blur(8px);
+}
+
+.stage-download-progress-modal[hidden] {
+    display: none;
+}
+
+.stage-download-progress-content {
+    width: min(100%, 460px);
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--bg-secondary);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, .38);
+}
+
+.stage-download-progress-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.stage-download-progress-kicker {
+    color: var(--accent-teal);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.stage-download-progress-header h2 {
+    margin: .25rem 0 0;
+    color: var(--text-primary);
+    font-size: 1.18rem;
+}
+
+.stage-download-progress-close {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    cursor: pointer;
+}
+
+.stage-download-progress-close:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-teal);
+}
+
+.stage-download-progress-stage {
+    margin: 1rem 0 .35rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.stage-download-progress-status,
+.stage-download-progress-current,
+.stage-download-progress-eta,
+.stage-download-progress-hint {
+    color: var(--text-secondary);
+}
+
+.stage-download-progress-status {
+    min-height: 1.3em;
+    margin: 0 0 .25rem;
+    font-size: .88rem;
+}
+
+.stage-download-progress-current {
+    overflow: hidden;
+    margin: 0 0 .8rem;
+    font-size: .8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stage-download-progress-bar {
+    display: block;
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    accent-color: var(--accent-teal);
+    background: var(--bg-tertiary);
+}
+
+.stage-download-progress-bar::-webkit-progress-bar {
+    border-radius: 999px;
+    background: var(--bg-tertiary);
+}
+
+.stage-download-progress-bar::-webkit-progress-value {
+    border-radius: 999px;
+    background: var(--gradient-primary);
+    transition: width .2s ease;
+}
+
+.stage-download-progress-details {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: .45rem;
+    color: var(--text-secondary);
+    font-size: .78rem;
+}
+
+.stage-download-progress-details strong {
+    color: var(--text-primary);
+}
+
+.stage-download-progress-eta {
+    margin: .9rem 0 .35rem;
+    color: var(--accent-teal);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.stage-download-progress-hint {
+    font-size: .72rem;
+}
+
 .stage-card:not(:disabled):hover {
     transform: translateY(-2px);
     border-color: var(--accent-teal);
@@ -5413,11 +5504,6 @@ a:hover {
 
     .tabs-content {
         padding: 0.6rem;
-    }
-
-    .player-controls {
-        padding: 0.5rem 0.8rem;
-        gap: 0.5rem;
     }
 
     .ctrl-btn {

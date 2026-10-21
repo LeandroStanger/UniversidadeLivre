@@ -49,6 +49,12 @@
         }, wait);
     }
 
+    window.addEventListener('pageshow', event => {
+        if (!event.persisted) return;
+        document.getElementById('siteLoadingScreen')?.remove();
+        document.body.classList.remove('site-loading');
+    });
+
     function waitForApplicationReady() {
         const pageLoaded = document.readyState === 'complete'
             ? Promise.resolve()
