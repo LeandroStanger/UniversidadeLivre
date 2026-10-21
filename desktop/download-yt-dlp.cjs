@@ -62,13 +62,17 @@ async function downloadFile(url, filePath) {
 }
 
 function findSha256(checksums, filename) {
-    const line = checksums.split(/\r?\n/).find(entry => {
-        const match = /^([a-f0-9]{64})\s+\*?(.+)$/.exec(entry.trim());
-        return match?.[2] === filename;
-    });
-    const match = line && /^([a-f0-9]{64})/.exec(line.trim());
-    if (!match) throw new Error(`O checksum oficial de ${filename} não foi encontrado.`);
-    return match[1];
+    for (const entry of checksums.split(/\r?\n/)) {
+        const match = /^([a-f0-9]{64})\s+\*?(.+)$/i.exec(entry.trim());
+        if (match?.[2] === filename) return match[1].toLowerCase();
+    }
+
+    const hash = /^Hash\s*:\s*([a-f0-9]{64})\s*$/im.exec(checksums);
+    const assetPath = /^Path\s*:\s*(.+?)\s*$/im.exec(checksums);
+    const assetName = assetPath?.[1].split(/[\\/]/).pop();
+    if (hash && assetName === filename) return hash[1].toLowerCase();
+
+    throw new Error(`O checksum oficial de ${filename} não foi encontrado.`);
 }
 
 async function downloadVerified(url, filePath, expectedSha256) {
@@ -193,4 +197,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { getBuildTarget, getPlatformDirectory, prepareBinaries };
+module.exports = { findSha256, getBuildTarget, getPlatformDirectory, prepareBinaries };
