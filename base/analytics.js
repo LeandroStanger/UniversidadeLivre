@@ -1,18 +1,9 @@
-// Integração central com GoatCounter.
+// Contagem local de páginas e eventos, sem envio externo.
 (function () {
     'use strict';
 
-    const SITE_URL = 'https://leandrostanger.github.io/UniversidadeLivre';
-    const pending = [];
     const LOCAL_COUNTS_KEY = 'ulivre_analytics_local_counts';
-    const MAX_PENDING_EVENTS = 100;
-    const MAX_SEND_ATTEMPTS = 3;
-    const MIN_SEND_INTERVAL = 1500;
-    let retryTimer = null;
-    let retryDelay = 1000;
-    let lastSentAt = 0;
     let initialPageviewSent = false;
-    let goatCounterEventsBound = false;
 
     function slug(value) {
         return String(value || 'item')
@@ -99,69 +90,10 @@
         } catch (_) {}
     }
 
-    function scheduleFlush(delay = retryDelay) {
-        if (retryTimer || !pending.length) return;
-        retryTimer = window.setTimeout(() => {
-            retryTimer = null;
-            retryDelay = Math.min(retryDelay * 2, 30000);
-            flush();
-        }, delay);
-    }
-
-    function flush() {
-        if (!window.goatcounter || typeof window.goatcounter.count !== 'function') {
-            scheduleFlush(Math.min(retryDelay, 5000));
-            return;
-        }
-
-        if (!goatCounterEventsBound) bindEvents();
-
-        const elapsed = Date.now() - lastSentAt;
-        if (elapsed < MIN_SEND_INTERVAL) {
-            scheduleFlush(MIN_SEND_INTERVAL - elapsed);
-            return;
-        }
-
-        const queued = pending[0];
-        try {
-            window.goatcounter.count(queued.payload);
-            pending.shift();
-            lastSentAt = Date.now();
-            retryDelay = 1000;
-            scheduleFlush(MIN_SEND_INTERVAL);
-        } catch (error) {
-            console.warn('[Analytics] Falha ao enviar evento:', error);
-            queued.attempts += 1;
-            if (queued.attempts >= MAX_SEND_ATTEMPTS) {
-                saveLocalCount(pending.shift().payload);
-            }
-            scheduleFlush();
-        }
-    }
-
-    function count(path, title, event = true, options = {}) {
-        const language = getLanguage();
+    function count(path, title, event = true) {
         const fullPath = `/universidade-livre${languagePath(path)}`;
         const payloadPath = event ? fullPath.replace(/^\/+/, '') : fullPath;
-        const payloadTitle = `${title || document.title} · ${language.label}`;
-        const duplicate = pending.some(item => item.payload.path === payloadPath
-            && item.payload.title === payloadTitle
-            && item.payload.event === event
-            && item.payload.no_session === Boolean(options.noSession)
-            && item.payload.referrer === (options.referrer || document.referrer || SITE_URL));
-        if (duplicate) return;
-        if (pending.length >= MAX_PENDING_EVENTS) saveLocalCount({ path: payloadPath, event });
-        else {
-            const payload = {
-                path: payloadPath,
-                title: payloadTitle,
-                event,
-                referrer: options.referrer || document.referrer || SITE_URL
-            };
-            if (options.noSession !== undefined) payload.no_session = Boolean(options.noSession);
-            pending.push({ payload, attempts: 0 });
-        }
-        flush();
+        saveLocalCount({ path: payloadPath, event });
     }
 
     function pageview(path, title, options) {
@@ -174,10 +106,7 @@
     }
 
     function bindEvents() {
-        if (!window.goatcounter || typeof window.goatcounter.bind_events !== 'function') return false;
-        window.goatcounter.bind_events();
-        goatCounterEventsBound = true;
-        return true;
+        return false;
     }
 
     function sendInitialPageview() {
@@ -235,17 +164,6 @@
         count(`/evento/${slug(area)}/${slug(actionName)}/${suffix}`, `${actionName} · ${area}`, true, options);
     }
 
-    window.goatcounter = window.goatcounter || {};
-    window.goatcounter.path = function () {
-        const language = getLanguage();
-        const pagePath = location.pathname.replace(/^\/+/, '') || 'inicio';
-        return `/universidade-livre/idioma/${language.slug}/pagina/${slug(pagePath)}`;
-    };
-    window.goatcounter.title = function () {
-        return `${document.title} · ${getLanguage().label}`;
-    };
-    window.goatcounter.allow_local = true;
-
     window.addEventListener('languageChanged', (event) => {
         const language = event.detail?.lang === 'en'
             ? 'English'
@@ -297,10 +215,5 @@
         } else {
             sendInitialPageview();
         }
-        flush();
     }, { once: true });
-
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') flush();
-    });
 })();
