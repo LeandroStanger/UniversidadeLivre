@@ -396,15 +396,15 @@ html[data-theme] .app-header #profileBtn {
     color: #000000 !important;
 }
 
-html[data-theme] .header .btn-biblioteca *,
-html[data-theme] .header .btn-back *,
-html[data-theme] .header .donate-button *,
-html[data-theme] .app-header .btn-biblioteca *,
-html[data-theme] .app-header .btn-back *,
-html[data-theme] .app-header .donate-button *,
-html[data-theme] .app-header .notes-navigation-button *,
-html[data-theme] .app-header .community-resource-button *,
-html[data-theme] .app-header #profileBtn * {
+html[data-theme] .header .btn-biblioteca *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .btn-back *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .donate-button *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-biblioteca *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-back *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .donate-button *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .notes-navigation-button *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .community-resource-button *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header #profileBtn *:not(iconify-icon.iconify-fa-icon) {
     color: inherit !important;
 }
 
@@ -429,23 +429,28 @@ html[data-theme] .app-header #profileBtn:focus-visible {
     color: #ffffff !important;
 }
 
-html[data-theme] .header .btn-biblioteca:hover *,
-html[data-theme] .header .btn-biblioteca:focus-visible *,
-html[data-theme] .header .btn-back:hover *,
-html[data-theme] .header .btn-back:focus-visible *,
-html[data-theme] .header .donate-button:hover *,
-html[data-theme] .header .donate-button:focus-visible *,
-html[data-theme] .app-header .btn-biblioteca:hover *,
-html[data-theme] .app-header .btn-biblioteca:focus-visible *,
-html[data-theme] .app-header .btn-back:hover *,
-html[data-theme] .app-header .btn-back:focus-visible *,
-html[data-theme] .app-header .donate-button:hover *,
-html[data-theme] .app-header .donate-button:focus-visible *,
-html[data-theme] .app-header .notes-navigation-button:hover *,
-html[data-theme] .app-header .notes-navigation-button:focus-visible *,
-html[data-theme] .app-header .community-resource-button:hover *,
-html[data-theme] .app-header .community-resource-button:focus-visible *,
-html[data-theme] .app-header #profileBtn:hover *,
-html[data-theme] .app-header #profileBtn:focus-visible * {
+html[data-theme] .header .btn-biblioteca:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .btn-biblioteca:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .btn-back:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .btn-back:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .donate-button:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .header .donate-button:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-biblioteca:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-biblioteca:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-back:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .btn-back:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .donate-button:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .donate-button:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .notes-navigation-button:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .notes-navigation-button:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .community-resource-button:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header .community-resource-button:focus-visible *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header #profileBtn:hover *:not(iconify-icon.iconify-fa-icon),
+html[data-theme] .app-header #profileBtn:focus-visible *:not(iconify-icon.iconify-fa-icon) {
     color: inherit !important;
+}
+
+html[data-theme] .header .auditorio-menu-toggle,
+html[data-theme] .header .auditorio-menu-toggle * {
+    color: #ffffff !important;
 }

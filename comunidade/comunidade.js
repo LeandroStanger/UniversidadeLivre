@@ -2482,7 +2482,7 @@
     }
 
     function initializeCommunityVideoPlayers(container) {
-        if (!container || !window.videojs) return;
+        if (!container) return;
         container.querySelectorAll('iframe.ql-video[src]').forEach(iframe => {
             const source = iframe.getAttribute('src') || '';
             if (!/\.(mp4|webm|ogg|ogv)(?:[?#]|$)/i.test(source)) return;
@@ -2493,26 +2493,68 @@
             video.dataset.videoJs = 'true';
             const sourceElement = document.createElement('source');
             sourceElement.src = source;
-            sourceElement.type = source.match(/\.(webm)(?:[?#]|$)/i) ? 'video/webm' : 'video/mp4';
+            const extension = source.match(/\.(mp4|webm|ogg|ogv)(?:[?#]|$)/i)?.[1]?.toLowerCase();
+            sourceElement.type = extension === 'webm'
+                ? 'video/webm'
+                : extension === 'ogg' || extension === 'ogv'
+                    ? 'video/ogg'
+                    : 'video/mp4';
             video.appendChild(sourceElement);
             iframe.replaceWith(video);
         });
-        container.querySelectorAll('video.video-js, video[data-video-js]').forEach(videoElement => {
+        container.querySelectorAll('.post-content video, video.video-js, video[data-video-js]').forEach(videoElement => {
             if (videoElement.dataset.videoJsInitialized === 'true') return;
-            videoElement.classList.add('video-js', 'vjs-default-skin');
-            videoElement.controls = true;
             videoElement.playsInline = true;
             videoElement.dataset.videoJsInitialized = 'true';
-            try {
-                window.videojs(videoElement, {
-                    controls: true,
-                    responsive: true,
-                    fluid: true,
-                    preload: 'metadata',
-                    playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2]
+            let playerShell = videoElement.closest('video-player');
+            if (!playerShell && customElements.get('video-player') && customElements.get('video-skin')) {
+                playerShell = document.createElement('video-player');
+                playerShell.className = 'community-video-player';
+                const mediaI18n = document.createElement('media-i18n');
+                mediaI18n.className = 'community-video-i18n';
+                const skin = document.createElement('video-skin');
+                videoElement.classList.remove('video-js', 'vjs-default-skin');
+                videoElement.removeAttribute('controls');
+                skin.appendChild(videoElement);
+                playerShell.appendChild(skin);
+                mediaI18n.appendChild(playerShell);
+                videoElement.replaceWith(mediaI18n);
+            } else if (!playerShell) {
+                videoElement.controls = true;
+                console.error('[Comunidade] O player integrado não foi carregado; usando os controles nativos do vídeo.');
+            }
+            if (playerShell && !playerShell.querySelector('google-cast')) {
+                playerShell.appendChild(document.createElement('google-cast'));
+            }
+            window.UniversidadeLivreCourseVideoPlayer?.exposeControls(videoElement.closest('video-skin'));
+            const source = videoElement.querySelector('source')?.src || videoElement.currentSrc || videoElement.src;
+            const offlineMedia = window.UniversidadeLivreOfflineMedia;
+            if (offlineMedia?.isSupported(source)) {
+                const offlineButton = document.createElement('button');
+                offlineButton.className = 'offline-media-button community-offline-media-button';
+                (playerShell?.parentElement || playerShell || videoElement).insertAdjacentElement('afterend', offlineButton);
+                const switchToOffline = offlineUrl => {
+                    if (!offlineUrl) return;
+                    const wasPlaying = !videoElement.paused;
+                    const currentTime = videoElement.currentTime;
+                    videoElement.pause();
+                    videoElement.src = offlineUrl;
+                    videoElement.addEventListener('loadedmetadata', () => {
+                        videoElement.currentTime = currentTime || 0;
+                        if (wasPlaying) {
+                            videoElement.play().catch(error => console.warn('[Offline] A reprodução do vídeo da comunidade foi bloqueada:', error));
+                        }
+                    }, { once: true });
+                };
+                offlineMedia.bindButton(
+                    offlineButton,
+                    source,
+                    videoElement.getAttribute('aria-label') || 'Vídeo da comunidade',
+                    switchToOffline
+                );
+                offlineMedia.resolve(source).then(switchToOffline).catch(error => {
+                    console.error('[Offline] Não foi possível resolver o vídeo da comunidade:', error);
                 });
-            } catch (error) {
-                console.warn('[Comunidade] Não foi possível inicializar o Video.js:', error);
             }
         });
     }
@@ -2567,7 +2609,7 @@
                     </div>
                   </div>
                   <button type="button" class="course-expand-toggle" data-course-id="${course.id}" aria-label="${escapeHtml(t(isExpanded ? 'community_collapse_disciplines' : 'community_expand_disciplines'))}" aria-expanded="${isExpanded ? 'true' : 'false'}" title="${escapeHtml(t(isExpanded ? 'community_collapse_disciplines' : 'community_expand_disciplines'))}">
-                    <i class="fas fa-chevron-${isExpanded ? 'up' : 'down'}" aria-hidden="true"></i>
+                    <iconify-icon icon="${isExpanded ? 'fluent:arrow-sort-up-lines-24-regular' : 'fluent:arrow-sort-down-lines-24-regular'}" aria-hidden="true"></iconify-icon>
                   </button>
                   </div>
                   <div class="discipline-list ${isExpanded ? 'open' : ''}" data-course-id="${course.id}">
@@ -2833,8 +2875,10 @@
             button?.setAttribute('aria-expanded', String(expanded));
             button?.setAttribute('aria-label', label);
             button?.setAttribute('title', label);
-            const icon = button?.querySelector('i');
-            if (icon) icon.className = `fas fa-chevron-${expanded ? 'up' : 'down'}`;
+            const icon = button?.querySelector('iconify-icon');
+            icon?.setAttribute('icon', expanded
+                ? 'fluent:arrow-sort-up-lines-24-regular'
+                : 'fluent:arrow-sort-down-lines-24-regular');
         });
     }
 
@@ -4010,6 +4054,7 @@
         // ====================================================================
         window.addEventListener('languageChanged', function(e) {
             const lang = e.detail.lang || 'pt-br';
+            window.UniversidadeLivreCourseVideoPlayer?.setLanguage(lang);
             console.log('[Comunidade] Idioma alterado para:', lang);
             
             // Atualizar textos estáticos

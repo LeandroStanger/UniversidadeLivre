@@ -276,25 +276,9 @@ function createOfflineDownloads(directory, origin, tools = {}) {
         }
     }
 
-    async function areCaptionsResolved(value, language) {
-        if (!getYouTubeVideoId(value)) return true;
-        const { statusPath } = getCaptionPaths(value, language);
-        try {
-            const status = JSON.parse(await fs.promises.readFile(statusPath, 'utf8'));
-            return status.checked === true;
-        } catch (error) {
-            if (error.code === 'ENOENT' || error.code === 'ENOTDIR' || error instanceof SyntaxError) return false;
-            throw error;
-        }
-    }
-
     async function getStageDownloadStatus(videos) {
         const downloadedVideos = await Promise.all(
-            videos.map(async video => {
-                const videoUrl = await resolveVideo(video.url);
-                if (!videoUrl || !await areCaptionsResolved(video.url, video.subtitleLanguage)) return null;
-                return videoUrl;
-            })
+            videos.map(video => resolveVideo(video.url))
         );
         return {
             downloadedIndexes: downloadedVideos.flatMap((url, index) => url ? [index] : [])

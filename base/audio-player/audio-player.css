@@ -92,6 +92,11 @@
     color: #fff !important;
     background: var(--gradient-primary) !important;
 }
+.audio-player-play iconify-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+}
 
 .audio-player-volume {
     display: flex;
@@ -99,6 +104,25 @@
     gap: 0.4rem;
     margin-left: 0.25rem;
     color: var(--text-secondary);
+}
+
+.audio-player-mute {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    color: var(--text-secondary);
+    background: transparent;
+    cursor: pointer;
+}
+.audio-player-mute:hover,
+.audio-player-mute:focus-visible { color: var(--text-primary); }
+.audio-player-mute iconify-icon {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .audio-player-volume input { width: 4.5rem; }
@@ -168,6 +192,14 @@
 
 body[data-course] .ai-tutor-toggle:not([hidden]) { display: flex; }
 
+.ai-tutor-toggle iconify-icon {
+    width: 1.25em;
+    height: 1.25em;
+    flex: 0 0 auto;
+    color: var(--accent-orange, #f2b35f);
+    vertical-align: middle;
+}
+
 .ai-tutor-toggle:hover,
 .ai-tutor-toggle:focus-visible,
 .ai-tutor-toggle:active {
@@ -188,7 +220,8 @@ body[data-study-calendar-context="my-courses"] .study-calendar-floating-toggle {
     transform: translateY(-2px);
     box-shadow: var(--card-shadow-hover);
 }
-.youtube-audio-source { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.youtube-audio-source { position: fixed; top: 0; left: -220px; width: 200px; height: 200px; overflow: hidden; opacity: 0; pointer-events: none; }
+.youtube-audio-source iframe { display: block; width: 200px; height: 200px; }
 
 @media (max-width: 600px) {
     .floating-audio-player { right: 0.75rem; bottom: 0.75rem; }

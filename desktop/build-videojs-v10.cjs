@@ -8,7 +8,7 @@ esbuild.build({
     format: 'iife',
     globalName: 'UniversidadeLivreVideoJs10',
     legalComments: 'none',
-    outfile: path.join(__dirname, '..', 'base', 'videojs-v10.bundle.js')
+    outfile: path.join(__dirname, '..', 'base', 'video', 'videojs-v10.bundle.js')
 }).catch(error => {
     console.error('Unable to build the local Video.js 10 player:', error);
     process.exitCode = 1;

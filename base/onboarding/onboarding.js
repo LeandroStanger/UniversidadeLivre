@@ -734,7 +734,7 @@
             </div>
             <!-- Passo 3: Login (apenas senha + importação) -->
             <div class="step" data-step="3">
-                <h2><i class="fas fa-sign-in-alt"></i> <span id="onboardingModeTitle">${t('onboarding_login_button')}</span></h2>
+                <h2><iconify-icon class="onboarding-login-icon" icon="fluent:arrow-enter-20-regular" aria-hidden="true"></iconify-icon> <span id="onboardingModeTitle">${t('onboarding_login_button')}</span></h2>
 
                 <div id="onboardingLoginMode">
                     <div class="form-group">
@@ -742,7 +742,7 @@
                         <div style="position:relative;">
                             <input type="password" id="onboardingLoginPassword" placeholder="${t('onboarding_login_password_placeholder')}" style="padding-right:40px;">
                             <button type="button" id="onboardingToggleLoginPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                <iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>
                             </button>
                         </div>
                         <div id="onboardingLoginError" class="form-error" style="display:none;">${t('onboarding_error_login_failed')}</div>
@@ -750,7 +750,7 @@
                     <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
                         <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" disabled>
-                            <i class="fas fa-file-import"></i> ${t('profile_import_progress')}
+                            <iconify-icon icon="fluent:document-add-48-regular" aria-hidden="true"></iconify-icon> ${t('profile_import_progress')}
                         </button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
                     </div>
@@ -800,7 +800,7 @@
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="${t('onboarding_form_password_placeholder')}" value="${formData.password}" style="padding-right:40px;">
                             <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                <iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>
                             </button>
                         </div>
                         <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
@@ -811,7 +811,7 @@
                         <div style="position:relative;">
                             <input type="password" id="onboardingConfirmPassword" placeholder="${t('onboarding_form_confirm_password_placeholder')}" style="padding-right:40px;">
                             <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="${t('password_visibility_show')}" title="${t('password_visibility_show')}" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                <iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>
                             </button>
                         </div>
                         <div id="onboardingConfirmError" class="form-error" style="display:none;">${t('onboarding_error_password_mismatch')}</div>
@@ -821,10 +821,10 @@
                         <div id="avatarSelectorContainer" style="margin-top: 6px; padding: 4px 0;"></div>
                         <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                             <button type="button" id="onboardingUploadAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem;">
-                                <i class="fas fa-upload"></i> ${t('onboarding_form_avatar_upload')}
+                                <iconify-icon icon="fluent:border-inside-24-regular" aria-hidden="true"></iconify-icon> ${t('onboarding_form_avatar_upload')}
                             </button>
                             <button type="button" id="onboardingRemoveAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem; background:var(--bg-tertiary);">
-                                <i class="fas fa-trash-alt"></i> ${t('onboarding_form_avatar_remove')}
+                                <iconify-icon icon="fluent:delete-48-regular" aria-hidden="true"></iconify-icon> ${t('onboarding_form_avatar_remove')}
                             </button>
                             <button type="button" id="onboardingAvatarLicense" class="btn-secondary" style="padding:4px 12px; font-size:0.7rem; background:transparent; border-color:var(--border);">
                                 <i class="fas fa-balance-scale"></i> ${t('onboarding_form_avatar_license')}
@@ -835,6 +835,7 @@
                     <div id="onboardingSignupCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="margin-top: 0.5rem; text-align: center;">
                         <button type="button" id="onboardingToggleModeBackBtn" class="btn-secondary" style="font-size:0.85rem; background:transparent; border:none; color:var(--accent-teal); cursor:pointer; text-decoration:underline;">
+                            <iconify-icon icon="fluent:arrow-enter-20-regular" aria-hidden="true"></iconify-icon>
                             ${t('onboarding_switch_to_login')}
                         </button>
                     </div>
@@ -1053,7 +1054,9 @@
                 const isVisible = passwordInput.type === 'password';
                 const labelKey = isVisible ? 'password_visibility_hide' : 'password_visibility_show';
                 passwordInput.type = isVisible ? 'text' : 'password';
-                this.innerHTML = isVisible ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>' : '<i class="fas fa-eye" aria-hidden="true"></i>';
+                this.innerHTML = isVisible
+                    ? '<iconify-icon icon="fluent:eye-off-32-regular" aria-hidden="true"></iconify-icon>'
+                    : '<iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>';
                 this.dataset.i18nAria = labelKey;
                 this.dataset.i18nTitle = labelKey;
                 this.setAttribute('aria-label', t(labelKey));

@@ -29,6 +29,10 @@
         'img/capa/',
         document.currentScript?.src || document.baseURI
     ).href;
+    const PROFILE_GAME_ASSETS_URL = new URL(
+        '../../comunidade/jogo/',
+        document.currentScript?.src || document.baseURI
+    ).href;
     const PROFILE_COVERS = [
         { file: 'capa-campo-aberto.webp', labelKey: 'profile_cover_field' },
         { file: 'capa-trator-por-do-sol.webp', labelKey: 'profile_cover_tractor_sunset' },
@@ -1008,11 +1012,11 @@
             <input id="profileCoverSearch" class="profile-cover-search" type="search" placeholder="${t('profile_cover_search_placeholder')}" autocomplete="off">
             <div class="profile-cover-actions profile-cover-actions--split">
                 <button type="button" id="profileCoverLocalBtn" class="profile-cover-upload">
-                    <i class="fas fa-upload" aria-hidden="true"></i>
+                    <iconify-icon icon="fluent:border-inside-24-regular" aria-hidden="true"></iconify-icon>
                     <span>${t('profile_cover_upload_local')}</span>
                 </button>
                 <button type="button" id="profileCoverConsorteBtn" class="profile-cover-upload profile-cover-consorte">
-                    <i class="fas fa-random" aria-hidden="true"></i>
+                    <iconify-icon icon="fluent:arrow-shuffle-48-regular" aria-hidden="true"></iconify-icon>
                     <span>${t('profile_cover_consorte')}</span>
                 </button>
             </div>
@@ -1239,10 +1243,10 @@
             </div>
             <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;align-items:center;">
                 <button id="uploadAvatarBtn" style="padding:0.6rem 1.5rem;background:var(--gradient-primary);border:none;border-radius:2rem;color:white;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;">
-                    <i class="fas fa-upload"></i> ${t('profile_upload')}
+                    <iconify-icon icon="fluent:border-inside-24-regular" aria-hidden="true"></iconify-icon> ${t('profile_upload')}
                 </button>
                 <button id="removeAvatarBtn" style="padding:0.6rem 1.5rem;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:2rem;color:var(--text-secondary);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;">
-                    <i class="fas fa-trash-alt"></i> ${t('profile_remove_photo')}
+                    <iconify-icon icon="fluent:delete-48-regular" aria-hidden="true"></iconify-icon> ${t('profile_remove_photo')}
                 </button>
                 <button id="licenseAvatarBtn" style="padding:0.4rem 1rem;background:transparent;border:1px solid var(--border);border-radius:2rem;color:var(--text-tertiary);font-size:0.7rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;">
                     <i class="fas fa-balance-scale"></i> ${t('profile_license')}
@@ -1399,7 +1403,7 @@
         const isLoggedIn = Boolean(loadProfileName());
         if (!isLoggedIn) {
             btn.setAttribute('data-profile-custom', 'true');
-            btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> <span>${t('onboarding_login_button')}</span>`;
+            btn.innerHTML = `<iconify-icon class="profile-login-icon" icon="fluent:arrow-enter-20-regular" aria-hidden="true"></iconify-icon> <span>${t('onboarding_login_button')}</span>`;
             btn.removeAttribute('aria-haspopup');
             btn.setAttribute('aria-expanded', 'false');
             const menu = document.getElementById('profileHeaderMenu');
@@ -2176,36 +2180,39 @@
             losses: Number(score.losses) || ((key === 'ulivre_hangman_scores' || key === 'ulivre_roulette_wallets' || key === 'ulivre_bicho_wallets' || key === 'ulivre_poker_wallets' || key === 'ulivre_blackjack_wallets' || key === 'ulivre_bacara_wallets' || key === 'ulivre_bingo_wallets') ? Math.max(0, (Number(score.games || score.spins || score.bets || score.hands || score.rounds) || 0) - (Number(score.wins) || 0)) : 0)
         });
         const games = [
-            { name: t('games_score_chess'), icon: 'fa-chess', score: normalizeScore(rawScore('ulivre_chess_scores'), 'ulivre_chess_scores') },
-            { name: t('games_score_ttt'), icon: 'fa-th', score: normalizeScore(rawScore('ulivre_ttt_scores'), 'ulivre_ttt_scores') },
-            { name: t('games_score_impostor'), icon: 'fa-user-secret', score: normalizeScore(rawScore('ulivre_impostor_scores'), 'ulivre_impostor_scores') },
-            { name: t('games_score_hangman'), icon: 'fa-font', score: normalizeScore(rawScore('ulivre_hangman_scores'), 'ulivre_hangman_scores') },
-            { name: t('games_score_checkers'), icon: 'fa-chess-board', score: normalizeScore(rawScore('ulivre_checkers_scores'), 'ulivre_checkers_scores') },
-            { name: t('games_score_roulette'), icon: 'fa-dharmachakra', score: normalizeScore(rawScore('ulivre_roulette_wallets'), 'ulivre_roulette_wallets') },
-            { name: t('games_score_uno'), icon: 'fa-layer-group', score: normalizeScore(rawScore('ulivre_uno_scores'), 'ulivre_uno_scores') },
-            { name: t('games_score_bicho'), icon: 'fa-paw', score: normalizeScore(rawScore('ulivre_bicho_wallets'), 'ulivre_bicho_wallets') },
-            { name: t('games_score_poker'), iconSymbol: '♠', score: normalizeScore(rawScore('ulivre_poker_wallets'), 'ulivre_poker_wallets') },
-            { name: t('games_score_blackjack'), iconSymbol: '♣', score: normalizeScore(rawScore('ulivre_blackjack_wallets'), 'ulivre_blackjack_wallets') },
-            { name: t('games_score_bacara'), icon: 'fa-diamond', score: normalizeScore(rawScore('ulivre_bacara_wallets'), 'ulivre_bacara_wallets') },
-            { name: t('games_score_bingo'), icon: 'fa-ticket', score: normalizeScore(rawScore('ulivre_bingo_wallets'), 'ulivre_bingo_wallets') }
-            , { name: t('games_score_bitcoin'), iconSymbol: '₿', score: bitcoinScore }
-            , { name: t('game_country_life_title'), icon: 'fa-seedling', playtimeHours: formatPlaytimeHours(COUNTRY_LIFE_PLAYTIME_KEY) }
-            , { name: t('game_buteco_fighting_title'), icon: 'fa-hand-fist', playtimeHours: formatPlaytimeHours(BUTECO_FIGHTING_PLAYTIME_KEY), playtimeKey: BUTECO_FIGHTING_PLAYTIME_KEY }
-            , { name: t('game_pes6_title'), icon: 'fa-futbol', playtimeHours: formatPlaytimeHours(PES6_PLAYTIME_KEY), playtimeKey: PES6_PLAYTIME_KEY }
+            { name: t('games_score_chess'), gameId: 'chess', iconHtml: '<iconify-icon icon="fluent:chess-24-regular" aria-hidden="true"></iconify-icon>', score: normalizeScore(rawScore('ulivre_chess_scores'), 'ulivre_chess_scores') },
+            { name: t('games_score_ttt'), gameId: 'tictactoe', iconHtml: '<iconify-icon icon="fluent:table-edit-28-filled" aria-hidden="true"></iconify-icon>', score: normalizeScore(rawScore('ulivre_ttt_scores'), 'ulivre_ttt_scores') },
+            { name: t('games_score_impostor'), gameId: 'impostor', iconHtml: '<iconify-icon icon="fluent:incognito-48-filled" aria-hidden="true"></iconify-icon>', score: normalizeScore(rawScore('ulivre_impostor_scores'), 'ulivre_impostor_scores') },
+            { name: t('games_score_hangman'), gameId: 'hangman', iconHtml: '<i class="fas fa-font" aria-hidden="true"></i>', score: normalizeScore(rawScore('ulivre_hangman_scores'), 'ulivre_hangman_scores') },
+            { name: t('games_score_checkers'), gameId: 'checkers', iconHtml: '⛀', iconClass: 'profile-game-status-glyph', score: normalizeScore(rawScore('ulivre_checkers_scores'), 'ulivre_checkers_scores') },
+            { name: t('games_score_roulette'), gameId: 'roulette', iconHtml: '<i class="fas fa-dharmachakra" aria-hidden="true"></i>', score: normalizeScore(rawScore('ulivre_roulette_wallets'), 'ulivre_roulette_wallets') },
+            { name: t('games_score_uno'), gameId: 'uno', iconHtml: '<iconify-icon icon="fluent:playing-cards-20-regular" aria-hidden="true"></iconify-icon>', score: normalizeScore(rawScore('ulivre_uno_scores'), 'ulivre_uno_scores') },
+            { name: t('games_score_bicho'), gameId: 'bicho', iconHtml: '<i class="fas fa-paw" aria-hidden="true"></i>', score: normalizeScore(rawScore('ulivre_bicho_wallets'), 'ulivre_bicho_wallets') },
+            { name: t('games_score_poker'), gameId: 'poker', iconHtml: '♠', iconClass: 'profile-game-status-suit', score: normalizeScore(rawScore('ulivre_poker_wallets'), 'ulivre_poker_wallets') },
+            { name: t('games_score_blackjack'), gameId: 'blackjack', iconHtml: '♣', iconClass: 'profile-game-status-suit', score: normalizeScore(rawScore('ulivre_blackjack_wallets'), 'ulivre_blackjack_wallets') },
+            { name: t('games_score_bacara'), gameId: 'bacara', iconHtml: '♦', iconClass: 'profile-game-status-suit', score: normalizeScore(rawScore('ulivre_bacara_wallets'), 'ulivre_bacara_wallets') },
+            { name: t('games_score_bingo'), gameId: 'bingo', iconHtml: '<iconify-icon icon="fluent:table-add-28-filled" aria-hidden="true"></iconify-icon>', score: normalizeScore(rawScore('ulivre_bingo_wallets'), 'ulivre_bingo_wallets') },
+            { name: t('games_score_bitcoin'), gameId: 'bitcoin', iconHtml: '₿', iconClass: 'profile-game-status-bitcoin', score: bitcoinScore },
+            { name: t('game_country_life_title'), gameId: 'country-life-meadows', logo: 'country-life-meadows/logo.png', iconClass: 'profile-game-status-image', playtimeHours: formatPlaytimeHours(COUNTRY_LIFE_PLAYTIME_KEY) },
+            { name: t('game_buteco_fighting_title'), gameId: 'buteco-fighting', logo: 'buteco-fighting/logo.png', iconClass: 'profile-game-status-logo profile-game-status-buteco', playtimeHours: formatPlaytimeHours(BUTECO_FIGHTING_PLAYTIME_KEY), playtimeKey: BUTECO_FIGHTING_PLAYTIME_KEY },
+            { name: t('game_pes6_title'), gameId: 'pes6-web', logo: 'PES6/logo.png', iconClass: 'profile-game-status-logo profile-game-status-pes6', playtimeHours: formatPlaytimeHours(PES6_PLAYTIME_KEY), playtimeKey: PES6_PLAYTIME_KEY }
         ];
         container.innerHTML = games.map(game => {
             const score = game.score;
-            const icon = game.iconSymbol ? `<span class="profile-game-status-icon profile-game-status-suit">${game.iconSymbol}</span>` : `<i class="fas ${game.icon}"></i>`;
+            const iconContents = game.logo
+                ? `<img src="${new URL(game.logo, PROFILE_GAME_ASSETS_URL).href}" alt="" aria-hidden="true">`
+                : game.iconHtml;
+            const icon = `<span class="profile-game-status-icon ${game.iconClass || ''}" aria-hidden="true">${iconContents}</span>`;
             if (game.playtimeHours !== undefined) {
                 const playtimeLabel = game.playtimeKey === BUTECO_FIGHTING_PLAYTIME_KEY
                     ? 'profile_buteco_fighting_playtime'
                     : game.playtimeKey === PES6_PLAYTIME_KEY
                         ? 'profile_pes6_playtime'
                         : 'profile_country_life_playtime';
-                return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${t(playtimeLabel, { hours: game.playtimeHours })}</span></article>`;
+                return `<article class="profile-game-status-item" data-game="${game.gameId}"><strong>${icon} ${game.name}</strong><span>${t(playtimeLabel, { hours: game.playtimeHours })}</span></article>`;
             }
             const played = (Number(score.wins) || 0) + (Number(score.draws) || 0) + (Number(score.losses) || 0);
-            return `<article class="profile-game-status-item"><strong>${icon} ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
+            return `<article class="profile-game-status-item" data-game="${game.gameId}"><strong>${icon} ${game.name}</strong><span>${played} ${t('profile_games_played')} · ${Number(score.points) || 0} ${t('games_score_points')}</span><small>${Number(score.wins) || 0} ${t('games_score_wins')} · ${Number(score.draws) || 0} ${t('games_score_draws')} · ${Number(score.losses) || 0} ${t('games_score_losses')}</small></article>`;
         }).join('');
     }
 
@@ -3753,7 +3760,6 @@
             ['profileTabPersonal', 'fa-user', 'profile_tab_personal'],
             ['profileTabStatus', 'fa-chart-line', 'profile_tab_status'],
             ['profileTabSecretary', 'fa-landmark', 'profile_tab_secretary'],
-            ['profileTabStatus', 'fa-gamepad', 'profile_game_status', 'games'],
             ['profileTabCourses', 'fa-graduation-cap', 'profile_tab_courses'],
             ['profileTabLivreCoin', 'fa-coins', 'profile_tab_livrecoin'],
             ['profileTabApi', 'fa-key', 'profile_tab_api'],
@@ -3923,7 +3929,7 @@
             chooseButton.id = 'profileCoverChooseBtn';
             chooseButton.className = 'profile-cover-change';
             chooseButton.setAttribute('aria-label', t('profile_choose_cover'));
-            chooseButton.innerHTML = `<i class="fas fa-image" aria-hidden="true"></i><span data-i18n="profile_choose_cover">${t('profile_choose_cover')}</span>`;
+            chooseButton.innerHTML = `<iconify-icon icon="fluent:board-heart-24-regular" aria-hidden="true"></iconify-icon><span data-i18n="profile_choose_cover">${t('profile_choose_cover')}</span>`;
             coverPreview.append(image, identity, chooseButton);
             const avatarInput = avatarSection.querySelector('#avatarInput');
             if (avatarInput) modalBody.appendChild(avatarInput);

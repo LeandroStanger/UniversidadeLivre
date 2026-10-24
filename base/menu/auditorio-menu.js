@@ -5,7 +5,7 @@
         ['all', 'all', 'fa-layer-group'],
         ['video', 'type_video', 'fa-play-circle'],
         ['podcast', 'type_podcast', 'fa-podcast'],
-        ['live', 'type_live', 'fa-circle'],
+        ['live', 'type_live', 'fa-live'],
         ['shorts', 'type_shorts', 'fa-film']
     ];
 
@@ -24,6 +24,7 @@
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.role = 'menuitem';
+            link.dataset.contentType = type;
             link.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i> <span data-i18n="${translationKey}">${translationKey === 'all' ? 'Todos' : ({
                 type_video: 'Vídeos',
                 type_podcast: 'Podcasts',
