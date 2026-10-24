@@ -387,6 +387,13 @@
     font-weight: 500;
 }
 
+#onboardingUploadAvatar > iconify-icon,
+#onboardingRemoveAvatar > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
 #onboardingUploadAvatar {
     background: var(--gradient-primary, linear-gradient(135deg, #30a539, #2aa7a1, #3ea6ff));
     color: white;
@@ -453,6 +460,27 @@
     margin-bottom: 0.5rem;
 }
 
+.onboarding-login-icon {
+    width: 1em;
+    height: 1em;
+    color: #14b8a6;
+    vertical-align: -0.125em;
+}
+
+#onboardingToggleModeBackBtn > iconify-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
+#onboardingToggleLoginPassword > iconify-icon,
+#onboardingTogglePassword > iconify-icon,
+#onboardingToggleConfirmPassword > iconify-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
 #onboardingLoginMode .btn-primary {
     background: var(--gradient-primary, linear-gradient(135deg, #30a539, #2aa7a1, #3ea6ff));
     color: white;
@@ -502,9 +530,8 @@
 #onboardingImportProgressBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    filter: grayscale(0.3);
-    background: var(--bg-tertiary, #212121);
-    color: var(--text-tertiary, #7A94B8);
+    background: var(--accent-green, #10b981);
+    color: #070B14;
     box-shadow: none;
 }
 
@@ -517,6 +544,12 @@
 
 #onboardingImportProgressBtn:not(:disabled):active {
     transform: scale(0.97);
+}
+
+#onboardingImportProgressBtn > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
 }
 
 /* ========== RODAPÉ DO ONBOARDING ========== */

@@ -100,6 +100,20 @@
     padding: .35rem;
 }
 
+.games-btn-icon {
+    display: inline-block;
+    font-size: 1.1em;
+    line-height: 1;
+    vertical-align: -.08em;
+}
+
+.header-create-actions .new-post-icon {
+    width: 1.1em;
+    height: 1.1em;
+    color: #02a724;
+    vertical-align: -.15em;
+}
+
 .country-life-meadows-panel {
     width: 100%;
     min-height: 65vh;
@@ -228,14 +242,65 @@
     height: 2.7rem;
     margin-bottom: .9rem;
     place-items: center;
-    color: #142034;
-    background: var(--games-yellow);
+    color: var(--game-icon-color, #142034);
+    background: var(--game-icon-bg, var(--games-yellow));
+    border: 1px solid color-mix(in srgb, var(--game-icon-color, #142034) 38%, transparent);
     border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.game-card .game-icon-glyph {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.game-card .uno-game-icon {
+    width: 1.55rem;
+    height: 1.55rem;
+}
+
+.game-card .impostor-game-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.game-card .tictactoe-game-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+
+.game-card .slots-game-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.game-card .bingo-game-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.game-card .chess-game-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.game-shell-title-wrap .chess-game-icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: .25em;
+    vertical-align: -.2em;
 }
 
 .game-card .game-icon-image { object-fit: cover; }
 .game-card .game-logo-icon { box-sizing: border-box; overflow: hidden; padding: .3rem; background: #fff; }
 .game-card .game-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+.game-card .buteco-fighting-game-icon {
+    background: #21180f;
+    border-color: rgba(251, 191, 36, .55);
+}
+
 .game-card .pes6-game-icon {
     width: 2.7rem;
     height: 2.7rem;
@@ -243,8 +308,27 @@
     border: 1px solid rgba(242, 179, 95, .45);
 }
 
-.game-card:nth-child(3n) .game-icon { background: #ef3340; color: #fff; }
-.game-card:nth-child(3n + 1) .game-icon { background: #2878d0; color: #fff; }
+.game-card[data-game="chess"] { --game-icon-color: #93c5fd; --game-icon-bg: rgba(59, 130, 246, .16); }
+.game-card[data-game="tictactoe"] { --game-icon-color: #c4b5fd; --game-icon-bg: rgba(139, 92, 246, .16); }
+.game-card[data-game="impostor"] { --game-icon-color: #f9a8d4; --game-icon-bg: rgba(236, 72, 153, .16); }
+.game-card[data-game="hangman"] { --game-icon-color: #fcd34d; --game-icon-bg: rgba(245, 158, 11, .16); }
+.game-card[data-game="checkers"] { --game-icon-color: #fdba74; --game-icon-bg: rgba(249, 115, 22, .16); }
+.game-card[data-game="roulette"] { --game-icon-color: #86efac; --game-icon-bg: rgba(34, 197, 94, .16); }
+.game-card[data-game="uno"] { --game-icon-color: #fca5a5; --game-icon-bg: rgba(239, 68, 68, .16); }
+.game-card[data-game="bicho"] { --game-icon-color: #bef264; --game-icon-bg: rgba(132, 204, 22, .16); }
+.game-card[data-game="slots"] { --game-icon-color: #fcd34d; --game-icon-bg: rgba(234, 179, 8, .16); }
+.game-card[data-game="poker"] { --game-icon-color: #7dd3fc; --game-icon-bg: rgba(14, 165, 233, .16); }
+.game-card[data-game="blackjack"] { --game-icon-color: #6ee7b7; --game-icon-bg: rgba(16, 185, 129, .16); }
+.game-card[data-game="bacara"] { --game-icon-color: #fda4af; --game-icon-bg: rgba(244, 63, 94, .16); }
+.game-card[data-game="bingo"] { --game-icon-color: #d8b4fe; --game-icon-bg: rgba(168, 85, 247, .16); }
+.game-card[data-game="bitcoin"] { --game-icon-color: #fdba74; --game-icon-bg: rgba(247, 147, 26, .16); }
+
+.game-card[data-game]:hover,
+.game-card[data-game].active {
+    border-color: color-mix(in srgb, var(--game-icon-color, var(--games-yellow)) 65%, transparent);
+}
+
+.game-card .bingo-menu-icon { font-size: 1.55rem; font-weight: 900; }
 .game-card .game-title { display: block; font-weight: 800; }
 .game-card .game-third-party-tag { display: inline-flex; width: fit-content; margin-top: .4rem; padding: .2rem .4rem; border: 1px solid var(--games-border); border-radius: 999px; color: var(--games-muted); background: rgba(255, 255, 255, .06); font-size: .62rem; font-weight: 700; line-height: 1.2; }
 .game-card .game-subtitle { display: block; margin-top: .35rem; color: var(--games-muted); font-size: .78rem; line-height: 1.35; }

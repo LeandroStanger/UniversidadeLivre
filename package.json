@@ -1,6 +1,6 @@
 {
   "name": "universidade-livre-desktop",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Aplicativo desktop multiplataforma da Universidade Livre",
   "author": "Leandro Stanger",
@@ -8,13 +8,15 @@
   "desktopName": "io.github.leandrostanger.universidadelivre",
   "main": "desktop/main.cjs",
   "scripts": {
-    "prestart": "npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
+    "prestart": "npm run build:iconify-icons && npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
     "start": "electron .",
-    "predist": "npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
+    "predist": "npm run build:iconify-icons && npm run build:desktop-player && node desktop/download-yt-dlp.cjs",
     "dist": "electron-builder --publish never",
-    "build:desktop-player": "node desktop/build-videojs-v10.cjs"
+    "build:desktop-player": "node desktop/build-videojs-v10.cjs",
+    "build:iconify-icons": "node desktop/build-iconify-icons.cjs"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.546",
     "electron": "^44.9.0",
     "electron-builder": "^26.15.3",
     "esbuild": "^0.28.2"

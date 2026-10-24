@@ -8,8 +8,9 @@
     <link rel="canonical" href="https://leandrostanger.github.io/UniversidadeLivre/comunidade/comunidade.html" />
     <link rel="icon" type="image/png" href="../base/logo-da-universidade-livre3.png" />
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="../base/iconify-compat.css" />
+    <script src="../base/iconify-element.js?v=fluent-eye-48-regular" defer></script>
+    <script src="../base/iconify-compat.js?v=fluent-arrow-enter" defer></script>
     <!-- Quill Editor CSS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -22,7 +23,7 @@
     <link rel="stylesheet" href="comunidade.css" />
     <link rel="stylesheet" href="../style.css" />
     <script src="../base/theme/theme.js"></script>
-    <link rel="stylesheet" href="../base/perfil/profile.css" />
+    <link rel="stylesheet" href="../base/perfil/profile.css?v=profile-avatar-delete-icon" />
     <link rel="stylesheet" href="../base/audio-player/audio-player.css" />
     <link rel="stylesheet" href="../base/loading/loading-screen.css" />
     <link rel="stylesheet" href="jogo/jogo-da-velha/jogo-da-velha.css" />
@@ -1696,7 +1697,7 @@
             .profile-stats { grid-template-columns:1fr; }
         }
     </style>
-    <link rel="stylesheet" href="../base/onboarding/onboarding.css" />
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css?v=onboarding-password-eye-icons" />
     <link rel="stylesheet" href="../base/theme/theme.css" />
     <link rel="stylesheet" href="../base/doar/donation-modal.css" />
 </head>
@@ -1843,7 +1844,7 @@
                 </div>
             </aside>
             <button type="button" id="chatWidgetToggle" class="chat-widget-toggle" aria-expanded="false" aria-controls="chatWidgetPanel" data-i18n-title="chat_open" aria-label="Abrir chat">
-                <i class="fas fa-comment-dots" aria-hidden="true"></i><span class="chat-widget-badge" aria-hidden="true"></span>
+                <iconify-icon icon="fluent:people-chat-48-regular" aria-hidden="true"></iconify-icon><span class="chat-widget-badge" aria-hidden="true"></span>
             </button>
 
             <main class="main-content" id="mainContent">
@@ -1854,10 +1855,10 @@
                             <div class="discipline-title-row">
                                 <h2 id="disciplineName" data-i18n="select_discipline">Selecione uma disciplina</h2>
                                 <div class="header-create-actions">
-                                    <button id="newPostBtn" class="btn-primary" type="button"><i class="fas fa-plus-circle"></i> <span data-i18n="comunidade_new_post">Novo Post</span></button>
+                                    <button id="newPostBtn" class="btn-primary" type="button"><iconify-icon class="new-post-icon" icon="fluent:clipboard-text-edit-48-regular" aria-hidden="true"></iconify-icon> <span data-i18n="comunidade_new_post">Novo Post</span></button>
                                     <button id="openJitsiBtn" class="btn-secondary jitsi-btn" type="button" title="Sala de vídeo da disciplina" data-i18n-title="discipline_video_room"><i class="fas fa-video"></i> <span data-i18n="video_room">Sala de vídeo</span></button>
                                     <button id="newPollBtn" class="btn-secondary" type="button"><i class="fas fa-square-poll-vertical"></i> <span data-i18n="create_poll">Criar Enquete</span></button>
-                                    <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><i class="fas fa-chess-knight"></i> <span data-i18n="games_button">Jogos</span></button>
+                                    <button id="openGamesBtn" class="btn-secondary games-btn" type="button" title="Jogos da sala" data-i18n-title="games_room_title"><iconify-icon class="games-btn-icon" icon="fluent:games-48-regular" aria-hidden="true"></iconify-icon> <span data-i18n="games_button">Jogos</span></button>
                                 </div>
                             </div>
                             <p id="disciplineCourseName"></p>
@@ -1951,24 +1952,24 @@
                     </div>
                     <div class="games-modal-content">
                         <div class="modal-header">
-                            <h3><i class="fas fa-gamepad"></i> <span data-i18n="games_room_title">Jogos da sala</span></h3>
+                            <h3><iconify-icon class="games-modal-icon" icon="fluent:games-48-regular" aria-hidden="true"></iconify-icon> <span data-i18n="games_room_title">Jogos da sala</span></h3>
                             <button class="close-modal" id="closeGamesBtn" aria-label="Fechar jogos" data-i18n-title="close">&times;</button>
                         </div>
                         <div class="games-modal-body">
                             <div id="gamesMenuScreen" class="games-menu-screen">
                                 <div class="games-grid" id="gamesGrid">
                                     <button class="game-card" data-game="chess" type="button">
-                                        <span class="game-icon"><i class="fas fa-chess-knight"></i></span>
+                                        <span class="game-icon"><iconify-icon class="chess-game-icon" icon="fluent:chess-24-regular" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="games_room_chess">Xadrez</span>
                                         <span class="game-subtitle" data-i18n="games_room_chess_subtitle">Jogo de estratégia</span>
                                     </button>
                                     <button class="game-card" data-game="tictactoe" type="button">
-                                        <span class="game-icon"><i class="fas fa-circle-notch"></i></span>
+                                        <span class="game-icon"><iconify-icon class="tictactoe-game-icon" icon="fluent:table-edit-28-filled" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="games_room_tictactoe">Jogo da Velha</span>
                                         <span class="game-subtitle" data-i18n="games_room_tictactoe_subtitle">Jogo rápido e tático</span>
                                     </button>
                                     <button class="game-card" data-game="impostor" type="button">
-                                        <span class="game-icon"><i class="fas fa-user-secret"></i></span>
+                                        <span class="game-icon"><iconify-icon class="impostor-game-icon" icon="fluent:incognito-48-filled" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="game_impostor_title">Jogo do Impostor</span>
                                         <span class="game-subtitle" data-i18n="game_impostor_subtitle">Descubra quem recebeu outra palavra</span>
                                     </button>
@@ -1978,7 +1979,7 @@
                                         <span class="game-subtitle" data-i18n="game_hangman_subtitle">Adivinhe a palavra antes da última tentativa</span>
                                     </button>
                                     <button class="game-card" data-game="checkers" type="button">
-                                        <span class="game-icon"><i class="fas fa-chess-board"></i></span>
+                                        <span class="game-icon game-icon-glyph" aria-hidden="true">⛀</span>
                                         <span class="game-title" data-i18n="game_checkers_title">Jogo de Damas</span>
                                         <span class="game-subtitle" data-i18n="game_checkers_subtitle">Estratégia, captura e promoção</span>
                                     </button>
@@ -1988,7 +1989,7 @@
                                         <span class="game-subtitle" data-i18n="game_roulette_subtitle">Aposte moedas e gire a sorte</span>
                                     </button>
                                     <button class="game-card" data-game="uno" type="button">
-                                        <span class="game-icon"><i class="fas fa-layer-group"></i></span>
+                                        <span class="game-icon"><iconify-icon class="uno-game-icon" icon="fluent:playing-cards-20-regular" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="game_uno_title">UNO</span>
                                         <span class="game-subtitle" data-i18n="game_uno_subtitle">Jogue com bot ou com um colega</span>
                                     </button>
@@ -1998,7 +1999,7 @@
                                         <span class="game-subtitle" data-i18n="game_bicho_subtitle">Aposte em animais com moedas virtuais</span>
                                     </button>
                                     <button class="game-card" data-game="slots" type="button">
-                                        <span class="game-icon"><i class="fas fa-dice"></i></span>
+                                        <span class="game-icon"><iconify-icon class="slots-game-icon" icon="fluent:table-delete-row-28-filled" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="game_slots_title">Caça-Níqueis</span>
                                         <span class="game-subtitle" data-i18n="game_slots_subtitle">Jogue com bot ou com a comunidade</span>
                                     </button>
@@ -2018,7 +2019,7 @@
                                         <span class="game-subtitle" data-i18n="game_bacara_subtitle">Aposte contra o bot ou a comunidade</span>
                                     </button>
                                     <button class="game-card" data-game="bingo" type="button">
-                                        <span class="game-icon poker-menu-icon" aria-hidden="true">●</span>
+                                        <span class="game-icon"><iconify-icon class="bingo-game-icon" icon="fluent:table-add-28-filled" aria-hidden="true"></iconify-icon></span>
                                         <span class="game-title" data-i18n="game_bingo_title">Bingo</span>
                                         <span class="game-subtitle" data-i18n="game_bingo_subtitle">Complete sua cartela contra o bot ou a comunidade</span>
                                     </button>
@@ -2034,7 +2035,7 @@
                                         <span class="game-third-party-tag" data-i18n="game_country_life_third_party">Jogo de terceiros · itch.io</span>
                                     </button>
                                     <button class="game-card" data-game="buteco-fighting" type="button">
-                                        <span class="game-icon game-logo-icon" aria-hidden="true"><img src="jogo/buteco-fighting/logo.png" alt=""></span>
+                                        <span class="game-icon game-logo-icon buteco-fighting-game-icon" aria-hidden="true"><img src="jogo/buteco-fighting/logo.png" alt=""></span>
                                         <span class="game-title" data-i18n="game_buteco_fighting_title">Buteco Fighting</span>
                                         <span class="game-subtitle" data-i18n="game_buteco_fighting_subtitle">Jogo de luta online do Buteco dos Devs.</span>
                                         <span class="game-third-party-tag" data-i18n="game_third_party">Jogo de terceiros · Buteco dos Devs</span>
@@ -2052,7 +2053,7 @@
                                 <div class="game-shell-header">
                                     <button id="gameBackBtn" class="game-back-btn" type="button"><i class="fas fa-arrow-left"></i> <span data-i18n="games_room_back">Voltar</span></button>
                                     <div class="game-shell-title-wrap">
-                                        <strong data-i18n="games_room_chess_board">Tabuleiro de xadrez</strong>
+                                        <strong data-i18n="games_room_chess_board"><iconify-icon class="chess-game-icon" icon="fluent:chess-24-regular" aria-hidden="true"></iconify-icon> Tabuleiro de xadrez</strong>
                                         <small id="chessStatusText" data-i18n="games_room_sync_status">Sala sincronizada com os colegas da disciplina.</small>
                                     </div>
                                     <div id="livreCoinsWallet" class="livre-coins-wallet" aria-live="polite">
@@ -2369,6 +2370,7 @@
                         <label><input type="checkbox" id="exportVideos" checked> <i class="fas fa-video"></i> <span data-i18n="profile_export_videos">Vídeos</span></label>
                         <label><input type="checkbox" id="exportBooks" checked> <i class="fas fa-book"></i> <span data-i18n="profile_export_books">Livros lidos</span></label>
                         <label><input type="checkbox" id="exportNotes" checked> <i class="fas fa-pencil-alt"></i> <span data-i18n="profile_export_notes">Notas</span></label>
+                        <label><input type="checkbox" id="exportApiSettings"> <i class="fas fa-key"></i> <span data-i18n="profile_export_api_settings">Chaves e configurações de API (criptografadas)</span></label>
                     </div>
                     <div id="notesSelectionContainer" class="profile-export-notes" style="margin-bottom: 0.8rem; display: block;">
                         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.3rem;"><span data-i18n="profile_select_notes">Selecione quais notas exportar:</span></p>
@@ -2406,17 +2408,19 @@
 
     <!-- SCRIPTS -->
     <script src="../base/analytics.js"></script>
-    <script src="../base/menu/auditorio-menu.js"></script>
+    <script src="../base/menu/auditorio-menu.js?v=fluent-live-menu"></script>
     <script src="../base/menu/biblioteca-menu.js"></script>
     <script src="../base/menu/mobile-menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
+    <link rel="stylesheet" href="../base/video/videojs-v10.bundle.css">
+    <script src="../base/video/videojs-v10.bundle.js"></script>
+    <script src="../base/video/course-video-player.js"></script>
     <script src="../base/lang/i18n.js"></script>          <!-- 1º: i18n central -->
+    <script src="../base/offline-media/offline-media.js"></script>
     <script src="../base/reCaptcha/xsukax-captcha.js"></script>
     <script src="../cursos/latex-renderer.js"></script>    <!-- Compilador LaTeX no navegador -->
-    <script src="../base/perfil/profile.js"></script>    <!-- 2º: perfil -->
-    <script src="../base/onboarding/onboarding.js"></script> <!-- 3º: onboarding -->
+    <script src="../base/perfil/profile.js?v=profile-avatar-delete-icon"></script>    <!-- 2º: perfil -->
+    <script src="../base/onboarding/onboarding.js?v=onboarding-password-eye-icons"></script> <!-- 3º: onboarding -->
     <script src="comunidade.js"></script>           <!-- 4º: comunidade -->
     <script src="jogo/jogo-da-velha/jogo-da-velha.js"></script> <!-- 5º: jogo da velha -->
     <script src="jogo/xadrez/xadrez.js"></script>   <!-- 6º: xadrez -->

@@ -721,7 +721,16 @@ console.log('[Main] Inicializando script.js v28.0...');
         }
     }
 
-    function addLoadMoreButton(container, cards, renderCardList, limit = 10) {
+    function getCoursePageSize() {
+        let columnCount = 5;
+        if (window.matchMedia('(min-width: 1600px)').matches) columnCount = 6;
+        else if (window.matchMedia('(max-width: 480px)').matches) columnCount = 1;
+        else if (window.matchMedia('(max-width: 768px)').matches) columnCount = 2;
+        else if (window.matchMedia('(max-width: 992px)').matches) columnCount = 3;
+        return columnCount * 2;
+    }
+
+    function addLoadMoreButton(container, cards, renderCardList, limit = getCoursePageSize()) {
         if (cards.length <= limit) return;
 
         const hiddenCards = cards.slice(limit);
@@ -853,7 +862,8 @@ console.log('[Main] Inicializando script.js v28.0...');
 
                     const slide = document.createElement('div');
                     slide.className = 'carousel-slide';
-                    const visibleCards = cards.slice(0, 10);
+                    const visibleCount = getCoursePageSize();
+                    const visibleCards = cards.slice(0, visibleCount);
                     for (const card of visibleCards) {
                         slide.appendChild(card);
                     }
@@ -865,7 +875,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                         for (const card of extraCards) {
                             slide.appendChild(card);
                         }
-                    });
+                    }, visibleCount);
 
                     const prevBtn = document.createElement('button');
                     prevBtn.className = 'carousel-btn prev';
@@ -924,7 +934,8 @@ console.log('[Main] Inicializando script.js v28.0...');
 
                 const slide = document.createElement('div');
                 slide.className = 'carousel-slide';
-                const visibleCards = cards.slice(0, 10);
+                const visibleCount = getCoursePageSize();
+                const visibleCards = cards.slice(0, visibleCount);
                 for (const card of visibleCards) {
                     slide.appendChild(card);
                 }
@@ -936,7 +947,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                     for (const card of extraCards) {
                         slide.appendChild(card);
                     }
-                });
+                }, visibleCount);
 
                 const prevBtn = document.createElement('button');
                 prevBtn.className = 'carousel-btn prev';
@@ -978,7 +989,8 @@ console.log('[Main] Inicializando script.js v28.0...');
                 gridWrapper.className = 'simple-grid';
                 gridWrapper.style.marginBottom = '2rem';
 
-                const visibleCourses = courses.slice(0, 10);
+                const visibleCount = getCoursePageSize();
+                const visibleCourses = courses.slice(0, visibleCount);
                 for (const course of visibleCourses) {
                     const card = await createCourseCard(course);
                     if (card) {
@@ -1000,7 +1012,7 @@ console.log('[Main] Inicializando script.js v28.0...');
                             gridWrapper.appendChild(card);
                         }
                     }
-                });
+                }, visibleCount);
             }
         }
 
@@ -1430,10 +1442,6 @@ console.log('[Main] Inicializando script.js v28.0...');
                 currentDiscipline = ensureCurrentDiscipline();
             }
             persistCommunityStudyContext();
-            const courseContentList = document.getElementById('unifiedContentList');
-            if (courseContentList && stagesData[0]) {
-                courseContentList.dataset.stageSelected = 'true';
-            }
             if (window.renderCourseIntroCard) {
                 await window.renderCourseIntroCard(courseId, currentCourseDetails);
             }
@@ -4638,8 +4646,8 @@ console.log('[Main] Inicializando script.js v28.0...');
         videojsElement.removeAttribute('controls');
         try {
             await Promise.all([
-                loadStylesheet('base/videojs-v10.bundle.css'),
-                loadScript('base/videojs-v10.bundle.js'),
+                loadStylesheet('base/video/videojs-v10.bundle.css'),
+                loadScript('base/video/videojs-v10.bundle.js'),
                 customElements.whenDefined('media-i18n'),
                 customElements.whenDefined('video-player'),
                 customElements.whenDefined('video-skin'),

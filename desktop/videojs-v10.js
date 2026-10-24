@@ -1,6 +1,9 @@
 import '@videojs/html/video/player';
 import '@videojs/html/video/skin';
 import '@videojs/html/video/skin.css';
+import '@videojs/html/audio/player';
+import '@videojs/html/audio/skin';
+import '@videojs/html/audio/skin.css';
 import '@videojs/html/media/youtube-video';
 import '@videojs/html/extensions/google-cast';
 import '@videojs/html/i18n';
@@ -58,6 +61,7 @@ export function createCompatibilityAdapter(video) {
     function useNative() {
         removeYouTubeMedia();
         activeMedia = video;
+        video.style.removeProperty('display');
         video.hidden = false;
     }
 
@@ -77,6 +81,7 @@ export function createCompatibilityAdapter(video) {
             callbacks.forEach(callback => media.addEventListener(type, callback));
         }
         video.hidden = true;
+        video.style.setProperty('display', 'none', 'important');
         youtubeSkin.append(media);
         youtubeMedia = media;
         activeMedia = media;

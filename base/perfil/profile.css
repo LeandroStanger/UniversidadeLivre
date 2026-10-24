@@ -1175,6 +1175,94 @@
     color: var(--text-secondary);
 }
 
+.profile-game-status-item[data-game="chess"] { --game-icon-color: #93c5fd; --game-icon-bg: rgba(59, 130, 246, .16); }
+.profile-game-status-item[data-game="tictactoe"] { --game-icon-color: #c4b5fd; --game-icon-bg: rgba(139, 92, 246, .16); }
+.profile-game-status-item[data-game="impostor"] { --game-icon-color: #f9a8d4; --game-icon-bg: rgba(236, 72, 153, .16); }
+.profile-game-status-item[data-game="hangman"] { --game-icon-color: #fcd34d; --game-icon-bg: rgba(245, 158, 11, .16); }
+.profile-game-status-item[data-game="checkers"] { --game-icon-color: #fdba74; --game-icon-bg: rgba(249, 115, 22, .16); }
+.profile-game-status-item[data-game="roulette"] { --game-icon-color: #86efac; --game-icon-bg: rgba(34, 197, 94, .16); }
+.profile-game-status-item[data-game="uno"] { --game-icon-color: #fca5a5; --game-icon-bg: rgba(239, 68, 68, .16); }
+.profile-game-status-item[data-game="bicho"] { --game-icon-color: #bef264; --game-icon-bg: rgba(132, 204, 22, .16); }
+.profile-game-status-item[data-game="slots"] { --game-icon-color: #fcd34d; --game-icon-bg: rgba(234, 179, 8, .16); }
+.profile-game-status-item[data-game="poker"] { --game-icon-color: #7dd3fc; --game-icon-bg: rgba(14, 165, 233, .16); }
+.profile-game-status-item[data-game="blackjack"] { --game-icon-color: #6ee7b7; --game-icon-bg: rgba(16, 185, 129, .16); }
+.profile-game-status-item[data-game="bacara"] { --game-icon-color: #fda4af; --game-icon-bg: rgba(244, 63, 94, .16); }
+.profile-game-status-item[data-game="bingo"] { --game-icon-color: #d8b4fe; --game-icon-bg: rgba(168, 85, 247, .16); }
+.profile-game-status-item[data-game="bitcoin"] { --game-icon-color: #fdba74; --game-icon-bg: rgba(247, 147, 26, .16); }
+
+.profile-game-status-icon {
+    display: inline-grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-right: .35rem;
+    place-items: center;
+    vertical-align: middle;
+    color: var(--game-icon-color, #142034);
+    background: var(--game-icon-bg, var(--games-yellow, #fcd34d));
+    border: 1px solid color-mix(in srgb, var(--game-icon-color, #142034) 38%, transparent);
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.profile-game-status-icon > iconify-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.profile-game-status-icon > i {
+    color: inherit;
+}
+
+.profile-game-status-glyph {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.profile-game-status-suit {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.15rem;
+}
+
+.profile-game-status-bitcoin {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.profile-game-status-image {
+    overflow: hidden;
+}
+
+.profile-game-status-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-game-status-logo {
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: .18rem;
+    background: #fff;
+}
+
+.profile-game-status-logo > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.profile-game-status-buteco {
+    background: #21180f;
+    border-color: rgba(251, 191, 36, .55);
+}
+
+.profile-game-status-pes6 {
+    background: #27343a;
+    border-color: rgba(242, 179, 95, .45);
+}
+
 .profile-note {
     margin-top: 1rem;
     color: var(--text-tertiary);
@@ -1588,4 +1676,205 @@
     .transcript-sheet-row {
         grid-template-columns: 1fr 1fr;
     }
+}
+
+#profileModal i[class*="fa-"],
+.profile-header-menu i[class*="fa-"],
+.profile-cover-selector i[class*="fa-"],
+#avatarSelectorModal i[class*="fa-"],
+.certificate-modal i[class*="fa-"] {
+    color: var(--accent-blue);
+}
+
+#profileModal i[class*="fa-"] > iconify-icon[data-fa-iconify],
+.profile-header-menu i[class*="fa-"] > iconify-icon[data-fa-iconify],
+.profile-cover-selector i[class*="fa-"] > iconify-icon[data-fa-iconify],
+#avatarSelectorModal i[class*="fa-"] > iconify-icon[data-fa-iconify],
+.certificate-modal i[class*="fa-"] > iconify-icon[data-fa-iconify] {
+    color: inherit !important;
+}
+
+#profileModal .profile-course-name > i,
+#profileModal .ongoing-courses-summary > i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-modal-header h2 > i,
+#profileModal .profile-account-fields label[for="profileNameInput"] > i,
+#profileModal .profile-account-fields label[for="profileCountry"] > i,
+#profileModal .profile-user-section label[for="profileRegionSelect"] > i,
+#profileModal .profile-user-section label[for="profileBirthDateInput"] > i {
+    color: var(--accent-blue);
+}
+
+#profileModal .profile-account-fields label[for="profileGender"] > i,
+#profileModal .profile-account-fields label[for="profilePassword"] > i,
+#profileModal .profile-tab[data-profile-tab="profileTabSecretary"]:not(.active) > i,
+#profileModal .profile-tab[data-profile-tab="profileTabTheme"]:not(.active) > i,
+#profileModal .profile-details-button#profileCertificatesBtn > i {
+    color: var(--accent-purple);
+}
+
+#profileModal .profile-tab[data-profile-tab="profileTabStatus"]:not(.active) > i,
+#profileModal .profile-details-button#profileActivityBtn > i,
+#profileModal .profile-tab[data-profile-tab="profileTabExport"]:not(.active) > i,
+#profileModal .profile-tab[data-profile-tab="profileTabApi"]:not(.active) > i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-tab[data-profile-tab="profileTabCourses"]:not(.active) > i,
+#profileModal .profile-tab[data-profile-tab="profileTabPersonal"]:not(.active) > i,
+#profileModal .profile-api-category[data-profile-api-category="auditorio"]:not(.active) > i,
+#profileModal .profile-details-button#profileExamDetailsBtn > i,
+#profileModal .profile-details-button#profileTranscriptBtn > i {
+    color: var(--accent-blue);
+}
+
+#profileModal .profile-tab[data-profile-tab="profileTabLivreCoin"]:not(.active) > i,
+#profileModal .profile-api-category[data-profile-api-category="library"]:not(.active) > i,
+#profileModal .profile-total-score-card > i.fa-trophy {
+    color: var(--accent-orange);
+}
+
+#profileModal .profile-tab.active > i,
+#profileModal .profile-api-category.active > i,
+#profileModal .profile-theme-option.active > i {
+    color: #fff;
+}
+
+.profile-header-menu-item[data-profile-section="profileTabPersonal"] > i,
+.profile-header-menu-item[data-profile-section="profileTabCourses"] > i {
+    color: var(--accent-blue);
+}
+
+.profile-header-menu-item[data-profile-section="profileTabStatus"] > i,
+.profile-header-menu-item[data-profile-section="profileTabExport"] > i {
+    color: var(--accent-teal);
+}
+
+.profile-header-menu-item[data-profile-section="profileTabSecretary"] > i,
+.profile-header-menu-item[data-profile-section="profileTabTheme"] > i {
+    color: var(--accent-purple);
+}
+
+.profile-header-menu-item[data-profile-section="profileTabLivreCoin"] > i,
+.profile-header-menu-item[data-profile-section="profileTabApi"] > i {
+    color: var(--accent-orange);
+}
+
+.profile-header-menu-item[data-profile-action="games"] > i {
+    color: var(--accent-blue);
+}
+
+.profile-header-menu-item:hover > i,
+.profile-header-menu-item:focus-visible > i,
+.profile-header-menu-item.active > i {
+    color: #fff;
+}
+
+#profileModal .profile-password-input-wrap > .password-visibility-toggle > i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-total-score-card > i.fa-graduation-cap,
+#profileModal .profile-cover-change > i,
+#profileModal .profile-cover-change > iconify-icon {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-cover-change > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
+#profileModal .profile-export-options #exportCourses + i,
+#profileModal .profile-export-options #exportVideos + i,
+#profileModal .profile-export-options #exportBooks + i,
+#profileModal .profile-export-options #exportNotes + i,
+#profileModal .profile-export-options #exportStudyCalendar + i,
+#profileModal .profile-export-options #exportApiSettings + i {
+    color: var(--accent-blue);
+}
+
+#profileModal .profile-export-title > i,
+#profileModal .profile-export-disclaimer > i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-export-options #exportVideos + i,
+#avatarSelectorModal #removeAvatarBtn > i,
+#avatarSelectorModal #removeAvatarBtn > iconify-icon {
+    color: #fb7185;
+}
+
+#avatarSelectorModal #removeAvatarBtn > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
+#profileModal .profile-export-options #exportBooks + i,
+#profileModal .profile-export-options #exportStudyCalendar + i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-export-options #exportNotes + i {
+    color: var(--accent-purple);
+}
+
+#profileModal .profile-export-options #exportApiSettings + i {
+    color: var(--accent-orange);
+}
+
+.profile-cover-selector .profile-cover-upload > i,
+.profile-cover-selector .profile-cover-upload > iconify-icon {
+    color: var(--accent-blue);
+}
+
+.profile-cover-selector .profile-cover-upload > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
+.profile-cover-selector .profile-cover-consorte > i,
+.profile-cover-selector .profile-cover-consorte > iconify-icon {
+    color: var(--accent-purple);
+}
+
+.profile-cover-selector .profile-cover-consorte > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
+.profile-cover-selector .profile-cover-license > i,
+#avatarSelectorModal #licenseAvatarBtn > i {
+    color: var(--accent-teal);
+}
+
+#avatarSelectorModal #uploadAvatarBtn > i,
+#avatarSelectorModal #uploadAvatarBtn > iconify-icon {
+    color: #fff;
+}
+
+#avatarSelectorModal #uploadAvatarBtn > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+}
+
+.certificate-modal-header h2 > i {
+    color: var(--accent-blue);
+}
+
+.certificate-modal-actions .btn-secondary > i {
+    color: var(--accent-purple);
+}
+
+#profileBtn > .profile-login-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
 }

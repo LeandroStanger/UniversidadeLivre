@@ -3,6 +3,25 @@
 .profile-game-status-suit{display:inline-grid;place-items:center;width:1.35rem;height:1.35rem;border-radius:50%;font-family:Georgia,serif;font-size:1.15rem;color:#38bdf8}
 .chat-widget-toggle{position:fixed;right:1.5rem;bottom:5.25rem;z-index:10001;width:58px;height:58px;border:0;border-radius:50%;background:var(--com-accent-blue);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.45);cursor:pointer;font-size:1.35rem;transition:transform .2s,background .2s}.chat-widget-toggle:hover,.chat-widget-toggle.open{background:var(--com-accent-blue-hover);transform:scale(1.06)}.chat-widget-badge{position:absolute;right:2px;top:2px;width:11px;height:11px;border:2px solid var(--com-bg-primary);border-radius:50%;background:var(--com-accent-green)}.chat-widget-panel{position:fixed;right:1.5rem;bottom:9.65rem;z-index:10000;width:min(380px,calc(100vw - 2rem));height:min(590px,calc(100vh - 11rem));margin:0;padding:.9rem;background:var(--com-bg-secondary);border:1px solid var(--com-border);border-radius:16px;box-shadow:0 18px 55px rgba(0,0,0,.6);display:flex;flex-direction:column}.chat-widget-panel[hidden]{display:none}.chat-widget-panel h4{display:flex;align-items:center;justify-content:space-between;margin:0 0 .55rem;color:var(--com-text-primary)}.chat-widget-close{border:0;background:transparent;color:var(--com-text-secondary);cursor:pointer;font-size:1rem;padding:.25rem}.chat-widget-close:hover{color:var(--com-text-primary)}.chat-widget-panel .chat-messages{max-height:none!important;min-height:0;flex:1}.chat-widget-panel .ttt-scoreboard{flex-shrink:0}@media(max-width:680px){.chat-widget-toggle{right:1rem;bottom:4.75rem}.chat-widget-panel{right:1rem;bottom:9.1rem;width:calc(100vw - 2rem);height:min(600px,calc(100vh - 10rem));padding:.75rem}}
 .floating-audio-player { z-index: 9990 !important; }
+.chat-widget-toggle { background: #02a724; }
+.chat-widget-toggle:hover,
+.chat-widget-toggle.open { background: #028c1e; }
+.chat-widget-toggle iconify-icon { width: 2em; height: 2em; color: #fff; }
+.games-btn-icon,
+.games-modal-icon { width: 1em; height: 1em; flex: 0 0 auto; color: var(--com-accent-purple); }
+.header-create-actions #newPostBtn .new-post-icon,
+.header-create-actions #openGamesBtn .games-btn-icon {
+    width: 1.3em;
+    height: 1.3em;
+}
+.header-create-actions #openJitsiBtn > i,
+.header-create-actions #newPollBtn > i {
+    font-size: 1.3em;
+}
+.games-modal-icon {
+    width: 1.35em;
+    height: 1.35em;
+}
 .course-scope-tabs{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;padding:.65rem .85rem 0}.course-scope-tab{border:1px solid var(--com-border);border-radius:8px;background:transparent;color:var(--com-text-secondary);padding:.5rem .4rem;font:inherit;font-size:.75rem;font-weight:700;cursor:pointer}.course-scope-tab:hover,.course-scope-tab.active{border-color:var(--com-accent-blue);background:rgba(108,140,255,.14);color:var(--com-text-primary)}
 /* ============================================================
    comunidade.css – Versão 10.6 – COMPLETO
@@ -421,6 +440,19 @@ body {
     color: var(--com-text-secondary);
     cursor: pointer;
     transition: var(--com-transition);
+}
+
+.course-expand-toggle iconify-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.course-expand-toggle[aria-expanded="false"] iconify-icon {
+    color: var(--com-accent-blue);
+}
+
+.course-expand-toggle[aria-expanded="true"] iconify-icon {
+    color: var(--com-accent-purple);
 }
 
 .course-expand-toggle:hover,
@@ -1447,14 +1479,33 @@ body {
     margin: 0.3rem 0;
 }
 
-.post-content video.video-js {
+.post-content media-i18n.community-video-i18n {
+    display: block;
     width: 100%;
     max-width: 720px;
+    aspect-ratio: 16 / 9;
     min-height: 220px;
     margin: 0.5rem 0;
-    border-radius: 8px;
+    border-radius: 0;
     overflow: hidden;
 }
+
+.post-content video-player.community-video-player {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.post-content video-player.community-video-player video-skin {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.post-content .community-offline-media-button {
+    margin: 0.1rem 0 0.5rem;
+}
+
 .post-content pre {
     background: var(--com-bg-primary);
     padding: 0.8rem;

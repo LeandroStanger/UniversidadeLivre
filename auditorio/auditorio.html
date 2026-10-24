@@ -11,14 +11,16 @@
     <script src="../base/theme/theme.js"></script>
     <link rel="stylesheet" href="auditorio.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../base/perfil/profile.css">
-    <link rel="stylesheet" href="../base/onboarding/onboarding.css">
+    <link rel="stylesheet" href="../base/perfil/profile.css?v=profile-avatar-delete-icon">
+    <link rel="stylesheet" href="../base/onboarding/onboarding.css?v=onboarding-avatar-icon-size">
     <link rel="stylesheet" href="../base/audio-player/audio-player.css">
     <link rel="stylesheet" href="../base/loading/loading-screen.css">
-    <link rel="stylesheet" href="../base/theme/theme.css">
+    <link rel="stylesheet" href="../base/theme/theme.css?v=auditorio-menu-slate">
     <link rel="stylesheet" href="../base/doar/donation-modal.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../base/iconify-compat.css">
+    <script src="../base/iconify-element.js?v=fluent-eye-48-regular" defer></script>
+    <script src="../base/iconify-compat.js?v=fluent-arrow-enter" defer></script>
 </head>
 <body class="site-loading">
 <div id="siteLoadingScreen" class="site-loading-screen" role="status" aria-live="polite">
@@ -65,12 +67,6 @@
             <a href="../comunidade/comunidade.html" class="btn-biblioteca" target="_blank" rel="noopener noreferrer" style="background: var(--accent-teal);" data-i18n="comunidade_title">
                 <i class="fas fa-users"></i> <span data-i18n="comunidade_title">Comunidade</span>
             </a>
-            <div class="header-dropdown" data-auditorio-base="auditorio.html">
-                <button type="button" class="btn-biblioteca header-dropdown-toggle" style="background: var(--accent-blue);" aria-expanded="false" aria-controls="auditorioSubjectMenu">
-                    <i class="fas fa-video"></i> <span data-i18n="auditorio_title">Auditório</span> <i class="fas fa-chevron-down header-dropdown-chevron" aria-hidden="true"></i>
-                </button>
-                <div id="auditorioSubjectMenu" class="header-dropdown-menu" role="menu" hidden></div>
-            </div>
             <a href="../index.html" class="btn-biblioteca" style="background: var(--accent-blue);" data-i18n="back_to_courses">
                 <i class="fas fa-arrow-left"></i> <span data-i18n="back_to_courses">Voltar</span>
             </a>
@@ -101,7 +97,7 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Buscar vídeos por título ou descrição..." data-i18n-placeholder="search_videos_placeholder">
                 <span class="search-shortcut"><i class="fas fa-arrow-turn-down"></i> /</span>
             </div>
-            <button id="randomVideoBtn" class="random-btn"><i class="fas fa-shuffle"></i> <span data-i18n="random_video">Estou com sorte!</span></button>
+            <button id="randomVideoBtn" class="random-btn"><i class="fas fa-arrow-shuffle"></i> <span data-i18n="random_video">Estou com sorte!</span></button>
         </div>
         <div class="filter-group type-filter">
             <div id="typeChips" class="type-tabs" role="tablist" aria-label="Filtrar por tipo"></div>
@@ -147,65 +143,84 @@
             </div>
             <div id="playerContainer" class="player-container">
                 <div class="player-wrapper">
-                    <div id="youtubePlayer"></div>
+                    <div id="youtubePlayer" hidden></div>
+                    <media-i18n class="auditorio-video-i18n">
+                        <video-player id="auditorioVideoPlayerShell">
+                            <video-skin>
+                                <video id="offlineVideoPlayer" class="offline-video-player" playsinline hidden></video>
+                            </video-skin>
+                            <google-cast></google-cast>
+                        </video-player>
+                    </media-i18n>
+                    <div class="custom-player-controls">
+                        <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause" aria-label="Play/Pause"><i class="fas fa-play"></i></button>
+                        <div class="volume-control">
+                            <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar" aria-label="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
+                            <div class="volume-slider-group">
+                                <output id="volumePercentage" class="volume-percentage" for="volumeSlider">100%</output>
+                                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <span id="currentTimeDisplay">00:00</span>
+                            <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
+                            <span id="durationDisplay">00:00</span>
+                        </div>
+                        <button id="captionsToggleBtn" class="ctrl-btn" type="button" data-i18n-title="captions_toggle" data-i18n-aria="captions_toggle"><i class="fas fa-closed-captioning"></i></button>
+                        <details class="player-settings">
+                            <summary class="ctrl-btn" data-i18n-title="player_options" data-i18n-aria="player_options"><i class="fas fa-gear"></i></summary>
+                            <div class="player-settings-menu">
+                                <label class="player-select">
+                                    <span data-i18n="playback_speed">Velocidade</span>
+                                    <select id="playbackSpeedSelect" data-i18n-title="playback_speed" data-i18n-aria="playback_speed">
+                                        <option value="0.5">0,5x</option>
+                                        <option value="0.75">0,75x</option>
+                                        <option value="1" selected>Normal</option>
+                                        <option value="1.25">1,25x</option>
+                                        <option value="1.5">1,5x</option>
+                                        <option value="1.75">1,75x</option>
+                                        <option value="2">2x</option>
+                                    </select>
+                                </label>
+                                <label class="player-select">
+                                    <span data-i18n="video_quality">Qualidade</span>
+                                    <select id="videoQualitySelect" data-i18n-title="video_quality" data-i18n-aria="video_quality">
+                                        <option value="auto" selected>Auto</option>
+                                    </select>
+                                </label>
+                                <label class="player-select">
+                                    <span data-i18n="audio_track">Faixa de áudio</span>
+                                    <select id="audioTrackSelect" title="Faixa de áudio" aria-label="Faixa de áudio">
+                                        <option value="original" selected>Original</option>
+                                    </select>
+                                </label>
+                                <label class="player-select">
+                                    <span data-i18n="caption_language">Idioma da legenda</span>
+                                    <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
+                                        <option value="pt">Português</option>
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                        <option value="ja">日本語</option>
+                                    </select>
+                                </label>
+                                <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i><span data-i18n="audio_mode">Modo Áudio</span></button>
+                            </div>
+                        </details>
+                        <button id="fullscreenToggleBtn" class="ctrl-btn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen"><i class="fas fa-expand"></i></button>
+                    </div>
                 </div>
                 <div id="externalLiveContainer" class="external-live-player" hidden>
                     <iframe id="externalLiveFrame" title="" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
-                <div class="custom-player-controls">
-                    <div class="progress-container progress-container-top">
-                        <span id="currentTimeDisplay">00:00</span>
-                        <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0" step="0.1">
-                        <span id="durationDisplay">00:00</span>
-                    </div>
-                    <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause"><i class="fas fa-play"></i></button>
-                    <div class="volume-control">
-                        <button id="muteUnmuteBtn" class="ctrl-btn" title="Mutar/Desmutar"><i class="fas fa-volume-up"></i></button>
-                        <div class="volume-slider-group">
-                            <output id="volumePercentage" class="volume-percentage" for="volumeSlider">100%</output>
-                            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
-                        </div>
-                    </div>
-                    <label class="player-select">
-                        <span class="sr-only">Velocidade</span>
-                        <select id="playbackSpeedSelect" data-i18n-title="playback_speed" data-i18n-aria="playback_speed">
-                            <option value="0.5">0,5x</option>
-                            <option value="0.75">0,75x</option>
-                            <option value="1" selected>Normal</option>
-                            <option value="1.25">1,25x</option>
-                            <option value="1.5">1,5x</option>
-                            <option value="1.75">1,75x</option>
-                            <option value="2">2x</option>
-                        </select>
-                    </label>
-                    <label class="player-select">
-                        <span class="sr-only">Qualidade</span>
-                        <select id="videoQualitySelect" data-i18n-title="video_quality" data-i18n-aria="video_quality">
-                            <option value="auto" selected>Auto</option>
-                        </select>
-                    </label>
-                    <label class="player-select">
-                        <span class="sr-only">Faixa de áudio</span>
-                        <select id="audioTrackSelect" title="Faixa de áudio" aria-label="Faixa de áudio">
-                            <option value="original" selected>Original</option>
-                        </select>
-                    </label>
-                    <button id="captionsToggleBtn" class="ctrl-btn" type="button" data-i18n-title="captions_toggle" data-i18n-aria="captions_toggle"><i class="fas fa-closed-captioning"></i></button>
-                    <label class="player-select">
-                        <span class="sr-only">Idioma da legenda</span>
-                        <select id="captionLanguageSelect" data-i18n-title="caption_language" data-i18n-aria="caption_language">
-                            <option value="pt">Português</option>
-                            <option value="en">English</option>
-                            <option value="es">Español</option>
-                            <option value="ja">日本語</option>
-                        </select>
-                    </label>
-                    <button id="fullscreenToggleBtn" class="ctrl-btn" type="button" data-i18n-title="fullscreen" data-i18n-aria="fullscreen"><i class="fas fa-expand"></i></button>
-                    <button id="audioModeBtn" class="ctrl-btn" title="Modo Áudio"><i class="fas fa-headphones"></i></button>
-                </div>
                 <div class="player-info">
-                    <h3 id="playerTitle"></h3>
-                    <p id="playerDescription"></p>
+                    <div class="player-info-copy">
+                        <h3 id="playerTitle"></h3>
+                        <p id="playerDescription"></p>
+                    </div>
+                    <div class="player-info-actions">
+                        <button id="offlineMediaBtn" class="ctrl-btn offline-media-button" type="button" hidden></button>
+                        <button id="offlineMediaDeleteBtn" class="ctrl-btn offline-media-button offline-media-delete-button" type="button" hidden></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -351,7 +366,7 @@
             </div>
             <!-- Passo 3: Login -->
             <div class="step" data-step="3">
-                <h2><i class="fas fa-sign-in-alt"></i> <span id="onboardingModeTitle" data-i18n="onboarding_login_button">Entrar</span></h2>
+                <h2><iconify-icon class="onboarding-login-icon" icon="fluent:arrow-enter-20-regular" aria-hidden="true"></iconify-icon> <span id="onboardingModeTitle" data-i18n="onboarding_login_button">Entrar</span></h2>
                 <div id="onboardingLoginMode">
                     <div class="form-group">
                         <label for="onboardingLoginPassword" data-i18n="onboarding_login_password_label">Senha</label>
@@ -360,7 +375,7 @@
                     </div>
                     <div id="onboardingLoginCaptcha" class="xsukax-captcha" style="margin-top: 1rem;"></div>
                     <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" style="background: var(--accent-green); color: #070B14; border: none; opacity: 0.5; cursor: not-allowed;" disabled><i class="fas fa-file-import"></i> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
+                        <button type="button" id="onboardingImportProgressBtn" class="btn-secondary" disabled><iconify-icon icon="fluent:document-add-48-regular" aria-hidden="true"></iconify-icon> <span data-i18n="profile_import_progress">Importar Progresso</span></button>
                         <input type="file" id="onboardingImportFileInput" accept=".json" style="display: none;">
                     </div>
                     <div style="margin-top: 0.5rem; text-align: center; border-top: 1px solid var(--border); padding-top: 0.8rem;">
@@ -390,7 +405,7 @@
                         <div style="position:relative;">
                             <input type="password" id="onboardingPassword" placeholder="Crie uma senha forte..." data-i18n-placeholder="onboarding_form_password_placeholder" style="padding-right:40px;">
                             <button type="button" id="onboardingTogglePassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                <iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>
                             </button>
                         </div>
                         <div id="passwordStrengthIndicator" style="margin-top: 6px;"></div>
@@ -400,7 +415,7 @@
                         <label for="onboardingConfirmPassword" data-i18n="onboarding_form_confirm_password_label">Confirmar senha</label>
                         <div style="position:relative;">
                             <input type="password" id="onboardingConfirmPassword" placeholder="Repita a senha..." data-i18n-placeholder="onboarding_form_confirm_password_placeholder" style="padding-right:40px;">
-                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            <button type="button" id="onboardingToggleConfirmPassword" data-i18n-aria="password_visibility_show" data-i18n-title="password_visibility_show" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;"><iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon></button>
                         </div>
                         <div id="onboardingConfirmError" class="form-error" style="display:none;" data-i18n="onboarding_error_password_mismatch">As senhas não coincidem.</div>
                     </div>
@@ -409,10 +424,10 @@
                         <div id="avatarSelectorContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-top: 6px; padding: 4px 0; max-height: 280px; overflow-y: auto; overflow-x: hidden;"></div>
                         <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                             <button type="button" id="onboardingUploadAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem;">
-                                <i class="fas fa-upload"></i> <span data-i18n="onboarding_form_avatar_upload">Enviar foto</span>
+                                <iconify-icon icon="fluent:border-inside-24-regular" aria-hidden="true"></iconify-icon> <span data-i18n="onboarding_form_avatar_upload">Enviar foto</span>
                             </button>
                             <button type="button" id="onboardingRemoveAvatar" class="btn-secondary" style="padding:4px 12px; font-size:0.8rem; background:var(--bg-tertiary);">
-                                <i class="fas fa-trash-alt"></i> <span data-i18n="onboarding_form_avatar_remove">Remover foto</span>
+                                <iconify-icon icon="fluent:delete-48-regular" aria-hidden="true"></iconify-icon> <span data-i18n="onboarding_form_avatar_remove">Remover foto</span>
                             </button>
                             <button type="button" id="onboardingAvatarLicense" class="btn-secondary" style="padding:4px 12px; font-size:0.7rem; background:transparent; border-color:var(--border);">
                                 <i class="fas fa-balance-scale"></i> <span data-i18n="onboarding_form_avatar_license">Licença das imagens</span>
@@ -444,17 +459,18 @@
 
 <!-- ========== SCRIPTS ========== -->
 <script src="../base/analytics.js"></script>
-<script src="https://www.youtube.com/iframe_api" async></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.1/video.js"></script>
+<link rel="stylesheet" href="../base/video/videojs-v10.bundle.css">
+<script src="../base/video/videojs-v10.bundle.js"></script>
+<script src="../base/video/course-video-player.js"></script>
 <script src="../base/lang/i18n.js"></script>
-<script src="../base/menu/auditorio-menu.js"></script>
+<script src="../base/offline-media/offline-media.js"></script>
+<script src="../base/menu/auditorio-menu.js?v=fluent-live-menu"></script>
 <script src="../base/menu/biblioteca-menu.js"></script>
 <script src="../base/menu/mobile-menu.js"></script>
 <script src="auditorio.js"></script>
-<script src="../base/perfil/profile.js"></script>
+<script src="../base/perfil/profile.js?v=profile-avatar-delete-icon"></script>
 <script src="../base/reCaptcha/xsukax-captcha.js"></script>
-<script src="../base/onboarding/onboarding.js"></script>
+<script src="../base/onboarding/onboarding.js?v=onboarding-login-switch-icon"></script>
 <script src="../base/audio-player/audio-player.js" defer></script>
 <script src="../base/loading/loading-screen.js" defer></script>
 <script src="../base/doar/donation-modal.js" defer></script>

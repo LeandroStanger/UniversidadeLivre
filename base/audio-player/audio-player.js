@@ -18,6 +18,7 @@
     let savedState = {};
     let suspendedForMedia = false;
     let externalMediaActive = false;
+    let lastVolume = 70;
 
     const $ = id => document.getElementById(id);
     const formatTime = seconds => {
@@ -44,6 +45,10 @@
         const value = Math.max(0, Math.min(100, Math.round(Number(volume) || 0)));
         $('audioPlayerVolume').value = value;
         $('audioPlayerVolumeValue').textContent = `${value}%`;
+        if (value > 0) lastVolume = value;
+        const muted = value === 0;
+        $('audioPlayerMute').setAttribute('aria-label', muted ? 'Ativar som' : 'Silenciar');
+        $('audioPlayerMute').setAttribute('aria-pressed', String(muted));
     }
 
     function pauseAudio() {
@@ -85,7 +90,7 @@
 
     function createPlayer() {
         player = new YT.Player('youtubeAudioPlayer', {
-            height: '1', width: '1', videoId: tracks[currentIndex][0],
+            height: '200', width: '200', videoId: tracks[currentIndex][0],
             playerVars: { autoplay: 1, controls: 0, disablekb: 1, playsinline: 1, rel: 0, modestbranding: 1 },
             events: {
                 onReady: event => {
@@ -93,14 +98,15 @@
                     if (!progressTimer) {
                         progressTimer = window.setInterval(() => { updateProgress(); saveState(); }, 1000);
                     }
-                    event.target.setVolume(Number(savedState.volume ?? 70));
-                    updateVolumeDisplay(savedState.volume ?? 70);
+                    const volume = Number($('audioPlayerVolume').value);
+                    event.target.setVolume(volume);
+                    updateVolumeDisplay(volume);
                     loadTrack(currentIndex, wantsToPlay && !externalMediaActive);
                     updateProgress();
                 },
                 onStateChange: event => {
                     const playing = event.data === YT.PlayerState.PLAYING;
-                    $('audioPlayerPlay').innerHTML = `<i class="fas fa-${playing ? 'pause' : 'play'}"></i>`;
+                    $('audioPlayerPlay').querySelector('iconify-icon').setAttribute('icon', `fluent:${playing ? 'pause' : 'play'}-48-filled`);
                     $('audioPlayerPlay').setAttribute('aria-label', playing ? 'Pausar' : 'Reproduzir');
                     if (event.data === YT.PlayerState.ENDED) loadTrack(randomTrackIndex(), true);
                 },
@@ -152,9 +158,13 @@
                     </div>
                     <div class="audio-player-controls">
                         <button id="audioPlayerPrevious" type="button" aria-label="Áudio anterior"><i class="fas fa-backward-step"></i></button>
-                        <button id="audioPlayerPlay" class="audio-player-play" type="button" aria-label="Reproduzir"><i class="fas fa-play"></i></button>
+                        <button id="audioPlayerPlay" class="audio-player-play" type="button" aria-label="Reproduzir"><iconify-icon icon="fluent:play-48-filled" aria-hidden="true"></iconify-icon></button>
                         <button id="audioPlayerNext" type="button" aria-label="Próximo áudio"><i class="fas fa-forward-step"></i></button>
-                        <label class="audio-player-volume" aria-label="Volume"><i class="fas fa-volume-high"></i><input id="audioPlayerVolume" type="range" min="0" max="100" value="70"><span id="audioPlayerVolumeValue">70%</span></label>
+                        <div class="audio-player-volume">
+                            <button id="audioPlayerMute" class="audio-player-mute" type="button" aria-label="Silenciar" aria-pressed="false"><iconify-icon icon="fluent:speaker-2-48-filled" aria-hidden="true"></iconify-icon></button>
+                            <input id="audioPlayerVolume" type="range" min="0" max="100" value="70" aria-label="Volume">
+                            <span id="audioPlayerVolumeValue">70%</span>
+                        </div>
                     </div>
                 </div>
                 <button id="studyCalendarToggle" class="study-calendar-floating-toggle" type="button" aria-label="Calendário de estudos" aria-controls="studyCalendar" aria-expanded="false">
@@ -165,7 +175,7 @@
                     <i class="fas fa-music" aria-hidden="true"></i>
                     <span class="audio-player-toggle-label">Música</span>
                 </button>
-                <div id="youtubeAudioPlayer" class="youtube-audio-source" aria-hidden="true"></div>
+                <div class="youtube-audio-source" aria-hidden="true"><div id="youtubeAudioPlayer"></div></div>
             </div>
         `);
     }
@@ -181,6 +191,7 @@
             savedState = {};
             localStorage.removeItem(stateKey);
         }
+        updateVolumeDisplay(savedState.volume ?? 70);
         currentIndex = Number.isInteger(savedState.index) ? savedState.index % tracks.length : Math.floor(Math.random() * tracks.length);
         wantsToPlay = true;
         $('audioPlayerTitle').textContent = tracks[currentIndex][1];
@@ -218,6 +229,13 @@
                 wantsToPlay = true;
                 player.playVideo();
             }
+        });
+        $('audioPlayerMute').addEventListener('click', () => {
+            const volume = Number($('audioPlayerVolume').value);
+            const nextVolume = volume > 0 ? 0 : lastVolume;
+            updateVolumeDisplay(nextVolume);
+            if (isReady) player.setVolume(nextVolume);
+            saveState();
         });
         $('audioPlayerPrevious').addEventListener('click', () => loadTrack(randomTrackIndex(), true));
         $('audioPlayerNext').addEventListener('click', () => loadTrack(randomTrackIndex(), true));

@@ -1,0 +1,32 @@
+html[data-theme] iconify-icon.iconify-fa-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
+
+iconify-icon.iconify-fa-icon.fa-lg {
+    width: 1.333em;
+    height: 1.333em;
+    vertical-align: -0.0667em;
+}
+
+iconify-icon.iconify-fa-icon.fa-fw {
+    width: 1.25em;
+}
+
+iconify-icon.iconify-fa-icon.fa-spin {
+    animation: iconify-fa-spin 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    iconify-icon.iconify-fa-icon.fa-spin {
+        animation: none;
+    }
+}
+
+@keyframes iconify-fa-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

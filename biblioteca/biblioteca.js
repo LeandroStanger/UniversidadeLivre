@@ -31,11 +31,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     let pdfZoom = 1;
     let currentPdfBook = null;
     const PDF_READING_PROGRESS_KEY = 'ulivre_pdf_reading_progress';
-    const LIBRARY_PAGE_SIZE = 24;
+    const LIBRARY_ROWS_PER_PAGE = 3;
     let currentLibraryResults = [];
     let displayedLibraryResults = 0;
     let libraryRenderId = 0;
     let isAppendingLibraryResults = false;
+    let isRenderingLibraryResults = false;
     const AUDIOBOOK_PAGE_SIZE = 16;
     let displayedAudiobookCount = 0;
     let activeTab = 'book';
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========== PLAYER MULTIMÍDIA ==========
     let multimediaPlayer = null;
     let multimediaPlayerReady = false;
+    let videoPlayerAdapter = null;
     let currentVideoId = null;
     let currentPartUrl = null;
     let currentPartType = null;
@@ -64,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentParts = [];
     let currentPartIndex = 0;
     let currentAudiobookMeta = null;
+    let offlinePartRequestId = 0;
 
     // ========== RATE LIMITING PARA GOOGLE BOOKS ==========
     let googleBooksQueue = [];
@@ -412,11 +415,17 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const playPauseBtn = document.getElementById('playerPlayPause');
         if (playPauseBtn) {
             const isPlaying = playPauseBtn.dataset.playing === 'true';
-            playPauseBtn.innerHTML = isPlaying ? `<i class="fas fa-pause"></i> ${t('pause')}` : `<i class="fas fa-play"></i> ${t('play')}`;
+            const label = isPlaying ? t('pause') : t('play');
+            playPauseBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+            playPauseBtn.title = label;
+            playPauseBtn.setAttribute('aria-label', label);
         }
         const subBtn = document.getElementById('playerSubtitles');
         if (subBtn) {
-            subBtn.innerHTML = `<i class="fas fa-closed-captioning"></i><span class="player-subtitles-label">${t('subtitles', 'Legendas')}</span>`;
+            const label = t('subtitles', 'Legendas');
+            subBtn.innerHTML = '<i class="fas fa-closed-captioning"></i>';
+            subBtn.title = label;
+            subBtn.setAttribute('aria-label', label);
         }
         const modeBtn = document.getElementById('playerToggleMode');
         if (modeBtn) {
@@ -1553,18 +1562,38 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     function updateLoadMoreButton() {
         const button = document.getElementById('loadMoreBooksBtn');
         if (!button) return;
+        const nextTargetCount = getNextLibraryTargetCount();
+        const nextBatchSize = nextTargetCount - displayedLibraryResults;
         const remaining = currentLibraryResults.length - displayedLibraryResults;
-        const nextBatchSize = Math.min(LIBRARY_PAGE_SIZE, remaining);
         button.hidden = remaining <= 0;
         button.disabled = isAppendingLibraryResults;
         button.innerHTML = `<i class="fas fa-plus" aria-hidden="true"></i> ${t('load_more_results', { count: nextBatchSize })}`;
         button.setAttribute('aria-label', t('load_more_results', { count: nextBatchSize }));
     }
 
-    async function appendMoreLibraryResults() {
-        if (isAppendingLibraryResults || displayedLibraryResults >= currentLibraryResults.length) return;
+    function getLibraryColumnCount(targetContainer = grid) {
+        if (!targetContainer) return 1;
+        const columns = getComputedStyle(targetContainer).gridTemplateColumns;
+        if (!columns || columns === 'none') return 1;
+        return columns.trim().split(/\s+/).filter(Boolean).length || 1;
+    }
+
+    function getLibraryPageSize(targetContainer = grid) {
+        return getLibraryColumnCount(targetContainer) * LIBRARY_ROWS_PER_PAGE;
+    }
+
+    function getNextLibraryTargetCount() {
+        const columnCount = getLibraryColumnCount();
+        const nextPageStart = Math.ceil(displayedLibraryResults / columnCount) * columnCount;
+        return Math.min(
+            nextPageStart + getLibraryPageSize(),
+            currentLibraryResults.length
+        );
+    }
+
+    async function appendLibraryResultsThrough(targetCount) {
+        if (isAppendingLibraryResults || isRenderingLibraryResults || displayedLibraryResults >= targetCount) return;
         const renderId = libraryRenderId;
-        const targetCount = Math.min(displayedLibraryResults + LIBRARY_PAGE_SIZE, currentLibraryResults.length);
         isAppendingLibraryResults = true;
         updateLoadMoreButton();
         try {
@@ -1580,30 +1609,57 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         } finally {
             isAppendingLibraryResults = false;
             updateLoadMoreButton();
+            if (renderId === libraryRenderId) completeVisibleLibraryRow();
         }
     }
 
-    async function renderResultsIncrementally(items, targetContainer, visibleCount = LIBRARY_PAGE_SIZE) {
+    async function appendMoreLibraryResults() {
+        await appendLibraryResultsThrough(getNextLibraryTargetCount());
+    }
+
+    function completeVisibleLibraryRow() {
+        if (isAppendingLibraryResults || isRenderingLibraryResults || displayedLibraryResults >= currentLibraryResults.length) return;
+        const columnCount = getLibraryColumnCount();
+        const nextFullRowCount = Math.ceil(displayedLibraryResults / columnCount) * columnCount;
+        const targetCount = Math.min(nextFullRowCount, currentLibraryResults.length);
+        if (targetCount > displayedLibraryResults) {
+            appendLibraryResultsThrough(targetCount);
+        }
+    }
+
+    async function renderResultsIncrementally(items, targetContainer, visibleCount = 0) {
         if (!targetContainer) return;
         const renderId = ++libraryRenderId;
         currentLibraryResults = items;
         displayedLibraryResults = 0;
         isAppendingLibraryResults = false;
+        isRenderingLibraryResults = true;
         targetContainer.innerHTML = '';
-        const initialCount = Math.min(items.length, Math.max(LIBRARY_PAGE_SIZE, visibleCount));
-        for (let i = 0; i < initialCount; i++) {
-            if (renderId !== libraryRenderId) return;
-            const card = await createBookCard(items[i]);
-            if (renderId !== libraryRenderId) return;
-            if (card) {
-                targetContainer.appendChild(card);
+        const loadMoreButton = document.getElementById('loadMoreBooksBtn');
+        if (loadMoreButton) loadMoreButton.hidden = true;
+        const columnCount = getLibraryColumnCount(targetContainer);
+        const minimumVisibleCount = Math.max(getLibraryPageSize(targetContainer), visibleCount);
+        const initialCount = Math.min(items.length, Math.ceil(minimumVisibleCount / columnCount) * columnCount);
+        try {
+            for (let i = 0; i < initialCount; i++) {
+                if (renderId !== libraryRenderId) return;
+                const card = await createBookCard(items[i]);
+                if (renderId !== libraryRenderId) return;
+                if (card) {
+                    targetContainer.appendChild(card);
+                }
+                displayedLibraryResults = i + 1;
+                if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
             }
-            displayedLibraryResults = i + 1;
-            if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
+            document.getElementById('bookCount').innerText = items.length;
+            updateLoadMoreButton();
+            applyAllTranslations();
+        } finally {
+            if (renderId === libraryRenderId) {
+                isRenderingLibraryResults = false;
+                completeVisibleLibraryRow();
+            }
         }
-        document.getElementById('bookCount').innerText = items.length;
-        updateLoadMoreButton();
-        applyAllTranslations();
     }
 
     function getLanguagePriority(langCode) {
@@ -1673,8 +1729,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (!keepLoading) hideLoading();
         const sorted = sortBooksByPriority(unique);
         const visibleCount = currentLibraryResults.length
-            ? Math.max(LIBRARY_PAGE_SIZE, displayedLibraryResults)
-            : LIBRARY_PAGE_SIZE;
+            ? Math.max(getLibraryPageSize(grid), displayedLibraryResults)
+            : getLibraryPageSize(grid);
         await renderResultsIncrementally(sorted, grid, visibleCount);
     }
 
@@ -2247,27 +2303,32 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                     <button id="playerToggleMode" class="player-ctrl-btn" title="Alternar modo áudio/vídeo">
                         <i class="fas fa-eye"></i> ${t('video_mode')}
                     </button>
+                    <button id="playerOfflineMedia" class="player-ctrl-btn offline-media-button" type="button" hidden></button>
                     <button id="closeMultimediaPlayer" class="player-ctrl-btn" title="${t('close_player')}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
             <div class="player-video-wrapper" id="playerVideoWrapper">
-                <div id="multimediaYouTubePlayer"></div>
-                <div id="playerCaptionsContainer" class="player-captions-container"></div>
-            </div>
-            <div class="player-controls">
-                <div class="player-progress-row">
-                    <span id="playerCurrentTime">00:00</span>
-                    <input type="range" id="playerProgressBar" class="player-progress-bar" min="0" max="100" value="0" step="0.1">
-                    <span id="playerDuration">00:00</span>
-                </div>
-                <div class="player-controls-row">
-                    <button id="playerPlayPause" class="player-ctrl-btn" data-playing="false">
-                        <i class="fas fa-play"></i> ${t('play')}
+                <audio-player id="libraryAudioPlayer" class="library-audio-player" hidden>
+                    <audio-skin>
+                        <audio id="directAudioPlayer" preload="metadata"></audio>
+                    </audio-skin>
+                </audio-player>
+                <media-i18n class="library-video-i18n">
+                    <video-player id="libraryVideoPlayerShell">
+                        <video-skin>
+                            <video id="multimediaYouTubePlayer" playsinline hidden></video>
+                        </video-skin>
+                        <google-cast></google-cast>
+                    </video-player>
+                </media-i18n>
+                <div class="player-controls">
+                    <button id="playerPlayPause" class="player-ctrl-btn" data-playing="false" title="${t('play')}" aria-label="${t('play')}">
+                        <i class="fas fa-play"></i>
                     </button>
                     <div class="player-volume-container">
-                        <button id="playerMuteBtn" class="player-ctrl-btn" title="${t('volume')}">
+                        <button id="playerMuteBtn" class="player-ctrl-btn" title="${t('volume')}" aria-label="${t('volume')}">
                             <i class="fas fa-volume-up"></i>
                         </button>
                         <div class="player-volume-slider-group">
@@ -2275,41 +2336,49 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                             <input type="range" id="playerVolumeSlider" class="player-volume-slider" min="0" max="100" value="80">
                         </div>
                     </div>
-                    <div class="player-settings-group">
-                        <label class="player-select">
-                            <span class="sr-only">${t('playback_speed')}</span>
-                            <select id="playerPlaybackSpeed" title="${t('playback_speed')}" aria-label="${t('playback_speed')}">
-                                <option value="0.5">0,5x</option><option value="0.75">0,75x</option>
-                                <option value="1" selected>Normal</option><option value="1.25">1,25x</option>
-                                <option value="1.5">1,5x</option><option value="1.75">1,75x</option><option value="2">2x</option>
-                            </select>
-                        </label>
-                        <label class="player-select">
-                            <span class="sr-only">${t('video_quality')}</span>
-                            <select id="playerVideoQuality" title="${t('video_quality')}" aria-label="${t('video_quality')}">
-                                <option value="auto" selected>Auto</option>
-                            </select>
-                        </label>
-                        <label class="player-select" id="playerAudioTrackControl" hidden>
-                            <span class="sr-only">${t('audio_track')}</span>
-                            <select id="playerAudioTrack" title="${t('audio_track')}" aria-label="${t('audio_track')}">
-                                <option value="original">Original</option>
-                            </select>
-                        </label>
-                        <button id="playerSubtitles" class="player-ctrl-btn player-subtitles-btn" title="${t('subtitles', 'Legendas')}">
-                            <i class="fas fa-closed-captioning"></i><span class="player-subtitles-label">${t('subtitles', 'Legendas')}</span>
-                        </button>
-                        <label class="player-select">
-                            <span class="sr-only">${t('caption_language')}</span>
-                            <select id="playerCaptionLanguage" title="${t('caption_language')}" aria-label="${t('caption_language')}">
-                                <option value="pt">Português</option>
-                                <option value="en">English</option>
-                            </select>
-                        </label>
-                        <button id="playerFullscreen" class="player-ctrl-btn" title="${t('fullscreen')}" aria-label="${t('fullscreen')}">
-                            <i class="fas fa-expand"></i>
-                        </button>
+                    <div class="player-progress-row">
+                        <span id="playerCurrentTime">00:00</span>
+                        <input type="range" id="playerProgressBar" class="player-progress-bar" min="0" max="100" value="0" step="0.1">
+                        <span id="playerDuration">00:00</span>
                     </div>
+                    <button id="playerSubtitles" class="player-ctrl-btn player-subtitles-btn" title="${t('subtitles', 'Legendas')}" aria-label="${t('subtitles', 'Legendas')}">
+                        <i class="fas fa-closed-captioning"></i>
+                    </button>
+                    <details class="player-settings-group">
+                        <summary class="player-ctrl-btn" title="${t('player_options')}" aria-label="${t('player_options')}"><i class="fas fa-gear"></i></summary>
+                        <div class="player-settings-menu">
+                            <label class="player-select">
+                                <span>${t('playback_speed')}</span>
+                                <select id="playerPlaybackSpeed" title="${t('playback_speed')}" aria-label="${t('playback_speed')}">
+                                    <option value="0.5">0,5x</option><option value="0.75">0,75x</option>
+                                    <option value="1" selected>Normal</option><option value="1.25">1,25x</option>
+                                    <option value="1.5">1,5x</option><option value="1.75">1,75x</option><option value="2">2x</option>
+                                </select>
+                            </label>
+                            <label class="player-select">
+                                <span>${t('video_quality')}</span>
+                                <select id="playerVideoQuality" title="${t('video_quality')}" aria-label="${t('video_quality')}">
+                                    <option value="auto" selected>Auto</option>
+                                </select>
+                            </label>
+                            <label class="player-select" id="playerAudioTrackControl" hidden>
+                                <span>${t('audio_track')}</span>
+                                <select id="playerAudioTrack" title="${t('audio_track')}" aria-label="${t('audio_track')}">
+                                    <option value="original">Original</option>
+                                </select>
+                            </label>
+                            <label class="player-select">
+                                <span>${t('caption_language')}</span>
+                                <select id="playerCaptionLanguage" title="${t('caption_language')}" aria-label="${t('caption_language')}">
+                                    <option value="pt">Português</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </label>
+                        </div>
+                    </details>
+                    <button id="playerFullscreen" class="player-ctrl-btn" title="${t('fullscreen')}" aria-label="${t('fullscreen')}">
+                        <i class="fas fa-expand"></i>
+                    </button>
                 </div>
             </div>
             <div id="playerPartsContainer" class="player-parts-container" style="display: none;"></div>
@@ -2401,7 +2470,9 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             subBtn.addEventListener('click', () => toggleSubtitles());
         }
         document.getElementById('playerPlaybackSpeed')?.addEventListener('change', event => {
-            if (multimediaPlayerReady && multimediaPlayer?.setPlaybackRate) multimediaPlayer.setPlaybackRate(Number(event.target.value));
+            const playbackRate = Number(event.target.value);
+            if (currentDirectAudio) currentDirectAudio.playbackRate = playbackRate;
+            else if (multimediaPlayerReady && multimediaPlayer?.setPlaybackRate) multimediaPlayer.setPlaybackRate(playbackRate);
         });
         document.getElementById('playerVideoQuality')?.addEventListener('change', event => {
             if (multimediaPlayerReady && multimediaPlayer?.setPlaybackQuality) multimediaPlayer.setPlaybackQuality(event.target.value === 'auto' ? 'default' : event.target.value);
@@ -2411,8 +2482,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             try { multimediaPlayer.setAudioTrack(event.target.value); } catch (error) { console.warn('[Player] Não foi possível alterar a faixa:', error); }
         });
         document.getElementById('playerCaptionLanguage')?.addEventListener('change', event => {
-            if (!multimediaPlayerReady || !subtitlesEnabled || !multimediaPlayer?.setOption) return;
-            try { multimediaPlayer.setOption('captions', 'track', { languageCode: event.target.value }); } catch (error) { console.warn('[Player] Não foi possível alterar o idioma da legenda:', error); }
+            if (subtitlesEnabled) setYouTubeSubtitles(true, event.target.value);
         });
         document.getElementById('playerFullscreen')?.addEventListener('click', toggleLibraryFullscreen);
 
@@ -2420,6 +2490,46 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (closeBtn) {
             closeBtn.addEventListener('click', () => closeMultimediaPlayer());
         }
+    }
+
+    async function initializeLibraryVideoPlayer() {
+        const video = document.getElementById('multimediaYouTubePlayer');
+        if (!video) throw new Error('O elemento de vídeo da Biblioteca não foi encontrado.');
+
+        videoPlayerAdapter = await window.UniversidadeLivreCourseVideoPlayer.create(video);
+        multimediaPlayer = window.UniversidadeLivreCourseVideoPlayer.createLegacyAdapter(videoPlayerAdapter);
+        multimediaPlayerReady = true;
+
+        const playButton = document.getElementById('playerPlayPause');
+        videoPlayerAdapter.on('playing', () => {
+            if (playButton) {
+                playButton.dataset.playing = 'true';
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            startProgressUpdates();
+        });
+        videoPlayerAdapter.on('pause', () => {
+            if (playButton) {
+                playButton.dataset.playing = 'false';
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+            }
+            saveProgress();
+        });
+        videoPlayerAdapter.on('ended', () => {
+            saveProgress();
+            window.finishFloatingMedia?.();
+        });
+        videoPlayerAdapter.on('timeupdate', () => {
+            updateProgressBar();
+        });
+        videoPlayerAdapter.on('error', () => {
+            const error = videoPlayerAdapter.error();
+            console.error('[Player] Erro no player Video.js 10:', error?.message || 'erro desconhecido');
+            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
+        });
+
+        const savedVolume = Number(localStorage.getItem('player_volume'));
+        if (Number.isFinite(savedVolume)) videoPlayerAdapter.volume(Math.max(0, Math.min(100, savedVolume)) / 100);
     }
 
     function updateVolumeIcon(volume, muted = false) {
@@ -2442,25 +2552,33 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             if (currentDirectAudio.paused) {
                 currentDirectAudio.play().catch(() => {});
                 btn.dataset.playing = 'true';
-                btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                btn.title = t('pause');
+                btn.setAttribute('aria-label', t('pause'));
             } else {
                 currentDirectAudio.pause();
                 btn.dataset.playing = 'false';
-                btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.title = t('play');
+                btn.setAttribute('aria-label', t('play'));
             }
             updatePlayerControlTranslations();
             return;
         }
         if (!multimediaPlayer || !multimediaPlayerReady) return;
         const btn = document.getElementById('playerPlayPause');
-        if (multimediaPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+        if (multimediaPlayer.getPlayerState() === 1) {
             multimediaPlayer.pauseVideo();
             btn.dataset.playing = 'false';
-            btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
+            btn.innerHTML = '<i class="fas fa-play"></i>';
+            btn.title = t('play');
+            btn.setAttribute('aria-label', t('play'));
         } else {
             multimediaPlayer.playVideo();
             btn.dataset.playing = 'true';
-            btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
+            btn.innerHTML = '<i class="fas fa-pause"></i>';
+            btn.title = t('pause');
+            btn.setAttribute('aria-label', t('pause'));
         }
         updatePlayerControlTranslations();
     }
@@ -2470,17 +2588,27 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const wrapper = document.getElementById('playerVideoWrapper');
         const modeBtn = document.getElementById('playerToggleMode');
         if (wrapper) {
+            wrapper.classList.toggle('audio-mode', isAudioMode);
             if (isAudioMode) {
-                wrapper.style.display = 'none';
                 modeBtn.innerHTML = `<i class="fas fa-eye"></i> ${t('video_mode')}`;
             } else {
-                wrapper.style.display = 'block';
                 modeBtn.innerHTML = `<i class="fas fa-headphones"></i> ${t('audio_mode')}`;
             }
         }
         updatePlayerControlTranslations();
-        if (subtitlesEnabled) {
-            showCaptionsOverlay();
+    }
+
+    function setYouTubeSubtitles(enabled, language = document.getElementById('playerCaptionLanguage')?.value || 'pt') {
+        if (!multimediaPlayer || !multimediaPlayerReady) return;
+        try {
+            if (enabled) {
+                multimediaPlayer.loadModule('captions');
+                multimediaPlayer.setOption('captions', 'track', { languageCode: language });
+            } else {
+                multimediaPlayer.unloadModule('captions');
+            }
+        } catch (error) {
+            console.warn('[Player] Não foi possível atualizar as legendas:', error);
         }
     }
 
@@ -2490,63 +2618,15 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (subtitlesEnabled) {
             subBtn.classList.add('subtitles-active');
             subBtn.style.removeProperty('color');
-            if (multimediaPlayer && multimediaPlayerReady) {
-                try {
-                    const lang = currentLang === 'pt-br' ? 'pt' : 'en';
-                    multimediaPlayer.setOption('captions', 'track', { languageCode: lang });
-                } catch (e) {}
-            }
-            showCaptionsOverlay();
+            const language = document.getElementById('playerCaptionLanguage');
+            if (language) language.value = currentLang === 'pt-br' ? 'pt' : 'en';
+            setYouTubeSubtitles(true, language?.value);
         } else {
             subBtn.classList.remove('subtitles-active');
             subBtn.style.removeProperty('color');
-            if (multimediaPlayer && multimediaPlayerReady) {
-                try {
-                    multimediaPlayer.setOption('captions', 'track', {});
-                } catch (e) {}
-            }
-            hideCaptionsOverlay();
+            setYouTubeSubtitles(false);
         }
         updatePlayerControlTranslations();
-    }
-
-    let captionInterval = null;
-
-    function showCaptionsOverlay() {
-        const container = document.getElementById('playerCaptionsContainer');
-        if (!container) return;
-        container.style.display = 'block';
-        if (multimediaPlayer && multimediaPlayerReady) {
-            startCaptionUpdates();
-        }
-    }
-
-    function hideCaptionsOverlay() {
-        const container = document.getElementById('playerCaptionsContainer');
-        if (container) {
-            container.style.display = 'none';
-            container.textContent = '';
-        }
-        if (captionInterval) {
-            clearInterval(captionInterval);
-            captionInterval = null;
-        }
-    }
-
-    function startCaptionUpdates() {
-        if (captionInterval) clearInterval(captionInterval);
-        captionInterval = setInterval(() => {
-            if (!multimediaPlayer || !multimediaPlayerReady || !subtitlesEnabled) {
-                clearInterval(captionInterval);
-                captionInterval = null;
-                return;
-            }
-            const container = document.getElementById('playerCaptionsContainer');
-            if (container) {
-                const currentTime = multimediaPlayer.getCurrentTime();
-                container.innerHTML = `<span class="caption-text">${currentTitle} — ${formatTime(currentTime)}</span>`;
-            }
-        }, 1000);
     }
 
     // ========== PROGRESSO INDIVIDUAL ==========
@@ -2792,22 +2872,6 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }, 5000);
     }
 
-    function loadYouTubeAPI() {
-        return new Promise((resolve) => {
-            if (window.YT && window.YT.Player) {
-                resolve();
-                return;
-            }
-            const script = document.createElement('script');
-            script.src = 'https://www.youtube.com/iframe_api';
-            script.async = true;
-            script.onload = () => {
-                window.onYouTubeIframeAPIReady = () => resolve();
-            };
-            document.head.appendChild(script);
-        });
-    }
-
     // ========== PLAYER PRINCIPAL (COM PARTES E PDF) ==========
     function renderParts(parts, currentIndex) {
         const container = document.getElementById('playerPartsContainer');
@@ -2824,9 +2888,22 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             btn.textContent = part.title || `${t('part')} ${idx+1}`;
             btn.dataset.index = idx;
             btn.addEventListener('click', () => {
-                playPart(idx);
+                playPart(idx).catch(error => console.error('[Player] Não foi possível reproduzir a parte:', error));
             });
             container.appendChild(btn);
+        });
+    }
+
+    function loadLibraryYouTubeVideo(videoId, startSeconds = 0) {
+        if (!videoPlayerAdapter) {
+            throw new Error('O player Video.js 10 não está disponível para reproduzir o vídeo da Biblioteca.');
+        }
+        videoPlayerAdapter.useYouTube(`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`);
+        videoPlayerAdapter.one('loadedmetadata', () => {
+            if (startSeconds > 5) videoPlayerAdapter.currentTime(startSeconds);
+            videoPlayerAdapter.play().catch(error => {
+                console.warn('[Player] A reprodução automática do vídeo da Biblioteca foi bloqueada:', error);
+            });
         });
     }
 
@@ -2834,40 +2911,150 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         const container = document.getElementById('multimediaPlayerContainer');
         const playerWrapper = document.getElementById('playerVideoWrapper');
         if (!playerWrapper || !part?.url) return false;
+        if (multimediaPlayer && multimediaPlayerReady) {
+            multimediaPlayer.pauseVideo();
+            multimediaPlayer.clearVideo();
+        }
+        playerWrapper.classList.add('audio-mode');
+        playerWrapper.classList.remove('videojs-active');
 
         if (container) container.style.display = 'block';
-        playerWrapper.innerHTML = '<div id="multimediaYouTubePlayer"><audio id="directAudioPlayer" preload="metadata" style="display:none"></audio></div>';
-        const audio = playerWrapper.querySelector('#directAudioPlayer');
+        const youtubePlayer = document.getElementById('multimediaYouTubePlayer');
+        if (youtubePlayer) youtubePlayer.hidden = true;
+        const audioPlayer = document.getElementById('libraryAudioPlayer');
+        const audio = document.getElementById('directAudioPlayer');
+        if (!audio || !audioPlayer) {
+            console.error('[Player] O player de áudio Video.js não está disponível na Biblioteca.');
+            showToast(t('audio_playback_error'), 'error');
+            return false;
+        }
+        audioPlayer.hidden = false;
         currentDirectAudio = audio;
         currentVideoId = part.url;
         currentPartUrl = part.url;
         currentPartType = 'audio';
         audio.src = part.url;
-        audio.currentTime = Math.max(0, Number(initialProgress) || 0);
+        audio.load();
         audio.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
-        audio.addEventListener('loadedmetadata', () => updateProgressBar(), { once: true });
-        audio.addEventListener('play', () => {
+        audio.onloadedmetadata = () => {
+            audio.currentTime = Math.max(0, Number(initialProgress) || 0);
+            updateProgressBar();
+        };
+        audio.onplay = () => {
             const button = document.getElementById('playerPlayPause');
-            if (button) { button.dataset.playing = 'true'; button.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`; }
-        });
-        audio.addEventListener('pause', () => {
+            if (button) {
+                button.dataset.playing = 'true';
+                button.innerHTML = '<i class="fas fa-pause"></i>';
+                button.title = t('pause');
+                button.setAttribute('aria-label', t('pause'));
+            }
+        };
+        audio.onpause = () => {
             const button = document.getElementById('playerPlayPause');
-            if (button) { button.dataset.playing = 'false'; button.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`; }
-        });
-        audio.addEventListener('ended', () => {
+            if (button) {
+                button.dataset.playing = 'false';
+                button.innerHTML = '<i class="fas fa-play"></i>';
+                button.title = t('play');
+                button.setAttribute('aria-label', t('play'));
+            }
+        };
+        audio.onended = () => {
             saveProgress();
             window.finishFloatingMedia?.();
-        });
-        audio.addEventListener('error', () => showToast(t('audio_playback_error'), 'error'));
+        };
+        audio.onerror = () => showToast(t('audio_playback_error'), 'error');
         startProgressSaving();
         startProgressUpdates();
-        audio.play().catch(() => {});
+        audio.play().catch(error => {
+            console.warn('[Player] A reprodução automática do audiobook foi bloqueada:', error);
+        });
         return true;
     }
 
-    function playPart(index) {
+    function playOfflineMediaPart(part, sourceUrl, initialProgress = 0) {
+        const container = document.getElementById('multimediaPlayerContainer');
+        const playerWrapper = document.getElementById('playerVideoWrapper');
+        if (!playerWrapper || !sourceUrl) return false;
+
+        const audioPlayer = document.getElementById('libraryAudioPlayer');
+        if (audioPlayer) audioPlayer.hidden = true;
+        if (!videoPlayerAdapter) {
+            console.error('[Player] O Video.js 10 não está disponível para reproduzir a mídia da Biblioteca.');
+            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
+            return false;
+        }
+        videoPlayerAdapter.reset();
+        videoPlayerAdapter.src(sourceUrl);
+        const media = document.getElementById('multimediaYouTubePlayer');
+        if (!media) return false;
+        media.hidden = false;
+        currentDirectAudio = media;
+        currentVideoId = part.videoId || extractVideoId(part.url) || part.url;
+        currentPartUrl = part.url;
+        currentPartType = 'video';
+        isAudioMode = false;
+        playerWrapper.classList.add('videojs-active');
+        playerWrapper.classList.remove('audio-mode');
+        if (container) container.style.display = 'block';
+        const modeButton = document.getElementById('playerToggleMode');
+        if (modeButton) {
+            modeButton.style.display = '';
+            modeButton.innerHTML = `<i class="fas fa-headphones"></i> ${t('audio_mode')}`;
+        }
+        const playButton = document.getElementById('playerPlayPause');
+        if (playButton) {
+            playButton.dataset.playing = 'false';
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            playButton.title = t('play');
+            playButton.setAttribute('aria-label', t('play'));
+        }
+        media.volume = Number(document.getElementById('playerVolumeSlider')?.value || 80) / 100;
+        media.onloadedmetadata = () => {
+            if (initialProgress > 0) media.currentTime = initialProgress;
+            updateProgressBar();
+        };
+        media.onplay = () => {
+            if (playButton) {
+                playButton.dataset.playing = 'true';
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                playButton.title = t('pause');
+                playButton.setAttribute('aria-label', t('pause'));
+            }
+        };
+        media.onpause = () => {
+            if (playButton) {
+                playButton.dataset.playing = 'false';
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                playButton.title = t('play');
+                playButton.setAttribute('aria-label', t('play'));
+            }
+        };
+        media.onended = () => {
+            saveProgress();
+            window.finishFloatingMedia?.();
+        };
+        media.onerror = () => {
+            showToast(t('player_error_generic', 'Erro ao reproduzir a mídia.'), 'error');
+            if (sourceUrl !== part.url && currentPartIndex >= 0) {
+                console.warn('[Offline] Falha no arquivo local; tentando o audiobook online.');
+                const onlinePlayback = currentParts.length
+                    ? playPart(currentPartIndex, initialProgress, true)
+                    : playMultimedia(currentVideoId, currentTitle, currentDescription, [], currentAudiobookMeta, initialProgress, 0, true);
+                onlinePlayback.catch(error => console.error('[Player] Não foi possível voltar ao audiobook online:', error));
+            }
+        };
+        startProgressSaving();
+        startProgressUpdates();
+        media.play().catch(error => {
+            console.warn('[Offline] A reprodução automática da mídia da biblioteca foi bloqueada:', error);
+        });
+        return true;
+    }
+
+    async function playPart(index, initialProgress = 0, forceOnline = false) {
         if (!currentParts || index >= currentParts.length) return;
         const part = currentParts[index];
+        const requestId = ++offlinePartRequestId;
         currentPartIndex = index;
         renderParts(currentParts, index);
         // Salva progresso da parte atual antes de trocar
@@ -2883,31 +3070,75 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             multimediaPlayer.stopVideo();
             multimediaPlayer.clearVideo();
         }
+        const offlineElement = document.getElementById('offlineAudiobookMedia');
+        if (offlineElement) {
+            offlineElement.pause();
+            offlineElement.onerror = null;
+            offlineElement.removeAttribute('src');
+            offlineElement.load();
+            offlineElement.hidden = true;
+        }
+        const youtubeElement = document.getElementById('multimediaYouTubePlayer');
+        if (youtubeElement) youtubeElement.hidden = false;
+        const audioPlayer = document.getElementById('libraryAudioPlayer');
+        if (audioPlayer) audioPlayer.hidden = true;
         // Define o novo vídeo/url
         if (part.type === 'audio' || part.type === 'video') {
             const videoId = part.videoId || extractVideoId(part.url);
+            const videoUrl = part.url || (videoId ? `https://www.youtube.com/watch?v=${videoId}` : '');
+            const playerWrapper = document.getElementById('playerVideoWrapper');
+            const audioPlayer = document.getElementById('libraryAudioPlayer');
+            if (audioPlayer) audioPlayer.hidden = true;
+            if (videoId && playerWrapper) {
+                playerWrapper.classList.add('videojs-active');
+                playerWrapper.classList.toggle('audio-mode', part.type === 'audio');
+            }
+            const offlineMedia = window.UniversidadeLivreOfflineMedia;
+            const downloadButton = document.getElementById('playerOfflineMedia');
+            if (downloadButton && offlineMedia) {
+                offlineMedia.bindButton(downloadButton, videoUrl, currentTitle || 'Audiobook', () => {
+                    if (currentPartIndex === index) playPart(index);
+                });
+            }
+            let offlineUrl = null;
+            if (!forceOnline && offlineMedia?.isSupported(videoUrl)) {
+                try {
+                    offlineUrl = await offlineMedia.resolve(videoUrl);
+                    if (requestId !== offlinePartRequestId || currentPartIndex !== index) return;
+                } catch (error) {
+                    console.error('[Offline] Não foi possível localizar o audiobook baixado:', error);
+                }
+            }
+            if (requestId !== offlinePartRequestId || currentPartIndex !== index) return;
+            if (offlineUrl) {
+                playOfflineMediaPart(part, offlineUrl, initialProgress || loadProgress(videoId || part.url));
+                return;
+            }
             if (videoId) {
                 currentVideoId = videoId;
                 currentPartType = part.type;
                 currentPartUrl = part.url;
-                // Carrega no player
-                multimediaPlayer.loadVideoById(videoId);
-                const savedTime = loadProgress(videoId);
-                if (savedTime > 5) {
-                    setTimeout(() => {
-                        if (multimediaPlayerReady) {
-                            multimediaPlayer.seekTo(savedTime, true);
-                        }
-                    }, 1000);
+                if (!multimediaPlayer || !multimediaPlayerReady) {
+                    await playMultimedia(
+                        videoId,
+                        currentTitle,
+                        currentDescription,
+                        currentParts,
+                        currentAudiobookMeta,
+                        initialProgress || loadProgress(videoId),
+                        index,
+                        forceOnline
+                    );
+                    return;
                 }
+                // Carrega no player
+                const savedTime = initialProgress || loadProgress(videoId);
+                loadLibraryYouTubeVideo(videoId, savedTime);
                 startProgressSaving();
-                setTimeout(() => {
-                    if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        multimediaPlayer.playVideo();
-                    }
-                }, 500);
             } else if (part.type === 'audio' && part.url) {
-                playDirectAudioPart(part, loadProgress(part.url));
+                playDirectAudioPart(part, initialProgress || loadProgress(part.url));
+            } else if (part.type === 'video' && part.url) {
+                playOfflineMediaPart(part, part.url, initialProgress || loadProgress(part.url));
             }
         } else if (part.type === 'pdf') {
             // Abre PDF em nova aba
@@ -2916,7 +3147,8 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         }
     }
 
-    async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0) {
+    async function playMultimedia(videoId, title, description, parts, meta = null, initialProgress = 0, startPartIndex = 0, forceOnline = false) {
+        const playbackRequestId = ++offlinePartRequestId;
         window.beginFloatingMedia?.();
         console.log('[Player] Play solicitado:', videoId, title, parts);
         window.UniversidadeLivreAnalytics?.media('biblioteca', videoId || title, title);
@@ -2935,7 +3167,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             currentDirectAudio = null;
         }
 
-        const directAudio = !videoId && Array.isArray(parts) && parts[0]?.type === 'audio' && parts[0]?.url;
+        const requestedPart = Array.isArray(parts)
+            ? parts[startPartIndex] || parts[0]
+            : null;
+        const directAudio = !videoId && requestedPart?.type === 'audio' && requestedPart?.url;
         if (!directAudio && window.Auditorio && typeof window.Auditorio.playVideo === 'function') {
             console.log('[Player] Usando player do Auditório');
             window.Auditorio.playVideo(videoId, title, description);
@@ -2967,10 +3202,20 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             return;
         }
 
-        // Atualiza o ID do vídeo atual
-        currentVideoId = videoId || (parts?.[0]?.url || null);
+        const previousOfflineMedia = document.getElementById('offlineAudiobookMedia');
+        if (previousOfflineMedia) {
+            previousOfflineMedia.pause();
+            previousOfflineMedia.onerror = null;
+            previousOfflineMedia.removeAttribute('src');
+            previousOfflineMedia.load();
+            previousOfflineMedia.hidden = true;
+        }
+        const youtubeElement = document.getElementById('multimediaYouTubePlayer');
+        if (youtubeElement) youtubeElement.hidden = false;
         currentParts = parts || [];
-        currentPartIndex = 0;
+        currentPartIndex = Math.max(0, Math.min(startPartIndex, currentParts.length - 1));
+        const selectedPart = currentParts[currentPartIndex];
+        currentVideoId = selectedPart?.videoId || extractVideoId(selectedPart?.url) || videoId || (selectedPart?.url || null);
 
         const titleEl = document.getElementById('playerTitle');
         const descEl = document.getElementById('playerDescription');
@@ -2988,16 +3233,16 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         isPlayerVisible = true;
         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        isAudioMode = true;
+        isAudioMode = directAudio || selectedPart?.type === 'audio';
         const wrapper = document.getElementById('playerVideoWrapper');
         const modeBtn = document.getElementById('playerToggleMode');
         if (wrapper) {
-            wrapper.style.display = directAudio ? 'none' : 'none';
-            if (!directAudio && !document.getElementById('multimediaYouTubePlayer')) {
-                wrapper.innerHTML = '<div id="multimediaYouTubePlayer"></div>';
-            }
+            wrapper.classList.toggle('videojs-active', !directAudio);
+            wrapper.classList.toggle('audio-mode', isAudioMode);
             if (modeBtn) modeBtn.innerHTML = `<i class="fas fa-eye"></i> ${t('video_mode')}`;
         }
+        const audioPlayer = document.getElementById('libraryAudioPlayer');
+        if (audioPlayer) audioPlayer.hidden = !directAudio;
         if (modeBtn) modeBtn.style.display = directAudio ? 'none' : '';
         const subtitlesButton = document.getElementById('playerSubtitles');
         if (subtitlesButton) subtitlesButton.style.display = directAudio ? 'none' : '';
@@ -3008,16 +3253,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (audioControl) audioControl.hidden = true;
         if (captionLanguageControl) captionLanguageControl.hidden = directAudio;
 
-        if (subtitlesEnabled) {
-            setTimeout(() => showCaptionsOverlay(), 500);
-        }
-
         // Renderiza partes se houver mais de uma
-        renderParts(currentParts, 0);
+        renderParts(currentParts, currentPartIndex);
 
         // Se há partes, a primeira parte pode ser PDF ou áudio
         if (currentParts.length > 0) {
-            const firstPart = currentParts[0];
+            const firstPart = selectedPart;
             if (firstPart.type === 'pdf') {
                 // Abre PDF e não carrega player
                 window.open(firstPart.url, '_blank');
@@ -3028,172 +3269,73 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
                 playDirectAudioPart(firstPart, initialProgress);
                 return;
             }
-            // Senão, continua com o áudio/vídeo
-        }
-
-        // Se o player já existe e está pronto
-        if (multimediaPlayer && multimediaPlayerReady) {
-            console.log('[Player] Player existente, carregando vídeo');
-            multimediaPlayer.loadVideoById(videoId);
-            const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
-            if (savedTime > 5) {
-                setTimeout(() => {
-                    if (multimediaPlayerReady) {
-                        multimediaPlayer.seekTo(savedTime, true);
-                    }
-                }, 1000);
-            }
-            startProgressSaving();
-            setTimeout(() => {
-                if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
-                    multimediaPlayer.playVideo();
-                }
-            }, 500);
-            return;
-        }
-
-        // Aguarda prontidão se existir
-        if (multimediaPlayer && !multimediaPlayerReady) {
-            console.log('[Player] Aguardando player ficar pronto...');
-            let attempts = 0;
-            while (!multimediaPlayerReady && attempts < 10) {
-                await new Promise(r => setTimeout(r, 500));
-                attempts++;
-            }
-            if (multimediaPlayerReady) {
-                multimediaPlayer.loadVideoById(videoId);
-                const savedTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
-                if (savedTime > 5) {
-                    setTimeout(() => {
-                        if (multimediaPlayerReady) {
-                            multimediaPlayer.seekTo(savedTime, true);
-                        }
-                    }, 1000);
-                }
-                startProgressSaving();
-                setTimeout(() => {
-                    if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        multimediaPlayer.playVideo();
-                    }
-                }, 500);
-                return;
-            } else {
-                console.warn('[Player] Player não ficou pronto, recriando...');
-                multimediaPlayer = null;
-                multimediaPlayerReady = false;
-            }
-        }
-
-        await loadYouTubeAPI();
-
-        const playerDiv = document.getElementById('multimediaYouTubePlayer');
-        if (!playerDiv) {
-            console.error('[Player] Elemento #multimediaYouTubePlayer não encontrado');
-            const parent = container.querySelector('.player-video-wrapper');
-            if (parent) {
-                parent.innerHTML = `
-                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-                            allowfullscreen allow="autoplay; encrypted-media" 
-                            style="width:100%;height:100%;border:0;">
-                    </iframe>
-                `;
-                showToast('Player simplificado (iframe) ativado.', 'info');
-                return;
-            }
-            return;
-        }
-
-        if (!multimediaPlayer) {
-            console.log('[Player] Criando novo player YouTube');
-            try {
-                multimediaPlayer = new YT.Player('multimediaYouTubePlayer', {
-                    videoId: videoId,
-                    playerVars: {
-                        autoplay: 1,
-                        controls: 0,
-                        modestbranding: 1,
-                        rel: 0,
-                        origin: window.location.origin,
-                        cc_load_policy: 1
-                    },
-                    events: {
-                        onReady: () => {
-                            console.log('[Player] Player pronto');
-                            multimediaPlayerReady = true;
-                            const startingTime = initialProgress > 0 ? initialProgress : loadProgress(videoId);
-                            if (startingTime > 5) {
-                                setTimeout(() => {
-                                    if (multimediaPlayerReady) {
-                                        multimediaPlayer.seekTo(startingTime, true);
-                                    }
-                                }, 600);
-                            }
-                            const savedVol = localStorage.getItem('player_volume');
-                            if (savedVol !== null) {
-                                multimediaPlayer.setVolume(parseInt(savedVol));
-                                document.getElementById('playerVolumeSlider').value = savedVol;
-                                updateVolumeIcon(parseInt(savedVol));
-                            }
-                            // Carrega progresso para o vídeo atual
-                            const savedTime = loadProgress(videoId);
-                            if (savedTime > 5) {
-                                multimediaPlayer.seekTo(savedTime, true);
-                            }
-                            startProgressSaving();
-                            updatePlayerControlTranslations();
-                            const titleEl = document.getElementById('playerTitle');
-                            if (titleEl) titleEl.textContent = currentTitle;
-                            setTimeout(() => {
-                                if (multimediaPlayerReady && multimediaPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
-                                    multimediaPlayer.playVideo();
-                                }
-                            }, 300);
-                            if (subtitlesEnabled) {
-                                showCaptionsOverlay();
-                            }
-                            multimediaPlayer.addEventListener?.('onApiChange', scheduleLibraryPlayerOptions);
-                            scheduleLibraryPlayerOptions();
-                            startProgressUpdates();
-                        },
-                        onStateChange: (event) => {
-                            const btn = document.getElementById('playerPlayPause');
-                            if (event.data === YT.PlayerState.PLAYING) {
-                                btn.dataset.playing = 'true';
-                                btn.innerHTML = `<i class="fas fa-pause"></i> ${t('pause')}`;
-                            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                                btn.dataset.playing = 'false';
-                                btn.innerHTML = `<i class="fas fa-play"></i> ${t('play')}`;
-                                if (event.data === YT.PlayerState.ENDED) {
-                                    saveProgress();
-                                    window.finishFloatingMedia?.();
-                                }
-                            }
-                            updatePlayerControlTranslations();
-                            updateProgressBar();
-                        },
-                        onError: (e) => {
-                            console.error('[Player] Erro no player:', e);
-                            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
-                            if (videoId && confirm(t('library_open_youtube_confirm', 'Deseja abrir no YouTube?'))) {
-                                window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
-                            }
-                        }
+            const partVideoId = firstPart.videoId || extractVideoId(firstPart.url);
+            const partUrl = firstPart.url || (partVideoId ? `https://www.youtube.com/watch?v=${partVideoId}` : '');
+            const offlineMedia = window.UniversidadeLivreOfflineMedia;
+            const downloadButton = document.getElementById('playerOfflineMedia');
+            if (downloadButton && offlineMedia) {
+                offlineMedia.bindButton(downloadButton, partUrl, currentTitle || 'Audiobook', () => {
+                    if (currentPartIndex === startPartIndex) {
+                        playPart(currentPartIndex).catch(error => console.error('[Player] Não foi possível abrir a mídia offline:', error));
                     }
                 });
-            } catch (err) {
-                console.error('[Player] Falha ao criar player:', err);
-                showToast('Erro ao criar player. Tente novamente.', 'error');
-                const parent = container.querySelector('.player-video-wrapper');
-                if (parent) {
-                    parent.innerHTML = `
-                        <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-                                allowfullscreen allow="autoplay; encrypted-media" 
-                                style="width:100%;height:100%;border:0;">
-                        </iframe>
-                    `;
+            }
+            if (!forceOnline && partVideoId && offlineMedia?.isSupported(partUrl)) {
+                try {
+                    const offlineUrl = await offlineMedia.resolve(partUrl);
+                    if (playbackRequestId !== offlinePartRequestId) return;
+                    if (offlineUrl) {
+                        playOfflineMediaPart(firstPart, offlineUrl, initialProgress || loadProgress(partVideoId));
+                        return;
+                    }
+                } catch (error) {
+                    console.error('[Offline] Não foi possível localizar o audiobook baixado:', error);
+                }
+            }
+            if (!partVideoId && firstPart.type === 'video' && firstPart.url) {
+                currentVideoId = firstPart.url;
+                playOfflineMediaPart(firstPart, firstPart.url, initialProgress || loadProgress(firstPart.url));
+                return;
+            }
+            currentVideoId = partVideoId || videoId || firstPart.url || null;
+            // Senão, continua com o áudio/vídeo
+        } else {
+            currentVideoId = videoId || null;
+            const offlineButton = document.getElementById('playerOfflineMedia');
+            const offlineMedia = window.UniversidadeLivreOfflineMedia;
+            const videoUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : '';
+            if (offlineButton && offlineMedia) {
+                offlineMedia.bindButton(offlineButton, videoUrl, currentTitle || 'Audiobook', offlineUrl => {
+                    if (offlineUrl) playMultimedia(videoId, currentTitle, currentDescription, [], currentAudiobookMeta);
+                });
+            }
+            if (!forceOnline && offlineMedia?.isSupported(videoUrl)) {
+                try {
+                    const offlineUrl = await offlineMedia.resolve(videoUrl);
+                    if (playbackRequestId !== offlinePartRequestId) return;
+                    if (offlineUrl) {
+                        playOfflineMediaPart(
+                            { type: 'video', videoId, url: videoUrl },
+                            offlineUrl,
+                            initialProgress || loadProgress(videoId)
+                        );
+                        return;
+                    }
+                } catch (error) {
+                    console.error('[Offline] Não foi possível localizar o audiobook baixado:', error);
                 }
             }
         }
+
+        if (!multimediaPlayer || !multimediaPlayerReady) {
+            console.error('[Player] O Video.js 10 não está disponível para reproduzir a mídia da Biblioteca.');
+            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
+            return;
+        }
+
+        const savedTime = initialProgress > 0 ? initialProgress : loadProgress(currentVideoId || videoId);
+        loadLibraryYouTubeVideo(currentVideoId || videoId, savedTime);
+        startProgressSaving();
     }
 
     let progressUpdateInterval = null;
@@ -3215,7 +3357,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             if (duration) {
                 progressBar.value = (current / duration) * 100;
                 currentTimeEl.textContent = formatTime(current);
-                durationEl.textContent = formatTime(duration);
+                durationEl.textContent = `-${formatTime(Math.max(0, duration - current))}`;
             }
             return;
         }
@@ -3227,7 +3369,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             const percent = (current / duration) * 100;
             progressBar.value = percent;
             currentTimeEl.textContent = formatTime(current);
-            durationEl.textContent = formatTime(duration);
+            durationEl.textContent = `-${formatTime(Math.max(0, duration - current))}`;
         }
     }
 
@@ -3239,6 +3381,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
     }
 
     function closeMultimediaPlayer() {
+        offlinePartRequestId++;
         window.finishFloatingMedia?.();
         // Salva o progresso final antes de fechar
         if (currentVideoId) {
@@ -3259,7 +3402,11 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             currentDirectAudio.load();
             currentDirectAudio = null;
         }
-        multimediaPlayerReady = false;
+        const offlineMedia = document.getElementById('offlineAudiobookMedia');
+        if (offlineMedia) {
+            offlineMedia.onerror = null;
+            offlineMedia.hidden = true;
+        }
         isPlayerVisible = false;
         if (progressSaveInterval) {
             clearInterval(progressSaveInterval);
@@ -3269,22 +3416,10 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
             clearInterval(progressUpdateInterval);
             progressUpdateInterval = null;
         }
-        if (captionInterval) {
-            clearInterval(captionInterval);
-            captionInterval = null;
-        }
         // Não chama saveProgress novamente (já foi chamado)
         const playerDiv = document.getElementById('multimediaYouTubePlayer');
-        if (playerDiv && playerDiv.parentElement) {
-            if (playerDiv.tagName !== 'DIV') {
-                const parent = playerDiv.parentElement;
-                const newDiv = document.createElement('div');
-                newDiv.id = 'multimediaYouTubePlayer';
-                parent.innerHTML = '';
-                parent.appendChild(newDiv);
-            }
-        }
-        hideCaptionsOverlay();
+        if (playerDiv) playerDiv.hidden = false;
+        document.getElementById('playerVideoWrapper')?.classList.remove('videojs-active');
         currentVideoId = null;
         currentParts = [];
         currentPartIndex = 0;
@@ -3548,6 +3683,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         closeModalBtn = document.querySelector('.close-modal');
         if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
         document.getElementById('loadMoreBooksBtn')?.addEventListener('click', appendMoreLibraryResults);
+        window.addEventListener('resize', completeVisibleLibraryRow, { passive: true });
 
         document.getElementById('closePdfReader')?.addEventListener('click', closePdfReader);
         document.getElementById('pdfReaderModal')?.addEventListener('click', event => {
@@ -3598,6 +3734,12 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         await loadTranslations(currentLang);
         applyAllTranslations();
         updateLanguageSelector(currentLang);
+        try {
+            await initializeLibraryVideoPlayer();
+        } catch (error) {
+            console.error('[Biblioteca] Não foi possível iniciar o player dos cursos:', error);
+            showToast(t('library_video_error', 'Erro ao carregar o conteúdo. Tente novamente.'), 'error');
+        }
 
         const langPtBtn = document.getElementById('langPtBtn');
         const langEnBtn = document.getElementById('langEnBtn');
@@ -3605,6 +3747,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (langPtBtn) langPtBtn.addEventListener('click', async () => {
             await loadTranslations('pt-br');
             currentLang = 'pt-br';
+            window.UniversidadeLivreCourseVideoPlayer?.setLanguage(currentLang);
             localStorage.setItem('selectedLanguage', 'pt-br');
             applyAllTranslations();
             updateLanguageSelector('pt-br');
@@ -3618,6 +3761,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (langEnBtn) langEnBtn.addEventListener('click', async () => {
             await loadTranslations('en');
             currentLang = 'en';
+            window.UniversidadeLivreCourseVideoPlayer?.setLanguage(currentLang);
             localStorage.setItem('selectedLanguage', 'en');
             applyAllTranslations();
             updateLanguageSelector('en');
@@ -3631,6 +3775,7 @@ const RECENT_AUDIOBOOKS_STORAGE_KEY = 'audiobook_recently_listened';
         if (langEsBtn) langEsBtn.addEventListener('click', async () => {
             await loadTranslations('es');
             currentLang = 'es';
+            window.UniversidadeLivreCourseVideoPlayer?.setLanguage(currentLang);
             localStorage.setItem('selectedLanguage', 'es');
             applyAllTranslations();
             updateLanguageSelector('es');

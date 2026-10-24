@@ -821,10 +821,14 @@
 }
 
 .start-lesson-btn::after {
-    content: '\f054';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    font-size: 0.75rem;
+    display: block;
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    content: '';
+    transform: rotate(45deg);
     transition: transform 0.3s ease;
 }
 
@@ -834,7 +838,7 @@
 }
 
 .start-lesson-btn:hover::after {
-    transform: translateX(4px);
+    transform: translateX(4px) rotate(45deg);
 }
 
 .start-lesson-btn:active {
