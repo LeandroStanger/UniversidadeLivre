@@ -2500,7 +2500,7 @@
                     background:none;border:none;color:var(--text-secondary);
                     cursor:pointer;font-size:1.1rem;padding:4px;
                 ">
-                    <i class="fas fa-eye" aria-hidden="true"></i>
+                    <iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>
                 </button>
             </div>
             <div id="passwordModalError" style="color:#ef4444;font-size:0.85rem;margin-bottom:0.5rem;display:none;"></div>
@@ -2527,7 +2527,9 @@
             const type = input.type === 'password' ? 'text' : 'password';
             const labelKey = type === 'password' ? 'password_visibility_show' : 'password_visibility_hide';
             input.type = type;
-            toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye" aria-hidden="true"></i>' : '<i class="fas fa-eye-slash" aria-hidden="true"></i>';
+            toggleBtn.innerHTML = type === 'password'
+                ? '<iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>'
+                : '<iconify-icon icon="fluent:eye-off-32-regular" aria-hidden="true"></iconify-icon>';
             toggleBtn.dataset.i18nAria = labelKey;
             toggleBtn.dataset.i18nTitle = labelKey;
             toggleBtn.setAttribute('aria-label', t(labelKey));
@@ -4487,8 +4489,8 @@
                 const labelKey = isVisible ? 'password_visibility_hide' : 'password_visibility_show';
                 passwordInput.type = isVisible ? 'text' : 'password';
                 toggleBtn.innerHTML = isVisible
-                    ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>'
-                    : '<i class="fas fa-eye" aria-hidden="true"></i>';
+                    ? '<iconify-icon icon="fluent:eye-off-32-regular" aria-hidden="true"></iconify-icon>'
+                    : '<iconify-icon icon="fluent:eye-48-regular" aria-hidden="true"></iconify-icon>';
                 toggleBtn.dataset.i18nAria = labelKey;
                 toggleBtn.dataset.i18nTitle = labelKey;
                 toggleBtn.setAttribute('aria-label', t(labelKey));

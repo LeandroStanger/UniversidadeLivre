@@ -585,6 +585,13 @@
     color: var(--text-primary);
 }
 
+.profile-password-input-wrap > .password-visibility-toggle > iconify-icon,
+#togglePasswordVisibility > iconify-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
 .profile-password-input-wrap > .password-visibility-toggle:focus-visible {
     outline: 2px solid var(--accent-blue);
     outline-offset: 1px;
@@ -1773,6 +1780,10 @@
 }
 
 #profileModal .profile-password-input-wrap > .password-visibility-toggle > i {
+    color: var(--accent-teal);
+}
+
+#profileModal .profile-password-input-wrap > .password-visibility-toggle > iconify-icon {
     color: var(--accent-teal);
 }
 
